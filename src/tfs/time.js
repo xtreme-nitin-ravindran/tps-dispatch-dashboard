@@ -41,6 +41,9 @@ export function isWithinHistoryWindow(timestamp, hours, now = Date.now()) {
     return Number.isFinite(time) && time >= now - hours * 3600000 && time <= now;
 }
 
-export function secondsUntilRefresh(nextRefreshAt, now = Date.now()) {
-    return Math.max(0, Math.ceil((nextRefreshAt - now) / 1000));
+export function nextFeedRefresh(fetchedAt) {
+    const time = Date.parse(fetchedAt);
+    if (!Number.isFinite(time)) return null;
+    const interval = 15 * 60 * 1000;
+    return new Date((Math.floor(time / interval) + 1) * interval);
 }

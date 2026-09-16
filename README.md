@@ -88,7 +88,7 @@ Node.js 22, with package-manager caching disabled because no dependencies are in
 
 ## Scheduled updates with GitHub Actions
 
-`.github/workflows/update-tfs.yml` runs every five minutes (at minutes 3, 8, 13, etc., UTC),
+`.github/workflows/update-tfs.yml` runs every 15 minutes (at minutes 0, 15, 30, and 45, UTC),
 and can also be started manually from **Actions → Update TFS snapshot → Run workflow**.
 It checks out the default branch, runs the unit tests, fetches the official TFS XML,
 normalizes it, writes `data/current.json`, and commits the snapshot back to the default branch.
@@ -181,3 +181,7 @@ that an incident is resolved. The Ongoing filter reflects the last fetched feed.
 History accumulates from observed snapshots only; it cannot backfill earlier calls or
 capture calls that start and disappear between fetches. Invalid or older source update
 timestamps and unreadable existing history fail the update rather than discarding it.
+
+The header shows the 15-minute update schedule and an approximate time to try refreshing,
+based on the next scheduled slot after the saved fetch time. It does not guarantee new
+data is available; GitHub scheduling and local checkout updates can be delayed.

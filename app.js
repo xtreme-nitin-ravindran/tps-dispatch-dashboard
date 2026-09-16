@@ -1,4 +1,4 @@
-import { snapshotIsStale, isWithinHistoryWindow, secondsUntilRefresh } from "./src/tfs/time.js";
+import { snapshotIsStale, isWithinHistoryWindow, nextFeedRefresh } from "./src/tfs/time.js";
 
 const CONFIG = {
   snapshotUrl: "./data/current.json",
@@ -19,7 +19,7 @@ const state = {
 const els = {
   livePill: document.querySelector("#livePill"),
   liveText: document.querySelector("#liveText"),
-  refreshCountdown: document.querySelector("#refreshCountdown"),
+  refreshHint: document.querySelector("#refreshHint"),
   lastUpdated: document.querySelector("#lastUpdated"),
   windowLabel: document.querySelector("#windowLabel"),
   searchInput: document.querySelector("#searchInput"),
@@ -621,27 +621,26 @@ els.callList.addEventListener("keydown", (event) => {
   selectCall(row.dataset.callId);
 });
 
-let nextRefreshAt = null;
-function renderRefreshCountdown() {
-  els.refreshCountdown.textContent = nextRefreshAt === null
-    ? "Checking…"
-    : `Next check in ~${secondsUntilRefresh(nextRefreshAt)}s`;
+function renderRefreshHint() {
+  const expected = nextFeedRefresh(state.fetchedAt);
+  els.refreshHint.textContent = !expected
+    ? "Refresh time unavailable."
+    : Date.now() >= expected.getTime()
+      ? "You can refresh now; the next update may be delayed."
+      : `Try refreshing after ${formatTime(expected)} Toronto (approx.).`;
 }
 
 async function refreshLoop() {
-  nextRefreshAt = null;
-  renderRefreshCountdown();
   try {
     await checkForChanges();
   } finally {
-    nextRefreshAt = Date.now() + CONFIG.refreshCheckMs;
-    renderRefreshCountdown();
+    renderRefreshHint();
     setTimeout(refreshLoop, CONFIG.refreshCheckMs);
   }
 }
 
 setInterval(() => {
-  renderRefreshCountdown();
+  renderRefreshHint();
   els.footerClock.textContent = new Intl.DateTimeFormat("en-CA", {
     dateStyle: "medium",
     timeStyle: "medium",
