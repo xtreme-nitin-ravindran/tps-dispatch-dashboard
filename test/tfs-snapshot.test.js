@@ -20,7 +20,7 @@ test("builds a dashboard-ready TFS snapshot with freshness metadata", () => {
     assert.equal(snapshot.schemaVersion, 1);
     assert.equal(snapshot.source, "TFS");
     assert.equal(snapshot.fetchedAt, "2026-09-16T12:01:00.000Z");
-    assert.equal(snapshot.sourceUpdatedAt, "2026-09-16 12:00:00");
+    assert.equal(snapshot.sourceUpdatedAt, "2026-09-16T16:00:00.000Z");
     assert.equal(snapshot.incidents.length, 1);
     assert.equal(snapshot.incidents[0].id, "F123");
     assert.equal(snapshot.incidents[0].division, "231");

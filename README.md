@@ -21,9 +21,9 @@ and normalizes the incidents into a single JSON schema. The browser reads the ge
 snapshot rather than requesting the official feed directly. There is no Toronto Police
 data integration.
 
-The current source adapter does not supply divisions or coordinates. Divisions appear
-as `Unknown`; map locations are approximated using the Photon geocoder and cached in
-browser local storage. The map uses Leaflet and OpenStreetMap tiles.
+The source adapter preserves the published `beat` as the dashboard division; missing
+beats appear as `Unknown`. It does not supply coordinates. Map locations are approximated
+using the Photon geocoder and cached in browser local storage. The map uses Leaflet and OpenStreetMap tiles.
 
 ## TDD workflow
 
@@ -60,7 +60,12 @@ docker run --rm -v "$PWD/data:/workspace/data" toronto-dispatch-tests npm run up
 ```
 
 The generated `data/current.json` contains normalized incidents plus `fetchedAt`
-and `sourceUpdatedAt` metadata. The browser reads this file on startup and checks for a changed source timestamp every 30 seconds.
+and `sourceUpdatedAt` metadata. The browser reads this file on startup and reloads it every 30 seconds. Source and dispatch timestamps are converted from
+`America/Toronto` to UTC with daylight-saving handling. During the repeated fall-back
+hour, an offset-free time is ambiguous; the parser chooses its first occurrence.
+The status indicator warns when either the source timestamp or fetch timestamp is
+missing or more than 15 minutes old. A successful JSON request alone does not mean
+the data is current.
 
 ## Continuous integration and branch policy
 

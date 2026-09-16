@@ -1,3 +1,5 @@
+import { parseTfsTimestamp } from "./time.js";
+
 const UNIT_TYPES = [
     ["Fire Invest.", "Fire Investigator"],
     ["Fire Investigator", "Fire Investigator"],
@@ -31,7 +33,7 @@ export function normalizeTfsIncident(row) {
         throw new TypeError("TFS incident must be an object");
     }
 
-    const timestamp = parseTimestamp(row.time_unix ?? row.time ?? row.timestamp);
+    const timestamp = parseTfsTimestamp(row.time_unix ?? row.time ?? row.timestamp);
     return {
         id: String(row.event_id || "").trim(),
         source: "TFS",
@@ -93,13 +95,6 @@ function add(grouped, type, value) {
     if (!value) return;
     if (!grouped.has(type)) grouped.set(type, []);
     grouped.get(type).push(value.trim());
-}
-
-function parseTimestamp(value) {
-    const unix = Number(value);
-    if (Number.isFinite(unix) && unix > 0) return new Date(unix * 1000).toISOString();
-    const parsed = new Date(value);
-    return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString();
 }
 
 function numberOrNull(value) {

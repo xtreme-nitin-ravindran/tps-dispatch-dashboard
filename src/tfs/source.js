@@ -27,6 +27,7 @@ function parseEvent(xml) {
         location: [text(matchTag(xml, "prime_street")), text(matchTag(xml, "cross_streets"))]
             .filter(Boolean)
             .join(" / "),
+        beat: text(matchTag(xml, "beat")),
         alarm_level: text(matchTag(xml, "alarm_lev")),
         units: text(matchTag(xml, "units_disp")),
         event_type: "fire",

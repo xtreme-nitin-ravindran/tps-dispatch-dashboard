@@ -23,7 +23,9 @@ jobs:
         run: docker build -f Dockerfile.test -t toronto-dispatch-tests .
 
       - name: Run unit tests
-        run: docker run --rm toronto-dispatch-tests
+        run: |
+          docker run --rm -e TZ=UTC toronto-dispatch-tests
+          docker run --rm -e TZ=America/Los_Angeles toronto-dispatch-tests
 
       - name: Run official-source integration test
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}

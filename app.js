@@ -1,3 +1,5 @@
+import { snapshotIsStale } from "./src/tfs/time.js";
+
 const CONFIG = {
   snapshotUrl: "./data/current.json",
   refreshCheckMs: 30_000
@@ -7,6 +9,7 @@ const state = {
   calls: [],
   filtered: [],
   lastIngest: null,
+  fetchedAt: null,
   search: "",
   division: "all",
   eventFilter: "all"
@@ -164,6 +167,7 @@ async function fetchSnapshot() {
   const rows = Array.isArray(payload) ? payload : (payload.incidents || []);
   return {
     calls: rows.map(normalizeCall).sort((a, b) => b.timestamp - a.timestamp),
+    fetchedAt: payload.fetchedAt || null,
     updatedAt: payload.sourceUpdatedAt || payload.fetchedAt || null
   };
 }
@@ -183,8 +187,12 @@ async function loadData({ silent = false } = {}) {
     const snapshot = await fetchSnapshot();
     state.calls = snapshot.calls;
     state.lastIngest = snapshot.updatedAt;
-    els.sourceUpdated.textContent = snapshot.updatedAt || "Unknown";
-    setConnection(true, "Feed connected");
+    state.fetchedAt = snapshot.fetchedAt;
+    const sourceTime = parseLooseTime(snapshot.updatedAt);
+    els.sourceUpdated.textContent = sourceTime
+      ? `${formatDate(sourceTime)} · ${formatTime(sourceTime)} Toronto`
+      : "Unknown";
+    updateConnectionFreshness();
     populateDivisionFilter();
     applyFilters();
     updateFreshness();
@@ -568,13 +576,15 @@ function updateFreshness() {
   }
 }
 
+function updateConnectionFreshness() {
+  const stale = snapshotIsStale(state.lastIngest, state.fetchedAt);
+  setConnection(!stale, stale ? "Snapshot stale — update needed" : "Feed connected");
+}
+
 async function checkForChanges() {
-  try {
-    const snapshot = await fetchSnapshot();
-    if (snapshot.updatedAt && snapshot.updatedAt !== state.lastIngest) await loadData({ silent: true });
-  } catch {
-    // Keep the last successful snapshot visible during a temporary source failure.
-  }
+  // Reload the snapshot even if sourceUpdatedAt is unchanged: a successful fetch
+  // may update fetchedAt or correct normalized fields without changing that marker.
+  await loadData({ silent: true });
 }
 
 els.divisionSelect.addEventListener("change", (e) => {
