@@ -1,0 +1,13 @@
+{
+    "name": "toronto-dispatch-dashboard",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "test": "node --test test/tfs-normalize.test.js",
+        "test:integration": "node --test test/tfs-source.integration.test.js",
+        "test:watch": "node --test --watch"
+    },
+    "engines": {
+        "node": ">=20"
+    }
+}
