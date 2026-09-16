@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0c1320" />
+  <meta name="description"
+    content="Independent dashboard for Toronto Police Service public Calls for Service dispatch data." />
+  <title>Toronto Dispatch · Public Calls for Service</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">TD</div>
+        <div>
+          <div class="brand-kicker">INDEPENDENT PUBLIC-DATA VIEWER</div>
+          <h1>Toronto Dispatch</h1>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="live-pill" id="livePill">
+          <span class="pulse"></span>
+          <span id="liveText">Connecting…</span>
+        </div>
+        <button class="icon-button" id="refreshButton" aria-label="Refresh data" title="Refresh">
+          ↻
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="controls-card">
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input id="searchInput" type="search" placeholder="Search call type, location, or division…"
+            autocomplete="off" />
+        </div>
+
+        <div class="control-group">
+          <label for="hoursSelect">Time window</label>
+          <select id="hoursSelect">
+            <option value="1">1 hour</option>
+            <option value="3">3 hours</option>
+            <option value="6">6 hours</option>
+            <option value="12">12 hours</option>
+            <option value="18">18 hours</option>
+            <option value="24" selected>24 hours</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="divisionSelect">Division</label>
+          <select id="divisionSelect">
+            <option value="all">All divisions</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="event-filters" aria-label="Filter events by type">
+        <span class="section-kicker">EVENT TYPE</span>
+        <div class="event-toggle-group" role="group" aria-label="Event type">
+          <button class="event-toggle active" type="button" data-event-filter="all" aria-pressed="true">All</button>
+          <button class="event-toggle" type="button" data-event-filter="medical" aria-pressed="false">Medical</button>
+          <button class="event-toggle" type="button" data-event-filter="fire" aria-pressed="false">Fire</button>
+          <button class="event-toggle" type="button" data-event-filter="ongoing" aria-pressed="false">Ongoing</button>
+          <button class="event-toggle" type="button" data-event-filter="other" aria-pressed="false">Other</button>
+        </div>
+      </section>
+
+      <section class="map-stage">
+        <div class="panel map-panel">
+          <div class="panel-head compact-head">
+            <div>
+              <span class="section-kicker">GEOGRAPHY</span>
+              <h3>Toronto call map</h3>
+            </div>
+            <div class="map-status" id="mapStatus">—</div>
+          </div>
+          <div class="map-wrap">
+            <div id="dispatchMap" aria-label="Interactive map of Toronto dispatch calls"></div>
+            <div class="map-empty" id="mapEmpty" hidden>
+              <strong>Locating calls...</strong>
+              <span>Street descriptions are being matched to Toronto map locations.</span>
+            </div>
+            <div class="map-note">Locations are approximate public descriptions.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <div class="panel calls-panel">
+          <div class="panel-head">
+            <div>
+              <span class="section-kicker">DISPATCH LOG</span>
+              <h3>Recent calls</h3>
+            </div>
+            <div class="result-count" id="resultCount">—</div>
+          </div>
+
+          <div class="call-list" id="callList">
+            <div class="loading-state">
+              <div class="loader"></div>
+              <p>Loading public dispatch data…</p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="side-stack">
+          <div class="panel">
+            <div class="panel-head compact-head">
+              <div>
+                <span class="section-kicker">ACTIVITY</span>
+                <h3>Calls by division</h3>
+              </div>
+            </div>
+            <div id="divisionBars" class="bar-list"></div>
+          </div>
+
+          <div class="notice">
+            <div class="notice-icon">i</div>
+            <div>
+              <strong>Read this data carefully</strong>
+              <p>
+                Calls can be delayed, revised, cancelled, or excluded for privacy and operational reasons.
+                Locations are approximate public descriptions. Do not use this dashboard to identify individuals.
+              </p>
+            </div>
+          </div>
+
+          <div class="source-card">
+            <span class="section-kicker">SOURCES</span>
+            <p>
+              Live rows are sourced from publicly available Toronto Police Service and Toronto Fire Services
+              dispatch feeds through GTA Update, an independent browser-friendly mirror.
+            </p>
+            <div class="source-links">
+              <a href="https://www.tps.ca/data-maps/open-data/" target="_blank" rel="noreferrer">TPS Open Data ↗</a>
+              <a href="https://data.torontopolice.on.ca/" target="_blank" rel="noreferrer">TPS Data Portal ↗</a>
+              <a href="https://gtaupdate.com/about.php" target="_blank" rel="noreferrer">GTA Update methodology ↗</a>
+              <a href="https://www.ontario.ca/page/open-government-licence-ontario" target="_blank"
+                rel="noreferrer">Ontario licence ↗</a>
+            </div>
+            <p class="licence">
+              Contains information licensed under the Open Government Licence – Ontario where applicable.
+              GTA Update is an independent mirror. This site is not affiliated with or endorsed by Toronto Police
+              Service,
+              Toronto Fire Services, or the City of Toronto.
+            </p>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <footer>
+      <span>Toronto Dispatch · Independent public-data viewer</span>
+      <span id="footerClock">—</span>
+    </footer>
+  </div>
+
+  <template id="callTemplate">
+    <article class="call-row">
+      <div class="call-time">
+        <strong class="time-main"></strong>
+        <span class="time-ago"></span>
+      </div>
+      <div class="call-main">
+        <div class="call-title-row">
+          <h4 class="call-title"></h4>
+          <span class="ongoing-badge" hidden>ONGOING</span>
+          <span class="division-badge"></span>
+        </div>
+        <p class="call-location"></p>
+        <div class="call-details">
+          <div class="call-detail call-alarm" hidden>
+            <span class="detail-label">Alarm level</span>
+            <strong class="alarm-value"></strong>
+          </div>
+          <div class="call-detail">
+            <span class="detail-label">Emergency vehicles</span>
+            <div>
+              <div class="unit-list"></div>
+              <small class="unit-note" hidden>Numbers are vehicle IDs, not quantities.</small>
+            </div>
+          </div>
+        </div>
+        <div class="call-meta">
+          <span class="call-date"></span>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="./app.js" defer></script>
+</body>
+
+</html>
