@@ -43,7 +43,7 @@ export function normalizeTfsIncident(row) {
         division: String(row.beat || row.division || "Unknown").trim(),
         timestamp,
         alarmLevel: numberOrNull(row.alarm_level),
-        isOngoing: Number(row.cad) === 1,
+        isOngoing: typeof row.isOngoing === "boolean" ? row.isOngoing : Number(row.cad) === 1,
         vehicles: parseDispatchedUnits(row.units)
     };
 }

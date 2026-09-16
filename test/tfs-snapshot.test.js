@@ -62,3 +62,24 @@ test('accumulates history, updates IDs, expires old calls and clears ongoing sta
     assert.throws(() => buildTfsSnapshot({ ...source, updatedAt: '2026-09-16T09:00:00Z' }, now, result));
     assert.throws(() => buildTfsSnapshot(source, now, { source: 'TFS' }));
 });
+
+for (const [label, rows] of [
+    ['absent from the new feed', []],
+    ['marked inactive by cad', [{ cad: 0 }]],
+    ['explicitly not ongoing despite cad', [{ cad: 1, isOngoing: false }]]
+]) {
+    test(`retained ongoing incident becomes inactive when ${label}`, () => {
+        const now = new Date('2026-09-16T12:00:00Z');
+        const row = { event_id: 'F123', time: '2026-09-16T10:00:00Z', cad: 1 };
+        const previous = buildTfsSnapshot({ updatedAt: '2026-09-16T11:00:00Z', incidents: [row] }, new Date('2026-09-16T11:00:00Z'));
+        assert.equal(previous.incidents[0].isOngoing, true);
+        const result = buildTfsSnapshot({ updatedAt: now.toISOString(), incidents: rows.map(update => ({ ...row, ...update })) }, now, previous);
+        assert.equal(result.incidents.length, 1);
+        assert.equal(result.incidents[0].id, 'F123');
+        assert.equal(result.incidents[0].isOngoing, false);
+        assert.equal(previous.incidents[0].isOngoing, true, 'previous snapshot is not mutated');
+        const reappeared = buildTfsSnapshot({ updatedAt: now.toISOString(), incidents: [row] }, now, result);
+        assert.equal(reappeared.incidents.length, 1);
+        assert.equal(reappeared.incidents[0].isOngoing, true);
+    });
+}

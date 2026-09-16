@@ -174,8 +174,7 @@ this file, merges new records by incident ID, updates known records, and removes
 outside the retention window. The JSON is replaced atomically after merging; it is not
 an append-only text log. Keep the previous file available between updater runs.
 
-The dashboard defaults to **Last 24 hours**, with a **Last 48 hours** selector. Its history
-notice explains retention and displays when collection began. Calls absent from the
+The dashboard defaults to **Last 24 hours**, with a **Last 48 hours** selector. The source update time remains visible above the map. Calls absent from the
 latest active feed remain in history with `isOngoing: false`; this does not establish
 that an incident is resolved. The Ongoing filter reflects the last fetched feed.
 

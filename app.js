@@ -168,7 +168,6 @@ async function fetchSnapshot() {
   const rows = Array.isArray(payload) ? payload : (payload.incidents || []);
   return {
     calls: rows.map(normalizeCall).sort((a, b) => b.timestamp - a.timestamp),
-    historyStartedAt: payload.historyStartedAt || payload.fetchedAt || null,
     fetchedAt: payload.fetchedAt || null,
     updatedAt: payload.sourceUpdatedAt || payload.fetchedAt || null
   };
@@ -190,10 +189,6 @@ async function loadData({ silent = false } = {}) {
     state.calls = snapshot.calls;
     state.lastIngest = snapshot.updatedAt;
     state.fetchedAt = snapshot.fetchedAt;
-    const historyStart = parseLooseTime(snapshot.historyStartedAt);
-    document.querySelector('#historyCoverage').textContent = historyStart
-      ? `Records collected since ${formatDate(historyStart)} · ${formatTime(historyStart)} Toronto.`
-      : 'History coverage is not available for this snapshot.';
     const sourceTime = parseLooseTime(snapshot.updatedAt);
     els.sourceUpdated.textContent = sourceTime
       ? `${formatDate(sourceTime)} · ${formatTime(sourceTime)} Toronto`
