@@ -1,73 +1,107 @@
 {
   "schemaVersion": 1,
   "source": "TFS",
-  "fetchedAt": "2026-09-16T05:28:44.014Z",
-  "sourceUpdatedAt": "2026-09-16T05:20:11.000Z",
+  "retentionHours": 48,
+  "historyStartedAt": "2026-09-16T05:28:44.014Z",
+  "fetchedAt": "2026-09-16T05:43:05.182Z",
+  "sourceUpdatedAt": "2026-09-16T05:40:02.000Z",
   "incidents": [
     {
-      "id": "F26146546",
+      "id": "F26146745",
       "source": "TFS",
       "eventType": "fire",
-      "description": "Fire - Residential",
-      "location": "PANDORA CRCL, SC / WANTANOPA CRES / SEDGEMOUNT DR",
-      "division": "231",
-      "timestamp": "2026-09-15T21:28:03.000Z",
-      "alarmLevel": 2,
+      "description": "Alarm Single Source",
+      "location": "SOUTHPORT ST, TT / THE QUEENSWAY / WINDERMERE PL",
+      "division": "425",
+      "timestamp": "2026-09-16T05:34:47.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-16T05:43:05.182Z",
+      "lastSeenAt": "2026-09-16T05:43:05.182Z"
+    },
+    {
+      "id": "F26146744",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "EGLINTON AVE, TT / YONGE ST / DUPLEX AVE",
+      "division": "134",
+      "timestamp": "2026-09-16T05:26:53.000Z",
+      "alarmLevel": 0,
       "isOngoing": true,
       "vehicles": [
         {
           "type": "Aerial Truck",
           "numbers": [
-            "213",
-            "221",
-            "231"
-          ]
-        },
-        {
-          "type": "Command Unit",
-          "numbers": [
-            "20",
-            "22",
-            "23",
-            "24",
-            "10"
-          ]
-        },
-        {
-          "type": "Hazmat Unit",
-          "numbers": [
-            "323"
-          ]
-        },
-        {
-          "type": "Ladder Truck",
-          "numbers": [
-            "231"
+            "135"
           ]
         },
         {
           "type": "Fire Truck",
           "numbers": [
-            "212",
-            "213",
-            "221",
-            "222",
-            "231",
-            "232",
-            "244",
-            "245"
+            "134"
           ]
-        },
+        }
+      ],
+      "firstSeenAt": "2026-09-16T05:43:05.182Z",
+      "lastSeenAt": "2026-09-16T05:43:05.182Z"
+    },
+    {
+      "id": "F26146743",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M8Y",
+      "division": "431",
+      "timestamp": "2026-09-16T05:24:55.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "431"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-16T05:43:05.182Z",
+      "lastSeenAt": "2026-09-16T05:43:05.182Z"
+    },
+    {
+      "id": "F26146741",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5B",
+      "division": "325",
+      "timestamp": "2026-09-16T05:10:32.000Z",
+      "alarmLevel": 0,
+      "isOngoing": false,
+      "vehicles": [
         {
           "type": "Rescue Truck",
           "numbers": [
-            "223"
+            "325"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "id": "F26146739",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6J",
+      "division": "426",
+      "timestamp": "2026-09-16T05:05:14.000Z",
+      "alarmLevel": 0,
+      "isOngoing": false,
+      "vehicles": [
         {
-          "type": "Squad Unit",
+          "type": "Fire Truck",
           "numbers": [
-            "232"
+            "426"
           ]
         }
       ]
@@ -134,45 +168,79 @@
             "232"
           ]
         }
-      ]
+      ],
+      "firstSeenAt": "2026-09-16T05:43:05.182Z",
+      "lastSeenAt": "2026-09-16T05:43:05.182Z"
     },
     {
-      "id": "F26146739",
+      "id": "F26146546",
       "source": "TFS",
       "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M6J",
-      "division": "426",
-      "timestamp": "2026-09-16T05:05:14.000Z",
-      "alarmLevel": 0,
+      "description": "Fire - Residential",
+      "location": "PANDORA CRCL, SC / WANTANOPA CRES / SEDGEMOUNT DR",
+      "division": "231",
+      "timestamp": "2026-09-15T21:28:03.000Z",
+      "alarmLevel": 2,
       "isOngoing": true,
       "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "213",
+            "221",
+            "231"
+          ]
+        },
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "20",
+            "22",
+            "23",
+            "24",
+            "10"
+          ]
+        },
+        {
+          "type": "Hazmat Unit",
+          "numbers": [
+            "323"
+          ]
+        },
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "231"
+          ]
+        },
         {
           "type": "Fire Truck",
           "numbers": [
-            "426"
+            "212",
+            "213",
+            "221",
+            "222",
+            "231",
+            "232",
+            "244",
+            "245"
           ]
-        }
-      ]
-    },
-    {
-      "id": "F26146741",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M5B",
-      "division": "325",
-      "timestamp": "2026-09-16T05:10:32.000Z",
-      "alarmLevel": 0,
-      "isOngoing": true,
-      "vehicles": [
+        },
         {
           "type": "Rescue Truck",
           "numbers": [
-            "325"
+            "223"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "232"
           ]
         }
-      ]
+      ],
+      "firstSeenAt": "2026-09-16T05:43:05.182Z",
+      "lastSeenAt": "2026-09-16T05:43:05.182Z"
     }
   ]
 }

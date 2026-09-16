@@ -21,7 +21,7 @@ for (const [input, expected] of [
 
 test('official XML preserves beat and Toronto timestamps through snapshot generation', () => {
     const source = parseTfsXml(`<tfs_active_incidents><update_from_db_time>2026-09-16 01:15:01</update_from_db_time><event><event_num>F26146740</event_num><dispatch_time>2026-09-16T01:07:11</dispatch_time><event_type>MEDICAL</event_type><prime_street>M5M</prime_street><cross_streets/><beat>131</beat><units_disp>P131</units_disp></event></tfs_active_incidents>`);
-    const snapshot = buildTfsSnapshot(source);
+    const snapshot = buildTfsSnapshot(source, new Date("2026-09-16T05:16:00Z"));
     assert.equal(snapshot.sourceUpdatedAt, '2026-09-16T05:15:01.000Z');
     assert.equal(snapshot.incidents[0].timestamp, '2026-09-16T05:07:11.000Z');
     assert.equal(snapshot.incidents[0].division, '131');
@@ -34,4 +34,15 @@ test('freshness detects stalled source, stalled updater, and missing metadata', 
     assert.equal(snapshotIsStale('2026-09-16T05:00:00Z', '2026-09-16T05:19:00Z', now), true);
     assert.equal(snapshotIsStale('2026-09-16T05:19:00Z', '2026-09-16T05:00:00Z', now), true);
     assert.equal(snapshotIsStale(null, '2026-09-16T05:19:00Z', now), true);
+});
+
+test('24/48 hour selection uses dispatch time and inclusive cutoffs', async () => {
+    const { isWithinHistoryWindow } = await import('../src/tfs/time.js');
+    const now = Date.parse('2026-09-16T12:00:00Z');
+    assert.equal(isWithinHistoryWindow('2026-09-15T12:00:00Z', 24, now), true);
+    assert.equal(isWithinHistoryWindow('2026-09-15T11:59:59Z', 24, now), false);
+    assert.equal(isWithinHistoryWindow('2026-09-15T11:59:59Z', 48, now), true);
+    assert.equal(isWithinHistoryWindow('2026-09-14T11:59:59Z', 48, now), false);
+    assert.equal(isWithinHistoryWindow('invalid', 48, now), false);
+    assert.equal(isWithinHistoryWindow(now + 1, 48, now), false);
 });

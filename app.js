@@ -1,4 +1,4 @@
-import { snapshotIsStale } from "./src/tfs/time.js";
+import { snapshotIsStale, isWithinHistoryWindow } from "./src/tfs/time.js";
 
 const CONFIG = {
   snapshotUrl: "./data/current.json",
@@ -6,6 +6,7 @@ const CONFIG = {
 };
 
 const state = {
+  hours: 24,
   calls: [],
   filtered: [],
   lastIngest: null,
@@ -167,6 +168,7 @@ async function fetchSnapshot() {
   const rows = Array.isArray(payload) ? payload : (payload.incidents || []);
   return {
     calls: rows.map(normalizeCall).sort((a, b) => b.timestamp - a.timestamp),
+    historyStartedAt: payload.historyStartedAt || payload.fetchedAt || null,
     fetchedAt: payload.fetchedAt || null,
     updatedAt: payload.sourceUpdatedAt || payload.fetchedAt || null
   };
@@ -188,6 +190,10 @@ async function loadData({ silent = false } = {}) {
     state.calls = snapshot.calls;
     state.lastIngest = snapshot.updatedAt;
     state.fetchedAt = snapshot.fetchedAt;
+    const historyStart = parseLooseTime(snapshot.historyStartedAt);
+    document.querySelector('#historyCoverage').textContent = historyStart
+      ? `Records collected since ${formatDate(historyStart)} · ${formatTime(historyStart)} Toronto.`
+      : 'History coverage is not available for this snapshot.';
     const sourceTime = parseLooseTime(snapshot.updatedAt);
     els.sourceUpdated.textContent = sourceTime
       ? `${formatDate(sourceTime)} · ${formatTime(sourceTime)} Toronto`
@@ -229,6 +235,7 @@ function applyFilters() {
   const q = state.search.trim().toLowerCase();
 
   state.filtered = state.calls.filter(call => {
+    if (!isWithinHistoryWindow(call.timestamp, state.hours)) return false;
     const divisionMatch = state.division === "all" || call.division === state.division;
     if (!divisionMatch) return false;
     if (state.eventFilter === "ongoing" && !call.isOngoing) return false;
@@ -586,6 +593,11 @@ async function checkForChanges() {
   // may update fetchedAt or correct normalized fields without changing that marker.
   await loadData({ silent: true });
 }
+
+document.querySelector('#historyHours').addEventListener('change', event => {
+  state.hours = Number(event.target.value);
+  applyFilters();
+});
 
 els.divisionSelect.addEventListener("change", (e) => {
   state.division = e.target.value === "all" ? "all" : decodeURIComponent(e.target.value);

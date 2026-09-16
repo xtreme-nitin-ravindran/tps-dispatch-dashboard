@@ -53,7 +53,19 @@
             <option value="all">All divisions</option>
           </select>
         </div>
+        <div class="control-group">
+          <label for="historyHours">History</label>
+          <select id="historyHours">
+            <option value="24">Last 24 hours</option>
+            <option value="48">Last 48 hours</option>
+          </select>
+        </div>
       </section>
+      <div class="source-card" style="margin-top:14px">
+        <p>Showing calls dispatched within the selected 24- or 48-hour window. Calls remain in history after leaving the active feed; “Ongoing” means present in the latest fetched feed, not confirmed status in real time.</p>
+        <p id="historyCoverage"></p>
+        <p>History builds as updates are collected. Earlier calls and calls between updates may be missing. Records older than 48 hours are removed.</p>
+      </div>
 
       <section class="event-filters" aria-label="Filter events by type">
         <span class="section-kicker">EVENT TYPE</span>

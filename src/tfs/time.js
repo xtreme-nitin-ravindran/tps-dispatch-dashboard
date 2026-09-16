@@ -35,3 +35,8 @@ export function snapshotIsStale(sourceUpdatedAt, fetchedAt, now = Date.now()) {
         return !timestamp || now - Date.parse(timestamp) > 15 * 60 * 1000;
     });
 }
+
+export function isWithinHistoryWindow(timestamp, hours, now = Date.now()) {
+    const time = typeof timestamp === 'number' ? timestamp : Date.parse(timestamp);
+    return Number.isFinite(time) && time >= now - hours * 3600000 && time <= now;
+}
