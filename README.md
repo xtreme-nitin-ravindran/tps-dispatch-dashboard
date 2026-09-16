@@ -188,3 +188,25 @@ timestamps and unreadable existing history fail the update rather than discardin
 
 The header displays “Updates from the official TFS feed.” The source update
 timestamp remains visible above the map.
+
+### Deploy the Concourse test pipeline
+
+`concourse/pipeline.yml` is the reusable version of the local test pipeline. It
+checks out the configured Git branch instead of embedding a copy of local source
+files. Push the reviewed ETL commit before running it against that branch.
+It runs unit tests in both time zones, the live integration test, and two live ETL
+runs with a history-preservation check. It is manually triggered and does not
+publish to the dashboard or persist history across builds.
+
+Copy `concourse/values.example.yml` to `concourse/values.yml` and populate a
+read-only SSH deploy key authorized for the private repository. `values.yml` is
+ignored by Git; the example contains placeholders only.
+
+```bash
+fly -t local set-pipeline -p tfs-local-test -c concourse/pipeline.yml -l concourse/values.yml
+fly -t local unpause-pipeline -p tfs-local-test
+fly -t local trigger-job -j tfs-local-test/test-local-etl -w
+```
+
+Use a `fly` version matching the Concourse server. This configuration replaces the
+previous temporary pipeline when applied; it requires repository credentials.

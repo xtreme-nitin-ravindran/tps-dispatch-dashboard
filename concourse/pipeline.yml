@@ -1,0 +1,51 @@
+# Test pipeline; does not publish snapshots or schedule production collection.
+resources:
+  - name: repo
+    type: git
+    source:
+      uri: ((repo_uri))
+      branch: ((repo_branch))
+      private_key: ((repo_private_key))
+
+jobs:
+  - name: test-local-etl
+    serial: true
+    plan:
+      - get: repo
+      - task: test-and-merge
+        timeout: 10m
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: node
+              tag: 22-bookworm-slim
+          inputs:
+            - name: repo
+          outputs:
+            - name: snapshot
+          run:
+            path: sh
+            args:
+              - -ec
+              - |
+                cd repo
+                TZ=UTC npm test
+                TZ=America/Los_Angeles npm test
+                npm run test:integration
+                TFS_OUTPUT=../first/current.json node scripts/tfs-etl.js
+                TFS_PREVIOUS=../first/current.json TFS_OUTPUT=../snapshot/current.json node scripts/tfs-etl.js
+                node --input-type=module <<'JS'
+                import { readFileSync } from 'node:fs';
+                import assert from 'node:assert/strict';
+                const first = JSON.parse(readFileSync('../first/current.json', 'utf8'));
+                const next = JSON.parse(readFileSync('../snapshot/current.json', 'utf8'));
+                assert.equal(next.retentionHours, 168);
+                for (const incident of first.incidents) {
+                  if (Date.parse(incident.timestamp) >= Date.parse(next.fetchedAt) - 168 * 3600000) {
+                    assert.ok(next.incidents.some(item => item.id === incident.id));
+                  }
+                }
+                console.log('Verified seven-day retention and history preservation; incidents:', next.incidents.length);
+                JS
