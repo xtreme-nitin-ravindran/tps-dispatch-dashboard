@@ -1,0 +1,30 @@
+name: Tests
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: All tests (Docker)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build test image
+        id: build
+        run: docker build -f Dockerfile.test -t toronto-dispatch-tests .
+
+      - name: Run unit tests
+        run: docker run --rm toronto-dispatch-tests
+
+      - name: Run official-source integration test
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: docker run --rm toronto-dispatch-tests npm run test:integration

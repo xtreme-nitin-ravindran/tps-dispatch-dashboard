@@ -56,6 +56,25 @@ docker run --rm -v "$PWD/data:/workspace/data" toronto-dispatch-tests npm run up
 The generated `data/current.json` contains normalized incidents plus `fetchedAt`
 and `sourceUpdatedAt` metadata. The browser reads this file on startup and checks for a changed source timestamp every 30 seconds.
 
+## Continuous integration and main branch protection
+
+`.github/workflows/tests.yml` runs all tests in Docker on every push to `dev`,
+on pull requests targeting `main`, and on manual dispatch. Its stable check name
+is **All tests (Docker)**. Both the unit suite and the live official-source integration
+test must pass. The integration test still runs if unit tests fail, provided the image built.
+An upstream TFS outage can therefore fail this check and block a merge until a rerun passes.
+
+Branch protection is a GitHub repository setting; adding this workflow alone does not
+enable it. Configure protection for `main` to require a pull request, require
+**All tests (Docker)** from GitHub Actions, require branches to be up to date, and
+disallow bypassing these requirements (including administrators). Keep force pushes
+and branch deletion disabled. Run the workflow once if the check is not yet selectable.
+
+The scheduled snapshot workflow currently pushes directly to the default branch.
+If that branch is protected `main`, these pushes will be rejected. Use a separate
+data branch or Pages artifact deployment for automatic data updates without bypassing
+the tests required for code merges.
+
 ## Scheduled updates with GitHub Actions
 
 `.github/workflows/update-tfs.yml` runs every five minutes (at minutes 3, 8, 13, etc., UTC),
