@@ -1,5 +1,5 @@
 const CONFIG = {
-  snapshotUrl: "./data/tfs-current.json",
+  snapshotUrl: "./data/current.json",
   refreshCheckMs: 30_000
 };
 

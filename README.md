@@ -14,7 +14,7 @@ A responsive, independent web dashboard for Toronto Fire Services public active-
 
 ## Data source
 
-The browser dashboard consumes the generated official TFS snapshot at `data/tfs-current.json`.
+The browser dashboard consumes the generated official TFS snapshot at `data/current.json`.
 The website intentionally uses Toronto Fire Services data only.
 
 Only official Toronto Fire Services data is used by the dashboard and source pipeline.
@@ -53,9 +53,33 @@ docker build -f Dockerfile.test -t toronto-dispatch-tests .
 docker run --rm -v "$PWD/data:/workspace/data" toronto-dispatch-tests npm run update:tfs
 ```
 
-The generated `data/tfs-current.json` contains normalized incidents plus `fetchedAt`
-and `sourceUpdatedAt` metadata. It is the next dashboard data contract and is not yet
-wired into the browser app.
+The generated `data/current.json` contains normalized incidents plus `fetchedAt`
+and `sourceUpdatedAt` metadata. The browser reads this file on startup and checks for a changed source timestamp every 30 seconds.
+
+## Scheduled updates with GitHub Actions
+
+`.github/workflows/update-tfs.yml` runs every five minutes (at minutes 3, 8, 13, etc., UTC),
+and can also be started manually from **Actions → Update TFS snapshot → Run workflow**.
+It checks out the default branch, runs the unit tests, fetches the official TFS XML,
+normalizes it, writes `data/current.json`, and commits the snapshot back to the default branch.
+No npm dependencies or custom secrets are required. Each successful fetch records a new
+`fetchedAt`, so successful runs normally create a commit even if incidents are unchanged.
+
+To activate it, push the workflow and project changes to the repository's default branch.
+GitHub Actions must be enabled, and repository rules must allow the workflow's
+`GITHUB_TOKEN` to write commits to that branch. Protected branches may reject direct pushes.
+Scheduled runs can be delayed by GitHub; this is not a guaranteed real-time feed.
+
+Fetch errors or a missing source update timestamp fail the run before committing a new
+snapshot. A valid feed with zero incidents is allowed. Existing hosted data remains available.
+The updater has a 30-second fetch timeout, and the workflow has a five-minute job timeout.
+
+This workflow implements the **commit changes** option. A deployed dashboard sees updates
+only after its host serves the new commit; a local checkout needs to pull those commits.
+GitHub Pages branch publishing is not automatically triggered by commits made with
+`GITHUB_TOKEN`. For GitHub Pages hosting, use an explicit Pages artifact/deployment workflow
+instead of relying on these bot commits to trigger a Pages build. See
+[GitHub's publishing-source documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
 
 ## Run locally
 
