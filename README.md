@@ -63,9 +63,7 @@ The generated `data/current.json` contains normalized incidents plus `fetchedAt`
 and `sourceUpdatedAt` metadata. The browser reads this file on startup and reloads it every 30 seconds. Source and dispatch timestamps are converted from
 `America/Toronto` to UTC with daylight-saving handling. During the repeated fall-back
 hour, an offset-free time is ambiguous; the parser chooses its first occurrence.
-The status indicator warns when either the source timestamp or fetch timestamp is
-missing or more than 15 minutes old. A successful JSON request alone does not mean
-the data is current.
+A successful JSON request alone does not mean the data is current.
 
 ## Continuous integration and branch policy
 
@@ -182,6 +180,5 @@ History accumulates from observed snapshots only; it cannot backfill earlier cal
 capture calls that start and disappear between fetches. Invalid or older source update
 timestamps and unreadable existing history fail the update rather than discarding it.
 
-The header shows the 15-minute update schedule and an approximate time to try refreshing,
-based on the next scheduled slot after the saved fetch time. It does not guarantee new
-data is available; GitHub scheduling and local checkout updates can be delayed.
+The header displays only “Source refreshes every 15 minutes.” The source update
+timestamp remains visible above the map.

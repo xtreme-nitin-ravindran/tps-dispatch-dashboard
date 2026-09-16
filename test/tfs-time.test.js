@@ -46,12 +46,3 @@ test('24/48 hour selection uses dispatch time and inclusive cutoffs', async () =
     assert.equal(isWithinHistoryWindow('invalid', 48, now), false);
     assert.equal(isWithinHistoryWindow(now + 1, 48, now), false);
 });
-
-test('refresh suggestion uses the next 15-minute slot after the saved fetch', async () => {
-    const { nextFeedRefresh } = await import('../src/tfs/time.js');
-    assert.equal(nextFeedRefresh('2026-09-16T06:11:00Z').toISOString(), '2026-09-16T06:15:00.000Z');
-    assert.equal(nextFeedRefresh('2026-09-16T06:15:00Z').toISOString(), '2026-09-16T06:30:00.000Z');
-    assert.equal(nextFeedRefresh('2026-09-16T23:59:00Z').toISOString(), '2026-09-17T00:00:00.000Z');
-    assert.equal(nextFeedRefresh(null), null);
-    assert.equal(nextFeedRefresh('invalid'), null);
-});

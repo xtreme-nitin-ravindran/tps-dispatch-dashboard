@@ -1,4 +1,4 @@
-import { snapshotIsStale, isWithinHistoryWindow, nextFeedRefresh } from "./src/tfs/time.js";
+import { isWithinHistoryWindow } from "./src/tfs/time.js";
 
 const CONFIG = {
   snapshotUrl: "./data/current.json",
@@ -17,9 +17,6 @@ const state = {
 };
 
 const els = {
-  livePill: document.querySelector("#livePill"),
-  liveText: document.querySelector("#liveText"),
-  refreshHint: document.querySelector("#refreshHint"),
   lastUpdated: document.querySelector("#lastUpdated"),
   windowLabel: document.querySelector("#windowLabel"),
   searchInput: document.querySelector("#searchInput"),
@@ -173,15 +170,7 @@ async function fetchSnapshot() {
   };
 }
 
-function setConnection(ok, text) {
-  els.livePill.classList.toggle("connected", ok);
-  els.liveText.textContent = text;
-}
-
 async function loadData({ silent = false } = {}) {
-  if (!silent) {
-    setConnection(false, "Refreshing…");
-  }
 
   try {
     const snapshot = await fetchSnapshot();
@@ -192,13 +181,11 @@ async function loadData({ silent = false } = {}) {
     els.sourceUpdated.textContent = sourceTime
       ? `${formatDate(sourceTime)} · ${formatTime(sourceTime)} Toronto`
       : "Unknown";
-    updateConnectionFreshness();
     populateDivisionFilter();
     applyFilters();
     updateFreshness();
   } catch (error) {
     console.error(error);
-    setConnection(false, "Feed unavailable");
     if (!state.calls.length) {
       els.callList.innerHTML = `
         <div class="error-state">
@@ -575,11 +562,6 @@ function updateFreshness() {
   }
 }
 
-function updateConnectionFreshness() {
-  const stale = snapshotIsStale(state.lastIngest, state.fetchedAt);
-  setConnection(!stale, stale ? "Snapshot stale — update needed" : "Feed connected");
-}
-
 async function checkForChanges() {
   // Reload the snapshot even if sourceUpdatedAt is unchanged: a successful fetch
   // may update fetchedAt or correct normalized fields without changing that marker.
@@ -621,26 +603,15 @@ els.callList.addEventListener("keydown", (event) => {
   selectCall(row.dataset.callId);
 });
 
-function renderRefreshHint() {
-  const expected = nextFeedRefresh(state.fetchedAt);
-  els.refreshHint.textContent = !expected
-    ? "Refresh time unavailable."
-    : Date.now() >= expected.getTime()
-      ? "You can refresh now; the next update may be delayed."
-      : `Try refreshing after ${formatTime(expected)} Toronto (approx.).`;
-}
-
 async function refreshLoop() {
   try {
     await checkForChanges();
   } finally {
-    renderRefreshHint();
     setTimeout(refreshLoop, CONFIG.refreshCheckMs);
   }
 }
 
 setInterval(() => {
-  renderRefreshHint();
   els.footerClock.textContent = new Intl.DateTimeFormat("en-CA", {
     dateStyle: "medium",
     timeStyle: "medium",
