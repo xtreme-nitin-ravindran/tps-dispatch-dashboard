@@ -27,11 +27,11 @@ export function buildTfsSnapshot(source, now = new Date(), previous = null) {
             lastSeenAt: now.toISOString()
         });
     }
-    const cutoff = now.getTime() - 48 * 60 * 60 * 1000;
+    const cutoff = now.getTime() - 168 * 60 * 60 * 1000;
     return {
         schemaVersion: 1,
         source: "TFS",
-        retentionHours: 48,
+        retentionHours: 168,
         historyStartedAt: previous?.historyStartedAt || previous?.fetchedAt || now.toISOString(),
         fetchedAt: now.toISOString(),
         sourceUpdatedAt,

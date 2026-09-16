@@ -38,8 +38,8 @@ test('accumulates history, updates IDs, expires old calls and clears ongoing sta
         incidents: [
             { id: 'gone', timestamp: '2026-09-15T10:00:00Z', isOngoing: true },
             { id: 'updated', timestamp: '2026-09-16T10:00:00Z', description: 'Old', firstSeenAt: '2026-09-16T10:01:00Z' },
-            { id: 'expired', timestamp: '2026-09-14T11:59:59Z' },
-            { id: 'boundary', timestamp: '2026-09-14T12:00:00Z' }
+            { id: 'expired', timestamp: '2026-09-09T11:59:59Z' },
+            { id: 'boundary', timestamp: '2026-09-09T12:00:00Z' }
         ]
     };
     const source = { updatedAt: '2026-09-16T12:00:00Z', incidents: [
@@ -53,7 +53,7 @@ test('accumulates history, updates IDs, expires old calls and clears ongoing sta
     assert.equal(result.incidents[1].isOngoing, true);
     assert.equal(result.incidents[2].isOngoing, false);
     assert.equal(result.historyStartedAt, previous.fetchedAt);
-    assert.equal(result.retentionHours, 48);
+    assert.equal(result.retentionHours, 168);
     assert.deepEqual(buildTfsSnapshot(source, now, result), result);
     const empty = buildTfsSnapshot({ ...source, incidents: [] }, now, result);
     assert.equal(empty.incidents.length, 4);

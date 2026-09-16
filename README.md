@@ -37,7 +37,8 @@ Alternatively, run the tests in Docker without installing Node.js or npm locally
 
 ```bash
 docker build -f Dockerfile.test -t toronto-dispatch-tests .
-docker run --rm toronto-dispatch-tests
+docker run --rm -e TZ=UTC toronto-dispatch-tests
+docker run --rm -e TZ=America/Los_Angeles toronto-dispatch-tests
 ```
 
 Run the live official-source integration test separately:
@@ -76,42 +77,47 @@ An upstream TFS outage can therefore fail this check.
 **`main` has no branch protection.** The previously created rule was removed.
 Test results are informational: failed tests do not block merges, pull requests are
 not required, and direct pushes to `main` are allowed for users with write access.
-The scheduled snapshot workflow commits directly to `main` using `GITHUB_TOKEN`.
+The remaining test workflow uses `actions/checkout@v5` and the Node.js 20
+Docker image defined by `Dockerfile.test`. There is no GitHub snapshot updater.
 
-The tests run in the Node.js 20 Docker image defined by `Dockerfile.test`.
-Both workflows use `actions/checkout@v5`; the snapshot workflow also uses
-`actions/setup-node@v5`. These actions use Node.js 24 internally, resolving the earlier
-Node.js 20 action-runtime deprecation warning. The snapshot script itself runs on
-Node.js 22, with package-manager caching disabled because no dependencies are installed.
+## ETL and Concourse
 
-## Scheduled updates with GitHub Actions
+`scripts/tfs-etl.js` is the scheduler-independent task entry point. It fetches the
+official XML, normalizes and merges incidents, and atomically writes the snapshot.
+It uses the modules under `src/`; supply the repository checkout, not just this script.
+Node.js 20+ is required; no npm dependencies need installing.
 
-`.github/workflows/update-tfs.yml` runs every 15 minutes (at minutes 0, 15, 30, and 45, UTC),
-and can also be started manually from **Actions → Update TFS snapshot → Run workflow**.
-It checks out the default branch, runs the unit tests, fetches the official TFS XML,
-normalizes it, writes `data/current.json`, and commits the snapshot back to the default branch.
-No npm dependencies or custom secrets are required. Each successful fetch records a new
-`fetchedAt`, so successful runs normally create a commit even if incidents are unchanged.
+```bash
+node scripts/tfs-etl.js
+# Separate Concourse input and output artifacts:
+TFS_PREVIOUS=history/current.json TFS_OUTPUT=snapshot/current.json node scripts/tfs-etl.js
+# Process the exact XML that triggered the pipeline instead of fetching again:
+TFS_XML=feed/livecad.xml TFS_PREVIOUS=history/current.json TFS_OUTPUT=snapshot/current.json node scripts/tfs-etl.js
+```
 
-The workflow is published on `main`, the default branch, and manual runs have completed
-successfully. It grants `contents: write` to `GITHUB_TOKEN` for snapshot commits and
-serializes runs through a concurrency group to avoid overlapping updates.
-Scheduled runs can be delayed by GitHub; this is not a guaranteed real-time feed.
+`npm run update:tfs` calls the same task. The old `scripts/update-tfs.js` entry point
+remains compatible. `TFS_OUTPUT` defaults to `data/current.json`. Without
+`TFS_PREVIOUS`, the output file is also the history input; a missing file starts new
+history. An explicitly supplied history path must exist and contain valid JSON.
+For the first Concourse run, deliberately seed history with
+`{"source":"TFS","incidents":[]}` or an existing valid snapshot.
 
-View or manually run [Update TFS snapshot](https://github.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/actions/workflows/update-tfs.yml)
-and inspect [Tests](https://github.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/actions/workflows/tests.yml)
-in GitHub Actions.
+`concourse/tfs-etl.yml` is a reusable task definition with `repo` and `history`
+inputs and a `snapshot` output. In your pipeline, retrieve the last successfully
+published `current.json` as `history/current.json`, run this task, then publish
+`snapshot/current.json` to the dashboard's storage. Task outputs alone are not
+persistent storage between builds. Serialize the entire read/merge/publish job
+(`serial: true`) and use a single writer to avoid losing concurrent updates.
 
-Fetch errors or a missing source update timestamp fail the run before committing a new
-snapshot. A valid feed with zero incidents is allowed. Existing hosted data remains available.
-The updater has a 30-second fetch timeout, and the workflow has a five-minute job timeout.
+Configure XML change detection and polling in your Concourse pipeline. If the
+pipeline supplies XML, add its artifact as a task input and set `TFS_XML` accordingly.
+The task itself does not schedule, commit, or publish anything. The GitHub Actions
+snapshot workflow has been removed; that removal takes effect remotely once pushed.
 
-This workflow implements the **commit changes** option. A deployed dashboard sees updates
-only after its host serves the new commit; a local checkout needs to pull those commits.
-GitHub Pages branch publishing is not automatically triggered by commits made with
-`GITHUB_TOKEN`. For GitHub Pages hosting, use an explicit Pages artifact/deployment workflow
-instead of relying on these bot commits to trigger a Pages build. See
-[GitHub's publishing-source documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
+Failed fetches (30-second timeout), invalid XML update timestamps, older feeds, or
+invalid history fail the task without replacing the output. A valid empty feed
+marks retained calls inactive. Run periodically even when XML is unchanged if you
+want expired records physically removed on schedule.
 
 ## Run locally
 
@@ -167,12 +173,12 @@ Toronto Fire Services is credited as the public-data source. This project is ind
 
 ## Rolling incident history
 
-`data/current.json` retains calls dispatched within the last 48 hours. Each update reads
+`data/current.json` retains calls dispatched within the last seven days (168 hours). Each update reads
 this file, merges new records by incident ID, updates known records, and removes records
 outside the retention window. The JSON is replaced atomically after merging; it is not
 an append-only text log. Keep the previous file available between updater runs.
 
-The dashboard defaults to **Last 24 hours**, with a **Last 48 hours** selector. The source update time remains visible above the map. Calls absent from the
+The dashboard defaults to **Last 24 hours**, with **Last 48 hours** and **Last 7 days** options. The source update time remains visible above the map. Calls absent from the
 latest active feed remain in history with `isOngoing: false`; this does not establish
 that an incident is resolved. The Ongoing filter reflects the last fetched feed.
 
@@ -180,5 +186,5 @@ History accumulates from observed snapshots only; it cannot backfill earlier cal
 capture calls that start and disappear between fetches. Invalid or older source update
 timestamps and unreadable existing history fail the update rather than discarding it.
 
-The header displays only “Source refreshes every 15 minutes.” The source update
+The header displays “Updates from the official TFS feed.” The source update
 timestamp remains visible above the map.

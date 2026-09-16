@@ -1,0 +1,16 @@
+# repo: project checkout; history: last successfully published current.json.
+platform: linux
+image_resource:
+  type: registry-image
+  source: {repository: node, tag: 22-bookworm-slim}
+inputs:
+  - name: repo
+  - name: history
+outputs:
+  - name: snapshot
+params:
+  TFS_PREVIOUS: history/current.json
+  TFS_OUTPUT: snapshot/current.json
+run:
+  path: node
+  args: [repo/scripts/tfs-etl.js]
