@@ -1010,3 +1010,12 @@ footer {
   .topbar-actions { flex-wrap: wrap; justify-content: flex-end; }
   .refresh-info { min-width: 0; }
 }
+
+/* Brief feedback when a newer snapshot changes the displayed source timestamp. */
+.source-updated strong.source-just-updated {
+  color: var(--warning);
+  font-weight: 800;
+  background-color: rgba(255, 207, 102, 0.12);
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px rgba(255, 207, 102, 0.12);
+}

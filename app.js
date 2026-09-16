@@ -170,10 +170,13 @@ async function fetchSnapshot() {
   };
 }
 
+let sourceHighlightTimer;
+
 async function loadData({ silent = false } = {}) {
 
   try {
     const snapshot = await fetchSnapshot();
+    const previousSourceTime = parseLooseTime(state.lastIngest)?.getTime();
     state.calls = snapshot.calls;
     state.lastIngest = snapshot.updatedAt;
     state.fetchedAt = snapshot.fetchedAt;
@@ -184,6 +187,13 @@ async function loadData({ silent = false } = {}) {
     populateDivisionFilter();
     applyFilters();
     updateFreshness();
+    if (previousSourceTime != null && sourceTime && sourceTime.getTime() !== previousSourceTime) {
+      clearTimeout(sourceHighlightTimer);
+      els.sourceUpdated.classList.add('source-just-updated');
+      sourceHighlightTimer = setTimeout(() => {
+        els.sourceUpdated.classList.remove('source-just-updated');
+      }, 4000);
+    }
   } catch (error) {
     console.error(error);
     if (!state.calls.length) {
