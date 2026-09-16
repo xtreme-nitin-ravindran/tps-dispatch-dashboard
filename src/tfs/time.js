@@ -40,3 +40,7 @@ export function isWithinHistoryWindow(timestamp, hours, now = Date.now()) {
     const time = typeof timestamp === 'number' ? timestamp : Date.parse(timestamp);
     return Number.isFinite(time) && time >= now - hours * 3600000 && time <= now;
 }
+
+export function secondsUntilRefresh(nextRefreshAt, now = Date.now()) {
+    return Math.max(0, Math.ceil((nextRefreshAt - now) / 1000));
+}

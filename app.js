@@ -1,4 +1,4 @@
-import { snapshotIsStale, isWithinHistoryWindow } from "./src/tfs/time.js";
+import { snapshotIsStale, isWithinHistoryWindow, secondsUntilRefresh } from "./src/tfs/time.js";
 
 const CONFIG = {
   snapshotUrl: "./data/current.json",
@@ -19,7 +19,7 @@ const state = {
 const els = {
   livePill: document.querySelector("#livePill"),
   liveText: document.querySelector("#liveText"),
-  refreshButton: document.querySelector("#refreshButton"),
+  refreshCountdown: document.querySelector("#refreshCountdown"),
   lastUpdated: document.querySelector("#lastUpdated"),
   windowLabel: document.querySelector("#windowLabel"),
   searchInput: document.querySelector("#searchInput"),
@@ -180,7 +180,6 @@ function setConnection(ok, text) {
 
 async function loadData({ silent = false } = {}) {
   if (!silent) {
-    els.refreshButton.classList.add("spinning");
     setConnection(false, "Refreshing…");
   }
 
@@ -208,8 +207,6 @@ async function loadData({ silent = false } = {}) {
           <p>Some browsers or networks may block cross-origin requests. See README.md for the optional proxy setup.</p>
         </div>`;
     }
-  } finally {
-    els.refreshButton.classList.remove("spinning");
   }
 }
 
@@ -624,9 +621,27 @@ els.callList.addEventListener("keydown", (event) => {
   selectCall(row.dataset.callId);
 });
 
-els.refreshButton.addEventListener("click", () => loadData());
+let nextRefreshAt = null;
+function renderRefreshCountdown() {
+  els.refreshCountdown.textContent = nextRefreshAt === null
+    ? "Checking…"
+    : `Next check in ~${secondsUntilRefresh(nextRefreshAt)}s`;
+}
+
+async function refreshLoop() {
+  nextRefreshAt = null;
+  renderRefreshCountdown();
+  try {
+    await checkForChanges();
+  } finally {
+    nextRefreshAt = Date.now() + CONFIG.refreshCheckMs;
+    renderRefreshCountdown();
+    setTimeout(refreshLoop, CONFIG.refreshCheckMs);
+  }
+}
 
 setInterval(() => {
+  renderRefreshCountdown();
   els.footerClock.textContent = new Intl.DateTimeFormat("en-CA", {
     dateStyle: "medium",
     timeStyle: "medium",
@@ -634,6 +649,4 @@ setInterval(() => {
   }).format(new Date());
 }, 1000);
 
-setInterval(checkForChanges, CONFIG.refreshCheckMs);
-
-loadData();
+refreshLoop();

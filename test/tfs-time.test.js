@@ -46,3 +46,12 @@ test('24/48 hour selection uses dispatch time and inclusive cutoffs', async () =
     assert.equal(isWithinHistoryWindow('invalid', 48, now), false);
     assert.equal(isWithinHistoryWindow(now + 1, 48, now), false);
 });
+
+test('refresh countdown rounds up and never goes negative after a delayed timer', async () => {
+    const { secondsUntilRefresh } = await import('../src/tfs/time.js');
+    assert.equal(secondsUntilRefresh(30000, 0), 30);
+    assert.equal(secondsUntilRefresh(30000, 1001), 29);
+    assert.equal(secondsUntilRefresh(30000, 29999), 1);
+    assert.equal(secondsUntilRefresh(30000, 30000), 0);
+    assert.equal(secondsUntilRefresh(30000, 45000), 0);
+});
