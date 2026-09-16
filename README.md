@@ -189,24 +189,36 @@ timestamps and unreadable existing history fail the update rather than discardin
 The header displays “Updates from the official TFS feed.” The source update
 timestamp remains visible above the map.
 
-### Deploy the Concourse test pipeline
+### Deploy the Concourse updater pipeline
 
-`concourse/pipeline.yml` is the reusable version of the local test pipeline. It
-checks out the configured Git branch instead of embedding a copy of local source
-files. Push the reviewed ETL commit before running it against that branch.
-It runs unit tests in both time zones, the live integration test, and two live ETL
-runs with a history-preservation check. It is manually triggered and does not
-publish to the dashboard or persist history across builds.
+`concourse/pipeline.yml` runs `update-tfs` on a configurable interval (example: two
+minutes). It checks out Git history, runs all unit tests in both time zones and the
+live integration test, merges live XML into `data/current.json`, commits only that
+file, and pushes the commit to the configured branch. A failed test or ETL prevents
+publication. Existing history is required; Git stores history between builds.
+The full Node image includes Git. No runtime package installation is needed.
 
-Copy `concourse/values.example.yml` to `concourse/values.yml` and populate a
-read-only SSH deploy key authorized for the private repository. `values.yml` is
-ignored by Git; the example contains placeholders only.
+Copy `concourse/values.example.yml` to `concourse/values.yml`, set the branch and
+interval, and supply a dedicated SSH deploy key with **write access** to this repo.
+`values.yml` is ignored by Git. Push the reviewed code before applying this pipeline.
 
 ```bash
-fly -t local set-pipeline -p tfs-local-test -c concourse/pipeline.yml -l concourse/values.yml
-fly -t local unpause-pipeline -p tfs-local-test
-fly -t local trigger-job -j tfs-local-test/test-local-etl -w
+fly -t local set-pipeline -p tfs-updater -c concourse/pipeline.yml -l concourse/values.yml
+fly -t local unpause-pipeline -p tfs-updater
+fly -t local trigger-job -j tfs-updater/update-tfs -w
 ```
 
-Use a `fly` version matching the Concourse server. This configuration replaces the
-previous temporary pipeline when applied; it requires repository credentials.
+Use a `fly` version matching the server. Unpausing enables automatic Git pushes.
+Only the timer triggers builds, so snapshot commits do not create a build loop.
+Builds are serialized and retain the latest 50 build logs. Use one updater pipeline
+per branch; disable any other snapshot writers.
+
+Pushes are fast-forward only. A concurrent branch change rejects the push; the next
+scheduled build reads the latest branch, reruns tests, and regenerates the snapshot.
+There is no force push or automatic conflict resolution. Fetch timestamps change on
+successful ETL runs, so runs normally commit even if the XML is unchanged.
+
+This publishes data to Git, not directly to a website. Your dashboard host must
+serve the updated commit. The local Concourse deployment must remain running;
+polling intervals are approximate and depend on worker availability. The saved
+production configuration has not yet been deployed with write credentials.

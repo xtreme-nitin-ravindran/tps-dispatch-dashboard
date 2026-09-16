@@ -1,5 +1,8 @@
-# Test pipeline; does not publish snapshots or schedule production collection.
 resources:
+  - name: schedule
+    type: time
+    source:
+      interval: ((update_interval))
   - name: repo
     type: git
     source:
@@ -8,11 +11,15 @@ resources:
       private_key: ((repo_private_key))
 
 jobs:
-  - name: test-local-etl
+  - name: update-tfs
     serial: true
+    build_log_retention:
+      builds: 50
     plan:
+      - get: schedule
+        trigger: true
       - get: repo
-      - task: test-and-merge
+      - task: test-update-and-commit
         timeout: 10m
         config:
           platform: linux
@@ -20,32 +27,28 @@ jobs:
             type: registry-image
             source:
               repository: node
-              tag: 22-bookworm-slim
+              # Full image includes Git; slim does not.
+              tag: 22-bookworm
           inputs:
             - name: repo
           outputs:
-            - name: snapshot
+            - name: updated-repo
           run:
             path: sh
             args:
               - -ec
               - |
-                cd repo
+                cp -a repo/. updated-repo/
+                cd updated-repo
                 TZ=UTC npm test
                 TZ=America/Los_Angeles npm test
                 npm run test:integration
-                TFS_OUTPUT=../first/current.json node scripts/tfs-etl.js
-                TFS_PREVIOUS=../first/current.json TFS_OUTPUT=../snapshot/current.json node scripts/tfs-etl.js
-                node --input-type=module <<'JS'
-                import { readFileSync } from 'node:fs';
-                import assert from 'node:assert/strict';
-                const first = JSON.parse(readFileSync('../first/current.json', 'utf8'));
-                const next = JSON.parse(readFileSync('../snapshot/current.json', 'utf8'));
-                assert.equal(next.retentionHours, 168);
-                for (const incident of first.incidents) {
-                  if (Date.parse(incident.timestamp) >= Date.parse(next.fetchedAt) - 168 * 3600000) {
-                    assert.ok(next.incidents.some(item => item.id === incident.id));
-                  }
-                }
-                console.log('Verified seven-day retention and history preservation; incidents:', next.incidents.length);
-                JS
+                TFS_PREVIOUS=data/current.json TFS_OUTPUT=data/current.json node scripts/tfs-etl.js
+                node scripts/commit-tfs.js
+      # Fast-forward only: a concurrent push fails safely instead of overwriting
+      # newer history or publishing results based on untested code after a rebase.
+      # The next scheduled build checks out the latest branch and recomputes.
+      - put: repo
+        timeout: 2m
+        params:
+          repository: updated-repo

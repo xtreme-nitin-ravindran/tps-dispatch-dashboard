@@ -3,7 +3,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "test": "node --test test/tfs-etl.test.js test/tfs-normalize.test.js test/tfs-snapshot.test.js test/tfs-time.test.js",
+        "test": "node --test test/commit-tfs.test.js test/tfs-etl.test.js test/tfs-normalize.test.js test/tfs-snapshot.test.js test/tfs-time.test.js",
         "test:integration": "node --test test/*-source.integration.test.js",
         "update:tfs": "node scripts/tfs-etl.js",
         "test:watch": "node --test --watch"
