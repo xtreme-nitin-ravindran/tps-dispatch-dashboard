@@ -1,8 +1,17 @@
-resources:
-  - name: schedule
-    type: time
+resource_types:
+  - name: http-resource
+    type: registry-image
     source:
-      interval: ((update_interval))
+      repository: jgriff/http-resource
+
+resources:
+  - name: tfs-xml
+    type: http-resource
+    check_every: ((xml_check_interval))
+    source:
+      url: https://www.toronto.ca/data/fire/livecad.xml
+      version:
+        hash: body
   - name: repo
     type: git
     source:
@@ -16,8 +25,12 @@ jobs:
     build_log_retention:
       builds: 50
     plan:
-      - get: schedule
+      - get: tfs-xml
         trigger: true
+        params:
+          # The live endpoint cannot retrieve historical versions. Accept the
+          # latest body if it changed between check and get.
+          strict: false
       - get: repo
       - task: test-update-and-commit
         timeout: 10m
@@ -31,6 +44,7 @@ jobs:
               tag: 22-bookworm
           inputs:
             - name: repo
+            - name: tfs-xml
           outputs:
             - name: updated-repo
           run:
@@ -43,11 +57,11 @@ jobs:
                 TZ=UTC npm test
                 TZ=America/Los_Angeles npm test
                 npm run test:integration
-                TFS_PREVIOUS=data/current.json TFS_OUTPUT=data/current.json node scripts/tfs-etl.js
+                TFS_XML=../tfs-xml/body TFS_PREVIOUS=data/current.json TFS_OUTPUT=data/current.json node scripts/tfs-etl.js
                 node scripts/commit-tfs.js
       # Fast-forward only: a concurrent push fails safely instead of overwriting
       # newer history or publishing results based on untested code after a rebase.
-      # The next scheduled build checks out the latest branch and recomputes.
+      # Rerun with fresh inputs or wait for the next XML change to recompute.
       - put: repo
         timeout: 2m
         params:

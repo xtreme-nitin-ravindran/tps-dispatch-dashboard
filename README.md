@@ -191,9 +191,12 @@ timestamp remains visible above the map.
 
 ### Deploy the Concourse updater pipeline
 
-`concourse/pipeline.yml` runs `update-tfs` on a configurable interval (example: two
-minutes). It checks out Git history, runs all unit tests in both time zones and the
-live integration test, merges live XML into `data/current.json`, commits only that
+`concourse/pipeline.yml` uses `jgriff/http-resource` to check the official XML body
+for changes. `xml_check_interval` controls polling (example: two minutes); a new
+body hash triggers `update-tfs`, while unchanged content does not start a job.
+It checks out Git history, runs all unit tests in both time zones and the live
+integration test, merges the downloaded `tfs-xml/body` via `TFS_XML` into
+`data/current.json`, commits only that
 file, and pushes the commit to the configured branch. A failed test or ETL prevents
 publication. Existing history is required; Git stores history between builds.
 The full Node image includes Git. No runtime package installation is needed.
@@ -209,14 +212,24 @@ fly -t local trigger-job -j tfs-updater/update-tfs -w
 ```
 
 Use a `fly` version matching the server. Unpausing enables automatic Git pushes.
-Only the timer triggers builds, so snapshot commits do not create a build loop.
+Only XML version changes trigger builds, so snapshot commits do not create a build loop.
 Builds are serialized and retain the latest 50 build logs. Use one updater pipeline
 per branch; disable any other snapshot writers.
 
-Pushes are fast-forward only. A concurrent branch change rejects the push; the next
-scheduled build reads the latest branch, reruns tests, and regenerates the snapshot.
-There is no force push or automatic conflict resolution. Fetch timestamps change on
-successful ETL runs, so runs normally commit even if the XML is unchanged.
+Pushes are fast-forward only. A concurrent branch change rejects the push. Trigger a
+new build with fresh inputs after a failure, or wait for the next XML change; an
+unchanged XML version does not automatically retry a failed job. There is no force
+push or automatic conflict resolution.
+
+The HTTP resource fetches during both check and get. Because the endpoint cannot
+retrieve historical versions, `strict: false` accepts the latest XML if it changes
+between these requests. The ETL uses that downloaded body without another fetch;
+the live integration test makes its own independent request. Body hashing includes
+the source timestamp, so timestamp-only XML changes also trigger a build.
+
+When XML stops changing, no new snapshot is committed: `fetchedAt` remains the last
+ETL time, and expired history is physically removed on the next successful update.
+The dashboard still filters calls by dispatch age.
 
 This publishes data to Git, not directly to a website. Your dashboard host must
 serve the updated commit. The local Concourse deployment must remain running;
