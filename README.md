@@ -192,8 +192,9 @@ timestamp remains visible above the map.
 ### Deploy the Concourse updater pipeline
 
 `concourse/pipeline.yml` uses `jgriff/http-resource` to check the official XML body
-for changes. `xml_check_interval` controls polling (example: two minutes); a new
-body hash triggers `update-tfs`, while unchanged content does not start a job.
+for changes using Concourse’s default resource check interval (normally one minute,
+unless overridden by server configuration). A new body hash triggers `update-tfs`,
+while unchanged content does not start a job.
 It checks out Git history, runs all unit tests in both time zones and the live
 integration test, merges the downloaded `tfs-xml/body` via `TFS_XML` into
 `data/current.json`, commits only that
@@ -201,8 +202,8 @@ file, and pushes the commit to the configured branch. A failed test or ETL preve
 publication. Existing history is required; Git stores history between builds.
 The full Node image includes Git. No runtime package installation is needed.
 
-Copy `concourse/values.example.yml` to `concourse/values.yml`, set the branch and
-interval, and supply a dedicated SSH deploy key with **write access** to this repo.
+Copy `concourse/values.example.yml` to `concourse/values.yml`, set the branch,
+and supply a dedicated SSH deploy key with **write access** to this repo.
 `values.yml` is ignored by Git. Push the reviewed code before applying this pipeline.
 
 ```bash
