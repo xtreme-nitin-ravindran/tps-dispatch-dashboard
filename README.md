@@ -39,9 +39,13 @@ Run the live official-source integration test separately:
 docker run --rm toronto-dispatch-tests npm run test:integration
 ```
 
-The integration test fetches the official Toronto Fire Services `livecad.xml` endpoint,
-selects one random incident, and validates the normalized dashboard contract. It does not
-snapshot or compare every live record.
+The integration tests fetch the official Toronto Fire Services `livecad.xml` endpoint and
+official TPS ArcGIS C4S endpoint, select one random record from each, and validate the
+normalized dashboard contract. They do not snapshot or compare every live record.
+
+The official TPS C4S service currently exposes historical public records rather than a live
+CAD feed. The adapter is ready for that official schema, but freshness must be addressed
+separately before replacing the dashboard's current live source.
 
 The parser contract is in `src/tfs/normalize.js`, with representative official-feed-shaped input in `test/fixtures/tfs-incident.json` and behavior tests in `test/tfs-normalize.test.js`.
 
