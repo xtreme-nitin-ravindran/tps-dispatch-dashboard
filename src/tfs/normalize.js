@@ -38,6 +38,7 @@ export function normalizeTfsIncident(row) {
         eventType: "fire",
         description: String(row.description || "Fire incident").trim(),
         location: String(row.location || "Location not published").trim(),
+        division: String(row.beat || row.division || "Unknown").trim(),
         timestamp,
         alarmLevel: numberOrNull(row.alarm_level),
         isOngoing: Number(row.cad) === 1,

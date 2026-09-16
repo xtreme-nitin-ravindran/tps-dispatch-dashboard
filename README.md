@@ -14,9 +14,9 @@ A responsive, independent web dashboard for Toronto Police Service public Calls 
 
 ## Data source
 
-The source replacement is being developed against official Toronto Police Service and Toronto Fire Services data only. The TFS transformation is the first TDD slice; the browser dashboard will be connected to the normalized output after the official-source fetch layer is implemented. The existing browser app still uses its checkpointed source until that migration is complete.
+The browser dashboard currently consumes the generated official TFS snapshot at `data/tfs-current.json`. The TPS transformation is tested and ready, but the dashboard will not consume it until a suitable current official TPS source is available.
 
-No new source code should depend on GTA Update.
+GTA Update is not used by the dashboard or the source pipeline.
 
 ## TDD workflow
 

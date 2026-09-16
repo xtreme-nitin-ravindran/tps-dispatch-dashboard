@@ -10,6 +10,7 @@ test("builds a dashboard-ready TFS snapshot with freshness metadata", () => {
             time: "2026-09-16T11:59:00",
             description: "Fire - Residential",
             location: "Main Street / Queen Street",
+            beat: "231",
             alarm_level: "2",
             cad: 1,
             units: "P213, R214"
@@ -22,6 +23,7 @@ test("builds a dashboard-ready TFS snapshot with freshness metadata", () => {
     assert.equal(snapshot.sourceUpdatedAt, "2026-09-16 12:00:00");
     assert.equal(snapshot.incidents.length, 1);
     assert.equal(snapshot.incidents[0].id, "F123");
+    assert.equal(snapshot.incidents[0].division, "231");
     assert.equal(snapshot.incidents[0].isOngoing, true);
     assert.deepEqual(snapshot.incidents[0].vehicles, [
         { type: "Fire Truck", numbers: ["213"] },

@@ -12,6 +12,7 @@ test("normalizes a TFS incident into the dashboard contract", () => {
         eventType: "fire",
         description: "Fire - Residential",
         location: "Pandora Crcl between Wantanopa Crescent & Sedgemount Drive",
+        division: "231",
         timestamp: "2026-09-15T21:28:03.000Z",
         alarmLevel: 2,
         isOngoing: true,

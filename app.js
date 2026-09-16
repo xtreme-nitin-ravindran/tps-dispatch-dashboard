@@ -1,5 +1,5 @@
 const CONFIG = {
-  snapshotBase: "https://gtaupdate.com/cache",
+  snapshotUrl: "./data/tfs-current.json",
   refreshCheckMs: 30_000,
   defaultHours: 24
 };
@@ -55,16 +55,17 @@ function escapeText(value) {
 }
 
 function normalizeCall(row) {
-  const eventType = escapeText(row.event_type).toLowerCase();
+  const eventType = escapeText(row.event_type || row.eventType).toLowerCase();
   const description = escapeText(row.description || "Call for Service");
   const eventCategory = eventType === "fire"
     ? (/\bmedical\b/i.test(description) ? "medical" : "fire")
     : "other";
   const isFireRelated = eventType === "fire" && !/\bmedical\b/i.test(description);
-  const unix = Number(row.timestamp ?? row.time_unix);
+  const rawTimestamp = row.timestamp ?? row.time_unix;
+  const unix = Number(rawTimestamp);
   const date = Number.isFinite(unix) && unix > 0
     ? new Date(unix * (unix < 10_000_000_000 ? 1000 : 1))
-    : parseLooseTime(row.time);
+    : parseLooseTime(rawTimestamp) || parseLooseTime(row.time);
 
   return {
     id: escapeText(row.id || row.event_id || "—"),
@@ -75,12 +76,14 @@ function normalizeCall(row) {
     description,
     location: escapeText(row.location || "Location not published"),
     isFireRelated,
-    isOngoing: eventType === "fire" && Number(row.cad) === 1,
+    isOngoing: typeof row.isOngoing === "boolean" ? row.isOngoing : eventType === "fire" && Number(row.cad) === 1,
     eventCategory,
-    alarmLevel: isFireRelated && row.alarm_level !== undefined
-      ? escapeText(row.alarm_level)
+    alarmLevel: isFireRelated && (row.alarmLevel ?? row.alarm_level) !== undefined
+      ? escapeText(row.alarmLevel ?? row.alarm_level)
       : "",
-    unitGroups: formatUnitGroups(row.units),
+    unitGroups: Array.isArray(row.vehicles)
+      ? row.vehicles.map(vehicle => ({ type: vehicle.type, values: vehicle.numbers.join(", ") }))
+      : formatUnitGroups(row.units),
     latitude: numberOrNull(row.latitude ?? row.lat),
     longitude: numberOrNull(row.longitude ?? row.lng ?? row.lon),
     highlight: Boolean(row.highlight),
@@ -157,28 +160,14 @@ function parseLooseTime(value) {
 }
 
 async function fetchSnapshot(hours = state.hours) {
-  const timestamp = Date.now();
-  const urls = ["police", "fire"].map(service =>
-    `${CONFIG.snapshotBase}/gta_${service}_${hours}.json?ts=${timestamp}`
-  );
-  const responses = await Promise.all(urls.map(url => fetch(url, { cache: "no-store" })));
-  const failed = responses.find(response => !response.ok);
-  if (failed) throw new Error(`Dispatch feed returned HTTP ${failed.status}`);
-  const payloads = await Promise.all(responses.map(response => response.json()));
-  const rows = payloads.flatMap(payload =>
-    Array.isArray(payload) ? payload : (payload.data || payload.calls || [])
-  );
-  return rows.map(normalizeCall).sort((a, b) => b.timestamp - a.timestamp);
-}
-
-async function fetchLastIngest() {
-  try {
-    const response = await fetch(`${CONFIG.snapshotBase}/last_ingest.txt?ts=${Date.now()}`, { cache: "no-store" });
-    if (!response.ok) return null;
-    return (await response.text()).trim();
-  } catch {
-    return null;
-  }
+  const response = await fetch(`${CONFIG.snapshotUrl}?ts=${Date.now()}`, { cache: "no-store" });
+  if (!response.ok) throw new Error(`Official TFS snapshot returned HTTP ${response.status}`);
+  const payload = await response.json();
+  const rows = Array.isArray(payload) ? payload : (payload.incidents || []);
+  return {
+    calls: rows.map(normalizeCall).sort((a, b) => b.timestamp - a.timestamp),
+    updatedAt: payload.sourceUpdatedAt || payload.fetchedAt || null
+  };
 }
 
 function setConnection(ok, text) {
@@ -193,13 +182,9 @@ async function loadData({ silent = false } = {}) {
   }
 
   try {
-    const [calls, ingest] = await Promise.all([
-      fetchSnapshot(state.hours),
-      fetchLastIngest()
-    ]);
-
-    state.calls = calls;
-    state.lastIngest = ingest;
+    const snapshot = await fetchSnapshot(state.hours);
+    state.calls = snapshot.calls;
+    state.lastIngest = snapshot.updatedAt;
     setConnection(true, "Feed connected");
     populateDivisionFilter();
     applyFilters();
@@ -585,12 +570,11 @@ function updateFreshness() {
 }
 
 async function checkForChanges() {
-  const marker = await fetchLastIngest();
-  if (!marker) return;
-  if (state.lastIngest && marker !== state.lastIngest) {
-    await loadData({ silent: true });
-  } else {
-    state.lastIngest = marker;
+  try {
+    const snapshot = await fetchSnapshot(state.hours);
+    if (snapshot.updatedAt && snapshot.updatedAt !== state.lastIngest) await loadData({ silent: true });
+  } catch {
+    // Keep the last successful snapshot visible during a temporary source failure.
   }
 }
 
