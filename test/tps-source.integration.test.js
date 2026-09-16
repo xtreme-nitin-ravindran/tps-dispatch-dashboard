@@ -7,6 +7,11 @@ test("normalizes one random record from the official TPS source", { timeout: 30_
     const source = await fetchTpsSource({ limit: 100 });
     assert.equal(source.source, "TPS");
     assert.ok(source.incidents.length > 0, "official TPS source returned no records");
+    assert.match(source.freshness.newestOccurrenceAt, /^\d{4}-\d{2}-\d{2}T/);
+    assert.equal(typeof source.freshness.isFresh, "boolean");
+    if (!source.freshness.isFresh) {
+        console.warn(`Official TPS source is stale; newest record: ${source.freshness.newestOccurrenceAt}`);
+    }
 
     const rawIncident = source.incidents[Math.floor(Math.random() * source.incidents.length)];
     const incident = normalizeTpsIncident(rawIncident);

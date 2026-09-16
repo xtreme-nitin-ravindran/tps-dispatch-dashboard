@@ -47,6 +47,10 @@ The official TPS C4S service currently exposes historical public records rather 
 CAD feed. The adapter is ready for that official schema, but freshness must be addressed
 separately before replacing the dashboard's current live source.
 
+TPS source results include `freshness.newestOccurrenceAt`, `freshness.ageMs`, and
+`freshness.isFresh`. The integration test reports a stale source without failing the
+schema test, so a future pipeline can decide whether to reject stale data before publishing it.
+
 The parser contract is in `src/tfs/normalize.js`, with representative official-feed-shaped input in `test/fixtures/tfs-incident.json` and behavior tests in `test/tfs-normalize.test.js`.
 
 Build the current official TFS snapshot with:

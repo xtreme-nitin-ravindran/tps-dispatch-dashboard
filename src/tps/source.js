@@ -1,3 +1,5 @@
+import { assessTpsFreshness } from "./freshness.js";
+
 export const TPS_C4S_URL = "https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/C4S_Public_NoGO_TPS_Website/FeatureServer/0/query";
 
 export async function fetchTpsSource({ fetchImpl = fetch, signal, limit = 100 } = {}) {
@@ -16,8 +18,10 @@ export async function fetchTpsSource({ fetchImpl = fetch, signal, limit = 100 } 
 
     const payload = await response.json();
     if (payload.error) throw new Error(`TPS source error: ${payload.error.message}`);
+    const incidents = (payload.features || []).map(feature => feature.attributes);
     return {
         source: "TPS",
-        incidents: (payload.features || []).map(feature => feature.attributes)
+        incidents,
+        freshness: assessTpsFreshness(incidents)
     };
 }
