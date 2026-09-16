@@ -49,6 +49,17 @@ separately before replacing the dashboard's current live source.
 
 The parser contract is in `src/tfs/normalize.js`, with representative official-feed-shaped input in `test/fixtures/tfs-incident.json` and behavior tests in `test/tfs-normalize.test.js`.
 
+Build the current official TFS snapshot with:
+
+```bash
+docker build -f Dockerfile.test -t toronto-dispatch-tests .
+docker run --rm -v "$PWD/data:/workspace/data" toronto-dispatch-tests npm run update:tfs
+```
+
+The generated `data/tfs-current.json` contains normalized incidents plus `fetchedAt`
+and `sourceUpdatedAt` metadata. It is the next dashboard data contract and is not yet
+wired into the browser app.
+
 ## Run locally
 
 Because browsers impose restrictions on `file://` pages, serve the folder through a tiny local web server.

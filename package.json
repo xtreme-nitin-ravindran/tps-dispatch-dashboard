@@ -3,8 +3,9 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "test": "node --test test/*-normalize.test.js",
+        "test": "node --test test/*-normalize.test.js test/tfs-snapshot.test.js",
         "test:integration": "node --test test/*-source.integration.test.js",
+        "update:tfs": "node scripts/update-tfs.js",
         "test:watch": "node --test --watch"
     },
     "engines": {

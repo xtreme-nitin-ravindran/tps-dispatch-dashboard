@@ -4,6 +4,8 @@ WORKDIR /workspace
 
 COPY package.json ./
 COPY src ./src
+COPY scripts ./scripts
+COPY data ./data
 COPY test ./test
 
 CMD ["npm", "test"]
