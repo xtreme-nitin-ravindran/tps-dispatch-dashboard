@@ -5,8 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0c1320" />
-  <meta name="description"
-    content="Independent dashboard for Toronto Police Service public Calls for Service dispatch data." />
+  <meta name="description" content="Independent dashboard for Toronto Fire Services public active-incident data." />
   <title>Toronto Dispatch · Public Calls for Service</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,18 +45,6 @@
           <span class="search-icon">⌕</span>
           <input id="searchInput" type="search" placeholder="Search call type, location, or division…"
             autocomplete="off" />
-        </div>
-
-        <div class="control-group">
-          <label for="hoursSelect">Time window</label>
-          <select id="hoursSelect">
-            <option value="1">1 hour</option>
-            <option value="3">3 hours</option>
-            <option value="6">6 hours</option>
-            <option value="12">12 hours</option>
-            <option value="18">18 hours</option>
-            <option value="24" selected>24 hours</option>
-          </select>
         </div>
 
         <div class="control-group">
@@ -145,21 +132,18 @@
           <div class="source-card">
             <span class="section-kicker">SOURCES</span>
             <p>
-              Live rows are sourced from publicly available Toronto Police Service and Toronto Fire Services
-              public data. The dashboard currently displays the official Toronto Fire Services snapshot.
+              Live rows are sourced from the official Toronto Fire Services active-incidents feed.
+              This dashboard uses Toronto Fire Services data only.
             </p>
             <div class="source-links">
               <a href="https://www.toronto.ca/community-people/public-safety-alerts/alerts-notifications/toronto-fire-active-incidents/"
                 target="_blank" rel="noreferrer">Toronto Fire active incidents ↗</a>
-              <a href="https://www.tps.ca/data-maps/open-data/" target="_blank" rel="noreferrer">TPS Open Data ↗</a>
-              <a href="https://data.torontopolice.on.ca/" target="_blank" rel="noreferrer">TPS Data Portal ↗</a>
               <a href="https://www.ontario.ca/page/open-government-licence-ontario" target="_blank"
                 rel="noreferrer">Ontario licence ↗</a>
             </div>
             <p class="licence">
               Contains information licensed under the Open Government Licence – Ontario where applicable.
-              This site is not affiliated with or endorsed by Toronto Police Service, Toronto Fire Services,
-              or the City of Toronto.
+              This site is not affiliated with or endorsed by Toronto Fire Services or the City of Toronto.
             </p>
           </div>
         </aside>

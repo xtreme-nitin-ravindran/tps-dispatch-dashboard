@@ -1,13 +1,11 @@
 const CONFIG = {
   snapshotUrl: "./data/tfs-current.json",
-  refreshCheckMs: 30_000,
-  defaultHours: 24
+  refreshCheckMs: 30_000
 };
 
 const state = {
   calls: [],
   filtered: [],
-  hours: CONFIG.defaultHours,
   lastIngest: null,
   search: "",
   division: "all",
@@ -21,7 +19,6 @@ const els = {
   lastUpdated: document.querySelector("#lastUpdated"),
   windowLabel: document.querySelector("#windowLabel"),
   searchInput: document.querySelector("#searchInput"),
-  hoursSelect: document.querySelector("#hoursSelect"),
   divisionSelect: document.querySelector("#divisionSelect"),
   callsCount: document.querySelector("#callsCount"),
   callsCountFoot: document.querySelector("#callsCountFoot"),
@@ -160,7 +157,7 @@ function parseLooseTime(value) {
   return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
-async function fetchSnapshot(hours = state.hours) {
+async function fetchSnapshot() {
   const response = await fetch(`${CONFIG.snapshotUrl}?ts=${Date.now()}`, { cache: "no-store" });
   if (!response.ok) throw new Error(`Official TFS snapshot returned HTTP ${response.status}`);
   const payload = await response.json();
@@ -183,7 +180,7 @@ async function loadData({ silent = false } = {}) {
   }
 
   try {
-    const snapshot = await fetchSnapshot(state.hours);
+    const snapshot = await fetchSnapshot();
     state.calls = snapshot.calls;
     state.lastIngest = snapshot.updatedAt;
     els.sourceUpdated.textContent = snapshot.updatedAt || "Unknown";
@@ -573,17 +570,12 @@ function updateFreshness() {
 
 async function checkForChanges() {
   try {
-    const snapshot = await fetchSnapshot(state.hours);
+    const snapshot = await fetchSnapshot();
     if (snapshot.updatedAt && snapshot.updatedAt !== state.lastIngest) await loadData({ silent: true });
   } catch {
     // Keep the last successful snapshot visible during a temporary source failure.
   }
 }
-
-els.hoursSelect.addEventListener("change", async (e) => {
-  state.hours = Number(e.target.value);
-  await loadData();
-});
 
 els.divisionSelect.addEventListener("change", (e) => {
   state.division = e.target.value === "all" ? "all" : decodeURIComponent(e.target.value);

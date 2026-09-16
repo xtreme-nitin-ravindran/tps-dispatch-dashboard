@@ -1,22 +1,23 @@
-# Toronto Dispatch
+# Toronto Fire Dispatch
 
-A responsive, independent web dashboard for Toronto Police Service public Calls for Service (C4S) dispatch information.
+A responsive, independent web dashboard for Toronto Fire Services public active-incident information.
 
 ## What it does
 
-- Shows public dispatch calls for the last 1, 3, 6, 12, 18, or 24 hours.
-- Filters by Toronto Police division.
-- Searches by call type, location, division, or public call ID.
+- Shows current public Toronto Fire Services incidents.
+- Filters by fire-service division.
+- Searches by incident type, location, division, or public incident number.
 - Calculates the busiest division and most common call description in the current view.
 - Refreshes when the configured public source updates.
 - Clearly distinguishes a **call for service** from a confirmed crime.
-- Includes TPS source, licensing, privacy, and non-affiliation language.
+- Includes TFS source, licensing, privacy, and non-affiliation language.
 
 ## Data source
 
-The browser dashboard currently consumes the generated official TFS snapshot at `data/tfs-current.json`. The TPS transformation is tested and ready, but the dashboard will not consume it until a suitable current official TPS source is available.
+The browser dashboard consumes the generated official TFS snapshot at `data/tfs-current.json`.
+The website intentionally uses Toronto Fire Services data only.
 
-GTA Update is not used by the dashboard or the source pipeline.
+Only official Toronto Fire Services data is used by the dashboard and source pipeline.
 
 ## TDD workflow
 
@@ -39,17 +40,9 @@ Run the live official-source integration test separately:
 docker run --rm toronto-dispatch-tests npm run test:integration
 ```
 
-The integration tests fetch the official Toronto Fire Services `livecad.xml` endpoint and
-official TPS ArcGIS C4S endpoint, select one random record from each, and validate the
-normalized dashboard contract. They do not snapshot or compare every live record.
-
-The official TPS C4S service currently exposes historical public records rather than a live
-CAD feed. The adapter is ready for that official schema, but freshness must be addressed
-separately before replacing the dashboard's current live source.
-
-TPS source results include `freshness.newestOccurrenceAt`, `freshness.ageMs`, and
-`freshness.isFresh`. The integration test reports a stale source without failing the
-schema test, so a future pipeline can decide whether to reject stale data before publishing it.
+The integration test fetches the official Toronto Fire Services `livecad.xml` endpoint,
+selects one random incident, and validates the normalized dashboard contract. It does not
+snapshot or compare every live record.
 
 The parser contract is in `src/tfs/normalize.js`, with representative official-feed-shaped input in `test/fixtures/tfs-incident.json` and behavior tests in `test/tfs-normalize.test.js`.
 
@@ -114,4 +107,4 @@ Do not combine this feed with other datasets to try to identify an individual, h
 
 Contains information licensed under the Open Government Licence – Ontario where applicable.
 
-Toronto Police Service and Toronto Fire Services are credited as public-data sources. This project is independent and is not affiliated with or endorsed by either service. Do not add official crests, badges, logos, flags, or other official marks in a way that suggests endorsement.
+Toronto Fire Services is credited as the public-data source. This project is independent and is not affiliated with or endorsed by Toronto Fire Services or the City of Toronto. Do not add official crests, badges, logos, flags, or other official marks in a way that suggests endorsement.
