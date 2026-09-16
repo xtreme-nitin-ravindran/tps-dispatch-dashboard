@@ -5,11 +5,10 @@ A responsive, independent web dashboard for Toronto Fire Services public active-
 ## What it does
 
 - Shows current public Toronto Fire Services incidents.
-- Filters by fire-service division.
+- Filters by event category (Medical, Fire, Ongoing, or Other) and division when available.
 - Searches by incident type, location, division, or public incident number.
-- Calculates the busiest division and most common call description in the current view.
-- Refreshes when the configured public source updates.
-- Clearly distinguishes a **call for service** from a confirmed crime.
+- Shows calls by division and approximate incident locations on an interactive map.
+- Checks the generated snapshot for updates every 30 seconds.
 - Includes TFS source, licensing, privacy, and non-affiliation language.
 
 ## Data source
@@ -17,7 +16,14 @@ A responsive, independent web dashboard for Toronto Fire Services public active-
 The browser dashboard consumes the generated official TFS snapshot at `data/current.json`.
 The website intentionally uses Toronto Fire Services data only.
 
-Only official Toronto Fire Services data is used by the dashboard and source pipeline.
+The updater fetches `https://www.toronto.ca/data/fire/livecad.xml`, parses the XML,
+and normalizes the incidents into a single JSON schema. The browser reads the generated
+snapshot rather than requesting the official feed directly. There is no Toronto Police
+data integration.
+
+The current source adapter does not supply divisions or coordinates. Divisions appear
+as `Unknown`; map locations are approximated using the Photon geocoder and cached in
+browser local storage. The map uses Leaflet and OpenStreetMap tiles.
 
 ## TDD workflow
 
@@ -56,24 +62,24 @@ docker run --rm -v "$PWD/data:/workspace/data" toronto-dispatch-tests npm run up
 The generated `data/current.json` contains normalized incidents plus `fetchedAt`
 and `sourceUpdatedAt` metadata. The browser reads this file on startup and checks for a changed source timestamp every 30 seconds.
 
-## Continuous integration and main branch protection
+## Continuous integration and branch policy
 
 `.github/workflows/tests.yml` runs all tests in Docker on every push to `dev`,
 on pull requests targeting `main`, and on manual dispatch. Its stable check name
 is **All tests (Docker)**. Both the unit suite and the live official-source integration
 test must pass. The integration test still runs if unit tests fail, provided the image built.
-An upstream TFS outage can therefore fail this check and block a merge until a rerun passes.
+An upstream TFS outage can therefore fail this check.
 
-Branch protection is a GitHub repository setting; adding this workflow alone does not
-enable it. Configure protection for `main` to require a pull request, require
-**All tests (Docker)** from GitHub Actions, require branches to be up to date, and
-disallow bypassing these requirements (including administrators). Keep force pushes
-and branch deletion disabled. Run the workflow once if the check is not yet selectable.
+**`main` has no branch protection.** The previously created rule was removed.
+Test results are informational: failed tests do not block merges, pull requests are
+not required, and direct pushes to `main` are allowed for users with write access.
+The scheduled snapshot workflow commits directly to `main` using `GITHUB_TOKEN`.
 
-The scheduled snapshot workflow currently pushes directly to the default branch.
-If that branch is protected `main`, these pushes will be rejected. Use a separate
-data branch or Pages artifact deployment for automatic data updates without bypassing
-the tests required for code merges.
+The tests run in the Node.js 20 Docker image defined by `Dockerfile.test`.
+Both workflows use `actions/checkout@v5`; the snapshot workflow also uses
+`actions/setup-node@v5`. These actions use Node.js 24 internally, resolving the earlier
+Node.js 20 action-runtime deprecation warning. The snapshot script itself runs on
+Node.js 22, with package-manager caching disabled because no dependencies are installed.
 
 ## Scheduled updates with GitHub Actions
 
@@ -84,10 +90,14 @@ normalizes it, writes `data/current.json`, and commits the snapshot back to the 
 No npm dependencies or custom secrets are required. Each successful fetch records a new
 `fetchedAt`, so successful runs normally create a commit even if incidents are unchanged.
 
-To activate it, push the workflow and project changes to the repository's default branch.
-GitHub Actions must be enabled, and repository rules must allow the workflow's
-`GITHUB_TOKEN` to write commits to that branch. Protected branches may reject direct pushes.
+The workflow is published on `main`, the default branch, and manual runs have completed
+successfully. It grants `contents: write` to `GITHUB_TOKEN` for snapshot commits and
+serializes runs through a concurrency group to avoid overlapping updates.
 Scheduled runs can be delayed by GitHub; this is not a guaranteed real-time feed.
+
+View or manually run [Update TFS snapshot](https://github.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/actions/workflows/update-tfs.yml)
+and inspect [Tests](https://github.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/actions/workflows/tests.yml)
+in GitHub Actions.
 
 Fetch errors or a missing source update timestamp fail the run before committing a new
 snapshot. A valid feed with zero incidents is allowed. Existing hosted data remains available.
