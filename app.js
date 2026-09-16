@@ -36,6 +36,7 @@ const els = {
   eventToggles: document.querySelectorAll("[data-event-filter]"),
   dispatchMap: document.querySelector("#dispatchMap"),
   mapStatus: document.querySelector("#mapStatus"),
+  sourceUpdated: document.querySelector("#sourceUpdated"),
   mapEmpty: document.querySelector("#mapEmpty"),
   callTemplate: document.querySelector("#callTemplate"),
   footerClock: document.querySelector("#footerClock")
@@ -185,6 +186,7 @@ async function loadData({ silent = false } = {}) {
     const snapshot = await fetchSnapshot(state.hours);
     state.calls = snapshot.calls;
     state.lastIngest = snapshot.updatedAt;
+    els.sourceUpdated.textContent = snapshot.updatedAt || "Unknown";
     setConnection(true, "Feed connected");
     populateDivisionFilter();
     applyFilters();

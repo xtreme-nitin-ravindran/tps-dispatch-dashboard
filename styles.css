@@ -565,6 +565,24 @@ a {
   font: 10px/1 "Space Mono", monospace;
 }
 
+.map-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+.source-updated {
+  color: var(--muted-2);
+  font: 10px/1.2 "Space Mono", monospace;
+}
+
+.source-updated strong {
+  color: var(--muted);
+  font-weight: 400;
+}
+
 .map-wrap {
   position: relative;
   min-height: 620px;
