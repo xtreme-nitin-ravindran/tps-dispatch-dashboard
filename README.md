@@ -277,3 +277,11 @@ Bundled boundary source: [TPS_POLICE_DIVISIONS_REV](https://services.arcgis.com/
 retrieved September 18, 2026 with `outSR=4326`; `UNIT_NAME` is normalized to `AREA_NAME`.
 Refresh the bundled GeoJSON when TPS boundaries change. This third-party dataset
 is not covered by the repository's software license.
+
+Intersection descriptions are split into primary-street/cross-street pairs after
+removing TFS district abbreviations. Esri lookups must return high-confidence
+intersection matches. Both ends of a street segment must resolve: matching divisions
+produce one label, differing divisions show “Possible divisions …”, and incomplete
+results remain Unknown. These lookups run independently of the map's 12-call limit,
+are kept in memory, and failed results retry after five minutes. The map shows an
+approximate resolved endpoint, not the exact incident position.

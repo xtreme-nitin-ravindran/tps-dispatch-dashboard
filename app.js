@@ -1,3 +1,4 @@
+import { intersectionQueries, lookupIntersection, intersectionDivision } from "./src/intersection-lookup.js";
 import { postalPrefix, lookupPostalCoordinates } from "./src/postal-lookup.js";
 import { policeDivision } from "./src/police-divisions.js?v=postal-1";
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
@@ -48,6 +49,7 @@ const GEOCODE_LIMIT = 12;
 const geocodeCache = loadGeocodeCache();
 let policeBoundaries = null;
 const postalCoordinates = new Map();
+const intersectionCoordinates = new Map();
 let postalLookupRunning = false;
 let dispatchMap = null;
 let mapMarkers = new Map();
@@ -218,6 +220,9 @@ function assignPoliceDivisions() {
   for (const call of state.calls) {
     const prefix = postalPrefix(call.location);
     call.division = policeDivision(call.location, prefix ? postalCoordinates.get(prefix)?.coordinates : coordinatesForCall(call), policeBoundaries, { postalEstimate: Boolean(prefix) });
+    if (intersectionQueries(call.location).length) {
+      call.division = intersectionDivision(call.location, intersectionCoordinates.get(call.location)?.coordinates, policeBoundaries);
+    }
     call.divisionId = call.division;
   }
 }
@@ -236,6 +241,21 @@ async function resolvePostalDivisions() {
       populateDivisionFilter();
       applyFilters({ map: false });
       await new Promise(resolve => setTimeout(resolve, 250));
+    }
+    const locations = [...new Set(state.calls.map(call => call.location).filter(location => intersectionQueries(location).length))];
+    for (const location of locations) {
+      const cached = intersectionCoordinates.get(location);
+      if (cached && (cached.coordinates.every(Boolean) || Date.now() - cached.checkedAt < 300000)) continue;
+      const coordinates = [];
+      for (const query of intersectionQueries(location)) {
+        coordinates.push(await lookupIntersection(query));
+        await new Promise(resolve => setTimeout(resolve, 250));
+      }
+      intersectionCoordinates.set(location, { coordinates, checkedAt: Date.now() });
+      assignPoliceDivisions();
+      populateDivisionFilter();
+      applyFilters({ map: false });
+      if (dispatchMap) renderMapMarkers();
     }
   } finally { postalLookupRunning = false; }
 }
@@ -394,6 +414,9 @@ function saveGeocodeCache() {
 }
 
 function coordinatesForCall(call) {
+  if (intersectionQueries(call.location).length) {
+    return intersectionCoordinates.get(call.location)?.coordinates?.find(Boolean) || null;
+  }
   if (call.latitude !== null && call.longitude !== null &&
     call.latitude >= 43.58 && call.latitude <= 43.86 &&
     call.longitude >= -79.65 && call.longitude <= -79.12) {
@@ -405,6 +428,7 @@ function coordinatesForCall(call) {
 }
 
 async function geocodeLocation(location) {
+  if (intersectionQueries(location).length) return null;
   if (geocodeCache.has(location)) return geocodeCache.get(location);
 
   try {
@@ -479,7 +503,7 @@ function renderMapMarkers() {
 
 async function geocodeVisibleCalls(token) {
   const candidates = state.filtered
-    .filter(call => !coordinatesForCall(call))
+    .filter(call => !coordinatesForCall(call) && !intersectionQueries(call.location).length)
     .slice(0, GEOCODE_LIMIT);
 
   for (const call of candidates) {
