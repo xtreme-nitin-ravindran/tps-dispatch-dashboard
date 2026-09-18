@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0c1320" />
   <meta name="description" content="Independent dashboard for Toronto Fire Services public active-incident data." />
-  <title>Toronto Dispatch · Public Calls for Service</title>
+  <title>Toronto Fire Watch · TFS Calls &amp; Map</title>
   <link rel="icon" type="image/png" sizes="64x64" href="./favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +25,7 @@
         <img class="brand-mark" src="./brand-dog.jpg" alt="Golden retriever" width="44" height="44" />
         <div>
           <div class="brand-kicker">INDEPENDENT PUBLIC-DATA VIEWER</div>
-          <h1>Toronto Dispatch</h1>
+          <h1>Toronto Fire Watch</h1>
         </div>
       </div>
 
@@ -145,18 +145,28 @@
           <div class="source-card">
             <span class="section-kicker">SOURCES</span>
             <p>
-              Live rows are sourced from the official Toronto Fire Services active-incidents feed.
-              This dashboard uses Toronto Fire Services data only.
+              Incident information comes from Toronto Fire Services. Estimated police divisions use
+              Toronto Police Service boundaries hosted on ArcGIS and Esri postal-code geocoding.
+              Street locations use Photon and OpenStreetMap.
             </p>
             <div class="source-links">
               <a href="https://www.toronto.ca/community-people/public-safety-alerts/alerts-notifications/toronto-fire-active-incidents/"
-                target="_blank" rel="noreferrer">Toronto Fire active incidents ↗</a>
-              <a href="https://www.ontario.ca/page/open-government-licence-ontario" target="_blank"
-                rel="noreferrer">Ontario licence ↗</a>
+                target="_blank" rel="noreferrer">TFS incidents ↗</a>
+              <a href="https://www.tps.ca/my-neighbourhood/" target="_blank" rel="noreferrer">TPS division lookup ↗</a>
+              <a href="https://www.arcgis.com/home/item.html?id=fdd36b8dd9544c97b926958f3eb8cb98"
+                target="_blank" rel="noreferrer">TPS ArcGIS boundaries ↗</a>
+              <a href="https://www.toronto.ca/city-government/data-research-maps/open-data/open-data-licence/"
+                target="_blank" rel="noreferrer">Toronto open-data licence ↗</a>
+              <a href="https://www.esri.com/en-us/legal/terms/data-attributions"
+                target="_blank" rel="noreferrer">Esri attribution &amp; terms ↗</a>
+              <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap credits ↗</a>
             </div>
             <p class="licence">
-              Contains information licensed under the Open Government Licence – Ontario where applicable.
-              This site is not affiliated with or endorsed by Toronto Fire Services or the City of Toronto.
+              Contains information licensed under the Open Government Licence – Toronto where applicable.
+              Division boundaries: Toronto Police Service. Postal geocoding: Esri ArcGIS World Geocoding Service.
+              Map data © OpenStreetMap contributors; street geocoding by Photon (komoot).
+              Third-party data and services retain their own terms. This independent site is not affiliated
+              with or endorsed by Toronto Fire Services, Toronto Police Service, or the City of Toronto.
             </p>
           </div>
         </aside>
@@ -164,7 +174,7 @@
     </main>
 
     <footer>
-      <span>Toronto Dispatch · Independent public-data viewer</span>
+      <span>Toronto Fire Watch · Independent public-data viewer</span>
       <span id="footerClock">—</span>
     </footer>
   </div>

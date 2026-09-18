@@ -1,4 +1,4 @@
-# Toronto Fire Dispatch
+# Toronto Fire Watch
 
 A responsive, independent web dashboard for Toronto Fire Services public active-incident information.
 
@@ -14,7 +14,7 @@ A responsive, independent web dashboard for Toronto Fire Services public active-
 ## Data source
 
 The browser dashboard consumes the generated official TFS snapshot at `data/current.json`.
-The website intentionally uses Toronto Fire Services data only.
+Incidents come only from Toronto Fire Services. Geographic context also uses TPS division boundaries, Esri postal geocoding, and Photon/OpenStreetMap street geocoding and maps.
 
 The updater fetches `https://www.toronto.ca/data/fire/livecad.xml`, parses the XML,
 and normalizes the incidents into a single JSON schema. The browser reads the generated
@@ -167,9 +167,18 @@ Do not combine this feed with other datasets to try to identify an individual, h
 
 ## Attribution
 
-Contains information licensed under the Open Government Licence – Ontario where applicable.
+Contains information licensed under the Open Government Licence – Toronto where applicable.
 
-Toronto Fire Services is credited as the public-data source. This project is independent and is not affiliated with or endorsed by Toronto Fire Services or the City of Toronto. Do not add official crests, badges, logos, flags, or other official marks in a way that suggests endorsement.
+- **Incidents:** [Toronto Fire Services](https://www.toronto.ca/community-people/public-safety-alerts/alerts-notifications/toronto-fire-active-incidents/).
+- **Municipal open data:** [Open Government Licence – Toronto](https://www.toronto.ca/city-government/data-research-maps/open-data/open-data-licence/).
+- **Division boundaries:** Toronto Police Service, [TPS_POLICE_DIVISIONS_REV on ArcGIS](https://www.arcgis.com/home/item.html?id=fdd36b8dd9544c97b926958f3eb8cb98), also used by [TPS My Neighbourhood](https://www.tps.ca/my-neighbourhood/). The item credits Toronto Police Service but its licence field was blank when checked September 18, 2026; it is not covered by this repository's Unlicense.
+- **Postal geocoding:** Esri ArcGIS World Geocoding Service; [data attribution and terms](https://www.esri.com/en-us/legal/terms/data-attributions) and [service terms](https://www.esri.com/en-us/legal/terms/web-site-service). These service terms are separate from municipal open-data licensing.
+- **Street geocoding:** [Photon by komoot](https://photon.komoot.io/), based on OpenStreetMap.
+- **Map data:** © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), under the Open Database License.
+
+This project is independent and is not affiliated with or endorsed by Toronto Fire Services,
+Toronto Police Service, the City of Toronto, or Esri. The Unlicense applies only to original
+repository software, not third-party data, services, or assets.
 
 ## Rolling incident history
 
