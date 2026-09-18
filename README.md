@@ -248,3 +248,18 @@ This applies to the project’s original code, not third-party data or component
 Toronto Fire Services feed data and derived snapshots (including `data/current.json`)
 remain subject to their source terms and attribution requirements. Third-party
 libraries, fonts, map tiles, and geocoding data retain their respective licenses.
+
+### Police division estimates
+
+The dashboard matches available map coordinates to bundled City of Toronto police
+boundaries (`data/police-divisions.geojson`). These are location estimates, not a
+police division supplied by TFS or an indication that police attended. Postal-area-only,
+unmapped, out-of-boundary and ambiguous locations show **Unknown**. Divisions populate
+as the existing map geocoder resolves locations; its per-pass limit means not every
+call is assigned immediately. The fire beat remains in the original snapshot and is
+not used as a police division.
+
+Boundary source: [City of Toronto Police Division layer](https://gis.toronto.ca/arcgis/rest/services/cot_geospatial25/FeatureServer/6),
+retrieved September 18, 2026 using `outSR=4326` and `outFields=AREA_NAME`.
+This third-party dataset is not covered by the repository's software license.
+Refresh the bundled GeoJSON when the official boundaries change.

@@ -43,9 +43,9 @@
         </div>
 
         <div class="control-group">
-          <label for="divisionSelect">Division</label>
+          <label for="divisionSelect">Police division (estimated)</label>
           <select id="divisionSelect">
-            <option value="all">All divisions</option>
+            <option value="all">All police divisions</option>
           </select>
         </div>
         <div class="control-group">
@@ -115,9 +115,10 @@
             <div class="panel-head compact-head">
               <div>
                 <span class="section-kicker">ACTIVITY</span>
-                <h3>Calls by division</h3>
+                <h3>Calls by police division</h3>
               </div>
             </div>
+            <p class="division-note">Estimated from mapped locations. Unmapped and postal-area-only calls are Unknown.</p>
             <div id="divisionBars" class="bar-list"></div>
           </div>
 

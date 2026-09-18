@@ -1,3 +1,4 @@
+import { policeDivision } from "./src/police-divisions.js";
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
 
 const CONFIG = {
@@ -44,6 +45,7 @@ const TORONTO_CENTER = [43.7001, -79.42];
 const TORONTO_BOUNDS = [[43.58, -79.65], [43.86, -79.12]];
 const GEOCODE_LIMIT = 12;
 const geocodeCache = loadGeocodeCache();
+let policeBoundaries = null;
 let dispatchMap = null;
 let mapMarkers = new Map();
 let mapRenderToken = 0;
@@ -70,8 +72,8 @@ function normalizeCall(row) {
     id: escapeText(row.id || row.event_id || "—"),
     timestamp: date?.getTime() || Date.now(),
     time: date || new Date(),
-    division: escapeText(row.division || row.division_id || "Unknown"),
-    divisionId: escapeText(row.division_id || row.division || "Unknown"),
+    division: "Unknown",
+    divisionId: "Unknown",
     description,
     location: escapeText(row.location || "Location not published"),
     isFireRelated,
@@ -178,6 +180,7 @@ async function loadData({ silent = false } = {}) {
     const snapshot = await fetchSnapshot();
     const previousSourceTime = parseLooseTime(state.lastIngest)?.getTime();
     state.calls = snapshot.calls;
+    assignPoliceDivisions();
     state.lastIngest = snapshot.updatedAt;
     state.fetchedAt = snapshot.fetchedAt;
     const sourceTime = parseLooseTime(snapshot.updatedAt);
@@ -207,12 +210,19 @@ async function loadData({ silent = false } = {}) {
   }
 }
 
+function assignPoliceDivisions() {
+  for (const call of state.calls) {
+    call.division = policeDivision(call.location, coordinatesForCall(call), policeBoundaries);
+    call.divisionId = call.division;
+  }
+}
+
 function populateDivisionFilter() {
   const current = state.division;
   const divisions = [...new Set(state.calls.map(c => c.division).filter(Boolean))]
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
-  els.divisionSelect.innerHTML = `<option value="all">All divisions</option>` +
+  els.divisionSelect.innerHTML = `<option value="all">All police divisions</option>` +
     divisions.map(d => `<option value="${encodeURIComponent(d)}">${d}</option>`).join("");
 
   const exists = divisions.includes(current);
@@ -220,7 +230,7 @@ function populateDivisionFilter() {
   els.divisionSelect.value = state.division === "all" ? "all" : encodeURIComponent(state.division);
 }
 
-function applyFilters() {
+function applyFilters({ map = true } = {}) {
   const q = state.search.trim().toLowerCase();
 
   state.filtered = state.calls.filter(call => {
@@ -241,16 +251,16 @@ function applyFilters() {
     ].some(v => v.toLowerCase().includes(q));
   });
 
-  render();
+  render(map);
 }
 
-function render() {
+function render(map = true) {
   if (els.windowLabel) {
     els.windowLabel.textContent = `${state.hours} hour${state.hours === 1 ? "" : "s"}`;
   }
   renderStats();
   renderCalls();
-  renderMap();
+  if (map) renderMap();
   renderDivisionBars();
   els.eventToggles.forEach(toggle => {
     const active = toggle.dataset.eventFilter === state.eventFilter;
@@ -399,6 +409,9 @@ async function geocodeLocation(location) {
         coordinates.longitude >= -79.65 && coordinates.longitude <= -79.12) {
         geocodeCache.set(location, coordinates);
         saveGeocodeCache();
+        assignPoliceDivisions();
+        populateDivisionFilter();
+        applyFilters({ map: false });
         return coordinates;
       }
     }
@@ -629,4 +642,13 @@ setInterval(() => {
   }).format(new Date());
 }, 1000);
 
+fetch("./data/police-divisions.geojson")
+  .then(response => { if (!response.ok) throw new Error("Police boundaries unavailable"); return response.json(); })
+  .then(boundaries => {
+    policeBoundaries = boundaries;
+    assignPoliceDivisions();
+    populateDivisionFilter();
+    applyFilters();
+  })
+  .catch(error => console.warn(error));
 refreshLoop();
