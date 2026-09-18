@@ -369,7 +369,6 @@ function renderCalls() {
     const alarm = node.querySelector(".call-alarm");
     const alarmValue = node.querySelector(".alarm-value");
     const units = node.querySelector(".unit-list");
-    const unitNote = node.querySelector(".unit-note");
     if (call.isFireRelated && call.alarmLevel) {
       alarm.hidden = false;
       alarmValue.textContent = call.alarmLevel;
@@ -377,7 +376,6 @@ function renderCalls() {
     units.innerHTML = call.unitGroups.length
       ? call.unitGroups.map(group => `<div><strong>${escapeText(group.type)} #:</strong> ${escapeText(group.values)}</div>`).join("")
       : "Not provided by public feed";
-    unitNote.hidden = !call.unitGroups.length;
     node.querySelector(".call-date").textContent = formatDate(call.time);
     fragment.appendChild(node);
   });
