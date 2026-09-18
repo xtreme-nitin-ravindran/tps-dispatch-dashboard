@@ -1,4 +1,6 @@
-# Toronto Fire Watch
+# SirenTO
+
+Fire-service calls, mapped to your neighbourhood.
 
 A responsive, independent web dashboard for Toronto Fire Services public active-incident information.
 
