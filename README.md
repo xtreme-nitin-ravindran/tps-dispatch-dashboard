@@ -236,3 +236,15 @@ This publishes data to Git, not directly to a website. Your dashboard host must
 serve the updated commit. The local Concourse deployment must remain running;
 polling intervals are approximate and depend on worker availability. The saved
 production configuration has not yet been deployed with write credentials.
+
+## License
+
+The original software in this repository is released under the [Unlicense](LICENSE),
+a public-domain dedication allowing use, modification, redistribution, and commercial
+use without an attribution requirement or a requirement to publish derivative source code.
+The software is provided without warranty.
+
+This applies to the project’s original code, not third-party data or components.
+Toronto Fire Services feed data and derived snapshots (including `data/current.json`)
+remain subject to their source terms and attribution requirements. Third-party
+libraries, fonts, map tiles, and geocoding data retain their respective licenses.
