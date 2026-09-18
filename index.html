@@ -118,7 +118,7 @@
                 <h3>Calls by police division</h3>
               </div>
             </div>
-            <p class="division-note">Estimated from mapped locations. Unmapped and postal-area-only calls are Unknown.</p>
+            <p class="division-note">Estimated from mapped locations and postal-prefix lookups using the same geocoder as TPS. A postal area can span divisions; unresolved calls are Unknown.</p>
             <div id="divisionBars" class="bar-list"></div>
           </div>
 
@@ -204,7 +204,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=police-divisions-1"></script>
+  <script type="module" src="./app.js?v=postal-divisions-1"></script>
 </body>
 
 </html>

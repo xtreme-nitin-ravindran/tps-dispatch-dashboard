@@ -20,8 +20,8 @@ function onRing(point, ring) {
       x >= Math.min(a,c) && x <= Math.max(a,c) && y >= Math.min(b,d) && y <= Math.max(b,d);
   });
 }
-export function policeDivision(location, coordinates, boundaries) {
-  if (!location || !/[a-z]{2}/i.test(location) || /^(unknown|location not published)$/i.test(location.trim()) || /\b[A-Z]\d[A-Z]\b/i.test(location) || !coordinates ||
+export function policeDivision(location, coordinates, boundaries, { postalEstimate = false } = {}) {
+  if (!location || (!postalEstimate && !/[a-z]{2}/i.test(location)) || /^(unknown|location not published)$/i.test(location.trim()) || (!postalEstimate && /\b[A-Z]\d[A-Z]\b/i.test(location)) || !coordinates ||
       coordinates.length !== 2 || !coordinates.every(Number.isFinite)) return 'Unknown';
   const point = [coordinates[1], coordinates[0]];
   if ((boundaries?.features || []).some(({ geometry }) => {

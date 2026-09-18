@@ -1,4 +1,5 @@
-import { policeDivision } from "./src/police-divisions.js";
+import { postalPrefix, lookupPostalCoordinates } from "./src/postal-lookup.js";
+import { policeDivision } from "./src/police-divisions.js?v=postal-1";
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
 
 const CONFIG = {
@@ -46,6 +47,8 @@ const TORONTO_BOUNDS = [[43.58, -79.65], [43.86, -79.12]];
 const GEOCODE_LIMIT = 12;
 const geocodeCache = loadGeocodeCache();
 let policeBoundaries = null;
+const postalCoordinates = new Map();
+let postalLookupRunning = false;
 let dispatchMap = null;
 let mapMarkers = new Map();
 let mapRenderToken = 0;
@@ -181,6 +184,7 @@ async function loadData({ silent = false } = {}) {
     const previousSourceTime = parseLooseTime(state.lastIngest)?.getTime();
     state.calls = snapshot.calls;
     assignPoliceDivisions();
+    resolvePostalDivisions();
     state.lastIngest = snapshot.updatedAt;
     state.fetchedAt = snapshot.fetchedAt;
     const sourceTime = parseLooseTime(snapshot.updatedAt);
@@ -212,9 +216,28 @@ async function loadData({ silent = false } = {}) {
 
 function assignPoliceDivisions() {
   for (const call of state.calls) {
-    call.division = policeDivision(call.location, coordinatesForCall(call), policeBoundaries);
+    const prefix = postalPrefix(call.location);
+    call.division = policeDivision(call.location, prefix ? postalCoordinates.get(prefix)?.coordinates : coordinatesForCall(call), policeBoundaries, { postalEstimate: Boolean(prefix) });
     call.divisionId = call.division;
   }
+}
+
+async function resolvePostalDivisions() {
+  if (postalLookupRunning) return;
+  postalLookupRunning = true;
+  try {
+    const prefixes = [...new Set(state.calls.map(call => postalPrefix(call.location)).filter(Boolean))];
+    for (const prefix of prefixes) {
+      const cached = postalCoordinates.get(prefix);
+      if (cached && (cached.coordinates || Date.now() - cached.checkedAt < 300000)) continue;
+      const coordinates = await lookupPostalCoordinates(prefix);
+      postalCoordinates.set(prefix, { coordinates, checkedAt: Date.now() });
+      assignPoliceDivisions();
+      populateDivisionFilter();
+      applyFilters({ map: false });
+      await new Promise(resolve => setTimeout(resolve, 250));
+    }
+  } finally { postalLookupRunning = false; }
 }
 
 function populateDivisionFilter() {
@@ -642,7 +665,7 @@ setInterval(() => {
   }).format(new Date());
 }, 1000);
 
-fetch("./data/police-divisions.geojson")
+fetch("./data/police-divisions.geojson?v=tps-1")
   .then(response => { if (!response.ok) throw new Error("Police boundaries unavailable"); return response.json(); })
   .then(boundaries => {
     policeBoundaries = boundaries;

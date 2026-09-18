@@ -251,15 +251,18 @@ libraries, fonts, map tiles, and geocoding data retain their respective licenses
 
 ### Police division estimates
 
-The dashboard matches available map coordinates to bundled City of Toronto police
-boundaries (`data/police-divisions.geojson`). These are location estimates, not a
-police division supplied by TFS or an indication that police attended. Postal-area-only,
-unmapped, out-of-boundary and ambiguous locations show **Unknown**. Divisions populate
-as the existing map geocoder resolves locations; its per-pass limit means not every
-call is assigned immediately. The fire beat remains in the original snapshot and is
-not used as a police division.
+The dashboard uses the same ArcGIS postal geocoder and TPS division boundary layer
+as [TPS My Neighbourhood](https://www.tps.ca/my-neighbourhood/). Standalone Toronto
+postal prefixes are looked up once per page session, independently of the map's
+geocoding queue. M5A resolves to Division 51. Postal results are estimates for a
+representative point, not a guarantee that the entire postal area lies in one division.
+Failed lookups remain Unknown and retry after five minutes. Results are kept in
+memory only; the existing Photon map cache is not used to assign postal divisions.
 
-Boundary source: [City of Toronto Police Division layer](https://gis.toronto.ca/arcgis/rest/services/cot_geospatial25/FeatureServer/6),
-retrieved September 18, 2026 using `outSR=4326` and `outFields=AREA_NAME`.
-This third-party dataset is not covered by the repository's software license.
-Refresh the bundled GeoJSON when the official boundaries change.
+Street locations use available map coordinates. Missing, ambiguous and out-of-boundary
+locations remain Unknown. TFS fire beats remain unchanged in the snapshot.
+
+Bundled boundary source: [TPS_POLICE_DIVISIONS_REV](https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/TPS_POLICE_DIVISIONS_REV/FeatureServer/0),
+retrieved September 18, 2026 with `outSR=4326`; `UNIT_NAME` is normalized to `AREA_NAME`.
+Refresh the bundled GeoJSON when TPS boundaries change. This third-party dataset
+is not covered by the repository's software license.
