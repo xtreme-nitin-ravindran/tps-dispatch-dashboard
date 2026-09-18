@@ -68,12 +68,11 @@ a {
   height: 44px;
   border: 1px solid rgba(99, 230, 190, .35);
   background: rgba(99, 230, 190, .08);
-  color: var(--accent);
   border-radius: 12px;
-  display: grid;
-  place-items: center;
-  font: 700 13px/1 "Space Mono", monospace;
-  letter-spacing: .08em;
+  display: block;
+  flex-shrink: 0;
+  object-fit: cover;
+  object-position: center top;
 }
 
 .brand-kicker,
