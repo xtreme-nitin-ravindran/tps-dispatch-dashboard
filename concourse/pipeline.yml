@@ -56,7 +56,7 @@ jobs:
                 TZ=UTC npm test
                 TZ=America/Los_Angeles npm test
                 npm run test:integration
-                TFS_XML=../tfs-xml/body TFS_PREVIOUS=data/current.json TFS_OUTPUT=data/current.json node scripts/tfs-etl.js
+                TFS_UPDATED_BY=concourse TFS_XML=../tfs-xml/body TFS_PREVIOUS=data/current.json TFS_OUTPUT=data/current.json node scripts/tfs-etl.js
                 node scripts/commit-tfs.js
       # Fast-forward only: a concurrent push fails safely instead of overwriting
       # newer history or publishing results based on untested code after a rebase.

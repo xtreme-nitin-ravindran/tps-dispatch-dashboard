@@ -9,6 +9,7 @@ inputs:
 outputs:
   - name: snapshot
 params:
+  TFS_UPDATED_BY: concourse
   TFS_PREVIOUS: history/current.json
   TFS_OUTPUT: snapshot/current.json
 run:

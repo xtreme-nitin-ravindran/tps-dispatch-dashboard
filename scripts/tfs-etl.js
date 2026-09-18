@@ -7,8 +7,9 @@ import { buildTfsSnapshot } from "../src/pipeline/tfs-snapshot.js";
 // Explicit history inputs must exist: a missing Concourse artifact must not erase history.
 export async function runTfsEtl({
     outputPath = "data/current.json", previousPath, xmlPath,
-    fetchSource = fetchTfsSource, now = new Date()
+    fetchSource = fetchTfsSource, now = new Date(), updatedBy = "manual"
 } = {}) {
+    if (!["manual", "concourse", "github-actions"].includes(updatedBy)) throw new Error("Invalid updater identity");
     let previous = null;
     try {
         previous = JSON.parse(await readFile(previousPath || outputPath, "utf8"));
@@ -19,6 +20,7 @@ export async function runTfsEtl({
         ? parseTfsXml(await readFile(xmlPath, "utf8"))
         : await fetchSource({ signal: AbortSignal.timeout(30_000) });
     const snapshot = buildTfsSnapshot(source, now, previous);
+    snapshot.updatedBy = updatedBy;
     await mkdir(dirname(outputPath), { recursive: true });
     const temporaryPath = `${outputPath}.tmp`;
     await writeFile(temporaryPath, `${JSON.stringify(snapshot, null, 2)}\n`, "utf8");
@@ -30,6 +32,7 @@ export async function main() {
     const outputPath = process.env.TFS_OUTPUT || "data/current.json";
     const snapshot = await runTfsEtl({
         outputPath,
+        updatedBy: process.env.TFS_UPDATED_BY || "manual",
         previousPath: process.env.TFS_PREVIOUS || undefined,
         xmlPath: process.env.TFS_XML || undefined
     });

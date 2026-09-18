@@ -113,8 +113,8 @@ persistent storage between builds. Serialize the entire read/merge/publish job
 
 Configure XML change detection and polling in your Concourse pipeline. If the
 pipeline supplies XML, add its artifact as a task input and set `TFS_XML` accordingly.
-The task itself does not schedule, commit, or publish anything. The GitHub Actions
-snapshot workflow has been removed; that removal takes effect remotely once pushed.
+The task itself does not schedule, commit, or publish anything. Concourse is the primary
+updater; the GitHub Actions fallback below takes over when the snapshot is stale.
 
 Failed fetches (30-second timeout), invalid XML update timestamps, older feeds, or
 invalid history fail the task without replacing the output. A valid empty feed
@@ -285,3 +285,22 @@ produce one label, differing divisions show “Possible divisions …”, and in
 results remain Unknown. These lookups run independently of the map's 12-call limit,
 are kept in memory, and failed results retry after five minutes. The map shows an
 approximate resolved endpoint, not the exact incident position.
+
+### GitHub Actions fallback
+
+`Update TFS snapshot` checks `main` every five minutes (and supports manual runs).
+It fetches TFS only when `current.json.fetchedAt` is at least ten minutes old;
+manual runs obey the same guard. GitHub schedules may be delayed. Missing timestamps
+or future timestamps trigger an update; malformed history fails without overwriting it.
+Fresh snapshots cause no fetch, write, commit or Pages rebuild.
+
+Snapshots record `updatedBy`: `concourse`, `github-actions`, or `manual`.
+Redeploy the updated Concourse pipeline to enable its identity field. Older snapshots
+have no identity until an updater runs. The age check uses `fetchedAt`, not the TFS
+source timestamp, which may remain unchanged after a successful fetch.
+
+The fallback pushes fast-forward only; concurrent Concourse updates cause a safe
+push rejection, and the next scheduled run checks again. It explicitly requests a
+Pages rebuild because GITHUB_TOKEN commits do not automatically trigger Pages.
+This assumes the existing Pages configuration publishes `main` from the repository
+root. The workflow needs repository Contents and Pages write permissions.

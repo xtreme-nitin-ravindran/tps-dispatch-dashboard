@@ -4,7 +4,7 @@
     "license": "Unlicense",
     "type": "module",
     "scripts": {
-        "test": "node --test test/intersection-lookup.test.js test/postal-lookup.test.js test/police-divisions.test.js test/commit-tfs.test.js test/tfs-etl.test.js test/tfs-normalize.test.js test/tfs-snapshot.test.js test/tfs-time.test.js",
+        "test": "node --test test/tfs-fallback.test.js test/intersection-lookup.test.js test/postal-lookup.test.js test/police-divisions.test.js test/commit-tfs.test.js test/tfs-etl.test.js test/tfs-normalize.test.js test/tfs-snapshot.test.js test/tfs-time.test.js",
         "test:integration": "node --test test/*-source.integration.test.js",
         "update:tfs": "node scripts/tfs-etl.js",
         "test:watch": "node --test --watch"

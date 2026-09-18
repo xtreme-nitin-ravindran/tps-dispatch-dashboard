@@ -1,0 +1,29 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtemp, writeFile, readFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { needsUpdate, runFallback } from '../scripts/tfs-fallback.js';
+import { runTfsEtl } from '../scripts/tfs-etl.js';
+const now = new Date('2026-09-18T16:00:00Z');
+test('freshness uses fetch time, including exact cutoff and invalid clocks', () => {
+  assert.equal(needsUpdate({fetchedAt:'2026-09-18T15:50:00.001Z'},now),false);
+  assert.equal(needsUpdate({fetchedAt:'2026-09-18T15:50:00Z'},now),true);
+  for (const fetchedAt of [undefined,'invalid','2026-09-19T00:00:00Z']) assert.equal(needsUpdate({fetchedAt},now),true);
+});
+test('fresh snapshot is untouched; stale snapshot records GitHub updater; corrupt history fails', async t => {
+  const dir = await mkdtemp(join(tmpdir(),'tfs-fallback-'));
+  t.after(()=>rm(dir,{recursive:true,force:true}));
+  const outputPath=join(dir,'current.json');
+  const source={updatedAt:now.toISOString(),incidents:[]};
+  await runTfsEtl({outputPath,now,updatedBy:'concourse',fetchSource:async()=>source});
+  const original=await readFile(outputPath,'utf8');
+  assert.equal(JSON.parse(original).updatedBy,'concourse');
+  assert.equal(await runFallback({outputPath,now,etl:()=>assert.fail('must skip')}),false);
+  assert.equal(await readFile(outputPath,'utf8'),original);
+  assert.equal(await runFallback({outputPath,now:new Date(now.getTime()+600000),etl:options=>runTfsEtl({...options,fetchSource:async()=>source})}),true);
+  assert.equal(JSON.parse(await readFile(outputPath,'utf8')).updatedBy,'github-actions');
+  await writeFile(outputPath,'broken');
+  await assert.rejects(runFallback({outputPath,now}));
+  assert.equal(await readFile(outputPath,'utf8'),'broken');
+});
