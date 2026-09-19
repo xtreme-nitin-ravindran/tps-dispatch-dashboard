@@ -348,6 +348,39 @@ function initMap() {
     subdomains: "abc",
     maxZoom: 19
   }).addTo(dispatchMap);
+  loadDivisionOverlay();
+}
+
+async function loadDivisionOverlay() {
+  try {
+    const response = await fetch("./data/police-divisions.geojson?v=station-details-1");
+    if (!response.ok) throw new Error("Division boundaries unavailable");
+    const boundaries = await response.json();
+    const details = properties => {
+      const content = document.createElement("div");
+      const title = document.createElement("strong");
+      title.textContent = properties.UNIT_NAME || `Division ${properties.AREA_NAME}`;
+      const address = document.createElement("div");
+      address.textContent = properties.ADDRESS
+        ? `Station: ${properties.ADDRESS}, ${properties.CITY || "Toronto"}`
+        : "Station address unavailable";
+      content.append(title, address);
+      return content;
+    };
+    const layer = L.geoJSON(boundaries, {
+      style: { color: "#93c5fd", weight: 1.5, opacity: 0.65, fillOpacity: 0.035 },
+      attribution: "Division boundaries © Toronto Police Service",
+      onEachFeature(feature, polygon) {
+        polygon.bindTooltip(details(feature.properties), { sticky: true });
+        polygon.bindPopup(details(feature.properties));
+      }
+    }).addTo(dispatchMap);
+    L.control.layers(null, { "Police division boundaries": layer }, {
+      collapsed: false, position: "topright"
+    }).addTo(dispatchMap);
+  } catch (error) {
+    console.warn("Could not load the optional division overlay", error);
+  }
 }
 
 function coordinatesForCall(call) {

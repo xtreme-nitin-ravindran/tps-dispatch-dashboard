@@ -304,3 +304,5 @@ Incident filters classify descriptions: Medical includes medical calls; Fire inc
 Map labels expand TFS street abbreviations. Blue markers indicate resolved intersections or street segments, not exact incident addresses; amber markers indicate postal areas or incomplete matches. Postal area labels use GeoNames area names and may differ from other neighbourhood lookup tables. Original TFS descriptions remain the lookup keys.
 
 Postal data: [GeoNames](https://www.geonames.org/), Creative Commons Attribution 4.0. Street nodes: [Toronto Centreline](https://open.toronto.ca/dataset/toronto-centreline-tcl/), Open Government Licence – Toronto.
+
+The map includes a switchable TPS division boundary overlay. Hover or click a division for its station address. Station metadata comes from the same TPS boundary layer (retrieved September 19, 2026); boundaries are geographic context and do not change incident estimates.
