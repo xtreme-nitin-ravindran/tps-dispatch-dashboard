@@ -3,9 +3,42 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-19T07:51:05.692Z",
-  "sourceUpdatedAt": "2026-09-19T07:50:01.000Z",
+  "fetchedAt": "2026-09-19T07:57:04.753Z",
+  "sourceUpdatedAt": "2026-09-19T07:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26148486",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5V",
+      "division": "332",
+      "timestamp": "2026-09-19T07:40:35.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "332"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-19T07:57:04.753Z",
+      "lastSeenAt": "2026-09-19T07:57:04.753Z",
+      "geography": {
+        "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+        "approximate": true,
+        "coordinates": [
+          43.6404,
+          -79.3995
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26148485",
       "source": "TFS",
@@ -25,7 +58,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T07:51:05.692Z",
-      "lastSeenAt": "2026-09-19T07:51:05.692Z",
+      "lastSeenAt": "2026-09-19T07:57:04.753Z",
       "geography": {
         "text": "Approximate area: (M4M) East Toronto (Studio District)",
         "approximate": true,
@@ -58,7 +91,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T07:51:05.692Z",
-      "lastSeenAt": "2026-09-19T07:51:05.692Z",
+      "lastSeenAt": "2026-09-19T07:57:04.753Z",
       "geography": {
         "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
         "approximate": true,
@@ -81,7 +114,7 @@
       "division": "332",
       "timestamp": "2026-09-19T07:28:05.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "High-Rise Unit",
@@ -136,7 +169,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T07:51:05.692Z",
-      "lastSeenAt": "2026-09-19T07:51:05.692Z",
+      "lastSeenAt": "2026-09-19T07:57:04.753Z",
       "geography": {
         "text": "Approximate area: (M4C) East York (Woodbine Heights)",
         "approximate": true,
@@ -159,7 +192,7 @@
       "division": "231",
       "timestamp": "2026-09-19T07:23:25.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -481,7 +514,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T06:56:48.032Z",
-      "lastSeenAt": "2026-09-19T07:51:05.692Z",
+      "lastSeenAt": "2026-09-19T07:57:04.753Z",
       "geography": {
         "text": "Approximate location on undefined",
         "approximate": true,
@@ -21579,6 +21612,18 @@
   ],
   "updatedBy": "concourse",
   "locationCache": {
+    "M5V": {
+      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+      "approximate": true,
+      "coordinates": [
+        43.6404,
+        -79.3995
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M4M": {
       "text": "Approximate area: (M4M) East Toronto (Studio District)",
       "approximate": true,
@@ -21932,18 +21977,6 @@
         -79.3756
       ],
       "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5V": {
-      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
-      "approximate": true,
-      "coordinates": [
-        43.6404,
-        -79.3995
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
