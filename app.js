@@ -46,6 +46,7 @@ const TORONTO_CENTER = [43.7001, -79.42];
 let dispatchMap = null;
 let mapMarkers = new Map();
 let focusedCallId = null;
+let rowHighlightTimer;
 let mapHasFitted = false;
 
 function escapeText(value) {
@@ -382,7 +383,7 @@ function renderMapMarkers() {
   locatedCalls.forEach(({ call, coordinates }) => {
     const marker = L.marker(coordinates, { icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call)) })
       .bindTooltip(`<strong>${escapeText(call.description)}</strong><br>${escapeText(displayLocation(call).text)}`, { direction: "top" })
-      .on("click", () => selectCall(call.id, { pan: false }));
+      .on("click", () => selectCall(call.id, { pan: false, revealRow: true }));
     marker.addTo(dispatchMap);
     mapMarkers.set(call.id, marker);
   });
@@ -405,15 +406,29 @@ function renderMap() {
   els.mapEmpty.querySelector("span").textContent = "No locations in this view could be resolved from the published data.";
 }
 
-async function selectCall(callId, { pan = true } = {}) {
+async function selectCall(callId, { pan = true, revealRow = false } = {}) {
   const call = state.filtered.find(item => item.id === callId);
   if (!call) return;
 
   focusedCallId = callId;
 
+  let selectedRow;
   document.querySelectorAll(".call-row").forEach(row => {
-    row.classList.toggle("selected", row.dataset.callId === callId);
+    const selected = row.dataset.callId === callId;
+    row.classList.toggle("selected", selected);
+    row.classList.remove("pin-highlight");
+    if (selected) selectedRow = row;
   });
+  clearTimeout(rowHighlightTimer);
+  if (revealRow && selectedRow) {
+    selectedRow.focus({ preventScroll: true });
+    selectedRow.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+      block: "center"
+    });
+    selectedRow.classList.add("pin-highlight");
+    rowHighlightTimer = setTimeout(() => selectedRow.classList.remove("pin-highlight"), 3500);
+  }
 
   mapMarkers.forEach((marker, id) => {
     const mappedCall = state.filtered.find(item => item.id === id);
@@ -424,8 +439,6 @@ async function selectCall(callId, { pan = true } = {}) {
     if (pan) {
       dispatchMap.stop();
       dispatchMap.setView(marker.getLatLng(), isApproximateLocation(call) ? 14 : 17, { animate: false });
-    } else {
-      dispatchMap.panTo(marker.getLatLng());
     }
     marker.openTooltip();
   }

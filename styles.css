@@ -1047,3 +1047,10 @@ footer {
 .map-legend span { display: inline-flex; align-items: center; gap: 8px; }
 .map-legend i { width: 10px; height: 10px; border-radius: 50%; background: var(--accent-2); }
 .map-legend .approximate-key { background: #fbbf24; }
+
+/* Pin-to-record navigation: a brief emphasis, followed by the selected state. */
+.call-row.pin-highlight {
+  background: rgba(99, 230, 190, .2);
+  box-shadow: inset 4px 0 0 var(--accent), inset 0 0 0 2px rgba(99, 230, 190, .6);
+}
+.call-row { scroll-margin-block: 120px; }
