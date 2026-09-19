@@ -19,7 +19,7 @@ test('commits only snapshot changes, skips unchanged data, rejects staged unrela
     await writeFile(join(cwd, 'data/current.json'), '{"retentionHours":168}');
     assert.equal(commitTfsSnapshot(cwd), true);
     assert.equal(git('diff-tree', '--no-commit-id', '--name-only', '-r', 'HEAD'), 'data/current.json');
-    assert.equal(git('log', '-1', '--format=%s'), 'chore: refresh TFS snapshot');
+    assert.equal(git('log', '-1', '--format=%s'), 'chore: refresh SirenTO incidents');
     git('add', 'unrelated.txt');
     assert.throws(() => commitTfsSnapshot(cwd), /Index must be clean/);
 });

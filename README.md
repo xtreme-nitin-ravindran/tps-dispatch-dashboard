@@ -15,7 +15,7 @@ A responsive, independent web dashboard for Toronto Fire Services public active-
 
 ## Data source
 
-The browser dashboard consumes the generated official TFS snapshot at `data/current.json`.
+The browser dashboard consumes the generated SirenTO incident snapshot at `data/current.json`.
 Incidents come from Toronto Fire Services and Toronto Police Service. Geographic context also uses TPS division boundaries, Toronto Centreline intersections, GeoNames postal areas, and OpenStreetMap tiles.
 
 The updater fetches `https://www.toronto.ca/data/fire/livecad.xml`, parses the XML,
@@ -57,7 +57,7 @@ snapshot or compare every live record.
 
 The parser contract is in `src/tfs/normalize.js`, with representative official-feed-shaped input in `test/fixtures/tfs-incident.json` and behavior tests in `test/tfs-normalize.test.js`.
 
-Build the current official TFS snapshot with:
+Build the current SirenTO incident snapshot with:
 
 ```bash
 docker build -f Dockerfile.test -t toronto-dispatch-tests .
@@ -254,8 +254,8 @@ when reference data changes. TPS boundaries remain separately licensed third-par
 
 ### GitHub Actions fallback
 
-`Update TFS snapshot` checks `main` every five minutes (and supports manual runs).
-It fetches TFS only when `current.json.fetchedAt` is at least ten minutes old;
+`Update SirenTO incidents` checks `main` every five minutes (and supports manual runs).
+It fetches both feeds only when `current.json.fetchedAt` is at least ten minutes old;
 manual runs obey the same guard. GitHub schedules may be delayed. Missing timestamps
 or future timestamps trigger an update; malformed history fails without overwriting it.
 Fresh snapshots cause no fetch, write, commit or Pages rebuild.
@@ -298,3 +298,5 @@ Both Concourse and the GitHub fallback use the combined updater. Neither stores
 ArcGIS geocoder output; TPS incident coordinates are supplied by the incident layer.
 
 The scheduled Concourse job runs deterministic unit tests only; live-source integration tests remain a separate validation check so a TFS outage cannot prevent TPS ingestion.
+
+Automated commits use “chore: refresh SirenTO incidents”. The default identity is “SirenTO updater”; GitHub Actions retains its standard bot identity. The Concourse job is named `update-sirento`. Existing script filenames and TFS_* environment variables remain compatible.
