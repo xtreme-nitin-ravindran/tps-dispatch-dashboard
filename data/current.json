@@ -3,9 +3,42 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-19T08:27:03.613Z",
-  "sourceUpdatedAt": "2026-09-19T08:25:01.000Z",
+  "fetchedAt": "2026-09-19T08:32:03.434Z",
+  "sourceUpdatedAt": "2026-09-19T08:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26148490",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5V",
+      "division": "332",
+      "timestamp": "2026-09-19T08:21:18.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "334"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-19T08:32:03.434Z",
+      "lastSeenAt": "2026-09-19T08:32:03.434Z",
+      "geography": {
+        "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+        "approximate": true,
+        "coordinates": [
+          43.6404,
+          -79.3995
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26148489",
       "source": "TFS",
@@ -58,7 +91,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T08:13:24.497Z",
-      "lastSeenAt": "2026-09-19T08:27:03.613Z",
+      "lastSeenAt": "2026-09-19T08:32:03.434Z",
       "geography": {
         "text": "Augusta Avenue between Nassau Street & Oxford Street",
         "approximate": false,
@@ -653,7 +686,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T06:56:48.032Z",
-      "lastSeenAt": "2026-09-19T08:27:03.613Z",
+      "lastSeenAt": "2026-09-19T08:32:03.434Z",
       "geography": {
         "text": "Approximate location on undefined",
         "approximate": true,
@@ -21751,6 +21784,18 @@
   ],
   "updatedBy": "concourse",
   "locationCache": {
+    "M5V": {
+      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+      "approximate": true,
+      "coordinates": [
+        43.6404,
+        -79.3995
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "AUGUSTA AVE, TT / NASSAU ST / OXFORD ST": {
       "text": "Augusta Avenue between Nassau Street & Oxford Street",
       "approximate": false,
@@ -21786,18 +21831,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T08:02:15.800Z"
-    },
-    "M5V": {
-      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
-      "approximate": true,
-      "coordinates": [
-        43.6404,
-        -79.3995
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M4M": {
       "text": "Approximate area: (M4M) East Toronto (Studio District)",
