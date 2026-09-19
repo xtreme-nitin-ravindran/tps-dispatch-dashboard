@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-19T08:07:06.004Z",
-  "sourceUpdatedAt": "2026-09-19T08:05:01.000Z",
+  "fetchedAt": "2026-09-19T08:13:24.497Z",
+  "sourceUpdatedAt": "2026-09-19T08:10:01.000Z",
   "incidents": [
+    {
+      "id": "F26148489",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Commercial/Industrial",
+      "location": "AUGUSTA AVE, TT / NASSAU ST / OXFORD ST",
+      "division": "315",
+      "timestamp": "2026-09-19T08:03:57.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-19T08:13:24.497Z",
+      "lastSeenAt": "2026-09-19T08:13:24.497Z",
+      "geography": {
+        "text": "Augusta Avenue between Nassau Street & Oxford Street",
+        "approximate": false,
+        "coordinates": [
+          43.65565545,
+          -79.4024791
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T08:13:24.497Z"
+      }
+    },
     {
       "id": "F26148488",
       "source": "TFS",
@@ -31,7 +57,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T08:07:06.004Z",
-      "lastSeenAt": "2026-09-19T08:07:06.004Z",
+      "lastSeenAt": "2026-09-19T08:13:24.497Z",
       "geography": {
         "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
         "approximate": true,
@@ -65,7 +91,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T08:02:15.800Z",
-      "lastSeenAt": "2026-09-19T08:07:06.004Z",
+      "lastSeenAt": "2026-09-19T08:13:24.497Z",
       "geography": {
         "text": "Edward Street between Yonge Street & Bay Street",
         "approximate": false,
@@ -232,7 +258,7 @@
       "division": "224",
       "timestamp": "2026-09-19T07:25:04.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -587,7 +613,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T06:56:48.032Z",
-      "lastSeenAt": "2026-09-19T08:07:06.004Z",
+      "lastSeenAt": "2026-09-19T08:13:24.497Z",
       "geography": {
         "text": "Approximate location on undefined",
         "approximate": true,
@@ -21685,6 +21711,18 @@
   ],
   "updatedBy": "concourse",
   "locationCache": {
+    "AUGUSTA AVE, TT / NASSAU ST / OXFORD ST": {
+      "text": "Augusta Avenue between Nassau Street & Oxford Street",
+      "approximate": false,
+      "coordinates": [
+        43.65565545,
+        -79.4024791
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T08:13:24.497Z"
+    },
     "M6J": {
       "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
       "approximate": true,
