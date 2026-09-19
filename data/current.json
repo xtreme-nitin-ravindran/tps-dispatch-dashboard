@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-19T21:19:13.026Z",
-  "sourceUpdatedAt": "2026-09-19T21:15:01.000Z",
+  "fetchedAt": "2026-09-19T21:20:33.838Z",
+  "sourceUpdatedAt": "2026-09-19T21:20:01.000Z",
   "incidents": [
+    {
+      "id": "F26148796",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6K",
+      "division": "346",
+      "timestamp": "2026-09-19T21:14:59.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-19T21:20:33.838Z",
+      "lastSeenAt": "2026-09-19T21:20:33.838Z",
+      "geography": {
+        "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+        "approximate": true,
+        "coordinates": [
+          43.6383,
+          -79.4301
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26148795",
       "source": "TFS",
@@ -16,9 +42,40 @@
       "timestamp": "2026-09-19T21:05:58.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "34",
+            "42"
+          ]
+        },
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "426",
+            "421"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "312",
+            "345",
+            "423",
+            "426",
+            "433"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "331"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-19T21:17:02.965Z",
-      "lastSeenAt": "2026-09-19T21:19:13.026Z",
+      "lastSeenAt": "2026-09-19T21:20:33.838Z",
       "geography": {
         "text": "Macdonell Avenue between Rideau Avenue & Wright Avenue",
         "approximate": false,
@@ -41,7 +98,7 @@
       "division": "332",
       "timestamp": "2026-09-19T21:01:59.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -140,7 +197,7 @@
       "division": "331",
       "timestamp": "2026-09-19T20:56:19.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -183,7 +240,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T21:01:52.738Z",
-      "lastSeenAt": "2026-09-19T21:19:13.026Z",
+      "lastSeenAt": "2026-09-19T21:20:33.838Z",
       "geography": {
         "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
         "approximate": true,
@@ -206,7 +263,7 @@
       "division": "241",
       "timestamp": "2026-09-19T20:53:25.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -303,7 +360,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T21:01:52.738Z",
-      "lastSeenAt": "2026-09-19T21:19:13.026Z",
+      "lastSeenAt": "2026-09-19T21:20:33.838Z",
       "geography": {
         "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
         "approximate": true,
@@ -722,7 +779,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T20:46:54.006Z",
-      "lastSeenAt": "2026-09-19T21:19:13.026Z",
+      "lastSeenAt": "2026-09-19T21:20:33.838Z",
       "geography": {
         "text": "Approximate location on Strathallan Wd between Strathallan Boulevard & Alexandra Wood",
         "approximate": true,
@@ -6761,7 +6818,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T08:13:24.497Z",
-      "lastSeenAt": "2026-09-19T21:19:13.026Z",
+      "lastSeenAt": "2026-09-19T21:20:33.838Z",
       "geography": {
         "text": "Augusta Avenue between Nassau Street & Oxford Street",
         "approximate": false,
@@ -28454,17 +28511,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-19T21:19:13.026Z",
-      "sourceUpdatedAt": "2026-09-19T21:15:01.000Z",
+      "fetchedAt": "2026-09-19T21:20:33.838Z",
+      "sourceUpdatedAt": "2026-09-19T21:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-19T21:19:13.026Z",
+      "fetchedAt": "2026-09-19T21:20:33.838Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6K": {
+      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+      "approximate": true,
+      "coordinates": [
+        43.6383,
+        -79.4301
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "MACDONELL AVE, TT / RIDEAU AVE / WRIGHT AVE": {
       "text": "Macdonell Avenue between Rideau Avenue & Wright Avenue",
       "approximate": false,
@@ -28483,18 +28552,6 @@
       "coordinates": [
         43.6404,
         -79.3995
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6K": {
-      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
-      "approximate": true,
-      "coordinates": [
-        43.6383,
-        -79.4301
       ],
       "division": "Division 14",
       "version": 1,
