@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-19T06:31:27.263Z",
-  "sourceUpdatedAt": "2026-09-19T06:30:01.000Z",
+  "fetchedAt": "2026-09-19T06:42:15.165Z",
+  "sourceUpdatedAt": "2026-09-19T06:40:01.000Z",
   "incidents": [
+    {
+      "id": "F26148463",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5T",
+      "division": "331",
+      "timestamp": "2026-09-19T06:30:34.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-19T06:42:15.165Z",
+      "lastSeenAt": "2026-09-19T06:42:15.165Z",
+      "geography": {
+        "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
+        "approximate": true,
+        "coordinates": [
+          43.6541,
+          -79.3978
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26148461",
       "source": "TFS",
@@ -16,9 +42,16 @@
       "timestamp": "2026-09-19T06:24:14.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "342"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-19T06:31:27.263Z",
-      "lastSeenAt": "2026-09-19T06:31:27.263Z",
+      "lastSeenAt": "2026-09-19T06:42:15.165Z",
       "geography": {
         "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
         "approximate": true,
@@ -42,9 +75,16 @@
       "timestamp": "2026-09-19T06:24:07.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "321"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-19T06:31:27.263Z",
-      "lastSeenAt": "2026-09-19T06:31:27.263Z",
+      "lastSeenAt": "2026-09-19T06:42:15.165Z",
       "geography": {
         "text": "Approximate area: (M4G) East York (Leaside)",
         "approximate": true,
@@ -68,9 +108,16 @@
       "timestamp": "2026-09-19T06:21:06.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "125"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-19T06:31:27.263Z",
-      "lastSeenAt": "2026-09-19T06:31:27.263Z",
+      "lastSeenAt": "2026-09-19T06:42:15.165Z",
       "geography": {
         "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
         "approximate": true,
@@ -203,7 +250,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T06:14:57.511Z",
-      "lastSeenAt": "2026-09-19T06:31:27.263Z",
+      "lastSeenAt": "2026-09-19T06:42:15.165Z",
       "geography": {
         "text": "Approximate area: (M9A) Etobicoke (Islington Avenue)",
         "approximate": true,
@@ -288,7 +335,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T06:14:57.511Z",
-      "lastSeenAt": "2026-09-19T06:31:27.263Z",
+      "lastSeenAt": "2026-09-19T06:42:15.165Z",
       "geography": {
         "text": "Lawrence Avenue East & Crockford Boulevard",
         "approximate": false,
@@ -20878,6 +20925,18 @@
   ],
   "updatedBy": "concourse",
   "locationCache": {
+    "M5T": {
+      "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
+      "approximate": true,
+      "coordinates": [
+        43.6541,
+        -79.3978
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M6H": {
       "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
       "approximate": true,
@@ -22008,18 +22067,6 @@
         -79.392549
       ],
       "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5T": {
-      "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
-      "approximate": true,
-      "coordinates": [
-        43.6541,
-        -79.3978
-      ],
-      "division": "Division 52",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
