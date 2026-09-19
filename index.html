@@ -15,7 +15,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./styles.css?v=combined-feeds-1" />
+  <link rel="stylesheet" href="./styles.css?v=combined-filter-layout-1" />
 </head>
 
 <body>
@@ -58,12 +58,9 @@
         </div>
       </section>
 
-      <section class="event-filters" aria-label="Filter by service">
+      <section class="event-filters" aria-label="Filter calls by service and event type">
         <label for="serviceFilter" class="section-kicker">SERVICE</label>
         <select id="serviceFilter"><option value="all">All services</option><option value="TFS">Fire (TFS)</option><option value="TPS">Police (TPS)</option></select>
-        <span id="feedFreshness" class="refresh-info" aria-live="off"></span>
-      </section>
-      <section class="event-filters" aria-label="Filter events by type">
         <span class="section-kicker">EVENT TYPE</span>
         <div class="event-toggle-group" role="group" aria-label="Event type">
           <button class="event-toggle active" type="button" data-event-filter="all" aria-pressed="true">All</button>
@@ -226,7 +223,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=combined-feeds-1"></script>
+  <script type="module" src="./app.js?v=combined-filter-layout-1"></script>
 </body>
 
 </html>

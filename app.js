@@ -184,18 +184,17 @@ async function loadData({ silent = false } = {}) {
     state.lastIngest = snapshot.updatedAt;
     state.fetchedAt = snapshot.fetchedAt;
     const sourceTime = parseLooseTime(snapshot.updatedAt);
-    els.sourceUpdated.textContent = sourceTime
-      ? `${formatDate(sourceTime)} · ${formatTime(sourceTime)} Toronto`
-      : "Unknown";
     const feedLabel = (name, feed) => {
-      const time = parseLooseTime(feed?.fetchedAt);
-      const stale = !time || Date.now() - time.getTime() > 10 * 60 * 1000;
-      return `${name}: ${time ? formatTime(time) : "not loaded"}${feed?.status === "unavailable" ? " (unavailable; showing saved calls)" : stale ? " (stale)" : ""}`;
+      const checked = parseLooseTime(feed?.fetchedAt);
+      const time = parseLooseTime(feed?.sourceUpdatedAt) || checked;
+      const stale = !checked || Date.now() - checked.getTime() > 10 * 60 * 1000;
+      const label = name === "TPS" ? "TPS checked" : "TFS";
+      return `${label}: ${time ? `${formatDate(time)} · ${formatTime(time)}` : "not loaded"}${feed?.status === "unavailable" ? " (unavailable; showing saved calls)" : stale ? " (stale)" : ""}`;
     };
-    document.querySelector("#feedFreshness").textContent = [
-      feedLabel("TFS", snapshot.feeds?.TFS || {fetchedAt:snapshot.fetchedAt}),
+    els.sourceUpdated.textContent = [
+      feedLabel("TFS", snapshot.feeds?.TFS || {fetchedAt:snapshot.fetchedAt, sourceUpdatedAt:snapshot.updatedAt}),
       feedLabel("TPS", snapshot.feeds?.TPS)
-    ].join(" · ");
+    ].join(" | ") + " Toronto";
     if (callsChanged) {
       applyFilters();
     }
