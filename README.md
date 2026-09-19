@@ -304,3 +304,5 @@ push rejection, and the next scheduled run checks again. It explicitly requests 
 Pages rebuild because GITHUB_TOKEN commits do not automatically trigger Pages.
 This assumes the existing Pages configuration publishes `main` from the repository
 root. The workflow needs repository Contents and Pages write permissions.
+
+Incident filters classify descriptions: Medical includes medical calls; Fire includes fires and alarms; Other includes remaining TFS incidents such as collisions, rescues, gas leaks, and hazards. Alarm levels are displayed only for the Fire category.

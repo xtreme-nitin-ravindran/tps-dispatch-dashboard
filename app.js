@@ -1,3 +1,4 @@
+import { incidentCategory } from "./src/tfs/category.js";
 import { intersectionQueries, lookupIntersection, intersectionDivision } from "./src/intersection-lookup.js";
 import { postalPrefix, lookupPostalCoordinates } from "./src/postal-lookup.js";
 import { policeDivision } from "./src/police-divisions.js?v=postal-1";
@@ -63,10 +64,8 @@ function escapeText(value) {
 function normalizeCall(row) {
   const eventType = escapeText(row.event_type || row.eventType).toLowerCase();
   const description = escapeText(row.description || "Call for Service");
-  const eventCategory = eventType === "fire"
-    ? (/\bmedical\b/i.test(description) ? "medical" : "fire")
-    : "other";
-  const isFireRelated = eventType === "fire" && !/\bmedical\b/i.test(description);
+  const eventCategory = incidentCategory(description);
+  const isFireRelated = eventCategory === "fire";
   const rawTimestamp = row.timestamp ?? row.time_unix;
   const unix = Number(rawTimestamp);
   const date = Number.isFinite(unix) && unix > 0
