@@ -3,9 +3,75 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-19T08:46:43.431Z",
-  "sourceUpdatedAt": "2026-09-19T08:45:02.000Z",
+  "fetchedAt": "2026-09-19T08:51:32.834Z",
+  "sourceUpdatedAt": "2026-09-19T08:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26148492",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3L",
+      "division": "142",
+      "timestamp": "2026-09-19T08:38:12.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "142"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-19T08:51:32.834Z",
+      "lastSeenAt": "2026-09-19T08:51:32.834Z",
+      "geography": {
+        "text": "Approximate area: (M3L) Downsview West",
+        "approximate": true,
+        "coordinates": [
+          43.7334,
+          -79.5116
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26148491",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5A",
+      "division": "325",
+      "timestamp": "2026-09-19T08:36:33.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "325"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-19T08:51:32.834Z",
+      "lastSeenAt": "2026-09-19T08:51:32.834Z",
+      "geography": {
+        "text": "Approximate area: (M5A) Toronto",
+        "approximate": true,
+        "coordinates": [
+          43.6555,
+          -79.3626
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26148490",
       "source": "TFS",
@@ -25,7 +91,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T08:32:03.434Z",
-      "lastSeenAt": "2026-09-19T08:46:43.431Z",
+      "lastSeenAt": "2026-09-19T08:51:32.834Z",
       "geography": {
         "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
         "approximate": true,
@@ -92,7 +158,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T08:13:24.497Z",
-      "lastSeenAt": "2026-09-19T08:46:43.431Z",
+      "lastSeenAt": "2026-09-19T08:51:32.834Z",
       "geography": {
         "text": "Augusta Avenue between Nassau Street & Oxford Street",
         "approximate": false,
@@ -21785,6 +21851,30 @@
   ],
   "updatedBy": "concourse",
   "locationCache": {
+    "M3L": {
+      "text": "Approximate area: (M3L) Downsview West",
+      "approximate": true,
+      "coordinates": [
+        43.7334,
+        -79.5116
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M5A": {
+      "text": "Approximate area: (M5A) Toronto",
+      "approximate": true,
+      "coordinates": [
+        43.6555,
+        -79.3626
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M5V": {
       "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
       "approximate": true,
@@ -21994,18 +22084,6 @@
         -79.4521
       ],
       "division": "Division 11",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5A": {
-      "text": "Approximate area: (M5A) Toronto",
-      "approximate": true,
-      "coordinates": [
-        43.6555,
-        -79.3626
-      ],
-      "division": "Division 51",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -24037,18 +24115,6 @@
         -79.4232503
       ],
       "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M3L": {
-      "text": "Approximate area: (M3L) Downsview West",
-      "approximate": true,
-      "coordinates": [
-        43.7334,
-        -79.5116
-      ],
-      "division": "Division 31",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
