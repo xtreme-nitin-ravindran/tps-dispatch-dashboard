@@ -4,6 +4,9 @@ import { pathToFileURL } from "node:url";
 import { fetchTfsSource, parseTfsXml } from "../src/tfs/source.js";
 import { buildTfsSnapshot } from "../src/pipeline/tfs-snapshot.js";
 
+import { enrichLocations } from "../src/pipeline/location-enrichment.js";
+import { createOpenLocationResolver } from "../src/pipeline/open-locations.js";
+
 // Explicit history inputs must exist: a missing Concourse artifact must not erase history.
 export async function runTfsEtl({
     outputPath = "data/current.json", previousPath, xmlPath,
@@ -21,6 +24,14 @@ export async function runTfsEtl({
         : await fetchSource({ signal: AbortSignal.timeout(30_000) });
     const snapshot = buildTfsSnapshot(source, now, previous);
     snapshot.updatedBy = updatedBy;
+    const [index, boundaries] = await Promise.all([
+        readFile(new URL("../data/geography/toronto-locations.json", import.meta.url), "utf8").then(JSON.parse),
+        readFile(new URL("../data/police-divisions.geojson", import.meta.url), "utf8").then(JSON.parse)
+    ]);
+    await enrichLocations(snapshot, previous, {
+        resolveLocation: createOpenLocationResolver(index, boundaries), now,
+        maxLookups: Infinity, source: "toronto-centreline-geonames-2026-09-19"
+    });
     await mkdir(dirname(outputPath), { recursive: true });
     const temporaryPath = `${outputPath}.tmp`;
     await writeFile(temporaryPath, `${JSON.stringify(snapshot, null, 2)}\n`, "utf8");

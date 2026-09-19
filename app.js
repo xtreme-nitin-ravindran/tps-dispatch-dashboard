@@ -1,8 +1,5 @@
 import { incidentCategory } from "./src/tfs/category.js";
-import { intersectionQueries, lookupIntersection, intersectionDivision } from "./src/intersection-lookup.js";
 import { locationDisplay } from "./src/location-display.js";
-import { postalPrefix, lookupPostalCoordinates, lookupNeighbourhood } from "./src/postal-lookup.js";
-import { policeDivision } from "./src/police-divisions.js?v=postal-1";
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
 
 const CONFIG = {
@@ -46,17 +43,10 @@ const els = {
 };
 
 const TORONTO_CENTER = [43.7001, -79.42];
-const TORONTO_BOUNDS = [[43.58, -79.65], [43.86, -79.12]];
-const GEOCODE_LIMIT = 12;
-const geocodeCache = loadGeocodeCache();
-let policeBoundaries = null;
-const postalCoordinates = new Map();
-const intersectionCoordinates = new Map();
-let postalLookupRunning = false;
 let dispatchMap = null;
 let mapMarkers = new Map();
-let mapRenderToken = 0;
 let focusedCallId = null;
+let mapHasFitted = false;
 
 function escapeText(value) {
   return String(value ?? "").replace(/\s+/g, " ").trim();
@@ -77,8 +67,9 @@ function normalizeCall(row) {
     id: escapeText(row.id || row.event_id || "—"),
     timestamp: date?.getTime() || Date.now(),
     time: date || new Date(),
-    division: "Unknown",
-    divisionId: "Unknown",
+    division: row.geography?.division || "Unknown",
+    divisionId: row.geography?.division || "Unknown",
+    geography: row.geography,
     description,
     location: escapeText(row.location || "Location not published"),
     isFireRelated,
@@ -184,17 +175,18 @@ async function loadData({ silent = false } = {}) {
   try {
     const snapshot = await fetchSnapshot();
     const previousSourceTime = parseLooseTime(state.lastIngest)?.getTime();
+    const callsChanged = JSON.stringify(state.calls) !== JSON.stringify(snapshot.calls);
     state.calls = snapshot.calls;
-    assignPoliceDivisions();
-    resolvePostalDivisions();
     state.lastIngest = snapshot.updatedAt;
     state.fetchedAt = snapshot.fetchedAt;
     const sourceTime = parseLooseTime(snapshot.updatedAt);
     els.sourceUpdated.textContent = sourceTime
       ? `${formatDate(sourceTime)} · ${formatTime(sourceTime)} Toronto`
       : "Unknown";
-    populateDivisionFilter();
-    applyFilters();
+    if (callsChanged) {
+      populateDivisionFilter();
+      applyFilters();
+    }
     updateFreshness();
     if (previousSourceTime != null && sourceTime && sourceTime.getTime() !== previousSourceTime) {
       clearTimeout(sourceHighlightTimer);
@@ -214,51 +206,6 @@ async function loadData({ silent = false } = {}) {
         </div>`;
     }
   }
-}
-
-function assignPoliceDivisions() {
-  for (const call of state.calls) {
-    const prefix = postalPrefix(call.location);
-    call.division = policeDivision(call.location, prefix ? postalCoordinates.get(prefix)?.coordinates : coordinatesForCall(call), policeBoundaries, { postalEstimate: Boolean(prefix) });
-    if (intersectionQueries(call.location).length) {
-      call.division = intersectionDivision(call.location, intersectionCoordinates.get(call.location)?.coordinates, policeBoundaries);
-    }
-    call.divisionId = call.division;
-  }
-}
-
-async function resolvePostalDivisions() {
-  if (postalLookupRunning) return;
-  postalLookupRunning = true;
-  try {
-    const prefixes = [...new Set(state.calls.map(call => postalPrefix(call.location)).filter(Boolean))];
-    for (const prefix of prefixes) {
-      const cached = postalCoordinates.get(prefix);
-      if (cached && (cached.coordinates || Date.now() - cached.checkedAt < 300000)) continue;
-      const coordinates = await lookupPostalCoordinates(prefix);
-      postalCoordinates.set(prefix, { coordinates, neighbourhood: await lookupNeighbourhood(coordinates), checkedAt: Date.now() });
-      assignPoliceDivisions();
-      populateDivisionFilter();
-      applyFilters({ map: false });
-      if (dispatchMap) renderMapMarkers();
-      await new Promise(resolve => setTimeout(resolve, 250));
-    }
-    const locations = [...new Set(state.calls.map(call => call.location).filter(location => intersectionQueries(location).length))];
-    for (const location of locations) {
-      const cached = intersectionCoordinates.get(location);
-      if (cached && (cached.coordinates.every(Boolean) || Date.now() - cached.checkedAt < 300000)) continue;
-      const coordinates = [];
-      for (const query of intersectionQueries(location)) {
-        coordinates.push(await lookupIntersection(query));
-        await new Promise(resolve => setTimeout(resolve, 250));
-      }
-      intersectionCoordinates.set(location, { coordinates, checkedAt: Date.now() });
-      assignPoliceDivisions();
-      populateDivisionFilter();
-      applyFilters({ map: false });
-      if (dispatchMap) renderMapMarkers();
-    }
-  } finally { postalLookupRunning = false; }
 }
 
 function populateDivisionFilter() {
@@ -359,6 +306,7 @@ function renderCalls() {
     const node = els.callTemplate.content.cloneNode(true);
     const row = node.querySelector(".call-row");
     row.dataset.callId = call.id;
+    row.classList.toggle("selected", call.id === focusedCallId);
     row.tabIndex = 0;
     row.setAttribute("role", "button");
     row.setAttribute("aria-label", `${call.description} at ${displayLocation(call).text}`);
@@ -401,89 +349,17 @@ function initMap() {
   }).addTo(dispatchMap);
 }
 
-function loadGeocodeCache() {
-  try {
-    return new Map(Object.entries(JSON.parse(localStorage.getItem("torontoDispatchGeocodes") || "{}")));
-  } catch {
-    return new Map();
-  }
-}
-
-function saveGeocodeCache() {
-  localStorage.setItem("torontoDispatchGeocodes", JSON.stringify(Object.fromEntries(geocodeCache)));
-}
-
 function coordinatesForCall(call) {
-  const prefix = postalPrefix(call.location);
-  if (prefix) return postalCoordinates.get(prefix)?.coordinates || null;
-  if (intersectionQueries(call.location).length) {
-    const points = intersectionCoordinates.get(call.location)?.coordinates || [];
-    const resolved = points.filter(Boolean);
-    if (resolved.length === 2 && resolved.length === points.length) {
-      return [(resolved[0][0] + resolved[1][0]) / 2, (resolved[0][1] + resolved[1][1]) / 2];
-    }
-    return resolved[0] || null;
-  }
-  if (call.latitude !== null && call.longitude !== null &&
-    call.latitude >= 43.58 && call.latitude <= 43.86 &&
-    call.longitude >= -79.65 && call.longitude <= -79.12) {
-    return [call.latitude, call.longitude];
-  }
-
-  const cached = geocodeCache.get(call.location);
-  return cached ? [cached.latitude, cached.longitude] : null;
-}
-
-async function geocodeLocation(location) {
-  if (intersectionQueries(location).length) return null;
-  if (geocodeCache.has(location)) return geocodeCache.get(location);
-
-  try {
-    const normalized = location
-      .replace(/\bSt E\b/g, "Street East")
-      .replace(/\bSt W\b/g, "Street West")
-      .replace(/\bLn E\b/g, "Lane East")
-      .replace(/\bLn W\b/g, "Lane West");
-    const queries = [...new Set([
-      location,
-      normalized,
-      normalized.replace(/\s*\/\s*/g, " and ")
-    ])];
-
-    for (const query of queries) {
-      const url = `https://photon.komoot.io/api/?limit=1&q=${encodeURIComponent(`${query}, Toronto, Ontario`)}`;
-      const response = await fetch(url);
-      if (!response.ok) continue;
-      const payload = await response.json();
-      const result = payload.features?.[0];
-      const [longitude, latitude] = result?.geometry?.coordinates || [];
-      const coordinates = { latitude: Number(latitude), longitude: Number(longitude) };
-      if (Number.isFinite(coordinates.latitude) && Number.isFinite(coordinates.longitude) &&
-        coordinates.latitude >= 43.58 && coordinates.latitude <= 43.86 &&
-        coordinates.longitude >= -79.65 && coordinates.longitude <= -79.12) {
-        geocodeCache.set(location, coordinates);
-        saveGeocodeCache();
-        assignPoliceDivisions();
-        populateDivisionFilter();
-        applyFilters({ map: false });
-        return coordinates;
-      }
-    }
-  } catch {
-    return null;
-  }
-
-  return null;
+  const point = call.geography?.coordinates;
+  return Array.isArray(point) && point.length === 2 && point.every(Number.isFinite) ? point : null;
 }
 
 function displayLocation(call) {
-  return locationDisplay(call.location,
-    intersectionCoordinates.get(call.location)?.coordinates,
-    postalCoordinates.get(postalPrefix(call.location))?.neighbourhood);
+  return call.geography || locationDisplay(call.location);
 }
 
 function isApproximateLocation(call) {
-  return displayLocation(call).approximate;
+  return displayLocation(call).approximate !== false;
 }
 
 function markerIcon(selected = false, approximate = false) {
@@ -511,29 +387,11 @@ function renderMapMarkers() {
     mapMarkers.set(call.id, marker);
   });
 
-  els.mapStatus.textContent = locatedCalls.length ? `${locatedCalls.length}/${state.filtered.length} LOCATED` : "LOCATING...";
+  els.mapStatus.textContent = locatedCalls.length ? `${locatedCalls.length}/${state.filtered.length} LOCATED` : "NO MAPPED LOCATIONS";
   els.mapEmpty.hidden = locatedCalls.length > 0;
-  if (locatedCalls.length && !focusedCallId) {
+  if (locatedCalls.length && !mapHasFitted) {
+    mapHasFitted = true;
     dispatchMap.fitBounds(L.latLngBounds(locatedCalls.map(item => item.coordinates)), { padding: [24, 24], maxZoom: 12 });
-  }
-}
-
-async function geocodeVisibleCalls(token) {
-  const candidates = state.filtered
-    .filter(call => !coordinatesForCall(call) && !intersectionQueries(call.location).length)
-    .slice(0, GEOCODE_LIMIT);
-
-  for (const call of candidates) {
-    await geocodeLocation(call.location);
-    if (token !== mapRenderToken) return;
-    renderMapMarkers();
-    await new Promise(resolve => setTimeout(resolve, 1100));
-  }
-
-  if (token === mapRenderToken && !mapMarkers.size) {
-    els.mapStatus.textContent = "NO MATCHING LOCATIONS";
-    els.mapEmpty.querySelector("strong").textContent = "Map locations unavailable";
-    els.mapEmpty.querySelector("span").textContent = "The feed locations could not be matched to Toronto coordinates.";
   }
 }
 
@@ -541,12 +399,10 @@ function renderMap() {
   initMap();
   if (!dispatchMap) return;
 
-  mapRenderToken += 1;
-  focusedCallId = null;
+  if (!state.filtered.some(call => call.id === focusedCallId)) focusedCallId = null;
   renderMapMarkers();
-  els.mapEmpty.querySelector("strong").textContent = "Locating calls...";
-  els.mapEmpty.querySelector("span").textContent = "Street descriptions are being matched to Toronto map locations.";
-  geocodeVisibleCalls(mapRenderToken);
+  els.mapEmpty.querySelector("strong").textContent = "No mapped locations";
+  els.mapEmpty.querySelector("span").textContent = "No locations in this view could be resolved from the published data.";
 }
 
 async function selectCall(callId, { pan = true } = {}) {
@@ -558,11 +414,6 @@ async function selectCall(callId, { pan = true } = {}) {
   document.querySelectorAll(".call-row").forEach(row => {
     row.classList.toggle("selected", row.dataset.callId === callId);
   });
-
-  if (!mapMarkers.has(callId) && !coordinatesForCall(call)) {
-    await geocodeLocation(call.location);
-    renderMapMarkers();
-  }
 
   mapMarkers.forEach((marker, id) => {
     const mappedCall = state.filtered.find(item => item.id === id);
@@ -709,13 +560,4 @@ setInterval(() => {
   }).format(new Date());
 }, 1000);
 
-fetch("./data/police-divisions.geojson?v=tps-1")
-  .then(response => { if (!response.ok) throw new Error("Police boundaries unavailable"); return response.json(); })
-  .then(boundaries => {
-    policeBoundaries = boundaries;
-    assignPoliceDivisions();
-    populateDivisionFilter();
-    applyFilters();
-  })
-  .catch(error => console.warn(error));
 refreshLoop();

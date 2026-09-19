@@ -16,16 +16,19 @@ A responsive, independent web dashboard for Toronto Fire Services public active-
 ## Data source
 
 The browser dashboard consumes the generated official TFS snapshot at `data/current.json`.
-Incidents come only from Toronto Fire Services. Geographic context also uses TPS division boundaries, Esri postal geocoding, and Photon/OpenStreetMap street geocoding and maps.
+Incidents come only from Toronto Fire Services. Geographic context also uses TPS division boundaries, Toronto Centreline intersections, GeoNames postal areas, and OpenStreetMap tiles.
 
 The updater fetches `https://www.toronto.ca/data/fire/livecad.xml`, parses the XML,
 and normalizes the incidents into a single JSON schema. The browser reads the generated
 snapshot rather than requesting the official feed directly. There is no Toronto Police
 data integration.
 
-The source adapter preserves the published `beat` as the dashboard division; missing
-beats appear as `Unknown`. It does not supply coordinates. Map locations are approximated
-using the Photon geocoder and cached in browser local storage. The map uses Leaflet and OpenStreetMap tiles.
+The updater prepares display labels, map coordinates and TPS division estimates in
+each incident's `geography` field. It uses bundled open data, with no live geocoder
+requests. The browser renders the prepared snapshot as one update; it performs no
+geocoding or division assignment. Unchanged calls do not trigger another render,
+and snapshot updates preserve the map view. The original TFS beat remains in
+`division`; the display uses `geography.division`.
 
 ## TDD workflow
 
@@ -174,8 +177,6 @@ Contains information licensed under the Open Government Licence – Toronto wher
 - **Incidents:** [Toronto Fire Services](https://www.toronto.ca/community-people/public-safety-alerts/alerts-notifications/toronto-fire-active-incidents/).
 - **Municipal open data:** [Open Government Licence – Toronto](https://www.toronto.ca/city-government/data-research-maps/open-data/open-data-licence/).
 - **Division boundaries:** Toronto Police Service, [TPS_POLICE_DIVISIONS_REV on ArcGIS](https://www.arcgis.com/home/item.html?id=fdd36b8dd9544c97b926958f3eb8cb98), also used by [TPS My Neighbourhood](https://www.tps.ca/my-neighbourhood/). The item credits Toronto Police Service but its licence field was blank when checked September 18, 2026; it is not covered by this repository's Unlicense.
-- **Postal geocoding:** Esri ArcGIS World Geocoding Service; [data attribution and terms](https://www.esri.com/en-us/legal/terms/data-attributions) and [service terms](https://www.esri.com/en-us/legal/terms/web-site-service). These service terms are separate from municipal open-data licensing.
-- **Street geocoding:** [Photon by komoot](https://photon.komoot.io/), based on OpenStreetMap.
 - **Map data:** © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), under the Open Database License.
 
 This project is independent and is not affiliated with or endorsed by Toronto Fire Services,
@@ -262,29 +263,22 @@ libraries, fonts, map tiles, and geocoding data retain their respective licenses
 
 ### Police division estimates
 
-The dashboard uses the same ArcGIS postal geocoder and TPS division boundary layer
-as [TPS My Neighbourhood](https://www.tps.ca/my-neighbourhood/). Standalone Toronto
-postal prefixes are looked up once per page session, independently of the map's
-geocoding queue. M5A resolves to Division 51. Postal results are estimates for a
-representative point, not a guarantee that the entire postal area lies in one division.
-Failed lookups remain Unknown and retry after five minutes. Results are kept in
-memory only; the existing Photon map cache is not used to assign postal divisions.
+Both updaters use bundled Toronto Centreline intersection nodes, GeoNames postal
+area coordinates/labels and TPS boundaries. All matching runs locally before the
+snapshot is published. No ArcGIS geocoder results are stored.
 
-Street locations use available map coordinates. Missing, ambiguous and out-of-boundary
-locations remain Unknown. TFS fire beats remain unchanged in the snapshot.
+Street pairs must share a unique Centreline node. Missing or ambiguous matches stay
+unresolved. Both segment ends must resolve for a division estimate; different end
+divisions produce “Possible divisions …”. A segment pin is its endpoint midpoint,
+not an exact incident address. Postal points are broad area estimates.
 
-Bundled boundary source: [TPS_POLICE_DIVISIONS_REV](https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/TPS_POLICE_DIVISIONS_REV/FeatureServer/0),
-retrieved September 18, 2026 with `outSR=4326`; `UNIT_NAME` is normalized to `AREA_NAME`.
-Refresh the bundled GeoJSON when TPS boundaries change. This third-party dataset
-is not covered by the repository's software license.
+The versioned `locationCache` is reused by both updaters and pruned to retained
+locations. Resolved entries refresh after 30 days; misses after an hour. All local
+matches are prepared on the first run, without a network lookup budget.
 
-Intersection descriptions are split into primary-street/cross-street pairs after
-removing TFS district abbreviations. Esri lookups must return high-confidence
-intersection matches. Both ends of a street segment must resolve: matching divisions
-produce one label, differing divisions show “Possible divisions …”, and incomplete
-results remain Unknown. These lookups run independently of the map's 12-call limit,
-are kept in memory, and failed results retry after five minutes. The map shows an
-approximate resolved endpoint, not the exact incident position.
+Sources and rebuild instructions: [geography data](data/geography/README.md).
+Refresh the bundled indexes and change the source version in `scripts/tfs-etl.js`
+when reference data changes. TPS boundaries remain separately licensed third-party data.
 
 ### GitHub Actions fallback
 
@@ -307,4 +301,6 @@ root. The workflow needs repository Contents and Pages write permissions.
 
 Incident filters classify descriptions: Medical includes medical calls; Fire includes fires and alarms; Other includes remaining TFS incidents such as collisions, rescues, gas leaks, and hazards. Alarm levels are displayed only for the Fire category.
 
-Map labels expand TFS street abbreviations. Blue markers indicate resolved intersections or street segments, not exact incident addresses; amber markers indicate postal areas or incomplete matches. Postal area labels use the ArcGIS neighbourhood at the representative postal point and may differ from other neighbourhood lookup tables. Original TFS descriptions remain the lookup keys.
+Map labels expand TFS street abbreviations. Blue markers indicate resolved intersections or street segments, not exact incident addresses; amber markers indicate postal areas or incomplete matches. Postal area labels use GeoNames area names and may differ from other neighbourhood lookup tables. Original TFS descriptions remain the lookup keys.
+
+Postal data: [GeoNames](https://www.geonames.org/), Creative Commons Attribution 4.0. Street nodes: [Toronto Centreline](https://open.toronto.ca/dataset/toronto-centreline-tcl/), Open Government Licence – Toronto.
