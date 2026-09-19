@@ -328,7 +328,7 @@ function renderCalls() {
     node.querySelector(".call-title").textContent = call.description;
     node.querySelector(".ongoing-badge").hidden = !call.isOngoing;
     node.querySelector(".source-badge").textContent = call.source;
-    node.querySelector(".division-badge").textContent = call.source === "TFS" && call.division !== "Unknown"
+    node.querySelector(".police-division-badge").textContent = call.source === "TFS" && call.division !== "Unknown"
       ? `${call.division} (estimated)` : call.division;
     node.querySelector(".call-vehicles").hidden = call.source === "TPS";
     node.querySelector(".call-location").textContent = displayLocation(call).text;
