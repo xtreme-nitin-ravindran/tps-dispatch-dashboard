@@ -15,7 +15,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./styles.css?v=right-aligned-badges-1" />
+  <link rel="stylesheet" href="./styles.css?v=approximate-markers-1" />
 </head>
 
 <body>
@@ -80,6 +80,10 @@
               <span class="source-updated">Source updated: <strong id="sourceUpdated">—</strong></span>
               <span class="map-status" id="mapStatus">—</span>
             </div>
+          </div>
+          <div class="map-legend" aria-label="Map marker colours">
+            <span><i aria-hidden="true"></i>Feed coordinates</span>
+            <span><i class="approximate-key" aria-hidden="true"></i>Approximate location</span>
           </div>
           <div class="map-wrap">
             <div id="dispatchMap" aria-label="Interactive map of Toronto dispatch calls"></div>
@@ -215,7 +219,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=incident-categories-1"></script>
+  <script type="module" src="./app.js?v=approximate-markers-1"></script>
 </body>
 
 </html>

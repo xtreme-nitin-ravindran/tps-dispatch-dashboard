@@ -638,7 +638,6 @@ a {
 }
 
 .dispatch-marker.selected {
-  background: var(--accent);
   transform: scale(1.45);
   box-shadow: 0 0 0 5px rgba(99, 230, 190, .22), 0 3px 10px rgba(0, 0, 0, .5);
 }
@@ -1032,3 +1031,19 @@ footer {
   font-size: 12px;
   line-height: 1.5;
 }
+
+/* Keep accuracy colour visible when a marker is selected. */
+.dispatch-marker.approximate {
+  background: #fbbf24;
+}
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 10px 24px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.map-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.map-legend i { width: 10px; height: 10px; border-radius: 50%; background: var(--accent-2); }
+.map-legend .approximate-key { background: #fbbf24; }

@@ -466,10 +466,18 @@ async function geocodeLocation(location) {
   return null;
 }
 
-function markerIcon(selected = false) {
+function isApproximateLocation(call) {
+  // Intersections describe a segment; geocoded streets and postal areas are estimates.
+  return intersectionQueries(call.location).length > 0 ||
+    !(call.latitude !== null && call.longitude !== null &&
+      call.latitude >= 43.58 && call.latitude <= 43.86 &&
+      call.longitude >= -79.65 && call.longitude <= -79.12);
+}
+
+function markerIcon(selected = false, approximate = false) {
   return L.divIcon({
     className: "dispatch-marker-wrap",
-    html: `<span class="dispatch-marker${selected ? " selected" : ""}"></span>`,
+    html: `<span class="dispatch-marker${approximate ? " approximate" : ""}${selected ? " selected" : ""}"></span>`,
     iconSize: [18, 18],
     iconAnchor: [9, 9]
   });
@@ -484,8 +492,8 @@ function renderMapMarkers() {
     .filter(item => item.coordinates);
 
   locatedCalls.forEach(({ call, coordinates }) => {
-    const marker = L.marker(coordinates, { icon: markerIcon(false) })
-      .bindTooltip(`<strong>${escapeText(call.description)}</strong><br>${escapeText(call.location)}`, { direction: "top" })
+    const marker = L.marker(coordinates, { icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call)) })
+      .bindTooltip(`<strong>${escapeText(call.description)}</strong><br>${escapeText(call.location)}${isApproximateLocation(call) ? "<br>Approximate location" : ""}`, { direction: "top" })
       .on("click", () => selectCall(call.id, { pan: false }));
     marker.addTo(dispatchMap);
     mapMarkers.set(call.id, marker);
@@ -544,12 +552,15 @@ async function selectCall(callId, { pan = true } = {}) {
     renderMapMarkers();
   }
 
-  mapMarkers.forEach((marker, id) => marker.setIcon(markerIcon(id === callId)));
+  mapMarkers.forEach((marker, id) => {
+    const mappedCall = state.filtered.find(item => item.id === id);
+    marker.setIcon(markerIcon(id === callId, isApproximateLocation(mappedCall)));
+  });
   const marker = mapMarkers.get(callId);
   if (marker) {
     if (pan) {
       dispatchMap.stop();
-      dispatchMap.setView(marker.getLatLng(), 17, { animate: false });
+      dispatchMap.setView(marker.getLatLng(), isApproximateLocation(call) ? 14 : 17, { animate: false });
     } else {
       dispatchMap.panTo(marker.getLatLng());
     }
