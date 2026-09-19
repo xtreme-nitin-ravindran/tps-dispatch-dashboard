@@ -3,9 +3,48 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-19T08:02:15.800Z",
-  "sourceUpdatedAt": "2026-09-19T08:00:01.000Z",
+  "fetchedAt": "2026-09-19T08:07:06.004Z",
+  "sourceUpdatedAt": "2026-09-19T08:05:01.000Z",
   "incidents": [
+    {
+      "id": "F26148488",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6J",
+      "division": "331",
+      "timestamp": "2026-09-19T07:58:22.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "331"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "331"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-19T08:07:06.004Z",
+      "lastSeenAt": "2026-09-19T08:07:06.004Z",
+      "geography": {
+        "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+        "approximate": true,
+        "coordinates": [
+          43.648,
+          -79.4177
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26148487",
       "source": "TFS",
@@ -16,9 +55,17 @@
       "timestamp": "2026-09-19T07:50:55.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "313",
+            "314"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-19T08:02:15.800Z",
-      "lastSeenAt": "2026-09-19T08:02:15.800Z",
+      "lastSeenAt": "2026-09-19T08:07:06.004Z",
       "geography": {
         "text": "Edward Street between Yonge Street & Bay Street",
         "approximate": false,
@@ -41,7 +88,7 @@
       "division": "332",
       "timestamp": "2026-09-19T07:40:35.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -195,7 +242,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T07:51:05.692Z",
-      "lastSeenAt": "2026-09-19T08:02:15.800Z",
+      "lastSeenAt": "2026-09-19T08:07:06.004Z",
       "geography": {
         "text": "Approximate area: (M4C) East York (Woodbine Heights)",
         "approximate": true,
@@ -540,7 +587,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T06:56:48.032Z",
-      "lastSeenAt": "2026-09-19T08:02:15.800Z",
+      "lastSeenAt": "2026-09-19T08:07:06.004Z",
       "geography": {
         "text": "Approximate location on undefined",
         "approximate": true,
@@ -21638,6 +21685,18 @@
   ],
   "updatedBy": "concourse",
   "locationCache": {
+    "M6J": {
+      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+      "approximate": true,
+      "coordinates": [
+        43.648,
+        -79.4177
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "EDWARD ST, TT / YONGE ST / BAY ST": {
       "text": "Edward Street between Yonge Street & Bay Street",
       "approximate": false,
@@ -23056,18 +23115,6 @@
         -79.43680275
       ],
       "division": "Division 11",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6J": {
-      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
-      "approximate": true,
-      "coordinates": [
-        43.648,
-        -79.4177
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
