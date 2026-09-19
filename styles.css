@@ -469,9 +469,17 @@ a {
   font-weight: 600;
 }
 
+.call-badges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+
 .ongoing-badge {
   flex: 0 0 auto;
-  align-self: center;
   border: 1px solid rgba(99, 230, 190, .3);
   border-radius: 999px;
   padding: 5px 7px;
@@ -978,12 +986,7 @@ footer {
   }
 
   .call-title-row {
-    display: block;
-  }
-
-  .division-badge {
-    display: inline-block;
-    margin-top: 8px;
+    flex-wrap: wrap;
   }
 
   .side-stack {
