@@ -185,7 +185,6 @@ async function loadData({ silent = false } = {}) {
       ? `${formatDate(sourceTime)} · ${formatTime(sourceTime)} Toronto`
       : "Unknown";
     if (callsChanged) {
-      populateDivisionFilter();
       applyFilters();
     }
     updateFreshness();
@@ -209,9 +208,9 @@ async function loadData({ silent = false } = {}) {
   }
 }
 
-function populateDivisionFilter() {
+function populateDivisionFilter(calls) {
   const current = state.division;
-  const divisions = [...new Set(state.calls.map(c => c.division).filter(Boolean))]
+  const divisions = [...new Set(calls.map(c => c.division).filter(Boolean))]
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
   els.divisionSelect.innerHTML = `<option value="all">All police divisions</option>` +
@@ -225,10 +224,8 @@ function populateDivisionFilter() {
 function applyFilters({ map = true } = {}) {
   const q = state.search.trim().toLowerCase();
 
-  state.filtered = state.calls.filter(call => {
+  const eligibleCalls = state.calls.filter(call => {
     if (!isWithinHistoryWindow(call.timestamp, state.hours)) return false;
-    const divisionMatch = state.division === "all" || call.division === state.division;
-    if (!divisionMatch) return false;
     if (state.eventFilter === "ongoing" && !call.isOngoing) return false;
     if (state.eventFilter !== "all" && state.eventFilter !== "ongoing" && call.eventCategory !== state.eventFilter) return false;
     if (!q) return true;
@@ -244,6 +241,9 @@ function applyFilters({ map = true } = {}) {
     ].some(v => v.toLowerCase().includes(q));
   });
 
+  // Build the facet before applying its own selection, so other divisions remain available.
+  populateDivisionFilter(eligibleCalls);
+  state.filtered = eligibleCalls.filter(call => state.division === "all" || call.division === state.division);
   render(map);
 }
 
