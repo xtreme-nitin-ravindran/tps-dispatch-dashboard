@@ -3,9 +3,75 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-19T09:07:15.492Z",
-  "sourceUpdatedAt": "2026-09-19T09:05:01.000Z",
+  "fetchedAt": "2026-09-19T09:12:04.152Z",
+  "sourceUpdatedAt": "2026-09-19T09:10:02.000Z",
   "incidents": [
+    {
+      "id": "F26148496",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3K",
+      "division": "144",
+      "timestamp": "2026-09-19T09:04:31.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "144"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-19T09:12:04.152Z",
+      "lastSeenAt": "2026-09-19T09:12:04.152Z",
+      "geography": {
+        "text": "Approximate area: (M3K) Downsview East (CFB Toronto)",
+        "approximate": true,
+        "coordinates": [
+          43.739,
+          -79.4692
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26148495",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5V",
+      "division": "332",
+      "timestamp": "2026-09-19T09:00:46.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "333"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-19T09:12:04.152Z",
+      "lastSeenAt": "2026-09-19T09:12:04.152Z",
+      "geography": {
+        "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+        "approximate": true,
+        "coordinates": [
+          43.6404,
+          -79.3995
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26148494",
       "source": "TFS",
@@ -31,7 +97,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T08:56:23.033Z",
-      "lastSeenAt": "2026-09-19T09:07:15.492Z",
+      "lastSeenAt": "2026-09-19T09:12:04.152Z",
       "geography": {
         "text": "Eglinton Avenue between Vesta Drive & Mayfair Avenue",
         "approximate": false,
@@ -54,7 +120,7 @@
       "division": "233",
       "timestamp": "2026-09-19T08:42:12.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -103,7 +169,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T08:51:32.834Z",
-      "lastSeenAt": "2026-09-19T09:07:15.492Z",
+      "lastSeenAt": "2026-09-19T09:12:04.152Z",
       "geography": {
         "text": "Approximate area: (M3L) Downsview West",
         "approximate": true,
@@ -159,7 +225,7 @@
       "division": "332",
       "timestamp": "2026-09-19T08:21:18.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -236,7 +302,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T08:13:24.497Z",
-      "lastSeenAt": "2026-09-19T09:07:15.492Z",
+      "lastSeenAt": "2026-09-19T09:12:04.152Z",
       "geography": {
         "text": "Augusta Avenue between Nassau Street & Oxford Street",
         "approximate": false,
@@ -21929,6 +21995,30 @@
   ],
   "updatedBy": "concourse",
   "locationCache": {
+    "M3K": {
+      "text": "Approximate area: (M3K) Downsview East (CFB Toronto)",
+      "approximate": true,
+      "coordinates": [
+        43.739,
+        -79.4692
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M5V": {
+      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+      "approximate": true,
+      "coordinates": [
+        43.6404,
+        -79.3995
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "EGLINTON AVE, TT / VESTA DR / MAYFAIR AVE": {
       "text": "Eglinton Avenue between Vesta Drive & Mayfair Avenue",
       "approximate": false,
@@ -21973,18 +22063,6 @@
         -79.3626
       ],
       "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5V": {
-      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
-      "approximate": true,
-      "coordinates": [
-        43.6404,
-        -79.3995
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -23005,18 +23083,6 @@
         -79.4756878
       ],
       "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M3K": {
-      "text": "Approximate area: (M3K) Downsview East (CFB Toronto)",
-      "approximate": true,
-      "coordinates": [
-        43.739,
-        -79.4692
-      ],
-      "division": "Division 32",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
