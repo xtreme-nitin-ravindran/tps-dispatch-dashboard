@@ -306,3 +306,5 @@ This assumes the existing Pages configuration publishes `main` from the reposito
 root. The workflow needs repository Contents and Pages write permissions.
 
 Incident filters classify descriptions: Medical includes medical calls; Fire includes fires and alarms; Other includes remaining TFS incidents such as collisions, rescues, gas leaks, and hazards. Alarm levels are displayed only for the Fire category.
+
+Map labels expand TFS street abbreviations. Blue markers indicate resolved intersections or street segments, not exact incident addresses; amber markers indicate postal areas or incomplete matches. Postal area labels use the ArcGIS neighbourhood at the representative postal point and may differ from other neighbourhood lookup tables. Original TFS descriptions remain the lookup keys.

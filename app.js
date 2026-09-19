@@ -1,6 +1,7 @@
 import { incidentCategory } from "./src/tfs/category.js";
 import { intersectionQueries, lookupIntersection, intersectionDivision } from "./src/intersection-lookup.js";
-import { postalPrefix, lookupPostalCoordinates } from "./src/postal-lookup.js";
+import { locationDisplay } from "./src/location-display.js";
+import { postalPrefix, lookupPostalCoordinates, lookupNeighbourhood } from "./src/postal-lookup.js";
 import { policeDivision } from "./src/police-divisions.js?v=postal-1";
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
 
@@ -235,10 +236,11 @@ async function resolvePostalDivisions() {
       const cached = postalCoordinates.get(prefix);
       if (cached && (cached.coordinates || Date.now() - cached.checkedAt < 300000)) continue;
       const coordinates = await lookupPostalCoordinates(prefix);
-      postalCoordinates.set(prefix, { coordinates, checkedAt: Date.now() });
+      postalCoordinates.set(prefix, { coordinates, neighbourhood: await lookupNeighbourhood(coordinates), checkedAt: Date.now() });
       assignPoliceDivisions();
       populateDivisionFilter();
       applyFilters({ map: false });
+      if (dispatchMap) renderMapMarkers();
       await new Promise(resolve => setTimeout(resolve, 250));
     }
     const locations = [...new Set(state.calls.map(call => call.location).filter(location => intersectionQueries(location).length))];
@@ -286,6 +288,7 @@ function applyFilters({ map = true } = {}) {
     return [
       call.description,
       call.location,
+      displayLocation(call).text,
       call.division,
       call.divisionId,
       call.id,
@@ -358,13 +361,13 @@ function renderCalls() {
     row.dataset.callId = call.id;
     row.tabIndex = 0;
     row.setAttribute("role", "button");
-    row.setAttribute("aria-label", `${call.description} at ${call.location}`);
+    row.setAttribute("aria-label", `${call.description} at ${displayLocation(call).text}`);
     node.querySelector(".time-main").textContent = formatTime(call.time);
     node.querySelector(".time-ago").textContent = relativeTime(call.time);
     node.querySelector(".call-title").textContent = call.description;
     node.querySelector(".ongoing-badge").hidden = !call.isOngoing;
     node.querySelector(".division-badge").textContent = call.division;
-    node.querySelector(".call-location").textContent = call.location;
+    node.querySelector(".call-location").textContent = displayLocation(call).text;
     const alarm = node.querySelector(".call-alarm");
     const alarmValue = node.querySelector(".alarm-value");
     const units = node.querySelector(".unit-list");
@@ -411,8 +414,15 @@ function saveGeocodeCache() {
 }
 
 function coordinatesForCall(call) {
+  const prefix = postalPrefix(call.location);
+  if (prefix) return postalCoordinates.get(prefix)?.coordinates || null;
   if (intersectionQueries(call.location).length) {
-    return intersectionCoordinates.get(call.location)?.coordinates?.find(Boolean) || null;
+    const points = intersectionCoordinates.get(call.location)?.coordinates || [];
+    const resolved = points.filter(Boolean);
+    if (resolved.length === 2 && resolved.length === points.length) {
+      return [(resolved[0][0] + resolved[1][0]) / 2, (resolved[0][1] + resolved[1][1]) / 2];
+    }
+    return resolved[0] || null;
   }
   if (call.latitude !== null && call.longitude !== null &&
     call.latitude >= 43.58 && call.latitude <= 43.86 &&
@@ -466,12 +476,14 @@ async function geocodeLocation(location) {
   return null;
 }
 
+function displayLocation(call) {
+  return locationDisplay(call.location,
+    intersectionCoordinates.get(call.location)?.coordinates,
+    postalCoordinates.get(postalPrefix(call.location))?.neighbourhood);
+}
+
 function isApproximateLocation(call) {
-  // Intersections describe a segment; geocoded streets and postal areas are estimates.
-  return intersectionQueries(call.location).length > 0 ||
-    !(call.latitude !== null && call.longitude !== null &&
-      call.latitude >= 43.58 && call.latitude <= 43.86 &&
-      call.longitude >= -79.65 && call.longitude <= -79.12);
+  return displayLocation(call).approximate;
 }
 
 function markerIcon(selected = false, approximate = false) {
@@ -493,7 +505,7 @@ function renderMapMarkers() {
 
   locatedCalls.forEach(({ call, coordinates }) => {
     const marker = L.marker(coordinates, { icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call)) })
-      .bindTooltip(`<strong>${escapeText(call.description)}</strong><br>${escapeText(call.location)}${isApproximateLocation(call) ? "<br>Approximate location" : ""}`, { direction: "top" })
+      .bindTooltip(`<strong>${escapeText(call.description)}</strong><br>${escapeText(displayLocation(call).text)}`, { direction: "top" })
       .on("click", () => selectCall(call.id, { pan: false }));
     marker.addTo(dispatchMap);
     mapMarkers.set(call.id, marker);

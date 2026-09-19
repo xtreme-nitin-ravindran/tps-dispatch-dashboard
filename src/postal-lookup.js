@@ -20,3 +20,17 @@ export async function lookupPostalCoordinates(prefix, fetchImpl = fetch) {
     return Number.isFinite(x) && Number.isFinite(y) && x >= -79.65 && x <= -79.12 && y >= 43.58 && y <= 43.86 ? [y, x] : null;
   } catch { return null; }
 }
+
+// A neighbourhood at the postal area's representative point is an area hint,
+// not a claim that the entire postal area follows neighbourhood boundaries.
+export async function lookupNeighbourhood(coordinates, fetchImpl = fetch) {
+  if (!coordinates) return '';
+  const url = new URL('https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode');
+  url.search = new URLSearchParams({ location: `${coordinates[1]},${coordinates[0]}`, f: 'json', featureTypes: 'Neighborhood' });
+  try {
+    const response = await fetchImpl(url, { signal: AbortSignal.timeout(8000) });
+    if (!response.ok) return '';
+    const address = (await response.json()).address;
+    return address?.CountryCode === 'CAN' ? address.Neighborhood || '' : '';
+  } catch { return ''; }
+}
