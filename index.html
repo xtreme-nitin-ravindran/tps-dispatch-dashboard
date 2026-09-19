@@ -5,8 +5,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0c1320" />
-  <meta name="description" content="SirenTO — Fire-service calls, mapped to your neighbourhood. Independent Toronto Fire Services incident dashboard." />
-  <title>SirenTO · TFS Calls &amp; Map</title>
+  <meta name="description" content="SirenTO — Fire and police calls, mapped to your neighbourhood. Independent Toronto Fire Services incident dashboard." />
+  <title>SirenTO · Fire &amp; Police Calls</title>
   <link rel="icon" type="image/png" sizes="64x64" href="./favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./styles.css?v=division-overlay-1" />
+  <link rel="stylesheet" href="./styles.css?v=combined-feeds-1" />
 </head>
 
 <body>
@@ -25,12 +25,12 @@
         <img class="brand-mark" src="./brand-dog.jpg" alt="Golden retriever" width="44" height="44" />
         <div>
           <h1>SirenTO</h1>
-          <div class="brand-kicker">Fire-service calls, mapped to your neighbourhood.</div>
+          <div class="brand-kicker">Fire and police calls, mapped to your neighbourhood.</div>
         </div>
       </div>
 
       <div class="topbar-actions">
-        <span class="refresh-info">Updates from the official TFS feed.</span>
+        <span class="refresh-info">Updates from official TFS and TPS feeds.</span>
       </div>
     </header>
 
@@ -43,7 +43,7 @@
         </div>
 
         <div class="control-group">
-          <label for="divisionSelect">Police division (estimated)</label>
+          <label for="divisionSelect">Police division</label>
           <select id="divisionSelect">
             <option value="all">All police divisions</option>
           </select>
@@ -58,6 +58,11 @@
         </div>
       </section>
 
+      <section class="event-filters" aria-label="Filter by service">
+        <label for="serviceFilter" class="section-kicker">SERVICE</label>
+        <select id="serviceFilter"><option value="all">All services</option><option value="TFS">Fire (TFS)</option><option value="TPS">Police (TPS)</option></select>
+        <span id="feedFreshness" class="refresh-info" aria-live="off"></span>
+      </section>
       <section class="event-filters" aria-label="Filter events by type">
         <span class="section-kicker">EVENT TYPE</span>
         <div class="event-toggle-group" role="group" aria-label="Event type">
@@ -122,7 +127,7 @@
                 <h3>Calls by police division</h3>
               </div>
             </div>
-            <p class="division-note">Estimated from mapped locations and postal-prefix lookups using bundled open geographic data. A postal area can span divisions; unresolved calls are Unknown.</p>
+            <p class="division-note">TPS divisions are supplied by TPS. TFS divisions are estimated from mapped locations and postal-prefix lookups using bundled open geographic data. A postal area can span divisions; unresolved calls are Unknown.</p>
             <div id="divisionBars" class="bar-list"></div>
           </div>
 
@@ -149,12 +154,13 @@
           <div class="source-card">
             <span class="section-kicker">SOURCES</span>
             <p>
-              Incident information comes from Toronto Fire Services. Estimated police divisions use
+              Incident information comes from Toronto Fire Services and Toronto Police Service. Estimated police divisions use
               Toronto Police Service boundaries hosted on ArcGIS, Toronto Centreline intersections, and GeoNames postal areas.
             </p>
             <div class="source-links">
               <a href="https://www.toronto.ca/community-people/public-safety-alerts/alerts-notifications/toronto-fire-active-incidents/"
                 target="_blank" rel="noreferrer">TFS incidents ↗</a>
+              <a href="https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/C4S_Public_NoGO/FeatureServer/0" target="_blank" rel="noreferrer">TPS calls for service ↗</a>
               <a href="https://www.tps.ca/my-neighbourhood/" target="_blank" rel="noreferrer">TPS division lookup ↗</a>
               <a href="https://www.arcgis.com/home/item.html?id=fdd36b8dd9544c97b926958f3eb8cb98"
                 target="_blank" rel="noreferrer">TPS ArcGIS boundaries ↗</a>
@@ -193,6 +199,7 @@
         <div class="call-title-row">
           <h4 class="call-title"></h4>
           <div class="call-badges">
+            <span class="division-badge source-badge"></span>
             <span class="ongoing-badge" hidden>ONGOING</span>
             <span class="division-badge"></span>
           </div>
@@ -203,7 +210,7 @@
             <span class="detail-label">Alarm level</span>
             <strong class="alarm-value"></strong>
           </div>
-          <div class="call-detail">
+          <div class="call-detail call-vehicles">
             <span class="detail-label">Emergency vehicles</span>
             <div>
               <div class="unit-list"></div>
@@ -219,7 +226,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=division-overlay-1"></script>
+  <script type="module" src="./app.js?v=combined-feeds-1"></script>
 </body>
 
 </html>

@@ -16,12 +16,11 @@ A responsive, independent web dashboard for Toronto Fire Services public active-
 ## Data source
 
 The browser dashboard consumes the generated official TFS snapshot at `data/current.json`.
-Incidents come only from Toronto Fire Services. Geographic context also uses TPS division boundaries, Toronto Centreline intersections, GeoNames postal areas, and OpenStreetMap tiles.
+Incidents come from Toronto Fire Services and Toronto Police Service. Geographic context also uses TPS division boundaries, Toronto Centreline intersections, GeoNames postal areas, and OpenStreetMap tiles.
 
 The updater fetches `https://www.toronto.ca/data/fire/livecad.xml`, parses the XML,
 and normalizes the incidents into a single JSON schema. The browser reads the generated
-snapshot rather than requesting the official feed directly. There is no Toronto Police
-data integration.
+snapshot rather than requesting the official feed directly. TPS calls come from the public C4S_Public_NoGO ArcGIS layer.
 
 The updater prepares display labels, map coordinates and TPS division estimates in
 each incident's `geography` field. It uses bundled open data, with no live geocoder
@@ -114,15 +113,11 @@ published `current.json` as `history/current.json`, run this task, then publish
 persistent storage between builds. Serialize the entire read/merge/publish job
 (`serial: true`) and use a single writer to avoid losing concurrent updates.
 
-Configure XML change detection and polling in your Concourse pipeline. If the
-pipeline supplies XML, add its artifact as a task input and set `TFS_XML` accordingly.
-The task itself does not schedule, commit, or publish anything. Concourse is the primary
-updater; the GitHub Actions fallback below takes over when the snapshot is stale.
+The supplied Concourse pipeline runs every minute and fetches each feed independently.
 
-Failed fetches (30-second timeout), invalid XML update timestamps, older feeds, or
-invalid history fail the task without replacing the output. A valid empty feed
-marks retained calls inactive. Run periodically even when XML is unchanged if you
-want expired records physically removed on schedule.
+When one feed fails, its saved calls are retained and its status is marked unavailable.
+The successful feed still updates. If both fail, the published snapshot is preserved.
+Invalid history fails rather than discarding records.
 
 ## Run locally
 
@@ -198,40 +193,17 @@ History accumulates from observed snapshots only; it cannot backfill earlier cal
 capture calls that start and disappear between fetches. Invalid or older source update
 timestamps and unreadable existing history fail the update rather than discarding it.
 
-The header displays “Updates from the official TFS feed.” The source update
+The header displays “Updates from official TFS and TPS feeds.” The source update
 timestamp remains visible above the map.
 
 ### Deploy the Concourse updater pipeline
 
-`concourse/pipeline.yml` uses `jgriff/http-resource` to check the official XML body
-for changes using Concourse’s default resource check interval (normally one minute,
-unless overridden by server configuration). A new body hash triggers `update-tfs`,
-while unchanged content does not start a job.
-It checks out Git history, runs all unit tests in both time zones and the live
-integration test, merges the downloaded `tfs-xml/body` via `TFS_XML` into
-`data/current.json`, commits only that
-file, and pushes the commit to the configured branch. A failed test or ETL prevents
-publication. Existing history is required; Git stores history between builds.
-The full Node image includes Git. No runtime package installation is needed.
-
-Copy `concourse/values.example.yml` to `concourse/values.yml`, set the branch,
-and supply a dedicated SSH deploy key with **write access** to this repo.
-`values.yml` is ignored by Git. Push the reviewed code before applying this pipeline.
-
-```bash
-fly -t local set-pipeline -p tfs-updater -c concourse/pipeline.yml -l concourse/values.yml
-fly -t local unpause-pipeline -p tfs-updater
-fly -t local trigger-job -j tfs-updater/update-tfs -w
-```
-
-Use a `fly` version matching the server. Unpausing enables automatic Git pushes.
-Only XML version changes trigger builds, so snapshot commits do not create a build loop.
-Builds are serialized and retain the latest 50 build logs. Use one updater pipeline
-per branch; disable any other snapshot writers.
+`concourse/pipeline.yml` uses a one-minute time resource so TPS continues updating
+even if TFS is unchanged or unavailable. Each job tests the code and runs the shared
+updater before committing the snapshot. Reapply the pipeline with fly after this change.
 
 Pushes are fast-forward only. A concurrent branch change rejects the push. Trigger a
-new build with fresh inputs after a failure, or wait for the next XML change; an
-unchanged XML version does not automatically retry a failed job. There is no force
+new build with fresh inputs after a failure, or wait for the next scheduled run. There is no force
 push or automatic conflict resolution.
 
 The HTTP resource fetches during both check and get. Because the endpoint cannot
@@ -306,3 +278,23 @@ Map labels expand TFS street abbreviations. Blue markers indicate resolved inter
 Postal data: [GeoNames](https://www.geonames.org/), Creative Commons Attribution 4.0. Street nodes: [Toronto Centreline](https://open.toronto.ca/dataset/toronto-centreline-tcl/), Open Government Licence – Toronto.
 
 The map includes a switchable TPS division boundary overlay. Hover or click a division for its station address. Station metadata comes from the same TPS boundary layer (retrieved September 19, 2026); boundaries are geographic context and do not change incident estimates.
+
+## Combined fire and police calls
+
+The service filter selects All / Fire (TFS) / Police (TPS). Records remain separate,
+even when their times and locations coincide. TPS reported divisions are distinguished
+from TFS estimates. TPS does not publish vehicles or ongoing status in this layer;
+the dashboard does not infer either. TPS pins show public approximate coordinates.
+
+TPS source: https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/C4S_Public_NoGO/FeatureServer/0
+Credit: Toronto Police Service. The updater fetches IDs then bounded batches and
+rejects incomplete responses. Object IDs can be recycled, so record identity uses
+a source-prefixed hash of public timestamp/type/location/division/coordinates.
+Identical public attributes cannot distinguish separate calls.
+
+The snapshot retains seven days and has independent TFS/TPS fetch times and statuses
+in `feeds`. Top-level `source: TFS` remains for backwards schema compatibility.
+Both Concourse and the GitHub fallback use the combined updater. Neither stores
+ArcGIS geocoder output; TPS incident coordinates are supplied by the incident layer.
+
+The scheduled Concourse job runs deterministic unit tests only; live-source integration tests remain a separate validation check so a TFS outage cannot prevent TPS ingestion.

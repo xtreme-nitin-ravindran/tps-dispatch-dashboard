@@ -15,6 +15,7 @@ const state = {
   fetchedAt: null,
   search: "",
   division: "all",
+  serviceFilter: "all",
   eventFilter: "all"
 };
 
@@ -65,6 +66,7 @@ function normalizeCall(row) {
     : parseLooseTime(rawTimestamp) || parseLooseTime(row.time);
 
   return {
+    source: row.source === "TPS" ? "TPS" : "TFS",
     id: escapeText(row.id || row.event_id || "—"),
     timestamp: date?.getTime() || Date.now(),
     time: date || new Date(),
@@ -164,6 +166,7 @@ async function fetchSnapshot() {
   const rows = Array.isArray(payload) ? payload : (payload.incidents || []);
   return {
     calls: rows.map(normalizeCall).sort((a, b) => b.timestamp - a.timestamp),
+    feeds: payload.feeds,
     fetchedAt: payload.fetchedAt || null,
     updatedAt: payload.sourceUpdatedAt || payload.fetchedAt || null
   };
@@ -184,6 +187,15 @@ async function loadData({ silent = false } = {}) {
     els.sourceUpdated.textContent = sourceTime
       ? `${formatDate(sourceTime)} · ${formatTime(sourceTime)} Toronto`
       : "Unknown";
+    const feedLabel = (name, feed) => {
+      const time = parseLooseTime(feed?.fetchedAt);
+      const stale = !time || Date.now() - time.getTime() > 10 * 60 * 1000;
+      return `${name}: ${time ? formatTime(time) : "not loaded"}${feed?.status === "unavailable" ? " (unavailable; showing saved calls)" : stale ? " (stale)" : ""}`;
+    };
+    document.querySelector("#feedFreshness").textContent = [
+      feedLabel("TFS", snapshot.feeds?.TFS || {fetchedAt:snapshot.fetchedAt}),
+      feedLabel("TPS", snapshot.feeds?.TPS)
+    ].join(" · ");
     if (callsChanged) {
       applyFilters();
     }
@@ -225,6 +237,7 @@ function applyFilters({ map = true } = {}) {
   const q = state.search.trim().toLowerCase();
 
   const eligibleCalls = state.calls.filter(call => {
+    if (state.serviceFilter !== "all" && call.source !== state.serviceFilter) return false;
     if (!isWithinHistoryWindow(call.timestamp, state.hours)) return false;
     if (state.eventFilter === "ongoing" && !call.isOngoing) return false;
     if (state.eventFilter !== "all" && state.eventFilter !== "ongoing" && call.eventCategory !== state.eventFilter) return false;
@@ -315,7 +328,10 @@ function renderCalls() {
     node.querySelector(".time-ago").textContent = relativeTime(call.time);
     node.querySelector(".call-title").textContent = call.description;
     node.querySelector(".ongoing-badge").hidden = !call.isOngoing;
-    node.querySelector(".division-badge").textContent = call.division;
+    node.querySelector(".source-badge").textContent = call.source;
+    node.querySelector(".division-badge").textContent = call.source === "TFS" && call.division !== "Unknown"
+      ? `${call.division} (estimated)` : call.division;
+    node.querySelector(".call-vehicles").hidden = call.source === "TPS";
     node.querySelector(".call-location").textContent = displayLocation(call).text;
     const alarm = node.querySelector(".call-alarm");
     const alarmValue = node.querySelector(".alarm-value");
@@ -415,7 +431,7 @@ function renderMapMarkers() {
 
   locatedCalls.forEach(({ call, coordinates }) => {
     const marker = L.marker(coordinates, { icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call)) })
-      .bindTooltip(`<strong>${escapeText(call.description)}</strong><br>${escapeText(displayLocation(call).text)}`, { direction: "top" })
+      .bindTooltip(`<strong>${call.source}: ${escapeText(call.description)}</strong><br>${escapeText(displayLocation(call).text)}`, { direction: "top" })
       .on("click", () => selectCall(call.id, { pan: false, revealRow: true }));
     marker.addTo(dispatchMap);
     mapMarkers.set(call.id, marker);
@@ -607,3 +623,8 @@ setInterval(() => {
 }, 1000);
 
 refreshLoop();
+
+document.querySelector("#serviceFilter").addEventListener("change", event => {
+  state.serviceFilter = event.target.value;
+  applyFilters();
+});
