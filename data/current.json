@@ -3,9 +3,75 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-19T06:16:18.116Z",
-  "sourceUpdatedAt": "2026-09-19T06:15:02.000Z",
+  "fetchedAt": "2026-09-19T06:21:27.416Z",
+  "sourceUpdatedAt": "2026-09-19T06:20:01.000Z",
   "incidents": [
+    {
+      "id": "F26148458",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1V",
+      "division": "242",
+      "timestamp": "2026-09-19T06:14:16.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "242"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-19T06:21:27.416Z",
+      "lastSeenAt": "2026-09-19T06:21:27.416Z",
+      "geography": {
+        "text": "Approximate area: (M1V) Scarborough (Milliken / Agincourt North / Steeles East / L'Amoreaux East)",
+        "approximate": true,
+        "coordinates": [
+          43.8177,
+          -79.2819
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26148457",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6E",
+      "division": "341",
+      "timestamp": "2026-09-19T06:10:42.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "341"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-19T06:21:27.416Z",
+      "lastSeenAt": "2026-09-19T06:21:27.416Z",
+      "geography": {
+        "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
+        "approximate": true,
+        "coordinates": [
+          43.6889,
+          -79.4507
+        ],
+        "division": "Division 13",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26148456",
       "source": "TFS",
@@ -16,9 +82,17 @@
       "timestamp": "2026-09-19T06:08:14.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "312",
+            "344"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-19T06:16:18.116Z",
-      "lastSeenAt": "2026-09-19T06:16:18.116Z",
+      "lastSeenAt": "2026-09-19T06:21:27.416Z",
       "geography": {
         "text": "Sussex Avenue between Street George Street & Bpnichol Lane",
         "approximate": false,
@@ -51,7 +125,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T06:14:57.511Z",
-      "lastSeenAt": "2026-09-19T06:16:18.116Z",
+      "lastSeenAt": "2026-09-19T06:21:27.416Z",
       "geography": {
         "text": "Approximate area: (M9A) Etobicoke (Islington Avenue)",
         "approximate": true,
@@ -103,6 +177,7 @@
         {
           "type": "Ladder Truck",
           "numbers": [
+            "231",
             "231"
           ]
         },
@@ -135,7 +210,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T06:14:57.511Z",
-      "lastSeenAt": "2026-09-19T06:16:18.116Z",
+      "lastSeenAt": "2026-09-19T06:21:27.416Z",
       "geography": {
         "text": "Lawrence Avenue East & Crockford Boulevard",
         "approximate": false,
@@ -169,7 +244,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T06:14:57.511Z",
-      "lastSeenAt": "2026-09-19T06:16:18.116Z",
+      "lastSeenAt": "2026-09-19T06:21:27.416Z",
       "geography": {
         "text": "Dunfield Avenue between Soudan Avenue & Lane South Eglinton East Holly",
         "approximate": false,
@@ -373,7 +448,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T05:46:55.757Z",
-      "lastSeenAt": "2026-09-19T06:16:18.116Z",
+      "lastSeenAt": "2026-09-19T06:21:27.416Z",
       "geography": {
         "text": "Approximate area: (M2R) Willowdale West",
         "approximate": true,
@@ -20725,6 +20800,30 @@
   ],
   "updatedBy": "concourse",
   "locationCache": {
+    "M1V": {
+      "text": "Approximate area: (M1V) Scarborough (Milliken / Agincourt North / Steeles East / L'Amoreaux East)",
+      "approximate": true,
+      "coordinates": [
+        43.8177,
+        -79.2819
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M6E": {
+      "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
+      "approximate": true,
+      "coordinates": [
+        43.6889,
+        -79.4507
+      ],
+      "division": "Division 13",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "SUSSEX AVE, TT / ST GEORGE ST / BPNICHOL LANE": {
       "text": "Sussex Avenue between Street George Street & Bpnichol Lane",
       "approximate": false,
@@ -20931,18 +21030,6 @@
         -79.5517
       ],
       "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6E": {
-      "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
-      "approximate": true,
-      "coordinates": [
-        43.6889,
-        -79.4507
-      ],
-      "division": "Division 13",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -23352,18 +23439,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T05:57:15.368Z"
-    },
-    "M1V": {
-      "text": "Approximate area: (M1V) Scarborough (Milliken / Agincourt North / Steeles East / L'Amoreaux East)",
-      "approximate": true,
-      "coordinates": [
-        43.8177,
-        -79.2819
-      ],
-      "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "AVENUE RD, NY / FAIRLAWN AVE / ST GERMAIN AVE": {
       "text": "Avenue Road between Fairlawn Avenue & Street Germain Avenue",
