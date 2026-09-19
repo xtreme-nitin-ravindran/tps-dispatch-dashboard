@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-19T06:14:57.511Z",
-  "sourceUpdatedAt": "2026-09-19T06:10:01.000Z",
+  "fetchedAt": "2026-09-19T06:16:18.116Z",
+  "sourceUpdatedAt": "2026-09-19T06:15:02.000Z",
   "incidents": [
+    {
+      "id": "F26148456",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "SUSSEX AVE, TT / ST GEORGE ST / BPNICHOL LANE",
+      "division": "312",
+      "timestamp": "2026-09-19T06:08:14.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-19T06:16:18.116Z",
+      "lastSeenAt": "2026-09-19T06:16:18.116Z",
+      "geography": {
+        "text": "Sussex Avenue between Street George Street & Bpnichol Lane",
+        "approximate": false,
+        "coordinates": [
+          43.66533775,
+          -79.39939985000001
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T06:16:18.116Z"
+      }
+    },
     {
       "id": "F26148455",
       "source": "TFS",
@@ -16,9 +42,16 @@
       "timestamp": "2026-09-19T06:04:16.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "443"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-19T06:14:57.511Z",
-      "lastSeenAt": "2026-09-19T06:14:57.511Z",
+      "lastSeenAt": "2026-09-19T06:16:18.116Z",
       "geography": {
         "text": "Approximate area: (M9A) Etobicoke (Islington Avenue)",
         "approximate": true,
@@ -42,9 +75,67 @@
       "timestamp": "2026-09-19T06:02:09.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "233"
+          ]
+        },
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "24"
+          ]
+        },
+        {
+          "type": "High-Rise Unit",
+          "numbers": [
+            "114"
+          ]
+        },
+        {
+          "type": "Hazmat Unit",
+          "numbers": [
+            "323"
+          ]
+        },
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "231"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "232",
+            "245",
+            "313"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "235"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "232",
+            "313"
+          ]
+        },
+        {
+          "type": "Other Unit",
+          "numbers": [
+            "TRS235"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-19T06:14:57.511Z",
-      "lastSeenAt": "2026-09-19T06:14:57.511Z",
+      "lastSeenAt": "2026-09-19T06:16:18.116Z",
       "geography": {
         "text": "Lawrence Avenue East & Crockford Boulevard",
         "approximate": false,
@@ -68,9 +159,17 @@
       "timestamp": "2026-09-19T06:00:45.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "134",
+            "135"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-19T06:14:57.511Z",
-      "lastSeenAt": "2026-09-19T06:14:57.511Z",
+      "lastSeenAt": "2026-09-19T06:16:18.116Z",
       "geography": {
         "text": "Dunfield Avenue between Soudan Avenue & Lane South Eglinton East Holly",
         "approximate": false,
@@ -93,7 +192,7 @@
       "division": "212",
       "timestamp": "2026-09-19T05:52:35.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -274,7 +373,7 @@
         }
       ],
       "firstSeenAt": "2026-09-19T05:46:55.757Z",
-      "lastSeenAt": "2026-09-19T06:14:57.511Z",
+      "lastSeenAt": "2026-09-19T06:16:18.116Z",
       "geography": {
         "text": "Approximate area: (M2R) Willowdale West",
         "approximate": true,
@@ -20626,6 +20725,18 @@
   ],
   "updatedBy": "concourse",
   "locationCache": {
+    "SUSSEX AVE, TT / ST GEORGE ST / BPNICHOL LANE": {
+      "text": "Sussex Avenue between Street George Street & Bpnichol Lane",
+      "approximate": false,
+      "coordinates": [
+        43.66533775,
+        -79.39939985000001
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T06:16:18.116Z"
+    },
     "M9A": {
       "text": "Approximate area: (M9A) Etobicoke (Islington Avenue)",
       "approximate": true,
