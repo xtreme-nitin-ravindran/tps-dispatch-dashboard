@@ -3,9 +3,42 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-20T04:50:53.147Z",
-  "sourceUpdatedAt": "2026-09-20T04:45:01.000Z",
+  "fetchedAt": "2026-09-20T04:52:24.149Z",
+  "sourceUpdatedAt": "2026-09-20T04:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26149022",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Grass/Rubbish",
+      "location": "REDWAY RD, EY / MILLWOOD RD / HEPC",
+      "division": "321",
+      "timestamp": "2026-09-20T04:43:25.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "321"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-20T04:52:24.149Z",
+      "lastSeenAt": "2026-09-20T04:52:24.149Z",
+      "geography": {
+        "text": "Approximate location near Redway Road & Hepc",
+        "approximate": true,
+        "coordinates": [
+          43.6986511,
+          -79.3617355
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-20T04:52:24.149Z"
+      }
+    },
     {
       "id": "TPS-37bb7c9e2791abb892423db6",
       "source": "TPS",
@@ -67,7 +100,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T04:47:23.712Z",
-      "lastSeenAt": "2026-09-20T04:50:53.147Z",
+      "lastSeenAt": "2026-09-20T04:52:24.149Z",
       "geography": {
         "text": "Approximate area: (M4C) East York (Woodbine Heights)",
         "approximate": true,
@@ -111,7 +144,7 @@
       "division": "226",
       "timestamp": "2026-09-20T04:31:01.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -272,7 +305,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T04:31:17.947Z",
-      "lastSeenAt": "2026-09-20T04:50:53.147Z",
+      "lastSeenAt": "2026-09-20T04:52:24.149Z",
       "geography": {
         "text": "York Mills Road between Sandover Drive & Clayland Drive",
         "approximate": false,
@@ -37049,17 +37082,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-20T04:50:53.147Z",
-      "sourceUpdatedAt": "2026-09-20T04:45:01.000Z",
+      "fetchedAt": "2026-09-20T04:52:24.149Z",
+      "sourceUpdatedAt": "2026-09-20T04:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-20T04:50:53.147Z",
+      "fetchedAt": "2026-09-20T04:52:24.149Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "REDWAY RD, EY / MILLWOOD RD / HEPC": {
+      "text": "Approximate location near Redway Road & Hepc",
+      "approximate": true,
+      "coordinates": [
+        43.6986511,
+        -79.3617355
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-20T04:52:24.149Z"
+    },
     "M4C": {
       "text": "Approximate area: (M4C) East York (Woodbine Heights)",
       "approximate": true,
