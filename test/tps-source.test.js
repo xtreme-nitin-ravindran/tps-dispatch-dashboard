@@ -19,3 +19,15 @@ test('police retention preserves separate records without conflating TFS',()=>{
  const a=normalizeTps(row), now=new Date(row.OCCURRENCE_TIME_AGOL+1000);
  assert.equal(mergePolice([a],[a,{...a,source:'TFS',id:'F1'}],now).length,1);
 });
+
+
+test('unit labels handle numeric-leading codes without changing geographic divisions', async () => {
+  const { policeUnitLabel } = await import('../src/tps/unit-label.js');
+  for (const code of ['3GRP', '5GRP', 'SE1', 'TAC8']) {
+    assert.equal(policeUnitLabel(code), `TPS code ${code} (meaning unconfirmed)`);
+  }
+  for (const label of ['Division 11', 'Possible divisions 33 / 41', 'Unknown']) {
+    assert.equal(policeUnitLabel(label), label);
+  }
+  assert.equal(policeUnitLabel('HP'), 'Highway Patrol');
+});
