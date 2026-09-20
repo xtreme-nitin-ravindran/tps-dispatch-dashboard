@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-20T11:10:20.918Z",
-  "sourceUpdatedAt": "2026-09-20T11:05:01.000Z",
+  "fetchedAt": "2026-09-20T11:11:40.045Z",
+  "sourceUpdatedAt": "2026-09-20T11:10:02.000Z",
   "incidents": [
+    {
+      "id": "F26149117",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "LAWRENCE AVE, SC / KINGSTON RD / FLORIST LANE",
+      "division": "234",
+      "timestamp": "2026-09-20T11:00:36.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-20T11:11:40.045Z",
+      "lastSeenAt": "2026-09-20T11:11:40.045Z",
+      "geography": {
+        "text": "Lawrence Avenue between Kingston Road & Florist Lane",
+        "approximate": false,
+        "coordinates": [
+          43.767791450000004,
+          -79.18898975
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26149116",
       "source": "TFS",
@@ -16,9 +42,16 @@
       "timestamp": "2026-09-20T10:57:12.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "112"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-20T11:06:40.514Z",
-      "lastSeenAt": "2026-09-20T11:10:20.918Z",
+      "lastSeenAt": "2026-09-20T11:11:40.045Z",
       "geography": {
         "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
         "approximate": true,
@@ -67,7 +100,7 @@
       "division": "234",
       "timestamp": "2026-09-20T10:45:09.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -242,7 +275,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T10:41:08.799Z",
-      "lastSeenAt": "2026-09-20T11:10:20.918Z",
+      "lastSeenAt": "2026-09-20T11:11:40.045Z",
       "geography": {
         "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
         "approximate": true,
@@ -40843,17 +40876,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-20T11:10:20.918Z",
-      "sourceUpdatedAt": "2026-09-20T11:05:01.000Z",
+      "fetchedAt": "2026-09-20T11:11:40.045Z",
+      "sourceUpdatedAt": "2026-09-20T11:10:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-20T11:10:20.918Z",
+      "fetchedAt": "2026-09-20T11:11:40.045Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "LAWRENCE AVE, SC / KINGSTON RD / FLORIST LANE": {
+      "text": "Lawrence Avenue between Kingston Road & Florist Lane",
+      "approximate": false,
+      "coordinates": [
+        43.767791450000004,
+        -79.18898975
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M3H": {
       "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
       "approximate": true,
@@ -44219,18 +44264,6 @@
         -79.28931779999999
       ],
       "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "LAWRENCE AVE, SC / KINGSTON RD / FLORIST LANE": {
-      "text": "Lawrence Avenue between Kingston Road & Florist Lane",
-      "approximate": false,
-      "coordinates": [
-        43.767791450000004,
-        -79.18898975
-      ],
-      "division": "Division 43",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
