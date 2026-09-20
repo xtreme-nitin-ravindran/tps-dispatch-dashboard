@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-20T10:54:39.728Z",
-  "sourceUpdatedAt": "2026-09-20T10:50:01.000Z",
+  "fetchedAt": "2026-09-20T10:55:49.100Z",
+  "sourceUpdatedAt": "2026-09-20T10:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26149115",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4Y",
+      "division": "314",
+      "timestamp": "2026-09-20T10:48:22.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-20T10:55:49.100Z",
+      "lastSeenAt": "2026-09-20T10:55:49.100Z",
+      "geography": {
+        "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
+        "approximate": true,
+        "coordinates": [
+          43.6656,
+          -79.383
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26149114",
       "source": "TFS",
@@ -16,22 +42,9 @@
       "timestamp": "2026-09-20T10:45:09.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [
-        {
-          "type": "Aerial Truck",
-          "numbers": [
-            "215"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "234"
-          ]
-        }
-      ],
+      "vehicles": [],
       "firstSeenAt": "2026-09-20T10:50:39.119Z",
-      "lastSeenAt": "2026-09-20T10:54:39.728Z",
+      "lastSeenAt": "2026-09-20T10:55:49.100Z",
       "geography": {
         "text": "Lawrence Avenue between Morningside Avenue & Collinsgrove Road",
         "approximate": false,
@@ -54,7 +67,7 @@
       "division": "425",
       "timestamp": "2026-09-20T10:41:54.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -97,7 +110,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T10:50:39.119Z",
-      "lastSeenAt": "2026-09-20T10:54:39.728Z",
+      "lastSeenAt": "2026-09-20T10:55:49.100Z",
       "geography": {
         "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
         "approximate": true,
@@ -136,7 +149,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T10:50:39.119Z",
-      "lastSeenAt": "2026-09-20T10:54:39.728Z",
+      "lastSeenAt": "2026-09-20T10:55:49.100Z",
       "geography": {
         "text": "Sherbourne Street between Shuter Street & Dundas Street East",
         "approximate": false,
@@ -190,7 +203,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T10:41:08.799Z",
-      "lastSeenAt": "2026-09-20T10:54:39.728Z",
+      "lastSeenAt": "2026-09-20T10:55:49.100Z",
       "geography": {
         "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
         "approximate": true,
@@ -40791,17 +40804,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-20T10:54:39.728Z",
-      "sourceUpdatedAt": "2026-09-20T10:50:01.000Z",
+      "fetchedAt": "2026-09-20T10:55:49.100Z",
+      "sourceUpdatedAt": "2026-09-20T10:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-20T10:54:39.728Z",
+      "fetchedAt": "2026-09-20T10:55:49.100Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4Y": {
+      "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
+      "approximate": true,
+      "coordinates": [
+        43.6656,
+        -79.383
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "LAWRENCE AVE, SC / MORNINGSIDE AVE / COLLINSGROVE RD": {
       "text": "Lawrence Avenue between Morningside Avenue & Collinsgrove Road",
       "approximate": false,
@@ -41113,18 +41138,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-20T07:58:00.332Z"
-    },
-    "M4Y": {
-      "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
-      "approximate": true,
-      "coordinates": [
-        43.6656,
-        -79.383
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M5A": {
       "text": "Approximate area: (M5A) Toronto",
