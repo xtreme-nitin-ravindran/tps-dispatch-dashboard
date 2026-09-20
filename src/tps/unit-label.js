@@ -7,9 +7,13 @@ const UNIT_NAMES = {
 };
 
 export function policeUnitLabel(value) {
-  const code = String(value || "Unknown").trim();
-  if (Object.hasOwn(UNIT_NAMES, code)) return UNIT_NAMES[code];
-  // TPS publishes additional dispatch codes without a public code dictionary.
-  if (/^(?=.*[A-Z])[A-Z0-9]+$/.test(code)) return `TPS code ${code} (meaning unconfirmed)`;
-  return code;
+  const code = String(value ?? "").trim();
+  if (!code || /^unknown$/i.test(code)) return "Unknown";
+  const name = UNIT_NAMES[code.toUpperCase()];
+  if (Object.hasOwn(UNIT_NAMES, code.toUpperCase())) return name;
+  if (/^Division \d+$/.test(code) || /^Possible divisions \d+(?: \/ \d+)+$/.test(code)) return code;
+  if (Object.values(UNIT_NAMES).includes(code)) return code;
+  // Unknown values use the fallback regardless of their spelling or format.
+  // Preserve the source value rather than guessing an expansion.
+  return `TPS code ${code} (meaning unconfirmed)`;
 }

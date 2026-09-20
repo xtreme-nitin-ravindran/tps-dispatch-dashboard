@@ -1,4 +1,4 @@
-import { policeUnitLabel } from "./src/tps/unit-label.js?v=2";
+import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
 import { locationDisplay } from "./src/location-display.js";
 import { isWithinHistoryWindow } from "./src/tfs/time.js";

@@ -23,11 +23,14 @@ test('police retention preserves separate records without conflating TFS',()=>{
 
 test('unit labels handle numeric-leading codes without changing geographic divisions', async () => {
   const { policeUnitLabel } = await import('../src/tps/unit-label.js');
-  for (const code of ['3GRP', '5GRP', 'SE1', 'TAC8']) {
+  for (const code of ['3GRP', '5GRP', 'SE1', 'TAC8', 'new-code', 'UNIT_9', 'X/Y', '123', 'New Unit', 'constructor']) {
     assert.equal(policeUnitLabel(code), `TPS code ${code} (meaning unconfirmed)`);
   }
   for (const label of ['Division 11', 'Possible divisions 33 / 41', 'Unknown']) {
     assert.equal(policeUnitLabel(label), label);
   }
   assert.equal(policeUnitLabel('HP'), 'Highway Patrol');
+  assert.equal(policeUnitLabel(' hp '), 'Highway Patrol');
+  assert.equal(policeUnitLabel('Highway Patrol'), 'Highway Patrol');
+  for (const empty of [null, undefined, '', '  ']) assert.equal(policeUnitLabel(empty), 'Unknown');
 });
