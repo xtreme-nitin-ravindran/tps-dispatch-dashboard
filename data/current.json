@@ -3,9 +3,51 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-20T15:39:25.564Z",
-  "sourceUpdatedAt": "2026-09-20T15:35:01.000Z",
+  "fetchedAt": "2026-09-20T15:51:23.648Z",
+  "sourceUpdatedAt": "2026-09-20T15:50:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-d00013294947b051c134f317",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FOUND PROPERTY",
+      "callTypeCode": "FOUPR",
+      "timestamp": "2026-09-20T15:44:35.000Z",
+      "location": "DUPLEX AVE - HENNING AVE",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DUPLEX AVE - HENNING AVE",
+        "coordinates": [
+          43.70635190233383,
+          -79.4002649414966
+        ],
+        "division": "Division 53",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-eb20403413f3d51b942a2bd3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-20T15:43:46.000Z",
+      "location": "ANTRIM CRES - KENNEDY RD",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ANTRIM CRES - KENNEDY RD",
+        "coordinates": [
+          43.77175733818908,
+          -79.28315499463147
+        ],
+        "division": "Division 41",
+        "approximate": true
+      }
+    },
     {
       "id": "F26149214",
       "source": "TFS",
@@ -15,7 +57,7 @@
       "division": "212",
       "timestamp": "2026-09-20T15:25:35.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -37,6 +79,48 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-45aef3237a8ff5994f10123a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "BREAK & ENTER",
+      "callTypeCode": "BREEN",
+      "timestamp": "2026-09-20T15:25:14.000Z",
+      "location": "C P R - LYNVALLEY CRES",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "C P R - LYNVALLEY CRES",
+        "coordinates": [
+          43.747957726758706,
+          -79.31180577433777
+        ],
+        "division": "Division 33",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-38e26d6ed28fce2ce77a56e6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-20T15:23:17.000Z",
+      "location": "LAMPORT STADIUM PARK TRL - JOE SHUSTER WAY",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LAMPORT STADIUM PARK TRL - JOE SHUSTER WAY",
+        "coordinates": [
+          43.639720283357505,
+          -79.42354092548501
+        ],
+        "division": "Division 14",
+        "approximate": true
       }
     },
     {
@@ -45325,12 +45409,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-20T15:39:25.564Z",
-      "sourceUpdatedAt": "2026-09-20T15:35:01.000Z",
+      "fetchedAt": "2026-09-20T15:51:23.648Z",
+      "sourceUpdatedAt": "2026-09-20T15:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-20T15:39:25.564Z",
+      "fetchedAt": "2026-09-20T15:51:23.648Z",
       "status": "ok"
     }
   },
