@@ -1,3 +1,4 @@
+import { policeUnitLabel } from "./src/tps/unit-label.js";
 import { incidentCategory } from "./src/tfs/category.js";
 import { locationDisplay } from "./src/location-display.js";
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
@@ -70,7 +71,7 @@ function normalizeCall(row) {
     id: escapeText(row.id || row.event_id || "—"),
     timestamp: date?.getTime() || Date.now(),
     time: date || new Date(),
-    division: row.geography?.division || "Unknown",
+    division: policeUnitLabel(row.geography?.division),
     divisionId: row.geography?.division || "Unknown",
     geography: row.geography,
     description,
