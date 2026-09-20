@@ -3,9 +3,42 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-20T13:14:14.195Z",
-  "sourceUpdatedAt": "2026-09-20T13:10:01.000Z",
+  "fetchedAt": "2026-09-20T13:15:43.754Z",
+  "sourceUpdatedAt": "2026-09-20T13:15:01.000Z",
   "incidents": [
+    {
+      "id": "F26149161",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1P",
+      "division": "245",
+      "timestamp": "2026-09-20T13:07:07.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "245"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-20T13:15:43.754Z",
+      "lastSeenAt": "2026-09-20T13:15:43.754Z",
+      "geography": {
+        "text": "Approximate area: (M1P) Scarborough (Dorset Park / Wexford Heights / Scarborough Town Centre)",
+        "approximate": true,
+        "coordinates": [
+          43.7612,
+          -79.2707
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26149160",
       "source": "TFS",
@@ -26,7 +59,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T13:11:53.692Z",
-      "lastSeenAt": "2026-09-20T13:14:14.195Z",
+      "lastSeenAt": "2026-09-20T13:15:43.754Z",
       "geography": {
         "text": "Approximate location near Alexander Street & Donna Shaw Lane",
         "approximate": true,
@@ -59,7 +92,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T13:11:53.692Z",
-      "lastSeenAt": "2026-09-20T13:14:14.195Z",
+      "lastSeenAt": "2026-09-20T13:15:43.754Z",
       "geography": {
         "text": "Approximate area: (M9P) Etobicoke (Westmount)",
         "approximate": true,
@@ -113,7 +146,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T13:05:32.452Z",
-      "lastSeenAt": "2026-09-20T13:14:14.195Z",
+      "lastSeenAt": "2026-09-20T13:15:43.754Z",
       "geography": {
         "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
         "approximate": true,
@@ -189,7 +222,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T13:05:32.452Z",
-      "lastSeenAt": "2026-09-20T13:14:14.195Z",
+      "lastSeenAt": "2026-09-20T13:15:43.754Z",
       "geography": {
         "text": "Caledonia Park Road between Davenport Road & Street Clair Avenue West",
         "approximate": false,
@@ -255,7 +288,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T12:56:13.757Z",
-      "lastSeenAt": "2026-09-20T13:14:14.195Z",
+      "lastSeenAt": "2026-09-20T13:15:43.754Z",
       "geography": {
         "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
         "approximate": true,
@@ -501,7 +534,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T12:46:32.465Z",
-      "lastSeenAt": "2026-09-20T13:14:14.195Z",
+      "lastSeenAt": "2026-09-20T13:15:43.754Z",
       "geography": {
         "text": "Approximate location near Russell Hill Road & Forest Hill Road",
         "approximate": true,
@@ -870,7 +903,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T12:31:42.700Z",
-      "lastSeenAt": "2026-09-20T13:14:14.195Z",
+      "lastSeenAt": "2026-09-20T13:15:43.754Z",
       "geography": {
         "text": "Approximate area: (M1G) Scarborough (Woburn)",
         "approximate": true,
@@ -42759,17 +42792,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-20T13:14:14.195Z",
-      "sourceUpdatedAt": "2026-09-20T13:10:01.000Z",
+      "fetchedAt": "2026-09-20T13:15:43.754Z",
+      "sourceUpdatedAt": "2026-09-20T13:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-20T13:14:14.195Z",
+      "fetchedAt": "2026-09-20T13:15:43.754Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1P": {
+      "text": "Approximate area: (M1P) Scarborough (Dorset Park / Wexford Heights / Scarborough Town Centre)",
+      "approximate": true,
+      "coordinates": [
+        43.7612,
+        -79.2707
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "ALEXANDER ST, TT / ALEXANDER STREET PARKETTE TRL / DONNA SHAW LANE": {
       "text": "Approximate location near Alexander Street & Donna Shaw Lane",
       "approximate": true,
@@ -43066,18 +43111,6 @@
         -79.3853
       ],
       "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1P": {
-      "text": "Approximate area: (M1P) Scarborough (Dorset Park / Wexford Heights / Scarborough Town Centre)",
-      "approximate": true,
-      "coordinates": [
-        43.7612,
-        -79.2707
-      ],
-      "division": "Division 41",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
