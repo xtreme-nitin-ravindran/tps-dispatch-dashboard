@@ -3,9 +3,42 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-20T10:18:42.055Z",
-  "sourceUpdatedAt": "2026-09-20T10:15:01.000Z",
+  "fetchedAt": "2026-09-20T10:24:12.298Z",
+  "sourceUpdatedAt": "2026-09-20T10:20:01.000Z",
   "incidents": [
+    {
+      "id": "F26149105",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6P",
+      "division": "423",
+      "timestamp": "2026-09-20T10:13:47.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "423"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-20T10:24:12.298Z",
+      "lastSeenAt": "2026-09-20T10:24:12.298Z",
+      "geography": {
+        "text": "Approximate area: (M6P) West Toronto (High Park / The Junction South)",
+        "approximate": true,
+        "coordinates": [
+          43.6605,
+          -79.4633
+        ],
+        "division": "Division 11",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26149104",
       "source": "TFS",
@@ -15,7 +48,7 @@
       "division": "314",
       "timestamp": "2026-09-20T10:02:49.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -49,7 +82,7 @@
       "division": "221",
       "timestamp": "2026-09-20T10:02:40.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -82,7 +115,7 @@
       "division": "345",
       "timestamp": "2026-09-20T09:48:39.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -40407,17 +40440,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-20T10:18:42.055Z",
-      "sourceUpdatedAt": "2026-09-20T10:15:01.000Z",
+      "fetchedAt": "2026-09-20T10:24:12.298Z",
+      "sourceUpdatedAt": "2026-09-20T10:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-20T10:18:42.055Z",
+      "fetchedAt": "2026-09-20T10:24:12.298Z",
       "status": "ok"
     }
   },
-  "updatedBy": "github-actions",
+  "updatedBy": "concourse",
   "locationCache": {
+    "M6P": {
+      "text": "Approximate area: (M6P) West Toronto (High Park / The Junction South)",
+      "approximate": true,
+      "coordinates": [
+        43.6605,
+        -79.4633
+      ],
+      "division": "Division 11",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "JARVIS ST, TT / CARLTON ST / SIRMAN LANE": {
       "text": "Jarvis Street between Carlton Street & Sirman Lane",
       "approximate": false,
@@ -42493,18 +42538,6 @@
         -79.2764888
       ],
       "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6P": {
-      "text": "Approximate area: (M6P) West Toronto (High Park / The Junction South)",
-      "approximate": true,
-      "coordinates": [
-        43.6605,
-        -79.4633
-      ],
-      "division": "Division 11",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
