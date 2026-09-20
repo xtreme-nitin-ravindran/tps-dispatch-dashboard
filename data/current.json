@@ -3,9 +3,42 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-20T14:24:15.619Z",
-  "sourceUpdatedAt": "2026-09-20T14:20:01.000Z",
+  "fetchedAt": "2026-09-20T14:25:51.881Z",
+  "sourceUpdatedAt": "2026-09-20T14:25:01.000Z",
   "incidents": [
+    {
+      "id": "F26149193",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1H",
+      "division": "231",
+      "timestamp": "2026-09-20T14:16:35.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "231"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-20T14:25:51.881Z",
+      "lastSeenAt": "2026-09-20T14:25:51.881Z",
+      "geography": {
+        "text": "Approximate area: (M1H) Scarborough (Cedarbrae)",
+        "approximate": true,
+        "coordinates": [
+          43.7686,
+          -79.2389
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26149192",
       "source": "TFS",
@@ -25,7 +58,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T14:24:15.619Z",
-      "lastSeenAt": "2026-09-20T14:24:15.619Z",
+      "lastSeenAt": "2026-09-20T14:25:51.881Z",
       "geography": {
         "text": "Approximate area: (M1J) Scarborough (Eglinton)",
         "approximate": true,
@@ -64,7 +97,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T14:24:15.619Z",
-      "lastSeenAt": "2026-09-20T14:24:15.619Z",
+      "lastSeenAt": "2026-09-20T14:25:51.881Z",
       "geography": {
         "text": "Front Street between Yonge Street & Scott Street",
         "approximate": false,
@@ -97,7 +130,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T14:24:15.619Z",
-      "lastSeenAt": "2026-09-20T14:24:15.619Z",
+      "lastSeenAt": "2026-09-20T14:25:51.881Z",
       "geography": {
         "text": "Approximate area: (M6A) North York (Lawrence Manor / Lawrence Heights)",
         "approximate": true,
@@ -136,7 +169,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T14:24:15.619Z",
-      "lastSeenAt": "2026-09-20T14:24:15.619Z",
+      "lastSeenAt": "2026-09-20T14:25:51.881Z",
       "geography": {
         "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
         "approximate": true,
@@ -159,7 +192,7 @@
       "division": "421",
       "timestamp": "2026-09-20T14:06:07.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -208,7 +241,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T14:16:25.349Z",
-      "lastSeenAt": "2026-09-20T14:24:15.619Z",
+      "lastSeenAt": "2026-09-20T14:25:51.881Z",
       "geography": {
         "text": "Approximate area: (M9M) North York (Humberlea / Emery)",
         "approximate": true,
@@ -308,7 +341,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T14:16:25.349Z",
-      "lastSeenAt": "2026-09-20T14:24:15.619Z",
+      "lastSeenAt": "2026-09-20T14:25:51.881Z",
       "geography": {
         "text": "Approximate location on undefined",
         "approximate": true,
@@ -359,7 +392,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T14:16:25.349Z",
-      "lastSeenAt": "2026-09-20T14:24:15.619Z",
+      "lastSeenAt": "2026-09-20T14:25:51.881Z",
       "geography": {
         "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
         "approximate": true,
@@ -382,7 +415,7 @@
       "division": "443",
       "timestamp": "2026-09-20T13:56:16.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -553,7 +586,7 @@
       "division": "413",
       "timestamp": "2026-09-20T13:46:56.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -44056,17 +44089,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-20T14:24:15.619Z",
-      "sourceUpdatedAt": "2026-09-20T14:20:01.000Z",
+      "fetchedAt": "2026-09-20T14:25:51.881Z",
+      "sourceUpdatedAt": "2026-09-20T14:25:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-20T14:24:15.619Z",
+      "fetchedAt": "2026-09-20T14:25:51.881Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1H": {
+      "text": "Approximate area: (M1H) Scarborough (Cedarbrae)",
+      "approximate": true,
+      "coordinates": [
+        43.7686,
+        -79.2389
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1J": {
       "text": "Approximate area: (M1J) Scarborough (Eglinton)",
       "approximate": true,
@@ -44384,18 +44429,6 @@
         -79.5282
       ],
       "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1H": {
-      "text": "Approximate area: (M1H) Scarborough (Cedarbrae)",
-      "approximate": true,
-      "coordinates": [
-        43.7686,
-        -79.2389
-      ],
-      "division": "Division 43",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
