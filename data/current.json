@@ -3,9 +3,114 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-20T03:34:42.531Z",
-  "sourceUpdatedAt": "2026-09-20T03:30:01.000Z",
+  "fetchedAt": "2026-09-20T03:36:02.241Z",
+  "sourceUpdatedAt": "2026-09-20T03:35:01.000Z",
   "incidents": [
+    {
+      "id": "F26148987",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "EGLINTON AVE, SC / MASON RD / BEACHELL ST",
+      "division": "223",
+      "timestamp": "2026-09-20T03:30:04.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "221"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "221"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-20T03:36:02.241Z",
+      "lastSeenAt": "2026-09-20T03:36:02.241Z",
+      "geography": {
+        "text": "Eglinton Avenue between Mason Road & Beachell Street",
+        "approximate": false,
+        "coordinates": [
+          43.74214015,
+          -79.22363555
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-20T03:36:02.241Z"
+      }
+    },
+    {
+      "id": "F26148986",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1R",
+      "division": "245",
+      "timestamp": "2026-09-20T03:26:43.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "245"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-20T03:36:02.241Z",
+      "lastSeenAt": "2026-09-20T03:36:02.241Z",
+      "geography": {
+        "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
+        "approximate": true,
+        "coordinates": [
+          43.7507,
+          -79.3003
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26148985",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1M",
+      "division": "223",
+      "timestamp": "2026-09-20T03:24:48.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "223"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-20T03:36:02.241Z",
+      "lastSeenAt": "2026-09-20T03:36:02.241Z",
+      "geography": {
+        "text": "Approximate area: (M1M) Scarborough (Cliffside / Cliffcrest / Scarborough Village West)",
+        "approximate": true,
+        "coordinates": [
+          43.7247,
+          -79.2312
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-d273329cbc676b1ef7e570eb",
       "source": "TPS",
@@ -46,7 +151,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T03:32:52.528Z",
-      "lastSeenAt": "2026-09-20T03:34:42.531Z",
+      "lastSeenAt": "2026-09-20T03:36:02.241Z",
       "geography": {
         "text": "Spadina Avenue & Street Andrew Street",
         "approximate": false,
@@ -35105,17 +35210,53 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-20T03:34:42.531Z",
-      "sourceUpdatedAt": "2026-09-20T03:30:01.000Z",
+      "fetchedAt": "2026-09-20T03:36:02.241Z",
+      "sourceUpdatedAt": "2026-09-20T03:35:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-20T03:34:42.531Z",
+      "fetchedAt": "2026-09-20T03:36:02.241Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "EGLINTON AVE, SC / MASON RD / BEACHELL ST": {
+      "text": "Eglinton Avenue between Mason Road & Beachell Street",
+      "approximate": false,
+      "coordinates": [
+        43.74214015,
+        -79.22363555
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-20T03:36:02.241Z"
+    },
+    "M1R": {
+      "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
+      "approximate": true,
+      "coordinates": [
+        43.7507,
+        -79.3003
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M1M": {
+      "text": "Approximate area: (M1M) Scarborough (Cliffside / Cliffcrest / Scarborough Village West)",
+      "approximate": true,
+      "coordinates": [
+        43.7247,
+        -79.2312
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "SPADINA AVE / ST ANDREW ST": {
       "text": "Spadina Avenue & Street Andrew Street",
       "approximate": false,
@@ -35293,18 +35434,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-20T00:57:16.315Z"
     },
-    "M1M": {
-      "text": "Approximate area: (M1M) Scarborough (Cliffside / Cliffcrest / Scarborough Village West)",
-      "approximate": true,
-      "coordinates": [
-        43.7247,
-        -79.2312
-      ],
-      "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "BRIDLETOWNE CRCL, SC / GLEN SPRINGS DR / 3075 BRIDLETOWNE CRCL": {
       "text": "Bridletowne Crcl between Glen Springs Drive & 3075 Bridletowne Crcl",
       "approximate": false,
@@ -35472,18 +35601,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T22:46:12.441Z"
-    },
-    "M1R": {
-      "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
-      "approximate": true,
-      "coordinates": [
-        43.7507,
-        -79.3003
-      ],
-      "division": "Division 41",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "OVERLEA BLVD / THORNCLIFFE PARK DR": {
       "text": "Approximate location on Overlea Boulevard",
