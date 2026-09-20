@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-20T11:05:20.124Z",
-  "sourceUpdatedAt": "2026-09-20T11:00:01.000Z",
+  "fetchedAt": "2026-09-20T11:06:40.514Z",
+  "sourceUpdatedAt": "2026-09-20T11:05:01.000Z",
   "incidents": [
+    {
+      "id": "F26149116",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3H",
+      "division": "112",
+      "timestamp": "2026-09-20T10:57:12.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-20T11:06:40.514Z",
+      "lastSeenAt": "2026-09-20T11:06:40.514Z",
+      "geography": {
+        "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
+        "approximate": true,
+        "coordinates": [
+          43.7535,
+          -79.4472
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26149115",
       "source": "TFS",
@@ -57,7 +83,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T10:50:39.119Z",
-      "lastSeenAt": "2026-09-20T11:05:20.124Z",
+      "lastSeenAt": "2026-09-20T11:06:40.514Z",
       "geography": {
         "text": "Lawrence Avenue between Morningside Avenue & Collinsgrove Road",
         "approximate": false,
@@ -216,7 +242,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T10:41:08.799Z",
-      "lastSeenAt": "2026-09-20T11:05:20.124Z",
+      "lastSeenAt": "2026-09-20T11:06:40.514Z",
       "geography": {
         "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
         "approximate": true,
@@ -40817,17 +40843,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-20T11:05:20.124Z",
-      "sourceUpdatedAt": "2026-09-20T11:00:01.000Z",
+      "fetchedAt": "2026-09-20T11:06:40.514Z",
+      "sourceUpdatedAt": "2026-09-20T11:05:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-20T11:05:20.124Z",
+      "fetchedAt": "2026-09-20T11:06:40.514Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3H": {
+      "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
+      "approximate": true,
+      "coordinates": [
+        43.7535,
+        -79.4472
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M4Y": {
       "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
       "approximate": true,
@@ -41475,18 +41513,6 @@
         -79.5582
       ],
       "division": "Division 23",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M3H": {
-      "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
-      "approximate": true,
-      "coordinates": [
-        43.7535,
-        -79.4472
-      ],
-      "division": "Division 32",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
