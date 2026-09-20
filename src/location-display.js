@@ -22,3 +22,10 @@ export function locationDisplay(location, points = [], neighbourhood = '') {
   if (resolved.length) return { text: `Approximate location near ${street} & ${resolved[0]}`, approximate: true };
   return { text: `Approximate location on ${street || 'an unspecified street'}${crosses.length >= 2 ? ` between ${crosses.join(' & ')}` : ''}`, approximate: true };
 }
+
+// Also handles previously prepared snapshots containing title-cased "Hepc".
+export function expandLocationAbbreviations(text) {
+  return String(text || '')
+    .replace(/\bon HEPC\b/gi, 'along a hydro corridor')
+    .replace(/\bHEPC\b/gi, 'hydro corridor');
+}

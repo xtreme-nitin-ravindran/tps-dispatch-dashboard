@@ -1,6 +1,6 @@
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
-import { locationDisplay } from "./src/location-display.js";
+import { locationDisplay, expandLocationAbbreviations } from "./src/location-display.js?v=hydro-corridor-1";
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
 
 const CONFIG = {
@@ -405,7 +405,8 @@ function coordinatesForCall(call) {
 }
 
 function displayLocation(call) {
-  return call.geography || locationDisplay(call.location);
+  const location = call.geography || locationDisplay(call.location);
+  return { ...location, text: expandLocationAbbreviations(location.text) };
 }
 
 function isApproximateLocation(call) {
