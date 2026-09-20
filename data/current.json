@@ -3,9 +3,82 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-20T12:50:13.137Z",
-  "sourceUpdatedAt": "2026-09-20T12:45:02.000Z",
+  "fetchedAt": "2026-09-20T12:50:52.021Z",
+  "sourceUpdatedAt": "2026-09-20T12:50:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-cef825c40789e1bb1ce5aa05",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-20T12:44:48.000Z",
+      "location": "SHUTER ST - WINDEYER LANE",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SHUTER ST - WINDEYER LANE",
+        "coordinates": [
+          43.656330895434614,
+          -79.36856675461891
+        ],
+        "division": "Division 51",
+        "approximate": true
+      }
+    },
+    {
+      "id": "F26149154",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3C",
+      "division": "123",
+      "timestamp": "2026-09-20T12:43:27.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-20T12:50:52.021Z",
+      "lastSeenAt": "2026-09-20T12:50:52.021Z",
+      "geography": {
+        "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
+        "approximate": true,
+        "coordinates": [
+          43.7334,
+          -79.3329
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26149153",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9A",
+      "division": "445",
+      "timestamp": "2026-09-20T12:40:44.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-20T12:50:52.021Z",
+      "lastSeenAt": "2026-09-20T12:50:52.021Z",
+      "geography": {
+        "text": "Approximate area: (M9A) Etobicoke (Islington Avenue)",
+        "approximate": true,
+        "coordinates": [
+          43.6662,
+          -79.5282
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26149152",
       "source": "TFS",
@@ -16,9 +89,16 @@
       "timestamp": "2026-09-20T12:39:14.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "221"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-20T12:46:32.465Z",
-      "lastSeenAt": "2026-09-20T12:50:13.137Z",
+      "lastSeenAt": "2026-09-20T12:50:52.021Z",
       "geography": {
         "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
         "approximate": true,
@@ -33,6 +113,27 @@
       }
     },
     {
+      "id": "TPS-05f05f4ee6eac92a40dbff70",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-20T12:37:28.000Z",
+      "location": "COLLEGE ST - BATHURST ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "COLLEGE ST - BATHURST ST",
+        "coordinates": [
+          43.65647039830517,
+          -79.40770673291904
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26149151",
       "source": "TFS",
       "eventType": "fire",
@@ -42,9 +143,16 @@
       "timestamp": "2026-09-20T12:36:43.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "231"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-20T12:46:32.465Z",
-      "lastSeenAt": "2026-09-20T12:50:13.137Z",
+      "lastSeenAt": "2026-09-20T12:50:52.021Z",
       "geography": {
         "text": "Approximate area: (M1H) Scarborough (Cedarbrae)",
         "approximate": true,
@@ -68,9 +176,34 @@
       "timestamp": "2026-09-20T12:36:28.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "433"
+          ]
+        },
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "13"
+          ]
+        },
+        {
+          "type": "Hazmat Unit",
+          "numbers": [
+            "145"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "135"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-20T12:46:32.465Z",
-      "lastSeenAt": "2026-09-20T12:50:13.137Z",
+      "lastSeenAt": "2026-09-20T12:50:52.021Z",
       "geography": {
         "text": "Approximate location near Russell Hill Road & Forest Hill Road",
         "approximate": true,
@@ -103,7 +236,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T12:41:22.632Z",
-      "lastSeenAt": "2026-09-20T12:50:13.137Z",
+      "lastSeenAt": "2026-09-20T12:50:52.021Z",
       "geography": {
         "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
         "approximate": true,
@@ -136,7 +269,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T12:41:22.632Z",
-      "lastSeenAt": "2026-09-20T12:50:13.137Z",
+      "lastSeenAt": "2026-09-20T12:50:52.021Z",
       "geography": {
         "text": "Approximate area: (M2M) Willowdale East (Newtonbrook)",
         "approximate": true,
@@ -148,6 +281,48 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-60de6f57cf27afc8857609ff",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-20T12:32:04.000Z",
+      "location": "LN W MAIN N KINGSTON - MAIN ST",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN W MAIN N KINGSTON - MAIN ST",
+        "coordinates": [
+          43.67890233101804,
+          -79.29800824937016
+        ],
+        "division": "Division 55",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-4833d2d334c4dc263647c532",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DEMONSTRATION",
+      "callTypeCode": "DEMO",
+      "timestamp": "2026-09-20T12:29:19.000Z",
+      "location": "BATHURST ST - SHEPPARD AVE W",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BATHURST ST - SHEPPARD AVE W",
+        "coordinates": [
+          43.755455974900755,
+          -79.43845112728326
+        ],
+        "division": "Division 32",
+        "approximate": true
       }
     },
     {
@@ -169,7 +344,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T12:36:32.468Z",
-      "lastSeenAt": "2026-09-20T12:50:13.137Z",
+      "lastSeenAt": "2026-09-20T12:50:52.021Z",
       "geography": {
         "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
         "approximate": true,
@@ -223,7 +398,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T12:36:32.468Z",
-      "lastSeenAt": "2026-09-20T12:50:13.137Z",
+      "lastSeenAt": "2026-09-20T12:50:52.021Z",
       "geography": {
         "text": "Approximate area: (M8X) Etobicoke (The Kingsway / Montgomery Road / Old Mill North)",
         "approximate": true,
@@ -312,7 +487,7 @@
       "division": "421",
       "timestamp": "2026-09-20T12:23:46.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -334,6 +509,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-e5e779d31dc0ebec212da84d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-20T12:23:39.000Z",
+      "location": "RICHMOND ST W - BATHURST ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "RICHMOND ST W - BATHURST ST",
+        "coordinates": [
+          43.646464986808226,
+          -79.40371833209247
+        ],
+        "division": "Division 14",
+        "approximate": true
       }
     },
     {
@@ -376,7 +572,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T12:31:42.700Z",
-      "lastSeenAt": "2026-09-20T12:50:13.137Z",
+      "lastSeenAt": "2026-09-20T12:50:52.021Z",
       "geography": {
         "text": "Approximate area: (M1G) Scarborough (Woburn)",
         "approximate": true,
@@ -485,7 +681,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T12:25:52.688Z",
-      "lastSeenAt": "2026-09-20T12:50:13.137Z",
+      "lastSeenAt": "2026-09-20T12:50:52.021Z",
       "geography": {
         "text": "Approximate location near Sandhurst Crcl & Brimwood Boulevard",
         "approximate": true,
@@ -42265,17 +42461,41 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-20T12:50:13.137Z",
-      "sourceUpdatedAt": "2026-09-20T12:45:02.000Z",
+      "fetchedAt": "2026-09-20T12:50:52.021Z",
+      "sourceUpdatedAt": "2026-09-20T12:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-20T12:50:13.137Z",
+      "fetchedAt": "2026-09-20T12:50:52.021Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3C": {
+      "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
+      "approximate": true,
+      "coordinates": [
+        43.7334,
+        -79.3329
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M9A": {
+      "text": "Approximate area: (M9A) Etobicoke (Islington Avenue)",
+      "approximate": true,
+      "coordinates": [
+        43.6662,
+        -79.5282
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1K": {
       "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
       "approximate": true,
@@ -43401,18 +43621,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T22:42:11.669Z"
     },
-    "M9A": {
-      "text": "Approximate area: (M9A) Etobicoke (Islington Avenue)",
-      "approximate": true,
-      "coordinates": [
-        43.6662,
-        -79.5282
-      ],
-      "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "M3B": {
       "text": "Approximate area: (M3B) Don Mills North",
       "approximate": true,
@@ -43925,18 +44133,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T19:27:01.646Z"
-    },
-    "M3C": {
-      "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
-      "approximate": true,
-      "coordinates": [
-        43.7334,
-        -79.3329
-      ],
-      "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "ST JOSEPH ST, TT / ST NICHOLAS ST / BAY ST": {
       "text": "Street Joseph Street between Street Nicholas Street & Bay Street",
