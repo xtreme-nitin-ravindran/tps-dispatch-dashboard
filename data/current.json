@@ -3,9 +3,161 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-20T04:30:18.809Z",
-  "sourceUpdatedAt": "2026-09-20T04:25:02.000Z",
+  "fetchedAt": "2026-09-20T04:31:17.947Z",
+  "sourceUpdatedAt": "2026-09-20T04:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26149018",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "YORK MILLS RD, NY / SANDOVER DR / CLAYLAND DR",
+      "division": "123",
+      "timestamp": "2026-09-20T04:21:27.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-20T04:31:17.947Z",
+      "lastSeenAt": "2026-09-20T04:31:17.947Z",
+      "geography": {
+        "text": "York Mills Road between Sandover Drive & Clayland Drive",
+        "approximate": false,
+        "coordinates": [
+          43.759753700000005,
+          -79.33167245
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-20T04:31:17.947Z"
+      }
+    },
+    {
+      "id": "TPS-6ba67d0ca913c4817e1647f5",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "NOISY PARTY",
+      "callTypeCode": "NOIPA",
+      "timestamp": "2026-09-20T04:20:58.000Z",
+      "location": "ROYAL YORK RD - DWIGHT AVE",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ROYAL YORK RD - DWIGHT AVE",
+        "coordinates": [
+          43.603979376657016,
+          -79.49862324817688
+        ],
+        "division": "Division 22",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-22349294ec86814b59094a52",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "NOISY PARTY",
+      "callTypeCode": "NOIPA",
+      "timestamp": "2026-09-20T04:19:26.000Z",
+      "location": "KING ST W - DUFFERIN ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KING ST W - DUFFERIN ST",
+        "coordinates": [
+          43.63895588349699,
+          -79.42735822421264
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-067b1154fc0c9459873b85e6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT JUST OCCURRED",
+      "callTypeCode": "THEJU",
+      "timestamp": "2026-09-20T04:18:03.000Z",
+      "location": "WESTMORE DR - 27 HWY N",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WESTMORE DR - 27 HWY N",
+        "coordinates": [
+          43.73097966948219,
+          -79.59944376789566
+        ],
+        "division": "Division 23",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-0eb800076e168e145ed8fbe5",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "BREAK & ENTER",
+      "callTypeCode": "BREEN",
+      "timestamp": "2026-09-20T04:18:02.000Z",
+      "location": "MARKHAM RD - TAPSCOTT RD",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MARKHAM RD - TAPSCOTT RD",
+        "coordinates": [
+          43.83165781092147,
+          -79.2457481889947
+        ],
+        "division": "Division 42",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-a81c495a4c20bea816aa8e9a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-20T04:17:30.000Z",
+      "location": "DON VALLEY PARKWAY N - DON MILLS RD",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DON VALLEY PARKWAY N - DON MILLS RD",
+        "coordinates": [
+          43.69760630194127,
+          -79.33636392953336
+        ],
+        "division": "HP",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-a308c0b47b80e76c8a347552",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-20T04:17:07.000Z",
+      "location": "MARISA CRT - JANUS CRT",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MARISA CRT - JANUS CRT",
+        "coordinates": [
+          43.80602734166282,
+          -79.36732361845011
+        ],
+        "division": "Division 33",
+        "approximate": true
+      }
+    },
     {
       "id": "F26149017",
       "source": "TFS",
@@ -16,9 +168,16 @@
       "timestamp": "2026-09-20T04:15:44.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "131"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-20T04:26:30.207Z",
-      "lastSeenAt": "2026-09-20T04:30:18.809Z",
+      "lastSeenAt": "2026-09-20T04:31:17.947Z",
       "geography": {
         "text": "Approximate area: (M4P) Central Toronto (Davisville North)",
         "approximate": true,
@@ -30,6 +189,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-20T04:26:30.207Z"
+      }
+    },
+    {
+      "id": "TPS-ef211d5b791f87e40b69cb42",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-20T04:15:00.000Z",
+      "location": "THISTLE DOWN BLVD - ISLINGTON N ALBION E RAMP",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "THISTLE DOWN BLVD - ISLINGTON N ALBION E RAMP",
+        "coordinates": [
+          43.73690847026462,
+          -79.56462097936159
+        ],
+        "division": "Division 23",
+        "approximate": true
       }
     },
     {
@@ -73,7 +253,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T04:21:31.841Z",
-      "lastSeenAt": "2026-09-20T04:30:18.809Z",
+      "lastSeenAt": "2026-09-20T04:31:17.947Z",
       "geography": {
         "text": "Dunfield Avenue between Soudan Avenue & Lane South Eglinton East Holly",
         "approximate": false,
@@ -154,7 +334,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T04:16:17.115Z",
-      "lastSeenAt": "2026-09-20T04:30:18.809Z",
+      "lastSeenAt": "2026-09-20T04:31:17.947Z",
       "geography": {
         "text": "Lake Shore Boulevard between Long Branch Avenue & Thirty Fifth Street",
         "approximate": false,
@@ -208,7 +388,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T04:16:17.115Z",
-      "lastSeenAt": "2026-09-20T04:30:18.809Z",
+      "lastSeenAt": "2026-09-20T04:31:17.947Z",
       "geography": {
         "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
         "approximate": true,
@@ -256,6 +436,27 @@
       }
     },
     {
+      "id": "TPS-19aa047b34c09e5b8443aed3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-20T04:06:41.000Z",
+      "location": "GARDINER XWY W - PARKSIDE DR",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GARDINER XWY W - PARKSIDE DR",
+        "coordinates": [
+          43.63893309225537,
+          -79.45372441583162
+        ],
+        "division": "HP",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26149011",
       "source": "TFS",
       "eventType": "fire",
@@ -287,7 +488,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T04:16:17.115Z",
-      "lastSeenAt": "2026-09-20T04:30:18.809Z",
+      "lastSeenAt": "2026-09-20T04:31:17.947Z",
       "geography": {
         "text": "Approximate location near Lake Shore Boulevard & Palace Pier Court",
         "approximate": true,
@@ -546,7 +747,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T04:06:33.053Z",
-      "lastSeenAt": "2026-09-20T04:30:18.809Z",
+      "lastSeenAt": "2026-09-20T04:31:17.947Z",
       "geography": {
         "text": "Approximate location on undefined",
         "approximate": true,
@@ -762,7 +963,7 @@
       "division": "141",
       "timestamp": "2026-09-20T03:48:41.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -1241,7 +1442,7 @@
         }
       ],
       "firstSeenAt": "2026-09-20T03:40:53.082Z",
-      "lastSeenAt": "2026-09-20T04:30:18.809Z",
+      "lastSeenAt": "2026-09-20T04:31:17.947Z",
       "geography": {
         "text": "Approximate location on undefined",
         "approximate": true,
@@ -36594,17 +36795,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-20T04:30:18.809Z",
-      "sourceUpdatedAt": "2026-09-20T04:25:02.000Z",
+      "fetchedAt": "2026-09-20T04:31:17.947Z",
+      "sourceUpdatedAt": "2026-09-20T04:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-20T04:30:18.809Z",
+      "fetchedAt": "2026-09-20T04:31:17.947Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "YORK MILLS RD, NY / SANDOVER DR / CLAYLAND DR": {
+      "text": "York Mills Road between Sandover Drive & Clayland Drive",
+      "approximate": false,
+      "coordinates": [
+        43.759753700000005,
+        -79.33167245
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-20T04:31:17.947Z"
+    },
     "M4P": {
       "text": "Approximate area: (M4P) Central Toronto (Davisville North)",
       "approximate": true,
