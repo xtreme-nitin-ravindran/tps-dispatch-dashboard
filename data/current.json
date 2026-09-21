@@ -3,9 +3,113 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-21T21:35:19.823Z",
-  "sourceUpdatedAt": "2026-09-21T21:30:01.000Z",
+  "fetchedAt": "2026-09-21T21:36:40.084Z",
+  "sourceUpdatedAt": "2026-09-21T21:35:01.000Z",
   "incidents": [
+    {
+      "id": "F26149941",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "ISLINGTON AVE / STEELES AVE W",
+      "division": "411",
+      "timestamp": "2026-09-21T21:29:51.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T21:36:40.084Z",
+      "lastSeenAt": "2026-09-21T21:36:40.084Z",
+      "geography": {
+        "text": "Islington Avenue & Steeles Avenue West",
+        "approximate": false,
+        "coordinates": [
+          43.7643435,
+          -79.574872
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-21T21:36:40.084Z"
+      }
+    },
+    {
+      "id": "F26149940",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "ISLINGTON AVE / SATTERLY RD",
+      "division": "411",
+      "timestamp": "2026-09-21T21:29:17.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T21:36:40.084Z",
+      "lastSeenAt": "2026-09-21T21:36:40.084Z",
+      "geography": {
+        "text": "Islington Avenue & Satterly Road",
+        "approximate": false,
+        "coordinates": [
+          43.7585098,
+          -79.5707004
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-21T21:36:40.084Z"
+      }
+    },
+    {
+      "id": "F26149939",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4X",
+      "division": "313",
+      "timestamp": "2026-09-21T21:27:59.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T21:36:40.084Z",
+      "lastSeenAt": "2026-09-21T21:36:40.084Z",
+      "geography": {
+        "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
+        "approximate": true,
+        "coordinates": [
+          43.6684,
+          -79.3689
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26149938",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1H",
+      "division": "231",
+      "timestamp": "2026-09-21T21:25:29.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T21:36:40.084Z",
+      "lastSeenAt": "2026-09-21T21:36:40.084Z",
+      "geography": {
+        "text": "Approximate area: (M1H) Scarborough (Cedarbrae)",
+        "approximate": true,
+        "coordinates": [
+          43.7686,
+          -79.2389
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26149937",
       "source": "TFS",
@@ -16,9 +120,17 @@
       "timestamp": "2026-09-21T21:24:44.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "123",
+            "233"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-21T21:31:39.535Z",
-      "lastSeenAt": "2026-09-21T21:35:19.823Z",
+      "lastSeenAt": "2026-09-21T21:36:40.084Z",
       "geography": {
         "text": "Don Mills Road between Clock Tower Road & Lawrence Avenue East",
         "approximate": false,
@@ -41,7 +153,7 @@
       "division": "222",
       "timestamp": "2026-09-21T21:23:35.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-21T21:31:39.535Z",
       "lastSeenAt": "2026-09-21T21:35:19.823Z",
@@ -110,9 +222,16 @@
       "timestamp": "2026-09-21T21:21:59.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "111"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-21T21:31:39.535Z",
-      "lastSeenAt": "2026-09-21T21:35:19.823Z",
+      "lastSeenAt": "2026-09-21T21:36:40.084Z",
       "geography": {
         "text": "Approximate area: (M2N) Willowdale South",
         "approximate": true,
@@ -161,6 +280,7 @@
         {
           "type": "Fire Truck",
           "numbers": [
+            "324",
             "326"
           ]
         },
@@ -172,7 +292,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T21:26:23.939Z",
-      "lastSeenAt": "2026-09-21T21:35:19.823Z",
+      "lastSeenAt": "2026-09-21T21:36:40.084Z",
       "geography": {
         "text": "Approximate location on Pape Avenue",
         "approximate": true,
@@ -304,7 +424,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T21:20:23.891Z",
-      "lastSeenAt": "2026-09-21T21:35:19.823Z",
+      "lastSeenAt": "2026-09-21T21:36:40.084Z",
       "geography": {
         "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
         "approximate": true,
@@ -451,7 +571,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T21:11:53.777Z",
-      "lastSeenAt": "2026-09-21T21:35:19.823Z",
+      "lastSeenAt": "2026-09-21T21:36:40.084Z",
       "geography": {
         "text": "Evans Avenue & Gamma Street",
         "approximate": false,
@@ -559,7 +679,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T21:10:23.641Z",
-      "lastSeenAt": "2026-09-21T21:35:19.823Z",
+      "lastSeenAt": "2026-09-21T21:36:40.084Z",
       "geography": {
         "text": "Wilson Avenue & Wendell Avenue",
         "approximate": false,
@@ -1105,7 +1225,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T20:45:38.549Z",
-      "lastSeenAt": "2026-09-21T21:35:19.823Z",
+      "lastSeenAt": "2026-09-21T21:36:40.084Z",
       "geography": {
         "text": "Kingston Road between Malvern Avenue & Hannaford Street",
         "approximate": false,
@@ -73797,17 +73917,65 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-21T21:35:19.823Z",
-      "sourceUpdatedAt": "2026-09-21T21:30:01.000Z",
+      "fetchedAt": "2026-09-21T21:36:40.084Z",
+      "sourceUpdatedAt": "2026-09-21T21:35:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-21T21:35:19.823Z",
+      "fetchedAt": "2026-09-21T21:36:40.084Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "ISLINGTON AVE / STEELES AVE W": {
+      "text": "Islington Avenue & Steeles Avenue West",
+      "approximate": false,
+      "coordinates": [
+        43.7643435,
+        -79.574872
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-21T21:36:40.084Z"
+    },
+    "ISLINGTON AVE / SATTERLY RD": {
+      "text": "Islington Avenue & Satterly Road",
+      "approximate": false,
+      "coordinates": [
+        43.7585098,
+        -79.5707004
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-21T21:36:40.084Z"
+    },
+    "M4X": {
+      "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
+      "approximate": true,
+      "coordinates": [
+        43.6684,
+        -79.3689
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M1H": {
+      "text": "Approximate area: (M1H) Scarborough (Cedarbrae)",
+      "approximate": true,
+      "coordinates": [
+        43.7686,
+        -79.2389
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "DON MILLS RD, NY / CLOCK TOWER RD / LAWRENCE AVE E": {
       "text": "Don Mills Road between Clock Tower Road & Lawrence Avenue East",
       "approximate": false,
@@ -74878,18 +75046,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T06:48:56.142Z"
-    },
-    "M4X": {
-      "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
-      "approximate": true,
-      "coordinates": [
-        43.6684,
-        -79.3689
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "KINGSTON RD, SC / MARKHAM RD / BRINLOOR BLVD": {
       "text": "Kingston Road between Markham Road & Brinloor Boulevard",
@@ -76456,18 +76612,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-20T14:26:57.139Z"
-    },
-    "M1H": {
-      "text": "Approximate area: (M1H) Scarborough (Cedarbrae)",
-      "approximate": true,
-      "coordinates": [
-        43.7686,
-        -79.2389
-      ],
-      "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "FRONT ST, TT / YONGE ST / SCOTT ST": {
       "text": "Front Street between Yonge Street & Scott Street",
