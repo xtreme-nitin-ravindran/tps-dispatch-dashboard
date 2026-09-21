@@ -3,9 +3,42 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-21T07:09:36.034Z",
-  "sourceUpdatedAt": "2026-09-21T07:05:01.000Z",
+  "fetchedAt": "2026-09-21T07:10:46.879Z",
+  "sourceUpdatedAt": "2026-09-21T07:10:01.000Z",
   "incidents": [
+    {
+      "id": "F26149595",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M2K",
+      "division": "116",
+      "timestamp": "2026-09-21T07:01:04.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "116"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-21T07:10:46.879Z",
+      "lastSeenAt": "2026-09-21T07:10:46.879Z",
+      "geography": {
+        "text": "Approximate area: (M2K) North York (Bayview Village)",
+        "approximate": true,
+        "coordinates": [
+          43.7797,
+          -79.3813
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-a2e7e786794cfb04c84ac2fd",
       "source": "TPS",
@@ -132,7 +165,7 @@
       "division": "224",
       "timestamp": "2026-09-21T06:44:03.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -187,7 +220,7 @@
       "division": "326",
       "timestamp": "2026-09-21T06:38:45.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -230,7 +263,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T06:48:56.142Z",
-      "lastSeenAt": "2026-09-21T07:09:36.034Z",
+      "lastSeenAt": "2026-09-21T07:10:46.879Z",
       "geography": {
         "text": "Approximate area: (M3A) North York (York Heights / Victoria Village / Parkway East)",
         "approximate": true,
@@ -323,7 +356,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T06:48:56.142Z",
-      "lastSeenAt": "2026-09-21T07:09:36.034Z",
+      "lastSeenAt": "2026-09-21T07:10:46.879Z",
       "geography": {
         "text": "Approximate location near North Bonnington Avenue & Zenith Drive",
         "approximate": true,
@@ -1043,7 +1076,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T06:48:56.142Z",
-      "lastSeenAt": "2026-09-21T07:09:36.034Z",
+      "lastSeenAt": "2026-09-21T07:10:46.879Z",
       "geography": {
         "text": "Kingston Road between Markham Road & Brinloor Boulevard",
         "approximate": false,
@@ -63598,17 +63631,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-21T07:09:36.034Z",
-      "sourceUpdatedAt": "2026-09-21T07:05:01.000Z",
+      "fetchedAt": "2026-09-21T07:10:46.879Z",
+      "sourceUpdatedAt": "2026-09-21T07:10:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-21T07:09:36.034Z",
+      "fetchedAt": "2026-09-21T07:10:46.879Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M2K": {
+      "text": "Approximate area: (M2K) North York (Bayview Village)",
+      "approximate": true,
+      "coordinates": [
+        43.7797,
+        -79.3813
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1J": {
       "text": "Approximate area: (M1J) Scarborough (Eglinton)",
       "approximate": true,
@@ -68744,18 +68789,6 @@
         -79.3819641
       ],
       "division": "Division 52",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M2K": {
-      "text": "Approximate area: (M2K) North York (Bayview Village)",
-      "approximate": true,
-      "coordinates": [
-        43.7797,
-        -79.3813
-      ],
-      "division": "Division 33",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
