@@ -3,9 +3,42 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-21T08:20:27.272Z",
-  "sourceUpdatedAt": "2026-09-21T08:15:01.000Z",
+  "fetchedAt": "2026-09-21T08:21:38.205Z",
+  "sourceUpdatedAt": "2026-09-21T08:20:01.000Z",
   "incidents": [
+    {
+      "id": "F26149602",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1S",
+      "division": "243",
+      "timestamp": "2026-09-21T08:14:52.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "243"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-21T08:21:38.205Z",
+      "lastSeenAt": "2026-09-21T08:21:38.205Z",
+      "geography": {
+        "text": "Approximate area: (M1S) Scarborough (Agincourt)",
+        "approximate": true,
+        "coordinates": [
+          43.7946,
+          -79.2644
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26149601",
       "source": "TFS",
@@ -25,7 +58,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T08:11:07.925Z",
-      "lastSeenAt": "2026-09-21T08:20:27.272Z",
+      "lastSeenAt": "2026-09-21T08:21:38.205Z",
       "geography": {
         "text": "Approximate area: (M1X) Scarborough (Upper Rouge)",
         "approximate": true,
@@ -37,6 +70,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-f7673c00c22c7bd2f4110ad3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-21T07:55:34.000Z",
+      "location": "BEATY BOULEVARD PARKETTE TRL - SUNNYSIDE AVE",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BEATY BOULEVARD PARKETTE TRL - SUNNYSIDE AVE",
+        "coordinates": [
+          43.63877549027512,
+          -79.44841411719405
+        ],
+        "division": "Division 11",
+        "approximate": true
       }
     },
     {
@@ -64,7 +118,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T08:01:07.955Z",
-      "lastSeenAt": "2026-09-21T08:20:27.272Z",
+      "lastSeenAt": "2026-09-21T08:21:38.205Z",
       "geography": {
         "text": "Annie Craig Drive between Silver Moon Drive & Shore Breeze Drive",
         "approximate": false,
@@ -109,6 +163,48 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-8aa25dfdf428a9bd8c06c39e",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-21T07:51:43.000Z",
+      "location": "ROBERTSON PARKETTE TRL - COXWELL AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ROBERTSON PARKETTE TRL - COXWELL AVE",
+        "coordinates": [
+          43.68336521316597,
+          -79.32363123294031
+        ],
+        "division": "Division 55",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-7787b7d85870b484c1c14bc2",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT",
+      "callTypeCode": "ASS",
+      "timestamp": "2026-09-21T07:49:14.000Z",
+      "location": "BARBADOS BLVD - MCCOWAN RD",
+      "division": "Division 43",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BARBADOS BLVD - MCCOWAN RD",
+        "coordinates": [
+          43.73814088038012,
+          -79.24156645196834
+        ],
+        "division": "Division 43",
+        "approximate": true
       }
     },
     {
@@ -193,7 +289,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T07:51:06.327Z",
-      "lastSeenAt": "2026-09-21T08:20:27.272Z",
+      "lastSeenAt": "2026-09-21T08:21:38.205Z",
       "geography": {
         "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
         "approximate": true,
@@ -1596,7 +1692,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T06:48:56.142Z",
-      "lastSeenAt": "2026-09-21T08:20:27.272Z",
+      "lastSeenAt": "2026-09-21T08:21:38.205Z",
       "geography": {
         "text": "Kingston Road between Markham Road & Brinloor Boulevard",
         "approximate": false,
@@ -64151,17 +64247,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-21T08:20:27.272Z",
-      "sourceUpdatedAt": "2026-09-21T08:15:01.000Z",
+      "fetchedAt": "2026-09-21T08:21:38.205Z",
+      "sourceUpdatedAt": "2026-09-21T08:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-21T08:20:27.272Z",
+      "fetchedAt": "2026-09-21T08:21:38.205Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1S": {
+      "text": "Approximate area: (M1S) Scarborough (Agincourt)",
+      "approximate": true,
+      "coordinates": [
+        43.7946,
+        -79.2644
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1X": {
       "text": "Approximate area: (M1X) Scarborough (Upper Rouge)",
       "approximate": true,
@@ -67110,18 +67218,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T07:48:57.628Z"
-    },
-    "M1S": {
-      "text": "Approximate area: (M1S) Scarborough (Agincourt)",
-      "approximate": true,
-      "coordinates": [
-        43.7946,
-        -79.2644
-      ],
-      "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "MACDONELL AVE, TT / RIDEAU AVE / WRIGHT AVE": {
       "text": "Macdonell Avenue between Rideau Avenue & Wright Avenue",
