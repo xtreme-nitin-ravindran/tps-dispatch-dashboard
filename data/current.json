@@ -3,9 +3,58 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-21T20:24:57.890Z",
-  "sourceUpdatedAt": "2026-09-21T20:20:01.000Z",
+  "fetchedAt": "2026-09-21T20:26:08.216Z",
+  "sourceUpdatedAt": "2026-09-21T20:25:01.000Z",
   "incidents": [
+    {
+      "id": "F26149903",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Grass/Rubbish",
+      "location": "/",
+      "division": "213",
+      "timestamp": "2026-09-21T20:17:45.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T20:26:08.216Z",
+      "lastSeenAt": "2026-09-21T20:26:08.216Z",
+      "geography": {
+        "text": "Approximate location on undefined",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-21T19:27:33.134Z"
+      }
+    },
+    {
+      "id": "F26149902",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "COLLEGE ST, TT / LN E BEVERLEY S COLLEGE / BEVERLEY ST",
+      "division": "315",
+      "timestamp": "2026-09-21T20:16:34.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T20:26:08.216Z",
+      "lastSeenAt": "2026-09-21T20:26:08.216Z",
+      "geography": {
+        "text": "College Street between Lane East Beverley South College & Beverley Street",
+        "approximate": false,
+        "coordinates": [
+          43.65876085,
+          -79.39557555
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-21T20:26:08.216Z"
+      }
+    },
     {
       "id": "F26149901",
       "source": "TFS",
@@ -16,9 +65,17 @@
       "timestamp": "2026-09-21T20:15:01.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "313",
+            "314"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-21T20:21:27.452Z",
-      "lastSeenAt": "2026-09-21T20:24:57.890Z",
+      "lastSeenAt": "2026-09-21T20:26:08.216Z",
       "geography": {
         "text": "Street Thomas Street between Charles Street West & Sultan Street",
         "approximate": false,
@@ -42,9 +99,17 @@
       "timestamp": "2026-09-21T20:14:03.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "311",
+            "312"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-21T20:21:27.452Z",
-      "lastSeenAt": "2026-09-21T20:24:57.890Z",
+      "lastSeenAt": "2026-09-21T20:26:08.216Z",
       "geography": {
         "text": "Approximate location near Cluny Drive & Crescent Road",
         "approximate": true,
@@ -68,9 +133,16 @@
       "timestamp": "2026-09-21T20:13:53.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "233"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-21T20:21:27.452Z",
-      "lastSeenAt": "2026-09-21T20:24:57.890Z",
+      "lastSeenAt": "2026-09-21T20:26:08.216Z",
       "geography": {
         "text": "Approximate area: (M3A) North York (York Heights / Victoria Village / Parkway East)",
         "approximate": true,
@@ -103,7 +175,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T20:18:57.485Z",
-      "lastSeenAt": "2026-09-21T20:24:57.890Z",
+      "lastSeenAt": "2026-09-21T20:26:08.216Z",
       "geography": {
         "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
         "approximate": true,
@@ -136,7 +208,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T20:18:57.485Z",
-      "lastSeenAt": "2026-09-21T20:24:57.890Z",
+      "lastSeenAt": "2026-09-21T20:26:08.216Z",
       "geography": {
         "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
         "approximate": true,
@@ -271,7 +343,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T20:18:57.485Z",
-      "lastSeenAt": "2026-09-21T20:24:57.890Z",
+      "lastSeenAt": "2026-09-21T20:26:08.216Z",
       "geography": {
         "text": "Lesmill Road between Duncan Mill Road & Leslie Street",
         "approximate": false,
@@ -630,7 +702,7 @@
       "division": "435",
       "timestamp": "2026-09-21T19:41:41.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -72067,17 +72139,38 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-21T20:24:57.890Z",
-      "sourceUpdatedAt": "2026-09-21T20:20:01.000Z",
+      "fetchedAt": "2026-09-21T20:26:08.216Z",
+      "sourceUpdatedAt": "2026-09-21T20:25:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-21T20:24:57.890Z",
+      "fetchedAt": "2026-09-21T20:26:08.216Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "/": {
+      "text": "Approximate location on undefined",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-21T19:27:33.134Z"
+    },
+    "COLLEGE ST, TT / LN E BEVERLEY S COLLEGE / BEVERLEY ST": {
+      "text": "College Street between Lane East Beverley South College & Beverley Street",
+      "approximate": false,
+      "coordinates": [
+        43.65876085,
+        -79.39557555
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-21T20:26:08.216Z"
+    },
     "ST THOMAS ST, TT / CHARLES ST W / SULTAN ST": {
       "text": "Street Thomas Street between Charles Street West & Sultan Street",
       "approximate": false,
@@ -72251,15 +72344,6 @@
         -79.3591782
       ],
       "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-21T19:27:33.134Z"
-    },
-    "/": {
-      "text": "Approximate location on undefined",
-      "approximate": true,
-      "coordinates": null,
-      "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T19:27:33.134Z"
