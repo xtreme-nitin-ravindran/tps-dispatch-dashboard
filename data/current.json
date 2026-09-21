@@ -3,9 +3,161 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-21T07:50:07.309Z",
-  "sourceUpdatedAt": "2026-09-21T07:45:01.000Z",
+  "fetchedAt": "2026-09-21T07:51:06.327Z",
+  "sourceUpdatedAt": "2026-09-21T07:50:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-a008f19fef0f5b1b1f488ec5",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-21T07:47:26.000Z",
+      "location": "BICKNELL AVE - FORBES AVE",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BICKNELL AVE - FORBES AVE",
+        "coordinates": [
+          43.681948211759966,
+          -79.47375250226474
+        ],
+        "division": "Division 12",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-5a8aa0b9649ab8188a7049ad",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-21T07:44:39.000Z",
+      "location": "BAY ST - YORK ST",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BAY ST - YORK ST",
+        "coordinates": [
+          43.651756690860346,
+          -79.38241174286419
+        ],
+        "division": "Division 52",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-441e947632ccb0a0b3f236eb",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "TRESPASS",
+      "callTypeCode": "TRE",
+      "timestamp": "2026-09-21T07:44:18.000Z",
+      "location": "WARDEN AVE - PRUDHAM GT",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WARDEN AVE - PRUDHAM GT",
+        "coordinates": [
+          43.72851956493918,
+          -79.2848256886362
+        ],
+        "division": "Division 41",
+        "approximate": true
+      }
+    },
+    {
+      "id": "F26149598",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M8W",
+      "division": "434",
+      "timestamp": "2026-09-21T07:41:35.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T07:51:06.327Z",
+      "lastSeenAt": "2026-09-21T07:51:06.327Z",
+      "geography": {
+        "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
+        "approximate": true,
+        "coordinates": [
+          43.6021,
+          -79.5402
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-68e19540e45d559b751df694",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT",
+      "callTypeCode": "ASS",
+      "timestamp": "2026-09-21T07:39:05.000Z",
+      "location": "TRESTLESIDE GRV - PRINCEWAY DR",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "TRESTLESIDE GRV - PRINCEWAY DR",
+        "coordinates": [
+          43.750404227458525,
+          -79.3087559780989
+        ],
+        "division": "Division 41",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-e323ae2fbb2ced290df9abc3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSON WITH A KNIFE",
+      "callTypeCode": "PERKN",
+      "timestamp": "2026-09-21T07:35:32.000Z",
+      "location": "SPRINGHURST AVE - THORBURN AVE",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SPRINGHURST AVE - THORBURN AVE",
+        "coordinates": [
+          43.63521187866022,
+          -79.42782382405741
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-69f0e995b2c25d8ea74b170b",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-21T07:30:28.000Z",
+      "location": "YONGE ST - O'KEEFE LANE",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "YONGE ST - O'KEEFE LANE",
+        "coordinates": [
+          43.6593547984586,
+          -79.38078174748355
+        ],
+        "division": "Division 51",
+        "approximate": true
+      }
+    },
     {
       "id": "F26149597",
       "source": "TFS",
@@ -15,7 +167,7 @@
       "division": "345",
       "timestamp": "2026-09-21T07:28:54.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -37,6 +189,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-ac578ad77886427f55f547ba",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT OF VEHICLE",
+      "callTypeCode": "THEVE",
+      "timestamp": "2026-09-21T07:27:37.000Z",
+      "location": "REXDALE BLVD - ISLINGTON AVE",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "REXDALE BLVD - ISLINGTON AVE",
+        "coordinates": [
+          43.71341335562603,
+          -79.5597516349048
+        ],
+        "division": "Division 23",
+        "approximate": true
       }
     },
     {
@@ -1311,7 +1484,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T06:48:56.142Z",
-      "lastSeenAt": "2026-09-21T07:50:07.309Z",
+      "lastSeenAt": "2026-09-21T07:51:06.327Z",
       "geography": {
         "text": "Kingston Road between Markham Road & Brinloor Boulevard",
         "approximate": false,
@@ -63866,17 +64039,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-21T07:50:07.309Z",
-      "sourceUpdatedAt": "2026-09-21T07:45:01.000Z",
+      "fetchedAt": "2026-09-21T07:51:06.327Z",
+      "sourceUpdatedAt": "2026-09-21T07:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-21T07:50:07.309Z",
+      "fetchedAt": "2026-09-21T07:51:06.327Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M8W": {
+      "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
+      "approximate": true,
+      "coordinates": [
+        43.6021,
+        -79.5402
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M6H": {
       "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
       "approximate": true,
@@ -64491,18 +64676,6 @@
         -79.445
       ],
       "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M8W": {
-      "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
-      "approximate": true,
-      "coordinates": [
-        43.6021,
-        -79.5402
-      ],
-      "division": "Division 22",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
