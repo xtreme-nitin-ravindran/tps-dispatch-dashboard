@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-21T21:18:52.782Z",
-  "sourceUpdatedAt": "2026-09-21T21:15:01.000Z",
+  "fetchedAt": "2026-09-21T21:20:23.891Z",
+  "sourceUpdatedAt": "2026-09-21T21:20:01.000Z",
   "incidents": [
+    {
+      "id": "F26149932",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "EDWALTER AVE, ET / PRINCE EDWARD DR S / BALLACAINE DR",
+      "division": "431",
+      "timestamp": "2026-09-21T21:14:04.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T21:20:23.891Z",
+      "lastSeenAt": "2026-09-21T21:20:23.891Z",
+      "geography": {
+        "text": "Edwalter Avenue between Prince Edward Drive South & Ballacaine Drive",
+        "approximate": false,
+        "coordinates": [
+          43.637336250000004,
+          -79.49882645
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-21T21:20:23.891Z"
+      }
+    },
+    {
+      "id": "F26149931",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1L",
+      "division": "222",
+      "timestamp": "2026-09-21T21:13:36.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T21:20:23.891Z",
+      "lastSeenAt": "2026-09-21T21:20:23.891Z",
+      "geography": {
+        "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
+        "approximate": true,
+        "coordinates": [
+          43.7122,
+          -79.2843
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26149930",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5A",
+      "division": "325",
+      "timestamp": "2026-09-21T21:13:28.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T21:20:23.891Z",
+      "lastSeenAt": "2026-09-21T21:20:23.891Z",
+      "geography": {
+        "text": "Approximate area: (M5A) Toronto",
+        "approximate": true,
+        "coordinates": [
+          43.6555,
+          -79.3626
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-5eb572b899c4ff22d9abf3b6",
       "source": "TPS",
@@ -37,9 +115,16 @@
       "timestamp": "2026-09-21T21:06:31.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "324"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-21T21:15:23.453Z",
-      "lastSeenAt": "2026-09-21T21:18:52.782Z",
+      "lastSeenAt": "2026-09-21T21:20:23.891Z",
       "geography": {
         "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
         "approximate": true,
@@ -98,7 +183,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T21:11:53.777Z",
-      "lastSeenAt": "2026-09-21T21:18:52.782Z",
+      "lastSeenAt": "2026-09-21T21:20:23.891Z",
       "geography": {
         "text": "Evans Avenue & Gamma Street",
         "approximate": false,
@@ -206,7 +291,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T21:10:23.641Z",
-      "lastSeenAt": "2026-09-21T21:18:52.782Z",
+      "lastSeenAt": "2026-09-21T21:20:23.891Z",
       "geography": {
         "text": "Wilson Avenue & Wendell Avenue",
         "approximate": false,
@@ -752,7 +837,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T20:45:38.549Z",
-      "lastSeenAt": "2026-09-21T21:18:52.782Z",
+      "lastSeenAt": "2026-09-21T21:20:23.891Z",
       "geography": {
         "text": "Kingston Road between Malvern Avenue & Hannaford Street",
         "approximate": false,
@@ -73444,25 +73529,37 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-21T21:18:52.782Z",
-      "sourceUpdatedAt": "2026-09-21T21:15:01.000Z",
+      "fetchedAt": "2026-09-21T21:20:23.891Z",
+      "sourceUpdatedAt": "2026-09-21T21:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-21T21:18:52.782Z",
+      "fetchedAt": "2026-09-21T21:20:23.891Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
-    "M4L": {
-      "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
+    "EDWALTER AVE, ET / PRINCE EDWARD DR S / BALLACAINE DR": {
+      "text": "Edwalter Avenue between Prince Edward Drive South & Ballacaine Drive",
+      "approximate": false,
+      "coordinates": [
+        43.637336250000004,
+        -79.49882645
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-21T21:20:23.891Z"
+    },
+    "M1L": {
+      "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
       "approximate": true,
       "coordinates": [
-        43.6693,
-        -79.3155
+        43.7122,
+        -79.2843
       ],
-      "division": "Division 55",
+      "division": "Division 41",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -73475,6 +73572,18 @@
         -79.3626
       ],
       "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4L": {
+      "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
+      "approximate": true,
+      "coordinates": [
+        43.6693,
+        -79.3155
+      ],
+      "division": "Division 55",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -74054,18 +74163,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T16:46:12.978Z"
-    },
-    "M1L": {
-      "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
-      "approximate": true,
-      "coordinates": [
-        43.7122,
-        -79.2843
-      ],
-      "division": "Division 41",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M2K": {
       "text": "Approximate area: (M2K) North York (Bayview Village)",
