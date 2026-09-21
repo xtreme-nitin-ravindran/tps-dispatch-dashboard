@@ -3,9 +3,56 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-21T23:30:22.230Z",
-  "sourceUpdatedAt": "2026-09-21T23:25:01.000Z",
+  "fetchedAt": "2026-09-21T23:31:32.471Z",
+  "sourceUpdatedAt": "2026-09-21T23:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26150006",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6K",
+      "division": "426",
+      "timestamp": "2026-09-21T23:23:52.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T23:31:32.471Z",
+      "lastSeenAt": "2026-09-21T23:31:32.471Z",
+      "geography": {
+        "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+        "approximate": true,
+        "coordinates": [
+          43.6383,
+          -79.4301
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-e1fbaf0067463de6ace62c43",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-09-21T23:20:25.000Z",
+      "location": "BATHURST ST - COLLEGE PL",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BATHURST ST - COLLEGE PL",
+        "coordinates": [
+          43.65218319363875,
+          -79.40660193185823
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
     {
       "id": "F26150005",
       "source": "TFS",
@@ -16,9 +63,16 @@
       "timestamp": "2026-09-21T23:19:52.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "444"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-21T23:26:22.016Z",
-      "lastSeenAt": "2026-09-21T23:30:22.230Z",
+      "lastSeenAt": "2026-09-21T23:31:32.471Z",
       "geography": {
         "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
         "approximate": true,
@@ -33,6 +87,48 @@
       }
     },
     {
+      "id": "TPS-6cb61ebadb81201262f704c3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "BREAK & ENTER",
+      "callTypeCode": "BREEN",
+      "timestamp": "2026-09-21T23:19:50.000Z",
+      "location": "KINGSLAKE RD - KINGSLAKE RD",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KINGSLAKE RD - KINGSLAKE RD",
+        "coordinates": [
+          43.78453262114066,
+          -79.3444128490628
+        ],
+        "division": "Division 33",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-97dc0a734b8047a61d191b7c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-21T23:17:53.000Z",
+      "location": "GALLOWAY RD - ANDOVER CRES",
+      "division": "Division 43",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GALLOWAY RD - ANDOVER CRES",
+        "coordinates": [
+          43.766156292977314,
+          -79.19642520677687
+        ],
+        "division": "Division 43",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26150003",
       "source": "TFS",
       "eventType": "fire",
@@ -42,9 +138,22 @@
       "timestamp": "2026-09-21T23:15:45.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "432"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "434"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-21T23:26:22.016Z",
-      "lastSeenAt": "2026-09-21T23:30:22.230Z",
+      "lastSeenAt": "2026-09-21T23:31:32.471Z",
       "geography": {
         "text": "Approximate location on undefined",
         "approximate": true,
@@ -64,7 +173,7 @@
       "division": "241",
       "timestamp": "2026-09-21T23:15:45.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-21T23:26:22.016Z",
       "lastSeenAt": "2026-09-21T23:30:22.230Z",
@@ -100,7 +209,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T23:20:22.042Z",
-      "lastSeenAt": "2026-09-21T23:30:22.230Z",
+      "lastSeenAt": "2026-09-21T23:31:32.471Z",
       "geography": {
         "text": "Rosewell Avenue between Glenview Avenue & Cheritan Avenue",
         "approximate": false,
@@ -112,6 +221,48 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-21T23:20:22.042Z"
+      }
+    },
+    {
+      "id": "TPS-637da931993e746411f7d248",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-21T23:13:33.000Z",
+      "location": "WEST DON RIVER TRL - GATEWAY BLVD",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WEST DON RIVER TRL - GATEWAY BLVD",
+        "coordinates": [
+          43.710012275979146,
+          -79.33430173002643
+        ],
+        "division": "Division 55",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-70992098bcebedba5fa8e754",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-21T23:11:53.000Z",
+      "location": "KENNEDY RD - LAWRENCE AVE E",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KENNEDY RD - LAWRENCE AVE E",
+        "coordinates": [
+          43.7494527615645,
+          -79.27494652531841
+        ],
+        "division": "HP",
+        "approximate": true
       }
     },
     {
@@ -141,6 +292,27 @@
       }
     },
     {
+      "id": "TPS-69e5ace323d4af2b0c5e84f7",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING VULNERABLE PERSON",
+      "callTypeCode": "MISVU",
+      "timestamp": "2026-09-21T23:10:29.000Z",
+      "location": "MAIDSTONE ST - SPRINGVIEW AVE",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MAIDSTONE ST - SPRINGVIEW AVE",
+        "coordinates": [
+          43.71573754643957,
+          -79.50470964373855
+        ],
+        "division": "Division 12",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26150000",
       "source": "TFS",
       "eventType": "fire",
@@ -149,7 +321,7 @@
       "division": "323",
       "timestamp": "2026-09-21T23:10:13.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -213,7 +385,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T23:11:32.074Z",
-      "lastSeenAt": "2026-09-21T23:30:22.230Z",
+      "lastSeenAt": "2026-09-21T23:31:32.471Z",
       "geography": {
         "text": "Approximate location on York Mills Road",
         "approximate": true,
@@ -77100,17 +77272,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-21T23:30:22.230Z",
-      "sourceUpdatedAt": "2026-09-21T23:25:01.000Z",
+      "fetchedAt": "2026-09-21T23:31:32.471Z",
+      "sourceUpdatedAt": "2026-09-21T23:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-21T23:30:22.230Z",
+      "fetchedAt": "2026-09-21T23:31:32.471Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6K": {
+      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+      "approximate": true,
+      "coordinates": [
+        43.6383,
+        -79.4301
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M9C": {
       "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
       "approximate": true,
@@ -78004,18 +78188,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T20:45:38.549Z"
-    },
-    "M6K": {
-      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
-      "approximate": true,
-      "coordinates": [
-        43.6383,
-        -79.4301
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "LAWRENCE AVE, SC / VALPARAISO AVE / MCCOWAN RD": {
       "text": "Lawrence Avenue between Valparaiso Avenue & Mccowan Road",
