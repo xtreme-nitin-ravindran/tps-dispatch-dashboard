@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-21T23:15:01.901Z",
-  "sourceUpdatedAt": "2026-09-21T23:10:03.000Z",
+  "fetchedAt": "2026-09-21T23:16:21.460Z",
+  "sourceUpdatedAt": "2026-09-21T23:15:02.000Z",
   "incidents": [
+    {
+      "id": "F26150000",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4J",
+      "division": "323",
+      "timestamp": "2026-09-21T23:10:13.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T23:16:21.460Z",
+      "lastSeenAt": "2026-09-21T23:16:21.460Z",
+      "geography": {
+        "text": "Approximate area: (M4J) East Toronto (The Danforth East)",
+        "approximate": true,
+        "coordinates": [
+          43.6872,
+          -79.3368
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-c6b4bc23ec34daa19b8bb157",
       "source": "TPS",
@@ -46,7 +72,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T23:11:32.074Z",
-      "lastSeenAt": "2026-09-21T23:15:01.901Z",
+      "lastSeenAt": "2026-09-21T23:16:21.460Z",
       "geography": {
         "text": "Approximate location on York Mills Road",
         "approximate": true,
@@ -76,7 +102,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T23:11:32.074Z",
-      "lastSeenAt": "2026-09-21T23:15:01.901Z",
+      "lastSeenAt": "2026-09-21T23:16:21.460Z",
       "geography": {
         "text": "Approximate location on Liben Way",
         "approximate": true,
@@ -138,7 +164,7 @@
       "division": "443",
       "timestamp": "2026-09-21T22:53:29.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -297,7 +323,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T23:01:32.023Z",
-      "lastSeenAt": "2026-09-21T23:15:01.901Z",
+      "lastSeenAt": "2026-09-21T23:16:21.460Z",
       "geography": {
         "text": "Christie Street between Lane 1 North Bloor East Christie & Crestfallen Lane",
         "approximate": false,
@@ -374,7 +400,7 @@
       "division": "123",
       "timestamp": "2026-09-21T22:46:39.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -407,7 +433,7 @@
       "division": "442",
       "timestamp": "2026-09-21T22:46:38.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Command Unit",
@@ -516,7 +542,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T22:51:01.525Z",
-      "lastSeenAt": "2026-09-21T23:15:01.901Z",
+      "lastSeenAt": "2026-09-21T23:16:21.460Z",
       "geography": {
         "text": "Eglinton Avenue East & Wynford Drive",
         "approximate": false,
@@ -2363,7 +2389,7 @@
       "division": "341",
       "timestamp": "2026-09-21T21:48:08.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -2815,7 +2841,7 @@
       "division": "411",
       "timestamp": "2026-09-21T21:32:52.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -76933,17 +76959,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-21T23:15:01.901Z",
-      "sourceUpdatedAt": "2026-09-21T23:10:03.000Z",
+      "fetchedAt": "2026-09-21T23:16:21.460Z",
+      "sourceUpdatedAt": "2026-09-21T23:15:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-21T23:15:01.901Z",
+      "fetchedAt": "2026-09-21T23:16:21.460Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4J": {
+      "text": "Approximate area: (M4J) East Toronto (The Danforth East)",
+      "approximate": true,
+      "coordinates": [
+        43.6872,
+        -79.3368
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "YORK MILLS RD / DON VALLEY N": {
       "text": "Approximate location on York Mills Road",
       "approximate": true,
@@ -79367,18 +79405,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-20T20:16:44.211Z"
-    },
-    "M4J": {
-      "text": "Approximate area: (M4J) East Toronto (The Danforth East)",
-      "approximate": true,
-      "coordinates": [
-        43.6872,
-        -79.3368
-      ],
-      "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "SPADINA AVE / LAKE SHORE BLVD W": {
       "text": "Approximate location on Spadina Avenue",
