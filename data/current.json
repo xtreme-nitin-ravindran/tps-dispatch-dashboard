@@ -3,9 +3,108 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-21T20:29:37.846Z",
-  "sourceUpdatedAt": "2026-09-21T20:25:01.000Z",
+  "fetchedAt": "2026-09-21T20:30:57.750Z",
+  "sourceUpdatedAt": "2026-09-21T20:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26149907",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1K",
+      "division": "222",
+      "timestamp": "2026-09-21T20:24:16.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T20:30:57.750Z",
+      "lastSeenAt": "2026-09-21T20:30:57.750Z",
+      "geography": {
+        "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
+        "approximate": true,
+        "coordinates": [
+          43.7298,
+          -79.2639
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26149906",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "ELIZABETH ST, TT / ELM ST / WALTON ST",
+      "division": "314",
+      "timestamp": "2026-09-21T20:22:54.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T20:30:57.750Z",
+      "lastSeenAt": "2026-09-21T20:30:57.750Z",
+      "geography": {
+        "text": "Elizabeth Street between Elm Street & Walton Street",
+        "approximate": false,
+        "coordinates": [
+          43.657375,
+          -79.38599855000001
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-21T20:30:57.750Z"
+      }
+    },
+    {
+      "id": "F26149904",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5B",
+      "division": "314",
+      "timestamp": "2026-09-21T20:20:26.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T20:30:57.750Z",
+      "lastSeenAt": "2026-09-21T20:30:57.750Z",
+      "geography": {
+        "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
+        "approximate": true,
+        "coordinates": [
+          43.6572,
+          -79.3783
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-dab77fb4d5731d55943d68d5",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-21T20:19:53.000Z",
+      "location": "BRUNSWICK AVE - HOWLAND AVE",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BRUNSWICK AVE - HOWLAND AVE",
+        "coordinates": [
+          43.665669710008395,
+          -79.40864393656943
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
     {
       "id": "F26149903",
       "source": "TFS",
@@ -16,9 +115,22 @@
       "timestamp": "2026-09-21T20:17:45.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "213"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "213"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-21T20:26:08.216Z",
-      "lastSeenAt": "2026-09-21T20:29:37.846Z",
+      "lastSeenAt": "2026-09-21T20:30:57.750Z",
       "geography": {
         "text": "Approximate location on undefined",
         "approximate": true,
@@ -39,9 +151,22 @@
       "timestamp": "2026-09-21T20:16:34.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "315"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "315"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-21T20:26:08.216Z",
-      "lastSeenAt": "2026-09-21T20:29:37.846Z",
+      "lastSeenAt": "2026-09-21T20:30:57.750Z",
       "geography": {
         "text": "College Street between Lane East Beverley South College & Beverley Street",
         "approximate": false,
@@ -53,6 +178,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-21T20:26:08.216Z"
+      }
+    },
+    {
+      "id": "TPS-6e5ededfda805dd2eca0a1dd",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-21T20:15:02.000Z",
+      "location": "MARTIN GROVE RD - REXDALE BLVD",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MARTIN GROVE RD - REXDALE BLVD",
+        "coordinates": [
+          43.713840701106655,
+          -79.58110768991729
+        ],
+        "division": "Division 23",
+        "approximate": true
       }
     },
     {
@@ -75,7 +221,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T20:21:27.452Z",
-      "lastSeenAt": "2026-09-21T20:29:37.846Z",
+      "lastSeenAt": "2026-09-21T20:30:57.750Z",
       "geography": {
         "text": "Street Thomas Street between Charles Street West & Sultan Street",
         "approximate": false,
@@ -90,6 +236,27 @@
       }
     },
     {
+      "id": "TPS-70b4808cb068e4666e2d40e2",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-21T20:14:29.000Z",
+      "location": "FINCH AVE W - ARROW RD",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "FINCH AVE W - ARROW RD",
+        "coordinates": [
+          43.75335618746698,
+          -79.53629300361843
+        ],
+        "division": "HP",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26149900",
       "source": "TFS",
       "eventType": "fire",
@@ -98,7 +265,7 @@
       "division": "312",
       "timestamp": "2026-09-21T20:14:03.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -132,7 +299,7 @@
       "division": "233",
       "timestamp": "2026-09-21T20:13:53.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -157,6 +324,69 @@
       }
     },
     {
+      "id": "TPS-2466bad9c34c51dd68ffbc33",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "INDECENT EXPOSURE",
+      "callTypeCode": "INDEX",
+      "timestamp": "2026-09-21T20:12:23.000Z",
+      "location": "QUEEN ST W - BATHURST ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "QUEEN ST W - BATHURST ST",
+        "coordinates": [
+          43.6471940876252,
+          -79.40398193200464
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-649f6d2b6498028d047e0986",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HOLDING LOST ELDERLY",
+      "callTypeCode": "LOSEL",
+      "timestamp": "2026-09-21T20:10:32.000Z",
+      "location": "BLOOR ST W - PRINCE ARTHUR AVE",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BLOOR ST W - PRINCE ARTHUR AVE",
+        "coordinates": [
+          43.66873451071916,
+          -79.4003094411357
+        ],
+        "division": "Division 53",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-e95ad380c10c101caf872096",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSON WITH A KNIFE",
+      "callTypeCode": "PERKN",
+      "timestamp": "2026-09-21T20:09:54.000Z",
+      "location": "DALLNER RD - HAYMARKET RD",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DALLNER RD - HAYMARKET RD",
+        "coordinates": [
+          43.71981314643954,
+          -79.51377244302977
+        ],
+        "division": "Division 31",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26149898",
       "source": "TFS",
       "eventType": "fire",
@@ -175,7 +405,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T20:18:57.485Z",
-      "lastSeenAt": "2026-09-21T20:29:37.846Z",
+      "lastSeenAt": "2026-09-21T20:30:57.750Z",
       "geography": {
         "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
         "approximate": true,
@@ -208,7 +438,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T20:18:57.485Z",
-      "lastSeenAt": "2026-09-21T20:29:37.846Z",
+      "lastSeenAt": "2026-09-21T20:30:57.750Z",
       "geography": {
         "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
         "approximate": true,
@@ -220,6 +450,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-f79a59503cbcf9dc8dbaf9c6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FRAUD",
+      "callTypeCode": "FRA",
+      "timestamp": "2026-09-21T20:05:20.000Z",
+      "location": "DENGATE RD - VICTORIA PARK AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DENGATE RD - VICTORIA PARK AVE",
+        "coordinates": [
+          43.68715502950518,
+          -79.29009565859032
+        ],
+        "division": "Division 55",
+        "approximate": true
       }
     },
     {
@@ -343,7 +594,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T20:18:57.485Z",
-      "lastSeenAt": "2026-09-21T20:29:37.846Z",
+      "lastSeenAt": "2026-09-21T20:30:57.750Z",
       "geography": {
         "text": "Lesmill Road between Duncan Mill Road & Leslie Street",
         "approximate": false,
@@ -72139,17 +72390,53 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-21T20:29:37.846Z",
-      "sourceUpdatedAt": "2026-09-21T20:25:01.000Z",
+      "fetchedAt": "2026-09-21T20:30:57.750Z",
+      "sourceUpdatedAt": "2026-09-21T20:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-21T20:29:37.846Z",
+      "fetchedAt": "2026-09-21T20:30:57.750Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1K": {
+      "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
+      "approximate": true,
+      "coordinates": [
+        43.7298,
+        -79.2639
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "ELIZABETH ST, TT / ELM ST / WALTON ST": {
+      "text": "Elizabeth Street between Elm Street & Walton Street",
+      "approximate": false,
+      "coordinates": [
+        43.657375,
+        -79.38599855000001
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-21T20:30:57.750Z"
+    },
+    "M5B": {
+      "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
+      "approximate": true,
+      "coordinates": [
+        43.6572,
+        -79.3783
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "/": {
       "text": "Approximate location on undefined",
       "approximate": true,
@@ -73203,18 +73490,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T02:31:04.510Z"
     },
-    "M5B": {
-      "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
-      "approximate": true,
-      "coordinates": [
-        43.6572,
-        -79.3783
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "M6A": {
       "text": "Approximate area: (M6A) North York (Lawrence Manor / Lawrence Heights)",
       "approximate": true,
@@ -74165,18 +74440,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-20T19:36:33.124Z"
-    },
-    "M1K": {
-      "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
-      "approximate": true,
-      "coordinates": [
-        43.7298,
-        -79.2639
-      ],
-      "division": "Division 41",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "ADELAIDE ST, TT / GLICKSMAN GLICK LANE / PETER ST": {
       "text": "Adelaide Street between Glicksman Glick Lane & Peter Street",
