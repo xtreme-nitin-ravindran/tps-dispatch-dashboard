@@ -3,9 +3,124 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-21T21:50:19.542Z",
-  "sourceUpdatedAt": "2026-09-21T21:45:01.000Z",
+  "fetchedAt": "2026-09-21T21:51:08.968Z",
+  "sourceUpdatedAt": "2026-09-21T21:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26149949",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5V",
+      "division": "334",
+      "timestamp": "2026-09-21T21:42:30.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T21:51:08.968Z",
+      "lastSeenAt": "2026-09-21T21:51:08.968Z",
+      "geography": {
+        "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+        "approximate": true,
+        "coordinates": [
+          43.6404,
+          -79.3995
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26149948",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "ADELAIDE ST E / YONGE ST",
+      "division": "332",
+      "timestamp": "2026-09-21T21:41:17.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-21T21:51:08.968Z",
+      "lastSeenAt": "2026-09-21T21:51:08.968Z",
+      "geography": {
+        "text": "Adelaide Street East & Yonge Street",
+        "approximate": false,
+        "coordinates": [
+          43.6504222,
+          -79.3784258
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-21T21:51:08.968Z"
+      }
+    },
+    {
+      "id": "TPS-e8e3582c968bb889c0bbf933",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-09-21T21:40:53.000Z",
+      "location": "SELBY ST - BLOOR ST E",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SELBY ST - BLOOR ST E",
+        "coordinates": [
+          43.67144021054388,
+          -79.37649545595993
+        ],
+        "division": "Division 51",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-e3161d561a5921c8ae4a7d02",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-21T21:39:45.000Z",
+      "location": "ISLINGTON AVE - EVANS AVE",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ISLINGTON AVE - EVANS AVE",
+        "coordinates": [
+          43.61840014606906,
+          -79.51125713264781
+        ],
+        "division": "Division 22",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-601295673a479227f67ebd6e",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT JUST OCCURRED",
+      "callTypeCode": "THEJU",
+      "timestamp": "2026-09-21T21:37:13.000Z",
+      "location": "METROLINX - PAPE AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "METROLINX - PAPE AVE",
+        "coordinates": [
+          43.66766643711638,
+          -79.3415609889431
+        ],
+        "division": "Division 55",
+        "approximate": true
+      }
+    },
     {
       "id": "F26149947",
       "source": "TFS",
@@ -16,9 +131,29 @@
       "timestamp": "2026-09-21T21:36:46.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "13"
+          ]
+        },
+        {
+          "type": "Hazmat Unit",
+          "numbers": [
+            "145"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "131",
+            "145"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-21T21:46:29.797Z",
-      "lastSeenAt": "2026-09-21T21:50:19.542Z",
+      "lastSeenAt": "2026-09-21T21:51:08.968Z",
       "geography": {
         "text": "Yonge Street between Roslin Avenue & Brookdale Avenue",
         "approximate": false,
@@ -46,6 +181,7 @@
         {
           "type": "Aerial Truck",
           "numbers": [
+            "433",
             "433"
           ]
         },
@@ -69,7 +205,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T21:41:09.046Z",
-      "lastSeenAt": "2026-09-21T21:50:19.542Z",
+      "lastSeenAt": "2026-09-21T21:51:08.968Z",
       "geography": {
         "text": "Bathurst Street between College Street & Ulster Street",
         "approximate": false,
@@ -81,6 +217,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-21T21:41:09.046Z"
+      }
+    },
+    {
+      "id": "TPS-2b8aa641a7761c54a16fab91",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-21T21:34:37.000Z",
+      "location": "DUNDAS ST W - SPADINA AVE",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DUNDAS ST W - SPADINA AVE",
+        "coordinates": [
+          43.65296189280764,
+          -79.39793503569493
+        ],
+        "division": "Division 14",
+        "approximate": true
       }
     },
     {
@@ -102,7 +259,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T21:41:09.046Z",
-      "lastSeenAt": "2026-09-21T21:50:19.542Z",
+      "lastSeenAt": "2026-09-21T21:51:08.968Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -117,12 +274,33 @@
       }
     },
     {
+      "id": "TPS-e25effcd64c71b872b0799e8",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-21T21:33:27.000Z",
+      "location": "KNOWLTON DR - GLENDA RD",
+      "division": "Division 43",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KNOWLTON DR - GLENDA RD",
+        "coordinates": [
+          43.73856248602876,
+          -79.2237768716353
+        ],
+        "division": "Division 43",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26149944",
       "source": "TFS",
       "eventType": "fire",
       "description": "Vehicle - Personal Injury",
-      "location": "ISLINGTON AVE / ALBION RD",
-      "division": "413",
+      "location": "ISLINGTON AVE / HUMBER SUMMIT LANE",
+      "division": "411",
       "timestamp": "2026-09-21T21:32:52.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
@@ -135,18 +313,18 @@
         }
       ],
       "firstSeenAt": "2026-09-21T21:41:09.046Z",
-      "lastSeenAt": "2026-09-21T21:50:19.542Z",
+      "lastSeenAt": "2026-09-21T21:51:08.968Z",
       "geography": {
-        "text": "Islington Avenue & Albion Road",
+        "text": "Islington Avenue & Humber Summit Lane",
         "approximate": false,
         "coordinates": [
-          43.7372367,
-          -79.5653056
+          43.7617904,
+          -79.5730091
         ],
-        "division": "Division 23",
+        "division": "Division 31",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-21T21:41:09.046Z"
+        "checkedAt": "2026-09-21T21:51:08.968Z"
       }
     },
     {
@@ -169,7 +347,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T21:41:09.046Z",
-      "lastSeenAt": "2026-09-21T21:50:19.542Z",
+      "lastSeenAt": "2026-09-21T21:51:08.968Z",
       "geography": {
         "text": "Earl Street between Lane West Sherbourne North Earl & Sherbourne Street",
         "approximate": false,
@@ -184,6 +362,27 @@
       }
     },
     {
+      "id": "TPS-8e118e0c312f708a3545e65a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-21T21:29:56.000Z",
+      "location": "STEPHEN DR - GUTHRIE AVE",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "STEPHEN DR - GUTHRIE AVE",
+        "coordinates": [
+          43.63303659908917,
+          -79.48643311021358
+        ],
+        "division": "Division 22",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26149941",
       "source": "TFS",
       "eventType": "fire",
@@ -192,7 +391,7 @@
       "division": "411",
       "timestamp": "2026-09-21T21:29:51.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -298,6 +497,69 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-d0cd33f31ef702da5703fdee",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FRAUD",
+      "callTypeCode": "FRA",
+      "timestamp": "2026-09-21T21:26:33.000Z",
+      "location": "PHARMACY AVE - LEBOVIC AVE",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "PHARMACY AVE - LEBOVIC AVE",
+        "coordinates": [
+          43.72704496144745,
+          -79.29157977815622
+        ],
+        "division": "Division 41",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-1cf6b7a8f1590fdfbbef75f0",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-09-21T21:26:25.000Z",
+      "location": "COLLEGE VIEW AVE - ANDERSON AVE",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "COLLEGE VIEW AVE - ANDERSON AVE",
+        "coordinates": [
+          43.70325350169718,
+          -79.405341736761
+        ],
+        "division": "Division 53",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-8e0d6a9db0d20f50e4a5ae9f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-21T21:25:46.000Z",
+      "location": "WILSON AVE - WENDELL AVE",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WILSON AVE - WENDELL AVE",
+        "coordinates": [
+          43.716814246413556,
+          -79.52707474127014
+        ],
+        "division": "Division 31",
+        "approximate": true
       }
     },
     {
@@ -444,7 +706,7 @@
       "division": "111",
       "timestamp": "2026-09-21T21:21:59.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -515,7 +777,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T21:26:23.939Z",
-      "lastSeenAt": "2026-09-21T21:50:19.542Z",
+      "lastSeenAt": "2026-09-21T21:51:08.968Z",
       "geography": {
         "text": "Approximate location on Pape Avenue",
         "approximate": true,
@@ -794,7 +1056,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T21:11:53.777Z",
-      "lastSeenAt": "2026-09-21T21:50:19.542Z",
+      "lastSeenAt": "2026-09-21T21:51:08.968Z",
       "geography": {
         "text": "Evans Avenue & Gamma Street",
         "approximate": false,
@@ -1432,7 +1694,7 @@
       "division": "226",
       "timestamp": "2026-09-21T20:35:22.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Ladder Truck",
@@ -74140,17 +74402,41 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-21T21:50:19.542Z",
-      "sourceUpdatedAt": "2026-09-21T21:45:01.000Z",
+      "fetchedAt": "2026-09-21T21:51:08.968Z",
+      "sourceUpdatedAt": "2026-09-21T21:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-21T21:50:19.542Z",
+      "fetchedAt": "2026-09-21T21:51:08.968Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5V": {
+      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+      "approximate": true,
+      "coordinates": [
+        43.6404,
+        -79.3995
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "ADELAIDE ST E / YONGE ST": {
+      "text": "Adelaide Street East & Yonge Street",
+      "approximate": false,
+      "coordinates": [
+        43.6504222,
+        -79.3784258
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-21T21:51:08.968Z"
+    },
     "YONGE ST, TT / ROSLIN AVE / BROOKDALE AVE": {
       "text": "Yonge Street between Roslin Avenue & Brookdale Avenue",
       "approximate": false,
@@ -74187,17 +74473,17 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
     },
-    "ISLINGTON AVE / ALBION RD": {
-      "text": "Islington Avenue & Albion Road",
+    "ISLINGTON AVE / HUMBER SUMMIT LANE": {
+      "text": "Islington Avenue & Humber Summit Lane",
       "approximate": false,
       "coordinates": [
-        43.7372367,
-        -79.5653056
+        43.7617904,
+        -79.5730091
       ],
-      "division": "Division 23",
+      "division": "Division 31",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-21T21:41:09.046Z"
+      "checkedAt": "2026-09-21T21:51:08.968Z"
     },
     "EARL ST, TT / LN W SHERBOURNE N EARL / SHERBOURNE ST": {
       "text": "Earl Street between Lane West Sherbourne North Earl & Sherbourne Street",
@@ -75161,18 +75447,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-20T10:18:42.055Z"
-    },
-    "M5V": {
-      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
-      "approximate": true,
-      "coordinates": [
-        43.6404,
-        -79.3995
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M6M": {
       "text": "Approximate area: (M6M) York (Del Ray / Keelsdale / Mount Dennis / Silverthorne)",
