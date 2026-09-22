@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T19:30:24.726Z",
-  "sourceUpdatedAt": "2026-09-22T19:25:01.000Z",
+  "fetchedAt": "2026-09-22T19:31:22.305Z",
+  "sourceUpdatedAt": "2026-09-22T19:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26150463",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1R",
+      "division": "245",
+      "timestamp": "2026-09-22T19:24:54.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T19:31:22.305Z",
+      "lastSeenAt": "2026-09-22T19:31:22.305Z",
+      "geography": {
+        "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
+        "approximate": true,
+        "coordinates": [
+          43.7507,
+          -79.3003
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150462",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4S",
+      "division": "134",
+      "timestamp": "2026-09-22T19:23:18.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T19:31:22.305Z",
+      "lastSeenAt": "2026-09-22T19:31:22.305Z",
+      "geography": {
+        "text": "Approximate area: (M4S) Central Toronto (Davisville)",
+        "approximate": true,
+        "coordinates": [
+          43.702,
+          -79.3853
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150461",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M2J",
+      "division": "116",
+      "timestamp": "2026-09-22T19:23:11.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T19:31:22.305Z",
+      "lastSeenAt": "2026-09-22T19:31:22.305Z",
+      "geography": {
+        "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
+        "approximate": true,
+        "coordinates": [
+          43.7801,
+          -79.3479
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150460",
       "source": "TFS",
@@ -16,9 +94,30 @@
       "timestamp": "2026-09-22T19:20:02.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "135"
+          ]
+        },
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "13"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "121",
+            "131",
+            "134"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T19:26:43.402Z",
-      "lastSeenAt": "2026-09-22T19:30:24.726Z",
+      "lastSeenAt": "2026-09-22T19:31:22.305Z",
       "geography": {
         "text": "Yonge Street between Wanless Avenue & Bedford Park Avenue",
         "approximate": false,
@@ -30,6 +129,111 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-22T19:26:43.402Z"
+      }
+    },
+    {
+      "id": "TPS-0c4a50a7e38bde0e3b6fbba9",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT",
+      "callTypeCode": "ASS",
+      "timestamp": "2026-09-22T19:19:33.000Z",
+      "location": "BATHURST ST - MARKHAM ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BATHURST ST - MARKHAM ST",
+        "coordinates": [
+          43.6471940876252,
+          -79.40398193200464
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-b6d35fd839cc1fc3a7924108",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT",
+      "callTypeCode": "ASS",
+      "timestamp": "2026-09-22T19:19:20.000Z",
+      "location": "ELM ST - GERRARD ST W",
+      "division": "METRO",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ELM ST - GERRARD ST W",
+        "coordinates": [
+          43.6577625968664,
+          -79.38616184430911
+        ],
+        "division": "METRO",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-06bb6092dbc8715c44b53048",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ATTEMPT BREAK & ENTER",
+      "callTypeCode": "ATTBR",
+      "timestamp": "2026-09-22T19:18:31.000Z",
+      "location": "ABELL ST - QUEEN ST W",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ABELL ST - QUEEN ST W",
+        "coordinates": [
+          43.641245685077315,
+          -79.42282962572214
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-b8099e67cb8aa906d00f6990",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-22T19:14:50.000Z",
+      "location": "ASH CRES - LAKE SHORE BLVD W",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ASH CRES - LAKE SHORE BLVD W",
+        "coordinates": [
+          43.59432727838563,
+          -79.52987891958864
+        ],
+        "division": "Division 22",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-040788390130cb1d51e12bcf",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-22T19:14:46.000Z",
+      "location": "LIBERTY ST - SNOOKER ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LIBERTY ST - SNOOKER ST",
+        "coordinates": [
+          43.63967858240562,
+          -79.4199989266657
+        ],
+        "division": "Division 14",
+        "approximate": true
       }
     },
     {
@@ -57,7 +261,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T19:21:43.595Z",
-      "lastSeenAt": "2026-09-22T19:30:24.726Z",
+      "lastSeenAt": "2026-09-22T19:31:22.305Z",
       "geography": {
         "text": "Bloor Street between Huron Street & Madison Avenue",
         "approximate": false,
@@ -69,6 +273,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-22T19:21:43.595Z"
+      }
+    },
+    {
+      "id": "TPS-325c37b6abd31dffa2732996",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-22T19:12:39.000Z",
+      "location": "GRENOBLE DR - ST DENNIS DR",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GRENOBLE DR - ST DENNIS DR",
+        "coordinates": [
+          43.71530756444098,
+          -79.32964193272007
+        ],
+        "division": "HP",
+        "approximate": true
       }
     },
     {
@@ -96,7 +321,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T19:21:43.595Z",
-      "lastSeenAt": "2026-09-22T19:30:24.726Z",
+      "lastSeenAt": "2026-09-22T19:31:22.305Z",
       "geography": {
         "text": "Eglinton Avenue between Mason Road & Beachell Street",
         "approximate": false,
@@ -119,7 +344,7 @@
       "division": "433",
       "timestamp": "2026-09-22T19:11:43.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -170,6 +395,27 @@
       }
     },
     {
+      "id": "TPS-c5725b4e109cfd1421e906dd",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-22T19:11:15.000Z",
+      "location": "MOORE AVE - BAYVIEW AVE",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MOORE AVE - BAYVIEW AVE",
+        "coordinates": [
+          43.69673507460057,
+          -79.37171259535933
+        ],
+        "division": "Division 53",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26150455",
       "source": "TFS",
       "eventType": "fire",
@@ -189,7 +435,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T19:21:43.595Z",
-      "lastSeenAt": "2026-09-22T19:30:24.726Z",
+      "lastSeenAt": "2026-09-22T19:31:22.305Z",
       "geography": {
         "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
         "approximate": true,
@@ -201,6 +447,132 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-4d7472b6cf04d5ac70dcf5a2",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "CROWD CONTROL",
+      "callTypeCode": "CROCO",
+      "timestamp": "2026-09-22T19:10:35.000Z",
+      "location": " - ",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": " - ",
+        "coordinates": [
+          43.73676857632022,
+          -79.59169366551264
+        ],
+        "division": "Division 23",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-740b7593de4b10a96ae3ac83",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT",
+      "callTypeCode": "ASS",
+      "timestamp": "2026-09-22T19:07:46.000Z",
+      "location": "DUFFERIN ST - ENNERDALE ST",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DUFFERIN ST - ENNERDALE ST",
+        "coordinates": [
+          43.710157754867204,
+          -79.4570370392729
+        ],
+        "division": "Division 13",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-123bbd0133ad6e780055570c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-22T19:07:45.000Z",
+      "location": "BRADSTOCK RD - HABITANT PARK TRL",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BRADSTOCK RD - HABITANT PARK TRL",
+        "coordinates": [
+          43.74332897673565,
+          -79.53756809680968
+        ],
+        "division": "Division 31",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-98f9add4e2b29d011f20e678",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FAIL TO REMAIN PERSONAL INJURY COLLISION",
+      "callTypeCode": "FTRPI",
+      "timestamp": "2026-09-22T19:07:15.000Z",
+      "location": "404 S FAIRVIEW MALL RAMP - ",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "404 S FAIRVIEW MALL RAMP - ",
+        "coordinates": [
+          43.780559717665376,
+          -79.34025945656485
+        ],
+        "division": "HP",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-942cf99573fe7ad8470226d8",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE FIRE DEPT",
+      "callTypeCode": "SEEFI",
+      "timestamp": "2026-09-22T19:06:10.000Z",
+      "location": "LANDRY AVE - DENTON AVE",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LANDRY AVE - DENTON AVE",
+        "coordinates": [
+          43.6955744246811,
+          -79.2768063718416
+        ],
+        "division": "Division 41",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-08c3932bed70f4f13ed7de06",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FAIL TO REMAIN PERSONAL INJURY COLLISION",
+      "callTypeCode": "FTRPI",
+      "timestamp": "2026-09-22T19:05:42.000Z",
+      "location": "SHERBOURNE ST - SHUTER ST",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SHERBOURNE ST - SHUTER ST",
+        "coordinates": [
+          43.65616289526663,
+          -79.37009915354126
+        ],
+        "division": "HP",
+        "approximate": true
       }
     },
     {
@@ -238,7 +610,7 @@
       "division": "345",
       "timestamp": "2026-09-22T19:02:01.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -479,7 +851,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T19:06:57.283Z",
-      "lastSeenAt": "2026-09-22T19:30:24.726Z",
+      "lastSeenAt": "2026-09-22T19:31:22.305Z",
       "geography": {
         "text": "Approximate location on Pharmacy Avenue",
         "approximate": true,
@@ -945,7 +1317,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T18:46:33.778Z",
-      "lastSeenAt": "2026-09-22T19:30:24.726Z",
+      "lastSeenAt": "2026-09-22T19:31:22.305Z",
       "geography": {
         "text": "Approximate location on undefined",
         "approximate": true,
@@ -11609,7 +11981,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T07:12:31.822Z",
-      "lastSeenAt": "2026-09-22T19:30:24.726Z",
+      "lastSeenAt": "2026-09-22T19:31:22.305Z",
       "geography": {
         "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
         "approximate": true,
@@ -97080,12 +97452,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T19:30:24.726Z",
-      "sourceUpdatedAt": "2026-09-22T19:25:01.000Z",
+      "fetchedAt": "2026-09-22T19:31:22.305Z",
+      "sourceUpdatedAt": "2026-09-22T19:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T19:30:24.726Z",
+      "fetchedAt": "2026-09-22T19:31:22.305Z",
       "status": "ok"
     }
   },
@@ -174268,6 +174640,42 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1R": {
+      "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
+      "approximate": true,
+      "coordinates": [
+        43.7507,
+        -79.3003
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4S": {
+      "text": "Approximate area: (M4S) Central Toronto (Davisville)",
+      "approximate": true,
+      "coordinates": [
+        43.702,
+        -79.3853
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M2J": {
+      "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
+      "approximate": true,
+      "coordinates": [
+        43.7801,
+        -79.3479
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "YONGE ST, TT / WANLESS AVE / BEDFORD PARK AVE": {
       "text": "Yonge Street between Wanless Avenue & Bedford Park Avenue",
       "approximate": false,
@@ -175147,18 +175555,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T18:36:21.720Z"
     },
-    "M4S": {
-      "text": "Approximate area: (M4S) Central Toronto (Davisville)",
-      "approximate": true,
-      "coordinates": [
-        43.702,
-        -79.3853
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "DRUMMOND ST, ET / ROYAL YORK RD / HAROLD ST": {
       "text": "Drummond Street between Royal York Road & Harold Street",
       "approximate": false,
@@ -175695,18 +176091,6 @@
         -79.5582
       ],
       "division": "Division 23",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M2J": {
-      "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
-      "approximate": true,
-      "coordinates": [
-        43.7801,
-        -79.3479
-      ],
-      "division": "Division 33",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -176286,18 +176670,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T01:50:45.350Z"
-    },
-    "M1R": {
-      "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
-      "approximate": true,
-      "coordinates": [
-        43.7507,
-        -79.3003
-      ],
-      "division": "Division 41",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "FRONT ST, TT / DRAPER ST / PORTLAND ST": {
       "text": "Front Street between Draper Street & Portland Street",
