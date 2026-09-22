@@ -3,9 +3,93 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T04:29:57.592Z",
-  "sourceUpdatedAt": "2026-09-22T04:25:02.000Z",
+  "fetchedAt": "2026-09-22T04:31:08.512Z",
+  "sourceUpdatedAt": "2026-09-22T04:30:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-b42d9918cc359ec3850623f6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-22T04:23:55.000Z",
+      "location": "EGLINTON AVE E - VICTORIA PARK AVE",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "EGLINTON AVE E - VICTORIA PARK AVE",
+        "coordinates": [
+          43.72479285443036,
+          -79.3026416640247
+        ],
+        "division": "Division 33",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-54db5e9eebed392b5af6846e",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-22T04:23:40.000Z",
+      "location": "RECTORY RD - HOLLEY PARK TRL",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "RECTORY RD - HOLLEY PARK TRL",
+        "coordinates": [
+          43.70516585125755,
+          -79.52936274260539
+        ],
+        "division": "Division 12",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-45c3ce2d40f8bf5c53e4157b",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-22T04:23:09.000Z",
+      "location": "SHUTER ST - DUNDAS SQ",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SHUTER ST - DUNDAS SQ",
+        "coordinates": [
+          43.656030695134405,
+          -79.37946194725541
+        ],
+        "division": "Division 51",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-cc7021dc825d61a56a943461",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE FIRE DEPT",
+      "callTypeCode": "SEEFI",
+      "timestamp": "2026-09-22T04:22:20.000Z",
+      "location": "BERTRAND AVE - CHOPIN AVE",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BERTRAND AVE - CHOPIN AVE",
+        "coordinates": [
+          43.73618566366778,
+          -79.2790934034821
+        ],
+        "division": "Division 41",
+        "approximate": true
+      }
+    },
     {
       "id": "F26150115",
       "source": "TFS",
@@ -16,9 +100,16 @@
       "timestamp": "2026-09-22T04:19:31.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "High-Rise Unit",
+          "numbers": [
+            "332"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T04:26:18.398Z",
-      "lastSeenAt": "2026-09-22T04:29:57.592Z",
+      "lastSeenAt": "2026-09-22T04:31:08.512Z",
       "geography": {
         "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
         "approximate": true,
@@ -42,9 +133,22 @@
       "timestamp": "2026-09-22T04:19:18.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "333"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "346"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T04:26:18.398Z",
-      "lastSeenAt": "2026-09-22T04:29:57.592Z",
+      "lastSeenAt": "2026-09-22T04:31:08.512Z",
       "geography": {
         "text": "Navy Wharf Court between Bremner Boulevard & Blue Jays Way",
         "approximate": false,
@@ -59,6 +163,48 @@
       }
     },
     {
+      "id": "TPS-fc70820714df7d1420dcbbe5",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DAMAGE IN PROGRESS",
+      "callTypeCode": "DAMPR",
+      "timestamp": "2026-09-22T04:18:52.000Z",
+      "location": "BREMNER BLVD - BLUE JAYS WAY",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BREMNER BLVD - BLUE JAYS WAY",
+        "coordinates": [
+          43.64163888074256,
+          -79.39189113603487
+        ],
+        "division": "Division 52",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-b995033f7d8eb40c52bf6308",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-22T04:18:28.000Z",
+      "location": "PROGRESS AVE - KENNEDY RD",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "PROGRESS AVE - KENNEDY RD",
+        "coordinates": [
+          43.76942243842896,
+          -79.28227009559461
+        ],
+        "division": "Division 41",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26150113",
       "source": "TFS",
       "eventType": "fire",
@@ -68,9 +214,16 @@
       "timestamp": "2026-09-22T04:15:43.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "133"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T04:26:18.398Z",
-      "lastSeenAt": "2026-09-22T04:29:57.592Z",
+      "lastSeenAt": "2026-09-22T04:31:08.512Z",
       "geography": {
         "text": "Approximate area: (M9N) Weston",
         "approximate": true,
@@ -103,7 +256,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T04:21:48.219Z",
-      "lastSeenAt": "2026-09-22T04:29:57.592Z",
+      "lastSeenAt": "2026-09-22T04:31:08.512Z",
       "geography": {
         "text": "Approximate area: (M4E) East Toronto (The Beaches)",
         "approximate": true,
@@ -157,7 +310,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T04:15:28.007Z",
-      "lastSeenAt": "2026-09-22T04:29:57.592Z",
+      "lastSeenAt": "2026-09-22T04:31:08.512Z",
       "geography": {
         "text": "Approximate location near Hickory Tree Road & Wilby Crescent",
         "approximate": true,
@@ -191,7 +344,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T04:15:28.007Z",
-      "lastSeenAt": "2026-09-22T04:29:57.592Z",
+      "lastSeenAt": "2026-09-22T04:31:08.512Z",
       "geography": {
         "text": "Spadina Avenue between Fort York Boulevard & Blue Jays Way",
         "approximate": false,
@@ -235,7 +388,7 @@
       "division": "311",
       "timestamp": "2026-09-22T04:03:10.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -342,7 +495,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T04:05:36.856Z",
-      "lastSeenAt": "2026-09-22T04:29:57.592Z",
+      "lastSeenAt": "2026-09-22T04:31:08.512Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -952,7 +1105,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T03:31:58.385Z",
-      "lastSeenAt": "2026-09-22T04:29:57.592Z",
+      "lastSeenAt": "2026-09-22T04:31:08.512Z",
       "geography": {
         "text": "Approximate location near Reesor Road & C North R",
         "approximate": true,
@@ -1026,7 +1179,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T03:26:56.458Z",
-      "lastSeenAt": "2026-09-22T04:29:57.592Z",
+      "lastSeenAt": "2026-09-22T04:31:08.512Z",
       "geography": {
         "text": "Oakmount Road between Bloor Street West & Glenlake Avenue",
         "approximate": false,
@@ -83371,12 +83524,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T04:29:57.592Z",
-      "sourceUpdatedAt": "2026-09-22T04:25:02.000Z",
+      "fetchedAt": "2026-09-22T04:31:08.512Z",
+      "sourceUpdatedAt": "2026-09-22T04:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T04:29:57.592Z",
+      "fetchedAt": "2026-09-22T04:31:08.512Z",
       "status": "ok"
     }
   },
@@ -156049,8 +156202,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-22T04:24:58.298Z",
-      "fetchedAt": "2026-09-22T04:24:58.298Z"
+      "checkedAt": "2026-09-22T04:31:08.512Z",
+      "fetchedAt": "2026-09-22T04:31:08.512Z"
     },
     "transit": {
       "items": [
@@ -157091,10 +157244,10 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-22T04:24:58.000Z",
+      "sourceUpdatedAt": "2026-09-22T04:31:09.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-22T04:24:58.298Z",
-      "fetchedAt": "2026-09-22T04:24:58.298Z"
+      "checkedAt": "2026-09-22T04:31:08.512Z",
+      "fetchedAt": "2026-09-22T04:31:08.512Z"
     }
   },
   "updatedBy": "concourse",
