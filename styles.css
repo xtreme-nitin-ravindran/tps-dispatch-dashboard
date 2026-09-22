@@ -580,16 +580,16 @@ a {
 }
 
 .source-updated {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  gap: 5px 12px;
+  text-align: left;
   color: var(--muted-2);
   font: 10px/1.2 "Space Mono", monospace;
 }
 
 .source-updated strong {
-  display: grid;
-  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
-  gap: 5px 12px;
-  text-align: left;
-  margin-top: 6px;
+  display: contents;
   color: var(--muted);
   font-weight: 400;
 }
