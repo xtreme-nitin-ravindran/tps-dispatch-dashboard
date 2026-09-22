@@ -1013,8 +1013,26 @@ footer {
   font-variant-numeric: tabular-nums;
 }
 @media (max-width: 680px) {
-  .topbar-actions { flex-wrap: wrap; justify-content: flex-end; }
-  .refresh-info { min-width: 0; }
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px 0;
+  }
+  .topbar-actions {
+    width: 100%;
+    min-width: 0;
+    flex-wrap: nowrap;
+  }
+  .refresh-info {
+    flex: 1;
+    min-width: 0;
+    max-width: none;
+    display: block;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: left;
+  }
 }
 
 /* Brief feedback when a newer snapshot changes the displayed source timestamp. */
