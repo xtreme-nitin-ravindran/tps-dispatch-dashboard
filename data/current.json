@@ -3,9 +3,42 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T10:05:35.233Z",
-  "sourceUpdatedAt": "2026-09-22T10:00:02.000Z",
+  "fetchedAt": "2026-09-22T10:07:16.317Z",
+  "sourceUpdatedAt": "2026-09-22T10:05:01.000Z",
   "incidents": [
+    {
+      "id": "F26150186",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3M",
+      "division": "146",
+      "timestamp": "2026-09-22T09:56:55.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "146"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-22T10:07:16.317Z",
+      "lastSeenAt": "2026-09-22T10:07:16.317Z",
+      "geography": {
+        "text": "Approximate area: (M3M) Downsview Central",
+        "approximate": true,
+        "coordinates": [
+          43.7319,
+          -79.4928
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T18:26:37.398Z"
+      }
+    },
     {
       "id": "F26150185",
       "source": "TFS",
@@ -16,9 +49,16 @@
       "timestamp": "2026-09-22T09:51:04.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "145"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T10:01:56.285Z",
-      "lastSeenAt": "2026-09-22T10:05:35.233Z",
+      "lastSeenAt": "2026-09-22T10:07:16.317Z",
       "geography": {
         "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
         "approximate": true,
@@ -72,7 +112,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T09:45:55.995Z",
-      "lastSeenAt": "2026-09-22T10:05:35.233Z",
+      "lastSeenAt": "2026-09-22T10:07:16.317Z",
       "geography": {
         "text": "Approximate area: (M2H) North York (Hillcrest Village)",
         "approximate": true,
@@ -871,7 +911,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T08:07:04.001Z",
-      "lastSeenAt": "2026-09-22T10:05:35.233Z",
+      "lastSeenAt": "2026-09-22T10:07:16.317Z",
       "geography": {
         "text": "Approximate location near Reesor Road & C North R",
         "approximate": true,
@@ -1686,7 +1726,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T07:12:31.822Z",
-      "lastSeenAt": "2026-09-22T10:05:35.233Z",
+      "lastSeenAt": "2026-09-22T10:07:16.317Z",
       "geography": {
         "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
         "approximate": true,
@@ -3368,7 +3408,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T10:05:35.233Z",
+      "lastSeenAt": "2026-09-22T10:07:16.317Z",
       "geography": {
         "text": "Approximate location near Edenbridge Drive & Edgehill Road",
         "approximate": true,
@@ -87157,12 +87197,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T10:05:35.233Z",
-      "sourceUpdatedAt": "2026-09-22T10:00:02.000Z",
+      "fetchedAt": "2026-09-22T10:07:16.317Z",
+      "sourceUpdatedAt": "2026-09-22T10:05:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T10:05:35.233Z",
+      "fetchedAt": "2026-09-22T10:07:16.317Z",
       "status": "ok"
     }
   },
@@ -160339,6 +160379,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3M": {
+      "text": "Approximate area: (M3M) Downsview Central",
+      "approximate": true,
+      "coordinates": [
+        43.7319,
+        -79.4928
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T18:26:37.398Z"
+    },
     "M3H": {
       "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
       "approximate": true,
@@ -163377,18 +163429,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-20T21:10:35.754Z"
-    },
-    "M3M": {
-      "text": "Approximate area: (M3M) Downsview Central",
-      "approximate": true,
-      "coordinates": [
-        43.7319,
-        -79.4928
-      ],
-      "division": "Division 31",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T18:26:37.398Z"
     },
     "GLEN RD, TT / DOUGLAS DR / LN N DOUGLAS E GLEN": {
       "text": "Approximate location near Glen Road & Lane North Douglas East Glen",
