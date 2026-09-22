@@ -1088,3 +1088,6 @@ footer {
 #nearControls:not([hidden]) { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
 #nearRadius, #clearNearby { padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: #101d2b; color: white; font: inherit; }
 @media (max-width: 680px) { .nearby-feature { flex-direction: column; align-items: stretch; gap: 14px; } .nearby-action { width: 100%; } }
+
+.call-explanation { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 8px 0; }
+.call-explanation[hidden] { display: none; }

@@ -1,4 +1,4 @@
-import { reportedAge } from "./src/call-presentation.js?v=recency-1";
+import { reportedAge, callExplanation } from "./src/call-presentation.js?v=explanations-1";
 import { distanceKm } from "./src/nearby.js";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
@@ -333,6 +333,9 @@ function renderCalls() {
     node.querySelector(".time-ago").textContent = reportedAge(call.time);
     node.querySelector(".time-ago").dataset.reportedAt = call.time.toISOString();
     node.querySelector(".call-title").textContent = call.description;
+    const explanation = node.querySelector('.call-explanation');
+    explanation.textContent = callExplanation(call.description);
+    explanation.hidden = !explanation.textContent;
     node.querySelector(".ongoing-badge").hidden = !call.isOngoing;
     node.querySelector(".source-badge").textContent = call.source;
     node.querySelector(".police-division-badge").textContent = call.source === "TFS" && call.division !== "Unknown"
