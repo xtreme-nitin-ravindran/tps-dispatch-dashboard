@@ -3,9 +3,110 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T22:05:38.918Z",
-  "sourceUpdatedAt": "2026-09-22T22:00:01.000Z",
+  "fetchedAt": "2026-09-22T22:06:47.968Z",
+  "sourceUpdatedAt": "2026-09-22T22:05:01.000Z",
   "incidents": [
+    {
+      "id": "F26150562",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9N",
+      "division": "442",
+      "timestamp": "2026-09-22T21:59:08.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T22:06:47.968Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
+      "geography": {
+        "text": "Approximate area: (M9N) Weston",
+        "approximate": true,
+        "coordinates": [
+          43.7068,
+          -79.517
+        ],
+        "division": "Division 12",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150561",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "KENNEDY RD / ELLESMERE RD",
+      "division": "245",
+      "timestamp": "2026-09-22T21:58:59.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T22:06:47.968Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
+      "geography": {
+        "text": "Kennedy Road & Ellesmere Road",
+        "approximate": false,
+        "coordinates": [
+          43.7658174,
+          -79.2810822
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T22:06:47.968Z"
+      }
+    },
+    {
+      "id": "F26150560",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4Y",
+      "division": "314",
+      "timestamp": "2026-09-22T21:58:06.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T22:06:47.968Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
+      "geography": {
+        "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
+        "approximate": true,
+        "coordinates": [
+          43.6656,
+          -79.383
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150559",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle Fire - Highway",
+      "location": "/",
+      "division": "412",
+      "timestamp": "2026-09-22T21:55:48.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T22:06:47.968Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
+      "geography": {
+        "text": "Approximate location on undefined",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T21:53:16.560Z"
+      }
+    },
     {
       "id": "F26150558",
       "source": "TFS",
@@ -16,9 +117,22 @@
       "timestamp": "2026-09-22T21:54:56.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "111"
+          ]
+        },
+        {
+          "type": "Tower Truck",
+          "numbers": [
+            "114"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T22:01:07.263Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Cummer Avenue between Willowdale Avenue & Becky Cheung Court",
         "approximate": false,
@@ -41,7 +155,7 @@
       "division": "325",
       "timestamp": "2026-09-22T21:53:39.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-22T22:01:07.263Z",
       "lastSeenAt": "2026-09-22T22:05:38.918Z",
@@ -68,9 +182,49 @@
       "timestamp": "2026-09-22T21:51:20.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "341"
+          ]
+        },
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "31",
+            "34"
+          ]
+        },
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "421"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "343",
+            "344",
+            "345"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "341"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "331"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T22:01:07.263Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Alcina Avenue between Lane 2 West Bathurst North Alcina & Wychwood Avenue",
         "approximate": false,
@@ -109,7 +263,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:56:17.329Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Broadview Avenue between Kintyre Avenue & Dundas Street East",
         "approximate": false,
@@ -142,7 +296,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:56:17.329Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
         "approximate": true,
@@ -175,7 +329,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:56:17.329Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -208,7 +362,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:51:07.067Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
         "approximate": true,
@@ -283,7 +437,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:51:07.067Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Approximate area: (M1H) Scarborough (Cedarbrae)",
         "approximate": true,
@@ -464,7 +618,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -525,7 +679,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Approximate area: (M9M) North York (Humberlea / Emery)",
         "approximate": true,
@@ -733,7 +887,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:35:51.016Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Approximate location near Don Mills Road & Barber Greene Road",
         "approximate": true,
@@ -766,7 +920,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:35:51.016Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
         "approximate": true,
@@ -838,7 +992,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:30:30.972Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Mammoth Hall Trl between Unita Grv & Washburn Way",
         "approximate": false,
@@ -1284,7 +1438,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:26:09.719Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Approximate location on undefined",
         "approximate": true,
@@ -1314,7 +1468,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:26:09.719Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Dufferin Street between Apex Road & Celt Avenue",
         "approximate": false,
@@ -1768,7 +1922,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:06:10.445Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Randolph Road & Millwood Road",
         "approximate": false,
@@ -2940,7 +3094,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T20:15:57.605Z",
-      "lastSeenAt": "2026-09-22T22:05:38.918Z",
+      "lastSeenAt": "2026-09-22T22:06:47.968Z",
       "geography": {
         "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
         "approximate": true,
@@ -101947,12 +102101,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T22:05:38.918Z",
-      "sourceUpdatedAt": "2026-09-22T22:00:01.000Z",
+      "fetchedAt": "2026-09-22T22:06:47.968Z",
+      "sourceUpdatedAt": "2026-09-22T22:05:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T22:05:38.918Z",
+      "fetchedAt": "2026-09-22T22:06:47.968Z",
       "status": "ok"
     }
   },
@@ -177921,8 +178075,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-22T22:01:07.263Z",
-      "fetchedAt": "2026-09-22T22:01:07.263Z"
+      "checkedAt": "2026-09-22T22:06:47.968Z",
+      "fetchedAt": "2026-09-22T22:06:47.968Z"
     },
     "transit": {
       "items": [
@@ -179005,14 +179159,59 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-22T22:01:08.000Z",
+      "sourceUpdatedAt": "2026-09-22T22:06:48.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-22T22:01:07.263Z",
-      "fetchedAt": "2026-09-22T22:01:07.263Z"
+      "checkedAt": "2026-09-22T22:06:47.968Z",
+      "fetchedAt": "2026-09-22T22:06:47.968Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M9N": {
+      "text": "Approximate area: (M9N) Weston",
+      "approximate": true,
+      "coordinates": [
+        43.7068,
+        -79.517
+      ],
+      "division": "Division 12",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "KENNEDY RD / ELLESMERE RD": {
+      "text": "Kennedy Road & Ellesmere Road",
+      "approximate": false,
+      "coordinates": [
+        43.7658174,
+        -79.2810822
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T22:06:47.968Z"
+    },
+    "M4Y": {
+      "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
+      "approximate": true,
+      "coordinates": [
+        43.6656,
+        -79.383
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "/": {
+      "text": "Approximate location on undefined",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T21:53:16.560Z"
+    },
     "CUMMER AVE, NY / WILLOWDALE AVE / BECKY CHEUNG CRT": {
       "text": "Cummer Avenue between Willowdale Avenue & Becky Cheung Court",
       "approximate": false,
@@ -179301,15 +179500,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T21:26:09.719Z"
     },
-    "/": {
-      "text": "Approximate location on undefined",
-      "approximate": true,
-      "coordinates": null,
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T21:53:16.560Z"
-    },
     "DUFFERIN ST, NY / APEX RD / CELT AVE": {
       "text": "Dufferin Street between Apex Road & Celt Avenue",
       "approximate": false,
@@ -179330,18 +179520,6 @@
         -79.3479
       ],
       "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4Y": {
-      "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
-      "approximate": true,
-      "coordinates": [
-        43.6656,
-        -79.383
-      ],
-      "division": "Division 51",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -180071,18 +180249,6 @@
         -79.2632819
       ],
       "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M9N": {
-      "text": "Approximate area: (M9N) Weston",
-      "approximate": true,
-      "coordinates": [
-        43.7068,
-        -79.517
-      ],
-      "division": "Division 12",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
