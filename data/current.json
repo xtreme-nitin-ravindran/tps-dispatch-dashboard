@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T04:50:18.123Z",
-  "sourceUpdatedAt": "2026-09-22T04:45:01.000Z",
+  "fetchedAt": "2026-09-22T04:51:59.513Z",
+  "sourceUpdatedAt": "2026-09-22T04:50:01.000Z",
   "incidents": [
     {
       "id": "F26150121",
@@ -16,9 +16,16 @@
       "timestamp": "2026-09-22T04:39:16.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "342"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T04:45:49.150Z",
-      "lastSeenAt": "2026-09-22T04:50:18.123Z",
+      "lastSeenAt": "2026-09-22T04:51:59.513Z",
       "geography": {
         "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
         "approximate": true,
@@ -42,9 +49,16 @@
       "timestamp": "2026-09-22T04:38:00.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "332"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T04:45:49.150Z",
-      "lastSeenAt": "2026-09-22T04:50:18.123Z",
+      "lastSeenAt": "2026-09-22T04:51:59.513Z",
       "geography": {
         "text": "Approximate area: (M5J) Downtown Toronto (Harbourfront East / Union Station / Toronto Island)",
         "approximate": true,
@@ -67,7 +81,7 @@
       "division": "346",
       "timestamp": "2026-09-22T04:31:59.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -110,7 +124,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T04:36:09.506Z",
-      "lastSeenAt": "2026-09-22T04:50:18.123Z",
+      "lastSeenAt": "2026-09-22T04:51:59.513Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -122,6 +136,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-9d280e05314ce44d70c879c6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-22T04:28:34.000Z",
+      "location": "SEAFORTH AVE - WEST LODGE PARK TRL",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SEAFORTH AVE - WEST LODGE PARK TRL",
+        "coordinates": [
+          43.64419789230901,
+          -79.43535502154705
+        ],
+        "division": "Division 11",
+        "approximate": true
       }
     },
     {
@@ -283,7 +318,7 @@
       "division": "334",
       "timestamp": "2026-09-22T04:19:18.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -1257,7 +1292,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T03:31:58.385Z",
-      "lastSeenAt": "2026-09-22T04:50:18.123Z",
+      "lastSeenAt": "2026-09-22T04:51:59.513Z",
       "geography": {
         "text": "Approximate location near Reesor Road & C North R",
         "approximate": true,
@@ -1331,7 +1366,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T03:26:56.458Z",
-      "lastSeenAt": "2026-09-22T04:50:18.123Z",
+      "lastSeenAt": "2026-09-22T04:51:59.513Z",
       "geography": {
         "text": "Oakmount Road between Bloor Street West & Glenlake Avenue",
         "approximate": false,
@@ -83676,12 +83711,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T04:50:18.123Z",
-      "sourceUpdatedAt": "2026-09-22T04:45:01.000Z",
+      "fetchedAt": "2026-09-22T04:51:59.513Z",
+      "sourceUpdatedAt": "2026-09-22T04:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T04:50:18.123Z",
+      "fetchedAt": "2026-09-22T04:51:59.513Z",
       "status": "ok"
     }
   },
@@ -156354,8 +156389,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-22T04:46:59.112Z",
-      "fetchedAt": "2026-09-22T04:46:59.112Z"
+      "checkedAt": "2026-09-22T04:51:59.513Z",
+      "fetchedAt": "2026-09-22T04:51:59.513Z"
     },
     "transit": {
       "items": [
@@ -157396,10 +157431,10 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-22T04:47:00.000Z",
+      "sourceUpdatedAt": "2026-09-22T04:52:00.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-22T04:46:59.112Z",
-      "fetchedAt": "2026-09-22T04:46:59.112Z"
+      "checkedAt": "2026-09-22T04:51:59.513Z",
+      "fetchedAt": "2026-09-22T04:51:59.513Z"
     }
   },
   "updatedBy": "concourse",
