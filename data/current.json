@@ -3,9 +3,151 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T05:29:50.394Z",
-  "sourceUpdatedAt": "2026-09-22T05:20:02.000Z",
+  "fetchedAt": "2026-09-22T05:31:10.111Z",
+  "sourceUpdatedAt": "2026-09-22T05:30:02.000Z",
   "incidents": [
+    {
+      "id": "TPS-c5ec0d689a11ed653a90d8ae",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT",
+      "callTypeCode": "THE",
+      "timestamp": "2026-09-22T05:24:52.000Z",
+      "location": "LOUVAIN ST - CLIFF ST",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LOUVAIN ST - CLIFF ST",
+        "coordinates": [
+          43.68099191115402,
+          -79.48308149773622
+        ],
+        "division": "Division 12",
+        "approximate": true
+      }
+    },
+    {
+      "id": "F26150136",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "YUKON LANE, NY / SHEPPARD AVE W / CARL HALL RD",
+      "division": "143",
+      "timestamp": "2026-09-22T05:23:18.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "143",
+            "144"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-22T05:31:10.111Z",
+      "lastSeenAt": "2026-09-22T05:31:10.111Z",
+      "geography": {
+        "text": "Yukon Lane between Sheppard Avenue West & Carl Hall Road",
+        "approximate": false,
+        "coordinates": [
+          43.75136705,
+          -79.4686978
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T05:31:10.111Z"
+      }
+    },
+    {
+      "id": "F26150134",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5V",
+      "division": "332",
+      "timestamp": "2026-09-22T05:23:00.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "332"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-22T05:31:10.111Z",
+      "lastSeenAt": "2026-09-22T05:31:10.111Z",
+      "geography": {
+        "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+        "approximate": true,
+        "coordinates": [
+          43.6404,
+          -79.3995
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150133",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3H",
+      "division": "145",
+      "timestamp": "2026-09-22T05:21:39.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "145"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-22T05:31:10.111Z",
+      "lastSeenAt": "2026-09-22T05:31:10.111Z",
+      "geography": {
+        "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
+        "approximate": true,
+        "coordinates": [
+          43.7535,
+          -79.4472
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-34d64ac93acfda4e4812f25d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-22T05:18:36.000Z",
+      "location": "SHEPPARD AVE W - JANE ST",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SHEPPARD AVE W - JANE ST",
+        "coordinates": [
+          43.739384543601766,
+          -79.51320988965858
+        ],
+        "division": "Division 31",
+        "approximate": true
+      }
+    },
     {
       "id": "F26150131",
       "source": "TFS",
@@ -15,7 +157,7 @@
       "division": "345",
       "timestamp": "2026-09-22T05:14:54.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-22T05:21:30.317Z",
       "lastSeenAt": "2026-09-22T05:29:50.394Z",
@@ -41,7 +183,7 @@
       "division": "315",
       "timestamp": "2026-09-22T05:11:09.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-22T05:21:30.317Z",
       "lastSeenAt": "2026-09-22T05:29:50.394Z",
@@ -77,7 +219,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:16:29.647Z",
-      "lastSeenAt": "2026-09-22T05:29:50.394Z",
+      "lastSeenAt": "2026-09-22T05:31:10.111Z",
       "geography": {
         "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
         "approximate": true,
@@ -89,6 +231,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-39fad10bb0d3c3ce293c7e6b",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-22T05:08:35.000Z",
+      "location": " - ",
+      "division": "2GRP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": " - ",
+        "coordinates": [
+          43.665403758506095,
+          -79.57092831426631
+        ],
+        "division": "2GRP",
+        "approximate": true
       }
     },
     {
@@ -111,7 +274,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:16:29.647Z",
-      "lastSeenAt": "2026-09-22T05:29:50.394Z",
+      "lastSeenAt": "2026-09-22T05:31:10.111Z",
       "geography": {
         "text": "Firvalley Court between Hepc & Cataraqui Crescent",
         "approximate": false,
@@ -123,6 +286,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-22T05:16:29.647Z"
+      }
+    },
+    {
+      "id": "TPS-cef933d800d0e607eabc3a22",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FAIL TO REMAIN PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "FTRPD",
+      "timestamp": "2026-09-22T05:05:24.000Z",
+      "location": "DON VALLEY PARKWAY N - PRINCE EDWARD VIADUCT",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DON VALLEY PARKWAY N - PRINCE EDWARD VIADUCT",
+        "coordinates": [
+          43.67591703393984,
+          -79.36038447787016
+        ],
+        "division": "HP",
+        "approximate": true
       }
     },
     {
@@ -165,7 +349,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:10:58.798Z",
-      "lastSeenAt": "2026-09-22T05:29:50.394Z",
+      "lastSeenAt": "2026-09-22T05:31:10.111Z",
       "geography": {
         "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
         "approximate": true,
@@ -240,7 +424,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:06:30.298Z",
-      "lastSeenAt": "2026-09-22T05:29:50.394Z",
+      "lastSeenAt": "2026-09-22T05:31:10.111Z",
       "geography": {
         "text": "Larchmount Avenue between Lane South Queen West Berkshire & Queen Street East",
         "approximate": false,
@@ -322,12 +506,19 @@
       "source": "TFS",
       "eventType": "fire",
       "description": "Vehicle Fire",
-      "location": "EDENBRIDGE DR, ET / HUMBER RIVER RECREATIONAL TRL / BEARWOOD DR",
+      "location": "EDENBRIDGE DR, ET / EDGEHILL RD / HUMBER RIVER RECREATIONAL TRL",
       "division": "443",
       "timestamp": "2026-09-22T04:50:57.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
       "vehicles": [
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "40",
+            "44"
+          ]
+        },
         {
           "type": "Fire Truck",
           "numbers": [
@@ -337,18 +528,18 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T05:29:50.394Z",
+      "lastSeenAt": "2026-09-22T05:31:10.111Z",
       "geography": {
-        "text": "Approximate location near Edenbridge Drive & Bearwood Drive",
+        "text": "Approximate location near Edenbridge Drive & Edgehill Road",
         "approximate": true,
         "coordinates": [
-          43.6729354,
-          -79.5146069
+          43.6712064,
+          -79.5181712
         ],
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-22T05:00:29.863Z"
+        "checkedAt": "2026-09-22T05:31:10.111Z"
       }
     },
     {
@@ -1695,12 +1886,13 @@
           "numbers": [
             "211",
             "212",
+            "213",
             "213"
           ]
         }
       ],
       "firstSeenAt": "2026-09-22T03:31:58.385Z",
-      "lastSeenAt": "2026-09-22T05:29:50.394Z",
+      "lastSeenAt": "2026-09-22T05:31:10.111Z",
       "geography": {
         "text": "Approximate location near Reesor Road & C North R",
         "approximate": true,
@@ -84119,12 +84311,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T05:29:50.394Z",
-      "sourceUpdatedAt": "2026-09-22T05:20:02.000Z",
+      "fetchedAt": "2026-09-22T05:31:10.111Z",
+      "sourceUpdatedAt": "2026-09-22T05:30:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T05:29:50.394Z",
+      "fetchedAt": "2026-09-22T05:31:10.111Z",
       "status": "ok"
     }
   },
@@ -157847,6 +158039,42 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "YUKON LANE, NY / SHEPPARD AVE W / CARL HALL RD": {
+      "text": "Yukon Lane between Sheppard Avenue West & Carl Hall Road",
+      "approximate": false,
+      "coordinates": [
+        43.75136705,
+        -79.4686978
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T05:31:10.111Z"
+    },
+    "M5V": {
+      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+      "approximate": true,
+      "coordinates": [
+        43.6404,
+        -79.3995
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M3H": {
+      "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
+      "approximate": true,
+      "coordinates": [
+        43.7535,
+        -79.4472
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M6H": {
       "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
       "approximate": true,
@@ -157919,17 +158147,17 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T05:06:30.298Z"
     },
-    "EDENBRIDGE DR, ET / HUMBER RIVER RECREATIONAL TRL / BEARWOOD DR": {
-      "text": "Approximate location near Edenbridge Drive & Bearwood Drive",
+    "EDENBRIDGE DR, ET / EDGEHILL RD / HUMBER RIVER RECREATIONAL TRL": {
+      "text": "Approximate location near Edenbridge Drive & Edgehill Road",
       "approximate": true,
       "coordinates": [
-        43.6729354,
-        -79.5146069
+        43.6712064,
+        -79.5181712
       ],
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T05:00:29.863Z"
+      "checkedAt": "2026-09-22T05:31:10.111Z"
     },
     "M6E": {
       "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
@@ -158143,18 +158371,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T03:41:37.369Z"
-    },
-    "M5V": {
-      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
-      "approximate": true,
-      "coordinates": [
-        43.6404,
-        -79.3995
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "REESOR RD, SC / HEPC / C N R": {
       "text": "Approximate location near Reesor Road & C North R",
@@ -160123,18 +160339,6 @@
         -79.2819
       ],
       "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M3H": {
-      "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
-      "approximate": true,
-      "coordinates": [
-        43.7535,
-        -79.4472
-      ],
-      "division": "Division 32",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
