@@ -1,4 +1,4 @@
-import { reportedAge, callExplanation } from "./src/call-presentation.js?v=explanations-1";
+import { reportedAge, callExplanation, locationConfidence } from "./src/call-presentation.js?v=confidence-1";
 import { distanceKm } from "./src/nearby.js";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
@@ -342,6 +342,7 @@ function renderCalls() {
       ? `${call.division} (estimated)` : call.division;
     node.querySelector(".call-vehicles").hidden = call.source === "TPS";
     node.querySelector(".call-location").textContent = displayLocation(call).text;
+    node.querySelector(".location-confidence").textContent = locationConfidence(call);
     const alarm = node.querySelector(".call-alarm");
     const alarmValue = node.querySelector(".alarm-value");
     const units = node.querySelector(".unit-list");

@@ -25,3 +25,11 @@ export function callExplanation(description) {
   const key = String(description || '').trim().toUpperCase();
   return Object.hasOwn(DESCRIPTIONS, key) ? DESCRIPTIONS[key] : '';
 }
+
+export function locationConfidence(call) {
+  const point = call.geography?.coordinates;
+  if (!Array.isArray(point) || point.length !== 2 || !point.every(Number.isFinite)) return 'Location not mapped';
+  if (/^[A-Z]\d[A-Z]$/i.test(String(call.location || '').trim())) return 'Broad postal area — approximate';
+  if (call.geography.approximate === false) return 'Resolved intersection or street segment — not an exact incident address';
+  return 'Approximate location';
+}
