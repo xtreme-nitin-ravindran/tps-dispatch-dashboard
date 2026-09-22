@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T07:15:02.511Z",
-  "sourceUpdatedAt": "2026-09-22T07:10:02.000Z",
+  "fetchedAt": "2026-09-22T07:15:40.826Z",
+  "sourceUpdatedAt": "2026-09-22T07:15:01.000Z",
   "incidents": [
+    {
+      "id": "F26150156",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1E",
+      "division": "213",
+      "timestamp": "2026-09-22T07:08:05.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T07:15:40.826Z",
+      "lastSeenAt": "2026-09-22T07:15:40.826Z",
+      "geography": {
+        "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+        "approximate": true,
+        "coordinates": [
+          43.7678,
+          -79.1866
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-a1f4eddca196243f304417fe",
       "source": "TPS",
@@ -37,9 +63,17 @@
       "timestamp": "2026-09-22T07:01:41.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "143",
+            "144"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T07:12:31.822Z",
-      "lastSeenAt": "2026-09-22T07:15:02.511Z",
+      "lastSeenAt": "2026-09-22T07:15:40.826Z",
       "geography": {
         "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
         "approximate": true,
@@ -114,7 +148,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T07:00:42.298Z",
-      "lastSeenAt": "2026-09-22T07:15:02.511Z",
+      "lastSeenAt": "2026-09-22T07:15:40.826Z",
       "geography": {
         "text": "Approximate area: (M9L) North York (Humber Summit)",
         "approximate": true,
@@ -137,7 +171,7 @@
       "division": "111",
       "timestamp": "2026-09-22T06:51:59.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Command Unit",
@@ -1715,7 +1749,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T07:15:02.511Z",
+      "lastSeenAt": "2026-09-22T07:15:40.826Z",
       "geography": {
         "text": "Approximate location near Edenbridge Drive & Edgehill Road",
         "approximate": true,
@@ -3085,7 +3119,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T03:31:58.385Z",
-      "lastSeenAt": "2026-09-22T07:15:02.511Z",
+      "lastSeenAt": "2026-09-22T07:15:40.826Z",
       "geography": {
         "text": "Approximate location near Reesor Road & C North R",
         "approximate": true,
@@ -85504,12 +85538,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T07:15:02.511Z",
-      "sourceUpdatedAt": "2026-09-22T07:10:02.000Z",
+      "fetchedAt": "2026-09-22T07:15:40.826Z",
+      "sourceUpdatedAt": "2026-09-22T07:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T07:15:02.511Z",
+      "fetchedAt": "2026-09-22T07:15:40.826Z",
       "status": "ok"
     }
   },
@@ -158130,8 +158164,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-22T07:10:12.387Z",
-      "fetchedAt": "2026-09-22T07:10:12.387Z"
+      "checkedAt": "2026-09-22T07:15:40.826Z",
+      "fetchedAt": "2026-09-22T07:15:40.826Z"
     },
     "transit": {
       "items": [
@@ -158955,20 +158989,6 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
-          "id": "76357",
-          "title": "Finch West: Escalator 2 out of service between street and concourse due to a technical problem.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "periods": [
-            {
-              "start": 1789638926000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
           "id": "75879",
           "title": "St Patrick: Elevator 4Y1L out of service between concourse and Line 1 centre platform due to a technical problem. Elevator is expected to be back in service October 9, 2026.",
           "description": "",
@@ -159110,14 +159130,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-22T07:10:12.000Z",
+      "sourceUpdatedAt": "2026-09-22T07:15:41.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-22T07:10:12.387Z",
-      "fetchedAt": "2026-09-22T07:10:12.387Z"
+      "checkedAt": "2026-09-22T07:15:40.826Z",
+      "fetchedAt": "2026-09-22T07:15:40.826Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1E": {
+      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+      "approximate": true,
+      "coordinates": [
+        43.7678,
+        -79.1866
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "KODIAK CRES, NY / SHEPPARD AVE W / WHITEHORSE RD": {
       "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
       "approximate": true,
@@ -161091,18 +161123,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T17:14:02.586Z"
-    },
-    "M1E": {
-      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
-      "approximate": true,
-      "coordinates": [
-        43.7678,
-        -79.1866
-      ],
-      "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "KIPLING AVE, ET / HEPC / NORSEMAN ST": {
       "text": "Approximate location near Kipling Avenue & Norseman Street",
