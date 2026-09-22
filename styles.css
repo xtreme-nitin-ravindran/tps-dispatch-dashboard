@@ -1174,3 +1174,12 @@ footer {
 .source-updated-title { font-weight: 700; color: var(--text); }
 
 .source-time { font-variant-numeric: tabular-nums; }
+
+.source-times-help { grid-column: 1 / -1; color: var(--accent); text-underline-offset: 3px; }
+#source-timestamps { scroll-margin-top: 24px; margin-block: 24px; }
+#source-timestamps h3 { font-size: 16px; }
+.source-times-table { width: 100%; border-collapse: collapse; font-size: 13px; line-height: 1.5; }
+.source-times-table th, .source-times-table td { padding: 10px 8px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.source-times-table th { color: var(--text); }
+.source-times-table td { color: var(--muted); }
+.source-times-table th:first-child { width: 30%; }
