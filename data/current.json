@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T10:44:57.298Z",
-  "sourceUpdatedAt": "2026-09-22T10:40:01.000Z",
+  "fetchedAt": "2026-09-22T10:46:17.491Z",
+  "sourceUpdatedAt": "2026-09-22T10:45:01.000Z",
   "incidents": [
+    {
+      "id": "F26150191",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "GLEN EVEREST RD, SC / ROSETTA MCCLAIN GARDENS TRL / WYNNVIEW CRT",
+      "division": "225",
+      "timestamp": "2026-09-22T10:39:59.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T10:46:17.491Z",
+      "lastSeenAt": "2026-09-22T10:46:17.491Z",
+      "geography": {
+        "text": "Approximate location near Glen Everest Road & Wynnview Court",
+        "approximate": true,
+        "coordinates": [
+          43.6991306,
+          -79.254335
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-20T08:36:17.361Z"
+      }
+    },
     {
       "id": "F26150190",
       "source": "TFS",
@@ -16,9 +42,16 @@
       "timestamp": "2026-09-22T10:30:19.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "244"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T10:41:27.491Z",
-      "lastSeenAt": "2026-09-22T10:44:57.298Z",
+      "lastSeenAt": "2026-09-22T10:46:17.491Z",
       "geography": {
         "text": "Approximate area: (M1T) Scarborough (Clarks Corners / Tam O'Shanter / Sullivan)",
         "approximate": true,
@@ -51,7 +84,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T10:30:57.116Z",
-      "lastSeenAt": "2026-09-22T10:44:57.298Z",
+      "lastSeenAt": "2026-09-22T10:46:17.491Z",
       "geography": {
         "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
         "approximate": true,
@@ -84,7 +117,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T10:26:47.703Z",
-      "lastSeenAt": "2026-09-22T10:44:57.298Z",
+      "lastSeenAt": "2026-09-22T10:46:17.491Z",
       "geography": {
         "text": "Approximate area: (M9L) North York (Humber Summit)",
         "approximate": true,
@@ -1900,7 +1933,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T07:12:31.822Z",
-      "lastSeenAt": "2026-09-22T10:44:57.298Z",
+      "lastSeenAt": "2026-09-22T10:46:17.491Z",
       "geography": {
         "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
         "approximate": true,
@@ -3582,7 +3615,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T10:44:57.298Z",
+      "lastSeenAt": "2026-09-22T10:46:17.491Z",
       "geography": {
         "text": "Approximate location near Edenbridge Drive & Edgehill Road",
         "approximate": true,
@@ -87371,12 +87404,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T10:44:57.298Z",
-      "sourceUpdatedAt": "2026-09-22T10:40:01.000Z",
+      "fetchedAt": "2026-09-22T10:46:17.491Z",
+      "sourceUpdatedAt": "2026-09-22T10:45:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T10:44:57.298Z",
+      "fetchedAt": "2026-09-22T10:46:17.491Z",
       "status": "ok"
     }
   },
@@ -160615,6 +160648,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "GLEN EVEREST RD, SC / ROSETTA MCCLAIN GARDENS TRL / WYNNVIEW CRT": {
+      "text": "Approximate location near Glen Everest Road & Wynnview Court",
+      "approximate": true,
+      "coordinates": [
+        43.6991306,
+        -79.254335
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-20T08:36:17.361Z"
+    },
     "M1T": {
       "text": "Approximate area: (M1T) Scarborough (Clarks Corners / Tam O'Shanter / Sullivan)",
       "approximate": true,
@@ -164130,18 +164175,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-20T17:01:11.624Z"
-    },
-    "GLEN EVEREST RD, SC / ROSETTA MCCLAIN GARDENS TRL / WYNNVIEW CRT": {
-      "text": "Approximate location near Glen Everest Road & Wynnview Court",
-      "approximate": true,
-      "coordinates": [
-        43.6991306,
-        -79.254335
-      ],
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-20T08:36:17.361Z"
     },
     "STEELES AVE W / ALBION RD": {
       "text": "Steeles Avenue West & Albion Road",
