@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T05:14:59.687Z",
-  "sourceUpdatedAt": "2026-09-22T05:10:01.000Z",
+  "fetchedAt": "2026-09-22T05:16:29.647Z",
+  "sourceUpdatedAt": "2026-09-22T05:15:01.000Z",
   "incidents": [
+    {
+      "id": "F26150129",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5R",
+      "division": "344",
+      "timestamp": "2026-09-22T05:08:58.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T05:16:29.647Z",
+      "lastSeenAt": "2026-09-22T05:16:29.647Z",
+      "geography": {
+        "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
+        "approximate": true,
+        "coordinates": [
+          43.6736,
+          -79.4035
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150128",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "FIRVALLEY CRT, SC / HEPC / CATARAQUI CRES",
+      "division": "225",
+      "timestamp": "2026-09-22T05:06:43.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T05:16:29.647Z",
+      "lastSeenAt": "2026-09-22T05:16:29.647Z",
+      "geography": {
+        "text": "Firvalley Court between Hepc & Cataraqui Crescent",
+        "approximate": false,
+        "coordinates": [
+          43.7032411,
+          -79.27980744999999
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T05:16:29.647Z"
+      }
+    },
     {
       "id": "TPS-abb0f4b1b039592332cc7ce9",
       "source": "TPS",
@@ -37,9 +89,16 @@
       "timestamp": "2026-09-22T05:03:23.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "444"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T05:10:58.798Z",
-      "lastSeenAt": "2026-09-22T05:14:59.687Z",
+      "lastSeenAt": "2026-09-22T05:16:29.647Z",
       "geography": {
         "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
         "approximate": true,
@@ -114,7 +173,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:06:30.298Z",
-      "lastSeenAt": "2026-09-22T05:14:59.687Z",
+      "lastSeenAt": "2026-09-22T05:16:29.647Z",
       "geography": {
         "text": "Larchmount Avenue between Lane South Queen West Berkshire & Queen Street East",
         "approximate": false,
@@ -205,12 +264,13 @@
         {
           "type": "Fire Truck",
           "numbers": [
-            "421"
+            "421",
+            "443"
           ]
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T05:14:59.687Z",
+      "lastSeenAt": "2026-09-22T05:16:29.647Z",
       "geography": {
         "text": "Approximate location near Edenbridge Drive & Bearwood Drive",
         "approximate": true,
@@ -285,7 +345,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T04:45:49.150Z",
-      "lastSeenAt": "2026-09-22T05:14:59.687Z",
+      "lastSeenAt": "2026-09-22T05:16:29.647Z",
       "geography": {
         "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
         "approximate": true,
@@ -1573,7 +1633,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T03:31:58.385Z",
-      "lastSeenAt": "2026-09-22T05:14:59.687Z",
+      "lastSeenAt": "2026-09-22T05:16:29.647Z",
       "geography": {
         "text": "Approximate location near Reesor Road & C North R",
         "approximate": true,
@@ -7113,7 +7173,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-22T04:15:28.007Z"
+        "checkedAt": "2026-09-22T05:16:29.647Z"
       }
     },
     {
@@ -7143,7 +7203,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-22T04:15:28.007Z"
+        "checkedAt": "2026-09-22T05:16:29.647Z"
       }
     },
     {
@@ -83992,12 +84052,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T05:14:59.687Z",
-      "sourceUpdatedAt": "2026-09-22T05:10:01.000Z",
+      "fetchedAt": "2026-09-22T05:16:29.647Z",
+      "sourceUpdatedAt": "2026-09-22T05:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T05:14:59.687Z",
+      "fetchedAt": "2026-09-22T05:16:29.647Z",
       "status": "ok"
     }
   },
@@ -157720,6 +157780,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5R": {
+      "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
+      "approximate": true,
+      "coordinates": [
+        43.6736,
+        -79.4035
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "FIRVALLEY CRT, SC / HEPC / CATARAQUI CRES": {
+      "text": "Firvalley Court between Hepc & Cataraqui Crescent",
+      "approximate": false,
+      "coordinates": [
+        43.7032411,
+        -79.27980744999999
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T05:16:29.647Z"
+    },
     "M9C": {
       "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
       "approximate": true,
@@ -158690,7 +158774,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T04:15:28.007Z"
+      "checkedAt": "2026-09-22T05:16:29.647Z"
     },
     "LIBEN WAY, SC / PRIYA LANE / PRIYA LANE": {
       "text": "Approximate location on Liben Way",
@@ -158699,7 +158783,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T04:15:28.007Z"
+      "checkedAt": "2026-09-22T05:16:29.647Z"
     },
     "M9P": {
       "text": "Approximate area: (M9P) Etobicoke (Westmount)",
@@ -158736,18 +158820,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T22:55:51.601Z"
-    },
-    "M5R": {
-      "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
-      "approximate": true,
-      "coordinates": [
-        43.6736,
-        -79.4035
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "EGLINTON AVE E / WYNFORD DR": {
       "text": "Eglinton Avenue East & Wynford Drive",
