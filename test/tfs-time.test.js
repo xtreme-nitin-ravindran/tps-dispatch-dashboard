@@ -36,13 +36,15 @@ test('freshness detects stalled source, stalled updater, and missing metadata', 
     assert.equal(snapshotIsStale(null, '2026-09-16T05:19:00Z', now), true);
 });
 
-test('24/48 hour selection uses dispatch time and inclusive cutoffs', async () => {
+test('history selections include the cutoff and exclude older or future calls', async () => {
     const { isWithinHistoryWindow } = await import('../src/tfs/time.js');
     const now = Date.parse('2026-09-16T12:00:00Z');
-    assert.equal(isWithinHistoryWindow('2026-09-15T12:00:00Z', 24, now), true);
-    assert.equal(isWithinHistoryWindow('2026-09-15T11:59:59Z', 24, now), false);
-    assert.equal(isWithinHistoryWindow('2026-09-15T11:59:59Z', 48, now), true);
-    assert.equal(isWithinHistoryWindow('2026-09-14T11:59:59Z', 48, now), false);
-    assert.equal(isWithinHistoryWindow('invalid', 48, now), false);
-    assert.equal(isWithinHistoryWindow(now + 1, 48, now), false);
+    for (const hours of [1, 3, 6, 12, 24, 72, 168]) {
+        const cutoff = now - hours * 60 * 60 * 1000;
+        assert.equal(isWithinHistoryWindow(new Date(cutoff).toISOString(), hours, now), true);
+        assert.equal(isWithinHistoryWindow(new Date(cutoff - 1).toISOString(), hours, now), false);
+        assert.equal(isWithinHistoryWindow(new Date(now).toISOString(), hours, now), true);
+        assert.equal(isWithinHistoryWindow('invalid', hours, now), false);
+        assert.equal(isWithinHistoryWindow(now + 1, hours, now), false);
+    }
 });

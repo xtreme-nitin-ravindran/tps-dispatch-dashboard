@@ -185,7 +185,7 @@ this file, merges new records by incident ID, updates known records, and removes
 outside the retention window. The JSON is replaced atomically after merging; it is not
 an append-only text log. Keep the previous file available between updater runs.
 
-The dashboard defaults to **Last 24 hours**, with **Last 48 hours** and **Last 7 days** options. The source update time remains visible above the map. Calls absent from the
+The History options are **Last 1 hour**, **Last 3 hours**, **Last 6 hours**, **Last 12 hours**, **Last 24 hours** (default), **Last 3 days**, and **Last 7 days**. The source update time remains visible above the map. Calls absent from the
 latest active feed remain in history with `isOngoing: false`; this does not establish
 that an incident is resolved. The Ongoing filter reflects the last fetched feed.
 
