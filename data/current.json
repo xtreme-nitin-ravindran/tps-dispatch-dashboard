@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T00:55:24.161Z",
-  "sourceUpdatedAt": "2026-09-22T00:50:02.000Z",
+  "fetchedAt": "2026-09-22T00:56:34.889Z",
+  "sourceUpdatedAt": "2026-09-22T00:55:02.000Z",
   "incidents": [
+    {
+      "id": "F26150040",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6G",
+      "division": "344",
+      "timestamp": "2026-09-22T00:45:26.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T00:56:34.889Z",
+      "lastSeenAt": "2026-09-22T00:56:34.889Z",
+      "geography": {
+        "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
+        "approximate": true,
+        "coordinates": [
+          43.6683,
+          -79.4205
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150039",
       "source": "TFS",
@@ -15,7 +41,7 @@
       "division": "314",
       "timestamp": "2026-09-22T00:43:35.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-22T00:51:51.080Z",
       "lastSeenAt": "2026-09-22T00:55:24.161Z",
@@ -42,9 +68,18 @@
       "timestamp": "2026-09-22T00:41:25.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "222",
+            "222",
+            "245"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T00:51:51.080Z",
-      "lastSeenAt": "2026-09-22T00:55:24.161Z",
+      "lastSeenAt": "2026-09-22T00:56:34.889Z",
       "geography": {
         "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
         "approximate": true,
@@ -203,7 +238,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T00:36:14.516Z",
-      "lastSeenAt": "2026-09-22T00:55:24.161Z",
+      "lastSeenAt": "2026-09-22T00:56:34.889Z",
       "geography": {
         "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
         "approximate": true,
@@ -268,7 +303,7 @@
       "division": "442",
       "timestamp": "2026-09-22T00:26:38.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -496,7 +531,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T00:31:19.691Z",
-      "lastSeenAt": "2026-09-22T00:55:24.161Z",
+      "lastSeenAt": "2026-09-22T00:56:34.889Z",
       "geography": {
         "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
         "approximate": true,
@@ -650,7 +685,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T00:31:19.691Z",
-      "lastSeenAt": "2026-09-22T00:55:24.161Z",
+      "lastSeenAt": "2026-09-22T00:56:34.889Z",
       "geography": {
         "text": "Yonge Street between Montgomery Avenue & Roselawn Avenue",
         "approximate": false,
@@ -5468,7 +5503,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-21T23:55:53.444Z"
+        "checkedAt": "2026-09-22T00:56:34.889Z"
       }
     },
     {
@@ -79085,17 +79120,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T00:55:24.161Z",
-      "sourceUpdatedAt": "2026-09-22T00:50:02.000Z",
+      "fetchedAt": "2026-09-22T00:56:34.889Z",
+      "sourceUpdatedAt": "2026-09-22T00:55:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T00:55:24.161Z",
+      "fetchedAt": "2026-09-22T00:56:34.889Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6G": {
+      "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
+      "approximate": true,
+      "coordinates": [
+        43.6683,
+        -79.4205
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M5B": {
       "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
       "approximate": true,
@@ -80051,7 +80098,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-21T23:55:53.444Z"
+      "checkedAt": "2026-09-22T00:56:34.889Z"
     },
     "DUNLOE RD, TT / ARCHER RD / OLD FOREST HILL RD": {
       "text": "Dunloe Road between Archer Road & Old Forest Hill Road",
@@ -80595,18 +80642,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T16:45:03.661Z"
-    },
-    "M6G": {
-      "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
-      "approximate": true,
-      "coordinates": [
-        43.6683,
-        -79.4205
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "WITHYCOMBE CRES, SC / PORT ROYAL TRL / AUDRELANE PARK TRL": {
       "text": "Approximate location near Withycombe Crescent & Audrelane Park Trl",
