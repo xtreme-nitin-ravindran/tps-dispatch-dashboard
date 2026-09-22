@@ -1,3 +1,4 @@
+import { reportedAge } from "./src/call-presentation.js?v=recency-1";
 import { distanceKm } from "./src/nearby.js";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
@@ -329,7 +330,8 @@ function renderCalls() {
     row.setAttribute("role", "button");
     row.setAttribute("aria-label", `${call.description} at ${displayLocation(call).text}`);
     node.querySelector(".time-main").textContent = formatTime(call.time);
-    node.querySelector(".time-ago").textContent = relativeTime(call.time);
+    node.querySelector(".time-ago").textContent = reportedAge(call.time);
+    node.querySelector(".time-ago").dataset.reportedAt = call.time.toISOString();
     node.querySelector(".call-title").textContent = call.description;
     node.querySelector(".ongoing-badge").hidden = !call.isOngoing;
     node.querySelector(".source-badge").textContent = call.source;
@@ -681,3 +683,9 @@ document.querySelector('#clearNearby').addEventListener('click', () => {
   mapHasFitted = false;
   applyFilters();
 });
+
+setInterval(() => {
+  document.querySelectorAll('[data-reported-at]').forEach(label => {
+    label.textContent = reportedAge(label.dataset.reportedAt);
+  });
+}, 60000);
