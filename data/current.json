@@ -3,9 +3,56 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T06:10:21.336Z",
-  "sourceUpdatedAt": "2026-09-22T06:05:05.000Z",
+  "fetchedAt": "2026-09-22T06:11:41.423Z",
+  "sourceUpdatedAt": "2026-09-22T06:10:02.000Z",
   "incidents": [
+    {
+      "id": "F26150143",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "EGLINTON AVE, SC / CENTRE ST / MARKHAM RD",
+      "division": "223",
+      "timestamp": "2026-09-22T06:03:52.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T06:11:41.423Z",
+      "lastSeenAt": "2026-09-22T06:11:41.423Z",
+      "geography": {
+        "text": "Eglinton Avenue between Centre Street & Markham Road",
+        "approximate": false,
+        "coordinates": [
+          43.7430085,
+          -79.21973765
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T21:38:18.829Z"
+      }
+    },
+    {
+      "id": "TPS-d0e43397671e2c234b5e4a98",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-22T06:01:04.000Z",
+      "location": "LN W SHERBOURNE N EARL - SHERBOURNE ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN W SHERBOURNE N EARL - SHERBOURNE ST",
+        "coordinates": [
+          43.66872170782537,
+          -79.37536035490432
+        ],
+        "division": "Division 51",
+        "approximate": true
+      }
+    },
     {
       "id": "F26150142",
       "source": "TFS",
@@ -15,7 +62,7 @@
       "division": "224",
       "timestamp": "2026-09-22T05:58:28.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-22T06:06:41.218Z",
       "lastSeenAt": "2026-09-22T06:10:21.336Z",
@@ -116,7 +163,7 @@
       "division": "445",
       "timestamp": "2026-09-22T05:36:21.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -914,7 +961,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T06:10:21.336Z",
+      "lastSeenAt": "2026-09-22T06:11:41.423Z",
       "geography": {
         "text": "Approximate location near Edenbridge Drive & Edgehill Road",
         "approximate": true,
@@ -2278,7 +2325,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T03:31:58.385Z",
-      "lastSeenAt": "2026-09-22T06:10:21.336Z",
+      "lastSeenAt": "2026-09-22T06:11:41.423Z",
       "geography": {
         "text": "Approximate location near Reesor Road & C North R",
         "approximate": true,
@@ -84697,12 +84744,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T06:10:21.336Z",
-      "sourceUpdatedAt": "2026-09-22T06:05:05.000Z",
+      "fetchedAt": "2026-09-22T06:11:41.423Z",
+      "sourceUpdatedAt": "2026-09-22T06:10:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T06:10:21.336Z",
+      "fetchedAt": "2026-09-22T06:11:41.423Z",
       "status": "ok"
     }
   },
@@ -158371,6 +158418,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "EGLINTON AVE, SC / CENTRE ST / MARKHAM RD": {
+      "text": "Eglinton Avenue between Centre Street & Markham Road",
+      "approximate": false,
+      "coordinates": [
+        43.7430085,
+        -79.21973765
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T21:38:18.829Z"
+    },
     "M4C": {
       "text": "Approximate area: (M4C) East York (Woodbine Heights)",
       "approximate": true,
@@ -162609,18 +162668,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T22:02:23.234Z"
-    },
-    "EGLINTON AVE, SC / CENTRE ST / MARKHAM RD": {
-      "text": "Eglinton Avenue between Centre Street & Markham Road",
-      "approximate": false,
-      "coordinates": [
-        43.7430085,
-        -79.21973765
-      ],
-      "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T21:38:18.829Z"
     },
     "BOND ST, TT / QUEEN ST E / SHUTER ST": {
       "text": "Bond Street between Queen Street East & Shuter Street",
