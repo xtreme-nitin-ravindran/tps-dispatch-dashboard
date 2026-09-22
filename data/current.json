@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T08:25:04.207Z",
-  "sourceUpdatedAt": "2026-09-22T08:20:01.000Z",
+  "fetchedAt": "2026-09-22T08:26:23.494Z",
+  "sourceUpdatedAt": "2026-09-22T08:25:01.000Z",
   "incidents": [
+    {
+      "id": "F26150172",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M8V",
+      "division": "435",
+      "timestamp": "2026-09-22T08:16:23.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T08:26:23.494Z",
+      "lastSeenAt": "2026-09-22T08:26:23.494Z",
+      "geography": {
+        "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
+        "approximate": true,
+        "coordinates": [
+          43.6075,
+          -79.5013
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150171",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9W",
+      "division": "415",
+      "timestamp": "2026-09-22T08:15:19.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T08:26:23.494Z",
+      "lastSeenAt": "2026-09-22T08:26:23.494Z",
+      "geography": {
+        "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
+        "approximate": true,
+        "coordinates": [
+          43.7144,
+          -79.5909
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150170",
       "source": "TFS",
@@ -55,7 +107,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T08:07:04.001Z",
-      "lastSeenAt": "2026-09-22T08:25:04.207Z",
+      "lastSeenAt": "2026-09-22T08:26:23.494Z",
       "geography": {
         "text": "Approximate location near Reesor Road & C North R",
         "approximate": true,
@@ -869,7 +921,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T07:12:31.822Z",
-      "lastSeenAt": "2026-09-22T08:25:04.207Z",
+      "lastSeenAt": "2026-09-22T08:26:23.494Z",
       "geography": {
         "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
         "approximate": true,
@@ -2545,7 +2597,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T08:25:04.207Z",
+      "lastSeenAt": "2026-09-22T08:26:23.494Z",
       "geography": {
         "text": "Approximate location near Edenbridge Drive & Edgehill Road",
         "approximate": true,
@@ -86334,12 +86386,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T08:25:04.207Z",
-      "sourceUpdatedAt": "2026-09-22T08:20:01.000Z",
+      "fetchedAt": "2026-09-22T08:26:23.494Z",
+      "sourceUpdatedAt": "2026-09-22T08:25:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T08:25:04.207Z",
+      "fetchedAt": "2026-09-22T08:26:23.494Z",
       "status": "ok"
     }
   },
@@ -159892,6 +159944,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M8V": {
+      "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
+      "approximate": true,
+      "coordinates": [
+        43.6075,
+        -79.5013
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M9W": {
+      "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
+      "approximate": true,
+      "coordinates": [
+        43.7144,
+        -79.5909
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "CARLTON ST, TT / ALLAN GARDENS TRL / ALLAN GARDENS TRL": {
       "text": "Approximate location on Carlton Street",
       "approximate": true,
@@ -160972,18 +161048,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T00:15:43.923Z"
     },
-    "M9W": {
-      "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
-      "approximate": true,
-      "coordinates": [
-        43.7144,
-        -79.5909
-      ],
-      "division": "Division 23",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "LAWRENCE AVE W / BROOKHAVEN DR": {
       "text": "Lawrence Avenue West & Brookhaven Drive",
       "approximate": false,
@@ -161769,18 +161833,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T20:18:57.485Z"
-    },
-    "M8V": {
-      "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
-      "approximate": true,
-      "coordinates": [
-        43.6075,
-        -79.5013
-      ],
-      "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "A0K": {
       "text": "Approximate location on A0k",
