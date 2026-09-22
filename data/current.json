@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T12:00:19.342Z",
-  "sourceUpdatedAt": "2026-09-22T11:55:01.000Z",
+  "fetchedAt": "2026-09-22T12:01:07.797Z",
+  "sourceUpdatedAt": "2026-09-22T12:00:01.000Z",
   "incidents": [
+    {
+      "id": "F26150212",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Water Problem - Level 1",
+      "location": "NORWAY AVE, TT / ELMER AVE / KENILWORTH AVE",
+      "division": "227",
+      "timestamp": "2026-09-22T11:52:52.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T12:01:07.797Z",
+      "lastSeenAt": "2026-09-22T12:01:07.797Z",
+      "geography": {
+        "text": "Approximate location near Norway Avenue & Kenilworth Avenue",
+        "approximate": true,
+        "coordinates": [
+          43.6739027,
+          -79.303809
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T12:01:07.797Z"
+      }
+    },
     {
       "id": "F26150211",
       "source": "TFS",
@@ -16,9 +42,16 @@
       "timestamp": "2026-09-22T11:46:24.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "332"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T11:56:39.056Z",
-      "lastSeenAt": "2026-09-22T12:00:19.342Z",
+      "lastSeenAt": "2026-09-22T12:01:07.797Z",
       "geography": {
         "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
         "approximate": true,
@@ -51,7 +84,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T11:50:39.312Z",
-      "lastSeenAt": "2026-09-22T12:00:19.342Z",
+      "lastSeenAt": "2026-09-22T12:01:07.797Z",
       "geography": {
         "text": "Approximate area: (M1J) Scarborough (Eglinton)",
         "approximate": true,
@@ -74,7 +107,7 @@
       "division": "231",
       "timestamp": "2026-09-22T11:42:51.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -117,7 +150,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T11:45:28.694Z",
-      "lastSeenAt": "2026-09-22T12:00:19.342Z",
+      "lastSeenAt": "2026-09-22T12:01:07.797Z",
       "geography": {
         "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
         "approximate": true,
@@ -161,7 +194,7 @@
       "division": "326",
       "timestamp": "2026-09-22T11:35:05.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -862,7 +895,7 @@
       "division": "242",
       "timestamp": "2026-09-22T10:47:45.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -905,7 +938,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T10:55:48.006Z",
-      "lastSeenAt": "2026-09-22T12:00:19.342Z",
+      "lastSeenAt": "2026-09-22T12:01:07.797Z",
       "geography": {
         "text": "Approximate area: (M3B) Don Mills North",
         "approximate": true,
@@ -2982,7 +3015,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T07:12:31.822Z",
-      "lastSeenAt": "2026-09-22T12:00:19.342Z",
+      "lastSeenAt": "2026-09-22T12:01:07.797Z",
       "geography": {
         "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
         "approximate": true,
@@ -4664,7 +4697,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T12:00:19.342Z",
+      "lastSeenAt": "2026-09-22T12:01:07.797Z",
       "geography": {
         "text": "Approximate location near Edenbridge Drive & Edgehill Road",
         "approximate": true,
@@ -88453,12 +88486,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T12:00:19.342Z",
-      "sourceUpdatedAt": "2026-09-22T11:55:01.000Z",
+      "fetchedAt": "2026-09-22T12:01:07.797Z",
+      "sourceUpdatedAt": "2026-09-22T12:00:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T12:00:19.342Z",
+      "fetchedAt": "2026-09-22T12:01:07.797Z",
       "status": "ok"
     }
   },
@@ -161835,6 +161868,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "NORWAY AVE, TT / ELMER AVE / KENILWORTH AVE": {
+      "text": "Approximate location near Norway Avenue & Kenilworth Avenue",
+      "approximate": true,
+      "coordinates": [
+        43.6739027,
+        -79.303809
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T12:01:07.797Z"
+    },
     "M5E": {
       "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
       "approximate": true,
