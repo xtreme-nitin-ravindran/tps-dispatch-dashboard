@@ -15,11 +15,11 @@ function mock({head='tested',reject=false,files=[{}]}={}) {
   };
   return {api,calls};
 }
-test('only tested dev SHA can be promoted and Pages is explicitly rebuilt',async()=>{
+test('only tested dev SHA can be promoted without a duplicate Pages request',async()=>{
   const {api,calls}=mock(); await promote({...defaults,api});
   assert.equal(calls.find(c=>c.path==='pulls/1/merge').body.sha,'tested');
   assert.deepEqual(calls.find(c=>c.path==='git/refs/heads/dev').body,{sha:'merged',force:false});
-  assert.equal(calls.at(-1).path,'pages/builds');
+  assert.ok(!calls.some(c=>c.path.startsWith('pages/')), 'branch publishing must be the only Pages trigger');
 });
 test('superseded dev, empty diffs and other branches cannot promote',async()=>{
   for(const options of [{head:'newer'},{files:[]}]) {

@@ -28,9 +28,8 @@ if (api('git/ref/heads/dev').object.sha === sha) {
   try { api('git/refs/heads/dev','PATCH',{sha:merged.sha,force:false}); }
   catch { console.warn('Dev advanced concurrently; leaving its history intact.'); }
 }
-// A GITHUB_TOKEN merge does not trigger a normal push workflow or Pages build.
-api('pages/builds','POST');
-console.log(`Merged ${pr.html_url}; requested Pages rebuild.`);
+// Branch-based Pages publishing handles the main merge automatically.
+console.log(`Merged ${pr.html_url}; Pages publishes from main.`);
 
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
