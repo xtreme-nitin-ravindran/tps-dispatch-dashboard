@@ -1,4 +1,4 @@
-import { updateLabel } from "./src/view-controls.js";
+import { updateLabel, filterDefaults, filterSummary } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js";
 import { reportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=status-1";
 import { distanceKm } from "./src/nearby.js";
@@ -287,6 +287,7 @@ function applyFilters({ map = true } = {}) {
   // Build the facet before applying its own selection, so other divisions remain available.
   populateDivisionFilter(eligibleCalls);
   state.filtered = eligibleCalls.filter(call => state.division === "all" || call.division === state.division);
+  document.querySelector("#filterSummary").textContent = filterSummary(state);
   render(map);
 }
 
@@ -725,4 +726,17 @@ setInterval(() => {
 
 document.querySelector('#roadOverlay').addEventListener('change', () => {
   renderDisruptions(state.disruptions, state.nearby, state.radiusKm, dispatchMap);
+});
+
+function syncFilterControls() {
+  els.searchInput.value = state.search;
+  document.querySelector('#historyHours').value = state.hours;
+  document.querySelector('#serviceFilter').value = state.serviceFilter;
+}
+document.querySelector('#clearFilters').addEventListener('click', () => {
+  Object.assign(state, filterDefaults);
+  state.radiusKm = 2;
+  document.querySelector('#nearRadius').value = 2;
+  syncFilterControls();
+  document.querySelector('#clearNearby').click();
 });
