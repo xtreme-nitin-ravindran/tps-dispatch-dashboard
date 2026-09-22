@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T06:49:41.783Z",
-  "sourceUpdatedAt": "2026-09-22T06:45:02.000Z",
+  "fetchedAt": "2026-09-22T06:50:41.596Z",
+  "sourceUpdatedAt": "2026-09-22T06:50:02.000Z",
   "incidents": [
+    {
+      "id": "F26150151",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "GILDER DR, SC / MIDLAND AVE / EGLINTON AVE E",
+      "division": "221",
+      "timestamp": "2026-09-22T06:41:48.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T06:50:41.596Z",
+      "lastSeenAt": "2026-09-22T06:50:41.596Z",
+      "geography": {
+        "text": "Gilder Drive between Midland Avenue & Eglinton Avenue East",
+        "approximate": false,
+        "coordinates": [
+          43.7358288,
+          -79.25597605
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150150",
       "source": "TFS",
@@ -25,7 +51,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T06:42:21.783Z",
-      "lastSeenAt": "2026-09-22T06:49:41.783Z",
+      "lastSeenAt": "2026-09-22T06:50:41.596Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -48,7 +74,7 @@
       "division": "346",
       "timestamp": "2026-09-22T06:32:28.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -1363,7 +1389,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T06:49:41.783Z",
+      "lastSeenAt": "2026-09-22T06:50:41.596Z",
       "geography": {
         "text": "Approximate location near Edenbridge Drive & Edgehill Road",
         "approximate": true,
@@ -2733,7 +2759,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T03:31:58.385Z",
-      "lastSeenAt": "2026-09-22T06:49:41.783Z",
+      "lastSeenAt": "2026-09-22T06:50:41.596Z",
       "geography": {
         "text": "Approximate location near Reesor Road & C North R",
         "approximate": true,
@@ -85152,12 +85178,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T06:49:41.783Z",
-      "sourceUpdatedAt": "2026-09-22T06:45:02.000Z",
+      "fetchedAt": "2026-09-22T06:50:41.596Z",
+      "sourceUpdatedAt": "2026-09-22T06:50:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T06:49:41.783Z",
+      "fetchedAt": "2026-09-22T06:50:41.596Z",
       "status": "ok"
     }
   },
@@ -158796,6 +158822,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "GILDER DR, SC / MIDLAND AVE / EGLINTON AVE E": {
+      "text": "Gilder Drive between Midland Avenue & Eglinton Avenue East",
+      "approximate": false,
+      "coordinates": [
+        43.7358288,
+        -79.25597605
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M6K": {
       "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
       "approximate": true,
@@ -165116,18 +165154,6 @@
         -79.4326773
       ],
       "division": "Division 13",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "GILDER DR, SC / MIDLAND AVE / EGLINTON AVE E": {
-      "text": "Gilder Drive between Midland Avenue & Eglinton Avenue East",
-      "approximate": false,
-      "coordinates": [
-        43.7358288,
-        -79.25597605
-      ],
-      "division": "Division 41",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
