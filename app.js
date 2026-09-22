@@ -1,4 +1,4 @@
-import { clusterPoints, spreadPoint } from "./src/map-clusters.js";
+import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
 import { updateLabel, filterDefaults, filterSummary, readFilters, shareView } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js";
 import { reportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=status-1";
@@ -357,8 +357,13 @@ function renderCalls() {
     row.dataset.callId = call.id;
     row.classList.toggle("selected", call.id === focusedCallId);
     row.tabIndex = 0;
-    row.setAttribute("role", "button");
-    row.setAttribute("aria-label", `${call.description} at ${displayLocation(call).text}`);
+    if (coordinatesForCall(call)) {
+      row.setAttribute("role", "button");
+      row.setAttribute("aria-label", `Show on map: ${call.description} at ${displayLocation(call).text}`);
+      const hint = document.createElement('span');
+      hint.className = 'show-map-hint'; hint.textContent = 'Show on map ↗';
+      node.querySelector('.call-main').append(hint);
+    }
     node.querySelector(".time-main").textContent = formatTime(call.time);
     node.querySelector(".time-ago").textContent = reportedAge(call.time);
     node.querySelector(".time-ago").dataset.reportedAt = call.time.toISOString();
@@ -476,8 +481,10 @@ function renderMapMarkers() {
     .filter(item => item.coordinates);
 
   const addMarker = ({call, coordinates}, position = coordinates) => {
+    const tooltip = document.createElement('span');
+    tooltip.textContent = `${call.source}: ${call.description}`;
     const marker = L.marker(position, { icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call)) })
-      .bindTooltip(`${call.source}: ${call.description}`, { direction: "top" })
+      .bindTooltip(tooltip, { direction: "top" })
       .on("click", () => selectCall(call.id, { pan: false, revealRow: true }));
     marker.addTo(callLayer);
     mapMarkers.set(call.id, marker);
@@ -526,6 +533,16 @@ async function selectCall(callId, { pan = true, revealRow = false } = {}) {
   if (!call) return;
 
   focusedCallId = callId;
+  if (pan && dispatchMap && coordinatesForCall(call)) {
+    dispatchMap.stop();
+    dispatchMap.setView(coordinatesForCall(call),18,{animate:false});
+    const located = state.filtered.map(call => ({call,coordinates:coordinatesForCall(call)})).filter(item=>item.coordinates);
+    expandedCluster = new Set(focusGroup(located,callId,point=>dispatchMap.project(point,18)).map(item=>item.call.id));
+    renderMapMarkers();
+    els.dispatchMap.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',block:'center'});
+    els.dispatchMap.focus({preventScroll:true});
+  }
+
 
   let selectedRow;
   document.querySelectorAll(".call-row").forEach(row => {
@@ -551,10 +568,6 @@ async function selectCall(callId, { pan = true, revealRow = false } = {}) {
   });
   const marker = mapMarkers.get(callId);
   if (marker) {
-    if (pan) {
-      dispatchMap.stop();
-      dispatchMap.setView(marker.getLatLng(), isApproximateLocation(call) ? 14 : 17, { animate: false });
-    }
     marker.openTooltip();
   }
 }

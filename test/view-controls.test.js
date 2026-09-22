@@ -30,3 +30,10 @@ test('clustering preserves calls and separates distant screen cells', () => {
   const points=Array.from({length:5},(_,i)=>spreadPoint(i,5,{x:0,y:0}));
   assert.equal(new Set(points.map(p=>JSON.stringify(p))).size,5);
 });
+import { focusGroup } from '../src/map-clusters.js';
+test('row selection finds the entire overlapping group, or none for missing calls', () => {
+  const items=[{call:{id:'a'},coordinates:[1,1]},{call:{id:'b'},coordinates:[1,1]},{call:{id:'c'},coordinates:[200,200]}];
+  const project=([x,y])=>({x,y});
+  assert.deepEqual(focusGroup(items,'b',project).map(i=>i.call.id),['a','b']);
+  assert.deepEqual(focusGroup(items,'missing',project),[]);
+});

@@ -14,3 +14,6 @@ export function spreadPoint(index, count, center) {
   const radius = Math.max(35, count * 7);
   return { x:center.x + Math.cos(angle) * radius, y:center.y + Math.sin(angle) * radius };
 }
+export function focusGroup(items, id, project) {
+  return clusterPoints(items, project).find(group => group.some(item => item.call.id === id)) || [];
+}
