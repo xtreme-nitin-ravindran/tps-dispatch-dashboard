@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T21:04:59.136Z",
-  "sourceUpdatedAt": "2026-09-22T21:00:02.000Z",
+  "fetchedAt": "2026-09-22T21:06:10.445Z",
+  "sourceUpdatedAt": "2026-09-22T21:05:01.000Z",
   "incidents": [
+    {
+      "id": "F26150516",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "RANDOLPH RD / MILLWOOD RD",
+      "division": "321",
+      "timestamp": "2026-09-22T20:58:49.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T21:06:10.445Z",
+      "lastSeenAt": "2026-09-22T21:06:10.445Z",
+      "geography": {
+        "text": "Randolph Road & Millwood Road",
+        "approximate": false,
+        "coordinates": [
+          43.7030912,
+          -79.3632186
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T21:06:10.445Z"
+      }
+    },
     {
       "id": "F26150515",
       "source": "TFS",
@@ -18,6 +44,12 @@
       "isOngoing": true,
       "vehicles": [
         {
+          "type": "Aerial Truck",
+          "numbers": [
+            "135"
+          ]
+        },
+        {
           "type": "Fire Truck",
           "numbers": [
             "134"
@@ -25,7 +57,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T20:55:39.594Z",
-      "lastSeenAt": "2026-09-22T21:04:59.136Z",
+      "lastSeenAt": "2026-09-22T21:06:10.445Z",
       "geography": {
         "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
         "approximate": true,
@@ -189,7 +221,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T20:52:01.097Z",
-      "lastSeenAt": "2026-09-22T21:04:59.136Z",
+      "lastSeenAt": "2026-09-22T21:06:10.445Z",
       "geography": {
         "text": "Dundas Street West & Fisken Avenue",
         "approximate": false,
@@ -243,7 +275,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T20:52:01.097Z",
-      "lastSeenAt": "2026-09-22T21:04:59.136Z",
+      "lastSeenAt": "2026-09-22T21:06:10.445Z",
       "geography": {
         "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
         "approximate": true,
@@ -599,7 +631,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T20:35:59.375Z",
-      "lastSeenAt": "2026-09-22T21:04:59.136Z",
+      "lastSeenAt": "2026-09-22T21:06:10.445Z",
       "geography": {
         "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
         "approximate": true,
@@ -874,7 +906,7 @@
       "division": "115",
       "timestamp": "2026-09-22T20:12:40.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "High-Rise Unit",
@@ -1020,7 +1052,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T20:15:57.605Z",
-      "lastSeenAt": "2026-09-22T21:04:59.136Z",
+      "lastSeenAt": "2026-09-22T21:06:10.445Z",
       "geography": {
         "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
         "approximate": true,
@@ -1666,7 +1698,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T19:56:37.174Z",
-      "lastSeenAt": "2026-09-22T21:04:59.136Z",
+      "lastSeenAt": "2026-09-22T21:06:10.445Z",
       "geography": {
         "text": "Approximate location on Cosburn Avenue",
         "approximate": true,
@@ -100116,12 +100148,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T21:04:59.136Z",
-      "sourceUpdatedAt": "2026-09-22T21:00:02.000Z",
+      "fetchedAt": "2026-09-22T21:06:10.445Z",
+      "sourceUpdatedAt": "2026-09-22T21:05:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T21:04:59.136Z",
+      "fetchedAt": "2026-09-22T21:06:10.445Z",
       "status": "ok"
     }
   },
@@ -176994,6 +177026,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "RANDOLPH RD / MILLWOOD RD": {
+      "text": "Randolph Road & Millwood Road",
+      "approximate": false,
+      "coordinates": [
+        43.7030912,
+        -79.3632186
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T21:06:10.445Z"
+    },
     "M5P": {
       "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
       "approximate": true,
