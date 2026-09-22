@@ -168,12 +168,14 @@ Do not combine this feed with other datasets to try to identify an individual, h
 Contains information licensed under the Open Government Licence – Toronto where applicable.
 
 - **Incidents:** [Toronto Fire Services](https://www.toronto.ca/community-people/public-safety-alerts/alerts-notifications/toronto-fire-active-incidents/).
+- **Road restrictions:** City of Toronto, [Road Restrictions dataset](https://open.toronto.ca/dataset/road-restrictions/), via the [Road Restrictions v3 JSON feed](https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json).
+- **Transit disruptions:** Toronto Transit Commission (TTC), [GTFS-Realtime alerts](https://gtfsrt.ttc.ca/), via the [service alerts feed](https://gtfsrt.ttc.ca/alerts/all?format=text).
 - **Municipal open data:** [Open Government Licence – Toronto](https://www.toronto.ca/city-government/data-research-maps/open-data/open-data-licence/).
 - **Division boundaries:** Toronto Police Service, [TPS_POLICE_DIVISIONS_REV on ArcGIS](https://www.arcgis.com/home/item.html?id=fdd36b8dd9544c97b926958f3eb8cb98), also used by [TPS My Neighbourhood](https://www.tps.ca/my-neighbourhood/). The item credits Toronto Police Service but its licence field was blank when checked September 18, 2026; it is not covered by this repository's Unlicense.
 - **Map data:** © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), under the Open Database License.
 
 This project is independent and is not affiliated with or endorsed by Toronto Fire Services,
-Toronto Police Service, the City of Toronto, or Esri. The Unlicense applies only to original
+Toronto Police Service, the City of Toronto, the Toronto Transit Commission, or Esri. The Unlicense applies only to original
 repository software, not third-party data, services, or assets.
 
 ## Rolling incident history
