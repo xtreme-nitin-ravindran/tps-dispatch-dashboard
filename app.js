@@ -1,3 +1,4 @@
+import { updateLabel } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js";
 import { reportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=status-1";
 import { distanceKm } from "./src/nearby.js";
@@ -180,11 +181,30 @@ async function fetchSnapshot() {
 }
 
 let sourceHighlightTimer;
+let pendingSnapshot = null;
+let snapshotLoaded = false;
+const updatesButton = document.querySelector('#newCalls');
+updatesButton.addEventListener('click', () => {
+  if (!pendingSnapshot) return;
+  const snapshot = pendingSnapshot;
+  pendingSnapshot = null;
+  loadData({ accepted: snapshot });
+});
 
-async function loadData({ silent = false } = {}) {
+async function loadData({ silent = false, accepted = null } = {}) {
 
   try {
-    const snapshot = await fetchSnapshot();
+    const snapshot = accepted || await fetchSnapshot();
+    if (!accepted && snapshotLoaded && JSON.stringify(state.calls) !== JSON.stringify(snapshot.calls)) {
+      pendingSnapshot = snapshot;
+      updatesButton.textContent = updateLabel(state.calls, snapshot.calls);
+      updatesButton.hidden = false;
+      return;
+    }
+    pendingSnapshot = null;
+    updatesButton.hidden = true;
+    const scrollTop = els.callList.scrollTop;
+    snapshotLoaded = true;
     const previousSourceTime = parseLooseTime(state.lastIngest)?.getTime();
     const callsChanged = JSON.stringify(state.calls) !== JSON.stringify(snapshot.calls);
     state.disruptions = snapshot.disruptions;
@@ -205,6 +225,7 @@ async function loadData({ silent = false } = {}) {
     ].join(" | ") + " Toronto";
     if (callsChanged) {
       applyFilters();
+      els.callList.scrollTop = scrollTop;
     }
     renderDisruptions(state.disruptions, state.nearby, state.radiusKm, dispatchMap);
     updateFreshness();
