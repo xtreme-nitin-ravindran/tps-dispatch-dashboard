@@ -78,11 +78,9 @@ is **All tests (Docker)**. Both the unit suite and the live official-source inte
 test must pass. The integration test still runs if unit tests fail, provided the image built.
 An upstream TFS outage can therefore fail this check.
 
-**`main` has no branch protection.** The previously created rule was removed.
-Test results are informational: failed tests do not block merges, pull requests are
-not required, and direct pushes to `main` are allowed for users with write access.
-The remaining test workflow uses `actions/checkout@v5` and the Node.js 20
-Docker image defined by `Dockerfile.test`. There is no GitHub snapshot updater.
+Main requires a pull request and passing **All tests (Docker)** checks. Successful
+pushes to dev are promoted automatically through a protected PR. See the branch
+workflow below. Tests use `actions/checkout@v6` and the Docker test image.
 
 ## ETL and Concourse
 
@@ -206,55 +204,14 @@ Pushes are fast-forward only. A concurrent branch change rejects the push. Trigg
 new build with fresh inputs after a failure, or wait for the next scheduled run. There is no force
 push or automatic conflict resolution.
 
-The HTTP resource fetches during both check and get. Because the endpoint cannot
-retrieve historical versions, `strict: false` accepts the latest XML if it changes
-between these requests. The ETL uses that downloaded body without another fetch;
-the live integration test makes its own independent request. Body hashing includes
-the source timestamp, so timestamp-only XML changes also trigger a build.
-
-When XML stops changing, no new snapshot is committed: `fetchedAt` remains the last
-ETL time, and expired history is physically removed on the next successful update.
-The dashboard still filters calls by dispatch age.
-
-This publishes data to Git, not directly to a website. Your dashboard host must
-serve the updated commit. The local Concourse deployment must remain running;
-polling intervals are approximate and depend on worker availability. The saved
-production configuration has not yet been deployed with write credentials.
-
-## License
-
-The original software in this repository is released under the [Unlicense](LICENSE),
-a public-domain dedication allowing use, modification, redistribution, and commercial
-use without an attribution requirement or a requirement to publish derivative source code.
-The software is provided without warranty.
-
-This applies to the project’s original code, not third-party data or components.
-Toronto Fire Services feed data and derived snapshots (including `data/current.json`)
-remain subject to their source terms and attribution requirements. Third-party
-libraries, fonts, map tiles, and geocoding data retain their respective licenses.
-
-### Police division estimates
-
-Both updaters use bundled Toronto Centreline intersection nodes, GeoNames postal
-area coordinates/labels and TPS boundaries. All matching runs locally before the
-snapshot is published. No ArcGIS geocoder results are stored.
-
-Street pairs must share a unique Centreline node. Missing or ambiguous matches stay
-unresolved. Both segment ends must resolve for a division estimate; different end
-divisions produce “Possible divisions …”. A segment pin is its endpoint midpoint,
-not an exact incident address. Postal points are broad area estimates.
-
-The versioned `locationCache` is reused by both updaters and pruned to retained
-locations. Resolved entries refresh after 30 days; misses after an hour. All local
-matches are prepared on the first run, without a network lookup budget.
-
-Sources and rebuild instructions: [geography data](data/geography/README.md).
-Refresh the bundled indexes and change the source version in `scripts/tfs-etl.js`
-when reference data changes. TPS boundaries remain separately licensed third-party data.
+The updater reads code from main and the previous snapshot from data, then publishes
+only to the data branch. The dashboard reads that snapshot independently of Pages
+code deployments. The local Concourse deployment must remain running; polling
+intervals are approximate and depend on worker availability.
 
 ### GitHub Actions fallback
 
-`Update SirenTO incidents` checks `main` every five minutes (and supports manual runs).
+`Update SirenTO incidents` reads code from `main` and checks the `data` branch snapshot every five minutes (and supports manual runs).
 It fetches both feeds only when `current.json.fetchedAt` is at least ten minutes old;
 manual runs obey the same guard. GitHub schedules may be delayed. Missing timestamps
 or future timestamps trigger an update; malformed history fails without overwriting it.
@@ -266,10 +223,8 @@ have no identity until an updater runs. The age check uses `fetchedAt`, not the 
 source timestamp, which may remain unchanged after a successful fetch.
 
 The fallback pushes fast-forward only; concurrent Concourse updates cause a safe
-push rejection, and the next scheduled run checks again. It explicitly requests a
-Pages rebuild because GITHUB_TOKEN commits do not automatically trigger Pages.
-This assumes the existing Pages configuration publishes `main` from the repository
-root. The workflow needs repository Contents and Pages write permissions.
+push rejection, and the next scheduled run checks again. Snapshot updates do not
+require a Pages rebuild. This workflow needs only repository Contents write permission.
 
 Incident filters classify descriptions: Medical includes medical calls; Fire includes fires and alarms; Other includes remaining TFS incidents such as collisions, rescues, gas leaks, and hazards. Alarm levels are displayed only for the Fire category.
 
@@ -332,3 +287,14 @@ Background call changes wait behind the “New calls available” button (or “
 Map calls cluster by screen position. Click a cluster to zoom, then expand overlapping markers at close zoom. Click a located result (or press Enter/Space) to reveal it on the map. Map pins still reveal their result rows.
 
 History, service, event, division and road/boundary layer preferences are saved locally in the browser. Shared links override saved filters. Search text and geolocation are not saved; blocked or invalid browser storage falls back safely to defaults.
+
+## Protected code promotion and snapshot branches
+
+- Develop on `dev`. Pushes run **All tests (Docker)**: UTC and America/Los_Angeles unit tests, JavaScript syntax checks, and official-source integration tests. A snapshot guard rejects `data/current.json` changes in code PRs.
+- After a successful dev push, **Promote tested dev** creates/reuses a dev-to-main PR and merges only the tested SHA through main's required checks. It never forces a merge or bypasses protection. A newer dev push supersedes an older run.
+- Main requires a pull request, the **All tests (Docker)** check, an up-to-date branch, and resolved conversations. Direct pushes (including admins), force pushes and deletion are blocked. Approval reviews are not required because promotion is automatic.
+- Promotion fast-forwards dev to the resulting main merge when possible and explicitly requests a Pages rebuild because a GITHUB_TOKEN merge does not trigger ordinary push workflows. Before starting another change, run `git switch dev` and `git pull --ff-only origin dev`. If main advanced independently, merge `origin/main` into dev and push again to rerun checks.
+- The dedicated `data` branch contains the live `data/current.json`. Concourse and the GitHub fallback read application code from main, read the previous snapshot from data, and commit/push only to data. Concurrent pushes fail safely; the next run recomputes from fresh inputs.
+- Pages still publishes code from main. The browser fetches `https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json`; it does not require a Pages deployment for each snapshot. This URL requires the repository to remain public. GitHub advertises a five-minute raw-file cache; requests include cache-busting query parameters, and source timestamps still disclose freshness.
+- The copy of `data/current.json` on main/dev is a test/development fixture, not the live publication destination. Do not manually update it in code PRs.
+- Repository Actions must allow PR creation. Only the promotion job has PR write permission; the test job remains read-only. Live-source outages block promotion until checks succeed on retry.

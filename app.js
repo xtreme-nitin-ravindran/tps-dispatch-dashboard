@@ -10,7 +10,7 @@ import { locationDisplay, expandLocationAbbreviations } from "./src/location-dis
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
 
 const CONFIG = {
-  snapshotUrl: "./data/current.json",
+  snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
   refreshCheckMs: 30_000
 };
 

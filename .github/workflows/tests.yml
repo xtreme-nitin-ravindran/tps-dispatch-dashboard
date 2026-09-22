@@ -16,7 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Keep generated snapshots out of code changes
+        run: git diff --exit-code origin/main...HEAD -- data/current.json
 
       - name: Build test image
         id: build
@@ -27,6 +32,34 @@ jobs:
           docker run --rm -e TZ=UTC toronto-dispatch-tests
           docker run --rm -e TZ=America/Los_Angeles toronto-dispatch-tests
 
+      - name: Check browser JavaScript syntax
+        run: |
+          node --check app.js
+          find src scripts -name "*.js" -exec node --check {} \;
+
       - name: Run official-source integration test
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: docker run --rm toronto-dispatch-tests npm run test:integration
+
+  promote:
+    name: Promote tested dev
+    needs: tests
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency:
+      group: promote-dev
+      cancel-in-progress: false
+    permissions:
+      contents: write
+      pull-requests: write
+      pages: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Merge tested dev through a protected pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/promote-dev.js
