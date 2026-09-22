@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T10:29:17.102Z",
-  "sourceUpdatedAt": "2026-09-22T10:25:01.000Z",
+  "fetchedAt": "2026-09-22T10:30:57.116Z",
+  "sourceUpdatedAt": "2026-09-22T10:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26150189",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3H",
+      "division": "145",
+      "timestamp": "2026-09-22T10:22:03.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T10:30:57.116Z",
+      "lastSeenAt": "2026-09-22T10:30:57.116Z",
+      "geography": {
+        "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
+        "approximate": true,
+        "coordinates": [
+          43.7535,
+          -79.4472
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150188",
       "source": "TFS",
@@ -16,9 +42,16 @@
       "timestamp": "2026-09-22T10:17:03.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "411"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T10:26:47.703Z",
-      "lastSeenAt": "2026-09-22T10:29:17.102Z",
+      "lastSeenAt": "2026-09-22T10:30:57.116Z",
       "geography": {
         "text": "Approximate area: (M9L) North York (Humber Summit)",
         "approximate": true,
@@ -57,7 +90,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T10:10:45.992Z",
-      "lastSeenAt": "2026-09-22T10:29:17.102Z",
+      "lastSeenAt": "2026-09-22T10:30:57.116Z",
       "geography": {
         "text": "Jarvis Street between Dundas Street East & Gerrard Street East",
         "approximate": false,
@@ -1018,7 +1051,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T08:07:04.001Z",
-      "lastSeenAt": "2026-09-22T10:29:17.102Z",
+      "lastSeenAt": "2026-09-22T10:30:57.116Z",
       "geography": {
         "text": "Approximate location near Reesor Road & C North R",
         "approximate": true,
@@ -1833,7 +1866,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T07:12:31.822Z",
-      "lastSeenAt": "2026-09-22T10:29:17.102Z",
+      "lastSeenAt": "2026-09-22T10:30:57.116Z",
       "geography": {
         "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
         "approximate": true,
@@ -3515,7 +3548,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T10:29:17.102Z",
+      "lastSeenAt": "2026-09-22T10:30:57.116Z",
       "geography": {
         "text": "Approximate location near Edenbridge Drive & Edgehill Road",
         "approximate": true,
@@ -87304,12 +87337,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T10:29:17.102Z",
-      "sourceUpdatedAt": "2026-09-22T10:25:01.000Z",
+      "fetchedAt": "2026-09-22T10:30:57.116Z",
+      "sourceUpdatedAt": "2026-09-22T10:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T10:29:17.102Z",
+      "fetchedAt": "2026-09-22T10:30:57.116Z",
       "status": "ok"
     }
   },
@@ -160548,6 +160581,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3H": {
+      "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
+      "approximate": true,
+      "coordinates": [
+        43.7535,
+        -79.4472
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M9L": {
       "text": "Approximate area: (M9L) North York (Humber Summit)",
       "approximate": true,
@@ -160583,18 +160628,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T18:26:37.398Z"
-    },
-    "M3H": {
-      "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
-      "approximate": true,
-      "coordinates": [
-        43.7535,
-        -79.4472
-      ],
-      "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M2H": {
       "text": "Approximate area: (M2H) North York (Hillcrest Village)",
