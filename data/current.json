@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T10:00:36.204Z",
-  "sourceUpdatedAt": "2026-09-22T09:55:01.000Z",
+  "fetchedAt": "2026-09-22T10:01:56.285Z",
+  "sourceUpdatedAt": "2026-09-22T10:00:02.000Z",
   "incidents": [
+    {
+      "id": "F26150185",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3H",
+      "division": "145",
+      "timestamp": "2026-09-22T09:51:04.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T10:01:56.285Z",
+      "lastSeenAt": "2026-09-22T10:01:56.285Z",
+      "geography": {
+        "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
+        "approximate": true,
+        "coordinates": [
+          43.7535,
+          -79.4472
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-75f509d05f611c450853d8c7",
       "source": "TPS",
@@ -46,7 +72,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T09:45:55.995Z",
-      "lastSeenAt": "2026-09-22T10:00:36.204Z",
+      "lastSeenAt": "2026-09-22T10:01:56.285Z",
       "geography": {
         "text": "Approximate area: (M2H) North York (Hillcrest Village)",
         "approximate": true,
@@ -845,7 +871,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T08:07:04.001Z",
-      "lastSeenAt": "2026-09-22T10:00:36.204Z",
+      "lastSeenAt": "2026-09-22T10:01:56.285Z",
       "geography": {
         "text": "Approximate location near Reesor Road & C North R",
         "approximate": true,
@@ -1660,7 +1686,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T07:12:31.822Z",
-      "lastSeenAt": "2026-09-22T10:00:36.204Z",
+      "lastSeenAt": "2026-09-22T10:01:56.285Z",
       "geography": {
         "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
         "approximate": true,
@@ -3342,7 +3368,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T10:00:36.204Z",
+      "lastSeenAt": "2026-09-22T10:01:56.285Z",
       "geography": {
         "text": "Approximate location near Edenbridge Drive & Edgehill Road",
         "approximate": true,
@@ -13514,7 +13540,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-22T09:00:55.508Z"
+        "checkedAt": "2026-09-22T10:01:56.285Z"
       }
     },
     {
@@ -87131,12 +87157,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T10:00:36.204Z",
-      "sourceUpdatedAt": "2026-09-22T09:55:01.000Z",
+      "fetchedAt": "2026-09-22T10:01:56.285Z",
+      "sourceUpdatedAt": "2026-09-22T10:00:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T10:00:36.204Z",
+      "fetchedAt": "2026-09-22T10:01:56.285Z",
       "status": "ok"
     }
   },
@@ -160329,6 +160355,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3H": {
+      "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
+      "approximate": true,
+      "coordinates": [
+        43.7535,
+        -79.4472
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M2H": {
       "text": "Approximate area: (M2H) North York (Hillcrest Village)",
       "approximate": true,
@@ -160775,18 +160813,6 @@
         -79.4195
       ],
       "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M3H": {
-      "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
-      "approximate": true,
-      "coordinates": [
-        43.7535,
-        -79.4472
-      ],
-      "division": "Division 32",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -162040,7 +162066,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T09:00:55.508Z"
+      "checkedAt": "2026-09-22T10:01:56.285Z"
     },
     "DUNLOE RD, TT / ARCHER RD / OLD FOREST HILL RD": {
       "text": "Dunloe Road between Archer Road & Old Forest Hill Road",
