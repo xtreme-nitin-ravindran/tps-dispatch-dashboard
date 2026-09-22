@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T00:04:22.889Z",
-  "sourceUpdatedAt": "2026-09-22T00:00:01.000Z",
+  "fetchedAt": "2026-09-22T00:05:53.245Z",
+  "sourceUpdatedAt": "2026-09-22T00:05:01.000Z",
   "incidents": [
+    {
+      "id": "F26150022",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9W",
+      "division": "415",
+      "timestamp": "2026-09-21T23:58:39.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T00:05:53.245Z",
+      "lastSeenAt": "2026-09-22T00:05:53.245Z",
+      "geography": {
+        "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
+        "approximate": true,
+        "coordinates": [
+          43.7144,
+          -79.5909
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150021",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Grass/Rubbish",
+      "location": "LAWRENCE AVE W / BROOKHAVEN DR",
+      "division": "133",
+      "timestamp": "2026-09-21T23:55:29.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T00:05:53.245Z",
+      "lastSeenAt": "2026-09-22T00:05:53.245Z",
+      "geography": {
+        "text": "Lawrence Avenue West & Brookhaven Drive",
+        "approximate": false,
+        "coordinates": [
+          43.704369,
+          -79.4966242
+        ],
+        "division": "Division 12",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T00:05:53.245Z"
+      }
+    },
     {
       "id": "F26150020",
       "source": "TFS",
@@ -16,9 +68,16 @@
       "timestamp": "2026-09-21T23:55:01.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "125"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T00:02:03.374Z",
-      "lastSeenAt": "2026-09-22T00:04:22.889Z",
+      "lastSeenAt": "2026-09-22T00:05:53.245Z",
       "geography": {
         "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
         "approximate": true,
@@ -57,7 +116,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T23:55:53.444Z",
-      "lastSeenAt": "2026-09-22T00:04:22.889Z",
+      "lastSeenAt": "2026-09-22T00:05:53.245Z",
       "geography": {
         "text": "Dufferin Street between Lane North Dundas East Dufferin & Fisher Street",
         "approximate": false,
@@ -90,7 +149,7 @@
         }
       ],
       "firstSeenAt": "2026-09-21T23:55:53.444Z",
-      "lastSeenAt": "2026-09-22T00:04:22.889Z",
+      "lastSeenAt": "2026-09-22T00:05:53.245Z",
       "geography": {
         "text": "Approximate area: (M4B) East York (Parkview Hill / Woodbine Gardens)",
         "approximate": true,
@@ -77983,17 +78042,41 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T00:04:22.889Z",
-      "sourceUpdatedAt": "2026-09-22T00:00:01.000Z",
+      "fetchedAt": "2026-09-22T00:05:53.245Z",
+      "sourceUpdatedAt": "2026-09-22T00:05:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T00:04:22.889Z",
+      "fetchedAt": "2026-09-22T00:05:53.245Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M9W": {
+      "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
+      "approximate": true,
+      "coordinates": [
+        43.7144,
+        -79.5909
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "LAWRENCE AVE W / BROOKHAVEN DR": {
+      "text": "Lawrence Avenue West & Brookhaven Drive",
+      "approximate": false,
+      "coordinates": [
+        43.704369,
+        -79.4966242
+      ],
+      "division": "Division 12",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T00:05:53.245Z"
+    },
     "M3C": {
       "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
       "approximate": true,
@@ -78377,18 +78460,6 @@
         -79.4507
       ],
       "division": "Division 13",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M9W": {
-      "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
-      "approximate": true,
-      "coordinates": [
-        43.7144,
-        -79.5909
-      ],
-      "division": "Division 23",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
