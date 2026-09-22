@@ -407,7 +407,7 @@ a {
 
 .call-row {
   display: grid;
-  grid-template-columns: 106px 1fr;
+  grid-template-columns: 106px minmax(0, 1fr) minmax(160px, 26%);
   gap: 0;
   min-height: 116px;
   border-bottom: 1px solid var(--line);
@@ -1096,3 +1096,30 @@ footer {
 
 .ongoing-badge { max-width: 240px; white-space: normal; text-align: right; }
 .ongoing-badge.status-neutral { color: var(--muted); border-color: var(--line); background: transparent; }
+
+/* Keep metadata independent of the title/location flow. */
+.call-row > .call-badges {
+  margin: 0;
+  padding: 18px 20px 17px 0;
+  min-width: 0;
+}
+.call-row > .call-badges > span {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+  text-align: right;
+  box-sizing: border-box;
+}
+@media (max-width: 680px) {
+  .call-row > .call-time { grid-column: 1; grid-row: 1 / span 2; }
+  .call-row > .call-main { grid-column: 2; grid-row: 1; }
+  .call-row > .call-badges {
+    grid-column: 2;
+    grid-row: 2;
+    padding: 0 16px 16px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
