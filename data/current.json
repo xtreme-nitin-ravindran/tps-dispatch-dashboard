@@ -3,9 +3,72 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T20:29:48.678Z",
-  "sourceUpdatedAt": "2026-09-22T20:25:01.000Z",
+  "fetchedAt": "2026-09-22T20:30:59.776Z",
+  "sourceUpdatedAt": "2026-09-22T20:30:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-bc0d5599d28d606d57bb35c9",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-09-22T20:22:10.000Z",
+      "location": "BARBARA HALL PARK TRL - BARBARA HALL PARK TRL",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BARBARA HALL PARK TRL - BARBARA HALL PARK TRL",
+        "coordinates": [
+          43.666698505802216,
+          -79.38134984956254
+        ],
+        "division": "Division 51",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-6018f571e185ce8fe31ba4e9",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT JUST OCCURRED",
+      "callTypeCode": "THEJU",
+      "timestamp": "2026-09-22T20:21:07.000Z",
+      "location": "BELSHAW PL - SUMACH ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BELSHAW PL - SUMACH ST",
+        "coordinates": [
+          43.660362599466325,
+          -79.36178286088128
+        ],
+        "division": "Division 51",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-b849e6b1ba54bc3acce1762f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-22T20:20:32.000Z",
+      "location": "LAWRENCE AVE E - ELLINGTON DR",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LAWRENCE AVE E - ELLINGTON DR",
+        "coordinates": [
+          43.74617694669907,
+          -79.29090400212554
+        ],
+        "division": "HP",
+        "approximate": true
+      }
+    },
     {
       "id": "F26150501",
       "source": "TFS",
@@ -16,9 +79,16 @@
       "timestamp": "2026-09-22T20:20:11.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "421"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T20:27:19.136Z",
-      "lastSeenAt": "2026-09-22T20:29:48.678Z",
+      "lastSeenAt": "2026-09-22T20:30:59.776Z",
       "geography": {
         "text": "Approximate area: (M6M) York (Del Ray / Keelsdale / Mount Dennis / Silverthorne)",
         "approximate": true,
@@ -33,6 +103,69 @@
       }
     },
     {
+      "id": "TPS-3b588687ebd0885ad9a41825",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-22T20:19:58.000Z",
+      "location": "HILLCREST AVE - EMPRESS AVE",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HILLCREST AVE - EMPRESS AVE",
+        "coordinates": [
+          43.76747578740376,
+          -79.41243927814328
+        ],
+        "division": "Division 32",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-6760806462d1fd57af96e9bc",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-22T20:18:47.000Z",
+      "location": "DONSIDE DR - PHARMACY AVE",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DONSIDE DR - PHARMACY AVE",
+        "coordinates": [
+          43.70148061008243,
+          -79.28730786854311
+        ],
+        "division": "HP",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-06ae18af0a1ea20dc47a3e82",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING CHILD",
+      "callTypeCode": "MISCH",
+      "timestamp": "2026-09-22T20:16:33.000Z",
+      "location": " - ",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": " - ",
+        "coordinates": [
+          43.76105817426336,
+          -79.49999301595739
+        ],
+        "division": "Division 31",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26150500",
       "source": "TFS",
       "eventType": "fire",
@@ -42,9 +175,16 @@
       "timestamp": "2026-09-22T20:16:27.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "331"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T20:27:19.136Z",
-      "lastSeenAt": "2026-09-22T20:29:48.678Z",
+      "lastSeenAt": "2026-09-22T20:30:59.776Z",
       "geography": {
         "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
         "approximate": true,
@@ -56,6 +196,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-318bcaa9fc2495ae1ccb4700",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-22T20:16:17.000Z",
+      "location": "MANNING AVE - CLAREMONT ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MANNING AVE - CLAREMONT ST",
+        "coordinates": [
+          43.65130669404502,
+          -79.41090322999824
+        ],
+        "division": "Division 14",
+        "approximate": true
       }
     },
     {
@@ -77,7 +238,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T20:21:07.541Z",
-      "lastSeenAt": "2026-09-22T20:29:48.678Z",
+      "lastSeenAt": "2026-09-22T20:30:59.776Z",
       "geography": {
         "text": "Shuter Street between Paterson Place & Tracy Street",
         "approximate": false,
@@ -111,7 +272,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T20:21:07.541Z",
-      "lastSeenAt": "2026-09-22T20:29:48.678Z",
+      "lastSeenAt": "2026-09-22T20:30:59.776Z",
       "geography": {
         "text": "Esterbrooke Avenue between Shaughnessy Boulevard & Don Mills Road West",
         "approximate": false,
@@ -123,6 +284,69 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-22T20:21:07.541Z"
+      }
+    },
+    {
+      "id": "TPS-feb489c16c7295b9e2b04e70",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-22T20:11:49.000Z",
+      "location": "CLEMENT RD - MARTIN GROVE RD",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CLEMENT RD - MARTIN GROVE RD",
+        "coordinates": [
+          43.67817593566066,
+          -79.56483169797657
+        ],
+        "division": "Division 23",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-3e9a5e922817f427fb888741",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-22T20:11:28.000Z",
+      "location": "UNIVERSITY AVE - KING ST W",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "UNIVERSITY AVE - KING ST W",
+        "coordinates": [
+          43.647654386758035,
+          -79.38479944103877
+        ],
+        "division": "Division 52",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-ba3e5e63ff8fa57da450b3c3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-22T20:09:17.000Z",
+      "location": "YORK MILLS RD - DON MILLS RD",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "YORK MILLS RD - DON MILLS RD",
+        "coordinates": [
+          43.75589401100891,
+          -79.34696385006325
+        ],
+        "division": "Division 33",
+        "approximate": true
       }
     },
     {
@@ -177,7 +401,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T20:15:57.605Z",
-      "lastSeenAt": "2026-09-22T20:29:48.678Z",
+      "lastSeenAt": "2026-09-22T20:30:59.776Z",
       "geography": {
         "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
         "approximate": true,
@@ -233,7 +457,7 @@
       "division": "227",
       "timestamp": "2026-09-22T20:07:24.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -255,6 +479,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-364ba159908d6223144c1d86",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-22T20:06:12.000Z",
+      "location": "LAKE SHORE BLVD E - LOWER SHERBOURNE ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LAKE SHORE BLVD E - LOWER SHERBOURNE ST",
+        "coordinates": [
+          43.646313685417304,
+          -79.36608495416394
+        ],
+        "division": "Division 51",
+        "approximate": true
       }
     },
     {
@@ -315,6 +560,48 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-3d4760270ec42076ca9b39e0",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-22T20:01:53.000Z",
+      "location": "COSBURN AVE - LINSMORE CRES",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "COSBURN AVE - LINSMORE CRES",
+        "coordinates": [
+          43.6927860115965,
+          -79.33428843091704
+        ],
+        "division": "Division 55",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-a4df9beb0145aad7c580043b",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-22T20:01:43.000Z",
+      "location": "CHELMER GT - WW W ASTERFIELD E PLUMROSE",
+      "division": "Division 43",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CHELMER GT - WW W ASTERFIELD E PLUMROSE",
+        "coordinates": [
+          43.772196396492106,
+          -79.17560621281346
+        ],
+        "division": "Division 43",
+        "approximate": true
       }
     },
     {
@@ -760,7 +1047,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T19:56:37.174Z",
-      "lastSeenAt": "2026-09-22T20:29:48.678Z",
+      "lastSeenAt": "2026-09-22T20:30:59.776Z",
       "geography": {
         "text": "Approximate location on Cosburn Avenue",
         "approximate": true,
@@ -99210,12 +99497,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T20:29:48.678Z",
-      "sourceUpdatedAt": "2026-09-22T20:25:01.000Z",
+      "fetchedAt": "2026-09-22T20:30:59.776Z",
+      "sourceUpdatedAt": "2026-09-22T20:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T20:29:48.678Z",
+      "fetchedAt": "2026-09-22T20:30:59.776Z",
       "status": "ok"
     }
   },
