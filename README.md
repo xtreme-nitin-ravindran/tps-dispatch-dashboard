@@ -314,7 +314,7 @@ The browser requests no live disruption feeds.
 Road restrictions are filtered by their published date range, expired flag and
 current impact (`None` is excluded). Recurring schedules are displayed as supplied;
 these are reported restrictions, not a guarantee a road is currently fully closed.
-The optional pink map layer uses published road segments, with point fallback.
+The optional purple dashed map layer uses published road segments, with point fallback.
 Calls near me filters roads using distance to the segment. Emergency service,
 call type, division and history filters do not filter this separate section.
 TTC alerts use active periods and remain citywide: route/stop IDs are supplied,
