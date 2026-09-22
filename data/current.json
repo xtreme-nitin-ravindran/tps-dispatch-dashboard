@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T06:14:11.697Z",
-  "sourceUpdatedAt": "2026-09-22T06:10:02.000Z",
+  "fetchedAt": "2026-09-22T06:15:41.708Z",
+  "sourceUpdatedAt": "2026-09-22T06:15:01.000Z",
   "incidents": [
+    {
+      "id": "F26150145",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3C",
+      "division": "235",
+      "timestamp": "2026-09-22T06:08:59.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T06:15:41.708Z",
+      "lastSeenAt": "2026-09-22T06:15:41.708Z",
+      "geography": {
+        "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
+        "approximate": true,
+        "coordinates": [
+          43.7334,
+          -79.3329
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150144",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "SHERBOURNE ST, TT / SHUTER ST / DUNDAS ST E",
+      "division": "325",
+      "timestamp": "2026-09-22T06:08:02.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T06:15:41.708Z",
+      "lastSeenAt": "2026-09-22T06:15:41.708Z",
+      "geography": {
+        "text": "Sherbourne Street between Shuter Street & Dundas Street East",
+        "approximate": false,
+        "coordinates": [
+          43.657228700000005,
+          -79.37057734999999
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T20:22:34.494Z"
+      }
+    },
     {
       "id": "F26150143",
       "source": "TFS",
@@ -16,9 +68,22 @@
       "timestamp": "2026-09-22T06:03:52.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "221"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "223"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T06:11:41.423Z",
-      "lastSeenAt": "2026-09-22T06:14:11.697Z",
+      "lastSeenAt": "2026-09-22T06:15:41.708Z",
       "geography": {
         "text": "Eglinton Avenue between Centre Street & Markham Road",
         "approximate": false,
@@ -961,7 +1026,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T06:14:11.697Z",
+      "lastSeenAt": "2026-09-22T06:15:41.708Z",
       "geography": {
         "text": "Approximate location near Edenbridge Drive & Edgehill Road",
         "approximate": true,
@@ -2325,7 +2390,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T03:31:58.385Z",
-      "lastSeenAt": "2026-09-22T06:14:11.697Z",
+      "lastSeenAt": "2026-09-22T06:15:41.708Z",
       "geography": {
         "text": "Approximate location near Reesor Road & C North R",
         "approximate": true,
@@ -84744,12 +84809,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T06:14:11.697Z",
-      "sourceUpdatedAt": "2026-09-22T06:10:02.000Z",
+      "fetchedAt": "2026-09-22T06:15:41.708Z",
+      "sourceUpdatedAt": "2026-09-22T06:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T06:14:11.697Z",
+      "fetchedAt": "2026-09-22T06:15:41.708Z",
       "status": "ok"
     }
   },
@@ -158418,6 +158483,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3C": {
+      "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
+      "approximate": true,
+      "coordinates": [
+        43.7334,
+        -79.3329
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "SHERBOURNE ST, TT / SHUTER ST / DUNDAS ST E": {
+      "text": "Sherbourne Street between Shuter Street & Dundas Street East",
+      "approximate": false,
+      "coordinates": [
+        43.657228700000005,
+        -79.37057734999999
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T20:22:34.494Z"
+    },
     "EGLINTON AVE, SC / CENTRE ST / MARKHAM RD": {
       "text": "Eglinton Avenue between Centre Street & Markham Road",
       "approximate": false,
@@ -159335,18 +159424,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T00:05:53.245Z"
-    },
-    "M3C": {
-      "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
-      "approximate": true,
-      "coordinates": [
-        43.7334,
-        -79.3329
-      ],
-      "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "DUFFERIN ST, TT / LN N DUNDAS E DUFFERIN / FISHER ST": {
       "text": "Dufferin Street between Lane North Dundas East Dufferin & Fisher Street",
@@ -162107,18 +162184,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-20T11:36:09.370Z"
-    },
-    "SHERBOURNE ST, TT / SHUTER ST / DUNDAS ST E": {
-      "text": "Sherbourne Street between Shuter Street & Dundas Street East",
-      "approximate": false,
-      "coordinates": [
-        43.657228700000005,
-        -79.37057734999999
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T20:22:34.494Z"
     },
     "M4T": {
       "text": "Approximate area: (M4T) Central Toronto (Moore Park / Summerhill East)",
