@@ -73,7 +73,8 @@ A successful JSON request alone does not mean the data is current.
 ## Continuous integration and branch policy
 
 `.github/workflows/tests.yml` runs all tests in Docker on every push to `dev`,
-on pull requests targeting `main`, and on manual dispatch. Its stable check name
+and on manual dispatch. Bot-created promotion PRs reuse the passing dev check;
+a separate PR-triggered run is intentionally omitted to avoid GitHub’s bot approval gate. Its stable check name
 is **All tests (Docker)**. Both the unit suite and the live official-source integration
 test must pass. The integration test still runs if unit tests fail, provided the image built.
 An upstream TFS outage can therefore fail this check.
