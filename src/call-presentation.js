@@ -33,3 +33,8 @@ export function locationConfidence(call) {
   if (call.geography.approximate === false) return 'Resolved intersection or street segment — not an exact incident address';
   return 'Approximate location';
 }
+
+export function callStatus(call) {
+  if (call.source !== 'TFS' || typeof call.isOngoing !== 'boolean') return 'Status not provided';
+  return call.isOngoing ? 'Ongoing in latest TFS update' : 'No longer listed as active by TFS';
+}

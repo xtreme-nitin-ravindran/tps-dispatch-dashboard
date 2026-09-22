@@ -1,4 +1,4 @@
-import { reportedAge, callExplanation, locationConfidence } from "./src/call-presentation.js?v=confidence-1";
+import { reportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=status-1";
 import { distanceKm } from "./src/nearby.js";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
@@ -336,7 +336,10 @@ function renderCalls() {
     const explanation = node.querySelector('.call-explanation');
     explanation.textContent = callExplanation(call.description);
     explanation.hidden = !explanation.textContent;
-    node.querySelector(".ongoing-badge").hidden = !call.isOngoing;
+    const statusBadge = node.querySelector('.ongoing-badge');
+    statusBadge.hidden = false;
+    statusBadge.textContent = callStatus(call);
+    statusBadge.classList.toggle('status-neutral', call.source !== 'TFS' || !call.isOngoing);
     node.querySelector(".source-badge").textContent = call.source;
     node.querySelector(".police-division-badge").textContent = call.source === "TFS" && call.division !== "Unknown"
       ? `${call.division} (estimated)` : call.division;
