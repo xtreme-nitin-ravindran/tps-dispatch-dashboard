@@ -3,9 +3,42 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T04:04:38.661Z",
-  "sourceUpdatedAt": "2026-09-22T04:00:01.000Z",
+  "fetchedAt": "2026-09-22T04:05:36.856Z",
+  "sourceUpdatedAt": "2026-09-22T04:05:01.000Z",
   "incidents": [
+    {
+      "id": "F26150108",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6K",
+      "division": "346",
+      "timestamp": "2026-09-22T03:57:18.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "334"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-22T04:05:36.856Z",
+      "lastSeenAt": "2026-09-22T04:05:36.856Z",
+      "geography": {
+        "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+        "approximate": true,
+        "coordinates": [
+          43.6383,
+          -79.4301
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150105",
       "source": "TFS",
@@ -15,7 +48,7 @@
       "division": "331",
       "timestamp": "2026-09-22T03:49:20.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -74,7 +107,7 @@
       "division": "333",
       "timestamp": "2026-09-22T03:46:05.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -159,7 +192,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T03:46:48.026Z",
-      "lastSeenAt": "2026-09-22T04:04:38.661Z",
+      "lastSeenAt": "2026-09-22T04:05:36.856Z",
       "geography": {
         "text": "Belvidere Avenue between Alameda Avenue & Glenora Avenue",
         "approximate": false,
@@ -203,7 +236,7 @@
       "division": "115",
       "timestamp": "2026-09-22T03:38:30.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -236,7 +269,7 @@
       "division": "241",
       "timestamp": "2026-09-22T03:37:54.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -386,7 +419,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T03:31:58.385Z",
-      "lastSeenAt": "2026-09-22T04:04:38.661Z",
+      "lastSeenAt": "2026-09-22T04:05:36.856Z",
       "geography": {
         "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
         "approximate": true,
@@ -460,6 +493,12 @@
           ]
         },
         {
+          "type": "Ladder Truck",
+          "numbers": [
+            "231"
+          ]
+        },
+        {
           "type": "Fire Truck",
           "numbers": [
             "211",
@@ -469,7 +508,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T03:31:58.385Z",
-      "lastSeenAt": "2026-09-22T04:04:38.661Z",
+      "lastSeenAt": "2026-09-22T04:05:36.856Z",
       "geography": {
         "text": "Steeles Avenue East & Reesor Road",
         "approximate": false,
@@ -543,7 +582,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T03:26:56.458Z",
-      "lastSeenAt": "2026-09-22T04:04:38.661Z",
+      "lastSeenAt": "2026-09-22T04:05:36.856Z",
       "geography": {
         "text": "Oakmount Road between Bloor Street West & Glenlake Avenue",
         "approximate": false,
@@ -82888,12 +82927,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T04:04:38.661Z",
-      "sourceUpdatedAt": "2026-09-22T04:00:01.000Z",
+      "fetchedAt": "2026-09-22T04:05:36.856Z",
+      "sourceUpdatedAt": "2026-09-22T04:05:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T04:04:38.661Z",
+      "fetchedAt": "2026-09-22T04:05:36.856Z",
       "status": "ok"
     }
   },
@@ -156594,6 +156633,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6K": {
+      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+      "approximate": true,
+      "coordinates": [
+        43.6383,
+        -79.4301
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "DUNDAS ST W / SHAW ST": {
       "text": "Dundas Street West & Shaw Street",
       "approximate": false,
@@ -156944,18 +156995,6 @@
         -79.521
       ],
       "division": "Division 31",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6K": {
-      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
-      "approximate": true,
-      "coordinates": [
-        43.6383,
-        -79.4301
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
