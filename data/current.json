@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T01:50:05.968Z",
-  "sourceUpdatedAt": "2026-09-22T01:45:01.000Z",
+  "fetchedAt": "2026-09-22T01:50:45.350Z",
+  "sourceUpdatedAt": "2026-09-22T01:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26150061",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "BROADWAY AVE, NY / CARDIFF RD / BANFF RD",
+      "division": "134",
+      "timestamp": "2026-09-22T01:40:30.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T01:50:45.350Z",
+      "lastSeenAt": "2026-09-22T01:50:45.350Z",
+      "geography": {
+        "text": "Broadway Avenue between Cardiff Road & Banff Road",
+        "approximate": false,
+        "coordinates": [
+          43.71264155,
+          -79.3837584
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T01:50:45.350Z"
+      }
+    },
     {
       "id": "F26150059",
       "source": "TFS",
@@ -18,6 +44,12 @@
       "isOngoing": true,
       "vehicles": [
         {
+          "type": "Fire Truck",
+          "numbers": [
+            "333"
+          ]
+        },
+        {
           "type": "Tower Truck",
           "numbers": [
             "333"
@@ -25,7 +57,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T01:41:05.221Z",
-      "lastSeenAt": "2026-09-22T01:50:05.968Z",
+      "lastSeenAt": "2026-09-22T01:50:45.350Z",
       "geography": {
         "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
         "approximate": true,
@@ -58,7 +90,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T01:41:05.221Z",
-      "lastSeenAt": "2026-09-22T01:50:05.968Z",
+      "lastSeenAt": "2026-09-22T01:50:45.350Z",
       "geography": {
         "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
         "approximate": true,
@@ -92,7 +124,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T01:36:05.372Z",
-      "lastSeenAt": "2026-09-22T01:50:05.968Z",
+      "lastSeenAt": "2026-09-22T01:50:45.350Z",
       "geography": {
         "text": "Front Street between Draper Street & Portland Street",
         "approximate": false,
@@ -131,7 +163,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T01:36:05.372Z",
-      "lastSeenAt": "2026-09-22T01:50:05.968Z",
+      "lastSeenAt": "2026-09-22T01:50:45.350Z",
       "geography": {
         "text": "Dalhousie Street between Shuter Street & Dundas Street East",
         "approximate": false,
@@ -164,7 +196,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T01:36:05.372Z",
-      "lastSeenAt": "2026-09-22T01:50:05.968Z",
+      "lastSeenAt": "2026-09-22T01:50:45.350Z",
       "geography": {
         "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
         "approximate": true,
@@ -252,7 +284,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T01:31:25.783Z",
-      "lastSeenAt": "2026-09-22T01:50:05.968Z",
+      "lastSeenAt": "2026-09-22T01:50:45.350Z",
       "geography": {
         "text": "Approximate location near Birch Avenue & George Herczeg Walkway",
         "approximate": true,
@@ -452,7 +484,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T01:26:35.461Z",
-      "lastSeenAt": "2026-09-22T01:50:05.968Z",
+      "lastSeenAt": "2026-09-22T01:50:45.350Z",
       "geography": {
         "text": "Approximate area: (M1S) Scarborough (Agincourt)",
         "approximate": true,
@@ -80184,17 +80216,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T01:50:05.968Z",
-      "sourceUpdatedAt": "2026-09-22T01:45:01.000Z",
+      "fetchedAt": "2026-09-22T01:50:45.350Z",
+      "sourceUpdatedAt": "2026-09-22T01:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T01:50:05.968Z",
+      "fetchedAt": "2026-09-22T01:50:45.350Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "BROADWAY AVE, NY / CARDIFF RD / BANFF RD": {
+      "text": "Broadway Avenue between Cardiff Road & Banff Road",
+      "approximate": false,
+      "coordinates": [
+        43.71264155,
+        -79.3837584
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T01:50:45.350Z"
+    },
     "M5B": {
       "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
       "approximate": true,
