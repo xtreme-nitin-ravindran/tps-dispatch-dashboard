@@ -1,5 +1,5 @@
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
-import { updateLabel, filterDefaults, filterSummary, readFilters, shareView } from "./src/view-controls.js";
+import { updateLabel, filterDefaults, filterSummary, readFilters, shareView, loadPreferences, savePreferences } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js";
 import { reportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=status-1";
 import { distanceKm } from "./src/nearby.js";
@@ -59,6 +59,10 @@ let expandedCluster = new Set();
 let focusedCallId = null;
 let rowHighlightTimer;
 let mapHasFitted = false;
+let boundaryVisible = true;
+function rememberPreferences() {
+  try { savePreferences(localStorage,state,{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible}); } catch {}
+}
 
 function escapeText(value) {
   return String(value ?? "").replace(/\s+/g, " ").trim();
@@ -207,6 +211,7 @@ async function loadData({ silent = false, accepted = null } = {}) {
     pendingSnapshot = null;
     updatesButton.hidden = true;
     const scrollTop = els.callList.scrollTop;
+    const firstSnapshot = !snapshotLoaded;
     snapshotLoaded = true;
     const previousSourceTime = parseLooseTime(state.lastIngest)?.getTime();
     const callsChanged = JSON.stringify(state.calls) !== JSON.stringify(snapshot.calls);
@@ -226,7 +231,7 @@ async function loadData({ silent = false, accepted = null } = {}) {
       feedLabel("TFS", snapshot.feeds?.TFS || {fetchedAt:snapshot.fetchedAt, sourceUpdatedAt:snapshot.updatedAt}),
       feedLabel("TPS", snapshot.feeds?.TPS)
     ].join(" | ") + " Toronto";
-    if (callsChanged) {
+    if (callsChanged || firstSnapshot) {
       applyFilters();
       els.callList.scrollTop = scrollTop;
     }
@@ -292,6 +297,7 @@ function applyFilters({ map = true } = {}) {
   state.filtered = eligibleCalls.filter(call => state.division === "all" || call.division === state.division);
   document.querySelector("#filterSummary").textContent = filterSummary(state);
   render(map);
+  rememberPreferences();
 }
 
 function render(map = true) {
@@ -440,7 +446,13 @@ async function loadDivisionOverlay() {
         polygon.bindTooltip(details(feature.properties), { sticky: true });
         polygon.bindPopup(details(feature.properties));
       }
-    }).addTo(dispatchMap);
+    });
+    if (boundaryVisible) layer.addTo(dispatchMap);
+    dispatchMap.on('overlayadd overlayremove', event => {
+      if (event.layer !== layer) return;
+      boundaryVisible = event.type === 'overlayadd';
+      rememberPreferences();
+    });
     L.control.layers(null, { "Police division boundaries": layer }, {
       collapsed: false, position: "topright"
     }).addTo(dispatchMap);
@@ -483,7 +495,7 @@ function renderMapMarkers() {
   const addMarker = ({call, coordinates}, position = coordinates) => {
     const tooltip = document.createElement('span');
     tooltip.textContent = `${call.source}: ${call.description}`;
-    const marker = L.marker(position, { icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call)) })
+    const marker = L.marker(position, { title: `${call.source}: ${call.description}`, icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call)) })
       .bindTooltip(tooltip, { direction: "top" })
       .on("click", () => selectCall(call.id, { pan: false, revealRow: true }));
     marker.addTo(callLayer);
@@ -701,6 +713,15 @@ setInterval(() => {
   }).format(new Date());
 }, 1000);
 
+try {
+  const saved = loadPreferences(localStorage);
+  if (saved) {
+    Object.assign(state,saved.filters);
+    document.querySelector('#roadOverlay').checked = saved.roads;
+    boundaryVisible = saved.boundaries;
+    syncFilterControls();
+  }
+} catch {}
 if (new URLSearchParams(location.search).has('view')) {
   Object.assign(state, readFilters(new URLSearchParams(location.search)));
   syncFilterControls();
@@ -767,6 +788,7 @@ setInterval(() => {
 }, 60000);
 
 document.querySelector('#roadOverlay').addEventListener('change', () => {
+  rememberPreferences();
   renderDisruptions(state.disruptions, state.nearby, state.radiusKm, dispatchMap);
 });
 

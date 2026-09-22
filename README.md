@@ -324,3 +324,11 @@ Source attribution: City of Toronto Road Restrictions and Toronto Transit Commis
 GTFS-Realtime Service Disruptions. The Toronto Open Data catalogue currently marks
 both dataset licences as unspecified; no blanket licence is asserted for them.
 Official road and TTC advisory links are available in the section.
+
+## View controls
+
+Background call changes wait behind the “New calls available” button (or “Call updates available” for revisions). Applying updates preserves the results scroll position. Clear filters restores all services/events/divisions, a 24-hour window, and removes nearby filtering. Share view copies a URL containing search, service, event, division and history; nearby coordinates are never included.
+
+Map calls cluster by screen position. Click a cluster to zoom, then expand overlapping markers at close zoom. Click a located result (or press Enter/Space) to reveal it on the map. Map pins still reveal their result rows.
+
+History, service, event, division and road/boundary layer preferences are saved locally in the browser. Shared links override saved filters. Search text and geolocation are not saved; blocked or invalid browser storage falls back safely to defaults.

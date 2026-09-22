@@ -37,3 +37,17 @@ test('row selection finds the entire overlapping group, or none for missing call
   assert.deepEqual(focusGroup(items,'b',project).map(i=>i.call.id),['a','b']);
   assert.deepEqual(focusGroup(items,'missing',project),[]);
 });
+import { preferenceRecord, loadPreferences, savePreferences } from '../src/view-controls.js';
+test('preferences are validated, exclude private session data and tolerate blocked storage', () => {
+  let raw;
+  const storage={setItem:(_,v)=>raw=v,getItem:()=>raw};
+  savePreferences(storage,{...filterDefaults,hours:6,nearby:[43,-79],search:'private street'},{roads:true,boundaries:false});
+  assert.ok(!raw.includes('private')); assert.ok(!raw.includes('nearby'));
+  const restored=loadPreferences(storage);
+  assert.equal(restored.filters.hours,6); assert.equal(restored.filters.search,'');
+  assert.equal(restored.roads,true); assert.equal(restored.boundaries,false);
+  raw='{'; assert.equal(loadPreferences(storage),null);
+  const blocked={getItem(){throw Error();},setItem(){throw Error();}};
+  assert.equal(loadPreferences(blocked),null);
+  assert.doesNotThrow(()=>savePreferences(blocked,filterDefaults,{}));
+});

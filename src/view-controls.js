@@ -27,3 +27,17 @@ export function shareView(base, state) {
   for (const [key,field] of [['q','search'],['division','division'],['service','serviceFilter'],['event','eventFilter'],['hours','hours']]) url.searchParams.set(key,state[field]);
   return url.href;
 }
+
+export function preferenceRecord(state, layers) {
+  return {hours:state.hours, service:state.serviceFilter, event:state.eventFilter, division:state.division, roads:Boolean(layers.roads), boundaries:Boolean(layers.boundaries)};
+}
+export function loadPreferences(storage) {
+  try {
+    const value = JSON.parse(storage.getItem('sirento.preferences.v1'));
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+    return {filters:readFilters(new URLSearchParams({hours:value.hours,service:value.service,event:value.event,division:typeof value.division === 'string' ? value.division : 'all'})),roads:value.roads === true,boundaries:value.boundaries !== false};
+  } catch { return null; }
+}
+export function savePreferences(storage, state, layers) {
+  try { storage.setItem('sirento.preferences.v1',JSON.stringify(preferenceRecord(state,layers))); } catch { /* Browsing still works when storage is blocked. */ }
+}
