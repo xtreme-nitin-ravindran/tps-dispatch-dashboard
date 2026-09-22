@@ -332,3 +332,14 @@ Background call changes wait behind the “New calls available” button (or “
 Map calls cluster by screen position. Click a cluster to zoom, then expand overlapping markers at close zoom. Click a located result (or press Enter/Space) to reveal it on the map. Map pins still reveal their result rows.
 
 History, service, event, division and road/boundary layer preferences are saved locally in the browser. Shared links override saved filters. Search text and geolocation are not saved; blocked or invalid browser storage falls back safely to defaults.
+
+## Protected code promotion and snapshot branches
+
+- Develop on `dev`. Pushes run **All tests (Docker)**: UTC and America/Los_Angeles unit tests, JavaScript syntax checks, and official-source integration tests. A snapshot guard rejects `data/current.json` changes in code PRs.
+- After a successful dev push, **Promote tested dev** creates/reuses a dev-to-main PR and merges only the tested SHA through main's required checks. It never forces a merge or bypasses protection. A newer dev push supersedes an older run.
+- Main requires a pull request, the **All tests (Docker)** check, an up-to-date branch, and resolved conversations. Direct pushes (including admins), force pushes and deletion are blocked. Approval reviews are not required because promotion is automatic.
+- Promotion fast-forwards dev to the resulting main merge when possible and explicitly requests a Pages rebuild because a GITHUB_TOKEN merge does not trigger ordinary push workflows. Before starting another change, run `git switch dev` and `git pull --ff-only origin dev`. If main advanced independently, merge `origin/main` into dev and push again to rerun checks.
+- The dedicated `data` branch contains the live `data/current.json`. Concourse and the GitHub fallback read application code from main, read the previous snapshot from data, and commit/push only to data. Concurrent pushes fail safely; the next run recomputes from fresh inputs.
+- Pages still publishes code from main. The browser fetches `https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json`; it does not require a Pages deployment for each snapshot. This URL requires the repository to remain public. GitHub advertises a five-minute raw-file cache; requests include cache-busting query parameters, and source timestamps still disclose freshness.
+- The copy of `data/current.json` on main/dev is a test/development fixture, not the live publication destination. Do not manually update it in code PRs.
+- Repository Actions must allow PR creation. Only the promotion job has PR write permission; the test job remains read-only. Live-source outages block promotion until checks succeed on retry.

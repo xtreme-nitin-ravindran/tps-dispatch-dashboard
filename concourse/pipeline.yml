@@ -7,7 +7,14 @@ resources:
     type: git
     source:
       uri: ((repo_uri))
-      branch: ((repo_branch))
+      branch: main
+      private_key: ((repo_private_key))
+
+  - name: snapshots
+    type: git
+    source:
+      uri: ((repo_uri))
+      branch: data
       private_key: ((repo_private_key))
 
 jobs:
@@ -18,6 +25,7 @@ jobs:
     plan:
       - get: refresh
         trigger: true
+      - get: snapshots
       - get: repo
       - task: test-update-and-commit
         timeout: 10m
@@ -31,6 +39,7 @@ jobs:
               tag: 22-bookworm
           inputs:
             - name: repo
+            - name: snapshots
           outputs:
             - name: updated-repo
           run:
@@ -38,16 +47,17 @@ jobs:
             args:
               - -ec
               - |
-                cp -a repo/. updated-repo/
-                cd updated-repo
+                cp -a snapshots/. updated-repo/
+                cd repo
                 TZ=UTC npm test
                 TZ=America/Los_Angeles npm test
-                TFS_UPDATED_BY=concourse TFS_PREVIOUS=data/current.json TFS_OUTPUT=data/current.json node scripts/tfs-etl.js
-                node scripts/commit-tfs.js
+                TFS_UPDATED_BY=concourse TFS_PREVIOUS=../snapshots/data/current.json TFS_OUTPUT=../updated-repo/data/current.json node scripts/tfs-etl.js
+                cd ../updated-repo
+                node ../repo/scripts/commit-tfs.js
       # Fast-forward only: a concurrent push fails safely instead of overwriting
       # newer history or publishing results based on untested code after a rebase.
       # Rerun with fresh inputs or wait for the next timer tick to recompute.
-      - put: repo
+      - put: snapshots
         timeout: 2m
         params:
           repository: updated-repo
