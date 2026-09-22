@@ -20,3 +20,13 @@ test('share links round trip filters without coordinates or unrelated URL data',
   assert.ok(!url.href.includes('secret')); assert.ok(!url.href.includes('43')); assert.equal(url.hash,'');
   assert.deepEqual(readFilters(new URLSearchParams('hours=-1&service=bad&event=bad')),filterDefaults);
 });
+import { clusterPoints, spreadPoint } from '../src/map-clusters.js';
+test('clustering preserves calls and separates distant screen cells', () => {
+  const items=[{coordinates:[1,1]},{coordinates:[2,2]},{coordinates:[200,200]}];
+  const groups=clusterPoints(items,([x,y])=>({x,y}));
+  assert.deepEqual(groups.map(g=>g.length),[2,1]);
+  assert.equal(groups.flat().length,items.length);
+  assert.deepEqual(clusterPoints([],()=>{}),[]);
+  const points=Array.from({length:5},(_,i)=>spreadPoint(i,5,{x:0,y:0}));
+  assert.equal(new Set(points.map(p=>JSON.stringify(p))).size,5);
+});

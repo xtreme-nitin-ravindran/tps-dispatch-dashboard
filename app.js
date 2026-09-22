@@ -1,3 +1,4 @@
+import { clusterPoints, spreadPoint } from "./src/map-clusters.js";
 import { updateLabel, filterDefaults, filterSummary, readFilters, shareView } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js";
 import { reportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=status-1";
@@ -53,6 +54,8 @@ const els = {
 const TORONTO_CENTER = [43.7001, -79.42];
 let dispatchMap = null;
 let mapMarkers = new Map();
+let callLayer;
+let expandedCluster = new Set();
 let focusedCallId = null;
 let rowHighlightTimer;
 let mapHasFitted = false;
@@ -404,6 +407,8 @@ function initMap() {
     subdomains: "abc",
     maxZoom: 19
   }).addTo(dispatchMap);
+  callLayer = L.layerGroup().addTo(dispatchMap);
+  dispatchMap.on("zoomend", () => { expandedCluster.clear(); renderMapMarkers(); });
   loadDivisionOverlay();
 }
 
@@ -463,20 +468,40 @@ function markerIcon(selected = false, approximate = false) {
 }
 
 function renderMapMarkers() {
-  mapMarkers.forEach(marker => marker.remove());
+  callLayer.clearLayers();
   mapMarkers = new Map();
 
   const locatedCalls = state.filtered
     .map(call => ({ call, coordinates: coordinatesForCall(call) }))
     .filter(item => item.coordinates);
 
-  locatedCalls.forEach(({ call, coordinates }) => {
-    const marker = L.marker(coordinates, { icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call)) })
-      .bindTooltip(`<strong>${call.source}: ${escapeText(call.description)}</strong><br>${escapeText(displayLocation(call).text)}`, { direction: "top" })
+  const addMarker = ({call, coordinates}, position = coordinates) => {
+    const marker = L.marker(position, { icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call)) })
+      .bindTooltip(`${call.source}: ${call.description}`, { direction: "top" })
       .on("click", () => selectCall(call.id, { pan: false, revealRow: true }));
-    marker.addTo(dispatchMap);
+    marker.addTo(callLayer);
     mapMarkers.set(call.id, marker);
-  });
+  };
+  const groups = clusterPoints(locatedCalls, point => dispatchMap.project(point, dispatchMap.getZoom()));
+  for (const group of groups) {
+    if (group.length === 1) { addMarker(group[0]); continue; }
+    const center = L.latLngBounds(group.map(item => item.coordinates)).getCenter();
+    if (group.every(item => expandedCluster.has(item.call.id))) {
+      const pixel = dispatchMap.latLngToLayerPoint(center);
+      group.forEach((item,index) => {
+        const spread = spreadPoint(index,group.length,pixel);
+        const position = dispatchMap.layerPointToLatLng(L.point(spread.x,spread.y));
+        L.polyline([item.coordinates,position],{color:'#b7c8d9',weight:1,interactive:false}).addTo(callLayer);
+        addMarker(item,position);
+      });
+      continue;
+    }
+    L.marker(center,{icon:L.divIcon({className:'call-cluster',html:String(group.length),iconSize:[40,40],iconAnchor:[20,20]}), title:`${group.length} calls; zoom or expand`})
+      .on('click', () => {
+        if (dispatchMap.getZoom() < 18) dispatchMap.setView(center,Math.min(18,dispatchMap.getZoom()+2));
+        else { expandedCluster = new Set(group.map(item => item.call.id)); renderMapMarkers(); }
+      }).addTo(callLayer);
+  }
 
   els.mapStatus.textContent = locatedCalls.length ? `${locatedCalls.length}/${state.filtered.length} LOCATED` : "NO MAPPED LOCATIONS";
   els.mapEmpty.hidden = locatedCalls.length > 0;
