@@ -54,6 +54,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 14px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -1012,27 +1013,29 @@ footer {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+ .topbar > .brand,
+.topbar-photo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+.topbar > .refresh-info {
+  flex: 1;
+  min-width: 0;
+  max-width: none;
+  display: block;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
 @media (max-width: 680px) {
   .topbar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
     padding: 14px 0;
   }
-  .topbar-actions {
-    width: 100%;
-    min-width: 0;
-    flex-wrap: nowrap;
-  }
-  .refresh-info {
-    flex: 1;
-    min-width: 0;
-    max-width: none;
-    display: block;
-    white-space: normal;
-    overflow-wrap: anywhere;
-    text-align: left;
-  }
+  .brand { gap: 8px; }
+  .topbar > .refresh-info { text-align: center; }
 }
 
 /* Brief feedback when a newer snapshot changes the displayed source timestamp. */
