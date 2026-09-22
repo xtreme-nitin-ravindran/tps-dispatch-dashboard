@@ -83,3 +83,15 @@ test('combined updater keeps each feed when the other fails and preserves output
     await assert.rejects(runTfsEtl({outputPath,now,fetchSource:fail,fetchPolice:fail}));
     assert.equal(await readFile(outputPath,'utf8'),saved);
 });
+
+test('disruption snapshots are separate from incidents and receive previous cache', async t => {
+    const outputPath = join(await workspace(t), 'current.json');
+    const disruptions = {roads:{items:[],status:'ok'},transit:{items:[],status:'unavailable'}};
+    await runTfsEtl({outputPath,now,fetchSource:async()=>source,fetchTravel:async()=>disruptions});
+    const result=await runTfsEtl({outputPath,now,fetchSource:async()=>source,fetchTravel:async previous=>{
+        assert.deepEqual(previous,disruptions);return disruptions;
+    }});
+    assert.deepEqual(result.disruptions,disruptions);
+    assert.equal(result.incidents.length,0);
+    assert.deepEqual(JSON.parse(await readFile(outputPath,'utf8')).disruptions,disruptions);
+});

@@ -1,3 +1,4 @@
+import { updateDisruptions } from "../src/disruptions/source.js";
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -11,7 +12,7 @@ import { createOpenLocationResolver } from "../src/pipeline/open-locations.js";
 // Explicit history inputs must exist: a missing Concourse artifact must not erase history.
 export async function runTfsEtl({
     outputPath = "data/current.json", previousPath, xmlPath,
-    fetchSource = fetchTfsSource, fetchPolice = null, now = new Date(), updatedBy = "manual"
+    fetchSource = fetchTfsSource, fetchPolice = null, fetchTravel = null, now = new Date(), updatedBy = "manual"
 } = {}) {
     if (!["manual", "concourse", "github-actions"].includes(updatedBy)) throw new Error("Invalid updater identity");
     let previous = null;
@@ -48,6 +49,8 @@ export async function runTfsEtl({
         };
         snapshot.fetchedAt = now.toISOString();
     }
+    if (fetchTravel) snapshot.disruptions = await fetchTravel(previous?.disruptions, now);
+    else if (previous?.disruptions) snapshot.disruptions = previous.disruptions;
     snapshot.updatedBy = updatedBy;
     const [index, boundaries] = await Promise.all([
         readFile(new URL("../data/geography/toronto-locations.json", import.meta.url), "utf8").then(JSON.parse),
@@ -71,6 +74,7 @@ export async function main() {
     const snapshot = await runTfsEtl({
         outputPath,
         fetchPolice: fetchTpsSource,
+        fetchTravel: updateDisruptions,
         updatedBy: process.env.TFS_UPDATED_BY || "manual",
         previousPath: process.env.TFS_PREVIOUS || undefined,
         xmlPath: process.env.TFS_XML || undefined

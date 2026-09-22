@@ -1,3 +1,4 @@
+import { renderDisruptions } from "./src/disruptions/ui.js";
 import { reportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=status-1";
 import { distanceKm } from "./src/nearby.js";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
@@ -171,6 +172,7 @@ async function fetchSnapshot() {
   const rows = Array.isArray(payload) ? payload : (payload.incidents || []);
   return {
     calls: rows.map(normalizeCall).sort((a, b) => b.timestamp - a.timestamp),
+    disruptions: payload.disruptions,
     feeds: payload.feeds,
     fetchedAt: payload.fetchedAt || null,
     updatedAt: payload.sourceUpdatedAt || payload.fetchedAt || null
@@ -185,6 +187,7 @@ async function loadData({ silent = false } = {}) {
     const snapshot = await fetchSnapshot();
     const previousSourceTime = parseLooseTime(state.lastIngest)?.getTime();
     const callsChanged = JSON.stringify(state.calls) !== JSON.stringify(snapshot.calls);
+    state.disruptions = snapshot.disruptions;
     state.calls = snapshot.calls;
     state.lastIngest = snapshot.updatedAt;
     state.fetchedAt = snapshot.fetchedAt;
@@ -203,6 +206,7 @@ async function loadData({ silent = false } = {}) {
     if (callsChanged) {
       applyFilters();
     }
+    renderDisruptions(state.disruptions, state.nearby, state.radiusKm, dispatchMap);
     updateFreshness();
     if (previousSourceTime != null && sourceTime && sourceTime.getTime() !== previousSourceTime) {
       clearTimeout(sourceHighlightTimer);
@@ -273,6 +277,7 @@ function render(map = true) {
   renderCalls();
   if (map) renderMap();
   renderDivisionBars();
+  renderDisruptions(state.disruptions, state.nearby, state.radiusKm, dispatchMap);
   els.eventToggles.forEach(toggle => {
     const active = toggle.dataset.eventFilter === state.eventFilter;
     toggle.classList.toggle("active", active);
@@ -696,3 +701,7 @@ setInterval(() => {
     label.textContent = reportedAge(label.dataset.reportedAt);
   });
 }, 60000);
+
+document.querySelector('#roadOverlay').addEventListener('change', () => {
+  renderDisruptions(state.disruptions, state.nearby, state.radiusKm, dispatchMap);
+});

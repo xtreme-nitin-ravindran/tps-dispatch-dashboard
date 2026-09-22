@@ -15,7 +15,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./styles.css?v=three-section-calls-1" />
+  <link rel="stylesheet" href="./styles.css?v=disruptions-1" />
 </head>
 
 <body>
@@ -109,6 +109,21 @@
             <div class="map-note">Locations are approximate public descriptions.</div>
           </div>
         </div>
+      </section>
+
+      <section class="panel disruptions-panel" id="disruptions" aria-labelledby="disruptionHeading">
+        <div class="panel-head"><div><span class="section-kicker">TRAVEL</span><h3 id="disruptionHeading">Road &amp; transit disruptions</h3></div></div>
+        <p class="disruption-note">Separate from emergency calls; nearby events are not necessarily related. Road restrictions follow your nearby radius. TTC alerts are citywide; stop coordinates are not supplied by this feed.</p>
+        <label class="road-overlay-toggle"><input id="roadOverlay" type="checkbox" /> Show road restrictions on map <span aria-hidden="true" class="road-key"></span></label>
+        <details><summary><span id="roadScope">Road restrictions · citywide</span> (<span id="roadCount">0</span>)</summary>
+          <p id="roadsFreshness" class="disruption-note">Not available yet</p><div id="roadsList" class="disruption-list"></div>
+          <p><a href="https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/" target="_blank" rel="noopener noreferrer">City of Toronto road restrictions ↗</a></p>
+        </details>
+        <details><summary>TTC service alerts · citywide (<span id="transitCount">0</span>)</summary>
+          <p id="transitFreshness" class="disruption-note">Not available yet</p><div id="transitList" class="disruption-list"></div>
+          <p><a href="https://www.ttc.ca/service-advisories/all-service-alerts" target="_blank" rel="noopener noreferrer">Official TTC service alerts ↗</a></p>
+        </details>
+        <p class="disruption-note">Sources: <a href="https://open.toronto.ca/dataset/road-restrictions/">City of Toronto Road Restrictions</a> and <a href="https://gtfsrt.ttc.ca/">TTC GTFS-Realtime alerts</a>. Check official notices before travelling. Dataset licences are not specified in the catalogue.</p>
       </section>
 
       <section class="content-grid">
@@ -239,7 +254,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=status-1"></script>
+  <script type="module" src="./app.js?v=disruptions-1"></script>
 </body>
 
 </html>

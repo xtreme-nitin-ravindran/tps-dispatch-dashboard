@@ -1123,3 +1123,15 @@ footer {
     justify-content: flex-end;
   }
 }
+
+.disruptions-panel { margin: 20px 0; }
+.disruptions-panel > p, .disruptions-panel > label { margin: 14px 20px; }
+.disruption-note { color: var(--muted); font-size: 12px; line-height: 1.6; }
+.disruptions-panel details { padding: 14px 20px; border-top: 1px solid var(--line); }
+.disruptions-panel summary { cursor: pointer; font-weight: 600; }
+.disruption-list { max-height: 420px; overflow-y: auto; }
+.disruption-item { padding: 14px 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.disruption-item h4 { margin: 0 0 8px; }
+.disruption-item p { margin: 6px 0; font-size: 13px; line-height: 1.5; }
+.road-overlay-toggle { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.road-key { width: 24px; height: 4px; background: #f28cba; display: inline-block; }

@@ -300,3 +300,27 @@ ArcGIS geocoder output; TPS incident coordinates are supplied by the incident la
 The scheduled Concourse job runs deterministic unit tests only; live-source integration tests remain a separate validation check so a TFS outage cannot prevent TPS ingestion.
 
 Automated commits use “chore: refresh SirenTO incidents”. The default identity is “SirenTO updater”; GitHub Actions retains its standard bot identity. The Concourse job is named `update-sirento`. Existing script filenames and TFS_* environment variables remain compatible.
+
+### Road and transit disruptions
+
+The combined updater also prepares `current.json.disruptions` from the City of
+Toronto [Road Restrictions v3 JSON feed](https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json)
+and the [official TTC GTFS-RT text feed](https://gtfsrt.ttc.ca/alerts/all?format=text).
+Both Concourse and GitHub fallback use this path. Each source is checked at most
+once per five minutes, independently; failures preserve the last successful data
+and timestamp and never prevent an incident update. Data over one hour old is not displayed.
+The browser requests no live disruption feeds.
+
+Road restrictions are filtered by their published date range, expired flag and
+current impact (`None` is excluded). Recurring schedules are displayed as supplied;
+these are reported restrictions, not a guarantee a road is currently fully closed.
+The optional pink map layer uses published road segments, with point fallback.
+Calls near me filters roads using distance to the segment. Emergency service,
+call type, division and history filters do not filter this separate section.
+TTC alerts use active periods and remain citywide: route/stop IDs are supplied,
+but this implementation does not invent stop coordinates or tie alerts to calls.
+
+Source attribution: City of Toronto Road Restrictions and Toronto Transit Commission
+GTFS-Realtime Service Disruptions. The Toronto Open Data catalogue currently marks
+both dataset licences as unspecified; no blanket licence is asserted for them.
+Official road and TTC advisory links are available in the section.

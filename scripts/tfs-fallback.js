@@ -1,3 +1,4 @@
+import { updateDisruptions } from "../src/disruptions/source.js";
 import { readFile, appendFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -8,7 +9,7 @@ export function needsUpdate(snapshot, now = new Date()) {
   const timestamp = Date.parse(snapshot?.fetchedAt);
   return !Number.isFinite(timestamp) || timestamp > now.getTime() || now.getTime() - timestamp >= 600000;
 }
-export async function runFallback({ outputPath = 'data/current.json', now = new Date(), etl = options => runTfsEtl({...options, fetchPolice:fetchTpsSource}) } = {}) {
+export async function runFallback({ outputPath = 'data/current.json', now = new Date(), etl = options => runTfsEtl({...options, fetchPolice:fetchTpsSource, fetchTravel:updateDisruptions}) } = {}) {
   let snapshot;
   try { snapshot = JSON.parse(await readFile(outputPath, 'utf8')); }
   catch (error) { if (error.code !== 'ENOENT') throw error; }
