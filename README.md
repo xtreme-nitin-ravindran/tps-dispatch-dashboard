@@ -56,10 +56,10 @@ are listed in [Attribution](#attribution).
 
 ## Development and Publishing
 
-Develop on `dev` and run the [required checks](#run-all-required-checks) before committing.
-Pushing to `dev` runs the GitHub tests. When they pass, automation merges the tested
-commit into `main` through a pull request, and GitHub Pages publishes the site.
-Failed checks stop promotion; do not push code directly to `main`.
+Develop on **`dev`** and run the [required checks](#run-all-required-checks) before committing.
+Pushing to **`dev`** runs the GitHub tests. When they pass, automation merges the tested
+commit into **`main`** through a pull request, and GitHub Pages publishes the site.
+Failed checks stop promotion; do not push code directly to **`main`**.
 
 Before starting new work, synchronize with the last automatic merge:
 
@@ -184,7 +184,7 @@ A successful JSON request alone does not mean the data is current.
 
 - **Concourse** runs `scripts/tfs-etl.js` approximately every minute to fetch feeds, merge history, and prepare map locations. Road and TTC feeds are checked at most once every five minutes.
 - **GitHub Actions fallback** checks every five minutes and runs the updater if the snapshot is at least ten minutes old. Scheduled runs may be delayed.
-- Both use code from `main` and publish only `data/current.json` to the **`data` branch**. The site reads that snapshot directly, so data updates do not require a Pages deployment.
+- Both use code from **`main`** and publish only `data/current.json` to the **`data`** branch. The site reads that snapshot directly, so data updates do not require a Pages deployment.
 - Failed sources retain their last successful data and are marked unavailable. If both incident feeds fail, the existing snapshot is preserved.
 
 Keep generated snapshots out of code commits. The snapshot on `dev` and `main` is a
