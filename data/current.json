@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T16:59:29.123Z",
-  "sourceUpdatedAt": "2026-09-22T16:55:02.000Z",
+  "fetchedAt": "2026-09-22T17:00:31.986Z",
+  "sourceUpdatedAt": "2026-09-22T17:00:01.000Z",
   "incidents": [
+    {
+      "id": "F26150376",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1K",
+      "division": "222",
+      "timestamp": "2026-09-22T16:50:33.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T17:00:31.986Z",
+      "lastSeenAt": "2026-09-22T17:00:31.986Z",
+      "geography": {
+        "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
+        "approximate": true,
+        "coordinates": [
+          43.7298,
+          -79.2639
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150377",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6B",
+      "division": "145",
+      "timestamp": "2026-09-22T16:50:32.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T17:00:31.986Z",
+      "lastSeenAt": "2026-09-22T17:00:31.986Z",
+      "geography": {
+        "text": "Approximate area: (M6B) North York (Glencairn)",
+        "approximate": true,
+        "coordinates": [
+          43.7081,
+          -79.4479
+        ],
+        "division": "Division 13",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150375",
       "source": "TFS",
@@ -16,9 +68,17 @@
       "timestamp": "2026-09-22T16:49:09.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "141",
+            "144"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T16:55:51.053Z",
-      "lastSeenAt": "2026-09-22T16:59:29.123Z",
+      "lastSeenAt": "2026-09-22T17:00:31.986Z",
       "geography": {
         "text": "Carl Hall Road between John Drury Drive & C North R",
         "approximate": false,
@@ -63,9 +123,22 @@
       "timestamp": "2026-09-22T16:48:11.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "226"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "227"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T16:55:51.053Z",
-      "lastSeenAt": "2026-09-22T16:59:29.123Z",
+      "lastSeenAt": "2026-09-22T17:00:31.986Z",
       "geography": {
         "text": "Approximate area: (M4E) East Toronto (The Beaches)",
         "approximate": true,
@@ -203,7 +276,7 @@
       "division": "225",
       "timestamp": "2026-09-22T16:38:54.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -242,7 +315,7 @@
       "division": "443",
       "timestamp": "2026-09-22T16:38:42.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -832,7 +905,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T16:20:38.601Z",
-      "lastSeenAt": "2026-09-22T16:59:29.123Z",
+      "lastSeenAt": "2026-09-22T17:00:31.986Z",
       "geography": {
         "text": "Drummond Street between Royal York Road & Harold Street",
         "approximate": false,
@@ -7533,7 +7606,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T07:12:31.822Z",
-      "lastSeenAt": "2026-09-22T16:59:29.123Z",
+      "lastSeenAt": "2026-09-22T17:00:31.986Z",
       "geography": {
         "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
         "approximate": true,
@@ -93004,12 +93077,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T16:59:29.123Z",
-      "sourceUpdatedAt": "2026-09-22T16:55:02.000Z",
+      "fetchedAt": "2026-09-22T17:00:31.986Z",
+      "sourceUpdatedAt": "2026-09-22T17:00:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T16:59:29.123Z",
+      "fetchedAt": "2026-09-22T17:00:31.986Z",
       "status": "ok"
     }
   },
@@ -169020,6 +169093,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1K": {
+      "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
+      "approximate": true,
+      "coordinates": [
+        43.7298,
+        -79.2639
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M6B": {
+      "text": "Approximate area: (M6B) North York (Glencairn)",
+      "approximate": true,
+      "coordinates": [
+        43.7081,
+        -79.4479
+      ],
+      "division": "Division 13",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "CARL HALL RD, NY / JOHN DRURY DR / C N R": {
       "text": "Carl Hall Road between John Drury Drive & C North R",
       "approximate": false,
@@ -169136,18 +169233,6 @@
         -79.2389
       ],
       "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1K": {
-      "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
-      "approximate": true,
-      "coordinates": [
-        43.7298,
-        -79.2639
-      ],
-      "division": "Division 41",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -171650,18 +171735,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T14:10:36.782Z"
-    },
-    "M6B": {
-      "text": "Approximate area: (M6B) North York (Glencairn)",
-      "approximate": true,
-      "coordinates": [
-        43.7081,
-        -79.4479
-      ],
-      "division": "Division 13",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "GERRARD ST, TT / VICTORIA ST / CHURCH ST": {
       "text": "Gerrard Street between Victoria Street & Church Street",
