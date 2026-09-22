@@ -1,3 +1,4 @@
+import { sourceStatus } from "./src/source-status.js";
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
 import { updateLabel, filterDefaults, filterSummary, readFilters, shareView, loadPreferences, savePreferences } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js";
@@ -220,17 +221,19 @@ async function loadData({ silent = false, accepted = null } = {}) {
     state.lastIngest = snapshot.updatedAt;
     state.fetchedAt = snapshot.fetchedAt;
     const sourceTime = parseLooseTime(snapshot.updatedAt);
-    const feedLabel = (name, feed) => {
-      const checked = parseLooseTime(feed?.fetchedAt);
-      const time = parseLooseTime(feed?.sourceUpdatedAt) || checked;
-      const stale = !checked || Date.now() - checked.getTime() > 10 * 60 * 1000;
-      const label = name === "TPS" ? "TPS checked" : "TFS";
-      return `${label}: ${time ? `${formatDate(time)} · ${formatTime(time)}` : "not loaded"}${feed?.status === "unavailable" ? " (unavailable; showing saved calls)" : stale ? " (stale)" : ""}`;
-    };
-    els.sourceUpdated.textContent = [
-      feedLabel("TFS", snapshot.feeds?.TFS || {fetchedAt:snapshot.fetchedAt, sourceUpdatedAt:snapshot.updatedAt}),
-      feedLabel("TPS", snapshot.feeds?.TPS)
-    ].join(" | ") + " Toronto";
+    const sources = [
+      ['TFS', snapshot.feeds?.TFS || {fetchedAt:snapshot.fetchedAt, sourceUpdatedAt:snapshot.updatedAt}],
+      ['TPS', snapshot.feeds?.TPS],
+      ['Road restrictions', snapshot.disruptions?.roads],
+      ['TTC alerts', snapshot.disruptions?.transit]
+    ];
+    els.sourceUpdated.replaceChildren(...sources.map(([name,feed]) => {
+      const info = sourceStatus(name,feed);
+      const line = document.createElement('span');
+      const time = info.timestamp === null ? 'not loaded' : `${formatDate(new Date(info.timestamp))} · ${formatTime(new Date(info.timestamp))}`;
+      line.textContent = `${info.label}: ${time}${info.status && info.status !== 'not loaded' ? ` (${info.status})` : ''}`;
+      return line;
+    }));
     if (callsChanged || firstSnapshot) {
       applyFilters();
       els.callList.scrollTop = scrollTop;

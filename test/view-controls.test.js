@@ -51,3 +51,14 @@ test('preferences are validated, exclude private session data and tolerate block
   assert.equal(loadPreferences(blocked),null);
   assert.doesNotThrow(()=>savePreferences(blocked,filterDefaults,{}));
 });
+
+import { sourceStatus } from '../src/source-status.js';
+test('source lines distinguish published times from successful checks', () => {
+  const now=Date.parse('2026-09-22T18:00:00Z');
+  const feed={fetchedAt:'2026-09-22T18:00:00Z',sourceUpdatedAt:'2026-09-22T17:58:00Z'};
+  assert.equal(sourceStatus('TTC alerts',feed,now).label,'TTC alerts updated');
+  assert.equal(sourceStatus('Road restrictions',{fetchedAt:feed.fetchedAt},now).label,'Road restrictions checked');
+  assert.equal(sourceStatus('TPS',null,now).timestamp,null);
+  assert.equal(sourceStatus('TPS',{fetchedAt:'2026-09-22T17:00:00Z'},now).status,'stale');
+  assert.equal(sourceStatus('TTC alerts',{...feed,status:'unavailable'},now).status,'unavailable');
+});
