@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T02:55:57.860Z",
+  "fetchedAt": "2026-09-22T02:57:18.101Z",
   "sourceUpdatedAt": "2026-09-22T02:55:01.000Z",
   "incidents": [
     {
@@ -18,7 +18,7 @@
       "isOngoing": true,
       "vehicles": [],
       "firstSeenAt": "2026-09-22T02:55:57.860Z",
-      "lastSeenAt": "2026-09-22T02:55:57.860Z",
+      "lastSeenAt": "2026-09-22T02:57:18.101Z",
       "geography": {
         "text": "Approximate area: (M6R) West Toronto (Parkdale / Roncesvalles Village)",
         "approximate": true,
@@ -133,7 +133,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T02:45:46.366Z",
-      "lastSeenAt": "2026-09-22T02:55:57.860Z",
+      "lastSeenAt": "2026-09-22T02:57:18.101Z",
       "geography": {
         "text": "Elm Street between Harry Barberian Lane & Lane East Bay South Elm",
         "approximate": false,
@@ -187,7 +187,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T02:45:46.366Z",
-      "lastSeenAt": "2026-09-22T02:55:57.860Z",
+      "lastSeenAt": "2026-09-22T02:57:18.101Z",
       "geography": {
         "text": "Approximate area: (M5C) Downtown Toronto (St. James Park)",
         "approximate": true,
@@ -220,7 +220,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T02:45:46.366Z",
-      "lastSeenAt": "2026-09-22T02:55:57.860Z",
+      "lastSeenAt": "2026-09-22T02:57:18.101Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -401,7 +401,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T02:41:17.362Z",
-      "lastSeenAt": "2026-09-22T02:55:57.860Z",
+      "lastSeenAt": "2026-09-22T02:57:18.101Z",
       "geography": {
         "text": "Dundas Street between Victoria Street Lane & Bond Street",
         "approximate": false,
@@ -690,7 +690,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T02:20:36.183Z",
-      "lastSeenAt": "2026-09-22T02:55:57.860Z",
+      "lastSeenAt": "2026-09-22T02:57:18.101Z",
       "geography": {
         "text": "Approximate location near Jefferson Avenue & Lane South Liberty East Jefferson",
         "approximate": true,
@@ -973,7 +973,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T02:15:56.874Z",
-      "lastSeenAt": "2026-09-22T02:55:57.860Z",
+      "lastSeenAt": "2026-09-22T02:57:18.101Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -1256,7 +1256,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T02:01:55.379Z",
-      "lastSeenAt": "2026-09-22T02:55:57.860Z",
+      "lastSeenAt": "2026-09-22T02:57:18.101Z",
       "geography": {
         "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
         "approximate": true,
@@ -81812,18 +81812,40 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T02:55:57.860Z",
+      "fetchedAt": "2026-09-22T02:57:18.101Z",
       "sourceUpdatedAt": "2026-09-22T02:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T02:55:57.860Z",
+      "fetchedAt": "2026-09-22T02:57:18.101Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "12203134",
+          "title": "Eastbound Gardiner Xy beyond South Kingsway",
+          "description": "Toronto-TMC: Right shoulder blocked due to a stalled vehicle.",
+          "type": "HAZARD",
+          "impact": "High",
+          "start": 1790045558000,
+          "end": null,
+          "expired": false,
+          "coordinates": [
+            43.634871,
+            -79.470254
+          ],
+          "line": [
+            [
+              43.634871,
+              -79.470254
+            ]
+          ],
+          "schedule": "Everyday: 00:00-23:59",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "Tor-RD52026-5015-1",
           "title": "Don Valley Parkway S 61 m South of Dvp S Eastern Av W Ramp to 107 m Southeast of Eastern Ave Diversion",
@@ -81974,32 +81996,6 @@
             ]
           ],
           "schedule": "Everyday: 22:30-05:30",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD52026-5765",
-          "title": "F G Gardiner Xy E 249 m Northwest of Dowling Avenue Pedestrian Bridge to 48 m Northwest of Dowling Avenue Pedestrian Bridge",
-          "description": "Toronto-TMC: We plan to complete the detailed visual inspections on September 21 - September 22, 2026, between 10:00 PM and 4:00 AM. The inspection is expected to take less than 1 hour and will involve 2–3 inspectors conducting hammer-sounding, photography, measurement verification, and defect documentation. No construction work is involved—only visual inspection.",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "start": 1790042400000,
-          "end": 1790064000000,
-          "expired": false,
-          "coordinates": [
-            43.63532,
-            -79.44042
-          ],
-          "line": [
-            [
-              43.63532,
-              -79.44042
-            ],
-            [
-              43.6344,
-              -79.43827
-            ]
-          ],
-          "schedule": "Monday: 22:00-04:00; Tuesday: 22:00-04:00; Wednesday: 22:00-04:00; Thursday: 22:00-04:00; Friday: 22:00-04:00",
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
@@ -82223,162 +82219,6 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD042026-1235-1",
-          "title": "Eglinton Ave W 7 m West of Humber River Recreational Trl to Scarlett Rd",
-          "description": "Toronto-TMC: SUE Test pits will be conducted at night between 10:00pm and 5:00am within the intersection of Scarlett Road and Eglinton Avenue. Note that the through lanes both EB and WB will be closed and the EB/WB traffic will be diverted as per the staging plans attached. Note that NB/SB through traffic will also be diverted when those lanes are closed.",
-          "type": "ROAD CLOSED",
-          "impact": "None",
-          "start": 1789437600000,
-          "end": 1790326800000,
-          "expired": false,
-          "coordinates": [
-            43.68398,
-            -79.51132
-          ],
-          "line": [
-            [
-              43.68398,
-              -79.51132
-            ],
-            [
-              43.68396,
-              -79.51146
-            ]
-          ],
-          "schedule": "Everyday: 22:00-05:00",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD1S2026-338-1",
-          "title": "Ln E Strachan N King 29 m North of King St W to King St W",
-          "description": "Toronto-TMC: Form 1SOP - Application for work requiring a SOP (Street occupation permit) Permit Status: Approved",
-          "type": "ROAD CLOSED",
-          "impact": "None",
-          "start": 1774260000000,
-          "end": 1798772400000,
-          "expired": false,
-          "coordinates": [
-            43.64242,
-            -79.41141
-          ],
-          "line": [
-            [
-              43.64242,
-              -79.41141
-            ],
-            [
-              43.64218,
-              -79.41131
-            ]
-          ],
-          "schedule": "Everyday: 06:00-22:00",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD1S2026-338-3",
-          "title": "Strachan Ave at King St W to 35 m North of King St W",
-          "description": "Toronto-TMC: Form 1SOP - Application for work requiring a SOP (Street occupation permit) Permit Status: Approved",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "start": 1774260000000,
-          "end": 1798772400000,
-          "expired": false,
-          "coordinates": [
-            43.64204,
-            -79.41197
-          ],
-          "line": [
-            [
-              43.64204,
-              -79.41197
-            ],
-            [
-              43.64235,
-              -79.41208
-            ]
-          ],
-          "schedule": "Everyday: 06:00-22:00",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD1S2026-338-2",
-          "title": "King St W from Ln E Strachan N King to Strachan Ave",
-          "description": "Toronto-TMC: Form 1SOP - Application for work requiring a SOP (Street occupation permit) Permit Status: Approved",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "start": 1774260000000,
-          "end": 1798772400000,
-          "expired": false,
-          "coordinates": [
-            43.64218,
-            -79.41131
-          ],
-          "line": [
-            [
-              43.64218,
-              -79.41131
-            ],
-            [
-              43.64204,
-              -79.41197
-            ]
-          ],
-          "schedule": "Everyday: 06:00-22:00",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD042026-1212",
-          "title": "Yonge St 33 m South of Cumberland St to 13 m North of Bloor St W",
-          "description": "Toronto-TMC: T2 will be daylighting various utilities in the roadway and sidewalk using Hydro-Vac <=1500PSI All work conducted has been approved by TTC, and we will be working closely with their team for any changes. No weekend work will be done.",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "start": 1790042400000,
-          "end": 1790240400000,
-          "expired": false,
-          "coordinates": [
-            43.67083,
-            -79.38702
-          ],
-          "line": [
-            [
-              43.67083,
-              -79.38702
-            ],
-            [
-              43.67034,
-              -79.38683
-            ]
-          ],
-          "schedule": "Everyday: 22:00-05:00",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD1S2026-1133",
-          "title": "Bloor St W 5 m West of Bay St to 31 m West of Bay St",
-          "description": "Toronto-TMC: MOVING CONTAINERS",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "start": 1790042400000,
-          "end": 1790154000000,
-          "expired": false,
-          "coordinates": [
-            43.66969,
-            -79.38954
-          ],
-          "line": [
-            [
-              43.66969,
-              -79.38954
-            ],
-            [
-              43.66963,
-              -79.38985
-            ]
-          ],
-          "schedule": "Everyday: 22:00-05:00",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
           "id": "Tor-RD52026-5751-2",
           "title": "The Queensway 21 m West of Grand Ave to 16 m Northeast of Humber River Recreational Trl",
           "description": "Toronto-TMC: WSP Canada Inc. (WSP) has been retained by the City of Toronto to undertake a joint geotechnical, environmental, hydrogeological, and pavements borehole / corehole investigation program in support of the design and construction of The Queensway Project. The work taking place will consist of conducting Hydrogeological testing and obtaining water level readings at existing monitoring wells. Monitoring wells are located along The Queensway between Burma Drive and S Kingsway. All work will take place at night between the hours of 10pm to 5am.",
@@ -82546,6 +82386,188 @@
             ]
           ],
           "schedule": "Monday: 22:00-05:00; Tuesday: 22:00-05:00; Wednesday: 22:00-05:00; Thursday: 22:00-05:00; Friday: 22:00-05:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD042026-1235-1",
+          "title": "Eglinton Ave W 7 m West of Humber River Recreational Trl to Scarlett Rd",
+          "description": "Toronto-TMC: SUE Test pits will be conducted at night between 10:00pm and 5:00am within the intersection of Scarlett Road and Eglinton Avenue. Note that the through lanes both EB and WB will be closed and the EB/WB traffic will be diverted as per the staging plans attached. Note that NB/SB through traffic will also be diverted when those lanes are closed.",
+          "type": "ROAD CLOSED",
+          "impact": "None",
+          "start": 1789437600000,
+          "end": 1790326800000,
+          "expired": false,
+          "coordinates": [
+            43.68398,
+            -79.51132
+          ],
+          "line": [
+            [
+              43.68398,
+              -79.51132
+            ],
+            [
+              43.68396,
+              -79.51146
+            ]
+          ],
+          "schedule": "Everyday: 22:00-05:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1S2026-338-3",
+          "title": "Strachan Ave at King St W to 35 m North of King St W",
+          "description": "Toronto-TMC: Form 1SOP - Application for work requiring a SOP (Street occupation permit) Permit Status: Approved",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1774260000000,
+          "end": 1798772400000,
+          "expired": false,
+          "coordinates": [
+            43.64204,
+            -79.41197
+          ],
+          "line": [
+            [
+              43.64204,
+              -79.41197
+            ],
+            [
+              43.64235,
+              -79.41208
+            ]
+          ],
+          "schedule": "Everyday: 06:00-22:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1S2026-338-2",
+          "title": "King St W from Ln E Strachan N King to Strachan Ave",
+          "description": "Toronto-TMC: Form 1SOP - Application for work requiring a SOP (Street occupation permit) Permit Status: Approved",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1774260000000,
+          "end": 1798772400000,
+          "expired": false,
+          "coordinates": [
+            43.64218,
+            -79.41131
+          ],
+          "line": [
+            [
+              43.64218,
+              -79.41131
+            ],
+            [
+              43.64204,
+              -79.41197
+            ]
+          ],
+          "schedule": "Everyday: 06:00-22:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD52026-5765",
+          "title": "F G Gardiner Xy E 249 m Northwest of Dowling Avenue Pedestrian Bridge to 48 m Northwest of Dowling Avenue Pedestrian Bridge",
+          "description": "Toronto-TMC: We plan to complete the detailed visual inspections on September 21 - September 22, 2026, between 10:00 PM and 4:00 AM. The inspection is expected to take less than 1 hour and will involve 2–3 inspectors conducting hammer-sounding, photography, measurement verification, and defect documentation. No construction work is involved—only visual inspection.",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1790042400000,
+          "end": 1790064000000,
+          "expired": false,
+          "coordinates": [
+            43.63532,
+            -79.44042
+          ],
+          "line": [
+            [
+              43.63532,
+              -79.44042
+            ],
+            [
+              43.6344,
+              -79.43827
+            ]
+          ],
+          "schedule": "Monday: 22:00-04:00; Tuesday: 22:00-04:00; Wednesday: 22:00-04:00; Thursday: 22:00-04:00; Friday: 22:00-04:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD042026-1212",
+          "title": "Yonge St 33 m South of Cumberland St to 13 m North of Bloor St W",
+          "description": "Toronto-TMC: T2 will be daylighting various utilities in the roadway and sidewalk using Hydro-Vac <=1500PSI All work conducted has been approved by TTC, and we will be working closely with their team for any changes. No weekend work will be done.",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1790042400000,
+          "end": 1790240400000,
+          "expired": false,
+          "coordinates": [
+            43.67083,
+            -79.38702
+          ],
+          "line": [
+            [
+              43.67083,
+              -79.38702
+            ],
+            [
+              43.67034,
+              -79.38683
+            ]
+          ],
+          "schedule": "Everyday: 22:00-05:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1S2026-1133",
+          "title": "Bloor St W 5 m West of Bay St to 31 m West of Bay St",
+          "description": "Toronto-TMC: MOVING CONTAINERS",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1790042400000,
+          "end": 1790154000000,
+          "expired": false,
+          "coordinates": [
+            43.66969,
+            -79.38954
+          ],
+          "line": [
+            [
+              43.66969,
+              -79.38954
+            ],
+            [
+              43.66963,
+              -79.38985
+            ]
+          ],
+          "schedule": "Everyday: 22:00-05:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1S2026-338-1",
+          "title": "Ln E Strachan N King 29 m North of King St W to King St W",
+          "description": "Toronto-TMC: Form 1SOP - Application for work requiring a SOP (Street occupation permit) Permit Status: Approved",
+          "type": "ROAD CLOSED",
+          "impact": "None",
+          "start": 1774260000000,
+          "end": 1798772400000,
+          "expired": false,
+          "coordinates": [
+            43.64242,
+            -79.41141
+          ],
+          "line": [
+            [
+              43.64242,
+              -79.41141
+            ],
+            [
+              43.64218,
+              -79.41131
+            ]
+          ],
+          "schedule": "Everyday: 06:00-22:00",
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
@@ -89169,6 +89191,40 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
+          "id": "Tor-RD52026-5558-3",
+          "title": "Hiltz Ave 6 m North of Queen St E to 18 m North of Dorothy St",
+          "description": "Toronto-TMC: Road will be closed to complete concrete work and paving for through traffic. Local residents will always have access throughout project. Closure will flip so cannot provide exact time line for each. we will change end dates when exact dates are decided",
+          "type": "ROAD CLOSED",
+          "impact": "None",
+          "start": 1788865200000,
+          "end": 1796083200000,
+          "expired": false,
+          "coordinates": [
+            43.66422,
+            -79.32623
+          ],
+          "line": [
+            [
+              43.66422,
+              -79.32623
+            ],
+            [
+              43.66589,
+              -79.32692
+            ],
+            [
+              43.66589,
+              -79.32692
+            ],
+            [
+              43.66605,
+              -79.32699
+            ]
+          ],
+          "schedule": "Everyday: 07:00-19:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
           "id": "Tor-RD52026-5558-2",
           "title": "Hiltz Ave 20 m North of Dorothy St to 4 m North of Queen St E",
           "description": "Toronto-TMC: Road will be closed to complete concrete work and paving for through traffic. Local residents will always have access throughout project. Closure will flip so cannot provide exact time line for each. we will change end dates when exact dates are decided",
@@ -90287,32 +90343,6 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD52026-5779-1",
-          "title": "Old Orchard Grv 10 m East of Ridley Blvd to Ridley Blvd",
-          "description": "Toronto-TMC: CIPP sewer rehabilitation. This project DOES NOT contain phasing.",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "start": 1790031600000,
-          "end": 1790420400000,
-          "expired": false,
-          "coordinates": [
-            43.73397,
-            -79.40847
-          ],
-          "line": [
-            [
-              43.73397,
-              -79.40847
-            ],
-            [
-              43.73394,
-              -79.40859
-            ]
-          ],
-          "schedule": "Everyday: 19:00-07:00",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
           "id": "Tor-RD52026-2171-3",
           "title": "Whitehorse Rd at Steeprock Dr to 6 m South of Steeprock Dr",
           "description": "Toronto-TMC: CIPP Watermain Rehabilitation",
@@ -91376,6 +91406,32 @@
             ]
           ],
           "schedule": "Monday: 07:00-19:00; Tuesday: 07:00-19:00; Wednesday: 07:00-19:00; Thursday: 07:00-19:00; Friday: 07:00-19:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD52026-5779-1",
+          "title": "Old Orchard Grv 10 m East of Ridley Blvd to Ridley Blvd",
+          "description": "Toronto-TMC: CIPP sewer rehabilitation. This project DOES NOT contain phasing.",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1790031600000,
+          "end": 1790420400000,
+          "expired": false,
+          "coordinates": [
+            43.73397,
+            -79.40847
+          ],
+          "line": [
+            [
+              43.73397,
+              -79.40847
+            ],
+            [
+              43.73394,
+              -79.40859
+            ]
+          ],
+          "schedule": "Everyday: 19:00-07:00",
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
@@ -93902,40 +93958,6 @@
             ]
           ],
           "schedule": "Monday: 07:00-19:00; Tuesday: 07:00-19:00; Wednesday: 07:00-19:00; Thursday: 07:00-19:00; Friday: 07:00-19:00",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD52026-5558-3",
-          "title": "Hiltz Ave 6 m North of Queen St E to 18 m North of Dorothy St",
-          "description": "Toronto-TMC: Road will be closed to complete concrete work and paving for through traffic. Local residents will always have access throughout project. Closure will flip so cannot provide exact time line for each. we will change end dates when exact dates are decided",
-          "type": "ROAD CLOSED",
-          "impact": "None",
-          "start": 1788865200000,
-          "end": 1796083200000,
-          "expired": false,
-          "coordinates": [
-            43.66422,
-            -79.32623
-          ],
-          "line": [
-            [
-              43.66422,
-              -79.32623
-            ],
-            [
-              43.66589,
-              -79.32692
-            ],
-            [
-              43.66589,
-              -79.32692
-            ],
-            [
-              43.66605,
-              -79.32699
-            ]
-          ],
-          "schedule": "Everyday: 07:00-19:00",
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
@@ -154534,8 +154556,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-22T02:51:07.614Z",
-      "fetchedAt": "2026-09-22T02:51:07.614Z"
+      "checkedAt": "2026-09-22T02:57:18.101Z",
+      "fetchedAt": "2026-09-22T02:57:18.101Z"
     },
     "transit": {
       "items": [
@@ -155592,10 +155614,10 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-22T02:51:08.000Z",
+      "sourceUpdatedAt": "2026-09-22T02:57:18.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-22T02:51:07.614Z",
-      "fetchedAt": "2026-09-22T02:51:07.614Z"
+      "checkedAt": "2026-09-22T02:57:18.101Z",
+      "fetchedAt": "2026-09-22T02:57:18.101Z"
     }
   },
   "updatedBy": "concourse",
