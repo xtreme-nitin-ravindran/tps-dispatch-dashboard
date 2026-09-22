@@ -3,9 +3,115 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T15:48:51.771Z",
-  "sourceUpdatedAt": "2026-09-22T15:45:01.000Z",
+  "fetchedAt": "2026-09-22T16:02:20.158Z",
+  "sourceUpdatedAt": "2026-09-22T16:00:01.000Z",
   "incidents": [
+    {
+      "id": "F26150348",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "ELLINGTON DR / LAWRENCE AVE E",
+      "division": "245",
+      "timestamp": "2026-09-22T15:53:23.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T16:02:20.158Z",
+      "lastSeenAt": "2026-09-22T16:02:20.158Z",
+      "geography": {
+        "text": "Ellington Drive & Lawrence Avenue East",
+        "approximate": false,
+        "coordinates": [
+          43.7461797,
+          -79.290918
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T16:02:20.158Z"
+      }
+    },
+    {
+      "id": "F26150347",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1E",
+      "division": "234",
+      "timestamp": "2026-09-22T15:50:52.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T16:02:20.158Z",
+      "lastSeenAt": "2026-09-22T16:02:20.158Z",
+      "geography": {
+        "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+        "approximate": true,
+        "coordinates": [
+          43.7678,
+          -79.1866
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-f9235f0cb7b8210e7aba3642",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-22T15:41:44.000Z",
+      "location": "BATHURST ST - MARKHAM ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BATHURST ST - MARKHAM ST",
+        "coordinates": [
+          43.6471940876252,
+          -79.40398193200464
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
+    {
+      "id": "F26150346",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9V",
+      "division": "413",
+      "timestamp": "2026-09-22T15:41:35.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "413"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-22T16:02:20.158Z",
+      "lastSeenAt": "2026-09-22T16:02:20.158Z",
+      "geography": {
+        "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
+        "approximate": true,
+        "coordinates": [
+          43.7432,
+          -79.5876
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150344",
       "source": "TFS",
@@ -16,9 +122,17 @@
       "timestamp": "2026-09-22T15:40:04.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "221",
+            "225"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T15:48:51.771Z",
-      "lastSeenAt": "2026-09-22T15:48:51.771Z",
+      "lastSeenAt": "2026-09-22T16:02:20.158Z",
       "geography": {
         "text": "Approximate location near Sloley Road & Dorset Road",
         "approximate": true,
@@ -42,9 +156,16 @@
       "timestamp": "2026-09-22T15:37:44.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "142"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T15:48:51.771Z",
-      "lastSeenAt": "2026-09-22T15:48:51.771Z",
+      "lastSeenAt": "2026-09-22T16:02:20.158Z",
       "geography": {
         "text": "Approximate area: (M3N) North York (Jane and Finch)",
         "approximate": true,
@@ -59,6 +180,27 @@
       }
     },
     {
+      "id": "TPS-d0c1224581141db0ec7bada0",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "WIRES DOWN",
+      "callTypeCode": "WIRDO",
+      "timestamp": "2026-09-22T15:37:24.000Z",
+      "location": "HORTICULTURAL AVE - PEMBROKE ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HORTICULTURAL AVE - PEMBROKE ST",
+        "coordinates": [
+          43.66094740005114,
+          -79.37354045284195
+        ],
+        "division": "Division 51",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26150342",
       "source": "TFS",
       "eventType": "fire",
@@ -67,7 +209,7 @@
       "division": "413",
       "timestamp": "2026-09-22T15:36:50.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-22T15:48:51.771Z",
       "lastSeenAt": "2026-09-22T15:48:51.771Z",
@@ -94,9 +236,29 @@
       "timestamp": "2026-09-22T15:36:22.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "22",
+            "32"
+          ]
+        },
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "226"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "227"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T15:48:51.771Z",
-      "lastSeenAt": "2026-09-22T15:48:51.771Z",
+      "lastSeenAt": "2026-09-22T16:02:20.158Z",
       "geography": {
         "text": "Eastern Avenue between Woodward Avenue & Emdaabiimok Avenue",
         "approximate": false,
@@ -119,7 +281,7 @@
       "division": "223",
       "timestamp": "2026-09-22T15:34:30.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -152,7 +314,7 @@
       "division": "146",
       "timestamp": "2026-09-22T15:34:17.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -195,7 +357,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T15:48:51.771Z",
-      "lastSeenAt": "2026-09-22T15:48:51.771Z",
+      "lastSeenAt": "2026-09-22T16:02:20.158Z",
       "geography": {
         "text": "Jarvis Street & Carlton Street",
         "approximate": false,
@@ -207,6 +369,48 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-22T15:48:51.771Z"
+      }
+    },
+    {
+      "id": "TPS-826b2402eae059eb45fde4a4",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DAMAGE TO AUTO",
+      "callTypeCode": "DAMAU",
+      "timestamp": "2026-09-22T15:33:28.000Z",
+      "location": "ORMONT DR - ORMONT DR",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ORMONT DR - ORMONT DR",
+        "coordinates": [
+          43.764622300599825,
+          -79.54706292285367
+        ],
+        "division": "Division 31",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-e9510744012251f9b1622711",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING VULNERABLE PERSON",
+      "callTypeCode": "MISVU",
+      "timestamp": "2026-09-22T15:31:31.000Z",
+      "location": "WELLESLEY ST E - ST JAMES AVE",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WELLESLEY ST E - ST JAMES AVE",
+        "coordinates": [
+          43.66886450806791,
+          -79.37443165566856
+        ],
+        "division": "Division 51",
+        "approximate": true
       }
     },
     {
@@ -234,7 +438,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T15:48:51.771Z",
-      "lastSeenAt": "2026-09-22T15:48:51.771Z",
+      "lastSeenAt": "2026-09-22T16:02:20.158Z",
       "geography": {
         "text": "Approximate location near Lake Shore Boulevard & Carlaw Avenue",
         "approximate": true,
@@ -249,6 +453,48 @@
       }
     },
     {
+      "id": "TPS-b15bed194be263352c793845",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-22T15:30:01.000Z",
+      "location": "SHEPPARD AVE W - TUSCAN GT",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SHEPPARD AVE W - TUSCAN GT",
+        "coordinates": [
+          43.75285396020817,
+          -79.48271942676132
+        ],
+        "division": "HP",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-67f44be70a735d28257af8fd",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-22T15:28:15.000Z",
+      "location": "SPRING FOREST GT - WW S SHEPPARD W SPRING FOREST",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SPRING FOREST GT - WW S SHEPPARD W SPRING FOREST",
+        "coordinates": [
+          43.79057578418696,
+          -79.24082187099141
+        ],
+        "division": "Division 42",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26150335",
       "source": "TFS",
       "eventType": "fire",
@@ -257,7 +503,7 @@
       "division": "313",
       "timestamp": "2026-09-22T15:27:42.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -290,7 +536,7 @@
       "division": "243",
       "timestamp": "2026-09-22T15:23:54.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -347,7 +593,7 @@
       "division": "223",
       "timestamp": "2026-09-22T15:22:10.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -422,7 +668,7 @@
       "division": "243",
       "timestamp": "2026-09-22T15:19:15.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -471,7 +717,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T15:48:51.771Z",
-      "lastSeenAt": "2026-09-22T15:48:51.771Z",
+      "lastSeenAt": "2026-09-22T16:02:20.158Z",
       "geography": {
         "text": "Approximate area: (M5N) Central Toronto (Roselawn)",
         "approximate": true,
@@ -840,7 +1086,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T15:48:51.771Z",
-      "lastSeenAt": "2026-09-22T15:48:51.771Z",
+      "lastSeenAt": "2026-09-22T16:02:20.158Z",
       "geography": {
         "text": "Nugget Avenue between Mccowan Road & Shorting Road",
         "approximate": false,
@@ -5995,7 +6241,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T07:12:31.822Z",
-      "lastSeenAt": "2026-09-22T15:48:51.771Z",
+      "lastSeenAt": "2026-09-22T16:02:20.158Z",
       "geography": {
         "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
         "approximate": true,
@@ -7677,7 +7923,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T15:48:51.771Z",
+      "lastSeenAt": "2026-09-22T16:02:20.158Z",
       "geography": {
         "text": "Approximate location near Edenbridge Drive & Edgehill Road",
         "approximate": true,
@@ -91466,18 +91712,152 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T15:48:51.771Z",
-      "sourceUpdatedAt": "2026-09-22T15:45:01.000Z",
+      "fetchedAt": "2026-09-22T16:02:20.158Z",
+      "sourceUpdatedAt": "2026-09-22T16:00:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T15:48:51.771Z",
+      "fetchedAt": "2026-09-22T16:02:20.158Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "12205147-4",
+          "title": "Southbound and Northbound Jarvis St at Carlton St to before Gerrard St E",
+          "description": "Toronto-TMC: All lanes are closed due to a Road Hazard",
+          "type": "HAZARD",
+          "impact": "High",
+          "start": 1790092260000,
+          "end": null,
+          "expired": false,
+          "coordinates": [
+            43.661916,
+            -79.376511
+          ],
+          "line": [
+            [
+              43.661916,
+              -79.376511
+            ],
+            [
+              43.660806,
+              -79.376051
+            ]
+          ],
+          "schedule": "Everyday: 00:00-23:59",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "12205147-1",
+          "title": "Southbound and Northbound Jarvis St at Carlton St to before Gerrard St E",
+          "description": "Toronto-TMC: All lanes are closed due to a Road Hazard",
+          "type": "HAZARD",
+          "impact": "High",
+          "start": 1790092260000,
+          "end": null,
+          "expired": false,
+          "coordinates": [
+            43.662419,
+            -79.376717
+          ],
+          "line": [
+            [
+              43.662419,
+              -79.376717
+            ],
+            [
+              43.662081,
+              -79.376579
+            ],
+            [
+              43.662052,
+              -79.376567
+            ]
+          ],
+          "schedule": "Everyday: 00:00-23:59",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "12205147-3",
+          "title": "Southbound and Northbound Jarvis St at Carlton St to before Gerrard St E",
+          "description": "Toronto-TMC: All lanes are closed due to a Road Hazard",
+          "type": "HAZARD",
+          "impact": "High",
+          "start": 1790092260000,
+          "end": null,
+          "expired": false,
+          "coordinates": [
+            43.662015,
+            -79.376552
+          ],
+          "line": [
+            [
+              43.662015,
+              -79.376552
+            ],
+            [
+              43.661916,
+              -79.376511
+            ]
+          ],
+          "schedule": "Everyday: 00:00-23:59",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "12205147-2",
+          "title": "Southbound and Northbound Jarvis St at Carlton St to before Gerrard St E",
+          "description": "Toronto-TMC: All lanes are closed due to a Road Hazard",
+          "type": "HAZARD",
+          "impact": "High",
+          "start": 1790092260000,
+          "end": null,
+          "expired": false,
+          "coordinates": [
+            43.662052,
+            -79.376567
+          ],
+          "line": [
+            [
+              43.662052,
+              -79.376567
+            ],
+            [
+              43.662015,
+              -79.376552
+            ]
+          ],
+          "schedule": "Everyday: 00:00-23:59",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "12205147-5",
+          "title": "Southbound and Northbound Jarvis St at Carlton St to before Gerrard St E",
+          "description": "Toronto-TMC: All lanes are closed due to a Road Hazard",
+          "type": "HAZARD",
+          "impact": "High",
+          "start": 1790092260000,
+          "end": null,
+          "expired": false,
+          "coordinates": [
+            43.660806,
+            -79.376051
+          ],
+          "line": [
+            [
+              43.660806,
+              -79.376051
+            ],
+            [
+              43.660464,
+              -79.37591
+            ]
+          ],
+          "schedule": "Everyday: 00:00-23:59",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "Tor-RD1H2026-1995-2",
           "title": "Bathurst St 64 m North of Ulster St to 46 m North of Ulster St",
@@ -165000,8 +165380,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-22T15:48:51.771Z",
-      "fetchedAt": "2026-09-22T15:48:51.771Z"
+      "checkedAt": "2026-09-22T16:02:20.158Z",
+      "fetchedAt": "2026-09-22T16:02:20.158Z"
     },
     "transit": {
       "items": [
@@ -165867,20 +166247,6 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
-          "id": "76668",
-          "title": "Avenue: Escalator 10 out of service between mezzanine level and grade (main entrance) while we perform maintenance.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "periods": [
-            {
-              "start": 1790071838000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
           "id": "76587",
           "title": "Sheppard-Yonge: Escalator 51P2E out of service from Line 1 platform to Line 4 Don Mills platform while we perform maintenance. Escalator is expected to be back in service September 24, 2026.",
           "description": "",
@@ -166120,14 +166486,50 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-22T15:48:52.000Z",
+      "sourceUpdatedAt": "2026-09-22T16:02:20.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-22T15:48:51.771Z",
-      "fetchedAt": "2026-09-22T15:48:51.771Z"
+      "checkedAt": "2026-09-22T16:02:20.158Z",
+      "fetchedAt": "2026-09-22T16:02:20.158Z"
     }
   },
-  "updatedBy": "github-actions",
+  "updatedBy": "concourse",
   "locationCache": {
+    "ELLINGTON DR / LAWRENCE AVE E": {
+      "text": "Ellington Drive & Lawrence Avenue East",
+      "approximate": false,
+      "coordinates": [
+        43.7461797,
+        -79.290918
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T16:02:20.158Z"
+    },
+    "M1E": {
+      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+      "approximate": true,
+      "coordinates": [
+        43.7678,
+        -79.1866
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M9V": {
+      "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
+      "approximate": true,
+      "coordinates": [
+        43.7432,
+        -79.5876
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "SLOLEY RD, SC / DORSET RD / LYME REGIS CRES": {
       "text": "Approximate location near Sloley Road & Dorset Road",
       "approximate": true,
@@ -166148,18 +166550,6 @@
         -79.521
       ],
       "division": "Division 31",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M9V": {
-      "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
-      "approximate": true,
-      "coordinates": [
-        43.7432,
-        -79.5876
-      ],
-      "division": "Division 23",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -166539,18 +166929,6 @@
       "coordinates": [
         43.7712,
         -79.2144
-      ],
-      "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1E": {
-      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
-      "approximate": true,
-      "coordinates": [
-        43.7678,
-        -79.1866
       ],
       "division": "Division 43",
       "version": 1,
