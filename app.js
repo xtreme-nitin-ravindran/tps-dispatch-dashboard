@@ -1,4 +1,4 @@
-import { updateLabel, filterDefaults, filterSummary } from "./src/view-controls.js";
+import { updateLabel, filterDefaults, filterSummary, readFilters, shareView } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js";
 import { reportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=status-1";
 import { distanceKm } from "./src/nearby.js";
@@ -663,6 +663,10 @@ setInterval(() => {
   }).format(new Date());
 }, 1000);
 
+if (new URLSearchParams(location.search).has('view')) {
+  Object.assign(state, readFilters(new URLSearchParams(location.search)));
+  syncFilterControls();
+}
 refreshLoop();
 
 document.querySelector("#serviceFilter").addEventListener("change", event => {
@@ -739,4 +743,19 @@ document.querySelector('#clearFilters').addEventListener('click', () => {
   document.querySelector('#nearRadius').value = 2;
   syncFilterControls();
   document.querySelector('#clearNearby').click();
+});
+
+document.querySelector('#shareView').addEventListener('click', async () => {
+  const url = shareView(location.href, state);
+  const output = document.querySelector('#shareLink');
+  output.value = url;
+  output.hidden = false;
+  const status = document.querySelector('#shareStatus');
+  try {
+    await navigator.clipboard.writeText(url);
+    status.textContent = 'Link copied. Nearby location is not included.';
+  } catch {
+    output.focus(); output.select();
+    status.textContent = 'Copy this link. Nearby location is not included.';
+  }
 });
