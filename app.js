@@ -1,3 +1,4 @@
+import { distanceKm } from "./src/nearby.js";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
 import { locationDisplay, expandLocationAbbreviations } from "./src/location-display.js?v=hydro-corridor-1";
@@ -9,6 +10,8 @@ const CONFIG = {
 };
 
 const state = {
+  nearby: null,
+  radiusKm: 2,
   hours: 24,
   calls: [],
   filtered: [],
@@ -237,6 +240,7 @@ function applyFilters({ map = true } = {}) {
   const q = state.search.trim().toLowerCase();
 
   const eligibleCalls = state.calls.filter(call => {
+    if (state.nearby && distanceKm(state.nearby, coordinatesForCall(call)) > state.radiusKm) return false;
     if (state.serviceFilter !== "all" && call.source !== state.serviceFilter) return false;
     if (!isWithinHistoryWindow(call.timestamp, state.hours)) return false;
     if (state.eventFilter === "ongoing" && !call.isOngoing) return false;
@@ -627,5 +631,53 @@ refreshLoop();
 
 document.querySelector("#serviceFilter").addEventListener("change", event => {
   state.serviceFilter = event.target.value;
+  applyFilters();
+});
+
+const nearButton = document.querySelector('#nearMe');
+const nearStatus = document.querySelector('#nearStatus');
+const nearControls = document.querySelector('#nearControls');
+let locationRequest = 0;
+function updateNearbyView() {
+  mapHasFitted = false;
+  applyFilters();
+  if (dispatchMap && state.nearby) dispatchMap.setView(state.nearby, state.radiusKm <= 2 ? 14 : 12);
+  nearStatus.textContent = `Within ${state.radiusKm} km of your location. Other filters still apply. Distances use approximate call locations; unmapped calls are excluded.`;
+}
+nearButton.addEventListener('click', () => {
+  if (!navigator.geolocation) {
+    nearStatus.textContent = 'Location is unavailable in this browser. You can search by street or neighbourhood instead.';
+    return;
+  }
+  const request = ++locationRequest;
+  nearButton.disabled = true;
+  nearButton.textContent = 'Finding your location…';
+  nearStatus.textContent = 'Allow location access when your browser asks.';
+  navigator.geolocation.getCurrentPosition(position => {
+    if (request !== locationRequest) return;
+    state.nearby = [position.coords.latitude, position.coords.longitude];
+    nearButton.disabled = false;
+    nearButton.textContent = 'Update my location';
+    nearControls.hidden = false;
+    updateNearbyView();
+  }, error => {
+    if (request !== locationRequest) return;
+    nearButton.disabled = false;
+    nearButton.textContent = state.nearby ? 'Update my location' : 'Calls near me';
+    nearStatus.textContent = (error.code === 1 ? 'Location permission was denied.' : 'Could not get your location. Please try again.') + (state.nearby ? ' Your previous nearby filter remains active.' : ' You can search by street or neighbourhood instead.');
+  }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 });
+});
+document.querySelector('#nearRadius').addEventListener('change', event => {
+  state.radiusKm = Number(event.target.value);
+  if (state.nearby) updateNearbyView();
+});
+document.querySelector('#clearNearby').addEventListener('click', () => {
+  locationRequest++;
+  state.nearby = null;
+  nearButton.disabled = false;
+  nearButton.textContent = 'Calls near me';
+  nearControls.hidden = true;
+  nearStatus.textContent = 'Uses your location with permission. Your location stays in this browser session.';
+  mapHasFitted = false;
   applyFilters();
 });

@@ -34,3 +34,11 @@ test('unit labels handle numeric-leading codes without changing geographic divis
   assert.equal(policeUnitLabel('Highway Patrol'), 'Highway Patrol');
   for (const empty of [null, undefined, '', '  ']) assert.equal(policeUnitLabel(empty), 'Unknown');
 });
+
+test('nearby distances handle geographic distance and missing locations', async () => {
+ const { distanceKm } = await import('../src/nearby.js');
+ assert.equal(distanceKm([43.7,-79.4],[43.7,-79.4]),0);
+ assert.ok(Math.abs(distanceKm([0,0],[0,1])-111.195)<0.01);
+ assert.equal(distanceKm([43.7,-79.4],null),Infinity);
+ assert.equal(distanceKm([43.7,-79.4],[NaN,0]),Infinity);
+});

@@ -1076,3 +1076,15 @@ footer {
   box-shadow: inset 4px 0 0 var(--accent), inset 0 0 0 2px rgba(99, 230, 190, .6);
 }
 .call-row { scroll-margin-block: 120px; }
+
+.nearby-feature { margin: 20px 0; padding: 20px; border: 1px solid #63e6be; border-radius: 16px; background: rgba(99,230,190,.045); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.nearby-feature h2 { margin: 0 0 6px; font-size: 22px; }
+.nearby-feature p { margin: 0; color: var(--muted); }
+.nearby-action { width: min(100%, 380px); }
+#nearMe { width: 100%; min-height: 48px; padding: 12px 20px; border: 0; border-radius: 10px; background: #63e6be; color: #08111b; font: inherit; font-weight: 700; cursor: pointer; }
+#nearMe:disabled { opacity: .7; cursor: wait; }
+#nearMe:focus-visible, #clearNearby:focus-visible { outline: 3px solid white; outline-offset: 3px; }
+#nearStatus { margin-top: 8px; font-size: 12px; line-height: 1.5; }
+#nearControls:not([hidden]) { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+#nearRadius, #clearNearby { padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: #101d2b; color: white; font: inherit; }
+@media (max-width: 680px) { .nearby-feature { flex-direction: column; align-items: stretch; gap: 14px; } .nearby-action { width: 100%; } }
