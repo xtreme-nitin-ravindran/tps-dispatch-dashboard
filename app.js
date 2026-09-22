@@ -227,12 +227,15 @@ async function loadData({ silent = false, accepted = null } = {}) {
       ['Road restrictions', snapshot.disruptions?.roads],
       ['TTC alerts', snapshot.disruptions?.transit]
     ];
-    els.sourceUpdated.replaceChildren(...sources.map(([name,feed]) => {
+    els.sourceUpdated.replaceChildren(...sources.flatMap(([name,feed]) => {
       const info = sourceStatus(name,feed);
-      const line = document.createElement('span');
+      const label = document.createElement('span');
+      label.textContent = `${info.label}:`;
+      const value = document.createElement('span');
+      value.className = 'source-time';
       const time = info.timestamp === null ? 'not loaded' : `${formatDate(new Date(info.timestamp))} · ${formatTime(new Date(info.timestamp))}`;
-      line.textContent = `${info.label}: ${time}${info.status && info.status !== 'not loaded' ? ` (${info.status})` : ''}`;
-      return line;
+      value.textContent = `${time}${info.status && info.status !== 'not loaded' ? ` (${info.status})` : ''}`;
+      return [label, value];
     }));
     if (callsChanged || firstSnapshot) {
       applyFilters();

@@ -586,7 +586,9 @@ a {
 
 .source-updated strong {
   display: grid;
-  gap: 4px;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  gap: 5px 12px;
+  text-align: left;
   margin-top: 6px;
   color: var(--muted);
   font-weight: 400;
@@ -1170,3 +1172,5 @@ footer {
 #shareStatus, #filterSummary { overflow-wrap: anywhere; }
 
 .source-updated-title { font-weight: 700; color: var(--text); }
+
+.source-time { font-variant-numeric: tabular-nums; }
