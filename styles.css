@@ -868,6 +868,22 @@ footer {
   font-variant-numeric: tabular-nums;
 }
 
+/* Let the sidebar determine desktop height; scroll calls within that height. */
+@media (min-width: 1051px) {
+  .content-grid > .calls-panel {
+    align-self: stretch;
+    min-height: 0;
+    contain: size;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .calls-panel > .call-list {
+    min-height: 0;
+    max-height: none;
+  }
+}
+
 @media (max-width: 1050px) {
   .hero {
     grid-template-columns: 1fr;
