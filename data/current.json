@@ -3,9 +3,110 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T02:45:13.562Z",
-  "sourceUpdatedAt": "2026-09-22T02:40:02.000Z",
+  "fetchedAt": "2026-09-22T02:45:46.366Z",
+  "sourceUpdatedAt": "2026-09-22T02:45:01.000Z",
   "incidents": [
+    {
+      "id": "F26150086",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "OLDHAM RD, ET / BEMERSYDE DR / BEMERSYDE DR",
+      "division": "443",
+      "timestamp": "2026-09-22T02:39:19.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T02:45:46.366Z",
+      "lastSeenAt": "2026-09-22T02:45:46.366Z",
+      "geography": {
+        "text": "Approximate location on Oldham Road",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T02:45:46.366Z"
+      }
+    },
+    {
+      "id": "F26150085",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Underground",
+      "location": "ELM ST, TT / HARRY BARBERIAN LANE / LN E BAY S ELM",
+      "division": "314",
+      "timestamp": "2026-09-22T02:37:20.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T02:45:46.366Z",
+      "lastSeenAt": "2026-09-22T02:45:46.366Z",
+      "geography": {
+        "text": "Elm Street between Harry Barberian Lane & Lane East Bay South Elm",
+        "approximate": false,
+        "coordinates": [
+          43.6575609,
+          -79.3832024
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T02:45:46.366Z"
+      }
+    },
+    {
+      "id": "F26150084",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5C",
+      "division": "333",
+      "timestamp": "2026-09-22T02:36:39.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T02:45:46.366Z",
+      "lastSeenAt": "2026-09-22T02:45:46.366Z",
+      "geography": {
+        "text": "Approximate area: (M5C) Downtown Toronto (St. James Park)",
+        "approximate": true,
+        "coordinates": [
+          43.6513,
+          -79.3756
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150083",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5A",
+      "division": "333",
+      "timestamp": "2026-09-22T02:36:30.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T02:45:46.366Z",
+      "lastSeenAt": "2026-09-22T02:45:46.366Z",
+      "geography": {
+        "text": "Approximate area: (M5A) Toronto",
+        "approximate": true,
+        "coordinates": [
+          43.6555,
+          -79.3626
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150082",
       "source": "TFS",
@@ -16,9 +117,16 @@
       "timestamp": "2026-09-22T02:32:00.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "111"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T02:41:17.362Z",
-      "lastSeenAt": "2026-09-22T02:45:13.562Z",
+      "lastSeenAt": "2026-09-22T02:45:46.366Z",
       "geography": {
         "text": "Approximate area: (M2N) Willowdale South",
         "approximate": true,
@@ -42,9 +150,16 @@
       "timestamp": "2026-09-22T02:31:53.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "132"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T02:41:17.362Z",
-      "lastSeenAt": "2026-09-22T02:45:13.562Z",
+      "lastSeenAt": "2026-09-22T02:45:46.366Z",
       "geography": {
         "text": "Approximate area: (M6A) North York (Lawrence Manor / Lawrence Heights)",
         "approximate": true,
@@ -68,9 +183,35 @@
       "timestamp": "2026-09-22T02:30:35.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "33"
+          ]
+        },
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "325"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "314",
+            "333"
+          ]
+        },
+        {
+          "type": "Tower Truck",
+          "numbers": [
+            "333"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T02:41:17.362Z",
-      "lastSeenAt": "2026-09-22T02:45:13.562Z",
+      "lastSeenAt": "2026-09-22T02:45:46.366Z",
       "geography": {
         "text": "Dundas Street between Victoria Street Lane & Bond Street",
         "approximate": false,
@@ -103,7 +244,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T02:31:27.106Z",
-      "lastSeenAt": "2026-09-22T02:45:13.562Z",
+      "lastSeenAt": "2026-09-22T02:45:46.366Z",
       "geography": {
         "text": "Munro Street between Queen Street East & Lane North Queen East Carroll",
         "approximate": false,
@@ -275,7 +416,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T02:20:36.183Z",
-      "lastSeenAt": "2026-09-22T02:45:13.562Z",
+      "lastSeenAt": "2026-09-22T02:45:46.366Z",
       "geography": {
         "text": "Approximate location near Jefferson Avenue & Lane South Liberty East Jefferson",
         "approximate": true,
@@ -558,7 +699,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T02:15:56.874Z",
-      "lastSeenAt": "2026-09-22T02:45:13.562Z",
+      "lastSeenAt": "2026-09-22T02:45:46.366Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -841,7 +982,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T02:01:55.379Z",
-      "lastSeenAt": "2026-09-22T02:45:13.562Z",
+      "lastSeenAt": "2026-09-22T02:45:46.366Z",
       "geography": {
         "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
         "approximate": true,
@@ -81397,12 +81538,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T02:45:13.562Z",
-      "sourceUpdatedAt": "2026-09-22T02:40:02.000Z",
+      "fetchedAt": "2026-09-22T02:45:46.366Z",
+      "sourceUpdatedAt": "2026-09-22T02:45:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T02:45:13.562Z",
+      "fetchedAt": "2026-09-22T02:45:46.366Z",
       "status": "ok"
     }
   },
@@ -155185,6 +155326,51 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "OLDHAM RD, ET / BEMERSYDE DR / BEMERSYDE DR": {
+      "text": "Approximate location on Oldham Road",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T02:45:46.366Z"
+    },
+    "ELM ST, TT / HARRY BARBERIAN LANE / LN E BAY S ELM": {
+      "text": "Elm Street between Harry Barberian Lane & Lane East Bay South Elm",
+      "approximate": false,
+      "coordinates": [
+        43.6575609,
+        -79.3832024
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T02:45:46.366Z"
+    },
+    "M5C": {
+      "text": "Approximate area: (M5C) Downtown Toronto (St. James Park)",
+      "approximate": true,
+      "coordinates": [
+        43.6513,
+        -79.3756
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M5A": {
+      "text": "Approximate area: (M5A) Toronto",
+      "approximate": true,
+      "coordinates": [
+        43.6555,
+        -79.3626
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M2N": {
       "text": "Approximate area: (M2N) Willowdale South",
       "approximate": true,
@@ -155505,18 +155691,6 @@
         -79.2644
       ],
       "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5A": {
-      "text": "Approximate area: (M5A) Toronto",
-      "approximate": true,
-      "coordinates": [
-        43.6555,
-        -79.3626
-      ],
-      "division": "Division 51",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -156240,18 +156414,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T22:01:19.951Z"
-    },
-    "M5C": {
-      "text": "Approximate area: (M5C) Downtown Toronto (St. James Park)",
-      "approximate": true,
-      "coordinates": [
-        43.6513,
-        -79.3756
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "VIEWMOUNT AVE, NY / BENNER PARK TRL / MARLEE AVE": {
       "text": "Viewmount Avenue between Benner Park Trl & Marlee Avenue",
