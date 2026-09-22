@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T10:49:36.497Z",
-  "sourceUpdatedAt": "2026-09-22T10:45:01.000Z",
+  "fetchedAt": "2026-09-22T10:50:57.061Z",
+  "sourceUpdatedAt": "2026-09-22T10:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26150192",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "CURLEW DR, NY / CRAB APPLEWAY / RIALTO DR",
+      "division": "233",
+      "timestamp": "2026-09-22T10:42:04.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T10:50:57.061Z",
+      "lastSeenAt": "2026-09-22T10:50:57.061Z",
+      "geography": {
+        "text": "Approximate location near Curlew Drive & Rialto Drive",
+        "approximate": true,
+        "coordinates": [
+          43.7424583,
+          -79.3170558
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T10:50:57.061Z"
+      }
+    },
     {
       "id": "F26150191",
       "source": "TFS",
@@ -16,9 +42,22 @@
       "timestamp": "2026-09-22T10:39:59.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "225"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "223"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T10:46:17.491Z",
-      "lastSeenAt": "2026-09-22T10:49:36.497Z",
+      "lastSeenAt": "2026-09-22T10:50:57.061Z",
       "geography": {
         "text": "Approximate location near Glen Everest Road & Wynnview Court",
         "approximate": true,
@@ -51,7 +90,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T10:41:27.491Z",
-      "lastSeenAt": "2026-09-22T10:49:36.497Z",
+      "lastSeenAt": "2026-09-22T10:50:57.061Z",
       "geography": {
         "text": "Approximate area: (M1T) Scarborough (Clarks Corners / Tam O'Shanter / Sullivan)",
         "approximate": true,
@@ -84,7 +123,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T10:30:57.116Z",
-      "lastSeenAt": "2026-09-22T10:49:36.497Z",
+      "lastSeenAt": "2026-09-22T10:50:57.061Z",
       "geography": {
         "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
         "approximate": true,
@@ -107,7 +146,7 @@
       "division": "411",
       "timestamp": "2026-09-22T10:17:03.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -1933,7 +1972,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T07:12:31.822Z",
-      "lastSeenAt": "2026-09-22T10:49:36.497Z",
+      "lastSeenAt": "2026-09-22T10:50:57.061Z",
       "geography": {
         "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
         "approximate": true,
@@ -3615,7 +3654,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T10:49:36.497Z",
+      "lastSeenAt": "2026-09-22T10:50:57.061Z",
       "geography": {
         "text": "Approximate location near Edenbridge Drive & Edgehill Road",
         "approximate": true,
@@ -4756,7 +4795,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-22T09:49:46.102Z"
+        "checkedAt": "2026-09-22T10:50:57.061Z"
       }
     },
     {
@@ -5673,7 +5712,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-22T09:49:46.102Z"
+        "checkedAt": "2026-09-22T10:50:57.061Z"
       }
     },
     {
@@ -87404,12 +87443,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T10:49:36.497Z",
-      "sourceUpdatedAt": "2026-09-22T10:45:01.000Z",
+      "fetchedAt": "2026-09-22T10:50:57.061Z",
+      "sourceUpdatedAt": "2026-09-22T10:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T10:49:36.497Z",
+      "fetchedAt": "2026-09-22T10:50:57.061Z",
       "status": "ok"
     }
   },
@@ -159642,8 +159681,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-22T10:44:57.298Z",
-      "fetchedAt": "2026-09-22T10:44:57.298Z"
+      "checkedAt": "2026-09-22T10:50:57.061Z",
+      "fetchedAt": "2026-09-22T10:50:57.061Z"
     },
     "transit": {
       "items": [
@@ -160640,14 +160679,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-22T10:44:57.000Z",
+      "sourceUpdatedAt": "2026-09-22T10:50:57.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-22T10:44:57.298Z",
-      "fetchedAt": "2026-09-22T10:44:57.298Z"
+      "checkedAt": "2026-09-22T10:50:57.061Z",
+      "fetchedAt": "2026-09-22T10:50:57.061Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "CURLEW DR, NY / CRAB APPLEWAY / RIALTO DR": {
+      "text": "Approximate location near Curlew Drive & Rialto Drive",
+      "approximate": true,
+      "coordinates": [
+        43.7424583,
+        -79.3170558
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T10:50:57.061Z"
+    },
     "GLEN EVEREST RD, SC / ROSETTA MCCLAIN GARDENS TRL / WYNNVIEW CRT": {
       "text": "Approximate location near Glen Everest Road & Wynnview Court",
       "approximate": true,
@@ -161393,7 +161444,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T09:49:46.102Z"
+      "checkedAt": "2026-09-22T10:50:57.061Z"
     },
     "TOBERMORY DR, NY / POTSDAM RD / FINCH CORRIDOR TRL": {
       "text": "Tobermory Drive between Potsdam Road & Finch Corridor Trl",
@@ -161474,7 +161525,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T09:49:46.102Z"
+      "checkedAt": "2026-09-22T10:50:57.061Z"
     },
     "ELM ST, TT / HARRY BARBERIAN LANE / LN E BAY S ELM": {
       "text": "Elm Street between Harry Barberian Lane & Lane East Bay South Elm",
