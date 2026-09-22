@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T01:54:45.988Z",
-  "sourceUpdatedAt": "2026-09-22T01:50:01.000Z",
+  "fetchedAt": "2026-09-22T01:55:45.117Z",
+  "sourceUpdatedAt": "2026-09-22T01:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26150063",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "KENASTON GDNS, NY / KENASTON GARDENS PARKETTE TRL / BARBERRY PL",
+      "division": "116",
+      "timestamp": "2026-09-22T01:46:26.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T01:55:45.117Z",
+      "lastSeenAt": "2026-09-22T01:55:45.117Z",
+      "geography": {
+        "text": "Approximate location near Kenaston Gardens & Barberry Place",
+        "approximate": true,
+        "coordinates": [
+          43.7657537,
+          -79.3842944
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150061",
       "source": "TFS",
@@ -16,9 +42,17 @@
       "timestamp": "2026-09-22T01:40:30.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "131",
+            "134"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-22T01:50:45.350Z",
-      "lastSeenAt": "2026-09-22T01:54:45.988Z",
+      "lastSeenAt": "2026-09-22T01:55:45.117Z",
       "geography": {
         "text": "Broadway Avenue between Cardiff Road & Banff Road",
         "approximate": false,
@@ -120,7 +154,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T01:41:05.221Z",
-      "lastSeenAt": "2026-09-22T01:54:45.988Z",
+      "lastSeenAt": "2026-09-22T01:55:45.117Z",
       "geography": {
         "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
         "approximate": true,
@@ -174,7 +208,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T01:41:05.221Z",
-      "lastSeenAt": "2026-09-22T01:54:45.988Z",
+      "lastSeenAt": "2026-09-22T01:55:45.117Z",
       "geography": {
         "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
         "approximate": true,
@@ -229,7 +263,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T01:36:05.372Z",
-      "lastSeenAt": "2026-09-22T01:54:45.988Z",
+      "lastSeenAt": "2026-09-22T01:55:45.117Z",
       "geography": {
         "text": "Front Street between Draper Street & Portland Street",
         "approximate": false,
@@ -268,7 +302,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T01:36:05.372Z",
-      "lastSeenAt": "2026-09-22T01:54:45.988Z",
+      "lastSeenAt": "2026-09-22T01:55:45.117Z",
       "geography": {
         "text": "Dalhousie Street between Shuter Street & Dundas Street East",
         "approximate": false,
@@ -291,7 +325,7 @@
       "division": "441",
       "timestamp": "2026-09-22T01:26:26.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -410,7 +444,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T01:31:25.783Z",
-      "lastSeenAt": "2026-09-22T01:54:45.988Z",
+      "lastSeenAt": "2026-09-22T01:55:45.117Z",
       "geography": {
         "text": "Approximate location near Birch Avenue & George Herczeg Walkway",
         "approximate": true,
@@ -610,7 +644,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T01:26:35.461Z",
-      "lastSeenAt": "2026-09-22T01:54:45.988Z",
+      "lastSeenAt": "2026-09-22T01:55:45.117Z",
       "geography": {
         "text": "Approximate area: (M1S) Scarborough (Agincourt)",
         "approximate": true,
@@ -80342,17 +80376,29 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T01:54:45.988Z",
-      "sourceUpdatedAt": "2026-09-22T01:50:01.000Z",
+      "fetchedAt": "2026-09-22T01:55:45.117Z",
+      "sourceUpdatedAt": "2026-09-22T01:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T01:54:45.988Z",
+      "fetchedAt": "2026-09-22T01:55:45.117Z",
       "status": "ok"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "KENASTON GDNS, NY / KENASTON GARDENS PARKETTE TRL / BARBERRY PL": {
+      "text": "Approximate location near Kenaston Gardens & Barberry Place",
+      "approximate": true,
+      "coordinates": [
+        43.7657537,
+        -79.3842944
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "BROADWAY AVE, NY / CARDIFF RD / BANFF RD": {
       "text": "Broadway Avenue between Cardiff Road & Banff Road",
       "approximate": false,
@@ -85632,18 +85678,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T01:35:06.461Z"
-    },
-    "KENASTON GDNS, NY / KENASTON GARDENS PARKETTE TRL / BARBERRY PL": {
-      "text": "Approximate location near Kenaston Gardens & Barberry Place",
-      "approximate": true,
-      "coordinates": [
-        43.7657537,
-        -79.3842944
-      ],
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "ST MATTHEWS RD, TT / GERRARD ST E / JACK LAYTON WAY": {
       "text": "Street Matthews Road between Gerrard Street East & Jack Layton Way",
