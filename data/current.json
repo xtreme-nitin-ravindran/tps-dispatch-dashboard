@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-22T10:25:36.784Z",
-  "sourceUpdatedAt": "2026-09-22T10:20:01.000Z",
+  "fetchedAt": "2026-09-22T10:26:47.703Z",
+  "sourceUpdatedAt": "2026-09-22T10:25:01.000Z",
   "incidents": [
+    {
+      "id": "F26150188",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9L",
+      "division": "411",
+      "timestamp": "2026-09-22T10:17:03.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-22T10:26:47.703Z",
+      "lastSeenAt": "2026-09-22T10:26:47.703Z",
+      "geography": {
+        "text": "Approximate area: (M9L) North York (Humber Summit)",
+        "approximate": true,
+        "coordinates": [
+          43.7598,
+          -79.5565
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150187",
       "source": "TFS",
@@ -31,7 +57,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T10:10:45.992Z",
-      "lastSeenAt": "2026-09-22T10:25:36.784Z",
+      "lastSeenAt": "2026-09-22T10:26:47.703Z",
       "geography": {
         "text": "Jarvis Street between Dundas Street East & Gerrard Street East",
         "approximate": false,
@@ -992,7 +1018,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T08:07:04.001Z",
-      "lastSeenAt": "2026-09-22T10:25:36.784Z",
+      "lastSeenAt": "2026-09-22T10:26:47.703Z",
       "geography": {
         "text": "Approximate location near Reesor Road & C North R",
         "approximate": true,
@@ -1807,7 +1833,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T07:12:31.822Z",
-      "lastSeenAt": "2026-09-22T10:25:36.784Z",
+      "lastSeenAt": "2026-09-22T10:26:47.703Z",
       "geography": {
         "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
         "approximate": true,
@@ -3489,7 +3515,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T10:25:36.784Z",
+      "lastSeenAt": "2026-09-22T10:26:47.703Z",
       "geography": {
         "text": "Approximate location near Edenbridge Drive & Edgehill Road",
         "approximate": true,
@@ -87278,12 +87304,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-22T10:25:36.784Z",
-      "sourceUpdatedAt": "2026-09-22T10:20:01.000Z",
+      "fetchedAt": "2026-09-22T10:26:47.703Z",
+      "sourceUpdatedAt": "2026-09-22T10:25:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-22T10:25:36.784Z",
+      "fetchedAt": "2026-09-22T10:26:47.703Z",
       "status": "ok"
     }
   },
@@ -159516,8 +159542,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-22T10:20:56.863Z",
-      "fetchedAt": "2026-09-22T10:20:56.863Z"
+      "checkedAt": "2026-09-22T10:26:47.703Z",
+      "fetchedAt": "2026-09-22T10:26:47.703Z"
     },
     "transit": {
       "items": [
@@ -160514,14 +160540,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-22T10:20:57.000Z",
+      "sourceUpdatedAt": "2026-09-22T10:26:48.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-22T10:20:56.863Z",
-      "fetchedAt": "2026-09-22T10:20:56.863Z"
+      "checkedAt": "2026-09-22T10:26:47.703Z",
+      "fetchedAt": "2026-09-22T10:26:47.703Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M9L": {
+      "text": "Approximate area: (M9L) North York (Humber Summit)",
+      "approximate": true,
+      "coordinates": [
+        43.7598,
+        -79.5565
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "JARVIS ST, TT / DUNDAS ST E / GERRARD ST E": {
       "text": "Jarvis Street between Dundas Street East & Gerrard Street East",
       "approximate": false,
@@ -160863,18 +160901,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T07:12:31.822Z"
-    },
-    "M9L": {
-      "text": "Approximate area: (M9L) North York (Humber Summit)",
-      "approximate": true,
-      "coordinates": [
-        43.7598,
-        -79.5565
-      ],
-      "division": "Division 31",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "ESTELLE AVE, NY / HOLMES AVE / OLIVE AVE": {
       "text": "Approximate location near Estelle Avenue & Olive Avenue",
