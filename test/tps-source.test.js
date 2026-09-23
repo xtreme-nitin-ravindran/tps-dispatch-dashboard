@@ -42,3 +42,46 @@ test('nearby distances handle geographic distance and missing locations', async 
  assert.equal(distanceKm([43.7,-79.4],null),Infinity);
  assert.equal(distanceKm([43.7,-79.4],[NaN,0]),Infinity);
 });
+
+test('TPS normalization rejects invalid records and preserves unpublished-field fallbacks', () => {
+ for (const value of [undefined, {}, {...row,OCCURRENCE_TIME_AGOL:'123'}, {...row,OCCURRENCE_TIME_AGOL:NaN}, {...row,CALL_TYPE:''}]) assert.throws(()=>normalizeTps(value), /Invalid TPS record/);
+ const result=normalizeTps({...row,CROSS_STREETS:null,DIVISION:null,CALL_TYPE_CODE:null});
+ assert.equal(result.location,'Location not published');
+ assert.equal(result.division,'Unknown');
+ assert.equal(result.callTypeCode,'');
+ assert.equal(normalizeTps({...row,DIVISION:'TAC8'}).division,'TAC8');
+ for (const coords of [[null,-79.4],[43.7,null],[43,-79.4],[44,-79.4],[43.7,-80],[43.7,-79]]) {
+  assert.equal(normalizeTps({...row,LATITUDE:coords[0],LONGITUDE:coords[1]}).geography.coordinates,null);
+ }
+ assert.deepEqual(normalizeTps(row).geography.coordinates,[43.7,-79.4]);
+});
+
+test('TPS fetch handles empty feeds and paginates beyond 100 records', async () => {
+ const ids=Array.from({length:101},(_,i)=>i+1), batches=[];
+ const calls=await fetchTpsSource({fetchImpl:async url=>{
+  const params=new URL(url).searchParams;
+  if(params.has('returnIdsOnly')) return {ok:true,json:async()=>({objectIds:ids})};
+  const batch=params.get('objectIds').split(','); batches.push(batch.length);
+  return {ok:true,json:async()=>({features:batch.map(id=>({attributes:{...row,OCCURRENCE_TIME_AGOL:row.OCCURRENCE_TIME_AGOL+Number(id)}}))})};
+ }});
+ assert.equal(calls.length,101);
+ assert.deepEqual(batches,[100,1]);
+ assert.deepEqual(await fetchTpsSource({fetchImpl:async()=>({ok:true,json:async()=>({objectIds:[]})})}),[]);
+});
+
+test('TPS fetch rejects HTTP failures, missing IDs and incomplete pages', async () => {
+ await assert.rejects(fetchTpsSource({fetchImpl:async()=>({ok:false,status:503})}), /TPS HTTP 503/);
+ await assert.rejects(fetchTpsSource({fetchImpl:async()=>({ok:true,json:async()=>({})})}), /missing object IDs/);
+ for(const page of [{}, {features:[],exceededTransferLimit:true}, {features:[]}]) {
+  await assert.rejects(fetchTpsSource({fetchImpl:async url=>({ok:true,json:async()=>url.includes('returnIdsOnly')?{objectIds:[1]}:page})}), /Incomplete TPS response|TPS changed during fetch/);
+ }
+});
+
+test('police retention includes the seven-day boundary and replaces refreshed records', () => {
+ const now=new Date(row.OCCURRENCE_TIME_AGOL), a=normalizeTps(row);
+ const at=delta=>({...a,id:String(delta),timestamp:new Date(now.getTime()+delta).toISOString()});
+ const week=168*3600000;
+ const result=mergePolice([{...a,description:'Updated'}],[a,at(-week),at(-week-1),at(1)],now);
+ assert.deepEqual(result.map(r=>r.id),[a.id,String(-week)]);
+ assert.equal(result[0].description,'Updated');
+});
