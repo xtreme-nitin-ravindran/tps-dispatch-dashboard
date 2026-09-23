@@ -100,16 +100,24 @@ and temporary files/repositories; they do not publish changes or require live fe
 | `view-controls.test.js` | New-call detection, filter summaries/reset defaults, share links, clustering, row selection, preferences, and source timestamp labels. |
 | `promotion.test.js` | Promotion of only the tested dev commit, superseded/empty changes, protection rejection, and prevention of duplicate Pages requests. |
 
-The separate live integration suite currently contains one file:
+The live integration suite has one test file per data source. `npm run test:integration` runs all eight files, including TFS. To check a single source, run `node --test test/tps-source.integration.test.js` (substitute the file below):
 
-| Test file | What it verifies |
+| Test file | Live checks |
 | --- | --- |
-| `test/tfs-source.integration.test.js` | Fetches the official TFS `livecad.xml`, selects one random incident, and checks its normalized dashboard contract. It does not compare every live record. |
+| `test/tfs-source.integration.test.js` | TFS feed timestamp and normalization of one random active incident, when present. |
+| `test/tps-source.integration.test.js` | TPS call sample and normalization. |
+| `test/road-restrictions-source.integration.test.js` | Road restrictions through the production parser. |
+| `test/ttc-alerts-source.integration.test.js` | TTC alerts through the production parser and feed timestamp. |
+| `test/police-boundaries-source.integration.test.js` | TPS boundary polygon sample. |
+| `test/centreline-source.integration.test.js` | Centreline street and intersection fields. |
+| `test/geonames-source.integration.test.js` | GeoNames Canada archive and Toronto postal coordinates. |
+| `test/openstreetmap-source.integration.test.js` | One OpenStreetMap PNG tile. |
 
-The integration suite requires internet access and can fail when TFS is unavailable.
-TPS, road restriction, and TTC tests currently use controlled inputs; there are no
-live integration tests for those sources. These suites test application logic, not
-browser layout or end-to-end UI interactions; visually check relevant UI changes separately.
+These tests require internet access. Source outages, rate limits, or incompatible
+responses fail the suite; empty valid incident/alert feeds are allowed. Geographic
+checks sample the upstream sources rather than rebuilding bundled reference data.
+They do not validate every live record or browser layout. Check relevant UI changes
+visually as well.
 
 ### Run individual suites
 
@@ -117,7 +125,7 @@ With Node.js and Git installed:
 
 ```bash
 npm test                              # All unit tests
-npm run test:integration               # Live TFS integration test
+npm run test:integration               # All live-source integration tests
 node --test test/disruptions.test.js   # One file; substitute any file listed above
 node --test --watch test/disruptions.test.js # Re-run one file as it changes
 ```

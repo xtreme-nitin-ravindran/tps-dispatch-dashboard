@@ -4,9 +4,10 @@ import { fetchTfsSource } from "../src/tfs/source.js";
 import { normalizeTfsIncident } from "../src/tfs/normalize.js";
 
 test("normalizes one random incident from the official TFS live source", { timeout: 30_000 }, async () => {
-    const source = await fetchTfsSource();
+    const source = await fetchTfsSource({ signal: AbortSignal.timeout(25000) });
     assert.match(source.updatedAt, /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/);
-    assert.ok(source.incidents.length > 0, "official TFS source returned no incidents");
+    assert.ok(Array.isArray(source.incidents));
+    if (!source.incidents.length) return; // A valid feed may have no active calls.
 
     const rawIncident = source.incidents[Math.floor(Math.random() * source.incidents.length)];
     const incident = normalizeTfsIncident(rawIncident);
