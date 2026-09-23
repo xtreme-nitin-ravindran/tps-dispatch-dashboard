@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T04:00:26.905Z",
-  "sourceUpdatedAt": "2026-09-23T03:55:01.000Z",
+  "fetchedAt": "2026-09-23T04:01:15.853Z",
+  "sourceUpdatedAt": "2026-09-23T04:00:02.000Z",
   "incidents": [
+    {
+      "id": "F26150720",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "GERRARD ST, TT / LN W DENGATE N GERRARD / LAWLOR AVE",
+      "division": "226",
+      "timestamp": "2026-09-23T03:54:07.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T04:01:15.853Z",
+      "lastSeenAt": "2026-09-23T04:01:15.853Z",
+      "geography": {
+        "text": "Gerrard Street between Lane West Dengate North Gerrard & Lawlor Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.685926499999994,
+          -79.29111695
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-23T04:01:15.853Z"
+      }
+    },
+    {
+      "id": "F26150719",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6J",
+      "division": "331",
+      "timestamp": "2026-09-23T03:52:49.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T04:01:15.853Z",
+      "lastSeenAt": "2026-09-23T04:01:15.853Z",
+      "geography": {
+        "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+        "approximate": true,
+        "coordinates": [
+          43.648,
+          -79.4177
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150718",
       "source": "TFS",
@@ -16,9 +68,16 @@
       "timestamp": "2026-09-23T03:49:39.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "346"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T03:55:46.079Z",
-      "lastSeenAt": "2026-09-23T04:00:26.905Z",
+      "lastSeenAt": "2026-09-23T04:01:15.853Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -42,9 +101,16 @@
       "timestamp": "2026-09-23T03:47:26.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "443"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T03:55:46.079Z",
-      "lastSeenAt": "2026-09-23T04:00:26.905Z",
+      "lastSeenAt": "2026-09-23T04:01:15.853Z",
       "geography": {
         "text": "Approximate area: (M9P) Etobicoke (Westmount)",
         "approximate": true,
@@ -67,7 +133,7 @@
       "division": "333",
       "timestamp": "2026-09-23T03:45:42.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-23T03:55:46.079Z",
       "lastSeenAt": "2026-09-23T04:00:26.905Z",
@@ -166,7 +232,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T03:50:37.296Z",
-      "lastSeenAt": "2026-09-23T04:00:26.905Z",
+      "lastSeenAt": "2026-09-23T04:01:15.853Z",
       "geography": {
         "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
         "approximate": true,
@@ -241,7 +307,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T03:46:05.581Z",
-      "lastSeenAt": "2026-09-23T04:00:26.905Z",
+      "lastSeenAt": "2026-09-23T04:01:15.853Z",
       "geography": {
         "text": "Approximate area: (M6P) West Toronto (High Park / The Junction South)",
         "approximate": true,
@@ -494,7 +560,7 @@
       "division": "313",
       "timestamp": "2026-09-23T03:19:51.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -7131,7 +7197,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T04:00:26.905Z",
+      "lastSeenAt": "2026-09-23T04:01:15.853Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -108531,12 +108597,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T04:00:26.905Z",
-      "sourceUpdatedAt": "2026-09-23T03:55:01.000Z",
+      "fetchedAt": "2026-09-23T04:01:15.853Z",
+      "sourceUpdatedAt": "2026-09-23T04:00:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T04:00:26.905Z",
+      "fetchedAt": "2026-09-23T04:01:15.853Z",
       "status": "ok"
     }
   },
@@ -185415,6 +185481,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "GERRARD ST, TT / LN W DENGATE N GERRARD / LAWLOR AVE": {
+      "text": "Gerrard Street between Lane West Dengate North Gerrard & Lawlor Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.685926499999994,
+        -79.29111695
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-23T04:01:15.853Z"
+    },
+    "M6J": {
+      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+      "approximate": true,
+      "coordinates": [
+        43.648,
+        -79.4177
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M6K": {
       "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
       "approximate": true,
@@ -186641,18 +186731,6 @@
         -79.386
       ],
       "division": "Division 52",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6J": {
-      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
-      "approximate": true,
-      "coordinates": [
-        43.648,
-        -79.4177
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
