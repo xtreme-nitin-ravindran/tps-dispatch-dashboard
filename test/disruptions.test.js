@@ -46,6 +46,10 @@ test('sources refresh independently, cache five minutes, and preserve successful
  assert.equal(calls,2);assert.equal(updated.roads.status,'unavailable');assert.equal(updated.roads.fetchedAt,previous.roads.fetchedAt);
  assert.equal(updated.transit.status,'ok');assert.deepEqual(updated.transit.items,[]);
  await assert.rejects(fetchDisruptionSource('roads',async()=>({ok:false,status:503}),now));
+ const roads=await fetchDisruptionSource('roads',async()=>({ok:true,json:async()=>({Closure:[]})}),now);
+ assert.deepEqual(roads.items,[]);
+ const transit=await fetchDisruptionSource('transit',async()=>({ok:true,text:async()=>proto.split('entity')[0]}),now);
+ assert.deepEqual(transit.items,[]);
 });
 
 test('TTC mixed JSON entities use camelCase and numeric string timestamps',()=>{
@@ -70,12 +74,14 @@ test('TTC validates headers, alert identities and active periods, while tolerati
  assert.equal(item.title,'Title');assert.deepEqual(item.routes,[]);assert.deepEqual(item.periods,[{start:null,end:123000}]);
  const mixed={id:'q',alert:{headerText:{translation:[{text:'Quoted "text" \\ path {x}'}]}}};
  assert.equal(normalizeTransit(header+'entity '+JSON.stringify(mixed),now).items[0].title,'Quoted "text" \\ path {x}');
+ assert.deepEqual(normalizeTransit(header,now).items,[]);
 });
 
 test('roads reject malformed identities and dates, and discard invalid geometry',()=>{
  for(const row of [{name:'x'},{id:'x'},{...road,startTime:'bad'},{...road,endTime:'bad'}]) assert.throws(()=>normalizeRoads({Closure:[row]}));
  const [item]=normalizeRoads({Closure:[{id:'x',road:'Fallback name',geoPolyline:'[200,100]',expired:1}]}).items;
  assert.equal(item.title,'Fallback name');assert.deepEqual(item.line,[]);assert.equal(item.coordinates,null);assert.equal(item.start,null);assert.equal(item.expired,true);
+ assert.deepEqual(normalizeRoads({Closure:[{...road,geoPolyline:''}]}).items[0].line,[]);
 });
 
 test('failed initial disruption refresh publishes unavailable empty sources and future cache is retried',async()=>{

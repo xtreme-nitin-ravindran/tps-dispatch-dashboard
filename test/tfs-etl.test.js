@@ -96,12 +96,37 @@ test('disruption snapshots are separate from incidents and receive previous cach
     assert.deepEqual(JSON.parse(await readFile(outputPath,'utf8')).disruptions,disruptions);
 });
 
+test('ETL validates updater identity and fills unavailable-feed defaults without history', async t => {
+    const outputPath = join(await workspace(t), 'current.json');
+    await assert.rejects(runTfsEtl({outputPath, updatedBy:'other'}), /Invalid updater identity/);
+    const fail = async () => { throw new Error('offline'); };
+    const result = await runTfsEtl({outputPath, now, fetchSource:fail, fetchPolice:async()=>[]});
+    assert.deepEqual(result.incidents, []);
+    assert.deepEqual(result.feeds.TFS, {fetchedAt:null,sourceUpdatedAt:null,status:'unavailable'});
+    assert.equal(result.feeds.TPS.status, 'ok');
+});
+
+test('ETL carries prior disruptions and legacy feed timestamps through failures', async t => {
+    const outputPath = join(await workspace(t), 'current.json');
+    const fetchedAt = '2026-09-16T11:00:00.000Z';
+    const previous = {schemaVersion:1,source:'TFS',fetchedAt,sourceUpdatedAt:fetchedAt,
+        incidents:[],disruptions:{roads:{items:[]}},feeds:{TPS:{fetchedAt}}};
+    await writeFile(outputPath, JSON.stringify(previous));
+    const fail = async () => { throw new Error('offline'); };
+    const result = await runTfsEtl({outputPath, now, fetchSource:async()=>source, fetchPolice:fail});
+    assert.deepEqual(result.disruptions, previous.disruptions);
+    assert.equal(result.feeds.TPS.fetchedAt, fetchedAt);
+    const noHistoryPath = join(await workspace(t), 'no-history.json');
+    const withoutHistory = await runTfsEtl({outputPath:noHistoryPath, now, fetchSource:async()=>source, fetchPolice:fail});
+    assert.equal(withoutHistory.feeds.TPS.fetchedAt, null);
+});
+
 test('CLI entry points honor environment paths and fallback writes GitHub output', async t => {
  const {execFileSync}=await import('node:child_process');
  const dir=await workspace(t), outputPath=join(dir,'data/current.json'), xmlPath=join(dir,'source.xml'), preload=join(dir,'fetch.mjs');
  const current=new Date().toISOString();
  await writeFile(xmlPath,`<tfs_active_incidents><update_from_db_time>${current}</update_from_db_time></tfs_active_incidents>`);
- await writeFile(preload,`globalThis.fetch=async url=>({ok:true,json:async()=>String(url).includes('returnIdsOnly')?{objectIds:[]}:{Closure:[]},text:async()=> 'header { gtfs_realtime_version: "2.0" timestamp: '+Math.floor(Date.now()/1000)+' }'});`);
+ await writeFile(preload,`globalThis.fetch=async url=>({ok:true,json:async()=>String(url).includes('returnIdsOnly')?{objectIds:[]}:{Closure:[]},text:async()=>String(url).includes('livecad.xml')?'<tfs_active_incidents><update_from_db_time>'+new Date().toISOString()+'</update_from_db_time></tfs_active_incidents>':'header { gtfs_realtime_version: "2.0" timestamp: '+Math.floor(Date.now()/1000)+' }'});`);
  for(const script of ['tfs-etl.js','update-tfs.js']) {
   const stdout=execFileSync(process.execPath,['--import',preload,new URL('../scripts/'+script,import.meta.url).pathname],{env:{...process.env,TFS_OUTPUT:outputPath,TFS_XML:xmlPath,TFS_UPDATED_BY:'manual'},encoding:'utf8'});
   assert.match(stdout,/Wrote 0 incidents/);
@@ -111,4 +136,10 @@ test('CLI entry points honor environment paths and fallback writes GitHub output
  const githubOutput=join(dir,'github-output');
  const stdout=execFileSync(process.execPath,[new URL('../scripts/tfs-fallback.js',import.meta.url).pathname],{cwd:dir,env:{...process.env,GITHUB_OUTPUT:githubOutput},encoding:'utf8'});
  assert.match(stdout,/skipped/);assert.equal(await readFile(githubOutput,'utf8'),'updated=false\n');
+ const defaultDir=await workspace(t);
+ const defaultStdout=execFileSync(process.execPath,['--import',preload,new URL('../scripts/tfs-etl.js',import.meta.url).pathname],{cwd:defaultDir,env:{...process.env,TFS_OUTPUT:'',TFS_XML:'',TFS_UPDATED_BY:'',TFS_PREVIOUS:''},encoding:'utf8'});
+ assert.match(defaultStdout,/Wrote 0 incidents to data\/current.json/);
+ await rm(join(defaultDir,'data/current.json'));
+ const fallbackStdout=execFileSync(process.execPath,['--import',preload,new URL('../scripts/tfs-fallback.js',import.meta.url).pathname],{cwd:defaultDir,env:{...process.env,GITHUB_OUTPUT:''},encoding:'utf8'});
+ assert.match(fallbackStdout,/Updated stale snapshot/);
 });

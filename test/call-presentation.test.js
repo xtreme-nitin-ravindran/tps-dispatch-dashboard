@@ -4,8 +4,11 @@ import { reportedAge, callExplanation, locationConfidence, callStatus } from '..
 test('report age covers boundaries, invalid times and clock skew', () => {
  const now = Date.UTC(2026,8,22);
  assert.equal(reportedAge(now-60000,now),'Reported 1 minute ago');
+ assert.equal(reportedAge(now-120000,now),'Reported 2 minutes ago');
  assert.equal(reportedAge(now-3600000,now),'Reported 1 hour ago');
+ assert.equal(reportedAge(now-7200000,now),'Reported 2 hours ago');
  assert.equal(reportedAge(now-86400000,now),'Reported 1 day ago');
+ assert.equal(reportedAge(now-172800000,now),'Reported 2 days ago');
  assert.equal(reportedAge(now+60000,now),'Reported just now');
  assert.equal(reportedAge('invalid',now),'Report time unavailable');
 });
@@ -13,6 +16,7 @@ test('report age covers boundaries, invalid times and clock skew', () => {
 test('explanations preserve uncertainty and leave unfamiliar types unexplained', () => {
  assert.match(callExplanation(' personal injury collision '), /reported to involve an injury/);
  assert.equal(callExplanation('NEW DISPATCH CODE'), '');
+ assert.equal(callExplanation(null), '');
  assert.equal(callExplanation('constructor'), '');
 });
 

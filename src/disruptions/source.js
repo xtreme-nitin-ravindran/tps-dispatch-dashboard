@@ -75,7 +75,7 @@ export function normalizeTransit(text, now = Date.now()) {
   const header = first(feed,'header');
   const timestamp = Number(first(header,'timestamp')) * 1000;
   if (!first(header,'gtfs_realtime_version') || !Number.isFinite(timestamp) || timestamp > now + 300000 || now - timestamp > 3600000 || first(header,'incrementality') === 'DIFFERENTIAL') throw new Error('Invalid or stale TTC feed');
-  const items = (feed.entity || []).flatMap(entity => {
+  const items = feed.entity.flatMap(entity => {
     const alert = first(entity,'alert');
     if (!alert || first(entity,'is_deleted') === 'true') return [];
     const title = translated(first(alert,'header_text'));

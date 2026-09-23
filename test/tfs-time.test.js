@@ -16,7 +16,7 @@ for (const [input, expected] of [
     ['2026-09-16T00:43:33-04:00', '2026-09-16T04:43:33.000Z'],
     [1789507683, '2026-09-15T21:28:03.000Z'],
     ['2026-02-30T01:00:00', null],
-    ['', null], [null, null], ['invalid', null]
+    ['', null], [null, null], ['invalid', null], ['invalidZ', null]
 ]) test(`Toronto timestamp: ${input}`, () => assert.equal(parseTfsTimestamp(input), expected));
 
 test('official XML preserves beat and Toronto timestamps through snapshot generation', () => {
