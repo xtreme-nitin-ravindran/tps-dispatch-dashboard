@@ -3,9 +3,119 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T02:50:09.930Z",
-  "sourceUpdatedAt": "2026-09-23T02:40:01.000Z",
+  "fetchedAt": "2026-09-23T02:51:29.841Z",
+  "sourceUpdatedAt": "2026-09-23T02:50:02.000Z",
   "incidents": [
+    {
+      "id": "TPS-4f9a148fd067c0f4c6f500db",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-23T02:40:18.000Z",
+      "location": "ALGIE AVE - ATOMIC AVE",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ALGIE AVE - ATOMIC AVE",
+        "coordinates": [
+          43.6186859075898,
+          -79.53701529105835
+        ],
+        "division": "Division 22",
+        "approximate": true
+      }
+    },
+    {
+      "id": "F26150698",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "YONGE ST, TT / IRWIN AVE / ISABELLA ST",
+      "division": "314",
+      "timestamp": "2026-09-23T02:39:23.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T02:51:29.841Z",
+      "lastSeenAt": "2026-09-23T02:51:29.841Z",
+      "geography": {
+        "text": "Yonge Street between Irwin Avenue & Isabella Street",
+        "approximate": false,
+        "coordinates": [
+          43.66712085,
+          -79.38547345
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-23T02:51:29.841Z"
+      }
+    },
+    {
+      "id": "TPS-12d89fb4f6b2fc41deeaba28",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "BREAK & ENTER",
+      "callTypeCode": "BREEN",
+      "timestamp": "2026-09-23T02:37:51.000Z",
+      "location": "VERMONT AVE - DUPONT ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "VERMONT AVE - DUPONT ST",
+        "coordinates": [
+          43.67315021937087,
+          -79.41435583681641
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-888bfe04066c3bd22c5597d6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "BREAK & ENTER IN PROGRESS",
+      "callTypeCode": "BREPR",
+      "timestamp": "2026-09-23T02:37:10.000Z",
+      "location": "SPRINGHURST AVE - KING ST W",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SPRINGHURST AVE - KING ST W",
+        "coordinates": [
+          43.63397777933763,
+          -79.43479212173465
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-4a9303c9a5a98afb5d88cc97",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-23T02:36:15.000Z",
+      "location": "ALLAN REYNOLDS LANE - VIA DEI GIARDINI LANE",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ALLAN REYNOLDS LANE - VIA DEI GIARDINI LANE",
+        "coordinates": [
+          43.65572189861826,
+          -79.41137753074943
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
     {
       "id": "F26150696",
       "source": "TFS",
@@ -16,9 +126,28 @@
       "timestamp": "2026-09-23T02:31:41.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "13"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "145"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "133"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T02:40:29.511Z",
-      "lastSeenAt": "2026-09-23T02:50:09.930Z",
+      "lastSeenAt": "2026-09-23T02:51:29.841Z",
       "geography": {
         "text": "Lawrence Avenue between Corona Street & Dufferin Street",
         "approximate": false,
@@ -42,9 +171,16 @@
       "timestamp": "2026-09-23T02:31:40.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "322"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T02:40:29.511Z",
-      "lastSeenAt": "2026-09-23T02:50:09.930Z",
+      "lastSeenAt": "2026-09-23T02:51:29.841Z",
       "geography": {
         "text": "Approximate area: (M4H) East York (Thorncliffe Park)",
         "approximate": true,
@@ -67,7 +203,7 @@
       "division": "345",
       "timestamp": "2026-09-23T02:31:20.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-23T02:40:29.511Z",
       "lastSeenAt": "2026-09-23T02:50:09.930Z",
@@ -103,7 +239,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T02:35:30.288Z",
-      "lastSeenAt": "2026-09-23T02:50:09.930Z",
+      "lastSeenAt": "2026-09-23T02:51:29.841Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -227,7 +363,7 @@
       "division": "132",
       "timestamp": "2026-09-23T02:19:49.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -530,7 +666,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T02:15:48.337Z",
-      "lastSeenAt": "2026-09-23T02:50:09.930Z",
+      "lastSeenAt": "2026-09-23T02:51:29.841Z",
       "geography": {
         "text": "Finch Avenue West & Humberline Drive",
         "approximate": false,
@@ -5831,7 +5967,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T02:50:09.930Z",
+      "lastSeenAt": "2026-09-23T02:51:29.841Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -107314,12 +107450,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T02:50:09.930Z",
-      "sourceUpdatedAt": "2026-09-23T02:40:01.000Z",
+      "fetchedAt": "2026-09-23T02:51:29.841Z",
+      "sourceUpdatedAt": "2026-09-23T02:50:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T02:50:09.930Z",
+      "fetchedAt": "2026-09-23T02:51:29.841Z",
       "status": "ok"
     }
   },
@@ -184276,6 +184412,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "YONGE ST, TT / IRWIN AVE / ISABELLA ST": {
+      "text": "Yonge Street between Irwin Avenue & Isabella Street",
+      "approximate": false,
+      "coordinates": [
+        43.66712085,
+        -79.38547345
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-23T02:51:29.841Z"
+    },
     "LAWRENCE AVE, NY / CORONA ST / DUFFERIN ST": {
       "text": "Lawrence Avenue between Corona Street & Dufferin Street",
       "approximate": false,
