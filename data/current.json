@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T03:29:59.881Z",
-  "sourceUpdatedAt": "2026-09-23T03:25:01.000Z",
+  "fetchedAt": "2026-09-23T03:31:42.537Z",
+  "sourceUpdatedAt": "2026-09-23T03:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26150711",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M2J",
+      "division": "115",
+      "timestamp": "2026-09-23T03:23:56.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T03:31:42.537Z",
+      "lastSeenAt": "2026-09-23T03:31:42.537Z",
+      "geography": {
+        "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
+        "approximate": true,
+        "coordinates": [
+          43.7801,
+          -79.3479
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150710",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4W",
+      "division": "313",
+      "timestamp": "2026-09-23T03:22:43.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T03:31:42.537Z",
+      "lastSeenAt": "2026-09-23T03:31:42.537Z",
+      "geography": {
+        "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
+        "approximate": true,
+        "coordinates": [
+          43.6827,
+          -79.373
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150709",
       "source": "TFS",
@@ -16,9 +68,16 @@
       "timestamp": "2026-09-23T03:19:51.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "313"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T03:25:30.781Z",
-      "lastSeenAt": "2026-09-23T03:29:59.881Z",
+      "lastSeenAt": "2026-09-23T03:31:42.537Z",
       "geography": {
         "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
         "approximate": true,
@@ -33,6 +92,27 @@
       }
     },
     {
+      "id": "TPS-92b11340f1da628035d2dd10",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-23T03:19:41.000Z",
+      "location": "EASTERN AVE - LOWER RIVER ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "EASTERN AVE - LOWER RIVER ST",
+        "coordinates": [
+          43.65526979437344,
+          -79.35450586491474
+        ],
+        "division": "Division 51",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26150708",
       "source": "TFS",
       "eventType": "fire",
@@ -42,9 +122,16 @@
       "timestamp": "2026-09-23T03:17:52.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "333"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T03:25:30.781Z",
-      "lastSeenAt": "2026-09-23T03:29:59.881Z",
+      "lastSeenAt": "2026-09-23T03:31:42.537Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -68,9 +155,16 @@
       "timestamp": "2026-09-23T03:17:09.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "143"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T03:25:30.781Z",
-      "lastSeenAt": "2026-09-23T03:29:59.881Z",
+      "lastSeenAt": "2026-09-23T03:31:42.537Z",
       "geography": {
         "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
         "approximate": true,
@@ -82,6 +176,111 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-0b49bc3075aab55e9526918c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING VULNERABLE PERSON",
+      "callTypeCode": "MISVU",
+      "timestamp": "2026-09-23T03:14:09.000Z",
+      "location": "REDWOOD AVE - GLENSIDE AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "REDWOOD AVE - GLENSIDE AVE",
+        "coordinates": [
+          43.67116217816358,
+          -79.32691111439745
+        ],
+        "division": "Division 55",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-2082ba4f1359751922ba5987",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-23T03:12:19.000Z",
+      "location": "ST VINCENT LANE - BAY ST",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ST VINCENT LANE - BAY ST",
+        "coordinates": [
+          43.66156590066963,
+          -79.38609284559989
+        ],
+        "division": "Division 52",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-f31121771ea6de6b91d6e478",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSON WITH A KNIFE",
+      "callTypeCode": "PERKN",
+      "timestamp": "2026-09-23T03:09:50.000Z",
+      "location": "COLLEGE ST - AUGUSTA AVE",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "COLLEGE ST - AUGUSTA AVE",
+        "coordinates": [
+          43.65735969903923,
+          -79.40316093473072
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-fd2e5bb75ca98f45bc299959",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-23T03:08:27.000Z",
+      "location": "BATHURST ST - LENNOX ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BATHURST ST - LENNOX ST",
+        "coordinates": [
+          43.663834007814685,
+          -79.41068193359884
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-5a079e7e5b348b2bf963b92e",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HOLDING ONE WITH TROUBLE",
+      "callTypeCode": "HOLTR",
+      "timestamp": "2026-09-23T03:07:38.000Z",
+      "location": "QUEEN ST W - SHUTER ST",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "QUEEN ST W - SHUTER ST",
+        "coordinates": [
+          43.65407279317647,
+          -79.37995624627325
+        ],
+        "division": "Division 52",
+        "approximate": true
       }
     },
     {
@@ -506,7 +705,7 @@
       "division": "311",
       "timestamp": "2026-09-23T02:41:45.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Command Unit",
@@ -6504,7 +6703,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T03:29:59.881Z",
+      "lastSeenAt": "2026-09-23T03:31:42.537Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -107904,12 +108103,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T03:29:59.881Z",
-      "sourceUpdatedAt": "2026-09-23T03:25:01.000Z",
+      "fetchedAt": "2026-09-23T03:31:42.537Z",
+      "sourceUpdatedAt": "2026-09-23T03:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T03:29:59.881Z",
+      "fetchedAt": "2026-09-23T03:31:42.537Z",
       "status": "ok"
     }
   },
@@ -184802,6 +185001,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M2J": {
+      "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
+      "approximate": true,
+      "coordinates": [
+        43.7801,
+        -79.3479
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4W": {
+      "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
+      "approximate": true,
+      "coordinates": [
+        43.6827,
+        -79.373
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M4X": {
       "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
       "approximate": true,
@@ -185375,18 +185598,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
     },
-    "M4W": {
-      "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
-      "approximate": true,
-      "coordinates": [
-        43.6827,
-        -79.373
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "BAY ST, TT / COLLEGE ST / GRENVILLE ST": {
       "text": "Bay Street between College Street & Grenville Street",
       "approximate": false,
@@ -185854,18 +186065,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T21:26:09.719Z"
-    },
-    "M2J": {
-      "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
-      "approximate": true,
-      "coordinates": [
-        43.7801,
-        -79.3479
-      ],
-      "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M4P": {
       "text": "Approximate area: (M4P) Central Toronto (Davisville North)",
