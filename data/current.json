@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T03:24:21.377Z",
-  "sourceUpdatedAt": "2026-09-23T03:20:02.000Z",
+  "fetchedAt": "2026-09-23T03:25:30.781Z",
+  "sourceUpdatedAt": "2026-09-23T03:25:01.000Z",
   "incidents": [
+    {
+      "id": "F26150709",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4X",
+      "division": "313",
+      "timestamp": "2026-09-23T03:19:51.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T03:25:30.781Z",
+      "lastSeenAt": "2026-09-23T03:25:30.781Z",
+      "geography": {
+        "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
+        "approximate": true,
+        "coordinates": [
+          43.6684,
+          -79.3689
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150708",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5A",
+      "division": "333",
+      "timestamp": "2026-09-23T03:17:52.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T03:25:30.781Z",
+      "lastSeenAt": "2026-09-23T03:25:30.781Z",
+      "geography": {
+        "text": "Approximate area: (M5A) Toronto",
+        "approximate": true,
+        "coordinates": [
+          43.6555,
+          -79.3626
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150707",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3H",
+      "division": "143",
+      "timestamp": "2026-09-23T03:17:09.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T03:25:30.781Z",
+      "lastSeenAt": "2026-09-23T03:25:30.781Z",
+      "geography": {
+        "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
+        "approximate": true,
+        "coordinates": [
+          43.7535,
+          -79.4472
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-69ce40fd6328fce5d3b48cb4",
       "source": "TPS",
@@ -36,7 +114,7 @@
       "division": "226",
       "timestamp": "2026-09-23T03:04:13.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -451,7 +529,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T02:55:20.807Z",
-      "lastSeenAt": "2026-09-23T03:24:21.377Z",
+      "lastSeenAt": "2026-09-23T03:25:30.781Z",
       "geography": {
         "text": "Cottingham Street & Lane East Sidney South Cottingham",
         "approximate": false,
@@ -6426,7 +6504,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T03:24:21.377Z",
+      "lastSeenAt": "2026-09-23T03:25:30.781Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -107826,12 +107904,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T03:24:21.377Z",
-      "sourceUpdatedAt": "2026-09-23T03:20:02.000Z",
+      "fetchedAt": "2026-09-23T03:25:30.781Z",
+      "sourceUpdatedAt": "2026-09-23T03:25:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T03:24:21.377Z",
+      "fetchedAt": "2026-09-23T03:25:30.781Z",
       "status": "ok"
     }
   },
@@ -184740,6 +184818,42 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4X": {
+      "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
+      "approximate": true,
+      "coordinates": [
+        43.6684,
+        -79.3689
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M5A": {
+      "text": "Approximate area: (M5A) Toronto",
+      "approximate": true,
+      "coordinates": [
+        43.6555,
+        -79.3626
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M3H": {
+      "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
+      "approximate": true,
+      "coordinates": [
+        43.7535,
+        -79.4472
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M4C": {
       "text": "Approximate area: (M4C) East York (Woodbine Heights)",
       "approximate": true,
@@ -184868,18 +184982,6 @@
         -79.4378
       ],
       "division": "Division 11",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5A": {
-      "text": "Approximate area: (M5A) Toronto",
-      "approximate": true,
-      "coordinates": [
-        43.6555,
-        -79.3626
-      ],
-      "division": "Division 51",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -185637,18 +185739,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
     },
-    "M3H": {
-      "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
-      "approximate": true,
-      "coordinates": [
-        43.7535,
-        -79.4472
-      ],
-      "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "HADDON AVE, SC / SOUTH EDGELY AVE / SOUTH WOODROW BLVD": {
       "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
       "approximate": false,
@@ -185681,18 +185771,6 @@
         -79.4504
       ],
       "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4X": {
-      "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
-      "approximate": true,
-      "coordinates": [
-        43.6684,
-        -79.3689
-      ],
-      "division": "Division 51",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
