@@ -14,6 +14,11 @@ test('matches polygon and rejects missing, invalid, outside and postal-area loca
   assert.equal(policeDivision('King St', [5,5], null), 'Unknown');
   assert.equal(policeDivision('King St', [0,5], boundaries), 'Unknown');
 });
+test('accepts postal estimates and ignores unsupported boundary geometry', () => {
+  assert.equal(policeDivision('M5A', [5,5], boundaries, { postalEstimate: true }), 'Division 51');
+  const unsupported = { properties: { AREA_NAME: 'X' }, geometry: { type: 'Point', coordinates: [5,5] } };
+  assert.equal(policeDivision('King St', [5,5], { features: [unsupported] }), 'Unknown');
+});
 test('supports multipolygons, excludes holes and ambiguous overlaps', () => {
   const hole = [[2,2],[8,2],[8,8],[2,8],[2,2]];
   const multi = { ...feature, geometry: { type: 'MultiPolygon', coordinates: [[ring, hole]] } };
