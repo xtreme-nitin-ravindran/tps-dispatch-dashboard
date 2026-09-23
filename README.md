@@ -63,6 +63,8 @@ are listed in [Attribution](#attribution).
 Develop on **`dev`** and run the [required checks](#run-all-required-checks) before committing.
 Pushing to **`dev`** runs the GitHub tests. When they pass, automation merges the tested
 commit into **`main`** through a pull request, and GitHub Pages publishes the site.
+The **`coverage`** branch is generated solely to publish the [Code Coverage Badges](#test-coverage)
+and coverage report; it is not a development branch and must not be used for development work.
 Failed checks stop promotion; do not push code directly to **`main`**.
 
 Before starting new work, synchronize with the last automatic merge:
@@ -78,6 +80,7 @@ Run commands from the repository root. Use Docker for the same Node.js 20 enviro
 as CI, or install Node.js 20 or newer and Git to run tests locally. No npm dependencies
 need to be installed. Unit tests use fixtures, mocked services, bundled geographic data,
 and temporary files/repositories; they do not publish changes or require live feeds.
+See [Test coverage](#test-coverage) for how coverage is measured and published.
 
 ### Test coverage
 
