@@ -76,11 +76,17 @@ git pull --ff-only origin dev
 
 ## Testing
 
-Run commands from the repository root. Use Docker for the same Node.js 20 environment
-as CI, or install Node.js 20 or newer and Git to run tests locally. No npm dependencies
-need to be installed. Unit tests use fixtures, mocked services, bundled geographic data,
-and temporary files/repositories; they do not publish changes or require live feeds.
-See [Test coverage](#test-coverage) for how coverage is measured and published.
+Run commands from the repository root. Use Docker for the same Node.js 20, ESLint,
+and Ruff environment as CI. For local checks, install a supported Node.js release
+(20.19+, 22.13+, or 24+), Git, the locked npm dependencies with `npm ci`, and Ruff
+0.16.8. Unit tests use fixtures, mocked services, bundled geographic data, and
+temporary files/repositories; they do not publish changes or require live feeds. See
+[Test coverage](#test-coverage) for how coverage is measured and published.
+
+`npm run lint` runs ESLint over the JavaScript application, scripts, and tests, then
+Ruff over the Python scripts and tests. Run either linter alone with `npm run lint:js`
+or `npm run lint:python`. The Docker test image pins both tools, so Docker is the
+simplest way to reproduce CI without installing Ruff on the host.
 
 ### Test coverage
 
@@ -142,9 +148,13 @@ visually as well.
 
 ### Run individual suites
 
-With Node.js and Git installed:
+With a supported Node.js release and Git installed:
 
 ```bash
+npm ci                                # Install the locked ESLint dependencies
+npm run lint                          # JavaScript and Python linters (Ruff required)
+npm run lint:js                       # ESLint only
+npm run lint:python                   # Ruff only
 npm test                              # JavaScript unit tests
 npm run test:python                   # Python location-index tests (requires Python 3)
 npm run test:integration               # All live-source integration tests
@@ -156,6 +166,7 @@ For Docker, build the image once after changing code or tests:
 
 ```bash
 docker build -f Dockerfile.test -t toronto-dispatch-tests .
+docker run --rm toronto-dispatch-tests npm run lint
 docker run --rm -e TZ=UTC toronto-dispatch-tests
 docker run --rm -e TZ=America/Los_Angeles toronto-dispatch-tests
 docker run --rm toronto-dispatch-tests npm run test:integration
@@ -169,15 +180,17 @@ which can include the live integration test; use an explicit file as above for o
 ### Run all required checks
 
 Copy this complete command block into a shell from the repository root. It builds
-the Docker image, runs both timezone unit suites and the live integration suite,
-checks JavaScript syntax, checks whitespace, and verifies that generated snapshot
-changes are not included in the code branch. It stops at the first failure.
-Docker and Git are required; Node.js is not required on the host.
+the Docker image, runs both linters, both timezone unit suites, the Python tests, and
+the live integration suite, checks browser JavaScript syntax and whitespace, and
+verifies that generated snapshot changes are not included in the code branch. It
+stops at the first failure. Docker and Git are required; Node.js, Python, ESLint, and
+Ruff are not required on the host.
 
 ```bash
 (
   set -e
   docker build -f Dockerfile.test -t toronto-dispatch-tests .
+  docker run --rm toronto-dispatch-tests npm run lint
   docker run --rm -e TZ=UTC toronto-dispatch-tests
   docker run --rm -e TZ=America/Los_Angeles toronto-dispatch-tests
   docker run --rm toronto-dispatch-tests npm run test:python
@@ -192,9 +205,10 @@ Docker and Git are required; Node.js is not required on the host.
 ```
 
 The snapshot checks use the locally fetched `origin/main` reference. Synchronize
-remote references before validating a branch for publication. Syntax checks parse
-JavaScript without executing it; whitespace checks flag issues such as trailing spaces.
-Neither replaces the behavioral tests above.
+remote references before validating a branch for publication. ESLint and Ruff catch
+static correctness problems; the explicit syntax checks parse browser JavaScript
+without executing it, and whitespace checks flag issues such as trailing spaces. None
+replaces the behavioral tests above.
 
 ### Generate a development snapshot (not a test)
 

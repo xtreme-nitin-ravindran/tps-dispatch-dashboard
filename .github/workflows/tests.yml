@@ -33,6 +33,9 @@ jobs:
       - name: Run Python tests
         run: docker run --rm toronto-dispatch-tests npm run test:python
 
+      - name: Run linters
+        run: docker run --rm toronto-dispatch-tests npm run lint
+
       - name: Check browser JavaScript syntax
         run: |
           node --check app.js

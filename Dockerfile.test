@@ -1,11 +1,16 @@
+FROM ghcr.io/astral-sh/ruff:0.16.8 AS ruff
+
 FROM node:20-bookworm
 
 WORKDIR /workspace
 
-COPY package.json ./
+COPY --from=ruff /ruff /usr/local/bin/ruff
+COPY package.json package-lock.json ./
+RUN npm ci
 COPY src ./src
 COPY scripts ./scripts
 COPY data ./data
 COPY test ./test
+COPY app.js eslint.config.js ruff.toml ./
 
 CMD ["npm", "test"]
