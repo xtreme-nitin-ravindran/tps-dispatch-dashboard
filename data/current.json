@@ -3,9 +3,56 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T04:30:38.143Z",
-  "sourceUpdatedAt": "2026-09-23T04:25:01.000Z",
+  "fetchedAt": "2026-09-23T04:31:47.822Z",
+  "sourceUpdatedAt": "2026-09-23T04:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26150730",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Grass/Rubbish",
+      "location": "ADELAIDE ST E / YONGE ST",
+      "division": "332",
+      "timestamp": "2026-09-23T04:24:34.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T04:31:47.822Z",
+      "lastSeenAt": "2026-09-23T04:31:47.822Z",
+      "geography": {
+        "text": "Adelaide Street East & Yonge Street",
+        "approximate": false,
+        "coordinates": [
+          43.6504222,
+          -79.3784258
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-21T21:51:08.968Z"
+      }
+    },
+    {
+      "id": "TPS-dfae3ab33c79fcd9184ef195",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSON WITH A GUN",
+      "callTypeCode": "PERGU",
+      "timestamp": "2026-09-23T04:23:52.000Z",
+      "location": "QUEEN ST E - JARVIS ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "QUEEN ST E - JARVIS ST",
+        "coordinates": [
+          43.653724792828484,
+          -79.37322385064546
+        ],
+        "division": "Division 51",
+        "approximate": true
+      }
+    },
     {
       "id": "F26150728",
       "source": "TFS",
@@ -16,9 +63,16 @@
       "timestamp": "2026-09-23T04:19:19.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "231"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T04:26:07.403Z",
-      "lastSeenAt": "2026-09-23T04:30:38.143Z",
+      "lastSeenAt": "2026-09-23T04:31:47.822Z",
       "geography": {
         "text": "Approximate area: (M1G) Scarborough (Woburn)",
         "approximate": true,
@@ -42,9 +96,16 @@
       "timestamp": "2026-09-23T04:19:19.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "333"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T04:26:07.403Z",
-      "lastSeenAt": "2026-09-23T04:30:38.143Z",
+      "lastSeenAt": "2026-09-23T04:31:47.822Z",
       "geography": {
         "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
         "approximate": true,
@@ -59,6 +120,69 @@
       }
     },
     {
+      "id": "TPS-9f63a58590f4da165dbefef5",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-23T04:19:06.000Z",
+      "location": "BATHURST ST - BARTON AVE",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BATHURST ST - BARTON AVE",
+        "coordinates": [
+          43.66812071301516,
+          -79.41238253512921
+        ],
+        "division": "Division 14",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-085aa92d4a85bf3cf5048cb5",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-23T04:17:16.000Z",
+      "location": "KINGSPLATE CRES - CINRICKBAR DR",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KINGSPLATE CRES - CINRICKBAR DR",
+        "coordinates": [
+          43.723747405692954,
+          -79.61691889178557
+        ],
+        "division": "Division 23",
+        "approximate": true
+      }
+    },
+    {
+      "id": "TPS-466016083649ff448a66c77d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT OF VEHICLE",
+      "callTypeCode": "THEVE",
+      "timestamp": "2026-09-23T04:17:14.000Z",
+      "location": "THOMAS CLARK WAY - SHEPPARD AVE E",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "THOMAS CLARK WAY - SHEPPARD AVE E",
+        "coordinates": [
+          43.76690838945595,
+          -79.38276171737903
+        ],
+        "division": "Division 33",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26150727",
       "source": "TFS",
       "eventType": "fire",
@@ -68,9 +192,17 @@
       "timestamp": "2026-09-23T04:15:54.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "134",
+            "135"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T04:26:07.403Z",
-      "lastSeenAt": "2026-09-23T04:30:38.143Z",
+      "lastSeenAt": "2026-09-23T04:31:47.822Z",
       "geography": {
         "text": "Dunfield Avenue between Soudan Avenue & Lane South Eglinton East Holly",
         "approximate": false,
@@ -82,6 +214,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T06:14:57.511Z"
+      }
+    },
+    {
+      "id": "TPS-6e5711b446dcb7a440db1fcb",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-23T04:15:35.000Z",
+      "location": "KING ST W - PETER ST",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KING ST W - PETER ST",
+        "coordinates": [
+          43.646037885141546,
+          -79.39231313723745
+        ],
+        "division": "Division 52",
+        "approximate": true
       }
     },
     {
@@ -104,7 +257,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T04:21:17.219Z",
-      "lastSeenAt": "2026-09-23T04:30:38.143Z",
+      "lastSeenAt": "2026-09-23T04:31:47.822Z",
       "geography": {
         "text": "Amaranth Court & Flemington Road",
         "approximate": false,
@@ -119,6 +272,27 @@
       }
     },
     {
+      "id": "TPS-efe55942030dfbb5fc075d7c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-23T04:13:40.000Z",
+      "location": "DON VALLEY PARKWAY N - LAWRENCE AVE E",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DON VALLEY PARKWAY N - LAWRENCE AVE E",
+        "coordinates": [
+          43.73996091770656,
+          -79.32964024221637
+        ],
+        "division": "HP",
+        "approximate": true
+      }
+    },
+    {
       "id": "F26150725",
       "source": "TFS",
       "eventType": "fire",
@@ -127,7 +301,7 @@
       "division": "325",
       "timestamp": "2026-09-23T04:09:26.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -149,6 +323,27 @@
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-0f9cbe4ca4bcecd884240252",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-23T04:09:20.000Z",
+      "location": "BENDALE ACRES - VALPARAISO AVE",
+      "division": "Division 43",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BENDALE ACRES - VALPARAISO AVE",
+        "coordinates": [
+          43.75441047489167,
+          -79.25092176089426
+        ],
+        "division": "Division 43",
+        "approximate": true
       }
     },
     {
@@ -220,7 +415,7 @@
       "division": "311",
       "timestamp": "2026-09-23T04:01:48.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -254,7 +449,7 @@
       "division": "322",
       "timestamp": "2026-09-23T04:01:24.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -7612,7 +7807,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T04:30:38.143Z",
+      "lastSeenAt": "2026-09-23T04:31:47.822Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -109012,12 +109207,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T04:30:38.143Z",
-      "sourceUpdatedAt": "2026-09-23T04:25:01.000Z",
+      "fetchedAt": "2026-09-23T04:31:47.822Z",
+      "sourceUpdatedAt": "2026-09-23T04:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T04:30:38.143Z",
+      "fetchedAt": "2026-09-23T04:31:47.822Z",
       "status": "ok"
     }
   },
@@ -185912,6 +186107,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "ADELAIDE ST E / YONGE ST": {
+      "text": "Adelaide Street East & Yonge Street",
+      "approximate": false,
+      "coordinates": [
+        43.6504222,
+        -79.3784258
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-21T21:51:08.968Z"
+    },
     "M1G": {
       "text": "Approximate area: (M1G) Scarborough (Woburn)",
       "approximate": true,
@@ -189145,18 +189352,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T21:55:20.437Z"
-    },
-    "ADELAIDE ST E / YONGE ST": {
-      "text": "Adelaide Street East & Yonge Street",
-      "approximate": false,
-      "coordinates": [
-        43.6504222,
-        -79.3784258
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-21T21:51:08.968Z"
     },
     "YONGE ST, TT / ROSLIN AVE / BROOKDALE AVE": {
       "text": "Yonge Street between Roslin Avenue & Brookdale Avenue",
