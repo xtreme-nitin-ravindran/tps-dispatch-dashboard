@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T07:34:06.000Z",
-  "sourceUpdatedAt": "2026-09-23T07:30:01.000Z",
+  "fetchedAt": "2026-09-23T07:35:37.414Z",
+  "sourceUpdatedAt": "2026-09-23T07:35:02.000Z",
   "incidents": [
+    {
+      "id": "F26150766",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M2J",
+      "division": "115",
+      "timestamp": "2026-09-23T07:26:42.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T07:35:37.414Z",
+      "lastSeenAt": "2026-09-23T07:35:37.414Z",
+      "geography": {
+        "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
+        "approximate": true,
+        "coordinates": [
+          43.7801,
+          -79.3479
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-f7515109e788c62dea9d320c",
       "source": "TPS",
@@ -474,7 +500,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T07:21:25.955Z",
-      "lastSeenAt": "2026-09-23T07:34:06.000Z",
+      "lastSeenAt": "2026-09-23T07:35:37.414Z",
       "geography": {
         "text": "Approximate location near Kipling Avenue & Evans Avenue",
         "approximate": true,
@@ -9357,6 +9383,7 @@
             "232",
             "233",
             "234",
+            "242",
             "326"
           ]
         },
@@ -9375,7 +9402,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T07:34:06.000Z",
+      "lastSeenAt": "2026-09-23T07:35:37.414Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -110615,12 +110642,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T07:34:06.000Z",
-      "sourceUpdatedAt": "2026-09-23T07:30:01.000Z",
+      "fetchedAt": "2026-09-23T07:35:37.414Z",
+      "sourceUpdatedAt": "2026-09-23T07:35:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T07:34:06.000Z",
+      "fetchedAt": "2026-09-23T07:35:37.414Z",
       "status": "ok"
     }
   },
@@ -187371,6 +187398,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M2J": {
+      "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
+      "approximate": true,
+      "coordinates": [
+        43.7801,
+        -79.3479
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M4L": {
       "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
       "approximate": true,
@@ -187730,18 +187769,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T22:01:19.951Z"
-    },
-    "M2J": {
-      "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
-      "approximate": true,
-      "coordinates": [
-        43.7801,
-        -79.3479
-      ],
-      "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M4W": {
       "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
