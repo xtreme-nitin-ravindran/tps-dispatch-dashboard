@@ -32,3 +32,32 @@ test('branch protection rejection never updates branches or deploys',async()=>{
   const {api,calls}=mock({reject:true}); await assert.rejects(promote({...defaults,api}));
   assert.ok(!calls.some(c=>c.path==='pages/builds'||c.method==='PATCH'));
 });
+
+test('reuses existing PR, retries a transient rejection and protects concurrent dev changes', async()=>{
+ const calls=[]; let reads=0, merges=0, sleeps=0;
+ const api=(path,method,body)=>{
+  calls.push({path,method,body});
+  if(path==='git/ref/heads/dev') return {object:{sha:++reads===1?'tested':'newer'}};
+  if(path==='compare/main...dev') return {files:[{}]};
+  if(path.startsWith('pulls?')) return [{number:7,html_url:'https://example.test/7'}];
+  if(path==='pulls/7/merge') {if(++merges===1) throw Error('pending');return {merged:true,sha:'merged'};}
+  throw Error(`Unexpected mutation ${path}`);
+ };
+ await promote({...defaults,api,sleep:async ms=>{assert.equal(ms,5000);sleeps++;}});
+ assert.equal(sleeps,1);assert.equal(merges,2);
+ assert.ok(!calls.some(c=>c.method==='POST'||c.method==='PATCH'));
+});
+
+test('unsuccessful merge responses never advance dev; concurrent fast-forward rejection is safe',async()=>{
+ for(const merged of [false,true]) {
+  const base=mock(), writes=[];
+  const api=(path,method,body)=>{
+   if(path==='pulls/1/merge') return {merged,sha:'merged'};
+   if(method==='PATCH') {writes.push(body);throw Error('concurrent update');}
+   return base.api(path,method,body);
+  };
+  if(merged) await promote({...defaults,api});
+  else await assert.rejects(promote({...defaults,api}), /not merged/);
+  assert.equal(writes.length,merged?1:0);
+ }
+});

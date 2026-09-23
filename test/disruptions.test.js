@@ -56,3 +56,44 @@ test('TTC mixed JSON entities use camelCase and numeric string timestamps',()=>{
  assert.deepEqual(result.items[2].routes,['5']);
  assert.equal(currentDisruptions(feed(result.items),'transit',now).length,2);
 });
+
+test('textproto rejects malformed fields, values, separators and excessive nesting',()=>{
+ for(const text of ['@','1: 2','field:','field: }','field value','}','a {'.repeat(22)+'}'.repeat(22)]) assert.throws(()=>parseTextProto(text));
+ assert.deepEqual({...parseTextProto('# comment\nvalue: -1.5')},{value:[-1.5],entity:[]});
+});
+
+test('TTC validates headers, alert identities and active periods, while tolerating optional fields',()=>{
+ const header=proto.split('entity')[0];
+ for(const text of ['',header.replace(String(now/1000),String(now/1000+301)),header+'entity { id: "x" alert {} }',header+'entity { alert { header_text {translation {text:"Title"}}} }',header+'entity {id:"x" alert {header_text {translation {text:"Title"}} active_period {start:"bad"}}}']) assert.throws(()=>normalizeTransit(text,now));
+ assert.deepEqual(normalizeTransit(header+'entity {id:"gone" is_deleted:true alert {}} entity {id:"no-alert"}',now).items,[]);
+ const [item]=normalizeTransit(header+'entity {id:"x" alert {header_text {translation {text:"Titre" language:"fr"} translation {text:"Title" language:"en"}} informed_entity {} active_period {end:123}}}',now).items;
+ assert.equal(item.title,'Title');assert.deepEqual(item.routes,[]);assert.deepEqual(item.periods,[{start:null,end:123000}]);
+ const mixed={id:'q',alert:{headerText:{translation:[{text:'Quoted "text" \\ path {x}'}]}}};
+ assert.equal(normalizeTransit(header+'entity '+JSON.stringify(mixed),now).items[0].title,'Quoted "text" \\ path {x}');
+});
+
+test('roads reject malformed identities and dates, and discard invalid geometry',()=>{
+ for(const row of [{name:'x'},{id:'x'},{...road,startTime:'bad'},{...road,endTime:'bad'}]) assert.throws(()=>normalizeRoads({Closure:[row]}));
+ const [item]=normalizeRoads({Closure:[{id:'x',road:'Fallback name',geoPolyline:'[200,100]',expired:1}]}).items;
+ assert.equal(item.title,'Fallback name');assert.deepEqual(item.line,[]);assert.equal(item.coordinates,null);assert.equal(item.start,null);assert.equal(item.expired,true);
+});
+
+test('failed initial disruption refresh publishes unavailable empty sources and future cache is retried',async()=>{
+ const result=await updateDisruptions(undefined,new Date(now),async()=>{throw Error('offline');});
+ for(const source of Object.values(result)) {assert.equal(source.status,'unavailable');assert.deepEqual(source.items,[]);assert.equal(source.fetchedAt,null);}
+ let calls=0;
+ await updateDisruptions({roads:{checkedAt:new Date(now+1).toISOString()}},new Date(now),async()=>{calls++;return {items:[]};});
+ assert.equal(calls,2);
+});
+
+test('disruption filters support open-ended periods and reject future fetch timestamps',()=>{
+ const r={expired:false,start:null,end:null,impact:'High'};
+ assert.deepEqual(currentDisruptions(feed([r]),'roads',now),[r]);
+ assert.deepEqual(currentDisruptions({fetchedAt:new Date(now).toISOString()},'roads',now),[]);
+ assert.deepEqual(currentDisruptions({fetchedAt:new Date(now+300001).toISOString(),items:[r]},'roads',now),[]);
+ const alerts=[{periods:[]},{periods:[{start:null,end:null}]},{periods:[{start:null,end:now}]}];
+ assert.deepEqual(currentDisruptions(feed(alerts),'transit',now),alerts.slice(0,2));
+ assert.equal(roadDistance({},null),Infinity);
+ assert.equal(roadDistance({coordinates:[43.7,-79.4]},[43.7,-79.4]),0);
+ assert.equal(roadDistance({line:[[43.7,-79.4],[43.7,-79.4]]},[43.7,-79.4]),0);
+});

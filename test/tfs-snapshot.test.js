@@ -83,3 +83,7 @@ for (const [label, rows] of [
         assert.equal(reappeared.incidents[0].isOngoing, true);
     });
 }
+
+test('snapshot rejects absent sources and non-array incidents', () => {
+ for (const source of [null, {}, {incidents:{}}]) assert.throws(()=>buildTfsSnapshot(source), /incidents array/);
+});
