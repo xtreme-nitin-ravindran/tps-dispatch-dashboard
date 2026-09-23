@@ -2,222 +2,222 @@ TAP version 13
 # Subtest: report age covers boundaries, invalid times and clock skew
 ok 1 - report age covers boundaries, invalid times and clock skew
   ---
-  duration_ms: 1.715688
+  duration_ms: 1.829507
   ...
 # Subtest: explanations preserve uncertainty and leave unfamiliar types unexplained
 ok 2 - explanations preserve uncertainty and leave unfamiliar types unexplained
   ---
-  duration_ms: 0.349323
+  duration_ms: 0.347058
   ...
 # Subtest: confidence distinguishes unmapped, postal, resolved and approximate locations
 ok 3 - confidence distinguishes unmapped, postal, resolved and approximate locations
   ---
-  duration_ms: 1.83426
+  duration_ms: 0.388566
   ...
 # Subtest: status never infers TPS completion or TFS resolution
 ok 4 - status never infers TPS completion or TFS resolution
   ---
-  duration_ms: 0.219343
+  duration_ms: 0.21422
   ...
 # Subtest: live Centreline sample exposes street and intersection fields
 ok 5 - live Centreline sample exposes street and intersection fields
   ---
-  duration_ms: 638.486051
+  duration_ms: 665.323544
   ...
 # Subtest: commits only snapshot changes, skips unchanged data, rejects staged unrelated files
 ok 6 - commits only snapshot changes, skips unchanged data, rejects staged unrelated files
   ---
-  duration_ms: 58.3023
+  duration_ms: 83.687639
   ...
 # Subtest: snapshot commit CLI reports changed and unchanged snapshots
 ok 7 - snapshot commit CLI reports changed and unchanged snapshots
   ---
-  duration_ms: 119.718815
+  duration_ms: 181.065152
   ...
 # Subtest: road geometry flips longitude/latitude and retains schedules and closure type
 ok 8 - road geometry flips longitude/latitude and retains schedules and closure type
   ---
-  duration_ms: 4.25645
+  duration_ms: 4.055464
   ...
 # Subtest: TTC parses repeated fields, active windows and rejects incomplete or stale snapshots
 ok 9 - TTC parses repeated fields, active windows and rejects incomplete or stale snapshots
   ---
-  duration_ms: 2.058337
+  duration_ms: 2.710171
   ...
 # Subtest: road filters exclude expired, future and no-impact entries; stale data expires
 ok 10 - road filters exclude expired, future and no-impact entries; stale data expires
   ---
-  duration_ms: 0.296022
+  duration_ms: 0.384608
   ...
 # Subtest: nearby road filtering uses segments even when endpoints are outside radius
 ok 11 - nearby road filtering uses segments even when endpoints are outside radius
   ---
-  duration_ms: 0.513374
+  duration_ms: 0.524309
   ...
 # Subtest: sources refresh independently, cache five minutes, and preserve successful timestamps on failure
 ok 12 - sources refresh independently, cache five minutes, and preserve successful timestamps on failure
   ---
-  duration_ms: 2.891041
+  duration_ms: 3.619499
   ...
 # Subtest: TTC mixed JSON entities use camelCase and numeric string timestamps
 ok 13 - TTC mixed JSON entities use camelCase and numeric string timestamps
   ---
-  duration_ms: 0.799385
+  duration_ms: 0.740563
   ...
 # Subtest: textproto rejects malformed fields, values, separators and excessive nesting
 ok 14 - textproto rejects malformed fields, values, separators and excessive nesting
   ---
-  duration_ms: 0.343291
+  duration_ms: 0.456683
   ...
 # Subtest: TTC validates headers, alert identities and active periods, while tolerating optional fields
 ok 15 - TTC validates headers, alert identities and active periods, while tolerating optional fields
   ---
-  duration_ms: 0.68708
+  duration_ms: 0.941688
   ...
 # Subtest: roads reject malformed identities and dates, and discard invalid geometry
 ok 16 - roads reject malformed identities and dates, and discard invalid geometry
   ---
-  duration_ms: 0.374028
+  duration_ms: 0.539377
   ...
 # Subtest: failed initial disruption refresh publishes unavailable empty sources and future cache is retried
 ok 17 - failed initial disruption refresh publishes unavailable empty sources and future cache is retried
   ---
-  duration_ms: 0.38422
+  duration_ms: 0.641208
   ...
 # Subtest: disruption filters support open-ended periods and reject future fetch timestamps
 ok 18 - disruption filters support open-ended periods and reject future fetch timestamps
   ---
-  duration_ms: 0.336257
+  duration_ms: 0.446223
   ...
 # Subtest: live GeoNames Canada archive contains Toronto postal coordinates
 ok 19 - live GeoNames Canada archive contains Toronto postal coordinates
   ---
-  duration_ms: 889.879976
+  duration_ms: 1371.511243
   ...
 # Subtest: splits a TFS street segment into two cleaned intersections
 ok 20 - splits a TFS street segment into two cleaned intersections
   ---
-  duration_ms: 2.078687
+  duration_ms: 2.943948
   ...
 # Subtest: requires all endpoints and reports both possible divisions
 ok 21 - requires all endpoints and reports both possible divisions
   ---
-  duration_ms: 0.921155
+  duration_ms: 1.246428
   ...
 # Subtest: accepts only high confidence Canadian intersection matches
 ok 22 - accepts only high confidence Canadian intersection matches
   ---
-  duration_ms: 1.740396
+  duration_ms: 2.369254
   ...
 # Subtest: formats resolved TFS segments and distinguishes missing endpoints
 ok 23 - formats resolved TFS segments and distinguishes missing endpoints
   ---
-  duration_ms: 2.190107
+  duration_ms: 3.088578
   ...
 # Subtest: formats postal area hints and laneways without claiming exact addresses
 ok 24 - formats postal area hints and laneways without claiming exact addresses
   ---
-  duration_ms: 0.220557
+  duration_ms: 0.234118
   ...
 # Subtest: single intersections, duplicate cross streets and missing locations remain readable
 ok 25 - single intersections, duplicate cross streets and missing locations remain readable
   ---
-  duration_ms: 0.222778
+  duration_ms: 0.274333
   ...
 # Subtest: hydro corridor abbreviations expand without changing other words
 ok 26 - hydro corridor abbreviations expand without changing other words
   ---
-  duration_ms: 0.365776
+  duration_ms: 0.545198
   ...
 # Subtest: resolves duplicate locations once and reuses published cache across updaters
 ok 27 - resolves duplicate locations once and reuses published cache across updaters
   ---
-  duration_ms: 1.879016
+  duration_ms: 2.790581
   ...
 # Subtest: bounds lookups and retries pending locations on the next run
 ok 28 - bounds lookups and retries pending locations on the next run
   ---
-  duration_ms: 0.741868
+  duration_ms: 1.027228
   ...
 # Subtest: expired cached results survive resolver outages and unused cache is removed
 ok 29 - expired cached results survive resolver outages and unused cache is removed
   ---
-  duration_ms: 0.370438
+  duration_ms: 0.539087
   ...
 # Subtest: bundled open data resolves postal areas and the supplied Lake Shore segment
 ok 30 - bundled open data resolves postal areas and the supplied Lake Shore segment
   ---
-  duration_ms: 21.736602
+  duration_ms: 29.85754
   ...
 # Subtest: missing cross street does not imply a resolved division or exact match
 ok 31 - missing cross street does not imply a resolved division or exact match
   ---
-  duration_ms: 1.61356
+  duration_ms: 1.442845
   ...
 # Subtest: ambiguous shared intersections are rejected
 ok 32 - ambiguous shared intersections are rejected
   ---
-  duration_ms: 0.297308
+  duration_ms: 0.388626
   ...
 # Subtest: unknown postal areas and empty locations remain unresolved
 ok 33 - unknown postal areas and empty locations remain unresolved
   ---
-  duration_ms: 0.279557
+  duration_ms: 0.34819
   ...
 # Subtest: live OpenStreetMap sample tile is a PNG
 ok 34 - live OpenStreetMap sample tile is a PNG
   ---
-  duration_ms: 112.180462
+  duration_ms: 131.293286
   ...
 # Subtest: live TPS boundaries contain polygon geometry
 ok 35 - live TPS boundaries contain polygon geometry
   ---
-  duration_ms: 331.373499
+  duration_ms: 341.140809
   ...
 # Subtest: matches polygon and rejects missing, invalid, outside and postal-area locations
 ok 36 - matches polygon and rejects missing, invalid, outside and postal-area locations
   ---
-  duration_ms: 1.882166
+  duration_ms: 3.080674
   ...
 # Subtest: accepts postal estimates and ignores unsupported boundary geometry
 ok 37 - accepts postal estimates and ignores unsupported boundary geometry
   ---
-  duration_ms: 0.190372
+  duration_ms: 0.252682
   ...
 # Subtest: supports multipolygons, excludes holes and ambiguous overlaps
 ok 38 - supports multipolygons, excludes holes and ambiguous overlaps
   ---
-  duration_ms: 0.188889
+  duration_ms: 0.295953
   ...
 # Subtest: bundled Toronto boundaries match downtown location, not fire beat
 ok 39 - bundled Toronto boundaries match downtown location, not fire beat
   ---
-  duration_ms: 21.739077
+  duration_ms: 36.531356
   ...
 # Subtest: recognizes only standalone Toronto postal prefixes
 ok 40 - recognizes only standalone Toronto postal prefixes
   ---
-  duration_ms: 1.856291
+  duration_ms: 1.893636
   ...
 # Subtest: M5A ArcGIS result matches TPS Division 51 without using old map cache
 ok 41 - M5A ArcGIS result matches TPS Division 51 without using old map cache
   ---
-  duration_ms: 29.573236
+  duration_ms: 30.750417
   ...
 # Subtest: rejects failed, wrong-country, wrong-prefix, low-score and invalid coordinate results
 ok 42 - rejects failed, wrong-country, wrong-prefix, low-score and invalid coordinate results
   ---
-  duration_ms: 1.254772
+  duration_ms: 1.492898
   ...
 # Subtest: postal candidates must identify a postal area and usable Toronto coordinates
 ok 43 - postal candidates must identify a postal area and usable Toronto coordinates
   ---
-  duration_ms: 0.548757
+  duration_ms: 0.665873
   ...
 # Subtest: neighbourhood lookup returns Canadian area hints and requests longitude first
 ok 44 - neighbourhood lookup returns Canadian area hints and requests longitude first
   ---
-  duration_ms: 1.033858
+  duration_ms: 1.143595
   ...
 # A newer dev commit exists; its run will handle promotion.
 # Pull request: https://github.com/owner/repo/pull/1
@@ -229,372 +229,372 @@ ok 44 - neighbourhood lookup returns Canadian area hints and requests longitude 
 # Merged https://example.test/7; Pages publishes from main.
 # Pull request: https://github.com/owner/repo/pull/1
 # Pull request: https://github.com/owner/repo/pull/1
-# Merged https://github.com/owner/repo/pull/1; Pages publishes from main.
 # Dev advanced concurrently; leaving its history intact.
+# Merged https://github.com/owner/repo/pull/1; Pages publishes from main.
 # Subtest: GitHub API wrapper serializes requests and retry delays use the supplied timer
 ok 45 - GitHub API wrapper serializes requests and retry delays use the supplied timer
   ---
-  duration_ms: 3.743603
+  duration_ms: 4.10161
   ...
 # Subtest: only tested dev SHA can be promoted without a duplicate Pages request
 ok 46 - only tested dev SHA can be promoted without a duplicate Pages request
   ---
-  duration_ms: 0.590082
+  duration_ms: 0.648972
   ...
 # Subtest: superseded dev, empty diffs and other branches cannot promote
 ok 47 - superseded dev, empty diffs and other branches cannot promote
   ---
-  duration_ms: 0.765403
+  duration_ms: 0.831603
   ...
 # Subtest: branch protection rejection never updates branches or deploys
 ok 48 - branch protection rejection never updates branches or deploys
   ---
-  duration_ms: 0.428581
+  duration_ms: 0.443989
   ...
 # Subtest: reuses existing PR, retries a transient rejection and protects concurrent dev changes
 ok 49 - reuses existing PR, retries a transient rejection and protects concurrent dev changes
   ---
-  duration_ms: 0.786495
+  duration_ms: 0.728831
   ...
 # Subtest: unsuccessful merge responses never advance dev; concurrent fast-forward rejection is safe
 ok 50 - unsuccessful merge responses never advance dev; concurrent fast-forward rejection is safe
   ---
-  duration_ms: 0.73457
+  duration_ms: 0.675722
   ...
 # Subtest: promotion CLI rejects runs outside dev
 ok 51 - promotion CLI rejects runs outside dev
   ---
-  duration_ms: 54.095083
+  duration_ms: 49.780454
   ...
 # Subtest: promotion CLI completes a successful dev promotion
 ok 52 - promotion CLI completes a successful dev promotion
   ---
-  duration_ms: 5070.358431
+  duration_ms: 64.75284
   ...
 # Subtest: live roads feed satisfies production parser
 ok 53 - live roads feed satisfies production parser
   ---
-  duration_ms: 3081.697842
+  duration_ms: 3430.303867
   ...
 # Subtest: medical calls are classified separately
 ok 54 - medical calls are classified separately
   ---
-  duration_ms: 1.481505
+  duration_ms: 1.871014
   ...
 # Subtest: fires and alarms remain in Fire, including vehicle fires
 ok 55 - fires and alarms remain in Fire, including vehicle fires
   ---
-  duration_ms: 0.327172
+  duration_ms: 0.287286
   ...
 # Subtest: non-fire TFS calls populate Other
 ok 56 - non-fire TFS calls populate Other
   ---
-  duration_ms: 0.925594
+  duration_ms: 1.068926
   ...
 # Subtest: missing and unfamiliar descriptions safely fall back to Other
 ok 57 - missing and unfamiliar descriptions safely fall back to Other
   ---
-  duration_ms: 0.214558
+  duration_ms: 0.223286
   ...
 # Subtest: ETL bootstraps, persists and merges fetched incidents across runs
 ok 58 - ETL bootstraps, persists and merges fetched incidents across runs
   ---
-  duration_ms: 205.583109
+  duration_ms: 327.523557
   ...
 # Subtest: Concourse XML input merges separate history without modifying input
 ok 59 - Concourse XML input merges separate history without modifying input
   ---
-  duration_ms: 85.357504
+  duration_ms: 129.651437
   ...
 # Subtest: failed fetch, malformed XML, stale feed and invalid history preserve published output
 ok 60 - failed fetch, malformed XML, stale feed and invalid history preserve published output
   ---
-  duration_ms: 5.888855
+  duration_ms: 10.370347
   ...
 # Subtest: combined updater keeps each feed when the other fails and preserves output if both fail
 ok 61 - combined updater keeps each feed when the other fails and preserves output if both fail
   ---
-  duration_ms: 264.11572
+  duration_ms: 349.428061
   ...
 # Subtest: disruption snapshots are separate from incidents and receive previous cache
 ok 62 - disruption snapshots are separate from incidents and receive previous cache
   ---
-  duration_ms: 160.905014
+  duration_ms: 221.109819
   ...
 # Subtest: ETL validates updater identity and fills unavailable-feed defaults without history
 ok 63 - ETL validates updater identity and fills unavailable-feed defaults without history
   ---
-  duration_ms: 81.654996
+  duration_ms: 133.367113
   ...
 # Subtest: ETL carries prior disruptions and legacy feed timestamps through failures
 ok 64 - ETL carries prior disruptions and legacy feed timestamps through failures
   ---
-  duration_ms: 172.353174
+  duration_ms: 218.335278
   ...
 # Subtest: CLI entry points honor environment paths and fallback writes GitHub output
 ok 65 - CLI entry points honor environment paths and fallback writes GitHub output
   ---
-  duration_ms: 735.820838
+  duration_ms: 1167.448193
   ...
 # Subtest: freshness uses fetch time, including exact cutoff and invalid clocks
 ok 66 - freshness uses fetch time, including exact cutoff and invalid clocks
   ---
-  duration_ms: 1.129118
+  duration_ms: 1.813576
   ...
 # Subtest: fresh snapshot is untouched; stale snapshot records GitHub updater; corrupt history fails
 ok 67 - fresh snapshot is untouched; stale snapshot records GitHub updater; corrupt history fails
   ---
-  duration_ms: 203.052651
+  duration_ms: 315.15872
   ...
 # Subtest: missing snapshots run the injected updater
 ok 68 - missing snapshots run the injected updater
   ---
-  duration_ms: 2.140145
+  duration_ms: 3.210185
   ...
 # Subtest: default fallback updater fetches all sources for a missing snapshot
 ok 69 - default fallback updater fetches all sources for a missing snapshot
   ---
-  duration_ms: 87.58853
+  duration_ms: 124.529643
   ...
 # Subtest: normalizes a TFS incident into the dashboard contract
 ok 70 - normalizes a TFS incident into the dashboard contract
   ---
-  duration_ms: 2.760529
+  duration_ms: 4.897376
   ...
 # Subtest: returns an empty vehicle list when TFS provides no assignments
 ok 71 - returns an empty vehicle list when TFS provides no assignments
   ---
-  duration_ms: 0.126791
+  duration_ms: 0.249356
   ...
 # Subtest: preserves unknown apparatus as an Other Unit
 ok 72 - preserves unknown apparatus as an Other Unit
   ---
-  duration_ms: 0.165785
+  duration_ms: 0.338442
   ...
 # Subtest: normalization rejects non-records and handles missing fields and unit identifiers
 ok 73 - normalization rejects non-records and handles missing fields and unit identifiers
   ---
-  duration_ms: 0.590344
+  duration_ms: 1.153343
   ...
 # Subtest: TFS fetch propagates HTTP failures and the supplied abort signal
 ok 74 - TFS fetch propagates HTTP failures and the supplied abort signal
   ---
-  duration_ms: 6.174533
+  duration_ms: 17.152576
   ...
 # Subtest: builds a dashboard-ready TFS snapshot with freshness metadata
 ok 75 - builds a dashboard-ready TFS snapshot with freshness metadata
   ---
-  duration_ms: 3.070207
+  duration_ms: 4.586656
   ...
 # Subtest: accumulates history, updates IDs, expires old calls and clears ongoing status
 ok 76 - accumulates history, updates IDs, expires old calls and clears ongoing status
   ---
-  duration_ms: 0.71037
+  duration_ms: 1.112758
   ...
 # Subtest: retained ongoing incident becomes inactive when absent from the new feed
 ok 77 - retained ongoing incident becomes inactive when absent from the new feed
   ---
-  duration_ms: 0.213021
+  duration_ms: 0.31588
   ...
 # Subtest: retained ongoing incident becomes inactive when marked inactive by cad
 ok 78 - retained ongoing incident becomes inactive when marked inactive by cad
   ---
-  duration_ms: 0.15277
+  duration_ms: 0.306743
   ...
 # Subtest: retained ongoing incident becomes inactive when explicitly not ongoing despite cad
 ok 79 - retained ongoing incident becomes inactive when explicitly not ongoing despite cad
   ---
-  duration_ms: 0.145051
+  duration_ms: 0.225181
   ...
 # Subtest: snapshot rejects absent sources and non-array incidents
 ok 80 - snapshot rejects absent sources and non-array incidents
   ---
-  duration_ms: 0.31831
+  duration_ms: 0.467723
   ...
 # Subtest: normalizes one incident from the official TFS live source when active calls exist
 ok 81 - normalizes one incident from the official TFS live source when active calls exist
   ---
-  duration_ms: 205.995853
+  duration_ms: 182.817651
   ...
 # Subtest: Toronto timestamp: 2026-09-16T00:43:33
 ok 82 - Toronto timestamp: 2026-09-16T00:43:33
   ---
-  duration_ms: 1.488941
+  duration_ms: 2.185973
   ...
 # Subtest: Toronto timestamp: 2026-01-16 00:43:33
 ok 83 - Toronto timestamp: 2026-01-16 00:43:33
   ---
-  duration_ms: 0.239884
+  duration_ms: 0.262851
   ...
 # Subtest: Toronto timestamp: 2026-03-08T01:59:59
 ok 84 - Toronto timestamp: 2026-03-08T01:59:59
   ---
-  duration_ms: 0.113905
+  duration_ms: 0.269073
   ...
 # Subtest: Toronto timestamp: 2026-03-08T03:00:00
 ok 85 - Toronto timestamp: 2026-03-08T03:00:00
   ---
-  duration_ms: 0.091994
+  duration_ms: 0.212216
   ...
 # Subtest: Toronto timestamp: 2026-03-08T02:30:00
 ok 86 - Toronto timestamp: 2026-03-08T02:30:00
   ---
-  duration_ms: 0.095467
+  duration_ms: 0.211175
   ...
 # Subtest: Toronto timestamp: 2026-11-01T01:30:00
 ok 87 - Toronto timestamp: 2026-11-01T01:30:00
   ---
-  duration_ms: 0.079231
+  duration_ms: 0.185136
   ...
 # Subtest: Toronto timestamp: 2026-11-01T02:30:00
 ok 88 - Toronto timestamp: 2026-11-01T02:30:00
   ---
-  duration_ms: 0.084726
+  duration_ms: 0.215673
   ...
 # Subtest: Toronto timestamp: 2026-09-16T04:43:33Z
 ok 89 - Toronto timestamp: 2026-09-16T04:43:33Z
   ---
-  duration_ms: 0.175832
+  duration_ms: 0.238686
   ...
 # Subtest: Toronto timestamp: 2026-09-16T00:43:33-04:00
 ok 90 - Toronto timestamp: 2026-09-16T00:43:33-04:00
   ---
-  duration_ms: 0.101559
+  duration_ms: 0.159568
   ...
 # Subtest: Toronto timestamp: 1789507683
 ok 91 - Toronto timestamp: 1789507683
   ---
-  duration_ms: 0.057806
+  duration_ms: 0.096831
   ...
 # Subtest: Toronto timestamp: 2026-02-30T01:00:00
 ok 92 - Toronto timestamp: 2026-02-30T01:00:00
   ---
-  duration_ms: 0.131424
+  duration_ms: 0.129983
   ...
 # Subtest: Toronto timestamp: 
 ok 93 - Toronto timestamp: 
   ---
-  duration_ms: 0.054481
+  duration_ms: 0.141644
   ...
 # Subtest: Toronto timestamp: null
 ok 94 - Toronto timestamp: null
   ---
-  duration_ms: 0.052197
+  duration_ms: 0.083937
   ...
 # Subtest: Toronto timestamp: invalid
 ok 95 - Toronto timestamp: invalid
   ---
-  duration_ms: 0.05223
+  duration_ms: 0.0856
   ...
 # Subtest: Toronto timestamp: invalidZ
 ok 96 - Toronto timestamp: invalidZ
   ---
-  duration_ms: 0.052306
+  duration_ms: 0.084949
   ...
 # Subtest: official XML preserves beat and Toronto timestamps through snapshot generation
 ok 97 - official XML preserves beat and Toronto timestamps through snapshot generation
   ---
-  duration_ms: 2.023864
+  duration_ms: 2.804488
   ...
 # Subtest: freshness detects stalled source, stalled updater, and missing metadata
 ok 98 - freshness detects stalled source, stalled updater, and missing metadata
   ---
-  duration_ms: 0.158056
+  duration_ms: 0.291153
   ...
 # Subtest: history selections include the cutoff and exclude older or future calls
 ok 99 - history selections include the cutoff and exclude older or future calls
   ---
-  duration_ms: 0.304397
+  duration_ms: 0.558382
   ...
 # Subtest: live TPS sample normalizes into police calls
 ok 100 - live TPS sample normalizes into police calls
   ---
-  duration_ms: 219.359441
+  duration_ms: 174.8417
   ...
 # Subtest: TPS uses stable source-prefixed IDs, reported division and no invented ongoing status
 ok 101 - TPS uses stable source-prefixed IDs, reported division and no invented ongoing status
   ---
-  duration_ms: 2.034362
+  duration_ms: 2.819435
   ...
 # Subtest: TPS fetch checks IDs and rejects partial or error payloads
 ok 102 - TPS fetch checks IDs and rejects partial or error payloads
   ---
-  duration_ms: 1.270328
+  duration_ms: 1.962765
   ...
 # Subtest: police retention preserves separate records without conflating TFS
 ok 103 - police retention preserves separate records without conflating TFS
   ---
-  duration_ms: 0.217127
+  duration_ms: 0.348131
   ...
 # Subtest: unit labels handle numeric-leading codes without changing geographic divisions
 ok 104 - unit labels handle numeric-leading codes without changing geographic divisions
   ---
-  duration_ms: 5.354487
+  duration_ms: 7.951126
   ...
 # Subtest: nearby distances handle geographic distance and missing locations
 ok 105 - nearby distances handle geographic distance and missing locations
   ---
-  duration_ms: 1.31527
+  duration_ms: 2.133564
   ...
 # Subtest: TPS normalization rejects invalid records and preserves unpublished-field fallbacks
 ok 106 - TPS normalization rejects invalid records and preserves unpublished-field fallbacks
   ---
-  duration_ms: 1.095001
+  duration_ms: 1.540527
   ...
 # Subtest: TPS fetch handles empty feeds and paginates beyond 100 records
 ok 107 - TPS fetch handles empty feeds and paginates beyond 100 records
   ---
-  duration_ms: 1.580441
+  duration_ms: 1.912241
   ...
 # Subtest: TPS fetch rejects HTTP failures, missing IDs and incomplete pages
 ok 108 - TPS fetch rejects HTTP failures, missing IDs and incomplete pages
   ---
-  duration_ms: 0.618263
+  duration_ms: 0.992213
   ...
 # Subtest: police retention includes the seven-day boundary and replaces refreshed records
 ok 109 - police retention includes the seven-day boundary and replaces refreshed records
   ---
-  duration_ms: 0.827479
+  duration_ms: 0.299319
   ...
 # Subtest: live transit feed satisfies production parser
 ok 110 - live transit feed satisfies production parser
   ---
-  duration_ms: 400.577762
+  duration_ms: 345.65116
   ...
 # Subtest: updates distinguish new calls from revisions and removals
 ok 111 - updates distinguish new calls from revisions and removals
   ---
-  duration_ms: 1.158685
+  duration_ms: 1.860244
   ...
 # Subtest: summary includes each applied filter and clear defaults
 ok 112 - summary includes each applied filter and clear defaults
   ---
-  duration_ms: 0.268168
+  duration_ms: 0.427157
   ...
 # Subtest: share links round trip filters without coordinates or unrelated URL data
 ok 113 - share links round trip filters without coordinates or unrelated URL data
   ---
-  duration_ms: 1.321282
+  duration_ms: 1.899086
   ...
 # Subtest: clustering preserves calls and separates distant screen cells
 ok 114 - clustering preserves calls and separates distant screen cells
   ---
-  duration_ms: 0.313229
+  duration_ms: 0.496237
   ...
 # Subtest: row selection finds the entire overlapping group, or none for missing calls
 ok 115 - row selection finds the entire overlapping group, or none for missing calls
   ---
-  duration_ms: 0.192241
+  duration_ms: 0.361585
   ...
 # Subtest: preferences are validated, exclude private session data and tolerate blocked storage
 ok 116 - preferences are validated, exclude private session data and tolerate blocked storage
   ---
-  duration_ms: 0.424136
+  duration_ms: 0.639935
   ...
 # Subtest: source lines distinguish published times from successful checks
 ok 117 - source lines distinguish published times from successful checks
   ---
-  duration_ms: 0.176047
+  duration_ms: 0.312063
   ...
 1..117
 # tests 117
@@ -604,7 +604,7 @@ ok 117 - source lines distinguish published times from successful checks
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 6260.106423
+# duration_ms 4868.349343
 # start of coverage report
 # --------------------------------------------------------------------------------------------------
 # file                                              | line % | branch % | funcs % | uncovered lines
