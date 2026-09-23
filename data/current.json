@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T03:49:04.594Z",
-  "sourceUpdatedAt": "2026-09-23T03:45:01.000Z",
+  "fetchedAt": "2026-09-23T03:50:37.296Z",
+  "sourceUpdatedAt": "2026-09-23T03:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26150715",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6S",
+      "division": "425",
+      "timestamp": "2026-09-23T03:42:57.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T03:50:37.296Z",
+      "lastSeenAt": "2026-09-23T03:50:37.296Z",
+      "geography": {
+        "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
+        "approximate": true,
+        "coordinates": [
+          43.6512,
+          -79.4828
+        ],
+        "division": "Division 11",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150714",
       "source": "TFS",
@@ -16,9 +42,16 @@
       "timestamp": "2026-09-23T03:37:25.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "422"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T03:46:05.581Z",
-      "lastSeenAt": "2026-09-23T03:49:04.594Z",
+      "lastSeenAt": "2026-09-23T03:50:37.296Z",
       "geography": {
         "text": "Approximate area: (M6P) West Toronto (High Park / The Junction South)",
         "approximate": true,
@@ -107,7 +140,7 @@
       "division": "115",
       "timestamp": "2026-09-23T03:23:56.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -176,7 +209,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T03:25:30.781Z",
-      "lastSeenAt": "2026-09-23T03:49:04.594Z",
+      "lastSeenAt": "2026-09-23T03:50:37.296Z",
       "geography": {
         "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
         "approximate": true,
@@ -253,7 +286,7 @@
       "division": "143",
       "timestamp": "2026-09-23T03:17:09.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -6783,6 +6816,7 @@
             "224",
             "225",
             "226",
+            "232",
             "233",
             "326"
           ]
@@ -6802,7 +6836,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T03:49:04.594Z",
+      "lastSeenAt": "2026-09-23T03:50:37.296Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -108202,12 +108236,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T03:49:04.594Z",
-      "sourceUpdatedAt": "2026-09-23T03:45:01.000Z",
+      "fetchedAt": "2026-09-23T03:50:37.296Z",
+      "sourceUpdatedAt": "2026-09-23T03:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T03:49:04.594Z",
+      "fetchedAt": "2026-09-23T03:50:37.296Z",
       "status": "ok"
     }
   },
@@ -185100,6 +185134,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6S": {
+      "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
+      "approximate": true,
+      "coordinates": [
+        43.6512,
+        -79.4828
+      ],
+      "division": "Division 11",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M6P": {
       "text": "Approximate area: (M6P) West Toronto (High Park / The Junction South)",
       "approximate": true,
@@ -185840,18 +185886,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-23T00:26:29.111Z"
-    },
-    "M6S": {
-      "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
-      "approximate": true,
-      "coordinates": [
-        43.6512,
-        -79.4828
-      ],
-      "division": "Division 11",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M8Y": {
       "text": "Approximate area: (M8Y) Etobicoke (Old Mill South / King's Mill Park / Sunnylea / Humber Bay / Mimico NE / The Queensway East / Royal York South East / Kingsway Park South East)",
