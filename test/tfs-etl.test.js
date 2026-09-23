@@ -95,3 +95,20 @@ test('disruption snapshots are separate from incidents and receive previous cach
     assert.equal(result.incidents.length,0);
     assert.deepEqual(JSON.parse(await readFile(outputPath,'utf8')).disruptions,disruptions);
 });
+
+test('CLI entry points honor environment paths and fallback writes GitHub output', async t => {
+ const {execFileSync}=await import('node:child_process');
+ const dir=await workspace(t), outputPath=join(dir,'data/current.json'), xmlPath=join(dir,'source.xml'), preload=join(dir,'fetch.mjs');
+ const current=new Date().toISOString();
+ await writeFile(xmlPath,`<tfs_active_incidents><update_from_db_time>${current}</update_from_db_time></tfs_active_incidents>`);
+ await writeFile(preload,`globalThis.fetch=async url=>({ok:true,json:async()=>String(url).includes('returnIdsOnly')?{objectIds:[]}:{Closure:[]},text:async()=> 'header { gtfs_realtime_version: "2.0" timestamp: '+Math.floor(Date.now()/1000)+' }'});`);
+ for(const script of ['tfs-etl.js','update-tfs.js']) {
+  const stdout=execFileSync(process.execPath,['--import',preload,new URL('../scripts/'+script,import.meta.url).pathname],{env:{...process.env,TFS_OUTPUT:outputPath,TFS_XML:xmlPath,TFS_UPDATED_BY:'manual'},encoding:'utf8'});
+  assert.match(stdout,/Wrote 0 incidents/);
+  const saved=JSON.parse(await readFile(outputPath,'utf8'));
+  assert.equal(saved.updatedBy,'manual');assert.equal(saved.feeds.TPS.status,'ok');assert.equal(saved.disruptions.transit.status,'ok');
+ }
+ const githubOutput=join(dir,'github-output');
+ const stdout=execFileSync(process.execPath,[new URL('../scripts/tfs-fallback.js',import.meta.url).pathname],{cwd:dir,env:{...process.env,GITHUB_OUTPUT:githubOutput},encoding:'utf8'});
+ assert.match(stdout,/skipped/);assert.equal(await readFile(githubOutput,'utf8'),'updated=false\n');
+});

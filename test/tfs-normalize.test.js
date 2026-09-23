@@ -37,3 +37,18 @@ test("preserves unknown apparatus as an Other Unit", () => {
         { type: "Other Unit", numbers: ["Foobar-9"] }
     ]);
 });
+
+test('normalization rejects non-records and handles missing fields and unit identifiers', () => {
+ for (const value of [null,undefined,'bad']) assert.throws(()=>normalizeTfsIncident(value), /must be an object/);
+ const result=normalizeTfsIncident({timestamp:'2026-09-22T00:00:00Z',division:'D1',alarm_level:'bad',isOngoing:false,cad:1});
+ assert.equal(result.description,'Fire incident');assert.equal(result.location,'Location not published');assert.equal(result.division,'D1');assert.equal(result.alarmLevel,null);assert.equal(result.isOngoing,false);
+ assert.deepEqual(parseDispatchedUnits('Pumper, , REHAB, Z99'),[{type:'Rehab Unit',numbers:['unit']},{type:'Other Unit',numbers:['Z99']}]);
+});
+
+test('TFS fetch propagates HTTP failures and the supplied abort signal', async () => {
+ const {fetchTfsSource}=await import('../src/tfs/source.js');
+ const signal=new AbortController().signal;
+ await assert.rejects(fetchTfsSource({signal,fetchImpl:async(url,options)=>{
+  assert.equal(options.signal,signal);return {ok:false,status:503};
+ }}), /HTTP 503/);
+});
