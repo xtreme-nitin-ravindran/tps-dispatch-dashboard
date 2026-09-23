@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T04:19:45.481Z",
-  "sourceUpdatedAt": "2026-09-23T04:15:02.000Z",
+  "fetchedAt": "2026-09-23T04:21:17.219Z",
+  "sourceUpdatedAt": "2026-09-23T04:20:01.000Z",
   "incidents": [
+    {
+      "id": "F26150726",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "AMARANTH CRT, NY / / FLEMINGTON RD",
+      "division": "132",
+      "timestamp": "2026-09-23T04:14:17.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T04:21:17.219Z",
+      "lastSeenAt": "2026-09-23T04:21:17.219Z",
+      "geography": {
+        "text": "Amaranth Court & Flemington Road",
+        "approximate": false,
+        "coordinates": [
+          43.71884,
+          -79.4472672
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-23T04:21:17.219Z"
+      }
+    },
     {
       "id": "F26150725",
       "source": "TFS",
@@ -16,9 +42,16 @@
       "timestamp": "2026-09-23T04:09:26.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "325"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T04:16:17.678Z",
-      "lastSeenAt": "2026-09-23T04:19:45.481Z",
+      "lastSeenAt": "2026-09-23T04:21:17.219Z",
       "geography": {
         "text": "Approximate area: (M4M) East Toronto (Studio District)",
         "approximate": true,
@@ -65,6 +98,12 @@
       "isOngoing": true,
       "vehicles": [
         {
+          "type": "Fire Truck",
+          "numbers": [
+            "443"
+          ]
+        },
+        {
           "type": "Rescue Truck",
           "numbers": [
             "441"
@@ -72,7 +111,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T04:11:35.951Z",
-      "lastSeenAt": "2026-09-23T04:19:45.481Z",
+      "lastSeenAt": "2026-09-23T04:21:17.219Z",
       "geography": {
         "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
         "approximate": true,
@@ -106,7 +145,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T04:11:35.951Z",
-      "lastSeenAt": "2026-09-23T04:19:45.481Z",
+      "lastSeenAt": "2026-09-23T04:21:17.219Z",
       "geography": {
         "text": "Farnham Avenue between Woodlawn Avenue West & Avenue Road",
         "approximate": false,
@@ -145,7 +184,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T04:11:35.951Z",
-      "lastSeenAt": "2026-09-23T04:19:45.481Z",
+      "lastSeenAt": "2026-09-23T04:21:17.219Z",
       "geography": {
         "text": "William Morgan Drive & Patriarch Bartholomew Way",
         "approximate": false,
@@ -222,7 +261,7 @@
       "division": "226",
       "timestamp": "2026-09-23T03:54:07.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Ladder Truck",
@@ -522,7 +561,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T03:50:37.296Z",
-      "lastSeenAt": "2026-09-23T04:19:45.481Z",
+      "lastSeenAt": "2026-09-23T04:21:17.219Z",
       "geography": {
         "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
         "approximate": true,
@@ -7487,7 +7526,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T04:19:45.481Z",
+      "lastSeenAt": "2026-09-23T04:21:17.219Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -108887,12 +108926,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T04:19:45.481Z",
-      "sourceUpdatedAt": "2026-09-23T04:15:02.000Z",
+      "fetchedAt": "2026-09-23T04:21:17.219Z",
+      "sourceUpdatedAt": "2026-09-23T04:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T04:19:45.481Z",
+      "fetchedAt": "2026-09-23T04:21:17.219Z",
       "status": "ok"
     }
   },
@@ -185787,6 +185826,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "AMARANTH CRT, NY / / FLEMINGTON RD": {
+      "text": "Amaranth Court & Flemington Road",
+      "approximate": false,
+      "coordinates": [
+        43.71884,
+        -79.4472672
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-23T04:21:17.219Z"
+    },
     "M4M": {
       "text": "Approximate area: (M4M) East Toronto (Studio District)",
       "approximate": true,
