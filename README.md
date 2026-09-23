@@ -100,12 +100,18 @@ and temporary files/repositories; they do not publish changes or require live fe
 | `view-controls.test.js` | New-call detection, filter summaries/reset defaults, share links, clustering, row selection, preferences, and source timestamp labels. |
 | `promotion.test.js` | Promotion of only the tested dev commit, superseded/empty changes, protection rejection, and prevention of duplicate Pages requests. |
 
-The live integration suite covers all eight data sources:
+The live integration suite has one test file per data source. `npm run test:integration` runs all eight files, including TFS. To check a single source, run `node --test test/tps-source.integration.test.js` (substitute the file below):
 
 | Test file | Live checks |
 | --- | --- |
 | `test/tfs-source.integration.test.js` | TFS feed timestamp and normalization of one random active incident, when present. |
-| `test/all-source.integration.test.js` | TPS call sample; road restrictions and TTC alerts through their production parsers; TPS boundary polygon sample; Centreline street/intersection fields; GeoNames Canada archive and Toronto postal coordinates; one OpenStreetMap PNG tile. |
+| `test/tps-source.integration.test.js` | TPS call sample and normalization. |
+| `test/road-restrictions-source.integration.test.js` | Road restrictions through the production parser. |
+| `test/ttc-alerts-source.integration.test.js` | TTC alerts through the production parser and feed timestamp. |
+| `test/police-boundaries-source.integration.test.js` | TPS boundary polygon sample. |
+| `test/centreline-source.integration.test.js` | Centreline street and intersection fields. |
+| `test/geonames-source.integration.test.js` | GeoNames Canada archive and Toronto postal coordinates. |
+| `test/openstreetmap-source.integration.test.js` | One OpenStreetMap PNG tile. |
 
 These tests require internet access. Source outages, rate limits, or incompatible
 responses fail the suite; empty valid incident/alert feeds are allowed. Geographic
