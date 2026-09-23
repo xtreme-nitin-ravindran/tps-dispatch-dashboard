@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T02:33:58.391Z",
-  "sourceUpdatedAt": "2026-09-23T02:30:02.000Z",
+  "fetchedAt": "2026-09-23T02:35:30.288Z",
+  "sourceUpdatedAt": "2026-09-23T02:35:01.000Z",
   "incidents": [
+    {
+      "id": "F26150694",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5A",
+      "division": "333",
+      "timestamp": "2026-09-23T02:27:04.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T02:35:30.288Z",
+      "lastSeenAt": "2026-09-23T02:35:30.288Z",
+      "geography": {
+        "text": "Approximate area: (M5A) Toronto",
+        "approximate": true,
+        "coordinates": [
+          43.6555,
+          -79.3626
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-c8b5d28e6e6044ab240df32c",
       "source": "TPS",
@@ -57,7 +83,7 @@
       "division": "231",
       "timestamp": "2026-09-23T02:20:28.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-23T02:30:18.158Z",
       "lastSeenAt": "2026-09-23T02:33:58.391Z",
@@ -93,7 +119,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T02:25:38.381Z",
-      "lastSeenAt": "2026-09-23T02:33:58.391Z",
+      "lastSeenAt": "2026-09-23T02:35:30.288Z",
       "geography": {
         "text": "Approximate area: (M4C) East York (Woodbine Heights)",
         "approximate": true,
@@ -126,7 +152,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T02:25:38.381Z",
-      "lastSeenAt": "2026-09-23T02:33:58.391Z",
+      "lastSeenAt": "2026-09-23T02:35:30.288Z",
       "geography": {
         "text": "Approximate area: (M5M) North York (Bedford Park / Lawrence Park West / Lawrence Manor East)",
         "approximate": true,
@@ -242,7 +268,7 @@
       "division": "445",
       "timestamp": "2026-09-23T02:11:26.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -285,7 +311,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T02:20:39.596Z",
-      "lastSeenAt": "2026-09-23T02:33:58.391Z",
+      "lastSeenAt": "2026-09-23T02:35:30.288Z",
       "geography": {
         "text": "Approximate area: (M6P) West Toronto (High Park / The Junction South)",
         "approximate": true,
@@ -419,7 +445,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T02:15:48.337Z",
-      "lastSeenAt": "2026-09-23T02:33:58.391Z",
+      "lastSeenAt": "2026-09-23T02:35:30.288Z",
       "geography": {
         "text": "Finch Avenue West & Humberline Drive",
         "approximate": false,
@@ -442,7 +468,7 @@
       "division": "341",
       "timestamp": "2026-09-23T02:05:08.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -942,7 +968,7 @@
       "division": "122",
       "timestamp": "2026-09-23T01:47:05.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -5720,7 +5746,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T02:33:58.391Z",
+      "lastSeenAt": "2026-09-23T02:35:30.288Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -107203,12 +107229,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T02:33:58.391Z",
-      "sourceUpdatedAt": "2026-09-23T02:30:02.000Z",
+      "fetchedAt": "2026-09-23T02:35:30.288Z",
+      "sourceUpdatedAt": "2026-09-23T02:35:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T02:33:58.391Z",
+      "fetchedAt": "2026-09-23T02:35:30.288Z",
       "status": "ok"
     }
   },
@@ -184135,6 +184161,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5A": {
+      "text": "Approximate area: (M5A) Toronto",
+      "approximate": true,
+      "coordinates": [
+        43.6555,
+        -79.3626
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1J": {
       "text": "Approximate area: (M1J) Scarborough (Eglinton)",
       "approximate": true,
@@ -184215,18 +184253,6 @@
         -79.4633
       ],
       "division": "Division 11",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5A": {
-      "text": "Approximate area: (M5A) Toronto",
-      "approximate": true,
-      "coordinates": [
-        43.6555,
-        -79.3626
-      ],
-      "division": "Division 51",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
