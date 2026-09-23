@@ -13,11 +13,14 @@ test('requires all endpoints and reports both possible divisions', () => {
   assert.equal(intersectionDivision(location, [[1,1],[1,1.5]], boundaries), 'Division 14');
   assert.equal(intersectionDivision(location, [[1,1],[1,4]], boundaries), 'Possible divisions 14 / 52');
   for (const points of [undefined, [[1,1]], [[1,1],null], [[1,1],[20,20]]]) assert.equal(intersectionDivision(location, points, boundaries), 'Unknown');
+  assert.equal(intersectionDivision('', [], boundaries), 'Unknown');
 });
 test('accepts only high confidence Canadian intersection matches', async () => {
   const valid = {score:100, attributes:{Country:'CAN',Addr_type:'StreetInt'},location:{x:-79.4,y:43.64}};
   const fetcher = candidate => async () => ({ok:true,json:async()=>({candidates:[candidate]})});
   assert.deepEqual(await lookupIntersection('test',fetcher(valid)),[43.64,-79.4]);
   for (const candidate of [{...valid,score:50},{...valid,attributes:{Country:'CAN',Addr_type:'StreetName'}},{...valid,location:{x:null,y:43.64}}]) assert.equal(await lookupIntersection('test',fetcher(candidate)),null);
+  assert.equal(await lookupIntersection('test',async()=>({ok:false})),null);
+  assert.equal(await lookupIntersection('test',fetcher({...valid,location:undefined})),null);
   assert.equal(await lookupIntersection('test',async()=>{throw Error('offline')}),null);
 });

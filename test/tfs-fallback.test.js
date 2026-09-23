@@ -27,3 +27,32 @@ test('fresh snapshot is untouched; stale snapshot records GitHub updater; corrup
   await assert.rejects(runFallback({outputPath,now}));
   assert.equal(await readFile(outputPath,'utf8'),'broken');
 });
+
+test('missing snapshots run the injected updater', async t => {
+  const dir = await mkdtemp(join(tmpdir(),'tfs-fallback-missing-'));
+  t.after(()=>rm(dir,{recursive:true,force:true}));
+  const outputPath=join(dir,'current.json');
+  let received;
+  assert.equal(await runFallback({outputPath,now,etl:async options=>{received=options;}}),true);
+  assert.deepEqual(received,{outputPath,now,updatedBy:'github-actions'});
+});
+
+test('default fallback updater fetches all sources for a missing snapshot', async t => {
+  const dir = await mkdtemp(join(tmpdir(),'tfs-fallback-default-'));
+  t.after(()=>rm(dir,{recursive:true,force:true}));
+  const outputPath=join(dir,'current.json');
+  const originalFetch=globalThis.fetch;
+  globalThis.fetch=async url=>({
+    ok:true,
+    json:async()=>String(url).includes('returnIdsOnly')?{objectIds:[]}:{Closure:[]},
+    text:async()=>String(url).includes('livecad.xml')
+      ? `<tfs_active_incidents><update_from_db_time>${now.toISOString()}</update_from_db_time></tfs_active_incidents>`
+      : `header { gtfs_realtime_version: "2.0" timestamp: ${now.getTime()/1000} }`
+  });
+  try {
+    assert.equal(await runFallback({outputPath,now}),true);
+  } finally {
+    globalThis.fetch=originalFetch;
+  }
+  assert.equal(JSON.parse(await readFile(outputPath,'utf8')).updatedBy,'github-actions');
+});

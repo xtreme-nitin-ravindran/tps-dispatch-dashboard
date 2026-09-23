@@ -86,4 +86,6 @@ for (const [label, rows] of [
 
 test('snapshot rejects absent sources and non-array incidents', () => {
  for (const source of [null, {}, {incidents:{}}]) assert.throws(()=>buildTfsSnapshot(source), /incidents array/);
+ const result=buildTfsSnapshot({updatedAt:'2026-09-16T12:00:00Z',incidents:[{}]},new Date('2026-09-16T12:00:00Z'));
+ assert.deepEqual(result.incidents,[]);
 });

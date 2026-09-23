@@ -24,3 +24,9 @@ test('ambiguous shared intersections are rejected', () => {
   const resolve = createOpenLocationResolver({streets:{'A St':['1','2'],'B St':['1','2']},nodes:{'1':[43.6,-79.4],'2':[43.7,-79.4]},postal:{}},boundaries);
   assert.equal(resolve('A ST / B ST').coordinates,null);
 });
+
+test('unknown postal areas and empty locations remain unresolved', () => {
+  const resolve = createOpenLocationResolver({streets:{},nodes:{},postal:{}},boundaries);
+  assert.equal(resolve('M5A').coordinates,null);
+  assert.equal(resolve(null).coordinates,null);
+});

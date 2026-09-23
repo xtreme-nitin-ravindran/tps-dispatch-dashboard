@@ -51,4 +51,7 @@ test('TFS fetch propagates HTTP failures and the supplied abort signal', async (
  await assert.rejects(fetchTfsSource({signal,fetchImpl:async(url,options)=>{
   assert.equal(options.signal,signal);return {ok:false,status:503};
  }}), /HTTP 503/);
+ const result=await fetchTfsSource({fetchImpl:async()=>({ok:true,text:async()=>'<tfs_active_incidents><update_from_db_time>2026-09-22T00:00:00Z</update_from_db_time><event><event_num>F1</event_num><prime_street>A &amp; B &#35; &#x43;</prime_street></event><event><event_num></event_num></event></tfs_active_incidents>'})});
+ assert.equal(result.incidents.length,1);
+ assert.equal(result.incidents[0].location,'A & B # C');
 });
