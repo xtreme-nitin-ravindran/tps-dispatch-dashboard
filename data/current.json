@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T02:59:02.178Z",
-  "sourceUpdatedAt": "2026-09-23T02:55:01.000Z",
+  "fetchedAt": "2026-09-23T03:00:22.647Z",
+  "sourceUpdatedAt": "2026-09-23T03:00:01.000Z",
   "incidents": [
+    {
+      "id": "F26150701",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1K",
+      "division": "221",
+      "timestamp": "2026-09-23T02:52:34.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T03:00:22.647Z",
+      "lastSeenAt": "2026-09-23T03:00:22.647Z",
+      "geography": {
+        "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
+        "approximate": true,
+        "coordinates": [
+          43.7298,
+          -79.2639
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150700",
       "source": "TFS",
@@ -16,9 +42,16 @@
       "timestamp": "2026-09-23T02:45:54.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "225"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T02:55:20.807Z",
-      "lastSeenAt": "2026-09-23T02:59:02.178Z",
+      "lastSeenAt": "2026-09-23T03:00:22.647Z",
       "geography": {
         "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
         "approximate": true,
@@ -42,9 +75,29 @@
       "timestamp": "2026-09-23T02:41:45.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "31"
+          ]
+        },
+        {
+          "type": "Hazmat Unit",
+          "numbers": [
+            "323"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "311",
+            "323"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T02:55:20.807Z",
-      "lastSeenAt": "2026-09-23T02:59:02.178Z",
+      "lastSeenAt": "2026-09-23T03:00:22.647Z",
       "geography": {
         "text": "Cottingham Street & Lane East Sidney South Cottingham",
         "approximate": false,
@@ -232,7 +285,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T02:40:29.511Z",
-      "lastSeenAt": "2026-09-23T02:59:02.178Z",
+      "lastSeenAt": "2026-09-23T03:00:22.647Z",
       "geography": {
         "text": "Approximate area: (M4H) East York (Thorncliffe Park)",
         "approximate": true,
@@ -718,7 +771,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T02:15:48.337Z",
-      "lastSeenAt": "2026-09-23T02:59:02.178Z",
+      "lastSeenAt": "2026-09-23T03:00:22.647Z",
       "geography": {
         "text": "Finch Avenue West & Humberline Drive",
         "approximate": false,
@@ -6019,7 +6072,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T02:59:02.178Z",
+      "lastSeenAt": "2026-09-23T03:00:22.647Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -107502,12 +107555,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T02:59:02.178Z",
-      "sourceUpdatedAt": "2026-09-23T02:55:01.000Z",
+      "fetchedAt": "2026-09-23T03:00:22.647Z",
+      "sourceUpdatedAt": "2026-09-23T03:00:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T02:59:02.178Z",
+      "fetchedAt": "2026-09-23T03:00:22.647Z",
       "status": "ok"
     }
   },
@@ -183312,8 +183365,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-23T02:55:20.807Z",
-      "fetchedAt": "2026-09-23T02:55:20.807Z"
+      "checkedAt": "2026-09-23T03:00:22.647Z",
+      "fetchedAt": "2026-09-23T03:00:22.647Z"
     },
     "transit": {
       "items": [
@@ -184400,14 +184453,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-23T02:55:21.000Z",
+      "sourceUpdatedAt": "2026-09-23T03:00:23.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-23T02:55:20.807Z",
-      "fetchedAt": "2026-09-23T02:55:20.807Z"
+      "checkedAt": "2026-09-23T03:00:22.647Z",
+      "fetchedAt": "2026-09-23T03:00:22.647Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1K": {
+      "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
+      "approximate": true,
+      "coordinates": [
+        43.7298,
+        -79.2639
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1L": {
       "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
       "approximate": true,
@@ -185232,18 +185297,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T21:56:17.329Z"
-    },
-    "M1K": {
-      "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
-      "approximate": true,
-      "coordinates": [
-        43.7298,
-        -79.2639
-      ],
-      "division": "Division 41",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M1B": {
       "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
