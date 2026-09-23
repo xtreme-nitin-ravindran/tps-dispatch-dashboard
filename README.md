@@ -77,7 +77,7 @@ and temporary files/repositories; they do not publish changes or require live fe
 
 ### Test coverage
 
-`npm test` runs all 18 unit test files below:
+`npm test` runs all 18 JavaScript unit test files below:
 
 | Test file (under `test/`) | What it verifies |
 | --- | --- |
@@ -99,6 +99,8 @@ and temporary files/repositories; they do not publish changes or require live fe
 | `call-presentation.test.js` | Report ages, call explanations, location confidence, and source-specific status without inferring resolution. |
 | `view-controls.test.js` | New-call detection, filter summaries/reset defaults, share links, clustering, row selection, preferences, and source timestamp labels. |
 | `promotion.test.js` | Promotion of only the tested dev commit, superseded/empty changes, protection rejection, existing PR reuse, retry handling, concurrent branch updates, and prevention of duplicate Pages requests. |
+
+`npm run test:python` runs `test/python/test_location_index.py` using Python 3’s standard-library unittest runner. It verifies street endpoints, coordinate order and rounding, node deduplication, postal-area filtering and labels, repeatable output, and preservation of the existing index when inputs fail. Tests use temporary fixtures and do not download data or modify the bundled index.
 
 The live integration suite has one test file per data source. `npm run test:integration` runs all eight files, including TFS. To check a single source, run `node --test test/tps-source.integration.test.js` (substitute the file below):
 
@@ -124,7 +126,8 @@ visually as well.
 With Node.js and Git installed:
 
 ```bash
-npm test                              # All unit tests
+npm test                              # JavaScript unit tests
+npm run test:python                   # Python location-index tests (requires Python 3)
 npm run test:integration               # All live-source integration tests
 node --test test/disruptions.test.js   # One file; substitute any file listed above
 node --test --watch test/disruptions.test.js # Re-run one file as it changes
@@ -158,6 +161,7 @@ Docker and Git are required; Node.js is not required on the host.
   docker build -f Dockerfile.test -t toronto-dispatch-tests .
   docker run --rm -e TZ=UTC toronto-dispatch-tests
   docker run --rm -e TZ=America/Los_Angeles toronto-dispatch-tests
+  docker run --rm toronto-dispatch-tests npm run test:python
   docker run --rm toronto-dispatch-tests npm run test:integration
   docker run --rm -i toronto-dispatch-tests node --input-type=module --check < app.js
   docker run --rm toronto-dispatch-tests sh -c 'find src scripts -name "*.js" -exec node --check {} +'
