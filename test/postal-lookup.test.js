@@ -28,3 +28,24 @@ test('rejects failed, wrong-country, wrong-prefix, low-score and invalid coordin
   assert.equal(await lookupPostalCoordinates('M5A', async () => ({ ok:false })), null);
   assert.equal(await lookupPostalCoordinates('invalid', () => { throw Error('must not fetch'); }), null);
 });
+
+test('postal candidates must identify a postal area and usable Toronto coordinates', async () => {
+  for (const patch of [{attributes: undefined}, {attributes: {...candidate.attributes, Addr_type:'StreetAddress'}}, {location: undefined}, {location:{x:-79.4,y:44}}, {location:{x:-79.4,y:43}}, {location:{x:-79,y:43.7}}]) {
+    assert.equal(await lookupPostalCoordinates('M5A', response([{...candidate,...patch}])), null);
+  }
+});
+
+test('neighbourhood lookup returns Canadian area hints and requests longitude first', async () => {
+  const { lookupNeighbourhood } = await import('../src/postal-lookup.js');
+  assert.equal(await lookupNeighbourhood([43.65,-79.36], async url => {
+    assert.equal(url.searchParams.get('location'), '-79.36,43.65');
+    assert.equal(url.searchParams.get('featureTypes'), 'Neighborhood');
+    return {ok:true,json:async()=>({address:{CountryCode:'CAN',Neighborhood:'Moss Park'}})};
+  }), 'Moss Park');
+  for (const address of [undefined, {CountryCode:'USA',Neighborhood:'Wrong area'}, {CountryCode:'CAN'}]) {
+    assert.equal(await lookupNeighbourhood([43.65,-79.36], async()=>({ok:true,json:async()=>({address})})), '');
+  }
+  assert.equal(await lookupNeighbourhood(null, ()=>assert.fail('must not fetch')), '');
+  assert.equal(await lookupNeighbourhood([43.65,-79.36], async()=>({ok:false})), '');
+  assert.equal(await lookupNeighbourhood([43.65,-79.36], async()=>{throw Error('offline');}), '');
+});

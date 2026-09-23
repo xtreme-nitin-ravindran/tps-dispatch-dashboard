@@ -5,7 +5,7 @@ const words = { ST:'Street', BLVD:'Boulevard', CRES:'Crescent', RD:'Road', AVE:'
   LN:'Lane', N:'North', S:'South', E:'East', W:'West', TER:'Terrace', GDNS:'Gardens' };
 export function streetName(value) {
   return String(value || '').replace(/,\s*(TT|NY|EY|ET|SC|YK)\b/gi, '').trim()
-    .split(/\s+/).map(word => words[word.toUpperCase()] || word[0]?.toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+    .split(/\s+/).filter(Boolean).map(word => words[word.toUpperCase()] || word[0]?.toUpperCase() + word.slice(1).toLowerCase()).join(' ');
 }
 export function locationDisplay(location, points = [], neighbourhood = '') {
   const prefix = postalPrefix(location);
