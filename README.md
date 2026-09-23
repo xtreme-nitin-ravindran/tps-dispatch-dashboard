@@ -1,5 +1,9 @@
 # SirenTO
 
+[![Measured JavaScript lines coverage](https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/coverage/lines.svg)](#test-coverage)
+[![Measured JavaScript branches coverage](https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/coverage/branches.svg)](#test-coverage)
+[![Measured JavaScript functions coverage](https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/coverage/functions.svg)](#test-coverage)
+
 Fire and police calls, road restrictions, and transit alerts across Toronto.
 
 SirenTO is an independent dashboard for exploring public Toronto Fire Services (TFS)
@@ -77,6 +81,18 @@ and temporary files/repositories; they do not publish changes or require live fe
 
 ### Test coverage
 
+The badges show Node’s measured line, branch, and function coverage after successful CI checks on `dev`. They include test files and exclude unloaded code, browser UI interactions, and Python code; they are not whole-repository coverage. The generated badges and [full report](https://github.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/blob/coverage/coverage-report.txt) live on the `coverage` branch and appear after the first successful publishing run. Python tests run separately and include checks for badge generation.
+
+To generate the same report and badges locally after building the Docker image:
+
+```bash
+bash -o pipefail -c 'docker run --rm toronto-dispatch-tests sh -c "node --experimental-test-coverage --test test/*.test.js" | tee /tmp/sirento-coverage.txt'
+python3 scripts/coverage-badges.py /tmp/sirento-coverage.txt /tmp/sirento-coverage-badges
+```
+
+This combined run includes the live-source integration tests and requires internet access.
+Badge generation requires Python 3 and writes three SVG files to the output directory.
+
 `npm test` runs all 18 JavaScript unit test files below:
 
 | Test file (under `test/`) | What it verifies |
@@ -100,7 +116,7 @@ and temporary files/repositories; they do not publish changes or require live fe
 | `view-controls.test.js` | New-call detection, filter summaries/reset defaults, share links, clustering, row selection, preferences, and source timestamp labels. |
 | `promotion.test.js` | Promotion of only the tested dev commit, superseded/empty changes, protection rejection, existing PR reuse, retry handling, concurrent branch updates, and prevention of duplicate Pages requests. |
 
-`npm run test:python` runs `test/python/test_location_index.py` using Python 3’s standard-library unittest runner. It verifies street endpoints, coordinate order and rounding, node deduplication, postal-area filtering and labels, repeatable output, and preservation of the existing index when inputs fail. Tests use temporary fixtures and do not download data or modify the bundled index.
+`npm run test:python` runs the files in `test/python/` using Python 3’s standard-library unittest runner. It verifies street endpoints, coordinate order and rounding, node deduplication, postal-area filtering and labels, repeatable output, and preservation of the existing index when inputs fail. Tests use temporary fixtures and do not download data or modify the bundled index.
 
 The live integration suite has one test file per data source. `npm run test:integration` runs all eight files, including TFS. To check a single source, run `node --test test/tps-source.integration.test.js` (substitute the file below):
 
