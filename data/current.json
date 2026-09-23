@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T02:38:48.503Z",
-  "sourceUpdatedAt": "2026-09-23T02:35:01.000Z",
+  "fetchedAt": "2026-09-23T02:40:29.511Z",
+  "sourceUpdatedAt": "2026-09-23T02:40:01.000Z",
   "incidents": [
+    {
+      "id": "F26150696",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "LAWRENCE AVE, NY / CORONA ST / DUFFERIN ST",
+      "division": "132",
+      "timestamp": "2026-09-23T02:31:41.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T02:40:29.511Z",
+      "lastSeenAt": "2026-09-23T02:40:29.511Z",
+      "geography": {
+        "text": "Lawrence Avenue between Corona Street & Dufferin Street",
+        "approximate": false,
+        "coordinates": [
+          43.71421795,
+          -79.45357154999999
+        ],
+        "division": "Possible divisions 13 / 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-23T02:40:29.511Z"
+      }
+    },
+    {
+      "id": "F26150697",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4H",
+      "division": "322",
+      "timestamp": "2026-09-23T02:31:40.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T02:40:29.511Z",
+      "lastSeenAt": "2026-09-23T02:40:29.511Z",
+      "geography": {
+        "text": "Approximate area: (M4H) East York (Thorncliffe Park)",
+        "approximate": true,
+        "coordinates": [
+          43.7059,
+          -79.3464
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T23:01:41.742Z"
+      }
+    },
+    {
+      "id": "F26150695",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6H",
+      "division": "345",
+      "timestamp": "2026-09-23T02:31:20.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T02:40:29.511Z",
+      "lastSeenAt": "2026-09-23T02:40:29.511Z",
+      "geography": {
+        "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
+        "approximate": true,
+        "coordinates": [
+          43.6655,
+          -79.4378
+        ],
+        "division": "Division 11",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150694",
       "source": "TFS",
@@ -16,9 +94,16 @@
       "timestamp": "2026-09-23T02:27:04.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "333"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T02:35:30.288Z",
-      "lastSeenAt": "2026-09-23T02:38:48.503Z",
+      "lastSeenAt": "2026-09-23T02:40:29.511Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -109,7 +194,7 @@
       "division": "226",
       "timestamp": "2026-09-23T02:19:54.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Ladder Truck",
@@ -152,7 +237,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T02:25:38.381Z",
-      "lastSeenAt": "2026-09-23T02:38:48.503Z",
+      "lastSeenAt": "2026-09-23T02:40:29.511Z",
       "geography": {
         "text": "Approximate area: (M5M) North York (Bedford Park / Lawrence Park West / Lawrence Manor East)",
         "approximate": true,
@@ -301,7 +386,7 @@
       "division": "422",
       "timestamp": "2026-09-23T02:11:02.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -445,7 +530,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T02:15:48.337Z",
-      "lastSeenAt": "2026-09-23T02:38:48.503Z",
+      "lastSeenAt": "2026-09-23T02:40:29.511Z",
       "geography": {
         "text": "Finch Avenue West & Humberline Drive",
         "approximate": false,
@@ -5746,7 +5831,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T02:38:48.503Z",
+      "lastSeenAt": "2026-09-23T02:40:29.511Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -107229,12 +107314,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T02:38:48.503Z",
-      "sourceUpdatedAt": "2026-09-23T02:35:01.000Z",
+      "fetchedAt": "2026-09-23T02:40:29.511Z",
+      "sourceUpdatedAt": "2026-09-23T02:40:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T02:38:48.503Z",
+      "fetchedAt": "2026-09-23T02:40:29.511Z",
       "status": "ok"
     }
   },
@@ -184161,6 +184246,42 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "LAWRENCE AVE, NY / CORONA ST / DUFFERIN ST": {
+      "text": "Lawrence Avenue between Corona Street & Dufferin Street",
+      "approximate": false,
+      "coordinates": [
+        43.71421795,
+        -79.45357154999999
+      ],
+      "division": "Possible divisions 13 / 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-23T02:40:29.511Z"
+    },
+    "M4H": {
+      "text": "Approximate area: (M4H) East York (Thorncliffe Park)",
+      "approximate": true,
+      "coordinates": [
+        43.7059,
+        -79.3464
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T23:01:41.742Z"
+    },
+    "M6H": {
+      "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
+      "approximate": true,
+      "coordinates": [
+        43.6655,
+        -79.4378
+      ],
+      "division": "Division 11",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M5A": {
       "text": "Approximate area: (M5A) Toronto",
       "approximate": true,
@@ -184649,18 +184770,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4H": {
-      "text": "Approximate area: (M4H) East York (Thorncliffe Park)",
-      "approximate": true,
-      "coordinates": [
-        43.7059,
-        -79.3464
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T23:01:41.742Z"
     },
     "M4E": {
       "text": "Approximate area: (M4E) East Toronto (The Beaches)",
@@ -186569,18 +186678,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T05:46:10.823Z"
-    },
-    "M6H": {
-      "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
-      "approximate": true,
-      "coordinates": [
-        43.6655,
-        -79.4378
-      ],
-      "division": "Division 11",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "FIRVALLEY CRT, SC / HEPC / CATARAQUI CRES": {
       "text": "Firvalley Court between Hepc & Cataraqui Crescent",
