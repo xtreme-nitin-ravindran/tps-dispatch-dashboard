@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T02:53:49.883Z",
-  "sourceUpdatedAt": "2026-09-23T02:50:02.000Z",
+  "fetchedAt": "2026-09-23T02:55:20.807Z",
+  "sourceUpdatedAt": "2026-09-23T02:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26150700",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1L",
+      "division": "225",
+      "timestamp": "2026-09-23T02:45:54.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T02:55:20.807Z",
+      "lastSeenAt": "2026-09-23T02:55:20.807Z",
+      "geography": {
+        "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
+        "approximate": true,
+        "coordinates": [
+          43.7122,
+          -79.2843
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150699",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Natural Gas Leak",
+      "location": "COTTINGHAM ST, TT / / LN E SIDNEY S COTTINGHAM",
+      "division": "311",
+      "timestamp": "2026-09-23T02:41:45.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T02:55:20.807Z",
+      "lastSeenAt": "2026-09-23T02:55:20.807Z",
+      "geography": {
+        "text": "Cottingham Street & Lane East Sidney South Cottingham",
+        "approximate": false,
+        "coordinates": [
+          43.6798475,
+          -79.3958726
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-23T02:55:20.807Z"
+      }
+    },
     {
       "id": "TPS-4f9a148fd067c0f4c6f500db",
       "source": "TPS",
@@ -36,7 +88,7 @@
       "division": "314",
       "timestamp": "2026-09-23T02:39:23.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-23T02:51:29.841Z",
       "lastSeenAt": "2026-09-23T02:53:49.883Z",
@@ -125,7 +177,7 @@
       "division": "132",
       "timestamp": "2026-09-23T02:31:41.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Command Unit",
@@ -180,7 +232,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T02:40:29.511Z",
-      "lastSeenAt": "2026-09-23T02:53:49.883Z",
+      "lastSeenAt": "2026-09-23T02:55:20.807Z",
       "geography": {
         "text": "Approximate area: (M4H) East York (Thorncliffe Park)",
         "approximate": true,
@@ -229,7 +281,7 @@
       "division": "333",
       "timestamp": "2026-09-23T02:27:04.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -666,7 +718,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T02:15:48.337Z",
-      "lastSeenAt": "2026-09-23T02:53:49.883Z",
+      "lastSeenAt": "2026-09-23T02:55:20.807Z",
       "geography": {
         "text": "Finch Avenue West & Humberline Drive",
         "approximate": false,
@@ -5967,7 +6019,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T02:53:49.883Z",
+      "lastSeenAt": "2026-09-23T02:55:20.807Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -107450,12 +107502,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T02:53:49.883Z",
-      "sourceUpdatedAt": "2026-09-23T02:50:02.000Z",
+      "fetchedAt": "2026-09-23T02:55:20.807Z",
+      "sourceUpdatedAt": "2026-09-23T02:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T02:53:49.883Z",
+      "fetchedAt": "2026-09-23T02:55:20.807Z",
       "status": "ok"
     }
   },
@@ -183260,8 +183312,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-23T02:50:09.930Z",
-      "fetchedAt": "2026-09-23T02:50:09.930Z"
+      "checkedAt": "2026-09-23T02:55:20.807Z",
+      "fetchedAt": "2026-09-23T02:55:20.807Z"
     },
     "transit": {
       "items": [
@@ -184081,34 +184133,6 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
-          "id": "76700",
-          "title": "King: Escalator 8Y3E out of service from Line 1 Finch platform to north concourse due to a technical problem.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "periods": [
-            {
-              "start": 1790117036000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "76695",
-          "title": "Spadina: Escalator 2B1E out of service from south concourse to Spadina Rd west side entrance due to a technical problem.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "periods": [
-            {
-              "start": 1790111947000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
           "id": "76694",
           "title": "Don Valley: Escalator 5 out of service between concourse and grade (bus terminal) due to a technical problem.",
           "description": "",
@@ -184123,20 +184147,6 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
-          "id": "76688",
-          "title": "Wellesley: Escalator 12Y2E out of service from Line 1 Finch platform to Wellesley St entrance due to a technical problem.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "periods": [
-            {
-              "start": 1790105174000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
           "id": "76683",
           "title": "Cedarvale: Elevator ELV02-B out of service between Line 5 platform, Line 1 northbound platform/east concourse, and upper concourse while we perform maintenance.",
           "description": "",
@@ -184145,20 +184155,6 @@
           "periods": [
             {
               "start": 1790094238000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "76682",
-          "title": "York University: Escalator 12S6E out of service from concourse to Ian MacDonald Blvd entrance due to a technical problem.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "periods": [
-            {
-              "start": 1790091946000,
               "end": null
             }
           ],
@@ -184404,14 +184400,38 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-23T02:50:10.000Z",
+      "sourceUpdatedAt": "2026-09-23T02:55:21.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-23T02:50:09.930Z",
-      "fetchedAt": "2026-09-23T02:50:09.930Z"
+      "checkedAt": "2026-09-23T02:55:20.807Z",
+      "fetchedAt": "2026-09-23T02:55:20.807Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1L": {
+      "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
+      "approximate": true,
+      "coordinates": [
+        43.7122,
+        -79.2843
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "COTTINGHAM ST, TT / / LN E SIDNEY S COTTINGHAM": {
+      "text": "Cottingham Street & Lane East Sidney South Cottingham",
+      "approximate": false,
+      "coordinates": [
+        43.6798475,
+        -79.3958726
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-23T02:55:20.807Z"
+    },
     "YONGE ST, TT / IRWIN AVE / ISABELLA ST": {
       "text": "Yonge Street between Irwin Avenue & Isabella Street",
       "approximate": false,
@@ -185137,18 +185157,6 @@
         -79.4507
       ],
       "division": "Division 13",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1L": {
-      "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
-      "approximate": true,
-      "coordinates": [
-        43.7122,
-        -79.2843
-      ],
-      "division": "Division 41",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
