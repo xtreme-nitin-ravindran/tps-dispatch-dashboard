@@ -2,16 +2,28 @@
 platform: linux
 image_resource:
   type: registry-image
-  source: {repository: node, tag: 22-bookworm-slim}
+  source: { repository: node, tag: 22-bookworm-slim }
 inputs:
   - name: repo
   - name: history
 outputs:
   - name: snapshot
+caches:
+  - path: npm-global
 params:
   TFS_UPDATED_BY: concourse
   TFS_PREVIOUS: history/current.json
   TFS_OUTPUT: snapshot/current.json
+  NPM_VERSION: 12.1.0
 run:
-  path: node
-  args: [repo/scripts/tfs-etl.js]
+  path: /bin/sh
+  args:
+    - -ec
+    - |
+      export NPM_CONFIG_PREFIX="$PWD/npm-global"
+      export PATH="$NPM_CONFIG_PREFIX/bin:$PATH"
+
+      if [ "$(npm --version 2>/dev/null || true)" != "$NPM_VERSION" ]; then
+        npm install -g "npm@$NPM_VERSION"
+      fi
+      exec node repo/scripts/tfs-etl.js
