@@ -3,9 +3,42 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T05:00:48.579Z",
-  "sourceUpdatedAt": "2026-09-23T04:55:01.000Z",
+  "fetchedAt": "2026-09-23T05:02:19.061Z",
+  "sourceUpdatedAt": "2026-09-23T05:00:02.000Z",
   "incidents": [
+    {
+      "id": "F26150737",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4V",
+      "division": "311",
+      "timestamp": "2026-09-23T04:53:44.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "311"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-23T05:02:19.061Z",
+      "lastSeenAt": "2026-09-23T05:02:19.061Z",
+      "geography": {
+        "text": "Approximate area: (M4V) Central Toronto (Summerhill West / Rathnelly / South Hill / Forest Hill SE / Deer Park)",
+        "approximate": true,
+        "coordinates": [
+          43.6861,
+          -79.4025
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150736",
       "source": "TFS",
@@ -25,7 +58,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T04:51:58.202Z",
-      "lastSeenAt": "2026-09-23T05:00:48.579Z",
+      "lastSeenAt": "2026-09-23T05:02:19.061Z",
       "geography": {
         "text": "Approximate area: (M2R) Willowdale West",
         "approximate": true,
@@ -126,7 +159,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T04:45:47.726Z",
-      "lastSeenAt": "2026-09-23T05:00:48.579Z",
+      "lastSeenAt": "2026-09-23T05:02:19.061Z",
       "geography": {
         "text": "Approximate area: (M6A) North York (Lawrence Manor / Lawrence Heights)",
         "approximate": true,
@@ -8195,7 +8228,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T05:00:48.579Z",
+      "lastSeenAt": "2026-09-23T05:02:19.061Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -109595,12 +109628,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T05:00:48.579Z",
-      "sourceUpdatedAt": "2026-09-23T04:55:01.000Z",
+      "fetchedAt": "2026-09-23T05:02:19.061Z",
+      "sourceUpdatedAt": "2026-09-23T05:00:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T05:00:48.579Z",
+      "fetchedAt": "2026-09-23T05:02:19.061Z",
       "status": "ok"
     }
   },
@@ -185405,8 +185438,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-23T04:56:49.226Z",
-      "fetchedAt": "2026-09-23T04:56:49.226Z"
+      "checkedAt": "2026-09-23T05:02:19.061Z",
+      "fetchedAt": "2026-09-23T05:02:19.061Z"
     },
     "transit": {
       "items": [
@@ -186449,14 +186482,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-23T04:56:49.000Z",
+      "sourceUpdatedAt": "2026-09-23T05:02:19.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-23T04:56:49.226Z",
-      "fetchedAt": "2026-09-23T04:56:49.226Z"
+      "checkedAt": "2026-09-23T05:02:19.061Z",
+      "fetchedAt": "2026-09-23T05:02:19.061Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4V": {
+      "text": "Approximate area: (M4V) Central Toronto (Summerhill West / Rathnelly / South Hill / Forest Hill SE / Deer Park)",
+      "approximate": true,
+      "coordinates": [
+        43.6861,
+        -79.4025
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M2R": {
       "text": "Approximate area: (M2R) Willowdale West",
       "approximate": true,
@@ -192261,18 +192306,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T20:06:02.347Z"
-    },
-    "M4V": {
-      "text": "Approximate area: (M4V) Central Toronto (Summerhill West / Rathnelly / South Hill / Forest Hill SE / Deer Park)",
-      "approximate": true,
-      "coordinates": [
-        43.6861,
-        -79.4025
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "BAY ST, TT / HAYTER ST / COLLEGE ST": {
       "text": "Bay Street between Hayter Street & College Street",
