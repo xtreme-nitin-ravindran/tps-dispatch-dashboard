@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { promote } from '../scripts/promote-dev.js';
+import { delay, githubApi, main, promote } from '../scripts/promote-dev.js';
 const defaults = {repo:'owner/repo',sha:'tested',ref:'refs/heads/dev',sleep:async()=>{}};
 function mock({head='tested',reject=false,files=[{}]}={}) {
   const calls=[];
@@ -15,6 +15,28 @@ function mock({head='tested',reject=false,files=[{}]}={}) {
   };
   return {api,calls};
 }
+test('GitHub API wrapper serializes requests and retry delays use the supplied timer',async()=>{
+  const calls=[];
+  const result=githubApi('owner/repo','pulls','POST',{head:'dev'},(...args)=>{
+    calls.push(args);
+    return '{"number": 7}';
+  });
+  assert.deepEqual(result,{number:7});
+  assert.deepEqual(calls[0],[
+    'gh',
+    ['api','repos/owner/repo/pulls','--method','POST','--input','-'],
+    {input:'{"head":"dev"}',encoding:'utf8'}
+  ]);
+  let waited;
+  await delay(5000,(resolve,ms)=>{waited=ms;resolve();});
+  assert.equal(waited,5000);
+  const requests=[];
+  await main({GITHUB_REPOSITORY:'owner/repo',GITHUB_SHA:'tested',GITHUB_REF:'refs/heads/dev'},(repo,path)=>{
+    requests.push({repo,path});
+    return {object:{sha:'newer'}};
+  });
+  assert.deepEqual(requests,[{repo:'owner/repo',path:'git/ref/heads/dev'}]);
+});
 test('only tested dev SHA can be promoted without a duplicate Pages request',async()=>{
   const {api,calls}=mock(); await promote({...defaults,api});
   assert.equal(calls.find(c=>c.path==='pulls/1/merge').body.sha,'tested');

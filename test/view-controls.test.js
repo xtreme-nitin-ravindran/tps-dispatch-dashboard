@@ -26,7 +26,7 @@ test('clustering preserves calls and separates distant screen cells', () => {
   const groups=clusterPoints(items,([x,y])=>({x,y}));
   assert.deepEqual(groups.map(g=>g.length),[2,1]);
   assert.equal(groups.flat().length,items.length);
-  assert.deepEqual(clusterPoints([],()=>{}),[]);
+  assert.deepEqual(clusterPoints([],assert.fail),[]);
   const points=Array.from({length:5},(_,i)=>spreadPoint(i,5,{x:0,y:0}));
   assert.equal(new Set(points.map(p=>JSON.stringify(p))).size,5);
 });

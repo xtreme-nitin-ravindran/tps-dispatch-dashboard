@@ -38,7 +38,7 @@ test('Concourse XML input merges separate history without modifying input', asyn
     await writeFile(previousPath, previous);
     await writeFile(xmlPath, '<tfs_active_incidents><update_from_db_time>2026-09-16T12:00:00Z</update_from_db_time><event><event_num>F2</event_num><dispatch_time>2026-09-16T11:59:00Z</dispatch_time><event_type>Fire</event_type></event></tfs_active_incidents>');
     const result = await runTfsEtl({ previousPath, xmlPath, outputPath, now,
-        fetchSource: () => { throw new Error('must use supplied XML'); } });
+        fetchSource: assert.fail });
     assert.deepEqual(result.incidents.map(i => i.id), ['F2', 'week']);
     assert.equal(result.incidents[1].isOngoing, false);
     assert.equal(await readFile(previousPath, 'utf8'), previous);
@@ -62,7 +62,7 @@ test('failed fetch, malformed XML, stale feed and invalid history preserve publi
         assert.equal(await readFile(outputPath, 'utf8'), original);
     }
     await writeFile(outputPath, 'broken JSON');
-    await assert.rejects(runTfsEtl({ outputPath, now, fetchSource: async () => source }));
+    await assert.rejects(runTfsEtl({ outputPath, now, fetchSource: assert.fail }));
     assert.equal(await readFile(outputPath, 'utf8'), 'broken JSON');
 });
 

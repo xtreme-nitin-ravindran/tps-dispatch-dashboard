@@ -19,7 +19,7 @@ test('fresh snapshot is untouched; stale snapshot records GitHub updater; corrup
   await runTfsEtl({outputPath,now,updatedBy:'concourse',fetchSource:async()=>source});
   const original=await readFile(outputPath,'utf8');
   assert.equal(JSON.parse(original).updatedBy,'concourse');
-  assert.equal(await runFallback({outputPath,now,etl:()=>assert.fail('must skip')}),false);
+  assert.equal(await runFallback({outputPath,now,etl:assert.fail}),false);
   assert.equal(await readFile(outputPath,'utf8'),original);
   assert.equal(await runFallback({outputPath,now:new Date(now.getTime()+600000),etl:options=>runTfsEtl({...options,fetchSource:async()=>source})}),true);
   assert.equal(JSON.parse(await readFile(outputPath,'utf8')).updatedBy,'github-actions');

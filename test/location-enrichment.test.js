@@ -13,7 +13,7 @@ test('resolves duplicate locations once and reuses published cache across update
   });
   assert.equal(count, 1);
   const next = await enrichLocations(snapshot('A'), first, {
-    ...options, resolveLocation: () => { throw new Error('cached lookup should not run'); }
+    ...options, resolveLocation: assert.fail
   });
   assert.deepEqual(next.incidents[0].geography, first.incidents[0].geography);
 });

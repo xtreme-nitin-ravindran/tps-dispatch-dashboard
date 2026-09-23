@@ -2,9 +2,17 @@
 import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
-const repo = process.env.GITHUB_REPOSITORY;
-const api = (path, method = 'GET', body) => JSON.parse(execFileSync('gh', ['api', `repos/${repo}/${path}`, '--method', method, ...(body ? ['--input', '-'] : [])], {input:body ? JSON.stringify(body) : undefined,encoding:'utf8'}));
-export async function promote({api, repo, sha, ref, sleep = ms => new Promise(resolve=>setTimeout(resolve,ms))}) {
+export function githubApi(repo, path, method = 'GET', body, exec = execFileSync) {
+return JSON.parse(exec('gh', ['api', `repos/${repo}/${path}`, '--method', method, ...(body ? ['--input', '-'] : [])], {input:body ? JSON.stringify(body) : undefined,encoding:'utf8'}));
+}
+export function delay(ms, timer = setTimeout) {
+return new Promise(resolve => timer(resolve, ms));
+}
+export async function main(env = process.env, request = githubApi) {
+const repo = env.GITHUB_REPOSITORY;
+return promote({api: (...args) => request(repo, ...args), repo, sha:env.GITHUB_SHA, ref:env.GITHUB_REF});
+}
+export async function promote({api, repo, sha, ref, sleep = delay}) {
 if (ref !== 'refs/heads/dev') throw Error('Promotion requires dev');
 if (api('git/ref/heads/dev').object.sha !== sha) {
   console.log('A newer dev commit exists; its run will handle promotion.');
@@ -33,5 +41,5 @@ console.log(`Merged ${pr.html_url}; Pages publishes from main.`);
 
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  await promote({api, repo, sha:process.env.GITHUB_SHA, ref:process.env.GITHUB_REF});
+  await main();
 }
