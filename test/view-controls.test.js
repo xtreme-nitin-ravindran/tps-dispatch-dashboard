@@ -3,12 +3,15 @@ import assert from 'node:assert/strict';
 import { updateLabel } from '../src/view-controls.js';
 test('updates distinguish new calls from revisions and removals', () => {
   assert.equal(updateLabel([{id:'a'}], [{id:'a'}, {id:'b'}]), '1 new call available');
+  assert.equal(updateLabel([{id:'a'}], [{id:'b'}, {id:'c'}]), '2 new calls available');
   assert.equal(updateLabel([{id:'a'}], []), 'Call updates available');
   assert.equal(updateLabel([{id:'a'}], [{id:'a', changed:true}]), 'Call updates available');
 });
 import { filterDefaults, filterSummary } from '../src/view-controls.js';
 test('summary includes each applied filter and clear defaults', () => {
   assert.equal(filterSummary(filterDefaults), 'Last 24 hours');
+  assert.equal(filterSummary({...filterDefaults, hours:1}), 'Last 1 hour');
+  assert.equal(filterSummary({...filterDefaults, hours:12}), 'Last 12 hours');
   const summary = filterSummary({...filterDefaults, hours:72, search:'Queen', division:'Division 11', eventFilter:'fire', serviceFilter:'TFS', nearby:[43,-79], radiusKm:2});
   for (const text of ['Last 3 days','Queen','Division 11','fire','TFS','Within 2 km']) assert.ok(summary.includes(text));
 });
@@ -19,6 +22,9 @@ test('share links round trip filters without coordinates or unrelated URL data',
   assert.deepEqual(readFilters(url.searchParams), filters);
   assert.ok(!url.href.includes('secret')); assert.ok(!url.href.includes('43')); assert.equal(url.hash,'');
   assert.deepEqual(readFilters(new URLSearchParams('hours=-1&service=bad&event=bad')),filterDefaults);
+  assert.deepEqual(readFilters(new URLSearchParams('event=medical&division=51&q=alarm')), {
+    ...filterDefaults, eventFilter:'medical', division:'51', search:'alarm'
+  });
 });
 import { clusterPoints, spreadPoint } from '../src/map-clusters.js';
 test('clustering preserves calls and separates distant screen cells', () => {
@@ -46,6 +52,10 @@ test('preferences are validated, exclude private session data and tolerate block
   const restored=loadPreferences(storage);
   assert.equal(restored.filters.hours,6); assert.equal(restored.filters.search,'');
   assert.equal(restored.roads,true); assert.equal(restored.boundaries,false);
+  raw='null'; assert.equal(loadPreferences(storage),null);
+  raw='[]'; assert.equal(loadPreferences(storage),null);
+  raw='{"division":7}';
+  assert.deepEqual(loadPreferences(storage), {filters:filterDefaults,roads:false,boundaries:true});
   raw='{'; assert.equal(loadPreferences(storage),null);
   const blocked={getItem(){throw Error();},setItem(){throw Error();}};
   assert.equal(loadPreferences(blocked),null);

@@ -3,7 +3,12 @@ import assert from 'node:assert/strict';
 import { inflateRawSync } from 'node:zlib';
 import { options, response } from './helpers/live-source.js';
 
+function unzip(method, payload) {
+  return method === 8 ? inflateRawSync(payload, {maxOutputLength: 10000000}) : payload;
+}
+
 test('live GeoNames Canada archive contains Toronto postal coordinates', options, async () => {
+  assert.equal(unzip(0, Buffer.from('stored')).toString(), 'stored');
   const zip = Buffer.from(await (await response('https://download.geonames.org/export/zip/CA.zip')).arrayBuffer());
   // Use the central directory sizes, since local headers can use data descriptors.
   let text;
@@ -16,7 +21,7 @@ test('live GeoNames Canada archive contains Toronto postal coordinates', options
     const payload = zip.subarray(start, start + size);
     const method = zip.readUInt16LE(i + 10);
     assert.ok(method === 0 || method === 8);
-    text = (method === 8 ? inflateRawSync(payload, {maxOutputLength: 10000000}) : payload).toString('utf8');
+    text = unzip(method, payload).toString('utf8');
     break;
   }
   assert.ok(text, 'CA.txt missing from postal archive');
@@ -24,4 +29,3 @@ test('live GeoNames Canada archive contains Toronto postal coordinates', options
   assert.ok(rows.length > 0);
   assert.ok(rows.every(r => r[0] === 'CA' && r[2] && Number.isFinite(Number(r[9])) && Number.isFinite(Number(r[10]))));
 });
-

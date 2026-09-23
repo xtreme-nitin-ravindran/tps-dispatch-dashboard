@@ -1,5 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { chmodSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { delay, githubApi, main, promote } from '../scripts/promote-dev.js';
 const defaults = {repo:'owner/repo',sha:'tested',ref:'refs/heads/dev',sleep:async()=>{}};
 function mock({head='tested',reject=false,files=[{}]}={}) {
@@ -27,6 +31,7 @@ test('GitHub API wrapper serializes requests and retry delays use the supplied t
     ['api','repos/owner/repo/pulls','--method','POST','--input','-'],
     {input:'{"head":"dev"}',encoding:'utf8'}
   ]);
+  assert.deepEqual(githubApi('owner/repo','pulls','GET',undefined,()=>'{"total_count":0}'),{total_count:0});
   let waited;
   await delay(5000,(resolve,ms)=>{waited=ms;resolve();});
   assert.equal(waited,5000);
@@ -83,4 +88,34 @@ test('unsuccessful merge responses never advance dev; concurrent fast-forward re
   else await assert.rejects(promote({...defaults,api}), /not merged/);
   assert.equal(writes.length,merged?1:0);
  }
+});
+
+test('promotion CLI rejects runs outside dev',()=>{
+ const result=spawnSync(process.execPath,['scripts/promote-dev.js'],{
+  encoding:'utf8',env:{...process.env,GITHUB_REPOSITORY:'owner/repo',GITHUB_SHA:'tested',GITHUB_REF:'refs/heads/main'}
+ });
+ assert.notEqual(result.status,0);
+ assert.match(result.stderr,/Promotion requires dev/);
+});
+
+test('promotion CLI completes a successful dev promotion',()=>{
+ const bin=mkdtempSync(join(tmpdir(),'promotion-cli-'));
+ try {
+  const gh=join(bin,'gh');
+  writeFileSync(gh,`#!/bin/sh
+case "$*" in
+ *git/ref/heads/dev*) echo '{"object":{"sha":"tested"}}' ;;
+ *compare/main...dev*) echo '{"files":[{}]}' ;;
+ *'pulls?state=open'*) echo '[{"number":1,"html_url":"https://example.test/1"}]' ;;
+ *pulls/1/merge*) echo '{"merged":true,"sha":"merged"}' ;;
+ *) echo '{}' ;;
+esac
+`);
+  chmodSync(gh,0o755);
+  const result=spawnSync(process.execPath,['scripts/promote-dev.js'],{
+   encoding:'utf8',env:{...process.env,PATH:`${bin}:${process.env.PATH}`,GITHUB_REPOSITORY:'owner/repo',GITHUB_SHA:'tested',GITHUB_REF:'refs/heads/dev'}
+  });
+  assert.equal(result.status,0,result.stderr);
+  assert.match(result.stdout,/Merged https:\/\/example.test\/1/);
+ } finally { rmSync(bin,{recursive:true,force:true}); }
 });

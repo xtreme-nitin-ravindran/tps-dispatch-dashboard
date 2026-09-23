@@ -23,3 +23,14 @@ test('commits only snapshot changes, skips unchanged data, rejects staged unrela
     git('add', 'unrelated.txt');
     assert.throws(() => commitTfsSnapshot(cwd), /Index must be clean/);
 });
+
+test('snapshot commit CLI reports changed and unchanged snapshots', async t => {
+    const cwd = await mkdtemp(join(tmpdir(), 'tfs-git-cli-'));
+    t.after(() => rm(cwd, { recursive: true, force: true }));
+    execFileSync('git', ['init', '-q'], { cwd });
+    await mkdir(join(cwd, 'data'));
+    await writeFile(join(cwd, 'data/current.json'), '{}');
+    const script = join(process.cwd(), 'scripts/commit-tfs.js');
+    assert.match(execFileSync(process.execPath, [script], { cwd, encoding:'utf8' }), /Committed/);
+    assert.match(execFileSync(process.execPath, [script], { cwd, encoding:'utf8' }), /unchanged/);
+});
