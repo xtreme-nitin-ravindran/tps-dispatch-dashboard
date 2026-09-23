@@ -26,7 +26,7 @@ test('rejects failed, wrong-country, wrong-prefix, low-score and invalid coordin
   }
   assert.equal(await lookupPostalCoordinates('M5A', async () => { throw Error('offline'); }), null);
   assert.equal(await lookupPostalCoordinates('M5A', async () => ({ ok:false })), null);
-  assert.equal(await lookupPostalCoordinates('invalid', () => { throw Error('must not fetch'); }), null);
+  assert.equal(await lookupPostalCoordinates('invalid', assert.fail), null);
 });
 
 test('postal candidates must identify a postal area and usable Toronto coordinates', async () => {
@@ -45,7 +45,7 @@ test('neighbourhood lookup returns Canadian area hints and requests longitude fi
   for (const address of [undefined, {CountryCode:'USA',Neighborhood:'Wrong area'}, {CountryCode:'CAN'}]) {
     assert.equal(await lookupNeighbourhood([43.65,-79.36], async()=>({ok:true,json:async()=>({address})})), '');
   }
-  assert.equal(await lookupNeighbourhood(null, ()=>assert.fail('must not fetch')), '');
+  assert.equal(await lookupNeighbourhood(null, assert.fail), '');
   assert.equal(await lookupNeighbourhood([43.65,-79.36], async()=>({ok:false})), '');
   assert.equal(await lookupNeighbourhood([43.65,-79.36], async()=>{throw Error('offline');}), '');
 });

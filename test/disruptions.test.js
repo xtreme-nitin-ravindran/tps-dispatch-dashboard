@@ -41,7 +41,7 @@ test('nearby road filtering uses segments even when endpoints are outside radius
 test('sources refresh independently, cache five minutes, and preserve successful timestamps on failure',async()=>{
  let calls=0;
  const previous={roads:{...feed([road]),checkedAt:new Date(now).toISOString()},transit:{...feed([]),checkedAt:new Date(now).toISOString()}};
- await updateDisruptions(previous,new Date(now+1000),async()=>{calls++;});assert.equal(calls,0);
+ await updateDisruptions(previous,new Date(now+1000),assert.fail);assert.equal(calls,0);
  const updated=await updateDisruptions(previous,new Date(now+300000),async kind=>{calls++;if(kind==='roads') throw Error('down');return {items:[]};});
  assert.equal(calls,2);assert.equal(updated.roads.status,'unavailable');assert.equal(updated.roads.fetchedAt,previous.roads.fetchedAt);
  assert.equal(updated.transit.status,'ok');assert.deepEqual(updated.transit.items,[]);
