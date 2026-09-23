@@ -46,6 +46,7 @@ test('reuses existing PR, retries a transient rejection and protects concurrent 
  await promote({...defaults,api,sleep:async ms=>{assert.equal(ms,5000);sleeps++;}});
  assert.equal(sleeps,1);assert.equal(merges,2);
  assert.ok(!calls.some(c=>c.method==='POST'||c.method==='PATCH'));
+ assert.throws(()=>api('unexpected'), /Unexpected mutation unexpected/);
 });
 
 test('unsuccessful merge responses never advance dev; concurrent fast-forward rejection is safe',async()=>{
