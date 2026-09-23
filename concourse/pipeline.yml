@@ -42,11 +42,16 @@ jobs:
             - name: snapshots
           outputs:
             - name: updated-repo
+          params:
+            NPM_VERSION: 12.1.0
           run:
             path: sh
             args:
               - -ec
               - |
+                if [ "$(npm --version 2>/dev/null || true)" != "$NPM_VERSION" ]; then
+                  npm install -g "npm@$NPM_VERSION"
+                fi
                 cp -a snapshots/. updated-repo/
                 cd repo
                 TZ=UTC npm test
