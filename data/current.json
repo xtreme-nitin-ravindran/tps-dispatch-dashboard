@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T21:00:40.034Z",
-  "sourceUpdatedAt": "2026-09-23T20:55:01.000Z",
+  "fetchedAt": "2026-09-23T21:02:10.400Z",
+  "sourceUpdatedAt": "2026-09-23T21:00:02.000Z",
   "incidents": [
     {
       "id": "F26151091",
@@ -15,7 +15,7 @@
       "division": "245",
       "timestamp": "2026-09-23T20:49:31.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-23T20:56:02.819Z",
       "lastSeenAt": "2026-09-23T21:00:40.034Z",
@@ -41,7 +41,7 @@
       "division": "325",
       "timestamp": "2026-09-23T20:48:35.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-23T20:56:02.819Z",
       "lastSeenAt": "2026-09-23T21:00:40.034Z",
@@ -68,9 +68,16 @@
       "timestamp": "2026-09-23T20:47:26.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "142"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-23T20:56:02.819Z",
-      "lastSeenAt": "2026-09-23T21:00:40.034Z",
+      "lastSeenAt": "2026-09-23T21:02:10.400Z",
       "geography": {
         "text": "Approximate area: (M3N) North York (Jane and Finch)",
         "approximate": true,
@@ -96,6 +103,12 @@
       "isOngoing": true,
       "vehicles": [
         {
+          "type": "Aerial Truck",
+          "numbers": [
+            "433"
+          ]
+        },
+        {
           "type": "Fire Truck",
           "numbers": [
             "433"
@@ -103,7 +116,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T20:51:20.128Z",
-      "lastSeenAt": "2026-09-23T21:00:40.034Z",
+      "lastSeenAt": "2026-09-23T21:02:10.400Z",
       "geography": {
         "text": "Approximate area: (M8Y) Etobicoke (Old Mill South / King's Mill Park / Sunnylea / Humber Bay / Mimico NE / The Queensway East / Royal York South East / Kingsway Park South East)",
         "approximate": true,
@@ -126,7 +139,7 @@
       "division": "325",
       "timestamp": "2026-09-23T20:44:01.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Squad Unit",
@@ -180,7 +193,7 @@
       "division": "313",
       "timestamp": "2026-09-23T20:40:06.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -549,7 +562,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T20:35:59.521Z",
-      "lastSeenAt": "2026-09-23T21:00:40.034Z",
+      "lastSeenAt": "2026-09-23T21:02:10.400Z",
       "geography": {
         "text": "Approximate area: (M9N) Weston",
         "approximate": true,
@@ -611,7 +624,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T20:31:59.766Z",
-      "lastSeenAt": "2026-09-23T21:00:40.034Z",
+      "lastSeenAt": "2026-09-23T21:02:10.400Z",
       "geography": {
         "text": "Kingston Road between Waverley Road & Lee Avenue",
         "approximate": false,
@@ -994,7 +1007,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T20:15:58.634Z",
-      "lastSeenAt": "2026-09-23T21:00:40.034Z",
+      "lastSeenAt": "2026-09-23T21:02:10.400Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -1030,7 +1043,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T20:10:48.573Z",
-      "lastSeenAt": "2026-09-23T21:00:40.034Z",
+      "lastSeenAt": "2026-09-23T21:02:10.400Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -3126,7 +3139,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
-      "lastSeenAt": "2026-09-23T21:00:40.034Z",
+      "lastSeenAt": "2026-09-23T21:02:10.400Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -18139,7 +18152,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T21:00:40.034Z",
+      "lastSeenAt": "2026-09-23T21:02:10.400Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -115763,42 +115776,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26147087",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Vehicle - Personal Injury",
-      "location": "YORKLAND RD / SHEPPARD AVE E",
-      "division": "115",
-      "timestamp": "2026-09-16T21:00:44.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [],
-      "firstSeenAt": "2026-09-16T21:12:01.879Z",
-      "lastSeenAt": "2026-09-16T21:12:01.879Z",
-      "geography": {
-        "text": "Yorkland Road & Sheppard Avenue East",
-        "approximate": false,
-        "coordinates": [
-          43.7758327,
-          -79.3377523
-        ],
-        "division": "Division 33",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T21:00:40.034Z",
-      "sourceUpdatedAt": "2026-09-23T20:55:01.000Z",
+      "fetchedAt": "2026-09-23T21:02:10.400Z",
+      "sourceUpdatedAt": "2026-09-23T21:00:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T21:00:40.034Z",
+      "fetchedAt": "2026-09-23T21:02:10.400Z",
       "status": "ok"
     }
   },
@@ -203767,18 +203754,6 @@
       "coordinates": [
         43.7437043,
         -79.3579964
-      ],
-      "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "YORKLAND RD / SHEPPARD AVE E": {
-      "text": "Yorkland Road & Sheppard Avenue East",
-      "approximate": false,
-      "coordinates": [
-        43.7758327,
-        -79.3377523
       ],
       "division": "Division 33",
       "version": 1,
