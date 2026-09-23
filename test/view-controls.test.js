@@ -43,7 +43,7 @@ test('row selection finds the entire overlapping group, or none for missing call
   assert.deepEqual(focusGroup(items,'b',project).map(i=>i.call.id),['a','b']);
   assert.deepEqual(focusGroup(items,'missing',project),[]);
 });
-import { preferenceRecord, loadPreferences, savePreferences } from '../src/view-controls.js';
+import { loadPreferences, savePreferences } from '../src/view-controls.js';
 test('preferences are validated, exclude private session data and tolerate blocked storage', () => {
   let raw;
   const storage={setItem:(_,v)=>raw=v,getItem:()=>raw};

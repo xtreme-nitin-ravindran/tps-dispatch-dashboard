@@ -1,15 +1,22 @@
 """Build compact open-data indexes from downloaded Toronto Centreline and GeoNames CA.zip."""
-import json, sys, zipfile, re
+import json
+import re
+import sys
+import zipfile
 from pathlib import Path
+
 streets, nodes = {}, {}
 for feature in json.load(open(sys.argv[1]))['features']:
     p, g = feature['properties'], feature['geometry']
     lines = g['coordinates'] if g['type'] == 'MultiLineString' else [g['coordinates']]
-    if not lines or not lines[0]: continue
+    if not lines or not lines[0]:
+        continue
     name = p.get('LINEAR_NAME_FULL')
-    if not name: continue
+    if not name:
+        continue
     for node, point in [(p.get('FROM_INTERSECTION_ID'), lines[0][0]), (p.get('TO_INTERSECTION_ID'), lines[-1][-1])]:
-        if not node: continue
+        if not node:
+            continue
         node = str(node)
         nodes[node] = [round(point[1],7), round(point[0],7)]
         streets.setdefault(name, set()).add(node)

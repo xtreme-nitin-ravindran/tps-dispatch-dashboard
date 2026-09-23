@@ -62,7 +62,7 @@ let rowHighlightTimer;
 let mapHasFitted = false;
 let boundaryVisible = true;
 function rememberPreferences() {
-  try { savePreferences(localStorage,state,{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible}); } catch {}
+  try { savePreferences(localStorage,state,{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible}); } catch { /* Browsing still works when storage is blocked. */ }
 }
 
 function escapeText(value) {
@@ -199,7 +199,7 @@ updatesButton.addEventListener('click', () => {
   loadData({ accepted: snapshot });
 });
 
-async function loadData({ silent = false, accepted = null } = {}) {
+async function loadData({ accepted = null } = {}) {
 
   try {
     const snapshot = accepted || await fetchSnapshot();
@@ -640,16 +640,6 @@ function formatDate(date) {
   }).format(date);
 }
 
-function relativeTime(date) {
-  const diffMs = Date.now() - date.getTime();
-  const minutes = Math.max(0, Math.floor(diffMs / 60_000));
-  if (minutes < 1) return "now";
-  if (minutes < 60) return `${minutes}m ago`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
-  return `${Math.floor(hours / 24)}d ago`;
-}
-
 function updateFreshness() {
   const newest = state.calls[0]?.time;
   if (!els.lastUpdated) return;
@@ -665,7 +655,7 @@ function updateFreshness() {
 async function checkForChanges() {
   // Reload the snapshot even if sourceUpdatedAt is unchanged: a successful fetch
   // may update fetchedAt or correct normalized fields without changing that marker.
-  await loadData({ silent: true });
+  await loadData();
 }
 
 document.querySelector('#historyHours').addEventListener('change', event => {
@@ -727,7 +717,7 @@ try {
     boundaryVisible = saved.boundaries;
     syncFilterControls();
   }
-} catch {}
+} catch { /* Defaults remain usable when storage is blocked. */ }
 if (new URLSearchParams(location.search).has('view')) {
   Object.assign(state, readFilters(new URLSearchParams(location.search)));
   syncFilterControls();
