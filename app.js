@@ -603,7 +603,7 @@ function renderDivisionBars() {
   const max = counts[0][1];
   els.divisionBars.innerHTML = counts.map(([division, count]) => `
     <div class="bar-item">
-      <span class="bar-label">${division}</span>
+      <span class="bar-label">${division.replace(/^Division (?=\d+$)/, "Div. ")}</span>
       <div class="bar-track"><div class="bar-fill" style="width:${Math.max(4, (count / max) * 100)}%"></div></div>
       <span class="bar-count">${count}</span>
     </div>
