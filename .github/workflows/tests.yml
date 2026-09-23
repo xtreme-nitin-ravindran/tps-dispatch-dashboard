@@ -30,6 +30,9 @@ jobs:
           docker run --rm -e TZ=UTC toronto-dispatch-tests
           docker run --rm -e TZ=America/Los_Angeles toronto-dispatch-tests
 
+      - name: Run Python location-index tests
+        run: docker run --rm toronto-dispatch-tests npm run test:python
+
       - name: Check browser JavaScript syntax
         run: |
           node --check app.js
