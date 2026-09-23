@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T05:05:38.690Z",
-  "sourceUpdatedAt": "2026-09-23T05:00:02.000Z",
+  "fetchedAt": "2026-09-23T05:06:48.296Z",
+  "sourceUpdatedAt": "2026-09-23T05:05:01.000Z",
   "incidents": [
+    {
+      "id": "F26150738",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5T",
+      "division": "331",
+      "timestamp": "2026-09-23T04:59:40.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T05:06:48.296Z",
+      "lastSeenAt": "2026-09-23T05:06:48.296Z",
+      "geography": {
+        "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
+        "approximate": true,
+        "coordinates": [
+          43.6541,
+          -79.3978
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150737",
       "source": "TFS",
@@ -25,7 +51,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T05:02:19.061Z",
-      "lastSeenAt": "2026-09-23T05:05:38.690Z",
+      "lastSeenAt": "2026-09-23T05:06:48.296Z",
       "geography": {
         "text": "Approximate area: (M4V) Central Toronto (Summerhill West / Rathnelly / South Hill / Forest Hill SE / Deer Park)",
         "approximate": true,
@@ -58,7 +84,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T04:51:58.202Z",
-      "lastSeenAt": "2026-09-23T05:05:38.690Z",
+      "lastSeenAt": "2026-09-23T05:06:48.296Z",
       "geography": {
         "text": "Approximate area: (M2R) Willowdale West",
         "approximate": true,
@@ -149,7 +175,7 @@
       "division": "132",
       "timestamp": "2026-09-23T04:36:44.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -8228,7 +8254,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T05:05:38.690Z",
+      "lastSeenAt": "2026-09-23T05:06:48.296Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -109597,12 +109623,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T05:05:38.690Z",
-      "sourceUpdatedAt": "2026-09-23T05:00:02.000Z",
+      "fetchedAt": "2026-09-23T05:06:48.296Z",
+      "sourceUpdatedAt": "2026-09-23T05:05:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T05:05:38.690Z",
+      "fetchedAt": "2026-09-23T05:06:48.296Z",
       "status": "ok"
     }
   },
@@ -186459,6 +186485,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5T": {
+      "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
+      "approximate": true,
+      "coordinates": [
+        43.6541,
+        -79.3978
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M4V": {
       "text": "Approximate area: (M4V) Central Toronto (Summerhill West / Rathnelly / South Hill / Forest Hill SE / Deer Park)",
       "approximate": true,
@@ -187631,18 +187669,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T21:30:30.972Z"
-    },
-    "M5T": {
-      "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
-      "approximate": true,
-      "coordinates": [
-        43.6541,
-        -79.3978
-      ],
-      "division": "Division 52",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "SIMCOE ST, TT / WELLINGTON ST W / KING ST W": {
       "text": "Simcoe Street between Wellington Street West & King Street West",
