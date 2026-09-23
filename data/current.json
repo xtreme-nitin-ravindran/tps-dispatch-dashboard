@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T07:59:56.570Z",
-  "sourceUpdatedAt": "2026-09-23T07:55:01.000Z",
+  "fetchedAt": "2026-09-23T08:01:07.582Z",
+  "sourceUpdatedAt": "2026-09-23T08:00:02.000Z",
   "incidents": [
+    {
+      "id": "F26150770",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6K",
+      "division": "426",
+      "timestamp": "2026-09-23T07:53:14.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T08:01:07.582Z",
+      "lastSeenAt": "2026-09-23T08:01:07.582Z",
+      "geography": {
+        "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+        "approximate": true,
+        "coordinates": [
+          43.6383,
+          -79.4301
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26150769",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "KODIAK CRES, NY / SHEPPARD AVE W / WHITEHORSE RD",
+      "division": "143",
+      "timestamp": "2026-09-23T07:51:32.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T08:01:07.582Z",
+      "lastSeenAt": "2026-09-23T08:01:07.582Z",
+      "geography": {
+        "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
+        "approximate": true,
+        "coordinates": [
+          43.7546907,
+          -79.4689539
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T07:12:31.822Z"
+      }
+    },
     {
       "id": "TPS-0c48aede15e4ba0d5df60e7f",
       "source": "TPS",
@@ -46,7 +98,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T07:46:36.839Z",
-      "lastSeenAt": "2026-09-23T07:59:56.570Z",
+      "lastSeenAt": "2026-09-23T08:01:07.582Z",
       "geography": {
         "text": "Approximate area: (M1J) Scarborough (Eglinton)",
         "approximate": true,
@@ -102,7 +154,7 @@
       "division": "115",
       "timestamp": "2026-09-23T07:26:42.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -9496,7 +9548,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T07:59:56.570Z",
+      "lastSeenAt": "2026-09-23T08:01:07.582Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -110592,12 +110644,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T07:59:56.570Z",
-      "sourceUpdatedAt": "2026-09-23T07:55:01.000Z",
+      "fetchedAt": "2026-09-23T08:01:07.582Z",
+      "sourceUpdatedAt": "2026-09-23T08:00:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T07:59:56.570Z",
+      "fetchedAt": "2026-09-23T08:01:07.582Z",
       "status": "ok"
     }
   },
@@ -187348,6 +187400,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6K": {
+      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+      "approximate": true,
+      "coordinates": [
+        43.6383,
+        -79.4301
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "KODIAK CRES, NY / SHEPPARD AVE W / WHITEHORSE RD": {
+      "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
+      "approximate": true,
+      "coordinates": [
+        43.7546907,
+        -79.4689539
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T07:12:31.822Z"
+    },
     "M1J": {
       "text": "Approximate area: (M1J) Scarborough (Eglinton)",
       "approximate": true,
@@ -187654,18 +187730,6 @@
       "coordinates": [
         43.648,
         -79.4177
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6K": {
-      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
-      "approximate": true,
-      "coordinates": [
-        43.6383,
-        -79.4301
       ],
       "division": "Division 14",
       "version": 1,
@@ -189864,18 +189928,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T07:20:31.785Z"
-    },
-    "KODIAK CRES, NY / SHEPPARD AVE W / WHITEHORSE RD": {
-      "text": "Approximate location near Kodiak Crescent & Whitehorse Road",
-      "approximate": true,
-      "coordinates": [
-        43.7546907,
-        -79.4689539
-      ],
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T07:12:31.822Z"
     },
     "ESTELLE AVE, NY / HOLMES AVE / OLIVE AVE": {
       "text": "Approximate location near Estelle Avenue & Olive Avenue",
