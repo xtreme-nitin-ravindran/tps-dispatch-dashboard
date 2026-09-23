@@ -3,9 +3,30 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T07:50:37.464Z",
+  "fetchedAt": "2026-09-23T07:51:36.689Z",
   "sourceUpdatedAt": "2026-09-23T07:50:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-0c48aede15e4ba0d5df60e7f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "BREAK & ENTER IN PROGRESS",
+      "callTypeCode": "BREPR",
+      "timestamp": "2026-09-23T07:46:24.000Z",
+      "location": "STEELES-MK AVE E - BRIMLEY RD",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "STEELES-MK AVE E - BRIMLEY RD",
+        "coordinates": [
+          43.82615755203832,
+          -79.2912245127889
+        ],
+        "division": "Division 42",
+        "approximate": true
+      }
+    },
     {
       "id": "F26150768",
       "source": "TFS",
@@ -25,7 +46,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T07:46:36.839Z",
-      "lastSeenAt": "2026-09-23T07:50:37.464Z",
+      "lastSeenAt": "2026-09-23T07:51:36.689Z",
       "geography": {
         "text": "Approximate area: (M1J) Scarborough (Eglinton)",
         "approximate": true,
@@ -58,7 +79,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T07:41:37.818Z",
-      "lastSeenAt": "2026-09-23T07:50:37.464Z",
+      "lastSeenAt": "2026-09-23T07:51:36.689Z",
       "geography": {
         "text": "Approximate area: (M1G) Scarborough (Woburn)",
         "approximate": true,
@@ -91,7 +112,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T07:35:37.414Z",
-      "lastSeenAt": "2026-09-23T07:50:37.464Z",
+      "lastSeenAt": "2026-09-23T07:51:36.689Z",
       "geography": {
         "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
         "approximate": true,
@@ -9475,7 +9496,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T07:50:37.464Z",
+      "lastSeenAt": "2026-09-23T07:51:36.689Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -110639,88 +110660,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26146766",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Alarm Single Source",
-      "location": "TRUDELLE ST, SC / DANFORTH RD / TRUDELLE STREET PARK TRL",
-      "division": "221",
-      "timestamp": "2026-09-16T07:51:17.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Aerial Truck",
-          "numbers": [
-            "221"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "221"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-16T08:09:27.866Z",
-      "lastSeenAt": "2026-09-16T08:11:22.594Z",
-      "geography": {
-        "text": "Trudelle Street between Danforth Road & Trudelle Street Park Trl",
-        "approximate": false,
-        "coordinates": [
-          43.7398787,
-          -79.2439194
-        ],
-        "division": "Division 43",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "F26146765",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M4A",
-      "division": "235",
-      "timestamp": "2026-09-16T07:50:49.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "222"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-16T08:09:27.866Z",
-      "lastSeenAt": "2026-09-16T08:32:41.367Z",
-      "geography": {
-        "text": "Approximate area: (M4A) North York (Sweeney Park / Wigmore Park)",
-        "approximate": true,
-        "coordinates": [
-          43.7276,
-          -79.3148
-        ],
-        "division": "Division 33",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T07:50:37.464Z",
+      "fetchedAt": "2026-09-23T07:51:36.689Z",
       "sourceUpdatedAt": "2026-09-23T07:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T07:50:37.464Z",
+      "fetchedAt": "2026-09-23T07:51:36.689Z",
       "status": "ok"
     }
   },
@@ -195561,30 +195510,6 @@
         -79.4214418
       ],
       "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "TRUDELLE ST, SC / DANFORTH RD / TRUDELLE STREET PARK TRL": {
-      "text": "Trudelle Street between Danforth Road & Trudelle Street Park Trl",
-      "approximate": false,
-      "coordinates": [
-        43.7398787,
-        -79.2439194
-      ],
-      "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4A": {
-      "text": "Approximate area: (M4A) North York (Sweeney Park / Wigmore Park)",
-      "approximate": true,
-      "coordinates": [
-        43.7276,
-        -79.3148
-      ],
-      "division": "Division 33",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
