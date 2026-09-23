@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-23T01:35:34.450Z",
-  "sourceUpdatedAt": "2026-09-23T01:30:02.000Z",
+  "fetchedAt": "2026-09-23T01:37:03.988Z",
+  "sourceUpdatedAt": "2026-09-23T01:35:03.000Z",
   "incidents": [
+    {
+      "id": "F26150665",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4C",
+      "division": "226",
+      "timestamp": "2026-09-23T01:28:36.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-23T01:37:03.988Z",
+      "lastSeenAt": "2026-09-23T01:37:03.988Z",
+      "geography": {
+        "text": "Approximate area: (M4C) East York (Woodbine Heights)",
+        "approximate": true,
+        "coordinates": [
+          43.6913,
+          -79.3116
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26150664",
       "source": "TFS",
@@ -25,7 +51,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T01:32:03.720Z",
-      "lastSeenAt": "2026-09-23T01:35:34.450Z",
+      "lastSeenAt": "2026-09-23T01:37:03.988Z",
       "geography": {
         "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
         "approximate": true,
@@ -140,7 +166,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T01:32:03.720Z",
-      "lastSeenAt": "2026-09-23T01:35:34.450Z",
+      "lastSeenAt": "2026-09-23T01:37:03.988Z",
       "geography": {
         "text": "Approximate location on undefined",
         "approximate": true,
@@ -233,7 +259,7 @@
       "division": "234",
       "timestamp": "2026-09-23T01:10:42.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -266,7 +292,7 @@
       "division": "231",
       "timestamp": "2026-09-23T01:10:36.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -482,7 +508,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T01:16:13.327Z",
-      "lastSeenAt": "2026-09-23T01:35:34.450Z",
+      "lastSeenAt": "2026-09-23T01:37:03.988Z",
       "geography": {
         "text": "King Street between Portland Street & Waterloo Terrace",
         "approximate": false,
@@ -735,7 +761,7 @@
       "division": "312",
       "timestamp": "2026-09-23T00:52:25.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Ladder Truck",
@@ -844,7 +870,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T00:56:52.283Z",
-      "lastSeenAt": "2026-09-23T01:35:34.450Z",
+      "lastSeenAt": "2026-09-23T01:37:03.988Z",
       "geography": {
         "text": "Little Norway Crescent & Stadium Road",
         "approximate": false,
@@ -4184,7 +4210,7 @@
         }
       ],
       "firstSeenAt": "2026-09-22T21:41:33.469Z",
-      "lastSeenAt": "2026-09-23T01:35:34.450Z",
+      "lastSeenAt": "2026-09-23T01:37:03.988Z",
       "geography": {
         "text": "Haddon Avenue between South Edgely Avenue & South Woodrow Boulevard",
         "approximate": false,
@@ -105667,12 +105693,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-23T01:35:34.450Z",
-      "sourceUpdatedAt": "2026-09-23T01:30:02.000Z",
+      "fetchedAt": "2026-09-23T01:37:03.988Z",
+      "sourceUpdatedAt": "2026-09-23T01:35:03.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-23T01:35:34.450Z",
+      "fetchedAt": "2026-09-23T01:37:03.988Z",
       "status": "ok"
     }
   },
@@ -181499,8 +181525,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-23T01:32:03.720Z",
-      "fetchedAt": "2026-09-23T01:32:03.720Z"
+      "checkedAt": "2026-09-23T01:37:03.988Z",
+      "fetchedAt": "2026-09-23T01:37:03.988Z"
     },
     "transit": {
       "items": [
@@ -182126,22 +182152,6 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
-          "id": "76705",
-          "title": "504 King: Detour eastbound via Bathurst St, Queens Quay W and Spadina Ave due to a blocked track.",
-          "description": "",
-          "effect": "DETOUR",
-          "routes": [
-            "504"
-          ],
-          "periods": [
-            {
-              "start": 1790126514000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
           "id": "200",
           "title": "– Long Branch Loop Streetcar Track Renewal Work",
           "description": "With the start of the TTC construction at Long Branch Loop service will be adjusted on the following routes: \n \n501 Queen: 501A Queen streetcar will be extended to operate in the late evening period between Neville Park Loop and Humber Loop. Streetcars will continue to arrive every 10 minutes. \n \nService on the 501C Queen will be suspended during this construction period. \n \n301 Queen: Overnight service on the 301 Queen streetcar will be shortened to operate between Neville Park Loop and Humber Loop. \n \n301L Queen bus replacement service will be introduced between Long Branch Loop and Dufferin Gate Loop via The Queensway, Park Lawn Road and Lake Shore Boulevard West. Buses will arrive every 30 minutes. \n \n507 Long Branch: Service on the 507 Long Branch streetcar will be suspended and replaced by 507 Long Branch bus replacement service. \n \n507 Long Branch bus replacement service will operate between Humber Loop and Long Branch Loop via Lake Shore Boulevard West, Park Lawn Road and The Queensway. \n \nBuses will arrive every 10 minutes and be extended into the late evening period to replace suspended 501C Queen streetcar service. \n \n507M Long Branch bus replacement shuttle service will begin operating between Humber Loop and Humber Bay Shores (Marine Parade Drive and Silver Moon Drive) via The Queensway, Park Lawn Road, Lake Shore Boulevard West and Marine Parade Drive.\n \nBuses will arrive 15 minutes during the weekday peak periods and between 20 and 30 minutes in off peak periods. \n \nService on the 508 Lake Shore streetcar will be suspended for the summer.",
@@ -182599,14 +182609,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-23T01:32:04.000Z",
+      "sourceUpdatedAt": "2026-09-23T01:37:04.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-23T01:32:03.720Z",
-      "fetchedAt": "2026-09-23T01:32:03.720Z"
+      "checkedAt": "2026-09-23T01:37:03.988Z",
+      "fetchedAt": "2026-09-23T01:37:03.988Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4C": {
+      "text": "Approximate area: (M4C) East York (Woodbine Heights)",
+      "approximate": true,
+      "coordinates": [
+        43.6913,
+        -79.3116
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M9R": {
       "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
       "approximate": true,
@@ -183500,18 +183522,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T20:52:01.097Z"
-    },
-    "M4C": {
-      "text": "Approximate area: (M4C) East York (Woodbine Heights)",
-      "approximate": true,
-      "coordinates": [
-        43.6913,
-        -79.3116
-      ],
-      "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "DUNDAS ST W / FISKEN AVE": {
       "text": "Dundas Street West & Fisken Avenue",
