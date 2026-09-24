@@ -4,3 +4,9 @@ export function distanceKm(a, b) {
   const h = Math.sin(rad(b[0] - a[0]) / 2) ** 2 + Math.cos(rad(a[0])) * Math.cos(rad(b[0])) * Math.sin(rad(b[1] - a[1]) / 2) ** 2;
   return 6371 * 2 * Math.asin(Math.sqrt(Math.min(1, h)));
 }
+
+export function distanceLabel(kilometres) {
+  return Number.isFinite(kilometres) && kilometres >= 0
+    ? `${kilometres.toFixed(1)} km away`
+    : '';
+}

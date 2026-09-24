@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { reportedAge, callExplanation, locationConfidence, callStatus } from '../src/call-presentation.js';
+import { reportedAge, compactReportedAge, callExplanation, locationConfidence, callStatus } from '../src/call-presentation.js';
 test('report age covers boundaries, invalid times and clock skew', () => {
  const now = Date.UTC(2026,8,22);
  assert.equal(reportedAge(now-60000,now),'Reported 1 minute ago');
@@ -11,6 +11,15 @@ test('report age covers boundaries, invalid times and clock skew', () => {
  assert.equal(reportedAge(now-172800000,now),'Reported 2 days ago');
  assert.equal(reportedAge(now+60000,now),'Reported just now');
  assert.equal(reportedAge('invalid',now),'Report time unavailable');
+});
+
+test('compact report age fits beside incident distance', () => {
+ const now = Date.UTC(2026,8,22);
+ assert.equal(compactReportedAge(now-420000,now),'7 min ago');
+ assert.equal(compactReportedAge(now-7200000,now),'2 hr ago');
+ assert.equal(compactReportedAge(now-172800000,now),'2 days ago');
+ assert.equal(compactReportedAge(now+60000,now),'Just now');
+ assert.equal(compactReportedAge('invalid',now),'Time unavailable');
 });
 
 test('explanations preserve uncertainty and leave unfamiliar types unexplained', () => {

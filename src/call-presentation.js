@@ -10,6 +10,18 @@ export function reportedAge(timestamp, now = Date.now()) {
   return `Reported ${days} day${days === 1 ? '' : 's'} ago`;
 }
 
+export function compactReportedAge(timestamp, now = Date.now()) {
+  const time = new Date(timestamp).getTime();
+  if (!Number.isFinite(time)) return 'Time unavailable';
+  const minutes = Math.floor(Math.max(0, now - time) / 60000);
+  if (!minutes) return 'Just now';
+  if (minutes < 60) return `${minutes} min ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hr ago`;
+  const days = Math.floor(hours / 24);
+  return `${days} day${days === 1 ? '' : 's'} ago`;
+}
+
 const DESCRIPTIONS = {
   'MEDICAL': 'A call for medical assistance.',
   'PERSONAL INJURY COLLISION': 'A traffic collision reported to involve an injury.',

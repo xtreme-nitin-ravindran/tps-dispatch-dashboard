@@ -36,11 +36,13 @@ test('unit labels handle numeric-leading codes without changing geographic divis
 });
 
 test('nearby distances handle geographic distance and missing locations', async () => {
- const { distanceKm } = await import('../src/nearby.js');
+ const { distanceKm, distanceLabel } = await import('../src/nearby.js');
  assert.equal(distanceKm([43.7,-79.4],[43.7,-79.4]),0);
  assert.ok(Math.abs(distanceKm([0,0],[0,1])-111.195)<0.01);
  assert.equal(distanceKm([43.7,-79.4],null),Infinity);
  assert.equal(distanceKm([43.7,-79.4],[NaN,0]),Infinity);
+ assert.equal(distanceLabel(0.555),'0.6 km away');
+ assert.equal(distanceLabel(Infinity),'');
 });
 
 test('TPS normalization rejects invalid records and preserves unpublished-field fallbacks', () => {

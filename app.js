@@ -2,8 +2,8 @@ import { sourceStatus } from "./src/source-status.js";
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
 import { filterDefaults, filterSummary, readFilters, shareView, loadPreferences, savePreferences } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js";
-import { reportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=status-1";
-import { distanceKm } from "./src/nearby.js";
+import { compactReportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=incident-distance-1";
+import { distanceKm, distanceLabel } from "./src/nearby.js?v=incident-distance-1";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
 import { locationDisplay, expandLocationAbbreviations } from "./src/location-display.js?v=hydro-corridor-1";
@@ -368,7 +368,13 @@ function renderCalls() {
       node.querySelector('.call-main').append(hint);
     }
     node.querySelector(".time-main").textContent = formatTime(call.time);
-    node.querySelector(".time-ago").textContent = reportedAge(call.time);
+    const distance = distanceLabel(distanceKm(state.nearby, coordinatesForCall(call)));
+    const distanceNode = node.querySelector(".distance-away");
+    const distanceSeparator = node.querySelector(".distance-separator");
+    distanceNode.textContent = distance;
+    distanceNode.hidden = !distance;
+    distanceSeparator.hidden = !distance;
+    node.querySelector(".time-ago").textContent = compactReportedAge(call.time);
     node.querySelector(".time-ago").dataset.reportedAt = call.time.toISOString();
     node.querySelector(".call-title").textContent = call.description;
     const explanation = node.querySelector('.call-explanation');
@@ -704,11 +710,18 @@ const nearButton = document.querySelector('#nearMe');
 const nearStatus = document.querySelector('#nearStatus');
 const nearControls = document.querySelector('#nearControls');
 let locationRequest = 0;
+let locationWatch = null;
+function clearLocationWatch() {
+  if (locationWatch !== null && typeof navigator.geolocation?.clearWatch === 'function') {
+    navigator.geolocation.clearWatch(locationWatch);
+  }
+  locationWatch = null;
+}
 function updateNearbyView() {
   mapHasFitted = false;
   applyFilters();
   if (dispatchMap && state.nearby) dispatchMap.setView(state.nearby, state.radiusKm <= 2 ? 14 : 12);
-  nearStatus.textContent = `Within ${state.radiusKm} km of your location. Other filters still apply. Distances use approximate call locations; unmapped calls are excluded.`;
+  nearStatus.textContent = `Within ${state.radiusKm} km of your location. Location and card distances update automatically. Distances use approximate call locations; unmapped calls are excluded.`;
 }
 nearButton.addEventListener('click', () => {
   if (!navigator.geolocation) {
@@ -716,22 +729,31 @@ nearButton.addEventListener('click', () => {
     return;
   }
   const request = ++locationRequest;
+  clearLocationWatch();
   nearButton.disabled = true;
   nearButton.textContent = 'Finding your location…';
   nearStatus.textContent = 'Allow location access when your browser asks.';
-  navigator.geolocation.getCurrentPosition(position => {
+  const onPosition = position => {
     if (request !== locationRequest) return;
     state.nearby = [position.coords.latitude, position.coords.longitude];
     nearButton.disabled = false;
     nearButton.textContent = 'Update my location';
     nearControls.hidden = false;
     updateNearbyView();
-  }, error => {
+  };
+  const onError = error => {
     if (request !== locationRequest) return;
     nearButton.disabled = false;
     nearButton.textContent = state.nearby ? 'Update my location' : 'Calls near me';
     nearStatus.textContent = (error.code === 1 ? 'Location permission was denied.' : 'Could not get your location. Please try again.') + (state.nearby ? ' Your previous nearby filter remains active.' : ' You can search by street or neighbourhood instead.');
-  }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 });
+    if (error.code === 1) clearLocationWatch();
+  };
+  const options = { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 };
+  if (typeof navigator.geolocation.watchPosition === 'function') {
+    locationWatch = navigator.geolocation.watchPosition(onPosition, onError, options);
+  } else {
+    navigator.geolocation.getCurrentPosition(onPosition, onError, options);
+  }
 });
 document.querySelector('#nearRadius').addEventListener('change', event => {
   state.radiusKm = Number(event.target.value);
@@ -739,6 +761,7 @@ document.querySelector('#nearRadius').addEventListener('change', event => {
 });
 document.querySelector('#clearNearby').addEventListener('click', () => {
   locationRequest++;
+  clearLocationWatch();
   state.nearby = null;
   nearButton.disabled = false;
   nearButton.textContent = 'Calls near me';
@@ -750,7 +773,7 @@ document.querySelector('#clearNearby').addEventListener('click', () => {
 
 setInterval(() => {
   document.querySelectorAll('[data-reported-at]').forEach(label => {
-    label.textContent = reportedAge(label.dataset.reportedAt);
+    label.textContent = compactReportedAge(label.dataset.reportedAt);
   });
   renderNearbySummary();
 }, 60000);
