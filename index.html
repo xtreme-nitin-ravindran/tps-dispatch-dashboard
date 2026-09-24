@@ -5,7 +5,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0c1320" />
-  <meta name="description" content="SirenTO — Fire and police calls, mapped to your neighbourhood. Independent Toronto Fire Services incident dashboard." />
+  <meta name="description"
+    content="SirenTO — Fire and police calls, mapped to your neighbourhood. Independent Toronto Fire Services incident dashboard." />
   <title>SirenTO · Fire &amp; Police Calls</title>
   <script>
     (() => {
@@ -44,7 +45,8 @@
       </div>
 
       <div class="topbar-tools">
-        <div class="refresh-info" id="refreshStatus" role="status" aria-live="polite">Updates from official TFS and TPS feeds.</div>
+        <div class="refresh-info" id="refreshStatus" role="status" aria-live="polite">Updates from official TFS and TPS
+          feeds.</div>
         <label class="theme-control" for="themePreference">
           <span>Theme</span>
           <select id="themePreference" aria-label="Theme preference">
@@ -61,10 +63,14 @@
 
     <main>
       <section class="nearby-feature" aria-labelledby="nearHeading">
-        <div><span class="section-kicker">QUICK LOOK</span><h2 id="nearHeading">What’s happening nearby?</h2><p>Check the latest public fire and police calls around you.</p></div>
+        <div><span class="section-kicker">QUICK LOOK</span>
+          <h2 id="nearHeading">What’s happening nearby?</h2>
+          <p>Check the latest public fire and police calls around you.</p>
+        </div>
         <div class="nearby-action">
           <button id="nearMe" type="button">🚨 Hear sirens?</button>
-          <p id="nearStatus" role="status">Uses your location with permission. Your location stays in this browser session.</p>
+          <p id="nearStatus" role="status">Uses your location with permission. Your location stays in this browser
+            session.</p>
           <div id="nearControls" hidden>
             <button id="chooseArea" type="button">Choose an area on the map</button>
             <button id="clearNearby" type="button">Clear nearby filter</button>
@@ -73,11 +79,14 @@
       </section>
       <section class="siren-results" id="sirenResults" aria-labelledby="sirenResultsHeading" aria-live="polite" hidden>
         <div class="siren-results-head">
-          <div><span class="section-kicker">NEARBY NOW</span><h2 id="sirenResultsHeading">Recent calls near you that may explain what you’re hearing.</h2></div>
+          <div><span class="section-kicker">NEARBY NOW</span>
+            <h2 id="sirenResultsHeading">Recent calls near you that may explain what you’re hearing.</h2>
+          </div>
           <span class="siren-radius">WITHIN 2 KM</span>
         </div>
         <ol id="sirenResultsList" class="siren-results-list"></ol>
-        <p class="siren-disclaimer">SirenTO can’t determine which incident caused the sirens you heard. These are the most recent nearby calls.</p>
+        <p class="siren-disclaimer">SirenTO can’t determine which incident caused the sirens you heard. These are the
+          most recent nearby calls.</p>
       </section>
       <section class="controls-card">
         <div class="search-wrap">
@@ -108,7 +117,11 @@
 
       <section class="event-filters" aria-label="Filter calls by service and event type">
         <label for="serviceFilter" class="section-kicker">SERVICE</label>
-        <select id="serviceFilter"><option value="all">All services</option><option value="TFS">Fire (TFS)</option><option value="TPS">Police (TPS)</option></select>
+        <select id="serviceFilter">
+          <option value="all">All services</option>
+          <option value="TFS">Fire (TFS)</option>
+          <option value="TPS">Police (TPS)</option>
+        </select>
         <span class="section-kicker">EVENT TYPE</span>
         <div class="event-toggle-group" role="group" aria-label="Event type">
           <button class="event-toggle active" type="button" data-event-filter="all" aria-pressed="true">All</button>
@@ -119,7 +132,9 @@
         </div>
       </section>
 
-      <div class="view-actions"><span id="filterSummary"></span><button id="clearFilters" type="button">Clear filters</button><button id="shareView" type="button">Share view</button><input id="shareLink" aria-label="Shareable view link" readonly hidden><span id="shareStatus" role="status"></span></div>
+      <div class="view-actions"><span id="filterSummary"></span><button id="clearFilters" type="button">Clear
+          filters</button><button id="shareView" type="button">Share view</button><input id="shareLink"
+          aria-label="Shareable view link" readonly hidden><span id="shareStatus" role="status"></span></div>
 
       <nav class="radius-controls" aria-label="Incident search area">
         <span class="section-kicker">SEARCH AREA</span>
@@ -132,7 +147,8 @@
         </div>
       </nav>
 
-      <section class="nearby-summary" id="nearbySummary" aria-labelledby="nearbySummaryHeading" aria-live="polite" aria-atomic="true" hidden>
+      <section class="nearby-summary" id="nearbySummary" aria-labelledby="nearbySummaryHeading" aria-live="polite"
+        aria-atomic="true" hidden>
         <span class="section-kicker" id="nearbySummaryHeading">NEARBY SUMMARY</span>
         <p id="nearbySummaryText"></p>
       </section>
@@ -145,7 +161,9 @@
               <h3>Toronto call map</h3>
             </div>
             <div class="map-meta">
-              <div class="source-updated"><span class="source-updated-title">Source updates</span><span class="source-updated-title">Toronto time</span><strong id="sourceUpdated">—</strong><a class="source-times-help" href="#source-timestamps">What do these times mean?</a></div>
+              <div class="source-updated"><span class="source-updated-title">Source updates</span><span
+                  class="source-updated-title">Toronto time</span><strong id="sourceUpdated">—</strong><a
+                  class="source-times-help" href="#source-timestamps">What do these times mean?</a></div>
               <span class="map-status" id="mapStatus">—</span>
             </div>
           </div>
@@ -174,16 +192,30 @@
       </section>
 
       <section class="panel disruptions-panel" id="disruptions" aria-labelledby="disruptionHeading">
-        <div class="panel-head"><div><span class="section-kicker">TRAVEL</span><h3 id="disruptionHeading">Road &amp; transit disruptions</h3></div></div>
-        <p class="disruption-note">Separate from emergency calls; nearby events are not necessarily related. Road restrictions follow your nearby radius. TTC alerts are citywide; stop coordinates are not supplied by this feed.</p>
-        <label class="road-overlay-toggle"><input id="roadOverlay" type="checkbox" /> Show road restrictions on map <span aria-hidden="true" class="road-key"></span></label>
-        <details><summary><span id="roadScope">Road restrictions · citywide</span> (<span id="roadCount">—</span>)</summary>
-          <p id="roadsFreshness" class="disruption-note">Not available yet</p><div id="roadsList" class="disruption-list"></div>
-          <p><a href="https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/" target="_blank" rel="noopener noreferrer">City of Toronto road restrictions ↗</a></p>
+        <div class="panel-head">
+          <div><span class="section-kicker">TRAVEL</span>
+            <h3 id="disruptionHeading">Road &amp; transit disruptions</h3>
+          </div>
+        </div>
+        <p class="disruption-note">Separate from emergency calls; nearby events are not necessarily related. Road
+          restrictions follow your nearby radius. TTC alerts are citywide; stop coordinates are not supplied by this
+          feed.</p>
+        <label class="road-overlay-toggle"><input id="roadOverlay" type="checkbox" /> Show road restrictions on map
+          <span aria-hidden="true" class="road-key"></span></label>
+        <details>
+          <summary><span id="roadScope">Road restrictions · citywide</span> (<span id="roadCount">—</span>)</summary>
+          <p id="roadsFreshness" class="disruption-note">Not available yet</p>
+          <div id="roadsList" class="disruption-list"></div>
+          <p><a
+              href="https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+              target="_blank" rel="noopener noreferrer">City of Toronto road restrictions ↗</a></p>
         </details>
-        <details><summary>TTC service alerts · citywide (<span id="transitCount">—</span>)</summary>
-          <p id="transitFreshness" class="disruption-note">Not available yet</p><div id="transitList" class="disruption-list"></div>
-          <p><a href="https://www.ttc.ca/service-advisories/all-service-alerts" target="_blank" rel="noopener noreferrer">Official TTC service alerts ↗</a></p>
+        <details>
+          <summary>TTC service alerts · citywide (<span id="transitCount">—</span>)</summary>
+          <p id="transitFreshness" class="disruption-note">Not available yet</p>
+          <div id="transitList" class="disruption-list"></div>
+          <p><a href="https://www.ttc.ca/service-advisories/all-service-alerts" target="_blank"
+              rel="noopener noreferrer">Official TTC service alerts ↗</a></p>
         </details>
         <p class="disruption-note">Check official notices before travelling.</p>
       </section>
@@ -224,45 +256,72 @@
               <p>
                 Independent and unofficial. <strong>In an emergency, call 911.</strong>
               </p>
-              <img class="notice-cat" src="./curious-cat.jpg" alt="Curious cat wearing a red bow tie" width="40" height="40" loading="lazy" />
+              <img class="notice-cat" src="./curious-cat.jpg" alt="Curious cat wearing a red bow tie" width="40"
+                height="40" loading="lazy" />
             </div>
           </div>
 
           <div class="source-card">
             <span class="section-kicker">SOURCES</span>
             <p>
-              Incident information comes from Toronto Fire Services and Toronto Police Service. Estimated police divisions use
-              Toronto Police Service boundaries hosted on ArcGIS, Toronto Centreline intersections, and GeoNames postal areas.
+              Incident information comes from Toronto Fire Services and Toronto Police Service. Estimated police
+              divisions use
+              Toronto Police Service boundaries hosted on ArcGIS, Toronto Centreline intersections, and GeoNames postal
+              areas.
             </p>
             <section id="source-timestamps" aria-labelledby="source-timestamps-title" tabindex="-1">
               <h3 id="source-timestamps-title">About source update times</h3>
-              <p>Source statuses show how long it has been since each source was last retrieved successfully. A source can be unavailable while its most recent valid data remains visible.</p>
+              <p>Source statuses show how long it has been since each source was last retrieved successfully. A source
+                can be unavailable while its most recent valid data remains visible.</p>
               <table class="source-times-table">
-                <thead><tr><th scope="col">Source</th><th scope="col">About the timestamp</th></tr></thead>
+                <thead>
+                  <tr>
+                    <th scope="col">Source</th>
+                    <th scope="col">About the timestamp</th>
+                  </tr>
+                </thead>
                 <tbody>
-                  <tr><th scope="row">TFS</th><td>Update time provided by the Toronto Fire Services feed.</td></tr>
-                  <tr><th scope="row">TPS</th><td>Indicates when data was last successfully fetched from this source.</td></tr>
-                  <tr><th scope="row">Road restrictions</th><td>Indicates when data was last successfully fetched from this source.</td></tr>
-                  <tr><th scope="row">TTC alerts</th><td>Feed generation time provided by the TTC. Individual alerts may be older.</td></tr>
+                  <tr>
+                    <th scope="row">TFS</th>
+                    <td>Update time provided by the Toronto Fire Services feed.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">TPS</th>
+                    <td>Indicates when data was last successfully fetched from this source.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Road restrictions</th>
+                    <td>Indicates when data was last successfully fetched from this source.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">TTC alerts</th>
+                    <td>Feed generation time provided by the TTC. Individual alerts may be older.</td>
+                  </tr>
                 </tbody>
               </table>
-              <p>Retrieval times do not necessarily indicate a change in the data. If retrieval fails, the last successful timestamp is retained.</p>
+              <p>Retrieval times do not necessarily indicate a change in the data. If retrieval fails, the last
+                successful timestamp is retained.</p>
             </section>
             <div class="source-links">
-              <a href="https://open.toronto.ca/dataset/road-restrictions/" target="_blank" rel="noreferrer">City of Toronto Road Restrictions ↗</a>
+              <a href="https://open.toronto.ca/dataset/road-restrictions/" target="_blank" rel="noreferrer">City of
+                Toronto Road Restrictions ↗</a>
               <a href="https://gtfsrt.ttc.ca/" target="_blank" rel="noreferrer">TTC GTFS-Realtime alerts ↗</a>
               <a href="https://www.toronto.ca/community-people/public-safety-alerts/alerts-notifications/toronto-fire-active-incidents/"
                 target="_blank" rel="noreferrer">TFS incidents ↗</a>
-              <a href="https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/C4S_Public_NoGO/FeatureServer/0" target="_blank" rel="noreferrer">TPS calls for service ↗</a>
+              <a href="https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/C4S_Public_NoGO/FeatureServer/0"
+                target="_blank" rel="noreferrer">TPS calls for service ↗</a>
               <a href="https://www.tps.ca/my-neighbourhood/" target="_blank" rel="noreferrer">TPS division lookup ↗</a>
-              <a href="https://www.arcgis.com/home/item.html?id=fdd36b8dd9544c97b926958f3eb8cb98"
-                target="_blank" rel="noreferrer">TPS ArcGIS boundaries ↗</a>
+              <a href="https://www.arcgis.com/home/item.html?id=fdd36b8dd9544c97b926958f3eb8cb98" target="_blank"
+                rel="noreferrer">TPS ArcGIS boundaries ↗</a>
               <a href="https://www.toronto.ca/city-government/data-research-maps/open-data/open-data-licence/"
                 target="_blank" rel="noreferrer">Toronto open-data licence ↗</a>
-              <a href="https://open.toronto.ca/dataset/toronto-centreline-tcl/" target="_blank" rel="noreferrer">Toronto Centreline ↗</a>
+              <a href="https://open.toronto.ca/dataset/toronto-centreline-tcl/" target="_blank" rel="noreferrer">Toronto
+                Centreline ↗</a>
               <a href="https://www.geonames.org/" target="_blank" rel="noreferrer">GeoNames postal areas ↗</a>
-              <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">GeoNames CC BY 4.0 ↗</a>
-              <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap credits ↗</a>
+              <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">GeoNames CC BY 4.0
+                ↗</a>
+              <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap credits
+                ↗</a>
             </div>
             <p class="licence">
               Contains information licensed under the Open Government Licence – Toronto where applicable.
@@ -311,7 +370,7 @@
             <p class="call-explanation" hidden></p>
             <p class="location-confidence"></p>
             <div class="call-detail call-division">
-              <span class="detail-label">Division / district</span>
+              <span class="detail-label">Division</span>
               <strong class="division-value"></strong>
             </div>
             <div class="call-detail call-alarm" hidden>
