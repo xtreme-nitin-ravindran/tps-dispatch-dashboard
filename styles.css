@@ -849,6 +849,21 @@ a {
   color: var(--danger);
 }
 
+.feed-status {
+  margin: 0;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 193, 7, .08);
+  color: #f5d98b;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.refresh-info.is-updating { color: var(--accent); }
+.refresh-info.is-error { color: #ffb4b4; }
+.source-state-unavailable { color: #ffb4b4; }
+.source-state-stale { color: #f5d98b; }
+
 footer {
   min-height: 84px;
   display: flex;

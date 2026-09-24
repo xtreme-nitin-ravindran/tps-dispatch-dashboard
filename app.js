@@ -1,7 +1,7 @@
-import { sourceStatus } from "./src/source-status.js";
+import { sourceStatus, sourceStatusText } from "./src/source-status.js?v=source-states-1";
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
 import { filterDefaults, filterSummary, readFilters, shareView, loadPreferences, savePreferences } from "./src/view-controls.js";
-import { renderDisruptions } from "./src/disruptions/ui.js";
+import { renderDisruptions } from "./src/disruptions/ui.js?v=source-states-1";
 import { compactAge, compactReportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=incident-time-2";
 import { distanceKm, distanceLabel, withinGeographicScope } from "./src/nearby.js?v=radius-controls-1";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
@@ -22,6 +22,7 @@ const state = {
   hours: 24,
   calls: [],
   filtered: [],
+  feeds: {},
   lastIngest: null,
   fetchedAt: null,
   search: "",
@@ -52,6 +53,8 @@ const els = {
   callTemplate: document.querySelector("#callTemplate"),
   footerClock: document.querySelector("#footerClock")
 };
+const refreshStatus = document.querySelector('#refreshStatus');
+const callsFeedStatus = document.querySelector('#callsFeedStatus');
 const radiusToggles = document.querySelectorAll('[data-radius-km]');
 
 const TORONTO_CENTER = [43.7001, -79.42];
@@ -204,8 +207,18 @@ async function fetchSnapshot() {
 
 let sourceHighlightTimer;
 let snapshotLoaded = false;
-async function loadData() {
+function setRefreshState(status) {
+  refreshStatus.classList.toggle('is-updating',status === 'updating');
+  refreshStatus.classList.toggle('is-error',status === 'error');
+  refreshStatus.textContent = status === 'updating'
+    ? 'Updating…'
+    : status === 'error'
+      ? snapshotLoaded ? 'Latest refresh failed. Previously loaded data remains visible.' : 'Dispatch data is temporarily unavailable.'
+      : 'Updates from official TFS and TPS feeds.';
+}
 
+async function loadData() {
+  setRefreshState('updating');
   try {
     const snapshot = await fetchSnapshot();
     const scrollTop = els.callList.scrollTop;
@@ -215,6 +228,7 @@ async function loadData() {
     const callsChanged = JSON.stringify(state.calls) !== JSON.stringify(snapshot.calls);
     state.disruptions = snapshot.disruptions;
     state.calls = snapshot.calls;
+    state.feeds = snapshot.feeds || {};
     state.lastIngest = snapshot.updatedAt;
     state.fetchedAt = snapshot.fetchedAt;
     const sourceTime = parseLooseTime(snapshot.updatedAt);
@@ -224,14 +238,14 @@ async function loadData() {
       ['Road restrictions', snapshot.disruptions?.roads],
       ['TTC alerts', snapshot.disruptions?.transit]
     ];
+    const sourceSubjects = {'TFS':'TFS','TPS':'TPS','Road restrictions':'Road restriction','TTC alerts':'TTC alert'};
     els.sourceUpdated.replaceChildren(...sources.flatMap(([name,feed]) => {
       const info = sourceStatus(name,feed);
       const label = document.createElement('span');
-      label.textContent = `${info.label}:`;
+      label.textContent = `${name}:`;
       const value = document.createElement('span');
-      value.className = 'source-time';
-      const time = info.timestamp === null ? 'not loaded' : `${formatDate(new Date(info.timestamp))} · ${formatTime(new Date(info.timestamp))}`;
-      value.textContent = `${time}${info.status && info.status !== 'not loaded' ? ` (${info.status})` : ''}`;
+      value.className = `source-time source-state-${info.status}`;
+      value.textContent = sourceStatusText(sourceSubjects[name],feed);
       return [label, value];
     }));
     if (callsChanged || firstSnapshot) {
@@ -240,6 +254,7 @@ async function loadData() {
     }
     renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
     updateFreshness();
+    setRefreshState('idle');
     if (previousSourceTime != null && sourceTime && sourceTime.getTime() !== previousSourceTime) {
       clearTimeout(sourceHighlightTimer);
       els.sourceUpdated.classList.add('source-just-updated');
@@ -249,7 +264,8 @@ async function loadData() {
     }
   } catch (error) {
     console.error(error);
-    if (!state.calls.length) {
+    setRefreshState('error');
+    if (!snapshotLoaded) {
       els.callList.innerHTML = `
         <div class="error-state">
           <strong>Couldn’t load the public dispatch feed.</strong>
@@ -320,6 +336,38 @@ function render(map = true) {
   });
 }
 
+function relevantIncidentFeeds() {
+  const names=state.serviceFilter === 'all' ? ['TFS','TPS'] : [state.serviceFilter];
+  return names.map(name => [name,state.feeds?.[name]]);
+}
+
+function incidentAvailability() {
+  const feeds=relevantIncidentFeeds().map(([name,feed]) => ({name,...sourceStatus(name,feed)}));
+  const unavailable=feeds.filter(feed => ['unavailable','not loaded'].includes(feed.status));
+  const stale=feeds.filter(feed => feed.status === 'stale');
+  const cachedSources=new Set(state.calls.map(call => call.source));
+  return {
+    unavailable,
+    stale,
+    hasRelevantCachedData:feeds.some(feed => cachedSources.has(feed.name)),
+    allUnavailable:unavailable.length === feeds.length
+  };
+}
+
+function renderIncidentFeedStatus() {
+  const availability=incidentAvailability();
+  const messages=[];
+  for (const feed of availability.unavailable) {
+    messages.push(feed.age
+      ? `${feed.name} data is temporarily unavailable. Last successfully updated ${feed.age}. Previously loaded calls remain visible.`
+      : `${feed.name} data is temporarily unavailable.`);
+  }
+  for (const feed of availability.stale) messages.push(`${feed.name}: Last successfully updated ${feed.age}. Data may be stale.`);
+  callsFeedStatus.textContent=messages.join(' ');
+  callsFeedStatus.hidden=!messages.length;
+  return availability;
+}
+
 function sourceName(source) {
   return source === "TPS" ? "Toronto Police Service" : "Toronto Fire Services";
 }
@@ -345,7 +393,10 @@ function renderSirenResults() {
   if (!sirenMatches.length) {
     const empty = document.createElement("li");
     empty.className = "siren-results-empty";
-    empty.textContent = "No mapped public calls from the last 24 hours were found within 2 km.";
+    const availability=incidentAvailability();
+    empty.textContent = availability.allUnavailable && !availability.hasRelevantCachedData
+      ? 'Public dispatch data is temporarily unavailable.'
+      : "No mapped public calls from the last 24 hours were found within 2 km.";
     list.append(empty);
     return;
   }
@@ -405,13 +456,30 @@ function renderStats() {
 }
 
 function renderCalls() {
-  els.resultCount.textContent = `${state.filtered.length} RESULT${state.filtered.length === 1 ? "" : "S"}`;
+  const availability=renderIncidentFeedStatus();
+  if (!state.filtered.length && !availability.hasRelevantCachedData && availability.unavailable.length) {
+    els.resultCount.textContent = availability.allUnavailable ? 'UNAVAILABLE' : '0 FROM AVAILABLE SOURCES';
+  } else {
+    els.resultCount.textContent = `${state.filtered.length} RESULT${state.filtered.length === 1 ? "" : "S"}`;
+  }
 
   if (!state.filtered.length) {
+    let title='No calls match these filters.';
+    let detail='Try another time window, division, or search term.';
+    if (!availability.hasRelevantCachedData && availability.allUnavailable) {
+      title='Public dispatch data is temporarily unavailable.';
+      detail='The data source could not be checked. This is not a zero-call result.';
+    } else if (!availability.hasRelevantCachedData && availability.unavailable.length) {
+      title='No calls from the available sources match these filters.';
+      detail='At least one selected data source could not be checked.';
+    } else if (!state.calls.length) {
+      title='No public dispatch calls currently reported.';
+      detail='The data sources were checked successfully.';
+    }
     els.callList.innerHTML = `
       <div class="empty-state">
-        <strong>No calls match these filters.</strong>
-        <p>Try another time window, division, or search term.</p>
+        <strong>${title}</strong>
+        <p>${detail}</p>
       </div>`;
     return;
   }

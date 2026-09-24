@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {normalizeRoads,normalizeTransit,parseTextProto,updateDisruptions,fetchDisruptionSource} from '../src/disruptions/source.js';
 import {currentDisruptions,roadDistance} from '../src/disruptions/view.js';
+import {disruptionPresentation} from '../src/disruptions/ui.js';
 const now=Date.UTC(2026,8,22);
 const proto=`header { gtfs_realtime_version: "2.0" incrementality: FULL_DATASET timestamp: ${now/1000} }
 entity { id: "a" alert { active_period {start: ${now/1000-60} end: ${now/1000+60}} informed_entity {route_id: "1"} header_text {translation {text: "No service between A and B" language: "en"}} effect: NO_SERVICE }}
@@ -90,6 +91,23 @@ test('failed initial disruption refresh publishes unavailable empty sources and 
  let calls=0;
  await updateDisruptions({roads:{checkedAt:new Date(now+1).toISOString()}},new Date(now),async()=>{calls++;return {items:[]};});
  assert.equal(calls,2);
+});
+
+test('disruption presentation distinguishes empty, unavailable, stale and filtered cached data',()=>{
+ const fresh={fetchedAt:new Date(now).toISOString(),status:'ok'};
+ assert.deepEqual(disruptionPresentation('roads',fresh,[],[],false,now),{
+  count:'0',empty:'No road restrictions currently reported.',freshness:'Last successfully updated just now.',status:'ok'
+ });
+ const unavailable={fetchedAt:new Date(now-18*60000).toISOString(),status:'unavailable'};
+ const failed=disruptionPresentation('roads',unavailable,[],[],false,now);
+ assert.equal(failed.count,'Unavailable');
+ assert.equal(failed.empty,'Road restriction data is temporarily unavailable. Last successfully updated 18 min ago.');
+ assert.match(failed.freshness,/temporarily unavailable/);
+ const stale=disruptionPresentation('transit',{fetchedAt:new Date(now-20*60000).toISOString(),status:'ok'},[],[],false,now);
+ assert.equal(stale.count,'Stale');
+ assert.equal(stale.empty,'No TTC service alerts currently reported.');
+ assert.equal(stale.freshness,'Last successfully updated 20 min ago. Data may be stale.');
+ assert.equal(disruptionPresentation('roads',unavailable,[],[{id:'road'}],true,now).empty,'No mapped road restrictions within this radius.');
 });
 
 test('disruption filters support open-ended periods and reject future fetch timestamps',()=>{

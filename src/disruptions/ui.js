@@ -1,15 +1,28 @@
 import { currentDisruptions, roadDistance } from './view.js';
 import { ROAD_LINK } from './source.js';
+import { sourceStatus, sourceStatusText } from '../source-status.js?v=source-states-1';
 let roadLayer;
 let previousRender;
+const definitions = {
+  roads: {subject:'Road restriction', empty:'No road restrictions currently reported.'},
+  transit: {subject:'TTC alert', empty:'No TTC service alerts currently reported.'}
+};
 const element = (tag, text, className) => {
   const node=document.createElement(tag); if (text) node.textContent=text; if (className) node.className=className; return node;
 };
-function freshness(feed) {
-  const time=Date.parse(feed?.fetchedAt);
-  if (!Number.isFinite(time)) return 'Not available yet';
-  const age=Math.max(0,Math.floor((Date.now()-time)/60000));
-  return `${feed.status === 'unavailable' ? 'Source unavailable · last successful check' : 'Checked'} ${age} minutes ago${age >= 60 ? ' · too old to display' : age >= 10 ? ' · saved data may be outdated' : ''}`;
+export function disruptionPresentation(kind, feed, items, baseItems, hasOrigin, now = Date.now()) {
+  const definition=definitions[kind];
+  const info=sourceStatus(definition.subject,feed,now);
+  const tooOld=info.lastSuccessfulAt !== null && now-info.lastSuccessfulAt>3600000;
+  let empty=definition.empty;
+  if (baseItems.length && hasOrigin) empty='No mapped road restrictions within this radius.';
+  else if (info.status === 'unavailable') empty=sourceStatusText(definition.subject,feed,now);
+  else if (info.status === 'not loaded') empty=`${definition.subject} data could not be checked yet.`;
+  else if (tooOld) empty=`${definition.subject} data is too old to show.`;
+  const count=items.length || info.status === 'ok'
+    ? String(items.length)
+    : info.status === 'stale' ? 'Stale' : 'Unavailable';
+  return {count,empty,freshness:sourceStatusText(definition.subject,feed,now),status:info.status};
 }
 export function renderDisruptions(data, origin, radius, map) {
   const container=document.querySelector('#disruptions');
@@ -18,18 +31,24 @@ export function renderDisruptions(data, origin, radius, map) {
   const signature=JSON.stringify([data,origin,radius,showMap,Math.floor(Date.now()/60000),Boolean(map)]);
   if (signature === previousRender) return;
   previousRender=signature;
-  let roads=currentDisruptions(data?.roads,'roads');
+  const now=Date.now();
+  const allRoads=currentDisruptions(data?.roads,'roads',now);
+  let roads=allRoads;
   if (origin) roads=roads.filter(r => roadDistance(r,origin) <= radius).sort((a,b)=>roadDistance(a,origin)-roadDistance(b,origin));
-  const transit=currentDisruptions(data?.transit,'transit');
+  const transit=currentDisruptions(data?.transit,'transit',now);
+  const presentations={
+    roads:disruptionPresentation('roads',data?.roads,roads,allRoads,Boolean(origin),now),
+    transit:disruptionPresentation('transit',data?.transit,transit,transit,false,now)
+  };
   document.querySelector('#roadScope').textContent=origin ? `Road restrictions within ${radius} km` : 'Road restrictions · citywide';
-  document.querySelector('#roadsFreshness').textContent=freshness(data?.roads);
-  document.querySelector('#transitFreshness').textContent=freshness(data?.transit);
-  document.querySelector('#roadCount').textContent=roads.length;
-  document.querySelector('#transitCount').textContent=transit.length;
+  document.querySelector('#roadsFreshness').textContent=presentations.roads.freshness;
+  document.querySelector('#transitFreshness').textContent=presentations.transit.freshness;
+  document.querySelector('#roadCount').textContent=presentations.roads.count;
+  document.querySelector('#transitCount').textContent=presentations.transit.count;
   for (const [kind,items] of [['roads',roads],['transit',transit]]) {
     const list=document.querySelector(`#${kind}List`); list.replaceChildren();
     if (!items.length) {
-      list.append(element('p',currentDisruptions(data?.[kind],kind).length && origin ? 'No mapped road restrictions within this radius.' : !data?.[kind]?.fetchedAt || Date.now()-Date.parse(data[kind].fetchedAt)>3600000 ? 'Current data is unavailable. Check the official source below.' : 'No current disruptions reported in this view.','disruption-note'));
+      list.append(element('p',presentations[kind].empty,`disruption-note source-state source-state-${presentations[kind].status}`));
     }
     for (const item of items) {
       const article=element('article',null,'disruption-item');
