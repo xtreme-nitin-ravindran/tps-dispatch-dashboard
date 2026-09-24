@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T06:59:42.544Z",
-  "sourceUpdatedAt": "2026-09-24T06:55:01.000Z",
+  "fetchedAt": "2026-09-24T07:00:56.204Z",
+  "sourceUpdatedAt": "2026-09-24T07:00:02.000Z",
   "incidents": [
+    {
+      "id": "F26151325",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6J",
+      "division": "331",
+      "timestamp": "2026-09-24T06:53:42.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T07:00:56.204Z",
+      "lastSeenAt": "2026-09-24T07:00:56.204Z",
+      "geography": {
+        "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+        "approximate": true,
+        "coordinates": [
+          43.648,
+          -79.4177
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26151324",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4L",
+      "division": "227",
+      "timestamp": "2026-09-24T06:51:53.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T07:00:56.204Z",
+      "lastSeenAt": "2026-09-24T07:00:56.204Z",
+      "geography": {
+        "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
+        "approximate": true,
+        "coordinates": [
+          43.6693,
+          -79.3155
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26151323",
       "source": "TFS",
@@ -16,9 +68,23 @@
       "timestamp": "2026-09-24T06:47:19.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "212"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "214"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T06:56:41.206Z",
-      "lastSeenAt": "2026-09-24T06:59:42.544Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T07:00:56.204Z",
+      "lastSeenAt": "2026-09-24T07:00:56.204Z",
       "geography": {
         "text": "Scarboro Avenue between Scarbell Drive & Euclid Avenue",
         "approximate": false,
@@ -52,7 +118,7 @@
       ],
       "firstSeenAt": "2026-09-24T06:51:22.124Z",
       "lastMeaningfulUpdateAt": "2026-09-24T06:56:41.206Z",
-      "lastSeenAt": "2026-09-24T06:59:42.544Z",
+      "lastSeenAt": "2026-09-24T07:00:56.204Z",
       "geography": {
         "text": "Newlove Court & Turpin Avenue",
         "approximate": false,
@@ -75,7 +141,7 @@
       "division": "332",
       "timestamp": "2026-09-24T06:41:27.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -109,7 +175,7 @@
       "division": "445",
       "timestamp": "2026-09-24T06:41:13.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -292,7 +358,7 @@
       ],
       "firstSeenAt": "2026-09-24T06:41:21.383Z",
       "lastMeaningfulUpdateAt": "2026-09-24T06:46:21.645Z",
-      "lastSeenAt": "2026-09-24T06:59:42.544Z",
+      "lastSeenAt": "2026-09-24T07:00:56.204Z",
       "geography": {
         "text": "Sears Street & Knox Avenue",
         "approximate": false,
@@ -12430,7 +12496,7 @@
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
       "lastMeaningfulUpdateAt": "2026-09-24T06:51:22.124Z",
-      "lastSeenAt": "2026-09-24T06:59:42.544Z",
+      "lastSeenAt": "2026-09-24T07:00:56.204Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -124171,12 +124237,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T06:59:42.544Z",
-      "sourceUpdatedAt": "2026-09-24T06:55:01.000Z",
+      "fetchedAt": "2026-09-24T07:00:56.204Z",
+      "sourceUpdatedAt": "2026-09-24T07:00:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T06:59:42.544Z",
+      "fetchedAt": "2026-09-24T07:00:56.204Z",
       "status": "ok"
     }
   },
@@ -203671,6 +203737,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6J": {
+      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+      "approximate": true,
+      "coordinates": [
+        43.648,
+        -79.4177
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4L": {
+      "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
+      "approximate": true,
+      "coordinates": [
+        43.6693,
+        -79.3155
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "SCARBORO AVE, SC / SCARBELL DR / EUCLID AVE": {
       "text": "Scarboro Avenue between Scarbell Drive & Euclid Avenue",
       "approximate": false,
@@ -204532,18 +204622,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
     },
-    "M6J": {
-      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
-      "approximate": true,
-      "coordinates": [
-        43.648,
-        -79.4177
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "CRAWFORD ST, TT / LOGIE PL / TRINITY BELLWOODS PARK TRL": {
       "text": "Approximate location near Crawford Street & Logie Place",
       "approximate": true,
@@ -204564,18 +204642,6 @@
         -79.5231
       ],
       "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4L": {
-      "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
-      "approximate": true,
-      "coordinates": [
-        43.6693,
-        -79.3155
-      ],
-      "division": "Division 55",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
