@@ -2,7 +2,7 @@ import { sourceStatus } from "./src/source-status.js";
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
 import { filterDefaults, filterSummary, readFilters, shareView, loadPreferences, savePreferences } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js";
-import { compactReportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=incident-distance-1";
+import { compactAge, compactReportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=incident-time-2";
 import { distanceKm, distanceLabel } from "./src/nearby.js?v=incident-distance-1";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
@@ -69,7 +69,7 @@ function escapeText(value) {
   return String(value ?? "").replace(/\s+/g, " ").trim();
 }
 
-function normalizeCall(row) {
+function normalizeCall(row, sourceUpdatedAt = null) {
   const eventType = escapeText(row.event_type || row.eventType).toLowerCase();
   const description = escapeText(row.description || "Call for Service");
   const eventCategory = incidentCategory(description);
@@ -85,6 +85,7 @@ function normalizeCall(row) {
     id: escapeText(row.id || row.event_id || "—"),
     timestamp: date?.getTime() || Date.now(),
     time: date || new Date(),
+    updatedAt: parseLooseTime(row.lastSeenAt || sourceUpdatedAt),
     division: policeUnitLabel(row.geography?.division),
     divisionId: row.geography?.division || "Unknown",
     geography: row.geography,
@@ -179,8 +180,13 @@ async function fetchSnapshot() {
   if (!response.ok) throw new Error(`Official TFS snapshot returned HTTP ${response.status}`);
   const payload = await response.json();
   const rows = Array.isArray(payload) ? payload : (payload.incidents || []);
+  const sourceTimes = {
+    TFS: payload.feeds?.TFS?.sourceUpdatedAt || payload.feeds?.TFS?.fetchedAt || payload.sourceUpdatedAt || payload.fetchedAt,
+    TPS: payload.feeds?.TPS?.sourceUpdatedAt || payload.feeds?.TPS?.fetchedAt || payload.fetchedAt
+  };
   return {
-    calls: rows.map(normalizeCall).sort((a, b) => b.timestamp - a.timestamp),
+    calls: rows.map(row => normalizeCall(row, sourceTimes[row.source === "TPS" ? "TPS" : "TFS"]))
+      .sort((a, b) => b.timestamp - a.timestamp),
     disruptions: payload.disruptions,
     feeds: payload.feeds,
     fetchedAt: payload.fetchedAt || null,
@@ -367,7 +373,6 @@ function renderCalls() {
       hint.className = 'show-map-hint'; hint.textContent = 'Show on map ↗';
       node.querySelector('.call-main').append(hint);
     }
-    node.querySelector(".time-main").textContent = formatTime(call.time);
     const distance = distanceLabel(distanceKm(state.nearby, coordinatesForCall(call)));
     const distanceNode = node.querySelector(".distance-away");
     const distanceSeparator = node.querySelector(".distance-separator");
@@ -400,7 +405,18 @@ function renderCalls() {
     units.innerHTML = call.unitGroups.length
       ? call.unitGroups.map(group => `<div><strong>${escapeText(group.type)} #:</strong> ${escapeText(group.values)}</div>`).join("")
       : "Not provided by public feed";
-    node.querySelector(".call-date").textContent = formatDate(call.time);
+    node.querySelector(".reported-time").textContent = `Reported ${formatIncidentTime(call.time)}`;
+    const updatedTime = node.querySelector(".updated-time");
+    const updatedSeparator = node.querySelector(".updated-separator");
+    updatedTime.hidden = !call.updatedAt;
+    updatedSeparator.hidden = !call.updatedAt;
+    if (call.updatedAt) {
+      updatedTime.textContent = `Updated ${compactAge(call.updatedAt)}`;
+      updatedTime.dataset.updatedAt = call.updatedAt.toISOString();
+    }
+    node.querySelector(".incident-source").textContent = call.source === "TPS"
+      ? "Toronto Police Service"
+      : "Toronto Fire Services";
     fragment.appendChild(node);
   });
 
@@ -609,6 +625,15 @@ function formatTime(date) {
   }).format(date);
 }
 
+function formatIncidentTime(date) {
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: "America/Toronto"
+  }).format(date);
+}
+
 function formatDate(date) {
   return new Intl.DateTimeFormat("en-CA", {
     month: "short",
@@ -774,6 +799,9 @@ document.querySelector('#clearNearby').addEventListener('click', () => {
 setInterval(() => {
   document.querySelectorAll('[data-reported-at]').forEach(label => {
     label.textContent = compactReportedAge(label.dataset.reportedAt);
+  });
+  document.querySelectorAll('[data-updated-at]').forEach(label => {
+    label.textContent = `Updated ${compactAge(label.dataset.updatedAt)}`;
   });
   renderNearbySummary();
 }, 60000);

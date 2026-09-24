@@ -10,7 +10,7 @@ export function reportedAge(timestamp, now = Date.now()) {
   return `Reported ${days} day${days === 1 ? '' : 's'} ago`;
 }
 
-export function compactReportedAge(timestamp, now = Date.now()) {
+export function compactAge(timestamp, now = Date.now()) {
   const time = new Date(timestamp).getTime();
   if (!Number.isFinite(time)) return 'Time unavailable';
   const minutes = Math.floor(Math.max(0, now - time) / 60000);
@@ -20,6 +20,10 @@ export function compactReportedAge(timestamp, now = Date.now()) {
   if (hours < 24) return `${hours} hr ago`;
   const days = Math.floor(hours / 24);
   return `${days} day${days === 1 ? '' : 's'} ago`;
+}
+
+export function compactReportedAge(timestamp, now = Date.now()) {
+  return compactAge(timestamp, now);
 }
 
 const DESCRIPTIONS = {
