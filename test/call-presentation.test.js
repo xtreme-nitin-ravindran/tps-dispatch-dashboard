@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { reportedAge, compactAge, compactReportedAge, callExplanation, locationConfidence, callStatus } from '../src/call-presentation.js';
+import { reportedAge, compactAge, compactReportedAge, callExplanation, locationConfidence, callStatus, sourceName } from '../src/call-presentation.js';
 test('report age covers boundaries, invalid times and clock skew', () => {
  const now = Date.UTC(2026,8,22);
  assert.equal(reportedAge(now-60000,now),'Reported 1 minute ago');
@@ -44,10 +44,15 @@ test('confidence distinguishes unmapped, postal, resolved and approximate locati
  assert.equal(locationConfidence({geography:{...geography,approximate:true}}), 'Approximate location');
 });
 
-test('status never infers TPS completion or TFS resolution', () => {
- assert.equal(callStatus({source:'TPS',isOngoing:false}), 'Status not provided');
- assert.equal(callStatus({source:'TPS',isOngoing:true}), 'Status not provided');
- assert.equal(callStatus({source:'TFS',isOngoing:true}), 'Ongoing in latest TFS update');
- assert.equal(callStatus({source:'TFS',isOngoing:false}), 'No longer listed as active by TFS');
- assert.equal(callStatus({source:'TFS'}), 'Status not provided');
+test('status only labels active calls when the TFS feed supports it', () => {
+ assert.equal(callStatus({source:'TPS',isOngoing:false}), null);
+ assert.equal(callStatus({source:'TPS',isOngoing:true}), null);
+ assert.equal(callStatus({source:'TFS',isOngoing:true}), 'ONGOING');
+ assert.equal(callStatus({source:'TFS',isOngoing:false}), null);
+ assert.equal(callStatus({source:'TFS'}), null);
+});
+
+test('source names are expanded for card attribution', () => {
+ assert.equal(sourceName('TPS'), 'Toronto Police Service');
+ assert.equal(sourceName('TFS'), 'Toronto Fire Services');
 });
