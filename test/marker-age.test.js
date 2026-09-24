@@ -52,6 +52,12 @@ test("map wiring refreshes age styles and preserves non-opacity cues and selecti
   assert.match(css, /\.dispatch-marker\.age-old \{ opacity: \.52; \}/);
   assert.match(css, /\.dispatch-marker\.selected,[\s\S]*?opacity: 1/);
   assert.match(css, /\.dispatch-marker\.service-tps \{ border-radius: 4px; \}/);
+  assert.match(css, /\.dispatch-marker\.category-fire \{ background: var\(--marker-fire\); \}/);
+  assert.match(css, /\.dispatch-marker\.category-medical \{ background: var\(--marker-medical\); \}/);
+  assert.match(css, /\.dispatch-marker\.category-other \{ background: var\(--marker-other\); \}/);
+  for (const [className, category] of [["fire-key", "Fire"], ["medical-key", "Medical"], ["other-key", "Other"]]) {
+    assert.match(html, new RegExp(`<i class="${className}"[^>]*></i>${category}`));
+  }
   for (const label of ["0–10 min · strongest", "10–30 min · normal", "30–60 min", "60+ min"]) {
     assert.match(html, new RegExp(label.replace("+", "\\+")));
   }
