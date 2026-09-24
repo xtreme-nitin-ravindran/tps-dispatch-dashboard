@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T11:55:15.101Z",
-  "sourceUpdatedAt": "2026-09-24T11:50:01.000Z",
+  "fetchedAt": "2026-09-24T11:56:37.805Z",
+  "sourceUpdatedAt": "2026-09-24T11:55:01.000Z",
   "incidents": [
     {
       "id": "TPS-ff6e726547f1702410113910",
@@ -27,6 +27,58 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-24T11:52:17.468Z"
+    },
+    {
+      "id": "F26151381",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1B",
+      "division": "213",
+      "timestamp": "2026-09-24T11:46:55.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T11:56:37.805Z",
+      "lastSeenAt": "2026-09-24T11:56:37.805Z",
+      "geography": {
+        "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
+        "approximate": true,
+        "coordinates": [
+          43.8113,
+          -79.193
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26151380",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Rescue - Water/Ice - No Fireboat",
+      "location": "DON MILLS RD, NY / GATEWAY BLVD / ST DENNIS DR",
+      "division": "125",
+      "timestamp": "2026-09-24T11:45:36.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T11:56:37.805Z",
+      "lastSeenAt": "2026-09-24T11:56:37.805Z",
+      "geography": {
+        "text": "Approximate location near Don Mills Road & Street Dennis Drive",
+        "approximate": true,
+        "coordinates": [
+          43.7165536,
+          -79.3373164
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-24T11:56:37.805Z"
+      }
     },
     {
       "id": "TPS-590e353540b6526dc9175ee6",
@@ -136,7 +188,7 @@
       ],
       "firstSeenAt": "2026-09-24T11:35:08.135Z",
       "lastMeaningfulUpdateAt": "2026-09-24T11:40:20.195Z",
-      "lastSeenAt": "2026-09-24T11:55:15.101Z",
+      "lastSeenAt": "2026-09-24T11:56:37.805Z",
       "geography": {
         "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
         "approximate": true,
@@ -211,7 +263,7 @@
       ],
       "firstSeenAt": "2026-09-24T11:26:25.445Z",
       "lastMeaningfulUpdateAt": "2026-09-24T11:35:08.135Z",
-      "lastSeenAt": "2026-09-24T11:55:15.101Z",
+      "lastSeenAt": "2026-09-24T11:56:37.805Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -15216,7 +15268,7 @@
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
       "lastMeaningfulUpdateAt": "2026-09-24T11:15:26.083Z",
-      "lastSeenAt": "2026-09-24T11:55:15.101Z",
+      "lastSeenAt": "2026-09-24T11:56:37.805Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -126957,12 +127009,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T11:55:15.101Z",
-      "sourceUpdatedAt": "2026-09-24T11:50:01.000Z",
+      "fetchedAt": "2026-09-24T11:56:37.805Z",
+      "sourceUpdatedAt": "2026-09-24T11:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T11:55:15.101Z",
+      "fetchedAt": "2026-09-24T11:56:37.805Z",
       "status": "ok"
     }
   },
@@ -206389,6 +206441,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1B": {
+      "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
+      "approximate": true,
+      "coordinates": [
+        43.8113,
+        -79.193
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "DON MILLS RD, NY / GATEWAY BLVD / ST DENNIS DR": {
+      "text": "Approximate location near Don Mills Road & Street Dennis Drive",
+      "approximate": true,
+      "coordinates": [
+        43.7165536,
+        -79.3373164
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-24T11:56:37.805Z"
+    },
     "M9W": {
       "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
       "approximate": true,
@@ -207486,18 +207562,6 @@
         -79.2323
       ],
       "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1B": {
-      "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
-      "approximate": true,
-      "coordinates": [
-        43.8113,
-        -79.193
-      ],
-      "division": "Division 42",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
