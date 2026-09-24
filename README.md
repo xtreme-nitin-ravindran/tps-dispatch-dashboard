@@ -95,14 +95,15 @@ The badges show Node’s measured line, branch, and function coverage after succ
 To generate the same report and badges locally after building the Docker image:
 
 ```bash
-bash -o pipefail -c 'docker run --rm toronto-dispatch-tests sh -c "node --experimental-test-coverage --test test/*.test.js" | tee /tmp/sirento-coverage.txt'
+bash -o pipefail -c 'docker run --rm toronto-dispatch-tests npm run test:coverage | tee /tmp/sirento-coverage.txt'
 python3 scripts/coverage-badges.py /tmp/sirento-coverage.txt /tmp/sirento-coverage-badges
 ```
 
 This combined run includes the live-source integration tests and requires internet access.
+It fails unless measured JavaScript line, branch, and function coverage are all 100%.
 Badge generation requires Python 3 and writes three SVG files to the output directory.
 
-`npm test` runs all 18 JavaScript unit test files below:
+`npm test` runs all 19 JavaScript unit test files below:
 
 | Test file (under `test/`) | What it verifies |
 | --- | --- |
@@ -122,6 +123,7 @@ Badge generation requires Python 3 and writes three SVG files to the output dire
 | `postal-lookup.test.js` | Toronto postal prefixes and rejection of incorrect or low-confidence mocked geocoder results. |
 | `police-divisions.test.js` | Polygon/multipolygon matching, holes and overlaps, invalid locations, and bundled TPS boundaries. |
 | `call-presentation.test.js` | Report ages, call explanations, location confidence, and source-specific status without inferring resolution. |
+| `nearby-summary.test.js` | Nearby counts, service/category breakdowns, newest-call ages, and empty or singular results. |
 | `view-controls.test.js` | New-call detection, filter summaries/reset defaults, share links, clustering, row selection, preferences, and source timestamp labels. |
 | `promotion.test.js` | Promotion of only the tested dev commit, superseded/empty changes, protection rejection, existing PR reuse, retry handling, concurrent branch updates, and prevention of duplicate Pages requests. |
 

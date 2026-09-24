@@ -562,6 +562,32 @@ a {
   margin: 22px 0 18px;
 }
 
+.nearby-summary {
+  margin-top: 22px;
+  padding: 18px 22px;
+  border: 1px solid rgba(99, 230, 190, .55);
+  border-left: 5px solid var(--accent);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(99, 230, 190, .13), rgba(147, 197, 253, .07));
+  box-shadow: var(--shadow);
+}
+
+.nearby-summary p {
+  margin: 6px 0 0;
+  color: var(--text);
+  font-size: clamp(18px, 2.3vw, 25px);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.nearby-summary[hidden] {
+  display: none;
+}
+
+.nearby-summary + .map-stage {
+  margin-top: 12px;
+}
+
 .map-panel {
   overflow: hidden;
 }
