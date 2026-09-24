@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T01:05:00.533Z",
-  "sourceUpdatedAt": "2026-09-24T01:00:01.000Z",
+  "fetchedAt": "2026-09-24T01:06:06.007Z",
+  "sourceUpdatedAt": "2026-09-24T01:05:01.000Z",
   "incidents": [
+    {
+      "id": "F26151203",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5M",
+      "division": "121",
+      "timestamp": "2026-09-24T00:57:29.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T01:06:06.007Z",
+      "lastSeenAt": "2026-09-24T01:06:06.007Z",
+      "geography": {
+        "text": "Approximate area: (M5M) North York (Bedford Park / Lawrence Park West / Lawrence Manor East)",
+        "approximate": true,
+        "coordinates": [
+          43.7335,
+          -79.4177
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26151202",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5R",
+      "division": "312",
+      "timestamp": "2026-09-24T00:56:48.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T01:06:06.007Z",
+      "lastSeenAt": "2026-09-24T01:06:06.007Z",
+      "geography": {
+        "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
+        "approximate": true,
+        "coordinates": [
+          43.6736,
+          -79.4035
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26151201",
       "source": "TFS",
@@ -16,9 +68,16 @@
       "timestamp": "2026-09-24T00:54:02.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "343"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T01:02:31.191Z",
-      "lastSeenAt": "2026-09-24T01:05:00.533Z",
+      "lastSeenAt": "2026-09-24T01:06:06.007Z",
       "geography": {
         "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
         "approximate": true,
@@ -57,7 +116,7 @@
         }
       ],
       "firstSeenAt": "2026-09-24T00:56:05.159Z",
-      "lastSeenAt": "2026-09-24T01:05:00.533Z",
+      "lastSeenAt": "2026-09-24T01:06:06.007Z",
       "geography": {
         "text": "Wakunda Place & O'connor Drive",
         "approximate": false,
@@ -90,7 +149,7 @@
         }
       ],
       "firstSeenAt": "2026-09-24T00:51:16.328Z",
-      "lastSeenAt": "2026-09-24T01:05:00.533Z",
+      "lastSeenAt": "2026-09-24T01:06:06.007Z",
       "geography": {
         "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
         "approximate": true,
@@ -255,7 +314,7 @@
         }
       ],
       "firstSeenAt": "2026-09-24T00:51:16.328Z",
-      "lastSeenAt": "2026-09-24T01:05:00.533Z",
+      "lastSeenAt": "2026-09-24T01:06:06.007Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -7350,7 +7409,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
-      "lastSeenAt": "2026-09-24T01:05:00.533Z",
+      "lastSeenAt": "2026-09-24T01:06:06.007Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -119288,12 +119347,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T01:05:00.533Z",
-      "sourceUpdatedAt": "2026-09-24T01:00:01.000Z",
+      "fetchedAt": "2026-09-24T01:06:06.007Z",
+      "sourceUpdatedAt": "2026-09-24T01:05:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T01:05:00.533Z",
+      "fetchedAt": "2026-09-24T01:06:06.007Z",
       "status": "ok"
     }
   },
@@ -198964,6 +199023,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5M": {
+      "text": "Approximate area: (M5M) North York (Bedford Park / Lawrence Park West / Lawrence Manor East)",
+      "approximate": true,
+      "coordinates": [
+        43.7335,
+        -79.4177
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M5R": {
+      "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
+      "approximate": true,
+      "coordinates": [
+        43.6736,
+        -79.4035
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M5P": {
       "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
       "approximate": true,
@@ -199686,18 +199769,6 @@
         -79.37296015
       ],
       "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5R": {
-      "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
-      "approximate": true,
-      "coordinates": [
-        43.6736,
-        -79.4035
-      ],
-      "division": "Division 53",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -200652,18 +200723,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T23:01:41.742Z"
-    },
-    "M5M": {
-      "text": "Approximate area: (M5M) North York (Bedford Park / Lawrence Park West / Lawrence Manor East)",
-      "approximate": true,
-      "coordinates": [
-        43.7335,
-        -79.4177
-      ],
-      "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M8X": {
       "text": "Approximate area: (M8X) Etobicoke (The Kingsway / Montgomery Road / Old Mill North)",
