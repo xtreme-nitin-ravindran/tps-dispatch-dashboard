@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T12:14:42.789Z",
-  "sourceUpdatedAt": "2026-09-24T12:10:01.000Z",
+  "fetchedAt": "2026-09-24T12:16:08.006Z",
+  "sourceUpdatedAt": "2026-09-24T12:15:01.000Z",
   "incidents": [
+    {
+      "id": "F26151388",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5V",
+      "division": "332",
+      "timestamp": "2026-09-24T12:07:52.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T12:16:08.006Z",
+      "lastSeenAt": "2026-09-24T12:16:08.006Z",
+      "geography": {
+        "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+        "approximate": true,
+        "coordinates": [
+          43.6404,
+          -79.3995
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26151387",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "MIDLAND AVE / LAWRENCE AVE E",
+      "division": "232",
+      "timestamp": "2026-09-24T12:05:51.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T12:16:08.006Z",
+      "lastSeenAt": "2026-09-24T12:16:08.006Z",
+      "geography": {
+        "text": "Midland Avenue & Lawrence Avenue East",
+        "approximate": false,
+        "coordinates": [
+          43.7515217,
+          -79.2650525
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26151386",
       "source": "TFS",
@@ -16,9 +68,17 @@
       "timestamp": "2026-09-24T12:03:37.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "334"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T12:10:36.909Z",
-      "lastSeenAt": "2026-09-24T12:14:42.789Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T12:16:08.006Z",
+      "lastSeenAt": "2026-09-24T12:16:08.006Z",
       "geography": {
         "text": "Approximate location on Spadina Avenue",
         "approximate": true,
@@ -38,7 +98,7 @@
       "division": "442",
       "timestamp": "2026-09-24T12:00:52.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-24T12:10:36.909Z",
       "lastSeenAt": "2026-09-24T12:14:42.789Z",
@@ -75,7 +135,7 @@
       ],
       "firstSeenAt": "2026-09-24T12:06:11.191Z",
       "lastMeaningfulUpdateAt": "2026-09-24T12:10:36.909Z",
-      "lastSeenAt": "2026-09-24T12:14:42.789Z",
+      "lastSeenAt": "2026-09-24T12:16:08.006Z",
       "geography": {
         "text": "Western Battery Road & Lynn Williams Street",
         "approximate": false,
@@ -90,6 +150,28 @@
       }
     },
     {
+      "id": "TPS-d3d3acca84fa1dd7aaa1fb46",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT OF VEHICLE",
+      "callTypeCode": "THEVE",
+      "timestamp": "2026-09-24T11:58:15.000Z",
+      "location": "KING ST - FERN AVE",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KING ST - FERN AVE",
+        "coordinates": [
+          43.70237796225946,
+          -79.5237688498353
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T12:16:08.006Z"
+    },
+    {
       "id": "F26151383",
       "source": "TFS",
       "eventType": "fire",
@@ -98,7 +180,7 @@
       "division": "112",
       "timestamp": "2026-09-24T11:56:23.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -124,6 +206,28 @@
       }
     },
     {
+      "id": "TPS-ea09c037680e550bac5f2128",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-24T11:52:36.000Z",
+      "location": "BRAMPTON RD - CALLOWHILL DR",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BRAMPTON RD - CALLOWHILL DR",
+        "coordinates": [
+          43.68398594866687,
+          -79.56427678487202
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T12:16:08.006Z"
+    },
+    {
       "id": "F26151382",
       "source": "TFS",
       "eventType": "fire",
@@ -132,7 +236,7 @@
       "division": "421",
       "timestamp": "2026-09-24T11:50:59.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -156,6 +260,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-7d0f66195f82864fbcd25156",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-09-24T11:49:41.000Z",
+      "location": "C P R - RESURRECTION RD",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "C P R - RESURRECTION RD",
+        "coordinates": [
+          43.6430330658674,
+          -79.53080659585216
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T12:16:08.006Z"
     },
     {
       "id": "TPS-ff6e726547f1702410113910",
@@ -188,7 +314,7 @@
       "division": "213",
       "timestamp": "2026-09-24T11:46:55.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -256,7 +382,7 @@
       ],
       "firstSeenAt": "2026-09-24T11:56:37.805Z",
       "lastMeaningfulUpdateAt": "2026-09-24T12:10:36.909Z",
-      "lastSeenAt": "2026-09-24T12:14:42.789Z",
+      "lastSeenAt": "2026-09-24T12:16:08.006Z",
       "geography": {
         "text": "West Don River Trl & Leslie Street",
         "approximate": false,
@@ -435,7 +561,7 @@
       "division": "145",
       "timestamp": "2026-09-24T11:20:00.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Hazmat Unit",
@@ -15458,7 +15584,7 @@
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
       "lastMeaningfulUpdateAt": "2026-09-24T11:15:26.083Z",
-      "lastSeenAt": "2026-09-24T12:14:42.789Z",
+      "lastSeenAt": "2026-09-24T12:16:08.006Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -127199,12 +127325,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T12:14:42.789Z",
-      "sourceUpdatedAt": "2026-09-24T12:10:01.000Z",
+      "fetchedAt": "2026-09-24T12:16:08.006Z",
+      "sourceUpdatedAt": "2026-09-24T12:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T12:14:42.789Z",
+      "fetchedAt": "2026-09-24T12:16:08.006Z",
       "status": "ok"
     }
   },
@@ -206801,6 +206927,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5V": {
+      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+      "approximate": true,
+      "coordinates": [
+        43.6404,
+        -79.3995
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "MIDLAND AVE / LAWRENCE AVE E": {
+      "text": "Midland Avenue & Lawrence Avenue East",
+      "approximate": false,
+      "coordinates": [
+        43.7515217,
+        -79.2650525
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "SPADINA AVE / LAKE SHORE BLVD W": {
       "text": "Approximate location on Spadina Avenue",
       "approximate": true,
@@ -207262,18 +207412,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T08:31:51.870Z"
-    },
-    "M5V": {
-      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
-      "approximate": true,
-      "coordinates": [
-        43.6404,
-        -79.3995
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M9A": {
       "text": "Approximate area: (M9A) Etobicoke (Islington Avenue)",
@@ -215185,18 +215323,6 @@
         -79.45275385
       ],
       "division": "Division 13",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "MIDLAND AVE / LAWRENCE AVE E": {
-      "text": "Midland Avenue & Lawrence Avenue East",
-      "approximate": false,
-      "coordinates": [
-        43.7515217,
-        -79.2650525
-      ],
-      "division": "Division 41",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
