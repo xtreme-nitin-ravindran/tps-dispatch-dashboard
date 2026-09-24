@@ -9,6 +9,7 @@ import { incidentCategory } from "./src/tfs/category.js";
 import { locationDisplay, expandLocationAbbreviations } from "./src/location-display.js?v=hydro-corridor-1";
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
 import { nearbySummary } from "./src/nearby-summary.js";
+import { rankSirenMatches, SIREN_RADIUS_KM } from "./src/siren-matches.js";
 
 const CONFIG = {
   snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
@@ -63,6 +64,11 @@ let rowHighlightTimer;
 let mapHasFitted = false;
 let lastRadiusKm = 2;
 let boundaryVisible = true;
+let sirenMode = false;
+let sirenMatches = [];
+let choosingArea = false;
+let nearbyOriginKind = "device";
+let nearbyOriginLayer = null;
 function rememberPreferences() {
   try { savePreferences(localStorage,state,{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible}); } catch { /* Browsing still works when storage is blocked. */ }
 }
@@ -303,6 +309,7 @@ function render(map = true) {
   }
   renderStats();
   renderNearbySummary();
+  renderSirenResults();
   renderCalls();
   if (map) renderMap();
   renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
@@ -311,6 +318,56 @@ function render(map = true) {
     toggle.classList.toggle("active", active);
     toggle.setAttribute("aria-pressed", String(active));
   });
+}
+
+function sourceName(source) {
+  return source === "TPS" ? "Toronto Police Service" : "Toronto Fire Services";
+}
+
+function updateSirenMatches() {
+  sirenMatches = sirenMode && state.nearby
+    ? rankSirenMatches(state.calls, state.nearby)
+    : [];
+}
+
+function renderSirenResults() {
+  const panel = document.querySelector("#sirenResults");
+  const list = document.querySelector("#sirenResultsList");
+  panel.hidden = !sirenMode || !state.nearby;
+  if (panel.hidden) {
+    sirenMatches = [];
+    list.replaceChildren();
+    return;
+  }
+
+  updateSirenMatches();
+  list.replaceChildren();
+  if (!sirenMatches.length) {
+    const empty = document.createElement("li");
+    empty.className = "siren-results-empty";
+    empty.textContent = "No mapped public calls from the last 24 hours were found within 2 km.";
+    list.append(empty);
+    return;
+  }
+
+  for (const { call, distanceKm: distance } of sirenMatches) {
+    const item = document.createElement("li");
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "siren-result";
+    button.dataset.callId = call.id;
+    const title = document.createElement("strong");
+    title.textContent = call.description;
+    const place = document.createElement("span");
+    place.className = "siren-result-location";
+    place.textContent = displayLocation(call).text;
+    const meta = document.createElement("span");
+    meta.className = "siren-result-meta";
+    meta.textContent = `${distanceLabel(distance)} · ${compactReportedAge(call.time)} · ${sourceName(call.source)}`;
+    button.append(title, place, meta);
+    item.append(button);
+    list.append(item);
+  }
 }
 
 function renderNearbySummary() {
@@ -439,7 +496,12 @@ function initMap() {
     maxZoom: 19
   }).addTo(dispatchMap);
   callLayer = L.layerGroup().addTo(dispatchMap);
+  nearbyOriginLayer = L.layerGroup().addTo(dispatchMap);
   dispatchMap.on("zoomend", () => { expandedCluster.clear(); renderMapMarkers(); });
+  dispatchMap.on("click", event => {
+    if (!choosingArea) return;
+    chooseManualArea([event.latlng.lat, event.latlng.lng]);
+  });
   loadDivisionOverlay();
 }
 
@@ -495,10 +557,10 @@ function isApproximateLocation(call) {
   return displayLocation(call).approximate !== false;
 }
 
-function markerIcon(selected = false, approximate = false) {
+function markerIcon(selected = false, approximate = false, sirenMatch = false) {
   return L.divIcon({
     className: "dispatch-marker-wrap",
-    html: `<span class="dispatch-marker${approximate ? " approximate" : ""}${selected ? " selected" : ""}"></span>`,
+    html: `<span class="dispatch-marker${approximate ? " approximate" : ""}${selected ? " selected" : ""}${sirenMatch ? " siren-match" : ""}"></span>`,
     iconSize: [18, 18],
     iconAnchor: [9, 9]
   });
@@ -507,6 +569,7 @@ function markerIcon(selected = false, approximate = false) {
 function renderMapMarkers() {
   callLayer.clearLayers();
   mapMarkers = new Map();
+  const sirenIds = new Set(sirenMatches.map(match => match.call.id));
 
   const locatedCalls = state.filtered
     .map(call => ({ call, coordinates: coordinatesForCall(call) }))
@@ -515,7 +578,7 @@ function renderMapMarkers() {
   const addMarker = ({call, coordinates}, position = coordinates) => {
     const tooltip = document.createElement('span');
     tooltip.textContent = `${call.source}: ${call.description}`;
-    const marker = L.marker(position, { title: `${call.source}: ${call.description}`, icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call)) })
+    const marker = L.marker(position, { title: `${call.source}: ${call.description}`, icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call), sirenIds.has(call.id)) })
       .bindTooltip(tooltip, { direction: "top" })
       .on("click", () => selectCall(call.id, { pan: false, revealRow: true }));
     marker.addTo(callLayer);
@@ -535,7 +598,8 @@ function renderMapMarkers() {
       });
       continue;
     }
-    L.marker(center,{icon:L.divIcon({className:'call-cluster',html:String(group.length),iconSize:[40,40],iconAnchor:[20,20]}), title:`${group.length} calls; zoom or expand`})
+    const matchingCluster = group.some(item => sirenIds.has(item.call.id));
+    L.marker(center,{icon:L.divIcon({className:`call-cluster${matchingCluster ? ' siren-match' : ''}`,html:String(group.length),iconSize:[40,40],iconAnchor:[20,20]}), title:`${group.length} calls; zoom or expand`})
       .on('click', () => {
         if (dispatchMap.getZoom() < 18) dispatchMap.setView(center,Math.min(18,dispatchMap.getZoom()+2));
         else { expandedCluster = new Set(group.map(item => item.call.id)); renderMapMarkers(); }
@@ -544,6 +608,11 @@ function renderMapMarkers() {
 
   els.mapStatus.textContent = locatedCalls.length ? `${locatedCalls.length}/${state.filtered.length} LOCATED` : "NO MAPPED LOCATIONS";
   els.mapEmpty.hidden = locatedCalls.length > 0;
+  nearbyOriginLayer?.clearLayers();
+  if (state.nearby && state.radiusKm !== null) {
+    L.circle(state.nearby, { radius: state.radiusKm * 1000, color: '#63e6be', weight: 1, opacity: .65, fillOpacity: .035, interactive: false }).addTo(nearbyOriginLayer);
+    L.circleMarker(state.nearby, { radius: 6, color: '#fff', weight: 2, fillColor: '#63e6be', fillOpacity: 1, interactive: false }).addTo(nearbyOriginLayer);
+  }
   if (!mapHasFitted && state.nearby && state.radiusKm !== null) {
     mapHasFitted = true;
     dispatchMap.setView(state.nearby, state.radiusKm <= 0.5 ? 15 : state.radiusKm <= 2 ? 14 : 12);
@@ -599,7 +668,7 @@ async function selectCall(callId, { pan = true, revealRow = false } = {}) {
 
   mapMarkers.forEach((marker, id) => {
     const mappedCall = state.filtered.find(item => item.id === id);
-    marker.setIcon(markerIcon(id === callId, isApproximateLocation(mappedCall)));
+    marker.setIcon(markerIcon(id === callId, isApproximateLocation(mappedCall), sirenMatches.some(match => match.call.id === id)));
   });
   const marker = mapMarkers.get(callId);
   if (marker) {
@@ -738,6 +807,7 @@ document.querySelector("#serviceFilter").addEventListener("change", event => {
 const nearButton = document.querySelector('#nearMe');
 const nearStatus = document.querySelector('#nearStatus');
 const nearControls = document.querySelector('#nearControls');
+const chooseAreaButton = document.querySelector('#chooseArea');
 let locationRequest = 0;
 let locationWatch = null;
 let requestedRadiusKm = null;
@@ -766,14 +836,53 @@ function updateNearbyView() {
     ? state.nearby
       ? 'Toronto-wide view. Distance filtering is off; card distances still update from your location.'
       : 'Toronto-wide view. Distance filtering is off. Choose a radius to use your location.'
-    : `Within ${state.radiusKm} km of your location. Location and card distances update automatically. Distances use approximate call locations; unmapped calls are excluded.`;
+    : `Within ${state.radiusKm} km of ${nearbyOriginKind === 'map' ? 'the selected area' : 'your location'}. Distances use approximate call locations; unmapped calls are excluded.`;
 }
-function requestLocation(radiusKm = lastRadiusKm) {
+function showLocationFallback(message) {
+  nearStatus.textContent = `${message} Enable location in your browser, or choose an area manually.`;
+  nearControls.hidden = false;
+  chooseAreaButton.hidden = false;
+}
+function beginAreaChoice() {
+  initMap();
+  choosingArea = true;
+  sirenMode = true;
+  chooseAreaButton.textContent = 'Click an area on the map…';
+  nearStatus.textContent = 'Choose an area manually by clicking the map.';
+  els.dispatchMap.classList.add('choosing-area');
+  els.dispatchMap.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
+}
+function activateSirenView() {
+  sirenMode = true;
+  state.radiusKm = SIREN_RADIUS_KM;
+  lastRadiusKm = SIREN_RADIUS_KM;
+  Object.assign(state, filterDefaults);
+  syncFilterControls();
+  nearControls.hidden = false;
+  chooseAreaButton.hidden = false;
+  mapHasFitted = false;
+  updateSirenMatches();
+  updateNearbyView();
+  document.querySelector('#sirenResults').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'nearest' });
+}
+function chooseManualArea(origin) {
+  choosingArea = false;
+  els.dispatchMap.classList.remove('choosing-area');
+  chooseAreaButton.textContent = 'Choose a different area on the map';
+  state.nearby = origin;
+  nearbyOriginKind = 'map';
+  state.radiusKm = SIREN_RADIUS_KM;
+  lastRadiusKm = SIREN_RADIUS_KM;
+  activateSirenView();
+  nearStatus.textContent = 'Showing recent calls within 2 km of the area you chose.';
+}
+function requestLocation(radiusKm = lastRadiusKm, forSiren = false) {
   if (!navigator.geolocation) {
-    nearStatus.textContent = 'Location is unavailable in this browser. You can search by street or neighbourhood instead.';
+    showLocationFallback('Location is unavailable in this browser.');
     return;
   }
   requestedRadiusKm = radiusKm;
+  let firstPosition = true;
   const request = ++locationRequest;
   clearLocationWatch();
   nearButton.disabled = true;
@@ -782,21 +891,27 @@ function requestLocation(radiusKm = lastRadiusKm) {
   const onPosition = position => {
     if (request !== locationRequest) return;
     state.nearby = [position.coords.latitude, position.coords.longitude];
+    nearbyOriginKind = 'device';
     if (requestedRadiusKm !== null) {
       state.radiusKm = requestedRadiusKm;
       lastRadiusKm = requestedRadiusKm;
       requestedRadiusKm = null;
     }
     nearButton.disabled = false;
-    nearButton.textContent = 'Update my location';
+    nearButton.textContent = 'Update nearby calls';
     nearControls.hidden = false;
-    updateNearbyView();
+    choosingArea = false;
+    els.dispatchMap.classList.remove('choosing-area');
+    chooseAreaButton.textContent = 'Choose an area on the map';
+    if (forSiren && firstPosition) activateSirenView();
+    else updateNearbyView();
+    firstPosition = false;
   };
   const onError = error => {
     if (request !== locationRequest) return;
     nearButton.disabled = false;
-    nearButton.textContent = state.nearby ? 'Update my location' : 'Calls near me';
-    nearStatus.textContent = (error.code === 1 ? 'Location permission was denied.' : 'Could not get your location. Please try again.') + (state.nearby ? ' Your previous nearby filter remains active.' : ' You can search by street or neighbourhood instead.');
+    nearButton.textContent = state.nearby ? 'Update nearby calls' : '🚨 Hear sirens?';
+    showLocationFallback(error.code === 1 ? 'Location permission was denied.' : 'Could not get your location.');
     if (error.code === 1) clearLocationWatch();
   };
   const options = { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 };
@@ -807,9 +922,12 @@ function requestLocation(radiusKm = lastRadiusKm) {
   }
 }
 nearButton.addEventListener('click', () => {
-  requestLocation(state.radiusKm === null ? lastRadiusKm : state.radiusKm);
+  requestLocation(SIREN_RADIUS_KM, true);
 });
+chooseAreaButton.addEventListener('click', beginAreaChoice);
 radiusToggles.forEach(toggle => toggle.addEventListener('click', () => {
+  sirenMode = false;
+  sirenMatches = [];
   if (toggle.dataset.radiusKm === 'toronto') {
     requestedRadiusKm = null;
     state.radiusKm = null;
@@ -832,13 +950,23 @@ document.querySelector('#clearNearby').addEventListener('click', () => {
   requestedRadiusKm = null;
   state.nearby = null;
   state.radiusKm = null;
+  sirenMode = false;
+  sirenMatches = [];
+  choosingArea = false;
+  nearbyOriginKind = 'device';
+  els.dispatchMap.classList.remove('choosing-area');
   nearButton.disabled = false;
-  nearButton.textContent = 'Calls near me';
+  nearButton.textContent = '🚨 Hear sirens?';
   nearControls.hidden = true;
   nearStatus.textContent = 'Uses your location with permission. Your location stays in this browser session.';
   mapHasFitted = false;
   syncRadiusControls();
   applyFilters();
+});
+
+document.querySelector('#sirenResultsList').addEventListener('click', event => {
+  const result = event.target.closest('[data-call-id]');
+  if (result) selectCall(result.dataset.callId);
 });
 
 setInterval(() => {

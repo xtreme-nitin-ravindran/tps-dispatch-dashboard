@@ -29,7 +29,7 @@ emergency decisions or real-time safety guidance.**
 ## What it does
 
 - Maps public fire and police calls, with clustering and links between map pins and call records.
-- Offers **Calls near me** to find calls around a location shared with browser permission.
+- Offers a prominent **Hear sirens?** action that ranks up to five recent calls within 2 km by recency and distance, using browser location or a manually chosen map area.
 - Searches calls and filters by service, event type, police division, and history from one hour to seven days.
 - Distinguishes TFS active-feed status from TPS calls, for which ongoing status is not supplied.
 - Shows call counts by police division, distinguishing reported TPS divisions from estimated TFS divisions.
@@ -124,6 +124,7 @@ Badge generation requires Python 3 and writes three SVG files to the output dire
 | `police-divisions.test.js` | Polygon/multipolygon matching, holes and overlaps, invalid locations, and bundled TPS boundaries. |
 | `call-presentation.test.js` | Report ages, call explanations, location confidence, and source-specific status without inferring resolution. |
 | `nearby-summary.test.js` | Nearby counts, service/category breakdowns, newest-call ages, and empty or singular results. |
+| `siren-matches.test.js` | Two-kilometre siren-result scope, recency/distance ranking, result limits, and invalid-call handling. |
 | `view-controls.test.js` | New-call detection, filter summaries/reset defaults, share links, clustering, row selection, preferences, and source timestamp labels. |
 | `promotion.test.js` | Promotion of only the tested dev commit, superseded/empty changes, protection rejection, existing PR reuse, retry handling, concurrent branch updates, and prevention of duplicate Pages requests. |
 

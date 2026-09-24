@@ -15,7 +15,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./styles.css?v=radius-controls-1" />
+  <link rel="stylesheet" href="./styles.css?v=hear-sirens-1" />
 </head>
 
 <body>
@@ -37,14 +37,23 @@
 
     <main>
       <section class="nearby-feature" aria-labelledby="nearHeading">
-        <div><h2 id="nearHeading">Hear a siren?</h2><p>Find recent calls near your location.</p></div>
+        <div><span class="section-kicker">QUICK LOOK</span><h2 id="nearHeading">What’s happening nearby?</h2><p>Check the latest public fire and police calls around you.</p></div>
         <div class="nearby-action">
-          <button id="nearMe" type="button">⌖ Calls near me</button>
+          <button id="nearMe" type="button">🚨 Hear sirens?</button>
           <p id="nearStatus" role="status">Uses your location with permission. Your location stays in this browser session.</p>
           <div id="nearControls" hidden>
+            <button id="chooseArea" type="button">Choose an area on the map</button>
             <button id="clearNearby" type="button">Clear nearby filter</button>
           </div>
         </div>
+      </section>
+      <section class="siren-results" id="sirenResults" aria-labelledby="sirenResultsHeading" aria-live="polite" hidden>
+        <div class="siren-results-head">
+          <div><span class="section-kicker">NEARBY NOW</span><h2 id="sirenResultsHeading">Recent calls near you that may explain what you’re hearing.</h2></div>
+          <span class="siren-radius">WITHIN 2 KM</span>
+        </div>
+        <ol id="sirenResultsList" class="siren-results-list"></ol>
+        <p class="siren-disclaimer">SirenTO can’t determine which incident caused the sirens you heard. These are the most recent nearby calls.</p>
       </section>
       <section class="controls-card">
         <div class="search-wrap">
@@ -283,7 +292,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=radius-controls-1"></script>
+  <script type="module" src="./app.js?v=hear-sirens-1"></script>
 </body>
 
 </html>
