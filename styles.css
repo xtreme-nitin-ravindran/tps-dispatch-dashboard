@@ -659,14 +659,36 @@ a {
 }
 
 .dispatch-marker {
+  box-sizing: border-box;
   display: block;
-  width: 12px;
-  height: 12px;
+  width: 20px;
+  height: 20px;
   border: 2px solid #082019;
   border-radius: 50%;
   background: var(--accent-2);
   box-shadow: 0 0 0 3px rgba(147, 197, 253, .18), 0 3px 8px rgba(0, 0, 0, .4);
-  transition: transform .16s ease, background .16s ease;
+  color: #08111b;
+  text-align: center;
+  opacity: 1;
+  transition: transform .16s ease, background .16s ease, opacity .16s ease;
+}
+
+.dispatch-marker.service-tps { border-radius: 4px; }
+.dispatch-marker-glyph { display: block; font: 900 11px/16px system-ui, sans-serif; }
+.dispatch-marker.category-medical .dispatch-marker-glyph { font-size: 15px; line-height: 15px; }
+.dispatch-marker.age-recent { transform: scale(1.12); box-shadow: 0 0 0 4px rgba(147, 197, 253, .3), 0 3px 10px rgba(0, 0, 0, .5); }
+.dispatch-marker.age-current,
+.dispatch-marker.age-unknown { opacity: 1; }
+.dispatch-marker.age-aging { opacity: .72; }
+.dispatch-marker.age-old { opacity: .52; }
+
+.call-cluster.age-aging { opacity: .76; }
+.call-cluster.age-old { opacity: .58; }
+.call-cluster.siren-match { opacity: 1; }
+
+.dispatch-marker.selected,
+.dispatch-marker.siren-match {
+  opacity: 1;
 }
 
 .dispatch-marker.selected {
@@ -1084,6 +1106,11 @@ footer {
 .map-legend span { display: inline-flex; align-items: center; gap: 8px; }
 .map-legend i { width: 10px; height: 10px; border-radius: 50%; background: var(--accent-2); }
 .map-legend .approximate-key { background: #fbbf24; }
+.map-legend .tps-key { border-radius: 2px; }
+.map-legend .age-key { background: var(--accent-2); }
+.map-legend .age-recent-key { transform: scale(1.2); box-shadow: 0 0 0 2px rgba(147, 197, 253, .3); }
+.map-legend .age-aging-key { opacity: .72; }
+.map-legend .age-old-key { opacity: .52; }
 
 /* Pin-to-record navigation: a brief emphasis, followed by the selected state. */
 .call-row.pin-highlight {
@@ -1120,7 +1147,8 @@ footer {
 .siren-results-empty { padding: 16px; border: 1px dashed var(--line); border-radius: 12px; color: var(--muted); }
 .siren-disclaimer { margin: 16px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
 #dispatchMap.choosing-area { cursor: crosshair; outline: 3px solid var(--warning); outline-offset: -3px; }
-.dispatch-marker.siren-match { width: 19px; height: 19px; margin: -4px 0 0 -4px; border-color: #fff; background: var(--warning); box-shadow: 0 0 0 7px rgba(255,209,102,.25), 0 0 22px rgba(255,209,102,.8); }
+.dispatch-marker.siren-match { width: 22px; height: 22px; margin: -1px 0 0 -1px; border-color: #fff; background: var(--warning); box-shadow: 0 0 0 7px rgba(255,209,102,.25), 0 0 22px rgba(255,209,102,.8); }
+.dispatch-marker.siren-match .dispatch-marker-glyph { line-height: 18px; }
 .call-cluster.siren-match { border-color: #fff; background: #7a5b00; box-shadow: 0 0 0 7px rgba(255,209,102,.22), 0 0 22px rgba(255,209,102,.65); }
 @media (max-width: 680px) { .siren-results { padding: 17px; } .siren-results-head { display: block; } .siren-radius { display: inline-block; margin-bottom: 12px; } }
 
