@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T06:40:21.634Z",
-  "sourceUpdatedAt": "2026-09-24T06:35:01.000Z",
+  "fetchedAt": "2026-09-24T06:41:21.383Z",
+  "sourceUpdatedAt": "2026-09-24T06:40:01.000Z",
   "incidents": [
+    {
+      "id": "F26151319",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "SEARS ST, TT / KNOX AVE /",
+      "division": "326",
+      "timestamp": "2026-09-24T06:31:45.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T06:41:21.383Z",
+      "lastSeenAt": "2026-09-24T06:41:21.383Z",
+      "geography": {
+        "text": "Sears Street & Knox Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.6631005,
+          -79.3255054
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-24T06:41:21.383Z"
+      }
+    },
+    {
+      "id": "F26151318",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9R",
+      "division": "441",
+      "timestamp": "2026-09-24T06:31:04.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T06:41:21.383Z",
+      "lastSeenAt": "2026-09-24T06:41:21.383Z",
+      "geography": {
+        "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
+        "approximate": true,
+        "coordinates": [
+          43.6898,
+          -79.5582
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26151317",
       "source": "TFS",
@@ -26,7 +78,7 @@
       ],
       "firstSeenAt": "2026-09-24T06:32:01.347Z",
       "lastMeaningfulUpdateAt": "2026-09-24T06:36:30.617Z",
-      "lastSeenAt": "2026-09-24T06:40:21.634Z",
+      "lastSeenAt": "2026-09-24T06:41:21.383Z",
       "geography": {
         "text": "Approximate area: (M4J) East Toronto (The Danforth East)",
         "approximate": true,
@@ -12094,7 +12146,7 @@
         }
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
-      "lastSeenAt": "2026-09-24T06:40:21.634Z",
+      "lastSeenAt": "2026-09-24T06:41:21.383Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -123835,12 +123887,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T06:40:21.634Z",
-      "sourceUpdatedAt": "2026-09-24T06:35:01.000Z",
+      "fetchedAt": "2026-09-24T06:41:21.383Z",
+      "sourceUpdatedAt": "2026-09-24T06:40:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T06:40:21.634Z",
+      "fetchedAt": "2026-09-24T06:41:21.383Z",
       "status": "ok"
     }
   },
@@ -203335,6 +203387,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "SEARS ST, TT / KNOX AVE /": {
+      "text": "Sears Street & Knox Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.6631005,
+        -79.3255054
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-24T06:41:21.383Z"
+    },
+    "M9R": {
+      "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
+      "approximate": true,
+      "coordinates": [
+        43.6898,
+        -79.5582
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M4J": {
       "text": "Approximate area: (M4J) East Toronto (The Danforth East)",
       "approximate": true,
@@ -205179,18 +205255,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-23T04:21:17.219Z"
-    },
-    "M9R": {
-      "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
-      "approximate": true,
-      "coordinates": [
-        43.6898,
-        -79.5582
-      ],
-      "division": "Division 23",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "FARNHAM AVE, TT / WOODLAWN AVE W / AVENUE RD": {
       "text": "Farnham Avenue between Woodlawn Avenue West & Avenue Road",
