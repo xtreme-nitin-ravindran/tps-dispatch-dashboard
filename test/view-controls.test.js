@@ -84,3 +84,12 @@ test('source lines distinguish published times from successful checks', () => {
   assert.equal(sourceStatusText('Road restriction',{fetchedAt:'2026-09-22T17:42:00Z',status:'unavailable'},now),'Road restriction data is temporarily unavailable. Last successfully updated 18 min ago.');
   assert.equal(sourceStatusText('Road restriction',null,now),'Road restriction data has not been checked yet.');
 });
+
+import { reconcileIncidentSelection } from '../src/incident-selection.js';
+test('incident selection survives refreshes only while the incident remains visible', () => {
+  const visible = [{id:'a'}, {id:'b'}];
+  assert.equal(reconcileIncidentSelection(null, visible), null);
+  assert.equal(reconcileIncidentSelection('b', visible), 'b');
+  assert.equal(reconcileIncidentSelection('missing', visible), null);
+  assert.equal(reconcileIncidentSelection('a', []), null);
+});

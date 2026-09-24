@@ -32,3 +32,11 @@ test('radius changes reuse the complete filtering and rendering pipeline', () =>
   assert.match(app, /function render\(map = true\) {[\s\S]*?renderNearbySummary\(\);[\s\S]*?renderCalls\(\);[\s\S]*?renderMap\(\);[\s\S]*?renderDisruptions/);
   assert.match(app, /toggle\.dataset\.radiusKm === 'toronto'[\s\S]*?state\.radiusKm = null;[\s\S]*?updateNearbyView\(\);/);
 });
+
+test('map and card selection share one zoom-preserving selected incident', () => {
+  assert.match(app, /focusedCallId = reconcileIncidentSelection\(focusedCallId, state\.filtered\);/);
+  assert.match(app, /\.on\("click", event => \{[\s\S]*?selectCall\(call\.id, \{ pan: false, revealRow: true \}\)/);
+  assert.match(app, /const zoom = dispatchMap\.getZoom\(\);[\s\S]*?dispatchMap\.panTo\(coordinates/);
+  assert.doesNotMatch(app, /setView\(coordinatesForCall\(call\),\s*18/);
+  assert.match(app, /incident-card:not\(\.incident-card--popup\)[\s\S]*?aria-pressed/);
+});

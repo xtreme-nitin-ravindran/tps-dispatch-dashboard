@@ -10,6 +10,7 @@ import { locationDisplay, expandLocationAbbreviations } from "./src/location-dis
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
 import { nearbySummary } from "./src/nearby-summary.js";
 import { rankSirenMatches, SIREN_RADIUS_KM } from "./src/siren-matches.js";
+import { reconcileIncidentSelection } from "./src/incident-selection.js";
 
 const CONFIG = {
   snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
@@ -314,6 +315,7 @@ function applyFilters({ map = true } = {}) {
   // Build the facet before applying its own selection, so other divisions remain available.
   populateDivisionFilter(eligibleCalls);
   state.filtered = eligibleCalls.filter(call => state.division === "all" || call.division === state.division);
+  focusedCallId = reconcileIncidentSelection(focusedCallId, state.filtered);
   document.querySelector("#filterSummary").textContent = filterSummary(state);
   render(map);
   rememberPreferences();
@@ -440,12 +442,14 @@ function renderStats() {
 
 function createIncidentCard(call, { distance = "", variant = "list" } = {}) {
   const row = els.callTemplate.content.firstElementChild.cloneNode(true);
+  const selected = variant !== "popup" && call.id === focusedCallId;
   row.dataset.callId = call.id;
   row.classList.add(`incident-card--${variant}`);
-  row.classList.toggle("selected", variant === "list" && call.id === focusedCallId);
+  row.classList.toggle("selected", selected);
   if (variant !== "popup" && coordinatesForCall(call)) {
     row.tabIndex = 0;
     row.setAttribute("role", "button");
+    row.setAttribute("aria-pressed", String(selected));
     row.setAttribute("aria-label", `Show on map: ${call.description} at ${displayLocation(call).text}`);
   }
 
@@ -641,7 +645,12 @@ function renderMapMarkers() {
   const addMarker = ({call, coordinates}, position = coordinates) => {
     const tooltip = document.createElement('span');
     tooltip.textContent = `${call.source}: ${call.description}`;
-    const marker = L.marker(position, { title: `${call.source}: ${call.description}`, icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call), sirenIds.has(call.id)) })
+    const selected = call.id === focusedCallId;
+    const marker = L.marker(position, {
+      title: `${selected ? "Selected incident — " : ""}${call.source}: ${call.description}`,
+      alt: `${selected ? "Selected incident: " : "Incident: "}${call.description}`,
+      icon: markerIcon(selected, isApproximateLocation(call), sirenIds.has(call.id))
+    })
       .bindTooltip(tooltip, { direction: "top" })
       .bindPopup(createIncidentCard(call, {
         distance: distanceLabel(distanceKm(state.nearby, coordinates)),
@@ -696,34 +705,35 @@ function renderMap() {
   initMap();
   if (!dispatchMap) return;
 
-  if (!state.filtered.some(call => call.id === focusedCallId)) focusedCallId = null;
   renderMapMarkers();
   els.mapEmpty.querySelector("strong").textContent = "No mapped locations";
   els.mapEmpty.querySelector("span").textContent = "No locations in this view could be resolved from the published data.";
 }
 
-async function selectCall(callId, { pan = true, revealRow = false } = {}) {
+function selectCall(callId, { pan = true, revealRow = false } = {}) {
   const call = state.filtered.find(item => item.id === callId);
   if (!call) return;
 
   focusedCallId = callId;
   if (pan && dispatchMap && coordinatesForCall(call)) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const zoom = dispatchMap.getZoom();
+    const coordinates = coordinatesForCall(call);
+    const located = state.filtered.map(item => ({call:item,coordinates:coordinatesForCall(item)})).filter(item=>item.coordinates);
     dispatchMap.stop();
-    dispatchMap.setView(coordinatesForCall(call),18,{animate:false});
-    const located = state.filtered.map(call => ({call,coordinates:coordinatesForCall(call)})).filter(item=>item.coordinates);
-    expandedCluster = new Set(focusGroup(located,callId,point=>dispatchMap.project(point,18)).map(item=>item.call.id));
+    expandedCluster = new Set(focusGroup(located,callId,point=>dispatchMap.project(point,zoom)).map(item=>item.call.id));
     renderMapMarkers();
-    els.dispatchMap.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',block:'center'});
-    els.dispatchMap.focus({preventScroll:true});
+    dispatchMap.panTo(coordinates, { animate: !reducedMotion, duration: .35, easeLinearity: .25 });
   }
 
 
   let selectedRow;
-  document.querySelectorAll(".incident-card--list").forEach(row => {
+  document.querySelectorAll(".incident-card:not(.incident-card--popup)").forEach(row => {
     const selected = row.dataset.callId === callId;
     row.classList.toggle("selected", selected);
+    if (row.hasAttribute("role")) row.setAttribute("aria-pressed", String(selected));
     row.classList.remove("pin-highlight");
-    if (selected) selectedRow = row;
+    if (selected && row.classList.contains("incident-card--list")) selectedRow = row;
   });
   clearTimeout(rowHighlightTimer);
   if (revealRow && selectedRow) {
@@ -739,6 +749,7 @@ async function selectCall(callId, { pan = true, revealRow = false } = {}) {
   mapMarkers.forEach((marker, id) => {
     const mappedCall = state.filtered.find(item => item.id === id);
     marker.setIcon(markerIcon(id === callId, isApproximateLocation(mappedCall), sirenMatches.some(match => match.call.id === id)));
+    marker.getElement()?.setAttribute("aria-label", `${id === callId ? "Selected incident: " : "Incident: "}${mappedCall.description}`);
   });
   const marker = mapMarkers.get(callId);
   if (marker) {

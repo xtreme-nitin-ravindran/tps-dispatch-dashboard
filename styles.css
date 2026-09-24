@@ -427,7 +427,7 @@ a {
 
 .call-row.selected {
   background: rgba(99, 230, 190, .08);
-  box-shadow: inset 3px 0 var(--accent);
+  box-shadow: inset 4px 0 var(--accent), inset 0 0 0 1px rgba(99, 230, 190, .28);
 }
 
 .call-recency {
@@ -671,7 +671,8 @@ a {
 
 .dispatch-marker.selected {
   transform: scale(1.45);
-  box-shadow: 0 0 0 5px rgba(99, 230, 190, .22), 0 3px 10px rgba(0, 0, 0, .5);
+  border-color: #fff;
+  box-shadow: 0 0 0 3px #08111b, 0 0 0 7px rgba(99, 230, 190, .48), 0 3px 12px rgba(0, 0, 0, .6);
 }
 
 .leaflet-tooltip {
