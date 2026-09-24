@@ -67,7 +67,7 @@ export function renderDisruptions(data, origin, radius, map) {
     for (const item of roads) {
       const popup=element('div'); popup.append(element('strong',item.title),element('p',item.type));
       const link=element('a','Official road restrictions');link.href=ROAD_LINK;link.target='_blank';link.rel='noopener noreferrer';popup.append(link);
-      const layer=item.line?.length>1 ? L.polyline(item.line,{color:'#b388ff',weight:5,opacity:1,dashArray:'8 6'}) : item.coordinates ? L.circleMarker(item.coordinates,{color:'#b388ff',fillColor:'#b388ff',fillOpacity:.8,radius:6}) : null;
+      const layer=item.line?.length>1 ? L.polyline(item.line,{className:'road-restriction',color:'#b388ff',weight:5,opacity:1,dashArray:'8 6'}) : item.coordinates ? L.circleMarker(item.coordinates,{className:'road-restriction',color:'#b388ff',fillColor:'#b388ff',fillOpacity:.8,radius:6}) : null;
       layer?.bindPopup(popup).addTo(roadLayer);
     }
     roadLayer.addTo(map);

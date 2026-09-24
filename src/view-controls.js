@@ -1,3 +1,5 @@
+import { normalizeThemePreference } from './theme.js';
+
 export function updateLabel(current, incoming) {
   const ids = new Set(current.map(call => call.id));
   const count = incoming.filter(call => !ids.has(call.id)).length;
@@ -28,14 +30,14 @@ export function shareView(base, state) {
   return url.href;
 }
 
-export function preferenceRecord(state, layers) {
-  return {hours:state.hours, service:state.serviceFilter, event:state.eventFilter, division:state.division, roads:Boolean(layers.roads), boundaries:Boolean(layers.boundaries)};
+export function preferenceRecord(state, preferences) {
+  return {hours:state.hours, service:state.serviceFilter, event:state.eventFilter, division:state.division, roads:Boolean(preferences.roads), boundaries:Boolean(preferences.boundaries), theme:normalizeThemePreference(preferences.theme)};
 }
 export function loadPreferences(storage) {
   try {
     const value = JSON.parse(storage.getItem('sirento.preferences.v1'));
     if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
-    return {filters:readFilters(new URLSearchParams({hours:value.hours,service:value.service,event:value.event,division:typeof value.division === 'string' ? value.division : 'all'})),roads:value.roads === true,boundaries:value.boundaries !== false};
+    return {filters:readFilters(new URLSearchParams({hours:value.hours,service:value.service,event:value.event,division:typeof value.division === 'string' ? value.division : 'all'})),roads:value.roads === true,boundaries:value.boundaries !== false,theme:normalizeThemePreference(value.theme)};
   } catch { return null; }
 }
 export function savePreferences(storage, state, layers) {

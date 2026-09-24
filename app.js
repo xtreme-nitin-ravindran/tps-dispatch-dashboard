@@ -13,6 +13,7 @@ import { rankSirenMatches, SIREN_RADIUS_KM } from "./src/siren-matches.js";
 import { reconcileIncidentSelection } from "./src/incident-selection.js";
 import { markerAgeLabel, markerAgeTier, markerGlyph } from "./src/marker-age.js";
 import { incidentBadge, incidentBadgeExpiry } from "./src/incident-badge.js?v=incident-badges-1";
+import { applyTheme, normalizeThemePreference } from "./src/theme.js";
 
 const CONFIG = {
   snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
@@ -76,8 +77,14 @@ let choosingArea = false;
 let nearbyOriginKind = "device";
 let nearbyOriginLayer = null;
 let incidentBadgeTimer = null;
+let themePreference = "system";
+const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
+const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+function syncTheme() {
+  applyTheme(document.documentElement, themeColorMeta, themePreference, systemTheme.matches);
+}
 function rememberPreferences() {
-  try { savePreferences(localStorage,state,{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible}); } catch { /* Browsing still works when storage is blocked. */ }
+  try { savePreferences(localStorage,state,{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible,theme:themePreference}); } catch { /* Browsing still works when storage is blocked. */ }
 }
 
 function escapeText(value) {
@@ -617,7 +624,7 @@ async function loadDivisionOverlay() {
       return content;
     };
     const layer = L.geoJSON(boundaries, {
-      style: { color: "#93c5fd", weight: 1.5, opacity: 0.65, fillOpacity: 0.035 },
+      style: { className: "police-boundary", color: "#93c5fd", weight: 1.5, opacity: 0.65, fillOpacity: 0.035 },
       attribution: "Division boundaries © Toronto Police Service",
       onEachFeature(feature, polygon) {
         polygon.bindTooltip(details(feature.properties), { sticky: true });
@@ -721,7 +728,7 @@ function renderMapMarkers() {
       group.forEach((item,index) => {
         const spread = spreadPoint(index,group.length,pixel);
         const position = dispatchMap.layerPointToLatLng(L.point(spread.x,spread.y));
-        L.polyline([item.coordinates,position],{color:'#b7c8d9',weight:1,interactive:false}).addTo(callLayer);
+        L.polyline([item.coordinates,position],{className:'cluster-connector',color:'#b7c8d9',weight:1,interactive:false}).addTo(callLayer);
         addMarker(item,position);
       });
       continue;
@@ -740,8 +747,8 @@ function renderMapMarkers() {
   els.mapEmpty.hidden = locatedCalls.length > 0;
   nearbyOriginLayer?.clearLayers();
   if (state.nearby && state.radiusKm !== null) {
-    L.circle(state.nearby, { radius: state.radiusKm * 1000, color: '#63e6be', weight: 1, opacity: .65, fillOpacity: .035, interactive: false }).addTo(nearbyOriginLayer);
-    L.circleMarker(state.nearby, { radius: 6, color: '#fff', weight: 2, fillColor: '#63e6be', fillOpacity: 1, interactive: false }).addTo(nearbyOriginLayer);
+    L.circle(state.nearby, { className: 'nearby-radius', radius: state.radiusKm * 1000, color: '#63e6be', weight: 1, opacity: .65, fillOpacity: .035, interactive: false }).addTo(nearbyOriginLayer);
+    L.circleMarker(state.nearby, { className: 'nearby-origin', radius: 6, color: '#fff', weight: 2, fillColor: '#63e6be', fillOpacity: 1, interactive: false }).addTo(nearbyOriginLayer);
   }
   if (!mapHasFitted && state.nearby && state.radiusKm !== null) {
     mapHasFitted = true;
@@ -919,9 +926,19 @@ try {
     Object.assign(state,saved.filters);
     document.querySelector('#roadOverlay').checked = saved.roads;
     boundaryVisible = saved.boundaries;
+    themePreference = saved.theme;
+    document.querySelector('#themePreference').value = themePreference;
+    syncTheme();
     syncFilterControls();
   }
 } catch { /* Defaults remain usable when storage is blocked. */ }
+systemTheme.addEventListener('change', syncTheme);
+document.querySelector('#themePreference').addEventListener('change', event => {
+  themePreference = normalizeThemePreference(event.target.value);
+  event.target.value = themePreference;
+  syncTheme();
+  rememberPreferences();
+});
 if (new URLSearchParams(location.search).has('view')) {
   Object.assign(state, readFilters(new URLSearchParams(location.search)));
   syncFilterControls();
