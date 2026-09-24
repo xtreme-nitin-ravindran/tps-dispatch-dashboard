@@ -45,8 +45,10 @@
       </div>
 
       <div class="topbar-tools">
-        <div class="refresh-info" id="refreshStatus" role="status" aria-live="polite">Updates from official TFS and TPS
-          feeds.</div>
+        <div class="refresh-info">
+          <span id="refreshStatus" role="status" aria-live="polite">Updates from official TFS and TPS feeds.</span>
+          <span class="refresh-freshness" id="refreshFreshness" role="timer" aria-live="off" hidden></span>
+        </div>
         <label class="theme-control" for="themePreference">
           <span>Theme</span>
           <select id="themePreference" aria-label="Theme preference">
