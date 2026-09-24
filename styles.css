@@ -831,6 +831,27 @@ a {
   line-height: 1.35;
 }
 
+.expand-nearby-radius {
+  margin-top: 12px;
+  padding: 9px 13px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--control-bg);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.expand-nearby-radius:hover { background: var(--accent-highlight); }
+.expand-nearby-radius:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+
+@media (max-width: 680px) {
+  .nearby-summary { padding: 13px 15px; }
+  .nearby-summary p { font-size: 16px; }
+  .expand-nearby-radius { margin-top: 9px; padding: 8px 11px; }
+}
+
 .nearby-summary-head {
   display: flex;
   align-items: center;

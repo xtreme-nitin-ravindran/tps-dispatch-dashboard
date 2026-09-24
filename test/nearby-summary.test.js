@@ -86,12 +86,13 @@ test("nearby summary omits closest distance with no incidents or no user locatio
   );
 });
 
-test("nearby summary render derives from loaded filtered calls without fetching", async () => {
+test("nearby summary render derives non-empty details from loaded filtered calls without fetching", async () => {
   const { readFile } = await import("node:fs/promises");
   const app = await readFile(new URL("../app.js", import.meta.url), "utf8");
   const start = app.indexOf("function renderNearbySummary()");
   const body = app.slice(start, app.indexOf("\n}\n\nfunction renderStats", start) + 2);
 
   assert.match(body, /nearbySummary\(state\.filtered, state\.radiusKm, Date\.now\(\), state\.nearby, coordinatesForCall\)/);
+  assert.match(body, /nearbyEmptyState\([\s\S]*matchingCalls: callsMatchingNonGeographicFilters\(\)/);
   assert.doesNotMatch(body, /fetch|loadData|refreshLoop/);
 });
