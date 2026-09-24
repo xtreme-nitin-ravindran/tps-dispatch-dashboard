@@ -3,22 +3,56 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T18:29:59.794Z",
-  "sourceUpdatedAt": "2026-09-24T18:25:01.000Z",
+  "fetchedAt": "2026-09-24T18:31:20.370Z",
+  "sourceUpdatedAt": "2026-09-24T18:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26151603",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6J",
+      "division": "331",
+      "timestamp": "2026-09-24T18:24:10.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T18:31:20.370Z",
+      "lastSeenAt": "2026-09-24T18:31:20.370Z",
+      "geography": {
+        "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+        "approximate": true,
+        "coordinates": [
+          43.648,
+          -79.4177
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26151602",
       "source": "TFS",
       "eventType": "fire",
       "description": "MEDICAL",
       "location": "L4T",
-      "division": "412",
+      "division": "413",
       "timestamp": "2026-09-24T18:19:00.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "412"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T18:26:17.961Z",
-      "lastSeenAt": "2026-09-24T18:29:59.794Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T18:31:20.370Z",
+      "lastSeenAt": "2026-09-24T18:31:20.370Z",
       "geography": {
         "text": "Approximate location on L4t",
         "approximate": true,
@@ -30,6 +64,50 @@
       }
     },
     {
+      "id": "TPS-ae1b62bbb566a3ca058b6767",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING VULNERABLE PERSON",
+      "callTypeCode": "MISVU",
+      "timestamp": "2026-09-24T18:17:43.000Z",
+      "location": "WASHBURN WAY - MCLEVIN AVE",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WASHBURN WAY - MCLEVIN AVE",
+        "coordinates": [
+          43.802501696723255,
+          -79.22447097373573
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T18:31:20.370Z"
+    },
+    {
+      "id": "TPS-8f948c8ae9fbe0bf0d01129f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HOLDING ONE WITH TROUBLE",
+      "callTypeCode": "HOLTR",
+      "timestamp": "2026-09-24T18:17:03.000Z",
+      "location": "HARLANDALE AVE - ELMHURST AVE",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HARLANDALE AVE - ELMHURST AVE",
+        "coordinates": [
+          43.76235458765221,
+          -79.41115599819281
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T18:31:20.370Z"
+    },
+    {
       "id": "F26151601",
       "source": "TFS",
       "eventType": "fire",
@@ -39,9 +117,17 @@
       "timestamp": "2026-09-24T18:16:05.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "145"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T18:26:17.961Z",
-      "lastSeenAt": "2026-09-24T18:29:59.794Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T18:31:20.370Z",
+      "lastSeenAt": "2026-09-24T18:31:20.370Z",
       "geography": {
         "text": "Approximate area: (M3K) Downsview East (CFB Toronto)",
         "approximate": true,
@@ -56,6 +142,72 @@
       }
     },
     {
+      "id": "TPS-1597b2eccfa8e218750dde28",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-24T18:15:40.000Z",
+      "location": "BLOOR ST W - ANNEX LANE",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BLOOR ST W - ANNEX LANE",
+        "coordinates": [
+          43.666659509809364,
+          -79.40380913861458
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T18:31:20.370Z"
+    },
+    {
+      "id": "TPS-71b4676154814e9ffcd406be",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FIGHT",
+      "callTypeCode": "FIG",
+      "timestamp": "2026-09-24T18:15:40.000Z",
+      "location": "RICHMOND ST E - JARVIS ST RICHMOND ST E RAMP",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "RICHMOND ST E - JARVIS ST RICHMOND ST E RAMP",
+        "coordinates": [
+          43.653044692148356,
+          -79.3729492506018
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T18:31:20.370Z"
+    },
+    {
+      "id": "TPS-81d256d1f810ff144f5cc26d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-24T18:15:24.000Z",
+      "location": "ELMER AVE - KINGSTON RD",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ELMER AVE - KINGSTON RD",
+        "coordinates": [
+          43.67569482098153,
+          -79.30592504195405
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T18:31:20.370Z"
+    },
+    {
       "id": "F26151600",
       "source": "TFS",
       "eventType": "fire",
@@ -65,9 +217,23 @@
       "timestamp": "2026-09-24T18:15:21.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "135"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "135"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T18:26:17.961Z",
-      "lastSeenAt": "2026-09-24T18:29:59.794Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T18:31:20.370Z",
+      "lastSeenAt": "2026-09-24T18:31:20.370Z",
       "geography": {
         "text": "Kilbarry Road between Dunvegan Road & Warren Road",
         "approximate": false,
@@ -80,6 +246,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-24T18:26:17.961Z"
       }
+    },
+    {
+      "id": "TPS-676c949cd81d7a94ce296f56",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT",
+      "callTypeCode": "THE",
+      "timestamp": "2026-09-24T18:14:47.000Z",
+      "location": "THORNCLIFFE PARK DR - THORNCLIFFE PARK DR",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "THORNCLIFFE PARK DR - THORNCLIFFE PARK DR",
+        "coordinates": [
+          43.703234389898334,
+          -79.34661502162206
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T18:31:20.370Z"
     },
     {
       "id": "F26151599",
@@ -115,6 +303,50 @@
       }
     },
     {
+      "id": "TPS-eb52a53c8f7b030ada982fbc",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HOLDING ONE WITH TROUBLE",
+      "callTypeCode": "HOLTR",
+      "timestamp": "2026-09-24T18:11:07.000Z",
+      "location": "MANNING AVE - CLAREMONT ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MANNING AVE - CLAREMONT ST",
+        "coordinates": [
+          43.64607488817358,
+          -79.40956563014343
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T18:31:20.370Z"
+    },
+    {
+      "id": "TPS-85beed4181cb51cdf7d89ed9",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-09-24T18:10:58.000Z",
+      "location": "GLENCREST BLVD - ST CLAIR AVE E",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GLENCREST BLVD - ST CLAIR AVE E",
+        "coordinates": [
+          43.708187992251965,
+          -79.295723963558
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T18:31:20.370Z"
+    },
+    {
       "id": "F26151598",
       "source": "TFS",
       "eventType": "fire",
@@ -133,7 +365,7 @@
         }
       ],
       "firstSeenAt": "2026-09-24T18:15:49.534Z",
-      "lastSeenAt": "2026-09-24T18:29:59.794Z",
+      "lastSeenAt": "2026-09-24T18:31:20.370Z",
       "geography": {
         "text": "Approximate area: (M9L) North York (Humber Summit)",
         "approximate": true,
@@ -156,7 +388,7 @@
       "division": "422",
       "timestamp": "2026-09-24T18:08:55.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -222,7 +454,7 @@
       "division": "423",
       "timestamp": "2026-09-24T18:05:23.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -350,7 +582,7 @@
       ],
       "firstSeenAt": "2026-09-24T18:10:58.820Z",
       "lastMeaningfulUpdateAt": "2026-09-24T18:15:49.534Z",
-      "lastSeenAt": "2026-09-24T18:29:59.794Z",
+      "lastSeenAt": "2026-09-24T18:31:20.370Z",
       "geography": {
         "text": "Approximate location near Maughan Crescent & Edgewood Avenue",
         "approximate": true,
@@ -2171,7 +2403,7 @@
       ],
       "firstSeenAt": "2026-09-24T17:12:17.745Z",
       "lastMeaningfulUpdateAt": "2026-09-24T17:17:00.640Z",
-      "lastSeenAt": "2026-09-24T18:29:59.794Z",
+      "lastSeenAt": "2026-09-24T18:31:20.370Z",
       "geography": {
         "text": "Nassau Street & Spadina Avenue",
         "approximate": false,
@@ -25570,7 +25802,7 @@
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
       "lastMeaningfulUpdateAt": "2026-09-24T17:45:19.833Z",
-      "lastSeenAt": "2026-09-24T18:29:59.794Z",
+      "lastSeenAt": "2026-09-24T18:31:20.370Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -137311,12 +137543,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T18:29:59.794Z",
-      "sourceUpdatedAt": "2026-09-24T18:25:01.000Z",
+      "fetchedAt": "2026-09-24T18:31:20.370Z",
+      "sourceUpdatedAt": "2026-09-24T18:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T18:29:59.794Z",
+      "fetchedAt": "2026-09-24T18:31:20.370Z",
       "status": "ok"
     }
   },
@@ -223289,6 +223521,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6J": {
+      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+      "approximate": true,
+      "coordinates": [
+        43.648,
+        -79.4177
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "L4T": {
       "text": "Approximate location on L4t",
       "approximate": true,
@@ -223354,18 +223598,6 @@
         -79.4839
       ],
       "division": "Division 12",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6J": {
-      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
-      "approximate": true,
-      "coordinates": [
-        43.648,
-        -79.4177
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
