@@ -14,6 +14,7 @@ import { reconcileIncidentSelection } from "./src/incident-selection.js";
 import { markerAgeLabel, markerAgeTier, markerGlyph } from "./src/marker-age.js";
 import { incidentBadge, incidentBadgeExpiry } from "./src/incident-badge.js?v=incident-badges-1";
 import { applyTheme, normalizeThemePreference } from "./src/theme.js";
+import { createRefreshFreshnessTracker } from "./src/refresh-freshness.js";
 
 const CONFIG = {
   snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
@@ -58,6 +59,13 @@ const els = {
   footerClock: document.querySelector("#footerClock")
 };
 const refreshStatus = document.querySelector('#refreshStatus');
+const refreshFreshnessIndicator = document.querySelector('#refreshFreshness');
+const refreshFreshness = createRefreshFreshnessTracker({
+  onChange(label) {
+    refreshFreshnessIndicator.textContent = label;
+    refreshFreshnessIndicator.hidden = !label;
+  }
+});
 const callsFeedStatus = document.querySelector('#callsFeedStatus');
 const radiusToggles = document.querySelectorAll('[data-radius-km]');
 
@@ -263,6 +271,7 @@ async function loadData() {
     }
     renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
     updateFreshness();
+    refreshFreshness.complete(true);
     setRefreshState('idle');
     if (previousSourceTime != null && sourceTime && sourceTime.getTime() !== previousSourceTime) {
       clearTimeout(sourceHighlightTimer);
@@ -273,6 +282,7 @@ async function loadData() {
     }
   } catch (error) {
     console.error(error);
+    refreshFreshness.complete(false);
     setRefreshState('error');
     if (!snapshotLoaded) {
       els.callList.innerHTML = `

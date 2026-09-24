@@ -1,7 +1,9 @@
 export function relativeUpdateAge(timestamp, now = Date.now()) {
   const elapsed = Math.max(0, now - timestamp);
+  const seconds = Math.floor(elapsed / 1000);
+  if (seconds < 5) return 'just now';
+  if (seconds < 60) return `${seconds} sec ago`;
   const minutes = Math.floor(elapsed / 60000);
-  if (minutes < 1) return 'just now';
   if (minutes < 60) return `${minutes} min ago`;
   const hours = Math.floor(minutes / 60);
   if (hours < 24) return `${hours} hr${hours === 1 ? '' : 's'} ago`;
