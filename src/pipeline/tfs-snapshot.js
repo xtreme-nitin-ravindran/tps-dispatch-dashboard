@@ -1,5 +1,6 @@
 import { parseTfsTimestamp } from "../tfs/time.js";
 import { normalizeTfsIncident } from "../tfs/normalize.js";
+import { applyIncidentLifecycle } from "../incident-lifecycle.js";
 
 export function buildTfsSnapshot(source, now = new Date(), previous = null) {
     if (!source || !Array.isArray(source.incidents)) {
@@ -13,17 +14,20 @@ export function buildTfsSnapshot(source, now = new Date(), previous = null) {
     if (previous?.sourceUpdatedAt && Date.parse(sourceUpdatedAt) < Date.parse(parseTfsTimestamp(previous.sourceUpdatedAt))) {
         throw new Error("TFS source is older than the saved snapshot");
     }
+    const previousById = new Map();
     const incidents = new Map();
     for (const incident of previous?.incidents || []) {
-        if (incident.id) incidents.set(incident.id, { ...incident, isOngoing: false });
+        if (incident.id) {
+            previousById.set(incident.id, incident);
+            incidents.set(incident.id, { ...incident, isOngoing: false });
+        }
     }
     for (const row of source.incidents) {
         const incident = normalizeTfsIncident(row);
         if (!incident.id) continue;
-        const prior = incidents.get(incident.id);
+        const prior = previousById.get(incident.id);
         incidents.set(incident.id, {
-            ...incident,
-            firstSeenAt: prior?.firstSeenAt || now.toISOString(),
+            ...applyIncidentLifecycle(incident, prior, now),
             lastSeenAt: now.toISOString()
         });
     }

@@ -17,7 +17,10 @@ test('TPS fetch checks IDs and rejects partial or error payloads',async()=>{
 });
 test('police retention preserves separate records without conflating TFS',()=>{
  const a=normalizeTps(row), now=new Date(row.OCCURRENCE_TIME_AGOL+1000);
- assert.equal(mergePolice([a],[a,{...a,source:'TFS',id:'F1'}],now).length,1);
+ const merged=mergePolice([a],[a,{...a,source:'TFS',id:'F1'}],now);
+ assert.equal(merged.length,1);
+ assert.equal(merged[0].firstSeenAt,a.timestamp);
+ assert.equal(merged[0].lastMeaningfulUpdateAt,undefined);
 });
 
 
@@ -90,4 +93,5 @@ test('police retention includes the seven-day boundary and replaces refreshed re
  const result=mergePolice([{...a,description:'Updated'}],[a,at(-week),at(-week-1),at(1)],now);
  assert.deepEqual(result.map(r=>r.id),[a.id,String(-week)]);
  assert.equal(result[0].description,'Updated');
+ assert.equal(result[0].lastMeaningfulUpdateAt,now.toISOString());
 });

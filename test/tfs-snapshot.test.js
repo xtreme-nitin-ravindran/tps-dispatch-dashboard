@@ -23,6 +23,8 @@ test("builds a dashboard-ready TFS snapshot with freshness metadata", () => {
     assert.equal(snapshot.sourceUpdatedAt, "2026-09-16T16:00:00.000Z");
     assert.equal(snapshot.incidents.length, 1);
     assert.equal(snapshot.incidents[0].id, "F123");
+    assert.equal(snapshot.incidents[0].firstSeenAt, "2026-09-16T16:01:00.000Z");
+    assert.equal(snapshot.incidents[0].lastMeaningfulUpdateAt, undefined);
     assert.equal(snapshot.incidents[0].division, "231");
     assert.equal(snapshot.incidents[0].isOngoing, true);
     assert.deepEqual(snapshot.incidents[0].vehicles, [
@@ -50,6 +52,7 @@ test('accumulates history, updates IDs, expires old calls and clears ongoing sta
     assert.deepEqual(result.incidents.map(i => i.id), ['new', 'updated', 'gone', 'boundary']);
     assert.equal(result.incidents[1].description, 'Revised');
     assert.equal(result.incidents[1].firstSeenAt, '2026-09-16T10:01:00Z');
+    assert.equal(result.incidents[1].lastMeaningfulUpdateAt, now.toISOString());
     assert.equal(result.incidents[1].isOngoing, true);
     assert.equal(result.incidents[2].isOngoing, false);
     assert.equal(result.historyStartedAt, previous.fetchedAt);
@@ -81,6 +84,8 @@ for (const [label, rows] of [
         const reappeared = buildTfsSnapshot({ updatedAt: now.toISOString(), incidents: [row] }, now, result);
         assert.equal(reappeared.incidents.length, 1);
         assert.equal(reappeared.incidents[0].isOngoing, true);
+        assert.equal(reappeared.incidents[0].firstSeenAt, previous.incidents[0].firstSeenAt);
+        assert.equal(reappeared.incidents[0].lastMeaningfulUpdateAt, now.toISOString());
     });
 }
 

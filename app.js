@@ -12,6 +12,7 @@ import { nearbySummary } from "./src/nearby-summary.js";
 import { rankSirenMatches, SIREN_RADIUS_KM } from "./src/siren-matches.js";
 import { reconcileIncidentSelection } from "./src/incident-selection.js";
 import { markerAgeLabel, markerAgeTier, markerGlyph } from "./src/marker-age.js";
+import { incidentBadge, incidentBadgeExpiry } from "./src/incident-badge.js?v=incident-badges-1";
 
 const CONFIG = {
   snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
@@ -74,6 +75,7 @@ let sirenMatches = [];
 let choosingArea = false;
 let nearbyOriginKind = "device";
 let nearbyOriginLayer = null;
+let incidentBadgeTimer = null;
 function rememberPreferences() {
   try { savePreferences(localStorage,state,{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible}); } catch { /* Browsing still works when storage is blocked. */ }
 }
@@ -82,7 +84,7 @@ function escapeText(value) {
   return String(value ?? "").replace(/\s+/g, " ").trim();
 }
 
-function normalizeCall(row, sourceUpdatedAt = null) {
+function normalizeCall(row) {
   const eventType = escapeText(row.event_type || row.eventType).toLowerCase();
   const description = escapeText(row.description || "Call for Service");
   const eventCategory = incidentCategory(description);
@@ -98,7 +100,9 @@ function normalizeCall(row, sourceUpdatedAt = null) {
     id: escapeText(row.id || row.event_id || "—"),
     timestamp: date?.getTime() || Date.now(),
     time: date || new Date(),
-    updatedAt: parseLooseTime(row.lastSeenAt || sourceUpdatedAt),
+    updatedAt: parseLooseTime(row.lastMeaningfulUpdateAt),
+    firstSeenAt: parseLooseTime(row.firstSeenAt),
+    lastMeaningfulUpdateAt: parseLooseTime(row.lastMeaningfulUpdateAt),
     division: policeUnitLabel(row.geography?.division),
     divisionId: row.geography?.division || "Unknown",
     geography: row.geography,
@@ -193,12 +197,8 @@ async function fetchSnapshot() {
   if (!response.ok) throw new Error(`Official TFS snapshot returned HTTP ${response.status}`);
   const payload = await response.json();
   const rows = Array.isArray(payload) ? payload : (payload.incidents || []);
-  const sourceTimes = {
-    TFS: payload.feeds?.TFS?.sourceUpdatedAt || payload.feeds?.TFS?.fetchedAt || payload.sourceUpdatedAt || payload.fetchedAt,
-    TPS: payload.feeds?.TPS?.sourceUpdatedAt || payload.feeds?.TPS?.fetchedAt || payload.fetchedAt
-  };
   return {
-    calls: rows.map(row => normalizeCall(row, sourceTimes[row.source === "TPS" ? "TPS" : "TFS"]))
+    calls: rows.map(row => normalizeCall(row))
       .sort((a, b) => b.timestamp - a.timestamp),
     disruptions: payload.disruptions,
     feeds: payload.feeds,
@@ -478,6 +478,12 @@ function createIncidentCard(call, { distance = "", variant = "list" } = {}) {
   }
   row.querySelector(".incident-source").textContent = sourceName(call.source);
 
+  const changeBadge = row.querySelector(".incident-change-badge");
+  const badge = incidentBadge(call);
+  changeBadge.hidden = !badge;
+  changeBadge.textContent = badge || "";
+  changeBadge.classList.toggle("incident-change-badge--updated", badge === "UPDATED");
+
   const status = callStatus(call);
   const statusBadge = row.querySelector(".incident-status");
   statusBadge.hidden = !status;
@@ -547,6 +553,27 @@ function renderCalls() {
   });
 
   els.callList.replaceChildren(fragment);
+  scheduleIncidentBadgeExpiry();
+}
+
+function updateIncidentBadges() {
+  const calls = new Map(state.calls.map(call => [call.id, call]));
+  document.querySelectorAll(".incident-card .incident-change-badge").forEach(node => {
+    const call = calls.get(node.closest(".incident-card")?.dataset.callId);
+    const badge = call ? incidentBadge(call) : null;
+    node.hidden = !badge;
+    node.textContent = badge || "";
+    node.classList.toggle("incident-change-badge--updated", badge === "UPDATED");
+  });
+  scheduleIncidentBadgeExpiry();
+}
+
+function scheduleIncidentBadgeExpiry() {
+  clearTimeout(incidentBadgeTimer);
+  const now = Date.now();
+  const expiries = state.calls.map(call => incidentBadgeExpiry(call, now)).filter(Number.isFinite);
+  if (!expiries.length) return;
+  incidentBadgeTimer = setTimeout(updateIncidentBadges, Math.max(0, Math.min(...expiries) - now + 25));
 }
 
 function initMap() {

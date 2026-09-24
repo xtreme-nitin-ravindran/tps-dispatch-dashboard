@@ -482,6 +482,29 @@ a {
   letter-spacing: .05em;
 }
 
+.incident-badges {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 5px;
+}
+
+.incident-change-badge {
+  border: 1px solid rgba(255, 210, 106, .45);
+  border-radius: 999px;
+  padding: 4px 6px;
+  color: #ffd26a;
+  background: rgba(255, 210, 106, .09);
+  font: 700 9px/1 "Space Mono", monospace;
+  letter-spacing: .05em;
+}
+
+.incident-change-badge--updated {
+  border-color: rgba(116, 185, 255, .45);
+  color: #8dc8ff;
+  background: rgba(116, 185, 255, .09);
+}
+
 .call-location {
   margin: 6px 0 0;
   color: #c7d0dc;
