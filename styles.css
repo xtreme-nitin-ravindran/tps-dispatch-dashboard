@@ -705,47 +705,6 @@ a {
   line-height: 1.5;
 }
 
-.bar-list {
-  padding: 15px 18px 18px;
-  display: grid;
-  gap: 13px;
-}
-
-.bar-item {
-  display: grid;
-  grid-template-columns: 55px 1fr 34px;
-  gap: 10px;
-  align-items: center;
-}
-
-.bar-label,
-.bar-count {
-  font: 11px/1 "Space Mono", monospace;
-}
-
-.bar-label {
-  color: var(--muted);
-  white-space: nowrap;
-}
-
-.bar-count {
-  text-align: right;
-  color: #d9e1eb;
-}
-
-.bar-track {
-  height: 6px;
-  background: rgba(255, 255, 255, .05);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), #7dd3fc);
-  border-radius: inherit;
-}
-
 .notice {
   border: 1px solid rgba(255, 209, 102, .15);
   background: rgba(255, 209, 102, .055);
@@ -1071,13 +1030,6 @@ footer {
   background-color: rgba(255, 207, 102, 0.12);
   border-radius: 4px;
   box-shadow: 0 0 0 4px rgba(255, 207, 102, 0.12);
-}
-
-.division-note {
-  margin: 0 18px 12px;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.5;
 }
 
 /* Keep accuracy colour visible when a marker is selected. */
