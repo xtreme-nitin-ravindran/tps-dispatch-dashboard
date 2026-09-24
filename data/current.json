@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T07:35:32.601Z",
+  "fetchedAt": "2026-09-24T07:36:54.638Z",
   "sourceUpdatedAt": "2026-09-24T07:30:02.000Z",
   "incidents": [
     {
@@ -146,7 +146,7 @@
         }
       ],
       "firstSeenAt": "2026-09-24T07:20:42.278Z",
-      "lastSeenAt": "2026-09-24T07:35:32.601Z",
+      "lastSeenAt": "2026-09-24T07:36:54.638Z",
       "geography": {
         "text": "Approximate area: (M1M) Scarborough (Cliffside / Cliffcrest / Scarborough Village West)",
         "approximate": true,
@@ -179,7 +179,7 @@
         }
       ],
       "firstSeenAt": "2026-09-24T07:20:42.278Z",
-      "lastSeenAt": "2026-09-24T07:35:32.601Z",
+      "lastSeenAt": "2026-09-24T07:36:54.638Z",
       "geography": {
         "text": "Approximate area: (M4T) Central Toronto (Moore Park / Summerhill East)",
         "approximate": true,
@@ -218,7 +218,7 @@
         }
       ],
       "firstSeenAt": "2026-09-24T07:20:42.278Z",
-      "lastSeenAt": "2026-09-24T07:35:32.601Z",
+      "lastSeenAt": "2026-09-24T07:36:54.638Z",
       "geography": {
         "text": "Sheppard Avenue between Doris Avenue & Bonnington Place",
         "approximate": false,
@@ -12938,7 +12938,7 @@
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
       "lastMeaningfulUpdateAt": "2026-09-24T06:51:22.124Z",
-      "lastSeenAt": "2026-09-24T07:35:32.601Z",
+      "lastSeenAt": "2026-09-24T07:36:54.638Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -124679,18 +124679,44 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T07:35:32.601Z",
+      "fetchedAt": "2026-09-24T07:36:54.638Z",
       "sourceUpdatedAt": "2026-09-24T07:30:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T07:35:32.601Z",
+      "fetchedAt": "2026-09-24T07:36:54.638Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "Tor-RD1H2026-1739",
+          "title": "St Clair Ave W 29 m West of Yonge St to 71 m West of Yonge St",
+          "description": "Toronto-TMC: We will be restoring hydro utility cuts on the sidewalk and the curb lane. A small segment of the sidewalk will be closed and majority will remain open.",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1789390800000,
+          "end": 1790321400000,
+          "expired": false,
+          "coordinates": [
+            43.68803,
+            -79.39443
+          ],
+          "line": [
+            [
+              43.68803,
+              -79.39443
+            ],
+            [
+              43.68793,
+              -79.39493
+            ]
+          ],
+          "schedule": "Everyday: 09:00-03:30",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "12212850-5",
           "title": "Elmhurst Dr at Islington Ave to Albion Rd",
@@ -126684,58 +126710,6 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD042026-1235-2",
-          "title": "Scarlett Rd at Eglinton Ave W to 12 m Southeast of Eglinton Ave W",
-          "description": "Toronto-TMC: SUE Test pits will be conducted at night between 10:00pm and 5:00am within the intersection of Scarlett Road and Eglinton Avenue. Note that the through lanes both EB and WB will be closed and the EB/WB traffic will be diverted as per the staging plans attached. Note that NB/SB through traffic will also be diverted when those lanes are closed.",
-          "type": "ROAD CLOSED",
-          "impact": "None",
-          "start": 1789437600000,
-          "end": 1790326800000,
-          "expired": false,
-          "coordinates": [
-            43.68396,
-            -79.51146
-          ],
-          "line": [
-            [
-              43.68396,
-              -79.51146
-            ],
-            [
-              43.68387,
-              -79.51138
-            ]
-          ],
-          "schedule": "Everyday: 22:00-05:00",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD042026-1235-1",
-          "title": "Eglinton Ave W 7 m West of Humber River Recreational Trl to Scarlett Rd",
-          "description": "Toronto-TMC: SUE Test pits will be conducted at night between 10:00pm and 5:00am within the intersection of Scarlett Road and Eglinton Avenue. Note that the through lanes both EB and WB will be closed and the EB/WB traffic will be diverted as per the staging plans attached. Note that NB/SB through traffic will also be diverted when those lanes are closed.",
-          "type": "ROAD CLOSED",
-          "impact": "None",
-          "start": 1789437600000,
-          "end": 1790326800000,
-          "expired": false,
-          "coordinates": [
-            43.68398,
-            -79.51132
-          ],
-          "line": [
-            [
-              43.68398,
-              -79.51132
-            ],
-            [
-              43.68396,
-              -79.51146
-            ]
-          ],
-          "schedule": "Everyday: 22:00-05:00",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
           "id": "Tor-RD52026-5751-1",
           "title": "The Queensway 11 m West of Burma Dr to 2 m East of Humber River Recreational Trl",
           "description": "Toronto-TMC: WSP Canada Inc. (WSP) has been retained by the City of Toronto to undertake a joint geotechnical, environmental, hydrogeological, and pavements borehole / corehole investigation program in support of the design and construction of The Queensway Project. The work taking place will consist of conducting Hydrogeological testing and obtaining water level readings at existing monitoring wells. Monitoring wells are located along The Queensway between Burma Drive and S Kingsway. All work will take place at night between the hours of 10pm to 5am.",
@@ -126927,6 +126901,58 @@
             ]
           ],
           "schedule": "Monday: 22:00-05:00; Tuesday: 22:00-05:00; Wednesday: 22:00-05:00; Thursday: 22:00-05:00; Friday: 22:00-05:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD042026-1235-2",
+          "title": "Scarlett Rd at Eglinton Ave W to 12 m Southeast of Eglinton Ave W",
+          "description": "Toronto-TMC: SUE Test pits will be conducted at night between 10:00pm and 5:00am within the intersection of Scarlett Road and Eglinton Avenue. Note that the through lanes both EB and WB will be closed and the EB/WB traffic will be diverted as per the staging plans attached. Note that NB/SB through traffic will also be diverted when those lanes are closed.",
+          "type": "ROAD CLOSED",
+          "impact": "None",
+          "start": 1789437600000,
+          "end": 1790326800000,
+          "expired": false,
+          "coordinates": [
+            43.68396,
+            -79.51146
+          ],
+          "line": [
+            [
+              43.68396,
+              -79.51146
+            ],
+            [
+              43.68387,
+              -79.51138
+            ]
+          ],
+          "schedule": "Everyday: 22:00-05:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD042026-1235-1",
+          "title": "Eglinton Ave W 7 m West of Humber River Recreational Trl to Scarlett Rd",
+          "description": "Toronto-TMC: SUE Test pits will be conducted at night between 10:00pm and 5:00am within the intersection of Scarlett Road and Eglinton Avenue. Note that the through lanes both EB and WB will be closed and the EB/WB traffic will be diverted as per the staging plans attached. Note that NB/SB through traffic will also be diverted when those lanes are closed.",
+          "type": "ROAD CLOSED",
+          "impact": "None",
+          "start": 1789437600000,
+          "end": 1790326800000,
+          "expired": false,
+          "coordinates": [
+            43.68398,
+            -79.51132
+          ],
+          "line": [
+            [
+              43.68398,
+              -79.51132
+            ],
+            [
+              43.68396,
+              -79.51146
+            ]
+          ],
+          "schedule": "Everyday: 22:00-05:00",
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
@@ -127697,6 +127723,32 @@
             ]
           ],
           "schedule": "Monday: 07:00-19:30; Tuesday: 07:00-19:30; Wednesday: 07:00-19:30; Thursday: 07:00-19:30; Friday: 07:00-19:30",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1H2026-1892-1",
+          "title": "Roxborough St W 16 m East of Avenue Rd to Avenue Rd",
+          "description": "Toronto-TMC: Asphalt Blvd Restoration @ 173 Roxborough ST W",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1789988400000,
+          "end": 1790377200000,
+          "expired": false,
+          "coordinates": [
+            43.67672,
+            -79.39719
+          ],
+          "line": [
+            [
+              43.67672,
+              -79.39719
+            ],
+            [
+              43.67668,
+              -79.39738
+            ]
+          ],
+          "schedule": "Monday: 07:00-19:00; Tuesday: 07:00-19:00; Wednesday: 07:00-19:00; Thursday: 07:00-19:00; Friday: 07:00-19:00",
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
@@ -130979,32 +131031,6 @@
             ]
           ],
           "schedule": "Everyday: 07:00-19:00",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD1H2026-1892-1",
-          "title": "Roxborough St W 16 m East of Avenue Rd to Avenue Rd",
-          "description": "Toronto-TMC: Asphalt Blvd Restoration @ 173 Roxborough ST W",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "start": 1789988400000,
-          "end": 1790377200000,
-          "expired": false,
-          "coordinates": [
-            43.67672,
-            -79.39719
-          ],
-          "line": [
-            [
-              43.67672,
-              -79.39719
-            ],
-            [
-              43.67668,
-              -79.39738
-            ]
-          ],
-          "schedule": "Monday: 07:00-19:00; Tuesday: 07:00-19:00; Wednesday: 07:00-19:00; Thursday: 07:00-19:00; Friday: 07:00-19:00",
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
@@ -141196,8 +141222,8 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD52026-5704-6",
-          "title": "Kingston Rd 9 m Southwest of Celeste Dr to 119 m Southwest of Celeste Dr",
+          "id": "Tor-RD52026-5704-5",
+          "title": "Kingston Rd 86 m Northeast of Westlake Rd to 134 m Southwest of C N R",
           "description": "Toronto-TMC: HOV lane closed. PDO at site. Grinding and Paving work in progress. No phasing required. 3 days for grinding once grinding is completed then 3 days for MH adjustments once its done then 3 days of road base repair 3 days for paving. we will start on the northbound lane once we are done the whole stretch then we will start southbound.",
           "type": "CONSTRUCTION",
           "impact": "None",
@@ -141205,17 +141231,17 @@
           "end": 1790976600000,
           "expired": false,
           "coordinates": [
-            43.75699,
-            -79.19935
+            43.75253,
+            -79.20342
           ],
           "line": [
             [
-              43.75699,
-              -79.19935
+              43.75253,
+              -79.20342
             ],
             [
-              43.75617,
-              -79.20012
+              43.75316,
+              -79.20288
             ]
           ],
           "schedule": "Monday: 07:00-17:30; Tuesday: 07:00-17:30; Wednesday: 07:00-17:30; Thursday: 07:00-17:30; Friday: 07:00-17:30",
@@ -141245,32 +141271,6 @@
             ]
           ],
           "schedule": "Monday: 07:00-17:30; Tuesday: 07:00-17:30; Wednesday: 07:00-17:30; Thursday: 07:00-17:30; Friday: 07:00-17:30",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD52026-1164-3",
-          "title": "Dunraven Dr 3 m West of Kane Ave to 4 m East of Scott Rd",
-          "description": "Toronto-TMC: BASEMENT FLOODING PROTECTION PROGRAM",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "start": 1777374000000,
-          "end": 1790803800000,
-          "expired": false,
-          "coordinates": [
-            43.68505,
-            -79.46779
-          ],
-          "line": [
-            [
-              43.68505,
-              -79.46779
-            ],
-            [
-              43.68457,
-              -79.47001
-            ]
-          ],
-          "schedule": "Everyday: 07:00-17:30",
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
@@ -142866,6 +142866,32 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
+          "id": "Tor-RD52026-5704-6",
+          "title": "Kingston Rd 9 m Southwest of Celeste Dr to 119 m Southwest of Celeste Dr",
+          "description": "Toronto-TMC: HOV lane closed. PDO at site. Grinding and Paving work in progress. No phasing required. 3 days for grinding once grinding is completed then 3 days for MH adjustments once its done then 3 days of road base repair 3 days for paving. we will start on the northbound lane once we are done the whole stretch then we will start southbound.",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1789556400000,
+          "end": 1790976600000,
+          "expired": false,
+          "coordinates": [
+            43.75699,
+            -79.19935
+          ],
+          "line": [
+            [
+              43.75699,
+              -79.19935
+            ],
+            [
+              43.75617,
+              -79.20012
+            ]
+          ],
+          "schedule": "Monday: 07:00-17:30; Tuesday: 07:00-17:30; Wednesday: 07:00-17:30; Thursday: 07:00-17:30; Friday: 07:00-17:30",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
           "id": "Tor-RD52026-5704-4",
           "title": "Kingston Rd 16 m Northeast of Cromwell Rd to 25 m Southwest of Dale Ave",
           "description": "Toronto-TMC: HOV lane closed. PDO at site. Grinding and Paving work in progress. No phasing required. 3 days for grinding once grinding is completed then 3 days for MH adjustments once its done then 3 days of road base repair 3 days for paving. we will start on the northbound lane once we are done the whole stretch then we will start southbound.",
@@ -143284,29 +143310,29 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD52026-5704-5",
-          "title": "Kingston Rd 86 m Northeast of Westlake Rd to 134 m Southwest of C N R",
-          "description": "Toronto-TMC: HOV lane closed. PDO at site. Grinding and Paving work in progress. No phasing required. 3 days for grinding once grinding is completed then 3 days for MH adjustments once its done then 3 days of road base repair 3 days for paving. we will start on the northbound lane once we are done the whole stretch then we will start southbound.",
+          "id": "Tor-RD52026-1164-3",
+          "title": "Dunraven Dr 3 m West of Kane Ave to 4 m East of Scott Rd",
+          "description": "Toronto-TMC: BASEMENT FLOODING PROTECTION PROGRAM",
           "type": "CONSTRUCTION",
           "impact": "None",
-          "start": 1789556400000,
-          "end": 1790976600000,
+          "start": 1777374000000,
+          "end": 1790803800000,
           "expired": false,
           "coordinates": [
-            43.75253,
-            -79.20342
+            43.68505,
+            -79.46779
           ],
           "line": [
             [
-              43.75253,
-              -79.20342
+              43.68505,
+              -79.46779
             ],
             [
-              43.75316,
-              -79.20288
+              43.68457,
+              -79.47001
             ]
           ],
-          "schedule": "Monday: 07:00-17:30; Tuesday: 07:00-17:30; Wednesday: 07:00-17:30; Thursday: 07:00-17:30; Friday: 07:00-17:30",
+          "schedule": "Everyday: 07:00-17:30",
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
@@ -174116,6 +174142,32 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
+          "id": "Tor-RD52026-5927-1",
+          "title": "Kipling Ave 52 m North of Mattice Ave to 2 m North of Mattice Ave",
+          "description": "Toronto-TMC: T2 IS COMPLETING A TEST HOLE INVESTIGATION ON BEHALF OF RVA & THE CITY OF TORONTO. TO DAYLIGHT UNDERGROUND UTILITIES USING VACUUM EXCAVATION.",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1790168400000,
+          "end": 1790366400000,
+          "expired": false,
+          "coordinates": [
+            43.64742,
+            -79.53782
+          ],
+          "line": [
+            [
+              43.64742,
+              -79.53782
+            ],
+            [
+              43.64699,
+              -79.53764
+            ]
+          ],
+          "schedule": "",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
           "id": "Tor-RD52026-5793-2",
           "title": "Eglinton Ave E 29 m East of Brentcliffe Rd to 8 m East of Brentcliffe Rd",
           "description": "Toronto-TMC: Full Length Trenchless Rehabilitation of Existing Gravity Sewers and Related Works The crew will be working simultaneously from one manhole to another. The lining process rehabilitates the pipe internally and requires access between both manholes for installation. Lane closure will only be implemented during active work periods. Every effort will be made to minimize traffic disruption. The crew will mobilize to multiple locations within the approved limits and complete as feasible per day, depending on pipe conditions and site constraints.",
@@ -174169,66 +174221,6 @@
             ]
           ],
           "schedule": "Monday: 09:00-04:30; Tuesday: 09:00-04:30; Wednesday: 09:00-04:30; Thursday: 09:00-04:30; Friday: 09:00-04:30",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD042026-1229",
-          "title": "Finch Ave W 34 m West of Elana Dr to 47 m East of Norfinch Dr",
-          "description": "Toronto-TMC: REMOVE CABLE ASSEST FOR METROLINX.",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "start": 1789045200000,
-          "end": 1790323200000,
-          "expired": false,
-          "coordinates": [
-            43.75666,
-            -79.52108
-          ],
-          "line": [
-            [
-              43.75666,
-              -79.52108
-            ],
-            [
-              43.75635,
-              -79.52251
-            ],
-            [
-              43.75635,
-              -79.52251
-            ],
-            [
-              43.75606,
-              -79.52374
-            ]
-          ],
-          "schedule": "Everyday: 09:00-04:00",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD1H2026-1739",
-          "title": "St Clair Ave W 29 m West of Yonge St to 71 m West of Yonge St",
-          "description": "Toronto-TMC: We will be restoring hydro utility cuts on the sidewalk and the curb lane. A small segment of the sidewalk will be closed and majority will remain open.",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "start": 1789390800000,
-          "end": 1790321400000,
-          "expired": false,
-          "coordinates": [
-            43.68803,
-            -79.39443
-          ],
-          "line": [
-            [
-              43.68803,
-              -79.39443
-            ],
-            [
-              43.68793,
-              -79.39493
-            ]
-          ],
-          "schedule": "Everyday: 09:00-03:30",
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
@@ -174292,85 +174284,37 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD52026-5927-1",
-          "title": "Kipling Ave 52 m North of Mattice Ave to 2 m North of Mattice Ave",
-          "description": "Toronto-TMC: T2 IS COMPLETING A TEST HOLE INVESTIGATION ON BEHALF OF RVA & THE CITY OF TORONTO. TO DAYLIGHT UNDERGROUND UTILITIES USING VACUUM EXCAVATION.",
+          "id": "Tor-RD042026-1229",
+          "title": "Finch Ave W 34 m West of Elana Dr to 47 m East of Norfinch Dr",
+          "description": "Toronto-TMC: REMOVE CABLE ASSEST FOR METROLINX.",
           "type": "CONSTRUCTION",
           "impact": "None",
-          "start": 1790168400000,
-          "end": 1790366400000,
+          "start": 1789045200000,
+          "end": 1790323200000,
           "expired": false,
           "coordinates": [
-            43.64742,
-            -79.53782
+            43.75666,
+            -79.52108
           ],
           "line": [
             [
-              43.64742,
-              -79.53782
+              43.75666,
+              -79.52108
             ],
             [
-              43.64699,
-              -79.53764
+              43.75635,
+              -79.52251
+            ],
+            [
+              43.75635,
+              -79.52251
+            ],
+            [
+              43.75606,
+              -79.52374
             ]
           ],
-          "schedule": "",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD042026-1287-1",
-          "title": "Finch Ave W 13 m West of Highway 27 S to 131 m East of Halesia Dr",
-          "description": "Toronto-TMC: Civl work on planters occupying the through lane. This is a moblie clousure and will be moving through areas on the traffic plan",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "start": 1790334000000,
-          "end": 1790629200000,
-          "expired": false,
-          "coordinates": [
-            43.7341,
-            -79.60335
-          ],
-          "line": [
-            [
-              43.7341,
-              -79.60335
-            ],
-            [
-              43.73379,
-              -79.60472
-            ],
-            [
-              43.73374,
-              -79.60508
-            ]
-          ],
-          "schedule": "Everyday: 07:00-17:00",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD042026-1287-6",
-          "title": "Highway 27 N 11 m South of Humber College Blvd to 51 m North of West Humber Trl",
-          "description": "Toronto-TMC: Civl work on planters occupying the through lane. This is a moblie clousure and will be moving through areas on the traffic plan",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "start": 1790334000000,
-          "end": 1790629200000,
-          "expired": false,
-          "coordinates": [
-            43.73037,
-            -79.6014
-          ],
-          "line": [
-            [
-              43.73037,
-              -79.6014
-            ],
-            [
-              43.72826,
-              -79.60048
-            ]
-          ],
-          "schedule": "Everyday: 07:00-17:00",
+          "schedule": "Everyday: 09:00-04:00",
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
@@ -174446,6 +174390,62 @@
             [
               43.73132,
               -79.60182
+            ]
+          ],
+          "schedule": "Everyday: 07:00-17:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD042026-1287-6",
+          "title": "Highway 27 N 11 m South of Humber College Blvd to 51 m North of West Humber Trl",
+          "description": "Toronto-TMC: Civl work on planters occupying the through lane. This is a moblie clousure and will be moving through areas on the traffic plan",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1790334000000,
+          "end": 1790629200000,
+          "expired": false,
+          "coordinates": [
+            43.73037,
+            -79.6014
+          ],
+          "line": [
+            [
+              43.73037,
+              -79.6014
+            ],
+            [
+              43.72826,
+              -79.60048
+            ]
+          ],
+          "schedule": "Everyday: 07:00-17:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD042026-1287-1",
+          "title": "Finch Ave W 13 m West of Highway 27 S to 131 m East of Halesia Dr",
+          "description": "Toronto-TMC: Civl work on planters occupying the through lane. This is a moblie clousure and will be moving through areas on the traffic plan",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1790334000000,
+          "end": 1790629200000,
+          "expired": false,
+          "coordinates": [
+            43.7341,
+            -79.60335
+          ],
+          "line": [
+            [
+              43.7341,
+              -79.60335
+            ],
+            [
+              43.73379,
+              -79.60472
+            ],
+            [
+              43.73374,
+              -79.60508
             ]
           ],
           "schedule": "Everyday: 07:00-17:00",
@@ -203417,8 +203417,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-24T07:31:51.602Z",
-      "fetchedAt": "2026-09-24T07:31:51.602Z"
+      "checkedAt": "2026-09-24T07:36:54.638Z",
+      "fetchedAt": "2026-09-24T07:36:54.638Z"
     },
     "transit": {
       "items": [
@@ -204335,10 +204335,10 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-24T07:31:52.000Z",
+      "sourceUpdatedAt": "2026-09-24T07:36:55.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-24T07:31:51.602Z",
-      "fetchedAt": "2026-09-24T07:31:51.602Z"
+      "checkedAt": "2026-09-24T07:36:54.638Z",
+      "fetchedAt": "2026-09-24T07:36:54.638Z"
     }
   },
   "updatedBy": "concourse",
