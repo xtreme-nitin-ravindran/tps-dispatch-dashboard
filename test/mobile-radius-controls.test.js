@@ -20,11 +20,30 @@ test('mobile radius selector exposes every supported search area in one shared c
 });
 
 test('mobile radius selector stays at the viewport edge with touch-sized buttons', () => {
-  const mobileRules = css.slice(css.indexOf('@media (max-width: 680px) {\n  .radius-controls'));
+  const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)';
+  const mobileRules = css.slice(css.indexOf(`${mobileQuery} {\n  .radius-controls`));
+  assert.notEqual(css.indexOf(mobileQuery), -1, 'portrait and coarse-pointer landscape mobile layouts share the sticky rules');
   assert.match(mobileRules, /position: sticky/);
-  assert.match(mobileRules, /top: max\(6px, env\(safe-area-inset-top\)\)/);
+  assert.match(mobileRules, /top: calc\(6px \+ env\(safe-area-inset-top, 0px\)\)/);
   assert.match(mobileRules, /grid-template-columns: \.95fr \.78fr \.78fr \.78fr 1\.45fr/);
   assert.match(mobileRules, /min-height: 44px/);
+  assert.match(mobileRules, /\.map-panel \.leaflet-top \{ top: calc\(98px \+ env\(safe-area-inset-top, 0px\)\); \}/);
+  assert.match(mobileRules, /scroll-margin-top: calc\(104px \+ env\(safe-area-inset-top, 0px\)\)/);
+});
+
+test('desktop radius layout remains non-sticky and unchanged outside the mobile query', () => {
+  const mobileStart = css.indexOf('@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse) {\n  .radius-controls');
+  const desktopRules = css.slice(css.indexOf('.radius-controls {'), mobileStart);
+  assert.match(desktopRules, /\.radius-controls \{ display: flex; align-items: center;/);
+  assert.match(desktopRules, /\.radius-toggle-group \{ display: flex; flex-wrap: wrap;/);
+  assert.doesNotMatch(desktopRules, /position: sticky/);
+});
+
+test('selected radius is derived from the existing state for the single shared control', () => {
+  assert.equal([...html.matchAll(/data-radius-km=/g)].length, 5);
+  assert.equal([...app.matchAll(/const radiusToggles = document\.querySelectorAll\('\[data-radius-km\]'\);/g)].length, 1);
+  assert.equal([...app.matchAll(/radiusToggles\.forEach\(toggle => toggle\.addEventListener\('click'/g)].length, 1);
+  assert.match(app, /function syncRadiusControls\(\) \{[\s\S]*?const active = value === state\.radiusKm;[\s\S]*?classList\.toggle\('active', active\);[\s\S]*?setAttribute\('aria-pressed', String\(active\)\);/);
 });
 
 test('radius changes reuse the complete filtering and rendering pipeline', () => {
@@ -35,7 +54,7 @@ test('radius changes reuse the complete filtering and rendering pipeline', () =>
 
 test('map and card selection share one zoom-preserving selected incident', () => {
   assert.match(app, /focusedCallId = reconcileIncidentSelection\(focusedCallId, state\.filtered\);/);
-  assert.match(app, /\.on\("click", event => \{[\s\S]*?selectCall\(call\.id, \{ pan: false, revealRow: true \}\)/);
+  assert.match(app, /\.on\("click", event => \{[\s\S]*?setMobileSheetState\([\s\S]*?selectCall\(call\.id, \{ pan: false, revealRow: true \}\)/);
   assert.match(app, /const zoom = dispatchMap\.getZoom\(\);[\s\S]*?dispatchMap\.panTo\(coordinates/);
   assert.doesNotMatch(app, /setView\(coordinatesForCall\(call\),\s*18/);
   assert.match(app, /incident-card:not\(\.incident-card--popup\)[\s\S]*?aria-pressed/);

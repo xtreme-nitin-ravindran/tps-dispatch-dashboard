@@ -17,6 +17,7 @@ import { incidentBadge, incidentBadgeExpiry } from "./src/incident-badge.js?v=in
 import { DISPATCH_GLOSSARY_FOOTER, glossaryDefinition } from "./src/dispatch-glossary.js?v=glossary-1";
 import { applyTheme, normalizeThemePreference } from "./src/theme.js";
 import { createRefreshFreshnessTracker } from "./src/refresh-freshness.js";
+import { mobileSheetActionLabel, mobileSheetStateAfterDrag, nextMobileSheetState } from "./src/mobile-bottom-sheet.js";
 
 const CONFIG = {
   snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
@@ -70,6 +71,14 @@ const refreshFreshness = createRefreshFreshnessTracker({
 });
 const callsFeedStatus = document.querySelector('#callsFeedStatus');
 const radiusToggles = document.querySelectorAll('[data-radius-km]');
+const mobileViewToggles = document.querySelectorAll('[data-mobile-view]');
+const mobileBottomSheet = document.querySelector('#mobileBottomSheet');
+const mobileSheetToggle = document.querySelector('#mobileSheetToggle');
+const mobileSheetStateLabel = document.querySelector('#mobileSheetState');
+const mobileSheetSummary = document.querySelector('#mobileSheetSummary');
+const mobileSheetStateControls = document.querySelectorAll('[data-sheet-target]');
+const mobileSheetCallList = document.querySelector('#mobileSheetCallList');
+const mobileCallsFeedStatus = document.querySelector('#mobileCallsFeedStatus');
 
 const TORONTO_CENTER = [43.7001, -79.42];
 let dispatchMap = null;
@@ -89,16 +98,90 @@ let nearbyOriginLayer = null;
 let incidentBadgeTimer = null;
 let glossaryPopoverSequence = 0;
 let themePreference = "system";
+let mobileView = "map";
+let mobileSheetState = "collapsed";
+let mobileSheetDrag = null;
+let suppressNextMobileSheetClick = false;
 const initialParams = new URLSearchParams(location.search);
 let pendingSharedIncidentId = readSharedIncident(initialParams);
 const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
 const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+const mobileViewQuery = "(max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)";
 function syncTheme() {
   applyTheme(document.documentElement, themeColorMeta, themePreference, systemTheme.matches);
 }
 function rememberPreferences() {
   try { savePreferences(localStorage,state,{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible,theme:themePreference}); } catch { /* Browsing still works when storage is blocked. */ }
 }
+
+function isMobileViewLayout() {
+  return window.matchMedia(mobileViewQuery).matches;
+}
+
+function setMobileView(view, { focusSelection = false } = {}) {
+  if (view !== "map" && view !== "calls") return;
+  mobileView = view;
+  document.documentElement.dataset.mobileView = view;
+  mobileViewToggles.forEach(toggle => {
+    const active = toggle.dataset.mobileView === view;
+    toggle.classList.toggle("active", active);
+    toggle.setAttribute("aria-pressed", String(active));
+  });
+  if (view === "map") requestAnimationFrame(() => {
+    dispatchMap?.invalidateSize({ pan: false });
+    if (focusSelection && isMobileViewLayout() && focusedCallId) {
+      selectCall(focusedCallId, { panIfNeeded: true });
+    }
+  });
+}
+
+mobileViewToggles.forEach(toggle => toggle.addEventListener("click", () => {
+  setMobileView(toggle.dataset.mobileView, { focusSelection: toggle.dataset.mobileView === "map" });
+}));
+setMobileView(mobileView);
+
+function setMobileSheetState(nextState) {
+  if (!mobileBottomSheet || !["collapsed", "half", "expanded"].includes(nextState)) return;
+  mobileSheetState = nextState;
+  mobileBottomSheet.dataset.sheetState = nextState;
+  document.documentElement.dataset.mobileSheetState = nextState;
+  mobileSheetStateLabel.textContent = nextState[0].toUpperCase() + nextState.slice(1);
+  mobileSheetToggle.setAttribute("aria-expanded", String(nextState !== "collapsed"));
+  mobileSheetToggle.setAttribute("aria-label", mobileSheetActionLabel(nextState));
+  mobileSheetStateControls.forEach(control => {
+    control.setAttribute("aria-pressed", String(control.dataset.sheetTarget === nextState));
+  });
+  requestAnimationFrame(() => dispatchMap?.invalidateSize({ pan: false }));
+}
+
+mobileSheetToggle?.addEventListener("click", () => {
+  if (suppressNextMobileSheetClick) {
+    suppressNextMobileSheetClick = false;
+    return;
+  }
+  const direction = mobileSheetState === "expanded" ? -2 : 1;
+  setMobileSheetState(nextMobileSheetState(mobileSheetState, direction));
+});
+
+mobileSheetToggle?.addEventListener("pointerdown", event => {
+  if (event.pointerType === "mouse" && event.button !== 0) return;
+  mobileSheetDrag = { pointerId: event.pointerId, startY: event.clientY, handled: false };
+  mobileSheetToggle.setPointerCapture?.(event.pointerId);
+});
+
+mobileSheetToggle?.addEventListener("pointerup", event => {
+  if (!mobileSheetDrag || mobileSheetDrag.pointerId !== event.pointerId) return;
+  const nextState = mobileSheetStateAfterDrag(mobileSheetState, event.clientY - mobileSheetDrag.startY);
+  suppressNextMobileSheetClick = nextState !== mobileSheetState;
+  if (suppressNextMobileSheetClick) setMobileSheetState(nextState);
+  mobileSheetDrag = null;
+});
+
+mobileSheetToggle?.addEventListener("pointercancel", () => { mobileSheetDrag = null; });
+mobileSheetStateControls.forEach(control => control.addEventListener("click", () => {
+  setMobileSheetState(control.dataset.sheetTarget);
+}));
+setMobileSheetState(mobileSheetState);
 
 function escapeText(value) {
   return String(value ?? "").replace(/\s+/g, " ").trim();
@@ -446,7 +529,9 @@ function renderNearbySummary() {
   const summary = document.querySelector("#nearbySummary");
   summary.hidden = false;
   document.querySelector("#nearbySummaryHeading").textContent = state.radiusKm === null ? "TORONTO SUMMARY" : "NEARBY SUMMARY";
-  document.querySelector("#nearbySummaryText").textContent = nearbySummary(state.filtered, state.radiusKm);
+  const summaryText = nearbySummary(state.filtered, state.radiusKm);
+  document.querySelector("#nearbySummaryText").textContent = summaryText;
+  if (mobileSheetSummary) mobileSheetSummary.textContent = summaryText;
 }
 
 function renderStats() {
@@ -590,13 +675,27 @@ function createIncidentCard(call, { distance = "", variant = "list" } = {}) {
 
 function renderCalls() {
   const availability=renderIncidentFeedStatus();
+  if (mobileCallsFeedStatus) {
+    mobileCallsFeedStatus.textContent = callsFeedStatus.textContent;
+    mobileCallsFeedStatus.hidden = callsFeedStatus.hidden;
+  }
   if (!state.filtered.length && !availability.hasRelevantCachedData && availability.unavailable.length) {
     els.resultCount.textContent = availability.allUnavailable ? 'UNAVAILABLE' : '0 FROM AVAILABLE SOURCES';
   } else {
     els.resultCount.textContent = `${state.filtered.length} RESULT${state.filtered.length === 1 ? "" : "S"}`;
   }
 
-  if (!state.filtered.length) {
+  const renderList = list => {
+    if (!list) return;
+    if (state.filtered.length) {
+      const fragment = document.createDocumentFragment();
+      state.filtered.forEach(call => {
+        const distance = distanceLabel(distanceKm(state.nearby, coordinatesForCall(call)));
+        fragment.appendChild(createIncidentCard(call, { distance }));
+      });
+      list.replaceChildren(fragment);
+      return;
+    }
     let title='No calls match these filters.';
     let detail='Try another time window, division, or search term.';
     if (!availability.hasRelevantCachedData && availability.allUnavailable) {
@@ -609,22 +708,15 @@ function renderCalls() {
       title='No public dispatch calls currently reported.';
       detail='The data sources were checked successfully.';
     }
-    els.callList.innerHTML = `
+    list.innerHTML = `
       <div class="empty-state">
         <strong>${title}</strong>
         <p>${detail}</p>
       </div>`;
-    return;
-  }
+  };
 
-  const fragment = document.createDocumentFragment();
-
-  state.filtered.forEach(call => {
-    const distance = distanceLabel(distanceKm(state.nearby, coordinatesForCall(call)));
-    fragment.appendChild(createIncidentCard(call, { distance }));
-  });
-
-  els.callList.replaceChildren(fragment);
+  renderList(els.callList);
+  renderList(mobileSheetCallList);
   scheduleIncidentBadgeExpiry();
 }
 
@@ -778,8 +870,10 @@ function renderMapMarkers() {
         variant: "popup"
       }), { minWidth: 280, maxWidth: 360, closeOnClick: false })
       .on("click", event => {
+        const mobile = isMobileViewLayout();
+        if (mobile) setMobileSheetState(mobileSheetState === "collapsed" ? "half" : mobileSheetState);
         selectCall(call.id, { pan: false, revealRow: true });
-        setTimeout(() => event.target.openPopup(), 0);
+        if (!mobile) setTimeout(() => event.target.openPopup(), 0);
       });
     marker.addTo(callLayer);
     mapMarkers.set(call.id, marker);
@@ -833,7 +927,7 @@ function renderMap() {
   els.mapEmpty.querySelector("span").textContent = "No locations in this view could be resolved from the published data.";
 }
 
-function selectCall(callId, { pan = true, revealRow = false } = {}) {
+function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false } = {}) {
   const call = state.filtered.find(item => item.id === callId);
   if (!call) return;
 
@@ -846,7 +940,9 @@ function selectCall(callId, { pan = true, revealRow = false } = {}) {
     dispatchMap.stop();
     expandedCluster = new Set(focusGroup(located,callId,point=>dispatchMap.project(point,zoom)).map(item=>item.call.id));
     renderMapMarkers();
-    dispatchMap.panTo(coordinates, { animate: !reducedMotion, duration: .35, easeLinearity: .25 });
+    if (!panIfNeeded || !dispatchMap.getBounds().contains(coordinates)) {
+      dispatchMap.panTo(coordinates, { animate: !reducedMotion, duration: .35, easeLinearity: .25 });
+    }
   }
 
 
@@ -856,13 +952,15 @@ function selectCall(callId, { pan = true, revealRow = false } = {}) {
     row.classList.toggle("selected", selected);
     if (row.hasAttribute("role")) row.setAttribute("aria-pressed", String(selected));
     row.classList.remove("pin-highlight");
-    if (selected && row.classList.contains("incident-card--list")) selectedRow = row;
+    if (selected && row.classList.contains("incident-card--list")) {
+      if (!selectedRow || (isMobileViewLayout() && row.closest("#mobileSheetCallList"))) selectedRow = row;
+    }
   });
   clearTimeout(rowHighlightTimer);
   if (revealRow && selectedRow) {
     selectedRow.focus({ preventScroll: true });
     selectedRow.scrollIntoView({
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
       block: "center"
     });
     selectedRow.classList.add("pin-highlight");
@@ -955,27 +1053,34 @@ els.eventToggles.forEach(toggle => {
   });
 });
 
-els.callList.addEventListener("click", (event) => {
+function handleIncidentListClick(event) {
   if (event.target.closest("summary, .glossary-trigger, .glossary-popover, .share-incident")) return;
   const row = event.target.closest(".incident-card--list");
   if (!row) return;
-  selectCall(row.dataset.callId);
-  if (event.target.closest(".show-map-hint")) {
+  const showOnMap = event.target.closest(".show-map-hint");
+  selectCall(row.dataset.callId, { pan: !isMobileViewLayout() || mobileView === "map" });
+  if (showOnMap) {
     event.preventDefault();
+    setMobileView("map", { focusSelection: true });
     els.dispatchMap.scrollIntoView({
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
       block: "center"
     });
   }
-});
+}
 
-els.callList.addEventListener("keydown", (event) => {
+function handleIncidentListKeydown(event) {
   if (event.target.closest(".show-map-hint, .glossary-trigger, .glossary-popover, .share-incident")) return;
   if (event.key !== "Enter" && event.key !== " ") return;
   const row = event.target.closest(".incident-card--list");
   if (!row) return;
   event.preventDefault();
-  selectCall(row.dataset.callId);
+  selectCall(row.dataset.callId, { pan: !isMobileViewLayout() || mobileView === "map" });
+}
+
+[els.callList, mobileSheetCallList].filter(Boolean).forEach(list => {
+  list.addEventListener("click", handleIncidentListClick);
+  list.addEventListener("keydown", handleIncidentListKeydown);
 });
 
 function closeGlossaryPopovers(except = null) {
