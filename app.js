@@ -9,6 +9,7 @@ import { incidentCategory } from "./src/tfs/category.js";
 import { locationDisplay, expandLocationAbbreviations } from "./src/location-display.js?v=hydro-corridor-1";
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
 import { nearbySummary } from "./src/nearby-summary.js";
+import { nearbyCtaCopy } from "./src/cta-copy.js";
 import { rankSirenMatches, SIREN_RADIUS_KM } from "./src/siren-matches.js";
 import { reconcileIncidentSelection, restoreSharedIncident } from "./src/incident-selection.js";
 import { markerAgeLabel, markerAgeTier, markerGlyph } from "./src/marker-age.js";
@@ -1054,6 +1055,7 @@ document.querySelector("#serviceFilter").addEventListener("change", event => {
 });
 
 const nearButton = document.querySelector('#nearMe');
+const hearSirensButton = document.querySelector('#hearSirens');
 const nearStatus = document.querySelector('#nearStatus');
 const nearControls = document.querySelector('#nearControls');
 const chooseAreaButton = document.querySelector('#chooseArea');
@@ -1135,7 +1137,8 @@ function requestLocation(radiusKm = lastRadiusKm, forSiren = false) {
   const request = ++locationRequest;
   clearLocationWatch();
   nearButton.disabled = true;
-  nearButton.textContent = 'Finding your location…';
+  hearSirensButton.disabled = true;
+  nearButton.textContent = nearbyCtaCopy.loading;
   nearStatus.textContent = 'Allow location access when your browser asks.';
   const onPosition = position => {
     if (request !== locationRequest) return;
@@ -1147,7 +1150,8 @@ function requestLocation(radiusKm = lastRadiusKm, forSiren = false) {
       requestedRadiusKm = null;
     }
     nearButton.disabled = false;
-    nearButton.textContent = 'Update nearby calls';
+    hearSirensButton.disabled = false;
+    nearButton.textContent = nearbyCtaCopy.refresh;
     nearControls.hidden = false;
     choosingArea = false;
     els.dispatchMap.classList.remove('choosing-area');
@@ -1159,7 +1163,8 @@ function requestLocation(radiusKm = lastRadiusKm, forSiren = false) {
   const onError = error => {
     if (request !== locationRequest) return;
     nearButton.disabled = false;
-    nearButton.textContent = state.nearby ? 'Update nearby calls' : '🚨 Hear sirens?';
+    hearSirensButton.disabled = false;
+    nearButton.textContent = state.nearby ? nearbyCtaCopy.refresh : nearbyCtaCopy.primary;
     showLocationFallback(error.code === 1 ? 'Location permission was denied.' : 'Could not get your location.');
     if (error.code === 1) clearLocationWatch();
   };
@@ -1171,6 +1176,9 @@ function requestLocation(radiusKm = lastRadiusKm, forSiren = false) {
   }
 }
 nearButton.addEventListener('click', () => {
+  requestLocation(SIREN_RADIUS_KM, true);
+});
+hearSirensButton.addEventListener('click', () => {
   requestLocation(SIREN_RADIUS_KM, true);
 });
 chooseAreaButton.addEventListener('click', beginAreaChoice);
@@ -1205,7 +1213,8 @@ document.querySelector('#clearNearby').addEventListener('click', () => {
   nearbyOriginKind = 'device';
   els.dispatchMap.classList.remove('choosing-area');
   nearButton.disabled = false;
-  nearButton.textContent = '🚨 Hear sirens?';
+  hearSirensButton.disabled = false;
+  nearButton.textContent = nearbyCtaCopy.primary;
   nearControls.hidden = true;
   nearStatus.textContent = 'Uses your location with permission. Your location stays in this browser session.';
   mapHasFitted = false;

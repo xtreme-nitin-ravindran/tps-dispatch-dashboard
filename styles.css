@@ -1405,11 +1405,12 @@ footer {
 .nearby-feature p { margin: 0; color: var(--muted); }
 .nearby-action { width: min(100%, 380px); }
 #nearMe { width: 100%; min-height: 54px; padding: 13px 20px; border: 0; border-radius: 12px; background: var(--accent); color: var(--on-accent); font: inherit; font-size: 17px; font-weight: 800; cursor: pointer; box-shadow: 0 8px 24px var(--accent-ring); }
-#nearMe:disabled { opacity: .7; cursor: wait; }
-#nearMe:focus-visible, #clearNearby:focus-visible, #chooseArea:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+#nearMe:disabled, #hearSirens:disabled { opacity: .7; cursor: wait; }
+#nearMe:focus-visible, #hearSirens:focus-visible, #clearNearby:focus-visible, #chooseArea:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
 #nearStatus { margin-top: 8px; font-size: 12px; line-height: 1.5; }
 #nearControls:not([hidden]) { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-#clearNearby, #chooseArea { padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: inherit; cursor: pointer; }
+#hearSirens, #clearNearby, #chooseArea { padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: inherit; cursor: pointer; }
+#hearSirens { margin-top: 10px; }
 @media (max-width: 680px) { .nearby-feature { flex-direction: column; align-items: stretch; gap: 14px; } .nearby-action { width: 100%; } }
 
 .siren-results { margin: 0 0 20px; padding: 22px; border: 1px solid var(--warning-line); border-radius: 18px; background: var(--warning-soft); }
