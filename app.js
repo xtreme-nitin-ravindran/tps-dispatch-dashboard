@@ -11,6 +11,7 @@ import { isWithinHistoryWindow } from "./src/tfs/time.js";
 import { nearbySummary } from "./src/nearby-summary.js";
 import { rankSirenMatches, SIREN_RADIUS_KM } from "./src/siren-matches.js";
 import { reconcileIncidentSelection } from "./src/incident-selection.js";
+import { markerAgeLabel, markerAgeTier, markerGlyph } from "./src/marker-age.js";
 
 const CONFIG = {
   snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
@@ -624,12 +625,32 @@ function isApproximateLocation(call) {
   return displayLocation(call).approximate !== false;
 }
 
-function markerIcon(selected = false, approximate = false, sirenMatch = false) {
+function markerAccessibleLabel(call, selected, now = Date.now()) {
+  const age = markerAgeLabel(markerAgeTier(call.timestamp, now));
+  return `${selected ? "Selected incident: " : "Incident: "}${call.source} ${call.eventCategory}, ${call.description}, ${age}`;
+}
+
+function markerIcon(call, selected = false, sirenMatch = false, now = Date.now()) {
+  const ageTier = markerAgeTier(call.timestamp, now);
+  const approximate = isApproximateLocation(call);
   return L.divIcon({
     className: "dispatch-marker-wrap",
-    html: `<span class="dispatch-marker${approximate ? " approximate" : ""}${selected ? " selected" : ""}${sirenMatch ? " siren-match" : ""}"></span>`,
-    iconSize: [18, 18],
-    iconAnchor: [9, 9]
+    html: `<span class="dispatch-marker service-${call.source.toLowerCase()} category-${call.eventCategory} age-${ageTier}${approximate ? " approximate" : ""}${selected ? " selected" : ""}${sirenMatch ? " siren-match" : ""}"><span class="dispatch-marker-glyph" aria-hidden="true">${markerGlyph(call.source, call.eventCategory)}</span></span>`,
+    iconSize: [22, 22],
+    iconAnchor: [11, 11]
+  });
+}
+
+function updateMarkerAppearances(now = Date.now()) {
+  const sirenIds = new Set(sirenMatches.map(match => match.call.id));
+  mapMarkers.forEach((marker, id) => {
+    const call = state.filtered.find(item => item.id === id);
+    if (!call) return;
+    const selected = id === focusedCallId;
+    const label = markerAccessibleLabel(call, selected, now);
+    marker.setIcon(markerIcon(call, selected, sirenIds.has(id), now));
+    marker.getElement()?.setAttribute("aria-label", label);
+    marker.getElement()?.setAttribute("title", label);
   });
 }
 
@@ -646,10 +667,11 @@ function renderMapMarkers() {
     const tooltip = document.createElement('span');
     tooltip.textContent = `${call.source}: ${call.description}`;
     const selected = call.id === focusedCallId;
+    const accessibleLabel = markerAccessibleLabel(call, selected);
     const marker = L.marker(position, {
-      title: `${selected ? "Selected incident — " : ""}${call.source}: ${call.description}`,
-      alt: `${selected ? "Selected incident: " : "Incident: "}${call.description}`,
-      icon: markerIcon(selected, isApproximateLocation(call), sirenIds.has(call.id))
+      title: accessibleLabel,
+      alt: accessibleLabel,
+      icon: markerIcon(call, selected, sirenIds.has(call.id))
     })
       .bindTooltip(tooltip, { direction: "top" })
       .bindPopup(createIncidentCard(call, {
@@ -678,7 +700,9 @@ function renderMapMarkers() {
       continue;
     }
     const matchingCluster = group.some(item => sirenIds.has(item.call.id));
-    L.marker(center,{icon:L.divIcon({className:`call-cluster${matchingCluster ? ' siren-match' : ''}`,html:String(group.length),iconSize:[40,40],iconAnchor:[20,20]}), title:`${group.length} calls; zoom or expand`})
+    const newestTimestamp = Math.max(...group.map(item => item.call.timestamp));
+    const clusterTier = markerAgeTier(newestTimestamp);
+    L.marker(center,{icon:L.divIcon({className:`call-cluster age-${clusterTier}${matchingCluster ? ' siren-match' : ''}`,html:String(group.length),iconSize:[40,40],iconAnchor:[20,20]}), title:`${group.length} calls; newest ${markerAgeLabel(clusterTier)}; zoom or expand`})
       .on('click', () => {
         if (dispatchMap.getZoom() < 18) dispatchMap.setView(center,Math.min(18,dispatchMap.getZoom()+2));
         else { expandedCluster = new Set(group.map(item => item.call.id)); renderMapMarkers(); }
@@ -746,11 +770,7 @@ function selectCall(callId, { pan = true, revealRow = false } = {}) {
     rowHighlightTimer = setTimeout(() => selectedRow.classList.remove("pin-highlight"), 3500);
   }
 
-  mapMarkers.forEach((marker, id) => {
-    const mappedCall = state.filtered.find(item => item.id === id);
-    marker.setIcon(markerIcon(id === callId, isApproximateLocation(mappedCall), sirenMatches.some(match => match.call.id === id)));
-    marker.getElement()?.setAttribute("aria-label", `${id === callId ? "Selected incident: " : "Incident: "}${mappedCall.description}`);
-  });
+  updateMarkerAppearances();
   const marker = mapMarkers.get(callId);
   if (marker) {
     marker.openTooltip();
@@ -1069,6 +1089,7 @@ setInterval(() => {
     label.textContent = `Updated ${compactAge(label.dataset.updatedAt)}`;
   });
   renderNearbySummary();
+  updateMarkerAppearances();
 }, 60000);
 
 document.querySelector('#roadOverlay').addEventListener('change', () => {

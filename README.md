@@ -104,7 +104,7 @@ This combined run includes the live-source integration tests and requires intern
 It fails unless measured JavaScript line, branch, and function coverage are all 100%.
 Badge generation requires Python 3 and writes three SVG files to the output directory.
 
-`npm test` runs all 21 JavaScript unit test files below:
+`npm test` runs all 22 JavaScript unit test files below:
 
 | Test file (under `test/`) | What it verifies |
 | --- | --- |
@@ -124,6 +124,7 @@ Badge generation requires Python 3 and writes three SVG files to the output dire
 | `postal-lookup.test.js` | Toronto postal prefixes and rejection of incorrect or low-confidence mocked geocoder results. |
 | `police-divisions.test.js` | Polygon/multipolygon matching, holes and overlaps, invalid locations, and bundled TPS boundaries. |
 | `call-presentation.test.js` | Report ages, call explanations, location confidence, and source-specific status without inferring resolution. |
+| `marker-age.test.js` | Exact marker-age boundaries, accessible freshness labels, future/invalid timestamps, and persistent category/service glyphs. |
 | `nearby-summary.test.js` | Nearby counts, service/category breakdowns, newest-call ages, and empty or singular results. |
 | `siren-matches.test.js` | Two-kilometre siren-result scope, recency/distance ranking, result limits, and invalid-call handling. |
 | `view-controls.test.js` | New-call detection, filter summaries/reset defaults, share links, clustering, row selection, preferences, and source timestamp labels. |
