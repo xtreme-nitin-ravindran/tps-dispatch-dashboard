@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { applyIncidentLifecycle } from '../incident-lifecycle.js';
 export const TPS_ENDPOINT = 'https://services.arcgis.com/S9th0jAJ7bqgIRjw/arcgis/rest/services/C4S_Public_NoGO/FeatureServer/0';
 export async function fetchTpsSource({ fetchImpl = fetch } = {}) {
   const query = async params => {
@@ -35,6 +36,6 @@ export function normalizeTps(a) {
 }
 export function mergePolice(incoming, previous, now) {
   const records = new Map(previous.filter(r=>r.source==='TPS').map(r=>[r.id,r]));
-  for (const row of incoming) records.set(row.id,row);
+  for (const row of incoming) records.set(row.id,applyIncidentLifecycle(row,records.get(row.id),now));
   return [...records.values()].filter(r=>Date.parse(r.timestamp)<=now.getTime() && Date.parse(r.timestamp)>=now.getTime()-168*3600000);
 }

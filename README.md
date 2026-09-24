@@ -59,6 +59,12 @@ location labels, coordinates, and TFS division estimates are prepared by the upd
 without live geocoder requests in the browser. Source credits and licensing information
 are listed in [Attribution](#attribution).
 
+Incident cards label a call `NEW` for five minutes after its persisted `firstSeenAt`
+time, or `UPDATED` after a meaningful source-field change. The window is configured
+by `INCIDENT_BADGE_CONFIG.newWindowMs` in `src/incident-badge.js`; `UPDATED` takes
+precedence and neither label represents severity or active status. Meaningful source
+fields are centralized in `MEANINGFUL_INCIDENT_FIELDS` in `src/incident-lifecycle.js`.
+
 ## Development and Publishing
 
 Develop on **`dev`** and run the [required checks](#run-all-required-checks) before committing.
@@ -104,7 +110,7 @@ This combined run includes the live-source integration tests and requires intern
 It fails unless measured JavaScript line, branch, and function coverage are all 100%.
 Badge generation requires Python 3 and writes three SVG files to the output directory.
 
-`npm test` runs all 22 JavaScript unit test files below:
+`npm test` runs all 23 JavaScript unit test files below:
 
 | Test file (under `test/`) | What it verifies |
 | --- | --- |
@@ -124,6 +130,7 @@ Badge generation requires Python 3 and writes three SVG files to the output dire
 | `postal-lookup.test.js` | Toronto postal prefixes and rejection of incorrect or low-confidence mocked geocoder results. |
 | `police-divisions.test.js` | Polygon/multipolygon matching, holes and overlaps, invalid locations, and bundled TPS boundaries. |
 | `call-presentation.test.js` | Report ages, call explanations, location confidence, and source-specific status without inferring resolution. |
+| `incident-badge.test.js` | NEW expiry, UPDATED precedence, persisted incident lifecycle state, and card wiring. |
 | `marker-age.test.js` | Exact marker-age boundaries, accessible freshness labels, future/invalid timestamps, and persistent category/service glyphs. |
 | `nearby-summary.test.js` | Nearby counts, service/category breakdowns, newest-call ages, and empty or singular results. |
 | `siren-matches.test.js` | Two-kilometre siren-result scope, recency/distance ranking, result limits, and invalid-call handling. |
