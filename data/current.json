@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T08:12:54.497Z",
-  "sourceUpdatedAt": "2026-09-24T08:10:01.000Z",
+  "fetchedAt": "2026-09-24T08:16:34.518Z",
+  "sourceUpdatedAt": "2026-09-24T08:15:02.000Z",
   "incidents": [
+    {
+      "id": "F26151335",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5V",
+      "division": "331",
+      "timestamp": "2026-09-24T08:05:32.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T08:16:34.518Z",
+      "lastSeenAt": "2026-09-24T08:16:34.518Z",
+      "geography": {
+        "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+        "approximate": true,
+        "coordinates": [
+          43.6404,
+          -79.3995
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26151334",
       "source": "TFS",
@@ -15,7 +41,7 @@
       "division": "121",
       "timestamp": "2026-09-24T07:57:25.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -180,7 +206,7 @@
         }
       ],
       "firstSeenAt": "2026-09-24T07:40:34.281Z",
-      "lastSeenAt": "2026-09-24T08:12:54.497Z",
+      "lastSeenAt": "2026-09-24T08:16:34.518Z",
       "geography": {
         "text": "Lawrence Avenue between 3950 Lawrence Avenue East & 3967 Lawrence Avenue East",
         "approximate": false,
@@ -13104,7 +13130,7 @@
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
       "lastMeaningfulUpdateAt": "2026-09-24T06:51:22.124Z",
-      "lastSeenAt": "2026-09-24T08:12:54.497Z",
+      "lastSeenAt": "2026-09-24T08:16:34.518Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -124845,12 +124871,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T08:12:54.497Z",
-      "sourceUpdatedAt": "2026-09-24T08:10:01.000Z",
+      "fetchedAt": "2026-09-24T08:16:34.518Z",
+      "sourceUpdatedAt": "2026-09-24T08:15:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T08:12:54.497Z",
+      "fetchedAt": "2026-09-24T08:16:34.518Z",
       "status": "ok"
     }
   },
@@ -203583,8 +203609,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-24T08:11:34.334Z",
-      "fetchedAt": "2026-09-24T08:11:34.334Z"
+      "checkedAt": "2026-09-24T08:16:34.518Z",
+      "fetchedAt": "2026-09-24T08:16:34.518Z"
     },
     "transit": {
       "items": [
@@ -204501,14 +204527,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-24T08:11:35.000Z",
+      "sourceUpdatedAt": "2026-09-24T08:16:35.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-24T08:11:34.334Z",
-      "fetchedAt": "2026-09-24T08:11:34.334Z"
+      "checkedAt": "2026-09-24T08:16:34.518Z",
+      "fetchedAt": "2026-09-24T08:16:34.518Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5V": {
+      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+      "approximate": true,
+      "coordinates": [
+        43.6404,
+        -79.3995
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "/": {
       "text": "Approximate location on an unspecified street",
       "approximate": true,
@@ -205378,18 +205416,6 @@
         -79.3853
       ],
       "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5V": {
-      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
-      "approximate": true,
-      "coordinates": [
-        43.6404,
-        -79.3995
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
