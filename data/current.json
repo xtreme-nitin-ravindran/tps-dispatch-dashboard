@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T21:14:07.851Z",
-  "sourceUpdatedAt": "2026-09-24T21:10:01.000Z",
+  "fetchedAt": "2026-09-24T21:15:18.405Z",
+  "sourceUpdatedAt": "2026-09-24T21:15:01.000Z",
   "incidents": [
+    {
+      "id": "F26151703",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1G",
+      "division": "231",
+      "timestamp": "2026-09-24T21:09:58.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T21:15:18.405Z",
+      "lastSeenAt": "2026-09-24T21:15:18.405Z",
+      "geography": {
+        "text": "Approximate area: (M1G) Scarborough (Woburn)",
+        "approximate": true,
+        "coordinates": [
+          43.7712,
+          -79.2144
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26151702",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "LAWRENCE AVE, SC / 3950 LAWRENCE AVE E / 3967 LAWRENCE AVE E",
+      "division": "234",
+      "timestamp": "2026-09-24T21:09:35.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T21:15:18.405Z",
+      "lastSeenAt": "2026-09-24T21:15:18.405Z",
+      "geography": {
+        "text": "Lawrence Avenue between 3950 Lawrence Avenue East & 3967 Lawrence Avenue East",
+        "approximate": false,
+        "coordinates": [
+          43.76438005,
+          -79.20420734999999
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-20T02:41:31.032Z"
+      }
+    },
+    {
+      "id": "F26151701",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "YONGE ST / STEELES AVE E",
+      "division": "114",
+      "timestamp": "2026-09-24T21:08:30.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T21:15:18.405Z",
+      "lastSeenAt": "2026-09-24T21:15:18.405Z",
+      "geography": {
+        "text": "Yonge Street & Steeles Avenue East",
+        "approximate": false,
+        "coordinates": [
+          43.7980294,
+          -79.4200609
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-24T21:15:18.405Z"
+      }
+    },
     {
       "id": "F26151700",
       "source": "TFS",
@@ -25,7 +103,7 @@
         }
       ],
       "firstSeenAt": "2026-09-24T21:10:38.073Z",
-      "lastSeenAt": "2026-09-24T21:14:07.851Z",
+      "lastSeenAt": "2026-09-24T21:15:18.405Z",
       "geography": {
         "text": "Approximate area: (M2N) Willowdale South",
         "approximate": true,
@@ -38,6 +116,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-51543b81e565776974edb5c3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING ELDERLY",
+      "callTypeCode": "MISEL",
+      "timestamp": "2026-09-24T21:03:44.000Z",
+      "location": "LN 2 N ST CLAIR E MCROBERTS - LN S INNES E CALEDONIA",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN 2 N ST CLAIR E MCROBERTS - LN S INNES E CALEDONIA",
+        "coordinates": [
+          43.68131260383367,
+          -79.45586090697263
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T21:15:18.405Z"
+    },
+    {
+      "id": "TPS-3a0409f39d2db0bdc7d883e3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FIRE",
+      "callTypeCode": "FIR",
+      "timestamp": "2026-09-24T20:57:32.000Z",
+      "location": "DUFFLAW RD - MARIANFELD AVE",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DUFFLAW RD - MARIANFELD AVE",
+        "coordinates": [
+          43.71248565415095,
+          -79.46207893480396
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T21:15:18.405Z"
+    },
+    {
+      "id": "TPS-dbf4fba77566983d92fe04ac",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-24T20:56:59.000Z",
+      "location": "WESTON RD - OLD STOCK YARDS RD",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WESTON RD - OLD STOCK YARDS RD",
+        "coordinates": [
+          43.67177454421725,
+          -79.47110771721377
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T21:15:18.405Z"
     },
     {
       "id": "F26151699",
@@ -59,7 +203,7 @@
       ],
       "firstSeenAt": "2026-09-24T21:05:37.523Z",
       "lastMeaningfulUpdateAt": "2026-09-24T21:10:38.073Z",
-      "lastSeenAt": "2026-09-24T21:14:07.851Z",
+      "lastSeenAt": "2026-09-24T21:15:18.405Z",
       "geography": {
         "text": "Approximate area: (M1G) Scarborough (Woburn)",
         "approximate": true,
@@ -93,7 +237,7 @@
       ],
       "firstSeenAt": "2026-09-24T21:00:34.120Z",
       "lastMeaningfulUpdateAt": "2026-09-24T21:05:37.523Z",
-      "lastSeenAt": "2026-09-24T21:14:07.851Z",
+      "lastSeenAt": "2026-09-24T21:15:18.405Z",
       "geography": {
         "text": "Approximate area: (M2K) North York (Bayview Village)",
         "approximate": true,
@@ -127,7 +271,7 @@
       ],
       "firstSeenAt": "2026-09-24T21:00:34.120Z",
       "lastMeaningfulUpdateAt": "2026-09-24T21:05:37.523Z",
-      "lastSeenAt": "2026-09-24T21:14:07.851Z",
+      "lastSeenAt": "2026-09-24T21:15:18.405Z",
       "geography": {
         "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
         "approximate": true,
@@ -142,6 +286,72 @@
       }
     },
     {
+      "id": "TPS-6f0ac90a084f2a788db882ad",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-24T20:51:28.000Z",
+      "location": "KEELE ST - ROMFIELD LANE",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KEELE ST - ROMFIELD LANE",
+        "coordinates": [
+          43.76526365673161,
+          -79.4936747942309
+        ],
+        "division": "Division 31",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T21:15:18.405Z"
+    },
+    {
+      "id": "TPS-5887eac34da3f15ddd53a421",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-24T20:50:08.000Z",
+      "location": "KIPLING AVE - ",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KIPLING AVE - ",
+        "coordinates": [
+          43.74680967781584,
+          -79.58379757246055
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T21:15:18.405Z"
+    },
+    {
+      "id": "TPS-3a6f263330a355a056104539",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-24T20:49:34.000Z",
+      "location": "NASSAU ST - SPADINA AVE",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "NASSAU ST - SPADINA AVE",
+        "coordinates": [
+          43.65583189671953,
+          -79.39931673573047
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T21:15:18.405Z"
+    },
+    {
       "id": "F26151696",
       "source": "TFS",
       "eventType": "fire",
@@ -150,7 +360,7 @@
       "division": "233",
       "timestamp": "2026-09-24T20:47:36.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -236,6 +446,28 @@
       }
     },
     {
+      "id": "TPS-a26c1f40b7d1f235c001e5de",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT",
+      "callTypeCode": "THE",
+      "timestamp": "2026-09-24T20:46:48.000Z",
+      "location": "DEERFORD RD - DON MILLS RD W",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DEERFORD RD - DON MILLS RD W",
+        "coordinates": [
+          43.78649102600858,
+          -79.35208883841733
+        ],
+        "division": "Division 33",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T21:15:18.405Z"
+    },
+    {
       "id": "F26151692",
       "source": "TFS",
       "eventType": "fire",
@@ -278,7 +510,7 @@
       "division": "214",
       "timestamp": "2026-09-24T20:46:28.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -346,7 +578,7 @@
       "division": "315",
       "timestamp": "2026-09-24T20:43:31.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -807,7 +1039,7 @@
       ],
       "firstSeenAt": "2026-09-24T20:41:56.639Z",
       "lastMeaningfulUpdateAt": "2026-09-24T20:46:22.548Z",
-      "lastSeenAt": "2026-09-24T21:14:07.851Z",
+      "lastSeenAt": "2026-09-24T21:15:18.405Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -1119,7 +1351,7 @@
         }
       ],
       "firstSeenAt": "2026-09-24T20:35:33.947Z",
-      "lastSeenAt": "2026-09-24T21:14:07.851Z",
+      "lastSeenAt": "2026-09-24T21:15:18.405Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -1452,7 +1684,7 @@
         }
       ],
       "firstSeenAt": "2026-09-24T20:31:08.824Z",
-      "lastSeenAt": "2026-09-24T21:14:07.851Z",
+      "lastSeenAt": "2026-09-24T21:15:18.405Z",
       "geography": {
         "text": "Greenland Road & Lawrence Avenue East",
         "approximate": false,
@@ -4667,7 +4899,7 @@
       ],
       "firstSeenAt": "2026-09-24T18:36:10.819Z",
       "lastMeaningfulUpdateAt": "2026-09-24T20:21:32.266Z",
-      "lastSeenAt": "2026-09-24T21:14:07.851Z",
+      "lastSeenAt": "2026-09-24T21:15:18.405Z",
       "geography": {
         "text": "Aldercrest Road between Valermo Drive & Lanor Avenue",
         "approximate": false,
@@ -141882,49 +142114,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-24T20:28:16.523Z"
       }
-    },
-    {
-      "id": "F26147658",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M5R",
-      "division": "344",
-      "timestamp": "2026-09-17T21:14:51.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "344"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-17T22:19:55.817Z",
-      "lastSeenAt": "2026-09-17T22:24:57.877Z",
-      "geography": {
-        "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
-        "approximate": true,
-        "coordinates": [
-          43.6736,
-          -79.4035
-        ],
-        "division": "Division 53",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T21:14:07.851Z",
-      "sourceUpdatedAt": "2026-09-24T21:10:01.000Z",
+      "fetchedAt": "2026-09-24T21:15:18.405Z",
+      "sourceUpdatedAt": "2026-09-24T21:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T21:14:07.851Z",
+      "fetchedAt": "2026-09-24T21:15:18.405Z",
       "status": "ok"
     }
   },
@@ -227685,18 +227884,6 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
-    "M2N": {
-      "text": "Approximate area: (M2N) Willowdale South",
-      "approximate": true,
-      "coordinates": [
-        43.7673,
-        -79.4111
-      ],
-      "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "M1G": {
       "text": "Approximate area: (M1G) Scarborough (Woburn)",
       "approximate": true,
@@ -227705,6 +227892,42 @@
         -79.2144
       ],
       "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "LAWRENCE AVE, SC / 3950 LAWRENCE AVE E / 3967 LAWRENCE AVE E": {
+      "text": "Lawrence Avenue between 3950 Lawrence Avenue East & 3967 Lawrence Avenue East",
+      "approximate": false,
+      "coordinates": [
+        43.76438005,
+        -79.20420734999999
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-20T02:41:31.032Z"
+    },
+    "YONGE ST / STEELES AVE E": {
+      "text": "Yonge Street & Steeles Avenue East",
+      "approximate": false,
+      "coordinates": [
+        43.7980294,
+        -79.4200609
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-24T21:15:18.405Z"
+    },
+    "M2N": {
+      "text": "Approximate area: (M2N) Willowdale South",
+      "approximate": true,
+      "coordinates": [
+        43.7673,
+        -79.4111
+      ],
+      "division": "Division 32",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -229808,18 +230031,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T08:31:51.870Z"
-    },
-    "LAWRENCE AVE, SC / 3950 LAWRENCE AVE E / 3967 LAWRENCE AVE E": {
-      "text": "Lawrence Avenue between 3950 Lawrence Avenue East & 3967 Lawrence Avenue East",
-      "approximate": false,
-      "coordinates": [
-        43.76438005,
-        -79.20420734999999
-      ],
-      "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-20T02:41:31.032Z"
     },
     "SHEPPARD AVE, NY / DORIS AVE / BONNINGTON PL": {
       "text": "Sheppard Avenue between Doris Avenue & Bonnington Place",
