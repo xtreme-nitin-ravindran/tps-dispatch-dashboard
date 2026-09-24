@@ -893,10 +893,19 @@ els.eventToggles.forEach(toggle => {
 els.callList.addEventListener("click", (event) => {
   if (event.target.closest("summary")) return;
   const row = event.target.closest(".incident-card--list");
-  if (row) selectCall(row.dataset.callId);
+  if (!row) return;
+  selectCall(row.dataset.callId);
+  if (event.target.closest(".show-map-hint")) {
+    event.preventDefault();
+    els.dispatchMap.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+      block: "center"
+    });
+  }
 });
 
 els.callList.addEventListener("keydown", (event) => {
+  if (event.target.closest(".show-map-hint")) return;
   if (event.key !== "Enter" && event.key !== " ") return;
   const row = event.target.closest(".incident-card--list");
   if (!row) return;
