@@ -9,6 +9,9 @@
   --muted-2: #6e7c8d;
   --accent: #63e6be;
   --accent-2: #93c5fd;
+  --marker-fire: #ff7043;
+  --marker-medical: #f472b6;
+  --marker-other: #c084fc;
   --danger: #ff8b8b;
   --warning: #ffd166;
   --shadow: 0 20px 60px rgba(0, 0, 0, .24);
@@ -697,6 +700,9 @@ a {
 }
 
 .dispatch-marker.service-tps { border-radius: 4px; }
+.dispatch-marker.category-fire { background: var(--marker-fire); }
+.dispatch-marker.category-medical { background: var(--marker-medical); }
+.dispatch-marker.category-other { background: var(--marker-other); }
 .dispatch-marker-glyph { display: block; font: 900 11px/16px system-ui, sans-serif; }
 .dispatch-marker.category-medical .dispatch-marker-glyph { font-size: 15px; line-height: 15px; }
 .dispatch-marker.age-recent { transform: scale(1.12); box-shadow: 0 0 0 4px rgba(147, 197, 253, .3), 0 3px 10px rgba(0, 0, 0, .5); }
@@ -1128,6 +1134,9 @@ footer {
 }
 .map-legend span { display: inline-flex; align-items: center; gap: 8px; }
 .map-legend i { width: 10px; height: 10px; border-radius: 50%; background: var(--accent-2); }
+.map-legend .fire-key { background: var(--marker-fire); }
+.map-legend .medical-key { background: var(--marker-medical); }
+.map-legend .other-key { background: var(--marker-other); }
 .map-legend .approximate-key { background: #fbbf24; }
 .map-legend .tps-key { border-radius: 2px; }
 .map-legend .age-key { background: var(--accent-2); }
