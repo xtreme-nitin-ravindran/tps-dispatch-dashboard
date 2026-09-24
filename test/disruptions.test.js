@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {normalizeRoads,normalizeTransit,parseTextProto,updateDisruptions,fetchDisruptionSource} from '../src/disruptions/source.js';
 import {currentDisruptions,roadDistance} from '../src/disruptions/view.js';
+import {disruptionPresentation,renderDisruptions} from '../src/disruptions/ui.js';
 const now=Date.UTC(2026,8,22);
 const proto=`header { gtfs_realtime_version: "2.0" incrementality: FULL_DATASET timestamp: ${now/1000} }
 entity { id: "a" alert { active_period {start: ${now/1000-60} end: ${now/1000+60}} informed_entity {route_id: "1"} header_text {translation {text: "No service between A and B" language: "en"}} effect: NO_SERVICE }}
@@ -92,6 +93,24 @@ test('failed initial disruption refresh publishes unavailable empty sources and 
  assert.equal(calls,2);
 });
 
+test('disruption presentation distinguishes empty, unavailable, stale and filtered cached data',()=>{
+ const fresh={fetchedAt:new Date(now).toISOString(),status:'ok'};
+ assert.deepEqual(disruptionPresentation('roads',fresh,[],[],false,now),{
+  count:'0',empty:'No road restrictions currently reported.',freshness:'Last successfully updated just now.',status:'ok'
+ });
+ const unavailable={fetchedAt:new Date(now-18*60000).toISOString(),status:'unavailable'};
+ const failed=disruptionPresentation('roads',unavailable,[],[],false,now);
+ assert.equal(failed.count,'Unavailable');
+ assert.equal(failed.empty,'Road restriction data is temporarily unavailable. Last successfully updated 18 min ago.');
+ assert.match(failed.freshness,/temporarily unavailable/);
+ const stale=disruptionPresentation('transit',{fetchedAt:new Date(now-20*60000).toISOString(),status:'ok'},[],[],false,now);
+ assert.equal(stale.count,'Stale');
+ assert.equal(stale.empty,'No TTC service alerts currently reported.');
+ assert.equal(stale.freshness,'Last successfully updated 20 min ago. Data may be stale.');
+ assert.equal(disruptionPresentation('roads',{fetchedAt:new Date(now-2*3600000).toISOString(),status:'ok'},[],[],false,now).empty,'Road restriction data is too old to show.');
+ assert.equal(disruptionPresentation('roads',unavailable,[],[{id:'road'}],true,now).empty,'No mapped road restrictions within this radius.');
+});
+
 test('disruption filters support open-ended periods and reject future fetch timestamps',()=>{
  const r={expired:false,start:null,end:null,impact:'High'};
  assert.deepEqual(currentDisruptions(feed([r]),'roads',now),[r]);
@@ -102,4 +121,68 @@ test('disruption filters support open-ended periods and reject future fetch time
  assert.equal(roadDistance({},null),Infinity);
  assert.equal(roadDistance({coordinates:[43.7,-79.4]},[43.7,-79.4]),0);
  assert.equal(roadDistance({line:[[43.7,-79.4],[43.7,-79.4]]},[43.7,-79.4]),0);
+});
+
+test('disruption renderer updates lists and optional map layers',()=>{
+ const originalDocument=globalThis.document;
+ const originalLeaflet=globalThis.L;
+ const nodes=new Map();
+ const layerGroups=[];
+ class FakeElement {
+  constructor(tag='div') {this.tag=tag;this.children=[];this.checked=false;this.textContent='';this.className='';}
+  append(...children) {this.children.push(...children);}
+  replaceChildren(...children) {this.children=children;}
+ }
+ const node=id=>{const value=new FakeElement();nodes.set(id,value);return value;};
+ const document={
+  createElement:tag=>new FakeElement(tag),
+  querySelector:selector=>nodes.get(selector) || null
+ };
+ globalThis.document=document;
+ globalThis.L={
+  layerGroup:()=>{const group={items:[],removed:false,addTo(map){this.map=map;return this;},remove(){this.removed=true;}};layerGroups.push(group);return group;},
+  polyline:(coordinates,options)=>layer('line',coordinates,options),
+  circleMarker:(coordinates,options)=>layer('point',coordinates,options)
+ };
+ function layer(kind,coordinates,options) {
+  return {kind,coordinates,options,bindPopup(popup){this.popup=popup;return this;},addTo(group){group.items.push(this);return this;}};
+ }
+ try {
+  renderDisruptions({},null,null,null);
+  for(const selector of ['#disruptions','#roadOverlay','#roadScope','#roadsFreshness','#transitFreshness','#roadCount','#transitCount','#roadsList','#transitList']) node(selector);
+  const timestamp=Date.now();
+  const roadBase={expired:false,start:null,impact:'High',title:'Road work',type:'Closure',description:'Use another street',schedule:'Monday',end:timestamp+60000};
+  const roads=[
+   {...roadBase,id:'line',line:[[43.7,-79.4],[43.701,-79.4]],coordinates:[43.7,-79.4]},
+   {...roadBase,id:'point',line:[],coordinates:[43.702,-79.4],description:'',schedule:'',end:null},
+   {...roadBase,id:'missing',line:[],coordinates:null,description:'',schedule:'',end:null}
+  ];
+  const transit=[{id:'alert',title:'Delay',effect:'Delay',routes:['1'],description:'Allow extra time',periods:[]}];
+  const data={
+   roads:{items:roads,fetchedAt:new Date(timestamp).toISOString(),status:'ok'},
+   transit:{items:transit,fetchedAt:new Date(timestamp).toISOString(),status:'ok'}
+  };
+  renderDisruptions(data,[43.7,-79.4],10,null);
+  assert.equal(nodes.get('#roadScope').textContent,'Road restrictions within 10 km');
+  assert.equal(nodes.get('#roadsList').children.length,2);
+  assert.equal(nodes.get('#transitList').children.length,1);
+  renderDisruptions(data,[43.7,-79.4],10,null);
+
+  nodes.get('#roadOverlay').checked=true;
+  const map={id:'map'};
+  renderDisruptions(data,null,10,map);
+  assert.deepEqual(layerGroups[0].items.map(item=>item.kind),['line','point']);
+  assert.equal(layerGroups[0].map,map);
+  nodes.get('#roadOverlay').checked=false;
+  renderDisruptions(data,null,null,map);
+  assert.equal(layerGroups[0].removed,true);
+
+  renderDisruptions(undefined,null,2,null);
+  assert.equal(nodes.get('#roadScope').textContent,'Road restrictions · citywide');
+  assert.equal(nodes.get('#roadsList').children[0].tag,'p');
+  assert.equal(nodes.get('#transitList').children[0].tag,'p');
+ } finally {
+  globalThis.document=originalDocument;
+  globalThis.L=originalLeaflet;
+ }
 });

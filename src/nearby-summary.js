@@ -19,7 +19,9 @@ function compactAge(timestamp, now) {
 
 export function nearbySummary(calls, radiusKm, now = Date.now()) {
   const noun = calls.length === 1 ? "call" : "calls";
-  const opening = `${calls.length} recent ${noun} within ${radiusKm} km`;
+  const opening = radiusKm === null
+    ? `${calls.length} recent ${noun} across Toronto`
+    : `${calls.length} recent ${noun} within ${radiusKm} km`;
   if (!calls.length) return `${opening}.`;
 
   const counts = new Map();

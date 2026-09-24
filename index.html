@@ -15,7 +15,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./styles.css?v=nearby-summary-1" />
+  <link rel="stylesheet" href="./styles.css?v=source-states-1" />
 </head>
 
 <body>
@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div class="refresh-info">Updates from official TFS and TPS feeds.</div>
+      <div class="refresh-info" id="refreshStatus" role="status" aria-live="polite">Updates from official TFS and TPS feeds.</div>
       <div class="topbar-photo">
         <img class="brand-mark" src="./brand-doberman.jpg" alt="Doberman" width="44" height="44" />
       </div>
@@ -37,16 +37,23 @@
 
     <main>
       <section class="nearby-feature" aria-labelledby="nearHeading">
-        <div><h2 id="nearHeading">Hear a siren?</h2><p>Find recent calls near your location.</p></div>
+        <div><span class="section-kicker">QUICK LOOK</span><h2 id="nearHeading">What’s happening nearby?</h2><p>Check the latest public fire and police calls around you.</p></div>
         <div class="nearby-action">
-          <button id="nearMe" type="button">⌖ Calls near me</button>
+          <button id="nearMe" type="button">🚨 Hear sirens?</button>
           <p id="nearStatus" role="status">Uses your location with permission. Your location stays in this browser session.</p>
           <div id="nearControls" hidden>
-            <label for="nearRadius">Within</label>
-            <select id="nearRadius"><option value="1">1 km</option><option value="2" selected>2 km</option><option value="5">5 km</option><option value="10">10 km</option></select>
+            <button id="chooseArea" type="button">Choose an area on the map</button>
             <button id="clearNearby" type="button">Clear nearby filter</button>
           </div>
         </div>
+      </section>
+      <section class="siren-results" id="sirenResults" aria-labelledby="sirenResultsHeading" aria-live="polite" hidden>
+        <div class="siren-results-head">
+          <div><span class="section-kicker">NEARBY NOW</span><h2 id="sirenResultsHeading">Recent calls near you that may explain what you’re hearing.</h2></div>
+          <span class="siren-radius">WITHIN 2 KM</span>
+        </div>
+        <ol id="sirenResultsList" class="siren-results-list"></ol>
+        <p class="siren-disclaimer">SirenTO can’t determine which incident caused the sirens you heard. These are the most recent nearby calls.</p>
       </section>
       <section class="controls-card">
         <div class="search-wrap">
@@ -107,6 +114,16 @@
               <span class="map-status" id="mapStatus">—</span>
             </div>
           </div>
+          <div class="radius-controls" role="group" aria-label="Map area">
+            <span class="section-kicker">SHOW CALLS</span>
+            <div class="radius-toggle-group">
+              <button type="button" data-radius-km="0.5" aria-pressed="false">500 m</button>
+              <button type="button" data-radius-km="1" aria-pressed="false">1 km</button>
+              <button type="button" data-radius-km="2" aria-pressed="false">2 km</button>
+              <button type="button" data-radius-km="5" aria-pressed="false">5 km</button>
+              <button type="button" data-radius-km="toronto" class="active" aria-pressed="true">Toronto-wide</button>
+            </div>
+          </div>
           <div class="map-legend" aria-label="Map marker colours">
             <span><i aria-hidden="true"></i>Resolved intersection / street segment</span>
             <span><i class="approximate-key" aria-hidden="true"></i>Approximate location</span>
@@ -126,11 +143,11 @@
         <div class="panel-head"><div><span class="section-kicker">TRAVEL</span><h3 id="disruptionHeading">Road &amp; transit disruptions</h3></div></div>
         <p class="disruption-note">Separate from emergency calls; nearby events are not necessarily related. Road restrictions follow your nearby radius. TTC alerts are citywide; stop coordinates are not supplied by this feed.</p>
         <label class="road-overlay-toggle"><input id="roadOverlay" type="checkbox" /> Show road restrictions on map <span aria-hidden="true" class="road-key"></span></label>
-        <details><summary><span id="roadScope">Road restrictions · citywide</span> (<span id="roadCount">0</span>)</summary>
+        <details><summary><span id="roadScope">Road restrictions · citywide</span> (<span id="roadCount">—</span>)</summary>
           <p id="roadsFreshness" class="disruption-note">Not available yet</p><div id="roadsList" class="disruption-list"></div>
           <p><a href="https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/" target="_blank" rel="noopener noreferrer">City of Toronto road restrictions ↗</a></p>
         </details>
-        <details><summary>TTC service alerts · citywide (<span id="transitCount">0</span>)</summary>
+        <details><summary>TTC service alerts · citywide (<span id="transitCount">—</span>)</summary>
           <p id="transitFreshness" class="disruption-note">Not available yet</p><div id="transitList" class="disruption-list"></div>
           <p><a href="https://www.ttc.ca/service-advisories/all-service-alerts" target="_blank" rel="noopener noreferrer">Official TTC service alerts ↗</a></p>
         </details>
@@ -146,6 +163,7 @@
             </div>
             <div class="result-count" id="resultCount">—</div>
           </div>
+          <p id="callsFeedStatus" class="feed-status" role="status" aria-live="polite" hidden></p>
 
           <div class="call-list" id="callList">
             <div class="loading-state">
@@ -184,7 +202,7 @@
             </p>
             <section id="source-timestamps" aria-labelledby="source-timestamps-title" tabindex="-1">
               <h3 id="source-timestamps-title">About source update times</h3>
-              <p>Source update times show either a timestamp provided by the source or the last successful data retrieval time. All times are shown in Toronto time.</p>
+              <p>Source statuses show how long it has been since each source was last retrieved successfully. A source can be unavailable while its most recent valid data remains visible.</p>
               <table class="source-times-table">
                 <thead><tr><th scope="col">Source</th><th scope="col">About the timestamp</th></tr></thead>
                 <tbody>
@@ -232,10 +250,6 @@
 
   <template id="callTemplate">
     <article class="call-row">
-      <div class="call-time">
-        <strong class="time-main"></strong>
-        <span class="time-ago"></span>
-      </div>
       <div class="call-main">
         <div class="call-title-row">
           <h4 class="call-title"></h4>
@@ -243,6 +257,18 @@
         </div>
         <p class="call-explanation" hidden></p>
         <p class="call-location"></p>
+        <p class="call-recency">
+          <strong class="distance-away" hidden></strong>
+          <span class="distance-separator" hidden aria-hidden="true">·</span>
+          <strong class="time-ago"></strong>
+        </p>
+        <p class="call-meta">
+          <span class="reported-time"></span>
+          <span aria-hidden="true">·</span>
+          <span class="updated-time"></span>
+          <span class="updated-separator" aria-hidden="true">·</span>
+          <span class="incident-source"></span>
+        </p>
         <p class="location-confidence"></p>
         <div class="call-details">
           <div class="call-detail call-alarm" hidden>
@@ -256,9 +282,6 @@
             </div>
           </div>
         </div>
-        <div class="call-meta">
-          <span class="call-date"></span>
-        </div>
       </div>
           <div class="call-badges">
             <span class="division-badge source-badge"></span>
@@ -270,7 +293,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=nearby-summary-1"></script>
+  <script type="module" src="./app.js?v=source-states-1"></script>
 </body>
 
 </html>

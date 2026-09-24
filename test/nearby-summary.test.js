@@ -32,6 +32,14 @@ test("nearby summary handles empty and singular results", () => {
   );
 });
 
+test("Toronto-wide summary does not imply a radius", () => {
+  assert.equal(
+    nearbySummary([call("TFS", "fire", 2), call("TPS", "other", 8)], null, now),
+    "2 recent calls across Toronto · 1 Fire · 1 Police · Latest 2 min ago."
+  );
+  assert.equal(nearbySummary([], null, now), "0 recent calls across Toronto.");
+});
+
 test("nearby summary formats hour, day, plural-day, and future ages", () => {
   assert.match(nearbySummary([call("TFS", "medical", 60)], 10, now), /Latest 1 hr ago\.$/);
   assert.match(nearbySummary([call("TFS", "fire", 1_440)], 10, now), /Latest 1 day ago\.$/);

@@ -1,14 +1,15 @@
-import { sourceStatus } from "./src/source-status.js";
+import { sourceStatus, sourceStatusText } from "./src/source-status.js?v=source-states-1";
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
 import { filterDefaults, filterSummary, readFilters, shareView, loadPreferences, savePreferences } from "./src/view-controls.js";
-import { renderDisruptions } from "./src/disruptions/ui.js";
-import { reportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=status-1";
-import { distanceKm } from "./src/nearby.js";
+import { renderDisruptions } from "./src/disruptions/ui.js?v=source-states-1";
+import { compactAge, compactReportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=incident-time-2";
+import { distanceKm, distanceLabel, withinGeographicScope } from "./src/nearby.js?v=radius-controls-1";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
 import { locationDisplay, expandLocationAbbreviations } from "./src/location-display.js?v=hydro-corridor-1";
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
 import { nearbySummary } from "./src/nearby-summary.js";
+import { rankSirenMatches, SIREN_RADIUS_KM } from "./src/siren-matches.js";
 
 const CONFIG = {
   snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
@@ -17,10 +18,11 @@ const CONFIG = {
 
 const state = {
   nearby: null,
-  radiusKm: 2,
+  radiusKm: null,
   hours: 24,
   calls: [],
   filtered: [],
+  feeds: {},
   lastIngest: null,
   fetchedAt: null,
   search: "",
@@ -51,6 +53,9 @@ const els = {
   callTemplate: document.querySelector("#callTemplate"),
   footerClock: document.querySelector("#footerClock")
 };
+const refreshStatus = document.querySelector('#refreshStatus');
+const callsFeedStatus = document.querySelector('#callsFeedStatus');
+const radiusToggles = document.querySelectorAll('[data-radius-km]');
 
 const TORONTO_CENTER = [43.7001, -79.42];
 let dispatchMap = null;
@@ -60,7 +65,13 @@ let expandedCluster = new Set();
 let focusedCallId = null;
 let rowHighlightTimer;
 let mapHasFitted = false;
+let lastRadiusKm = 2;
 let boundaryVisible = true;
+let sirenMode = false;
+let sirenMatches = [];
+let choosingArea = false;
+let nearbyOriginKind = "device";
+let nearbyOriginLayer = null;
 function rememberPreferences() {
   try { savePreferences(localStorage,state,{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible}); } catch { /* Browsing still works when storage is blocked. */ }
 }
@@ -69,7 +80,7 @@ function escapeText(value) {
   return String(value ?? "").replace(/\s+/g, " ").trim();
 }
 
-function normalizeCall(row) {
+function normalizeCall(row, sourceUpdatedAt = null) {
   const eventType = escapeText(row.event_type || row.eventType).toLowerCase();
   const description = escapeText(row.description || "Call for Service");
   const eventCategory = incidentCategory(description);
@@ -85,6 +96,7 @@ function normalizeCall(row) {
     id: escapeText(row.id || row.event_id || "—"),
     timestamp: date?.getTime() || Date.now(),
     time: date || new Date(),
+    updatedAt: parseLooseTime(row.lastSeenAt || sourceUpdatedAt),
     division: policeUnitLabel(row.geography?.division),
     divisionId: row.geography?.division || "Unknown",
     geography: row.geography,
@@ -179,8 +191,13 @@ async function fetchSnapshot() {
   if (!response.ok) throw new Error(`Official TFS snapshot returned HTTP ${response.status}`);
   const payload = await response.json();
   const rows = Array.isArray(payload) ? payload : (payload.incidents || []);
+  const sourceTimes = {
+    TFS: payload.feeds?.TFS?.sourceUpdatedAt || payload.feeds?.TFS?.fetchedAt || payload.sourceUpdatedAt || payload.fetchedAt,
+    TPS: payload.feeds?.TPS?.sourceUpdatedAt || payload.feeds?.TPS?.fetchedAt || payload.fetchedAt
+  };
   return {
-    calls: rows.map(normalizeCall).sort((a, b) => b.timestamp - a.timestamp),
+    calls: rows.map(row => normalizeCall(row, sourceTimes[row.source === "TPS" ? "TPS" : "TFS"]))
+      .sort((a, b) => b.timestamp - a.timestamp),
     disruptions: payload.disruptions,
     feeds: payload.feeds,
     fetchedAt: payload.fetchedAt || null,
@@ -190,8 +207,18 @@ async function fetchSnapshot() {
 
 let sourceHighlightTimer;
 let snapshotLoaded = false;
-async function loadData() {
+function setRefreshState(status) {
+  refreshStatus.classList.toggle('is-updating',status === 'updating');
+  refreshStatus.classList.toggle('is-error',status === 'error');
+  refreshStatus.textContent = status === 'updating'
+    ? 'Updating…'
+    : status === 'error'
+      ? snapshotLoaded ? 'Latest refresh failed. Previously loaded data remains visible.' : 'Dispatch data is temporarily unavailable.'
+      : 'Updates from official TFS and TPS feeds.';
+}
 
+async function loadData() {
+  setRefreshState('updating');
   try {
     const snapshot = await fetchSnapshot();
     const scrollTop = els.callList.scrollTop;
@@ -201,6 +228,7 @@ async function loadData() {
     const callsChanged = JSON.stringify(state.calls) !== JSON.stringify(snapshot.calls);
     state.disruptions = snapshot.disruptions;
     state.calls = snapshot.calls;
+    state.feeds = snapshot.feeds || {};
     state.lastIngest = snapshot.updatedAt;
     state.fetchedAt = snapshot.fetchedAt;
     const sourceTime = parseLooseTime(snapshot.updatedAt);
@@ -210,22 +238,23 @@ async function loadData() {
       ['Road restrictions', snapshot.disruptions?.roads],
       ['TTC alerts', snapshot.disruptions?.transit]
     ];
+    const sourceSubjects = {'TFS':'TFS','TPS':'TPS','Road restrictions':'Road restriction','TTC alerts':'TTC alert'};
     els.sourceUpdated.replaceChildren(...sources.flatMap(([name,feed]) => {
       const info = sourceStatus(name,feed);
       const label = document.createElement('span');
-      label.textContent = `${info.label}:`;
+      label.textContent = `${name}:`;
       const value = document.createElement('span');
-      value.className = 'source-time';
-      const time = info.timestamp === null ? 'not loaded' : `${formatDate(new Date(info.timestamp))} · ${formatTime(new Date(info.timestamp))}`;
-      value.textContent = `${time}${info.status && info.status !== 'not loaded' ? ` (${info.status})` : ''}`;
+      value.className = `source-time source-state-${info.status}`;
+      value.textContent = sourceStatusText(sourceSubjects[name],feed);
       return [label, value];
     }));
     if (callsChanged || firstSnapshot) {
       applyFilters();
       els.callList.scrollTop = scrollTop;
     }
-    renderDisruptions(state.disruptions, state.nearby, state.radiusKm, dispatchMap);
+    renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
     updateFreshness();
+    setRefreshState('idle');
     if (previousSourceTime != null && sourceTime && sourceTime.getTime() !== previousSourceTime) {
       clearTimeout(sourceHighlightTimer);
       els.sourceUpdated.classList.add('source-just-updated');
@@ -235,7 +264,8 @@ async function loadData() {
     }
   } catch (error) {
     console.error(error);
-    if (!state.calls.length) {
+    setRefreshState('error');
+    if (!snapshotLoaded) {
       els.callList.innerHTML = `
         <div class="error-state">
           <strong>Couldn’t load the public dispatch feed.</strong>
@@ -263,7 +293,7 @@ function applyFilters({ map = true } = {}) {
   const q = state.search.trim().toLowerCase();
 
   const eligibleCalls = state.calls.filter(call => {
-    if (state.nearby && distanceKm(state.nearby, coordinatesForCall(call)) > state.radiusKm) return false;
+    if (!withinGeographicScope(state.nearby, state.radiusKm, coordinatesForCall(call))) return false;
     if (state.serviceFilter !== "all" && call.source !== state.serviceFilter) return false;
     if (!isWithinHistoryWindow(call.timestamp, state.hours)) return false;
     if (state.eventFilter === "ongoing" && !call.isOngoing) return false;
@@ -295,9 +325,10 @@ function render(map = true) {
   }
   renderStats();
   renderNearbySummary();
+  renderSirenResults();
   renderCalls();
   if (map) renderMap();
-  renderDisruptions(state.disruptions, state.nearby, state.radiusKm, dispatchMap);
+  renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
   els.eventToggles.forEach(toggle => {
     const active = toggle.dataset.eventFilter === state.eventFilter;
     toggle.classList.toggle("active", active);
@@ -305,12 +336,96 @@ function render(map = true) {
   });
 }
 
+function relevantIncidentFeeds() {
+  const names=state.serviceFilter === 'all' ? ['TFS','TPS'] : [state.serviceFilter];
+  return names.map(name => [name,state.feeds?.[name]]);
+}
+
+function incidentAvailability() {
+  const feeds=relevantIncidentFeeds().map(([name,feed]) => ({name,...sourceStatus(name,feed)}));
+  const unavailable=feeds.filter(feed => ['unavailable','not loaded'].includes(feed.status));
+  const stale=feeds.filter(feed => feed.status === 'stale');
+  const cachedSources=new Set(state.calls.map(call => call.source));
+  return {
+    unavailable,
+    stale,
+    hasRelevantCachedData:feeds.some(feed => cachedSources.has(feed.name)),
+    allUnavailable:unavailable.length === feeds.length
+  };
+}
+
+function renderIncidentFeedStatus() {
+  const availability=incidentAvailability();
+  const messages=[];
+  for (const feed of availability.unavailable) {
+    messages.push(feed.age
+      ? `${feed.name} data is temporarily unavailable. Last successfully updated ${feed.age}. Previously loaded calls remain visible.`
+      : `${feed.name} data is temporarily unavailable.`);
+  }
+  for (const feed of availability.stale) messages.push(`${feed.name}: Last successfully updated ${feed.age}. Data may be stale.`);
+  callsFeedStatus.textContent=messages.join(' ');
+  callsFeedStatus.hidden=!messages.length;
+  return availability;
+}
+
+function sourceName(source) {
+  return source === "TPS" ? "Toronto Police Service" : "Toronto Fire Services";
+}
+
+function updateSirenMatches() {
+  sirenMatches = sirenMode && state.nearby
+    ? rankSirenMatches(state.calls, state.nearby)
+    : [];
+}
+
+function renderSirenResults() {
+  const panel = document.querySelector("#sirenResults");
+  const list = document.querySelector("#sirenResultsList");
+  panel.hidden = !sirenMode || !state.nearby;
+  if (panel.hidden) {
+    sirenMatches = [];
+    list.replaceChildren();
+    return;
+  }
+
+  updateSirenMatches();
+  list.replaceChildren();
+  if (!sirenMatches.length) {
+    const empty = document.createElement("li");
+    empty.className = "siren-results-empty";
+    const availability=incidentAvailability();
+    empty.textContent = availability.allUnavailable && !availability.hasRelevantCachedData
+      ? 'Public dispatch data is temporarily unavailable.'
+      : "No mapped public calls from the last 24 hours were found within 2 km.";
+    list.append(empty);
+    return;
+  }
+
+  for (const { call, distanceKm: distance } of sirenMatches) {
+    const item = document.createElement("li");
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "siren-result";
+    button.dataset.callId = call.id;
+    const title = document.createElement("strong");
+    title.textContent = call.description;
+    const place = document.createElement("span");
+    place.className = "siren-result-location";
+    place.textContent = displayLocation(call).text;
+    const meta = document.createElement("span");
+    meta.className = "siren-result-meta";
+    meta.textContent = `${distanceLabel(distance)} · ${compactReportedAge(call.time)} · ${sourceName(call.source)}`;
+    button.append(title, place, meta);
+    item.append(button);
+    list.append(item);
+  }
+}
+
 function renderNearbySummary() {
   const summary = document.querySelector("#nearbySummary");
-  summary.hidden = !state.nearby;
-  if (state.nearby) {
-    document.querySelector("#nearbySummaryText").textContent = nearbySummary(state.filtered, state.radiusKm);
-  }
+  summary.hidden = false;
+  document.querySelector("#nearbySummaryHeading").textContent = state.radiusKm === null ? "TORONTO SUMMARY" : "NEARBY SUMMARY";
+  document.querySelector("#nearbySummaryText").textContent = nearbySummary(state.filtered, state.radiusKm);
 }
 
 function renderStats() {
@@ -341,13 +456,30 @@ function renderStats() {
 }
 
 function renderCalls() {
-  els.resultCount.textContent = `${state.filtered.length} RESULT${state.filtered.length === 1 ? "" : "S"}`;
+  const availability=renderIncidentFeedStatus();
+  if (!state.filtered.length && !availability.hasRelevantCachedData && availability.unavailable.length) {
+    els.resultCount.textContent = availability.allUnavailable ? 'UNAVAILABLE' : '0 FROM AVAILABLE SOURCES';
+  } else {
+    els.resultCount.textContent = `${state.filtered.length} RESULT${state.filtered.length === 1 ? "" : "S"}`;
+  }
 
   if (!state.filtered.length) {
+    let title='No calls match these filters.';
+    let detail='Try another time window, division, or search term.';
+    if (!availability.hasRelevantCachedData && availability.allUnavailable) {
+      title='Public dispatch data is temporarily unavailable.';
+      detail='The data source could not be checked. This is not a zero-call result.';
+    } else if (!availability.hasRelevantCachedData && availability.unavailable.length) {
+      title='No calls from the available sources match these filters.';
+      detail='At least one selected data source could not be checked.';
+    } else if (!state.calls.length) {
+      title='No public dispatch calls currently reported.';
+      detail='The data sources were checked successfully.';
+    }
     els.callList.innerHTML = `
       <div class="empty-state">
-        <strong>No calls match these filters.</strong>
-        <p>Try another time window, division, or search term.</p>
+        <strong>${title}</strong>
+        <p>${detail}</p>
       </div>`;
     return;
   }
@@ -367,8 +499,13 @@ function renderCalls() {
       hint.className = 'show-map-hint'; hint.textContent = 'Show on map ↗';
       node.querySelector('.call-main').append(hint);
     }
-    node.querySelector(".time-main").textContent = formatTime(call.time);
-    node.querySelector(".time-ago").textContent = reportedAge(call.time);
+    const distance = distanceLabel(distanceKm(state.nearby, coordinatesForCall(call)));
+    const distanceNode = node.querySelector(".distance-away");
+    const distanceSeparator = node.querySelector(".distance-separator");
+    distanceNode.textContent = distance;
+    distanceNode.hidden = !distance;
+    distanceSeparator.hidden = !distance;
+    node.querySelector(".time-ago").textContent = compactReportedAge(call.time);
     node.querySelector(".time-ago").dataset.reportedAt = call.time.toISOString();
     node.querySelector(".call-title").textContent = call.description;
     const explanation = node.querySelector('.call-explanation');
@@ -394,7 +531,18 @@ function renderCalls() {
     units.innerHTML = call.unitGroups.length
       ? call.unitGroups.map(group => `<div><strong>${escapeText(group.type)} #:</strong> ${escapeText(group.values)}</div>`).join("")
       : "Not provided by public feed";
-    node.querySelector(".call-date").textContent = formatDate(call.time);
+    node.querySelector(".reported-time").textContent = `Reported ${formatIncidentTime(call.time)}`;
+    const updatedTime = node.querySelector(".updated-time");
+    const updatedSeparator = node.querySelector(".updated-separator");
+    updatedTime.hidden = !call.updatedAt;
+    updatedSeparator.hidden = !call.updatedAt;
+    if (call.updatedAt) {
+      updatedTime.textContent = `Updated ${compactAge(call.updatedAt)}`;
+      updatedTime.dataset.updatedAt = call.updatedAt.toISOString();
+    }
+    node.querySelector(".incident-source").textContent = call.source === "TPS"
+      ? "Toronto Police Service"
+      : "Toronto Fire Services";
     fragment.appendChild(node);
   });
 
@@ -416,7 +564,12 @@ function initMap() {
     maxZoom: 19
   }).addTo(dispatchMap);
   callLayer = L.layerGroup().addTo(dispatchMap);
+  nearbyOriginLayer = L.layerGroup().addTo(dispatchMap);
   dispatchMap.on("zoomend", () => { expandedCluster.clear(); renderMapMarkers(); });
+  dispatchMap.on("click", event => {
+    if (!choosingArea) return;
+    chooseManualArea([event.latlng.lat, event.latlng.lng]);
+  });
   loadDivisionOverlay();
 }
 
@@ -472,10 +625,10 @@ function isApproximateLocation(call) {
   return displayLocation(call).approximate !== false;
 }
 
-function markerIcon(selected = false, approximate = false) {
+function markerIcon(selected = false, approximate = false, sirenMatch = false) {
   return L.divIcon({
     className: "dispatch-marker-wrap",
-    html: `<span class="dispatch-marker${approximate ? " approximate" : ""}${selected ? " selected" : ""}"></span>`,
+    html: `<span class="dispatch-marker${approximate ? " approximate" : ""}${selected ? " selected" : ""}${sirenMatch ? " siren-match" : ""}"></span>`,
     iconSize: [18, 18],
     iconAnchor: [9, 9]
   });
@@ -484,6 +637,7 @@ function markerIcon(selected = false, approximate = false) {
 function renderMapMarkers() {
   callLayer.clearLayers();
   mapMarkers = new Map();
+  const sirenIds = new Set(sirenMatches.map(match => match.call.id));
 
   const locatedCalls = state.filtered
     .map(call => ({ call, coordinates: coordinatesForCall(call) }))
@@ -492,7 +646,7 @@ function renderMapMarkers() {
   const addMarker = ({call, coordinates}, position = coordinates) => {
     const tooltip = document.createElement('span');
     tooltip.textContent = `${call.source}: ${call.description}`;
-    const marker = L.marker(position, { title: `${call.source}: ${call.description}`, icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call)) })
+    const marker = L.marker(position, { title: `${call.source}: ${call.description}`, icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call), sirenIds.has(call.id)) })
       .bindTooltip(tooltip, { direction: "top" })
       .on("click", () => selectCall(call.id, { pan: false, revealRow: true }));
     marker.addTo(callLayer);
@@ -512,7 +666,8 @@ function renderMapMarkers() {
       });
       continue;
     }
-    L.marker(center,{icon:L.divIcon({className:'call-cluster',html:String(group.length),iconSize:[40,40],iconAnchor:[20,20]}), title:`${group.length} calls; zoom or expand`})
+    const matchingCluster = group.some(item => sirenIds.has(item.call.id));
+    L.marker(center,{icon:L.divIcon({className:`call-cluster${matchingCluster ? ' siren-match' : ''}`,html:String(group.length),iconSize:[40,40],iconAnchor:[20,20]}), title:`${group.length} calls; zoom or expand`})
       .on('click', () => {
         if (dispatchMap.getZoom() < 18) dispatchMap.setView(center,Math.min(18,dispatchMap.getZoom()+2));
         else { expandedCluster = new Set(group.map(item => item.call.id)); renderMapMarkers(); }
@@ -521,7 +676,15 @@ function renderMapMarkers() {
 
   els.mapStatus.textContent = locatedCalls.length ? `${locatedCalls.length}/${state.filtered.length} LOCATED` : "NO MAPPED LOCATIONS";
   els.mapEmpty.hidden = locatedCalls.length > 0;
-  if (locatedCalls.length && !mapHasFitted) {
+  nearbyOriginLayer?.clearLayers();
+  if (state.nearby && state.radiusKm !== null) {
+    L.circle(state.nearby, { radius: state.radiusKm * 1000, color: '#63e6be', weight: 1, opacity: .65, fillOpacity: .035, interactive: false }).addTo(nearbyOriginLayer);
+    L.circleMarker(state.nearby, { radius: 6, color: '#fff', weight: 2, fillColor: '#63e6be', fillOpacity: 1, interactive: false }).addTo(nearbyOriginLayer);
+  }
+  if (!mapHasFitted && state.nearby && state.radiusKm !== null) {
+    mapHasFitted = true;
+    dispatchMap.setView(state.nearby, state.radiusKm <= 0.5 ? 15 : state.radiusKm <= 2 ? 14 : 12);
+  } else if (locatedCalls.length && !mapHasFitted) {
     mapHasFitted = true;
     dispatchMap.fitBounds(L.latLngBounds(locatedCalls.map(item => item.coordinates)), { padding: [24, 24], maxZoom: 12 });
   }
@@ -573,7 +736,7 @@ async function selectCall(callId, { pan = true, revealRow = false } = {}) {
 
   mapMarkers.forEach((marker, id) => {
     const mappedCall = state.filtered.find(item => item.id === id);
-    marker.setIcon(markerIcon(id === callId, isApproximateLocation(mappedCall)));
+    marker.setIcon(markerIcon(id === callId, isApproximateLocation(mappedCall), sirenMatches.some(match => match.call.id === id)));
   });
   const marker = mapMarkers.get(callId);
   if (marker) {
@@ -599,6 +762,15 @@ function formatTime(date) {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
+    timeZone: "America/Toronto"
+  }).format(date);
+}
+
+function formatIncidentTime(date) {
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
     timeZone: "America/Toronto"
   }).format(date);
 }
@@ -703,72 +875,192 @@ document.querySelector("#serviceFilter").addEventListener("change", event => {
 const nearButton = document.querySelector('#nearMe');
 const nearStatus = document.querySelector('#nearStatus');
 const nearControls = document.querySelector('#nearControls');
+const chooseAreaButton = document.querySelector('#chooseArea');
 let locationRequest = 0;
-function updateNearbyView() {
-  mapHasFitted = false;
-  applyFilters();
-  if (dispatchMap && state.nearby) dispatchMap.setView(state.nearby, state.radiusKm <= 2 ? 14 : 12);
-  nearStatus.textContent = `Within ${state.radiusKm} km of your location. Other filters still apply. Distances use approximate call locations; unmapped calls are excluded.`;
+let locationWatch = null;
+let requestedRadiusKm = null;
+function radiusFilterOrigin() {
+  return state.radiusKm === null ? null : state.nearby;
 }
-nearButton.addEventListener('click', () => {
+function syncRadiusControls() {
+  radiusToggles.forEach(toggle => {
+    const value = toggle.dataset.radiusKm === 'toronto' ? null : Number(toggle.dataset.radiusKm);
+    const active = value === state.radiusKm;
+    toggle.classList.toggle('active', active);
+    toggle.setAttribute('aria-pressed', String(active));
+  });
+}
+function clearLocationWatch() {
+  if (locationWatch !== null && typeof navigator.geolocation?.clearWatch === 'function') {
+    navigator.geolocation.clearWatch(locationWatch);
+  }
+  locationWatch = null;
+}
+function updateNearbyView() {
+  if (state.radiusKm !== null) mapHasFitted = false;
+  applyFilters();
+  syncRadiusControls();
+  nearStatus.textContent = state.radiusKm === null
+    ? state.nearby
+      ? 'Toronto-wide view. Distance filtering is off; card distances still update from your location.'
+      : 'Toronto-wide view. Distance filtering is off. Choose a radius to use your location.'
+    : `Within ${state.radiusKm} km of ${nearbyOriginKind === 'map' ? 'the selected area' : 'your location'}. Distances use approximate call locations; unmapped calls are excluded.`;
+}
+function showLocationFallback(message) {
+  nearStatus.textContent = `${message} Enable location in your browser, or choose an area manually.`;
+  nearControls.hidden = false;
+  chooseAreaButton.hidden = false;
+}
+function beginAreaChoice() {
+  initMap();
+  choosingArea = true;
+  sirenMode = true;
+  chooseAreaButton.textContent = 'Click an area on the map…';
+  nearStatus.textContent = 'Choose an area manually by clicking the map.';
+  els.dispatchMap.classList.add('choosing-area');
+  els.dispatchMap.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
+}
+function activateSirenView() {
+  sirenMode = true;
+  state.radiusKm = SIREN_RADIUS_KM;
+  lastRadiusKm = SIREN_RADIUS_KM;
+  Object.assign(state, filterDefaults);
+  syncFilterControls();
+  nearControls.hidden = false;
+  chooseAreaButton.hidden = false;
+  mapHasFitted = false;
+  updateSirenMatches();
+  updateNearbyView();
+  document.querySelector('#sirenResults').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'nearest' });
+}
+function chooseManualArea(origin) {
+  choosingArea = false;
+  els.dispatchMap.classList.remove('choosing-area');
+  chooseAreaButton.textContent = 'Choose a different area on the map';
+  state.nearby = origin;
+  nearbyOriginKind = 'map';
+  state.radiusKm = SIREN_RADIUS_KM;
+  lastRadiusKm = SIREN_RADIUS_KM;
+  activateSirenView();
+  nearStatus.textContent = 'Showing recent calls within 2 km of the area you chose.';
+}
+function requestLocation(radiusKm = lastRadiusKm, forSiren = false) {
   if (!navigator.geolocation) {
-    nearStatus.textContent = 'Location is unavailable in this browser. You can search by street or neighbourhood instead.';
+    showLocationFallback('Location is unavailable in this browser.');
     return;
   }
+  requestedRadiusKm = radiusKm;
+  let firstPosition = true;
   const request = ++locationRequest;
+  clearLocationWatch();
   nearButton.disabled = true;
   nearButton.textContent = 'Finding your location…';
   nearStatus.textContent = 'Allow location access when your browser asks.';
-  navigator.geolocation.getCurrentPosition(position => {
+  const onPosition = position => {
     if (request !== locationRequest) return;
     state.nearby = [position.coords.latitude, position.coords.longitude];
+    nearbyOriginKind = 'device';
+    if (requestedRadiusKm !== null) {
+      state.radiusKm = requestedRadiusKm;
+      lastRadiusKm = requestedRadiusKm;
+      requestedRadiusKm = null;
+    }
     nearButton.disabled = false;
-    nearButton.textContent = 'Update my location';
+    nearButton.textContent = 'Update nearby calls';
     nearControls.hidden = false;
-    updateNearbyView();
-  }, error => {
+    choosingArea = false;
+    els.dispatchMap.classList.remove('choosing-area');
+    chooseAreaButton.textContent = 'Choose an area on the map';
+    if (forSiren && firstPosition) activateSirenView();
+    else updateNearbyView();
+    firstPosition = false;
+  };
+  const onError = error => {
     if (request !== locationRequest) return;
     nearButton.disabled = false;
-    nearButton.textContent = state.nearby ? 'Update my location' : 'Calls near me';
-    nearStatus.textContent = (error.code === 1 ? 'Location permission was denied.' : 'Could not get your location. Please try again.') + (state.nearby ? ' Your previous nearby filter remains active.' : ' You can search by street or neighbourhood instead.');
-  }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 });
+    nearButton.textContent = state.nearby ? 'Update nearby calls' : '🚨 Hear sirens?';
+    showLocationFallback(error.code === 1 ? 'Location permission was denied.' : 'Could not get your location.');
+    if (error.code === 1) clearLocationWatch();
+  };
+  const options = { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 };
+  if (typeof navigator.geolocation.watchPosition === 'function') {
+    locationWatch = navigator.geolocation.watchPosition(onPosition, onError, options);
+  } else {
+    navigator.geolocation.getCurrentPosition(onPosition, onError, options);
+  }
+}
+nearButton.addEventListener('click', () => {
+  requestLocation(SIREN_RADIUS_KM, true);
 });
-document.querySelector('#nearRadius').addEventListener('change', event => {
-  state.radiusKm = Number(event.target.value);
-  if (state.nearby) updateNearbyView();
-});
+chooseAreaButton.addEventListener('click', beginAreaChoice);
+radiusToggles.forEach(toggle => toggle.addEventListener('click', () => {
+  sirenMode = false;
+  sirenMatches = [];
+  if (toggle.dataset.radiusKm === 'toronto') {
+    requestedRadiusKm = null;
+    state.radiusKm = null;
+    mapHasFitted = false;
+    updateNearbyView();
+    return;
+  }
+  const radiusKm = Number(toggle.dataset.radiusKm);
+  lastRadiusKm = radiusKm;
+  if (!state.nearby) {
+    requestLocation(radiusKm);
+    return;
+  }
+  state.radiusKm = radiusKm;
+  updateNearbyView();
+}));
 document.querySelector('#clearNearby').addEventListener('click', () => {
   locationRequest++;
+  clearLocationWatch();
+  requestedRadiusKm = null;
   state.nearby = null;
+  state.radiusKm = null;
+  sirenMode = false;
+  sirenMatches = [];
+  choosingArea = false;
+  nearbyOriginKind = 'device';
+  els.dispatchMap.classList.remove('choosing-area');
   nearButton.disabled = false;
-  nearButton.textContent = 'Calls near me';
+  nearButton.textContent = '🚨 Hear sirens?';
   nearControls.hidden = true;
   nearStatus.textContent = 'Uses your location with permission. Your location stays in this browser session.';
   mapHasFitted = false;
+  syncRadiusControls();
   applyFilters();
+});
+
+document.querySelector('#sirenResultsList').addEventListener('click', event => {
+  const result = event.target.closest('[data-call-id]');
+  if (result) selectCall(result.dataset.callId);
 });
 
 setInterval(() => {
   document.querySelectorAll('[data-reported-at]').forEach(label => {
-    label.textContent = reportedAge(label.dataset.reportedAt);
+    label.textContent = compactReportedAge(label.dataset.reportedAt);
+  });
+  document.querySelectorAll('[data-updated-at]').forEach(label => {
+    label.textContent = `Updated ${compactAge(label.dataset.updatedAt)}`;
   });
   renderNearbySummary();
 }, 60000);
 
 document.querySelector('#roadOverlay').addEventListener('change', () => {
   rememberPreferences();
-  renderDisruptions(state.disruptions, state.nearby, state.radiusKm, dispatchMap);
+  renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
 });
 
 function syncFilterControls() {
   els.searchInput.value = state.search;
   document.querySelector('#historyHours').value = state.hours;
   document.querySelector('#serviceFilter').value = state.serviceFilter;
+  syncRadiusControls();
 }
 document.querySelector('#clearFilters').addEventListener('click', () => {
   Object.assign(state, filterDefaults);
-  state.radiusKm = 2;
-  document.querySelector('#nearRadius').value = 2;
+  state.radiusKm = null;
   syncFilterControls();
   document.querySelector('#clearNearby').click();
 });
