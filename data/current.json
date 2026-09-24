@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T12:34:52.895Z",
-  "sourceUpdatedAt": "2026-09-24T12:30:01.000Z",
+  "fetchedAt": "2026-09-24T12:35:31.830Z",
+  "sourceUpdatedAt": "2026-09-24T12:35:01.000Z",
   "incidents": [
+    {
+      "id": "F26151395",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "AUGUSTA AVE, TT / OXFORD ST / COLLEGE ST",
+      "division": "315",
+      "timestamp": "2026-09-24T12:26:20.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T12:35:31.830Z",
+      "lastSeenAt": "2026-09-24T12:35:31.830Z",
+      "geography": {
+        "text": "Augusta Avenue between Oxford Street & College Street",
+        "approximate": false,
+        "coordinates": [
+          43.6567211,
+          -79.40290815
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-24T12:35:31.830Z"
+      }
+    },
     {
       "id": "TPS-e151c6f2194fe5fb9225477c",
       "source": "TPS",
@@ -70,7 +96,7 @@
       ],
       "firstSeenAt": "2026-09-24T12:20:41.989Z",
       "lastMeaningfulUpdateAt": "2026-09-24T12:25:34.936Z",
-      "lastSeenAt": "2026-09-24T12:34:52.895Z",
+      "lastSeenAt": "2026-09-24T12:35:31.830Z",
       "geography": {
         "text": "Approximate area: (M3J) North York (Northwood Park / York University)",
         "approximate": true,
@@ -138,7 +164,7 @@
       ],
       "firstSeenAt": "2026-09-24T12:20:41.989Z",
       "lastMeaningfulUpdateAt": "2026-09-24T12:25:34.936Z",
-      "lastSeenAt": "2026-09-24T12:34:52.895Z",
+      "lastSeenAt": "2026-09-24T12:35:31.830Z",
       "geography": {
         "text": "Approximate area: (M2H) North York (Hillcrest Village)",
         "approximate": true,
@@ -196,7 +222,7 @@
       "division": "332",
       "timestamp": "2026-09-24T12:10:47.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "High-Rise Unit",
@@ -425,7 +451,7 @@
       "division": "346",
       "timestamp": "2026-09-24T11:59:48.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Ladder Truck",
@@ -683,7 +709,7 @@
       ],
       "firstSeenAt": "2026-09-24T11:56:37.805Z",
       "lastMeaningfulUpdateAt": "2026-09-24T12:20:41.989Z",
-      "lastSeenAt": "2026-09-24T12:34:52.895Z",
+      "lastSeenAt": "2026-09-24T12:35:31.830Z",
       "geography": {
         "text": "Leslie Street between Eglinton Avenue East & Sunnybrook Park Trl",
         "approximate": false,
@@ -15885,7 +15911,7 @@
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
       "lastMeaningfulUpdateAt": "2026-09-24T11:15:26.083Z",
-      "lastSeenAt": "2026-09-24T12:34:52.895Z",
+      "lastSeenAt": "2026-09-24T12:35:31.830Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -127626,12 +127652,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T12:34:52.895Z",
-      "sourceUpdatedAt": "2026-09-24T12:30:01.000Z",
+      "fetchedAt": "2026-09-24T12:35:31.830Z",
+      "sourceUpdatedAt": "2026-09-24T12:35:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T12:34:52.895Z",
+      "fetchedAt": "2026-09-24T12:35:31.830Z",
       "status": "ok"
     }
   },
@@ -207822,6 +207848,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "AUGUSTA AVE, TT / OXFORD ST / COLLEGE ST": {
+      "text": "Augusta Avenue between Oxford Street & College Street",
+      "approximate": false,
+      "coordinates": [
+        43.6567211,
+        -79.40290815
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-24T12:35:31.830Z"
+    },
     "M3J": {
       "text": "Approximate area: (M3J) North York (Northwood Park / York University)",
       "approximate": true,
