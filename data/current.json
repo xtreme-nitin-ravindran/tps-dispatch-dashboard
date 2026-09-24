@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T08:40:11.102Z",
-  "sourceUpdatedAt": "2026-09-24T08:35:02.000Z",
+  "fetchedAt": "2026-09-24T08:41:55.319Z",
+  "sourceUpdatedAt": "2026-09-24T08:40:01.000Z",
   "incidents": [
+    {
+      "id": "F26151341",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3N",
+      "division": "142",
+      "timestamp": "2026-09-24T08:32:26.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T08:41:55.319Z",
+      "lastSeenAt": "2026-09-24T08:41:55.319Z",
+      "geography": {
+        "text": "Approximate area: (M3N) North York (Jane and Finch)",
+        "approximate": true,
+        "coordinates": [
+          43.7568,
+          -79.521
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26151340",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5H",
+      "division": "332",
+      "timestamp": "2026-09-24T08:30:44.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T08:41:55.319Z",
+      "lastSeenAt": "2026-09-24T08:41:55.319Z",
+      "geography": {
+        "text": "Approximate area: (M5H) Downtown Toronto (Richmond / Adelaide / King)",
+        "approximate": true,
+        "coordinates": [
+          43.6496,
+          -79.3833
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26151339",
       "source": "TFS",
@@ -16,9 +68,17 @@
       "timestamp": "2026-09-24T08:26:20.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "145"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T08:35:31.692Z",
-      "lastSeenAt": "2026-09-24T08:40:11.102Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T08:41:55.319Z",
+      "lastSeenAt": "2026-09-24T08:41:55.319Z",
       "geography": {
         "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
         "approximate": true,
@@ -41,7 +101,7 @@
       "division": "224",
       "timestamp": "2026-09-24T08:25:46.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-24T08:35:31.692Z",
       "lastSeenAt": "2026-09-24T08:40:11.102Z",
@@ -110,7 +170,7 @@
       ],
       "firstSeenAt": "2026-09-24T08:31:51.870Z",
       "lastMeaningfulUpdateAt": "2026-09-24T08:35:31.692Z",
-      "lastSeenAt": "2026-09-24T08:40:11.102Z",
+      "lastSeenAt": "2026-09-24T08:41:55.319Z",
       "geography": {
         "text": "Approximate location near Charterhouse Road & Keyworth Trl",
         "approximate": true,
@@ -133,7 +193,7 @@
       "division": "143",
       "timestamp": "2026-09-24T08:19:57.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -200,7 +260,7 @@
       ],
       "firstSeenAt": "2026-09-24T08:16:34.518Z",
       "lastMeaningfulUpdateAt": "2026-09-24T08:20:42.629Z",
-      "lastSeenAt": "2026-09-24T08:40:11.102Z",
+      "lastSeenAt": "2026-09-24T08:41:55.319Z",
       "geography": {
         "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
         "approximate": true,
@@ -13378,7 +13438,7 @@
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
       "lastMeaningfulUpdateAt": "2026-09-24T06:51:22.124Z",
-      "lastSeenAt": "2026-09-24T08:40:11.102Z",
+      "lastSeenAt": "2026-09-24T08:41:55.319Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -125119,12 +125179,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T08:40:11.102Z",
-      "sourceUpdatedAt": "2026-09-24T08:35:02.000Z",
+      "fetchedAt": "2026-09-24T08:41:55.319Z",
+      "sourceUpdatedAt": "2026-09-24T08:40:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T08:40:11.102Z",
+      "fetchedAt": "2026-09-24T08:41:55.319Z",
       "status": "ok"
     }
   },
@@ -204783,6 +204843,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3N": {
+      "text": "Approximate area: (M3N) North York (Jane and Finch)",
+      "approximate": true,
+      "coordinates": [
+        43.7568,
+        -79.521
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M5H": {
+      "text": "Approximate area: (M5H) Downtown Toronto (Richmond / Adelaide / King)",
+      "approximate": true,
+      "coordinates": [
+        43.6496,
+        -79.3833
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M3H": {
       "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
       "approximate": true,
@@ -205584,18 +205668,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T00:56:05.159Z"
     },
-    "M5H": {
-      "text": "Approximate area: (M5H) Downtown Toronto (Richmond / Adelaide / King)",
-      "approximate": true,
-      "coordinates": [
-        43.6496,
-        -79.3833
-      ],
-      "division": "Division 52",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "M1J": {
       "text": "Approximate area: (M1J) Scarborough (Eglinton)",
       "approximate": true,
@@ -206012,18 +206084,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-23T21:07:10.160Z"
-    },
-    "M3N": {
-      "text": "Approximate area: (M3N) North York (Jane and Finch)",
-      "approximate": true,
-      "coordinates": [
-        43.7568,
-        -79.521
-      ],
-      "division": "Division 31",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M8Y": {
       "text": "Approximate area: (M8Y) Etobicoke (Old Mill South / King's Mill Park / Sunnylea / Humber Bay / Mimico NE / The Queensway East / Royal York South East / Kingsway Park South East)",
