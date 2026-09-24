@@ -3,7 +3,7 @@ import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
 import { filterDefaults, filterSummary, readFilters, shareView, loadPreferences, savePreferences } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js";
 import { compactAge, compactReportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=incident-time-2";
-import { distanceKm, distanceLabel } from "./src/nearby.js?v=incident-distance-1";
+import { distanceKm, distanceLabel, withinGeographicScope } from "./src/nearby.js?v=radius-controls-1";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
 import { locationDisplay, expandLocationAbbreviations } from "./src/location-display.js?v=hydro-corridor-1";
@@ -17,7 +17,7 @@ const CONFIG = {
 
 const state = {
   nearby: null,
-  radiusKm: 2,
+  radiusKm: null,
   hours: 24,
   calls: [],
   filtered: [],
@@ -51,6 +51,7 @@ const els = {
   callTemplate: document.querySelector("#callTemplate"),
   footerClock: document.querySelector("#footerClock")
 };
+const radiusToggles = document.querySelectorAll('[data-radius-km]');
 
 const TORONTO_CENTER = [43.7001, -79.42];
 let dispatchMap = null;
@@ -60,6 +61,7 @@ let expandedCluster = new Set();
 let focusedCallId = null;
 let rowHighlightTimer;
 let mapHasFitted = false;
+let lastRadiusKm = 2;
 let boundaryVisible = true;
 function rememberPreferences() {
   try { savePreferences(localStorage,state,{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible}); } catch { /* Browsing still works when storage is blocked. */ }
@@ -230,7 +232,7 @@ async function loadData() {
       applyFilters();
       els.callList.scrollTop = scrollTop;
     }
-    renderDisruptions(state.disruptions, state.nearby, state.radiusKm, dispatchMap);
+    renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
     updateFreshness();
     if (previousSourceTime != null && sourceTime && sourceTime.getTime() !== previousSourceTime) {
       clearTimeout(sourceHighlightTimer);
@@ -269,7 +271,7 @@ function applyFilters({ map = true } = {}) {
   const q = state.search.trim().toLowerCase();
 
   const eligibleCalls = state.calls.filter(call => {
-    if (state.nearby && distanceKm(state.nearby, coordinatesForCall(call)) > state.radiusKm) return false;
+    if (!withinGeographicScope(state.nearby, state.radiusKm, coordinatesForCall(call))) return false;
     if (state.serviceFilter !== "all" && call.source !== state.serviceFilter) return false;
     if (!isWithinHistoryWindow(call.timestamp, state.hours)) return false;
     if (state.eventFilter === "ongoing" && !call.isOngoing) return false;
@@ -303,7 +305,7 @@ function render(map = true) {
   renderNearbySummary();
   renderCalls();
   if (map) renderMap();
-  renderDisruptions(state.disruptions, state.nearby, state.radiusKm, dispatchMap);
+  renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
   els.eventToggles.forEach(toggle => {
     const active = toggle.dataset.eventFilter === state.eventFilter;
     toggle.classList.toggle("active", active);
@@ -313,10 +315,9 @@ function render(map = true) {
 
 function renderNearbySummary() {
   const summary = document.querySelector("#nearbySummary");
-  summary.hidden = !state.nearby;
-  if (state.nearby) {
-    document.querySelector("#nearbySummaryText").textContent = nearbySummary(state.filtered, state.radiusKm);
-  }
+  summary.hidden = false;
+  document.querySelector("#nearbySummaryHeading").textContent = state.radiusKm === null ? "TORONTO SUMMARY" : "NEARBY SUMMARY";
+  document.querySelector("#nearbySummaryText").textContent = nearbySummary(state.filtered, state.radiusKm);
 }
 
 function renderStats() {
@@ -543,7 +544,10 @@ function renderMapMarkers() {
 
   els.mapStatus.textContent = locatedCalls.length ? `${locatedCalls.length}/${state.filtered.length} LOCATED` : "NO MAPPED LOCATIONS";
   els.mapEmpty.hidden = locatedCalls.length > 0;
-  if (locatedCalls.length && !mapHasFitted) {
+  if (!mapHasFitted && state.nearby && state.radiusKm !== null) {
+    mapHasFitted = true;
+    dispatchMap.setView(state.nearby, state.radiusKm <= 0.5 ? 15 : state.radiusKm <= 2 ? 14 : 12);
+  } else if (locatedCalls.length && !mapHasFitted) {
     mapHasFitted = true;
     dispatchMap.fitBounds(L.latLngBounds(locatedCalls.map(item => item.coordinates)), { padding: [24, 24], maxZoom: 12 });
   }
@@ -736,6 +740,18 @@ const nearStatus = document.querySelector('#nearStatus');
 const nearControls = document.querySelector('#nearControls');
 let locationRequest = 0;
 let locationWatch = null;
+let requestedRadiusKm = null;
+function radiusFilterOrigin() {
+  return state.radiusKm === null ? null : state.nearby;
+}
+function syncRadiusControls() {
+  radiusToggles.forEach(toggle => {
+    const value = toggle.dataset.radiusKm === 'toronto' ? null : Number(toggle.dataset.radiusKm);
+    const active = value === state.radiusKm;
+    toggle.classList.toggle('active', active);
+    toggle.setAttribute('aria-pressed', String(active));
+  });
+}
 function clearLocationWatch() {
   if (locationWatch !== null && typeof navigator.geolocation?.clearWatch === 'function') {
     navigator.geolocation.clearWatch(locationWatch);
@@ -743,16 +759,21 @@ function clearLocationWatch() {
   locationWatch = null;
 }
 function updateNearbyView() {
-  mapHasFitted = false;
+  if (state.radiusKm !== null) mapHasFitted = false;
   applyFilters();
-  if (dispatchMap && state.nearby) dispatchMap.setView(state.nearby, state.radiusKm <= 2 ? 14 : 12);
-  nearStatus.textContent = `Within ${state.radiusKm} km of your location. Location and card distances update automatically. Distances use approximate call locations; unmapped calls are excluded.`;
+  syncRadiusControls();
+  nearStatus.textContent = state.radiusKm === null
+    ? state.nearby
+      ? 'Toronto-wide view. Distance filtering is off; card distances still update from your location.'
+      : 'Toronto-wide view. Distance filtering is off. Choose a radius to use your location.'
+    : `Within ${state.radiusKm} km of your location. Location and card distances update automatically. Distances use approximate call locations; unmapped calls are excluded.`;
 }
-nearButton.addEventListener('click', () => {
+function requestLocation(radiusKm = lastRadiusKm) {
   if (!navigator.geolocation) {
     nearStatus.textContent = 'Location is unavailable in this browser. You can search by street or neighbourhood instead.';
     return;
   }
+  requestedRadiusKm = radiusKm;
   const request = ++locationRequest;
   clearLocationWatch();
   nearButton.disabled = true;
@@ -761,6 +782,11 @@ nearButton.addEventListener('click', () => {
   const onPosition = position => {
     if (request !== locationRequest) return;
     state.nearby = [position.coords.latitude, position.coords.longitude];
+    if (requestedRadiusKm !== null) {
+      state.radiusKm = requestedRadiusKm;
+      lastRadiusKm = requestedRadiusKm;
+      requestedRadiusKm = null;
+    }
     nearButton.disabled = false;
     nearButton.textContent = 'Update my location';
     nearControls.hidden = false;
@@ -779,20 +805,39 @@ nearButton.addEventListener('click', () => {
   } else {
     navigator.geolocation.getCurrentPosition(onPosition, onError, options);
   }
+}
+nearButton.addEventListener('click', () => {
+  requestLocation(state.radiusKm === null ? lastRadiusKm : state.radiusKm);
 });
-document.querySelector('#nearRadius').addEventListener('change', event => {
-  state.radiusKm = Number(event.target.value);
-  if (state.nearby) updateNearbyView();
-});
+radiusToggles.forEach(toggle => toggle.addEventListener('click', () => {
+  if (toggle.dataset.radiusKm === 'toronto') {
+    requestedRadiusKm = null;
+    state.radiusKm = null;
+    mapHasFitted = false;
+    updateNearbyView();
+    return;
+  }
+  const radiusKm = Number(toggle.dataset.radiusKm);
+  lastRadiusKm = radiusKm;
+  if (!state.nearby) {
+    requestLocation(radiusKm);
+    return;
+  }
+  state.radiusKm = radiusKm;
+  updateNearbyView();
+}));
 document.querySelector('#clearNearby').addEventListener('click', () => {
   locationRequest++;
   clearLocationWatch();
+  requestedRadiusKm = null;
   state.nearby = null;
+  state.radiusKm = null;
   nearButton.disabled = false;
   nearButton.textContent = 'Calls near me';
   nearControls.hidden = true;
   nearStatus.textContent = 'Uses your location with permission. Your location stays in this browser session.';
   mapHasFitted = false;
+  syncRadiusControls();
   applyFilters();
 });
 
@@ -808,18 +853,18 @@ setInterval(() => {
 
 document.querySelector('#roadOverlay').addEventListener('change', () => {
   rememberPreferences();
-  renderDisruptions(state.disruptions, state.nearby, state.radiusKm, dispatchMap);
+  renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
 });
 
 function syncFilterControls() {
   els.searchInput.value = state.search;
   document.querySelector('#historyHours').value = state.hours;
   document.querySelector('#serviceFilter').value = state.serviceFilter;
+  syncRadiusControls();
 }
 document.querySelector('#clearFilters').addEventListener('click', () => {
   Object.assign(state, filterDefaults);
-  state.radiusKm = 2;
-  document.querySelector('#nearRadius').value = 2;
+  state.radiusKm = null;
   syncFilterControls();
   document.querySelector('#clearNearby').click();
 });

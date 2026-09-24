@@ -1092,8 +1092,21 @@ footer {
 #nearMe:focus-visible, #clearNearby:focus-visible { outline: 3px solid white; outline-offset: 3px; }
 #nearStatus { margin-top: 8px; font-size: 12px; line-height: 1.5; }
 #nearControls:not([hidden]) { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-#nearRadius, #clearNearby { padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: #101d2b; color: white; font: inherit; }
+#clearNearby { padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: #101d2b; color: white; font: inherit; }
 @media (max-width: 680px) { .nearby-feature { flex-direction: column; align-items: stretch; gap: 14px; } .nearby-action { width: 100%; } }
+
+.radius-controls { display: flex; align-items: center; gap: 14px; padding: 12px 24px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.radius-toggle-group { display: flex; flex-wrap: wrap; gap: 8px; }
+.radius-toggle-group button { min-height: 42px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: #101d2b; color: var(--text); font: inherit; font-weight: 700; cursor: pointer; }
+.radius-toggle-group button:hover { border-color: var(--accent); }
+.radius-toggle-group button.active { border-color: var(--accent); background: var(--accent); color: #08111b; box-shadow: 0 0 0 3px rgba(99,230,190,.16); }
+.radius-toggle-group button:focus-visible { outline: 3px solid white; outline-offset: 2px; }
+@media (max-width: 680px) {
+  .radius-controls { align-items: stretch; flex-direction: column; gap: 8px; padding: 12px 16px; }
+  .radius-toggle-group { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .radius-toggle-group button { padding-inline: 8px; }
+  .radius-toggle-group button:last-child { grid-column: span 2; }
+}
 
 .call-explanation { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 8px 0; }
 .call-explanation[hidden] { display: none; }

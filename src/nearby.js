@@ -10,3 +10,8 @@ export function distanceLabel(kilometres) {
     ? `${kilometres.toFixed(1)} km away`
     : '';
 }
+
+export function withinGeographicScope(origin, radiusKm, point) {
+  if (radiusKm === null) return true;
+  return distanceKm(origin, point) <= radiusKm;
+}

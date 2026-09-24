@@ -14,6 +14,7 @@ test('summary includes each applied filter and clear defaults', () => {
   assert.equal(filterSummary({...filterDefaults, hours:12}), 'Last 12 hours');
   const summary = filterSummary({...filterDefaults, hours:72, search:'Queen', division:'Division 11', eventFilter:'fire', serviceFilter:'TFS', nearby:[43,-79], radiusKm:2});
   for (const text of ['Last 3 days','Queen','Division 11','fire','TFS','Within 2 km']) assert.ok(summary.includes(text));
+  assert.equal(filterSummary({...filterDefaults, nearby:[43,-79], radiusKm:null}), 'Last 24 hours');
 });
 import { readFilters, shareView } from '../src/view-controls.js';
 test('share links round trip filters without coordinates or unrelated URL data', () => {
