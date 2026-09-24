@@ -3,9 +3,83 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T10:30:34.687Z",
-  "sourceUpdatedAt": "2026-09-24T10:25:01.000Z",
+  "fetchedAt": "2026-09-24T10:31:44.019Z",
+  "sourceUpdatedAt": "2026-09-24T10:30:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-85939ee7b99272279177a610",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-09-24T10:25:40.000Z",
+      "location": "SIMCOE ST - ST PATRICK ST",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SIMCOE ST - ST PATRICK ST",
+        "coordinates": [
+          43.65448999359373,
+          -79.39032524083046
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T10:31:44.019Z"
+    },
+    {
+      "id": "F26151367",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4M",
+      "division": "326",
+      "timestamp": "2026-09-24T10:23:49.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T10:31:44.019Z",
+      "lastSeenAt": "2026-09-24T10:31:44.019Z",
+      "geography": {
+        "text": "Approximate area: (M4M) East Toronto (Studio District)",
+        "approximate": true,
+        "coordinates": [
+          43.6561,
+          -79.3406
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26151366",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1W",
+      "division": "241",
+      "timestamp": "2026-09-24T10:22:25.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T10:31:44.019Z",
+      "lastSeenAt": "2026-09-24T10:31:44.019Z",
+      "geography": {
+        "text": "Approximate area: (M1W) Scarborough (Steeles West / L'Amoreaux West)",
+        "approximate": true,
+        "coordinates": [
+          43.8016,
+          -79.3216
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26151364",
       "source": "TFS",
@@ -16,9 +90,17 @@
       "timestamp": "2026-09-24T10:19:26.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "426"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T10:25:23.041Z",
-      "lastSeenAt": "2026-09-24T10:30:34.687Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T10:31:44.019Z",
+      "lastSeenAt": "2026-09-24T10:31:44.019Z",
       "geography": {
         "text": "Approximate area: (M6R) West Toronto (Parkdale / Roncesvalles Village)",
         "approximate": true,
@@ -42,9 +124,17 @@
       "timestamp": "2026-09-24T10:19:22.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "131"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T10:25:23.041Z",
-      "lastSeenAt": "2026-09-24T10:30:34.687Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T10:31:44.019Z",
+      "lastSeenAt": "2026-09-24T10:31:44.019Z",
       "geography": {
         "text": "Approximate area: (M4N) Central Toronto (Lawrence Park East)",
         "approximate": true,
@@ -59,6 +149,28 @@
       }
     },
     {
+      "id": "TPS-8c2344171a5adf0712236729",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROWLER ON LOCATION",
+      "callTypeCode": "PRO",
+      "timestamp": "2026-09-24T10:19:10.000Z",
+      "location": "BLOOR ST W - LOWTHER AVE",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BLOOR ST W - LOWTHER AVE",
+        "coordinates": [
+          43.66841681242637,
+          -79.40638373847843
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T10:31:44.019Z"
+    },
+    {
       "id": "F26151363",
       "source": "TFS",
       "eventType": "fire",
@@ -68,9 +180,17 @@
       "timestamp": "2026-09-24T10:15:44.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "313"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T10:25:23.041Z",
-      "lastSeenAt": "2026-09-24T10:30:34.687Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T10:31:44.019Z",
+      "lastSeenAt": "2026-09-24T10:31:44.019Z",
       "geography": {
         "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
         "approximate": true,
@@ -83,6 +203,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-11661f903c906e72acfc3798",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-24T10:13:17.000Z",
+      "location": "BAY ST - YORK ST",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BAY ST - YORK ST",
+        "coordinates": [
+          43.64591718502081,
+          -79.37908774449542
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-24T10:31:44.019Z"
     },
     {
       "id": "F26151361",
@@ -105,7 +247,7 @@
       ],
       "firstSeenAt": "2026-09-24T10:20:46.241Z",
       "lastMeaningfulUpdateAt": "2026-09-24T10:25:23.041Z",
-      "lastSeenAt": "2026-09-24T10:30:34.687Z",
+      "lastSeenAt": "2026-09-24T10:31:44.019Z",
       "geography": {
         "text": "Approximate location near Street Clair Avenue & Gus Harris Trl",
         "approximate": true,
@@ -128,7 +270,7 @@
       "division": "433",
       "timestamp": "2026-09-24T10:09:44.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -173,7 +315,7 @@
       ],
       "firstSeenAt": "2026-09-24T10:16:05.129Z",
       "lastMeaningfulUpdateAt": "2026-09-24T10:20:46.241Z",
-      "lastSeenAt": "2026-09-24T10:30:34.687Z",
+      "lastSeenAt": "2026-09-24T10:31:44.019Z",
       "geography": {
         "text": "Approximate area: (M6R) West Toronto (Parkdale / Roncesvalles Village)",
         "approximate": true,
@@ -283,7 +425,7 @@
       "division": "433",
       "timestamp": "2026-09-24T09:55:39.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -14361,7 +14503,7 @@
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
       "lastMeaningfulUpdateAt": "2026-09-24T08:56:12.230Z",
-      "lastSeenAt": "2026-09-24T10:30:34.687Z",
+      "lastSeenAt": "2026-09-24T10:31:44.019Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -126102,12 +126244,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T10:30:34.687Z",
-      "sourceUpdatedAt": "2026-09-24T10:25:01.000Z",
+      "fetchedAt": "2026-09-24T10:31:44.019Z",
+      "sourceUpdatedAt": "2026-09-24T10:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T10:30:34.687Z",
+      "fetchedAt": "2026-09-24T10:31:44.019Z",
       "status": "ok"
     }
   },
@@ -205414,6 +205556,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4M": {
+      "text": "Approximate area: (M4M) East Toronto (Studio District)",
+      "approximate": true,
+      "coordinates": [
+        43.6561,
+        -79.3406
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M1W": {
+      "text": "Approximate area: (M1W) Scarborough (Steeles West / L'Amoreaux West)",
+      "approximate": true,
+      "coordinates": [
+        43.8016,
+        -79.3216
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M6R": {
       "text": "Approximate area: (M6R) West Toronto (Parkdale / Roncesvalles Village)",
       "approximate": true,
@@ -205938,18 +206104,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T06:21:10.122Z"
-    },
-    "M4M": {
-      "text": "Approximate area: (M4M) East Toronto (Studio District)",
-      "approximate": true,
-      "coordinates": [
-        43.6561,
-        -79.3406
-      ],
-      "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "GLEN EVEREST RD, SC / ROSETTA MCCLAIN GARDENS TRL / WYNNVIEW CRT": {
       "text": "Approximate location near Glen Everest Road & Wynnview Court",
@@ -207966,18 +208120,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T21:30:30.972Z"
-    },
-    "M1W": {
-      "text": "Approximate area: (M1W) Scarborough (Steeles West / L'Amoreaux West)",
-      "approximate": true,
-      "coordinates": [
-        43.8016,
-        -79.3216
-      ],
-      "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "RICHGROVE DR, ET / MARTIN GROVE RD / HEPC": {
       "text": "Richgrove Drive between Martin Grove Road & Hepc",
