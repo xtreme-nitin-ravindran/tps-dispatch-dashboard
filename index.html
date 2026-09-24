@@ -97,6 +97,17 @@
 
       <div class="view-actions"><span id="filterSummary"></span><button id="clearFilters" type="button">Clear filters</button><button id="shareView" type="button">Share view</button><input id="shareLink" aria-label="Shareable view link" readonly hidden><span id="shareStatus" role="status"></span></div>
 
+      <nav class="radius-controls" aria-label="Incident search area">
+        <span class="section-kicker">SEARCH AREA</span>
+        <div class="radius-toggle-group" role="group" aria-label="Incident search area">
+          <button type="button" data-radius-km="0.5" aria-pressed="false">500 m</button>
+          <button type="button" data-radius-km="1" aria-pressed="false">1 km</button>
+          <button type="button" data-radius-km="2" aria-pressed="false">2 km</button>
+          <button type="button" data-radius-km="5" aria-pressed="false">5 km</button>
+          <button type="button" data-radius-km="toronto" class="active" aria-pressed="true">Toronto-wide</button>
+        </div>
+      </nav>
+
       <section class="nearby-summary" id="nearbySummary" aria-labelledby="nearbySummaryHeading" aria-live="polite" aria-atomic="true" hidden>
         <span class="section-kicker" id="nearbySummaryHeading">NEARBY SUMMARY</span>
         <p id="nearbySummaryText"></p>
@@ -112,16 +123,6 @@
             <div class="map-meta">
               <div class="source-updated"><span class="source-updated-title">Source updates</span><span class="source-updated-title">Toronto time</span><strong id="sourceUpdated">—</strong><a class="source-times-help" href="#source-timestamps">What do these times mean?</a></div>
               <span class="map-status" id="mapStatus">—</span>
-            </div>
-          </div>
-          <div class="radius-controls" role="group" aria-label="Map area">
-            <span class="section-kicker">SHOW CALLS</span>
-            <div class="radius-toggle-group">
-              <button type="button" data-radius-km="0.5" aria-pressed="false">500 m</button>
-              <button type="button" data-radius-km="1" aria-pressed="false">1 km</button>
-              <button type="button" data-radius-km="2" aria-pressed="false">2 km</button>
-              <button type="button" data-radius-km="5" aria-pressed="false">5 km</button>
-              <button type="button" data-radius-km="toronto" class="active" aria-pressed="true">Toronto-wide</button>
             </div>
           </div>
           <div class="map-legend" aria-label="Map marker colours">

@@ -1123,17 +1123,26 @@ footer {
 .call-cluster.siren-match { border-color: #fff; background: #7a5b00; box-shadow: 0 0 0 7px rgba(255,209,102,.22), 0 0 22px rgba(255,209,102,.65); }
 @media (max-width: 680px) { .siren-results { padding: 17px; } .siren-results-head { display: block; } .siren-radius { display: inline-block; margin-bottom: 12px; } }
 
-.radius-controls { display: flex; align-items: center; gap: 14px; padding: 12px 24px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.radius-controls { display: flex; align-items: center; gap: 14px; margin-top: 12px; padding: 12px 18px; border: 1px solid var(--line); border-radius: 14px; background: rgba(15, 25, 38, .96); box-shadow: 0 12px 32px rgba(0, 0, 0, .18); }
 .radius-toggle-group { display: flex; flex-wrap: wrap; gap: 8px; }
 .radius-toggle-group button { min-height: 42px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: #101d2b; color: var(--text); font: inherit; font-weight: 700; cursor: pointer; }
 .radius-toggle-group button:hover { border-color: var(--accent); }
 .radius-toggle-group button.active { border-color: var(--accent); background: var(--accent); color: #08111b; box-shadow: 0 0 0 3px rgba(99,230,190,.16); }
 .radius-toggle-group button:focus-visible { outline: 3px solid white; outline-offset: 2px; }
 @media (max-width: 680px) {
-  .radius-controls { align-items: stretch; flex-direction: column; gap: 8px; padding: 12px 16px; }
-  .radius-toggle-group { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .radius-toggle-group button { padding-inline: 8px; }
-  .radius-toggle-group button:last-child { grid-column: span 2; }
+  .radius-controls {
+    position: sticky;
+    top: max(6px, env(safe-area-inset-top));
+    z-index: 900;
+    margin-inline: -5px;
+    padding: 6px;
+    border-color: rgba(99, 230, 190, .32);
+    border-radius: 12px;
+    backdrop-filter: blur(18px);
+  }
+  .radius-controls > .section-kicker { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .radius-toggle-group { display: grid; grid-template-columns: .95fr .78fr .78fr .78fr 1.45fr; gap: 4px; width: 100%; }
+  .radius-toggle-group button { min-width: 0; min-height: 44px; padding: 4px 2px; font-size: clamp(10px, 3.25vw, 12px); line-height: 1.05; white-space: nowrap; }
 }
 
 .call-explanation { color: var(--muted); font-size: 12px; line-height: 1.5; margin: 0; }

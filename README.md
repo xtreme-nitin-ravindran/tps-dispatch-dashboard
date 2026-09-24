@@ -29,6 +29,7 @@ emergency decisions or real-time safety guidance.**
 ## What it does
 
 - Maps public fire and police calls, with clustering and links between map pins and call records.
+- Keeps a compact mobile search-area selector within thumb reach while viewing the map or incident list, with 500 m, 1 km, 2 km, 5 km, and Toronto-wide scopes.
 - Offers a prominent **Hear sirens?** action that ranks up to five recent calls within 2 km by recency and distance, using browser location or a manually chosen map area.
 - Searches calls and filters by service, event type, police division, and history from one hour to seven days.
 - Distinguishes TFS active-feed status from TPS calls, for which ongoing status is not supplied.
@@ -103,7 +104,7 @@ This combined run includes the live-source integration tests and requires intern
 It fails unless measured JavaScript line, branch, and function coverage are all 100%.
 Badge generation requires Python 3 and writes three SVG files to the output directory.
 
-`npm test` runs all 19 JavaScript unit test files below:
+`npm test` runs all 21 JavaScript unit test files below:
 
 | Test file (under `test/`) | What it verifies |
 | --- | --- |
@@ -126,6 +127,7 @@ Badge generation requires Python 3 and writes three SVG files to the output dire
 | `nearby-summary.test.js` | Nearby counts, service/category breakdowns, newest-call ages, and empty or singular results. |
 | `siren-matches.test.js` | Two-kilometre siren-result scope, recency/distance ranking, result limits, and invalid-call handling. |
 | `view-controls.test.js` | New-call detection, filter summaries/reset defaults, share links, clustering, row selection, preferences, and source timestamp labels. |
+| `mobile-radius-controls.test.js` | Mobile search-area options, sticky touch-target layout, and radius-change rendering integration. |
 | `promotion.test.js` | Promotion of only the tested dev commit, superseded/empty changes, protection rejection, existing PR reuse, retry handling, concurrent branch updates, and prevention of duplicate Pages requests. |
 
 `npm run test:python` runs the files in `test/python/` using Python 3’s standard-library unittest runner. It verifies street endpoints, coordinate order and rounding, node deduplication, postal-area filtering and labels, repeatable output, and preservation of the existing index when inputs fail. Tests use temporary fixtures and do not download data or modify the bundled index.
