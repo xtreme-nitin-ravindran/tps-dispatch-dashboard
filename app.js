@@ -113,15 +113,15 @@ const mobileViewQuery = "(max-width: 680px), (max-width: 950px) and (max-height:
 function syncTheme() {
   applyTheme(document.documentElement, themeColorMeta, themePreference, systemTheme.matches);
 }
-function rememberPreferences() {
-  try { savePreferences(localStorage,state,{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible,theme:themePreference}); } catch { /* Browsing still works when storage is blocked. */ }
+function rememberPreferences(stateOverrides = {}) {
+  try { savePreferences(localStorage,{...state,...stateOverrides},{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible,theme:themePreference,mobileView}); } catch { /* Browsing still works when storage is blocked. */ }
 }
 
 function isMobileViewLayout() {
   return window.matchMedia(mobileViewQuery).matches;
 }
 
-function setMobileView(view, { focusSelection = false } = {}) {
+function setMobileView(view, { focusSelection = false, persist = true } = {}) {
   if (view !== "map" && view !== "calls") return;
   mobileView = view;
   document.documentElement.dataset.mobileView = view;
@@ -130,6 +130,7 @@ function setMobileView(view, { focusSelection = false } = {}) {
     toggle.classList.toggle("active", active);
     toggle.setAttribute("aria-pressed", String(active));
   });
+  if (persist) rememberPreferences();
   if (view === "map") requestAnimationFrame(() => {
     dispatchMap?.invalidateSize({ pan: false });
     if (focusSelection && isMobileViewLayout() && focusedCallId) {
@@ -141,7 +142,7 @@ function setMobileView(view, { focusSelection = false } = {}) {
 mobileViewToggles.forEach(toggle => toggle.addEventListener("click", () => {
   setMobileView(toggle.dataset.mobileView, { focusSelection: toggle.dataset.mobileView === "map" });
 }));
-setMobileView(mobileView);
+setMobileView(mobileView, { persist: false });
 
 function setMobileSheetState(nextState) {
   if (!mobileBottomSheet || !["collapsed", "half", "expanded"].includes(nextState)) return;
@@ -1145,11 +1146,13 @@ try {
   const saved = loadPreferences(localStorage);
   if (saved) {
     Object.assign(state,saved.filters);
+    state.radiusKm = saved.radiusKm;
     document.querySelector('#roadOverlay').checked = saved.roads;
     boundaryVisible = saved.boundaries;
     themePreference = saved.theme;
     document.querySelector('#themePreference').value = themePreference;
     syncTheme();
+    setMobileView(saved.mobileView, { persist: false });
     syncFilterControls();
   }
 } catch { /* Defaults remain usable when storage is blocked. */ }
@@ -1312,12 +1315,17 @@ radiusToggles.forEach(toggle => toggle.addEventListener('click', () => {
   const radiusKm = Number(toggle.dataset.radiusKm);
   lastRadiusKm = radiusKm;
   if (!state.nearby) {
+    rememberPreferences({ radiusKm });
     requestLocation(radiusKm);
     return;
   }
   state.radiusKm = radiusKm;
   updateNearbyView();
 }));
+if (state.radiusKm !== null) {
+  lastRadiusKm = state.radiusKm;
+  requestLocation(state.radiusKm);
+}
 document.querySelector('#clearNearby').addEventListener('click', () => {
   locationRequest++;
   clearLocationWatch();
