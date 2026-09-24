@@ -45,7 +45,7 @@ jobs:
         shell: bash
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: |
-          docker run --rm -e NODE_V8_COVERAGE=/tmp/coverage toronto-dispatch-tests sh -c 'node --experimental-test-coverage --test test/*.test.js' | tee coverage-report.txt
+          docker run --rm -e NODE_V8_COVERAGE=/tmp/coverage toronto-dispatch-tests npm run test:coverage | tee coverage-report.txt
           python3 scripts/coverage-badges.py coverage-report.txt coverage-badges
 
       - name: Save coverage badges and report

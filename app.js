@@ -1,6 +1,6 @@
 import { sourceStatus } from "./src/source-status.js";
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
-import { updateLabel, filterDefaults, filterSummary, readFilters, shareView, loadPreferences, savePreferences } from "./src/view-controls.js";
+import { filterDefaults, filterSummary, readFilters, shareView, loadPreferences, savePreferences } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js";
 import { reportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=status-1";
 import { distanceKm } from "./src/nearby.js";
@@ -8,6 +8,7 @@ import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
 import { locationDisplay, expandLocationAbbreviations } from "./src/location-display.js?v=hydro-corridor-1";
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
+import { nearbySummary } from "./src/nearby-summary.js";
 
 const CONFIG = {
   snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
@@ -188,28 +189,11 @@ async function fetchSnapshot() {
 }
 
 let sourceHighlightTimer;
-let pendingSnapshot = null;
 let snapshotLoaded = false;
-const updatesButton = document.querySelector('#newCalls');
-updatesButton.addEventListener('click', () => {
-  if (!pendingSnapshot) return;
-  const snapshot = pendingSnapshot;
-  pendingSnapshot = null;
-  loadData({ accepted: snapshot });
-});
-
-async function loadData({ accepted = null } = {}) {
+async function loadData() {
 
   try {
-    const snapshot = accepted || await fetchSnapshot();
-    if (!accepted && snapshotLoaded && JSON.stringify(state.calls) !== JSON.stringify(snapshot.calls)) {
-      pendingSnapshot = snapshot;
-      updatesButton.textContent = updateLabel(state.calls, snapshot.calls);
-      updatesButton.hidden = false;
-      return;
-    }
-    pendingSnapshot = null;
-    updatesButton.hidden = true;
+    const snapshot = await fetchSnapshot();
     const scrollTop = els.callList.scrollTop;
     const firstSnapshot = !snapshotLoaded;
     snapshotLoaded = true;
@@ -310,6 +294,7 @@ function render(map = true) {
     els.windowLabel.textContent = `${state.hours} hour${state.hours === 1 ? "" : "s"}`;
   }
   renderStats();
+  renderNearbySummary();
   renderCalls();
   if (map) renderMap();
   renderDisruptions(state.disruptions, state.nearby, state.radiusKm, dispatchMap);
@@ -318,6 +303,14 @@ function render(map = true) {
     toggle.classList.toggle("active", active);
     toggle.setAttribute("aria-pressed", String(active));
   });
+}
+
+function renderNearbySummary() {
+  const summary = document.querySelector("#nearbySummary");
+  summary.hidden = !state.nearby;
+  if (state.nearby) {
+    document.querySelector("#nearbySummaryText").textContent = nearbySummary(state.filtered, state.radiusKm);
+  }
 }
 
 function renderStats() {
@@ -759,6 +752,7 @@ setInterval(() => {
   document.querySelectorAll('[data-reported-at]').forEach(label => {
     label.textContent = reportedAge(label.dataset.reportedAt);
   });
+  renderNearbySummary();
 }, 60000);
 
 document.querySelector('#roadOverlay').addEventListener('change', () => {

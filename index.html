@@ -15,7 +15,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./styles.css?v=source-explanations-1" />
+  <link rel="stylesheet" href="./styles.css?v=nearby-summary-1" />
 </head>
 
 <body>
@@ -88,7 +88,12 @@
         </div>
       </section>
 
-      <div class="view-actions"><span id="filterSummary"></span><button id="clearFilters" type="button">Clear filters</button><button id="shareView" type="button">Share view</button><input id="shareLink" aria-label="Shareable view link" readonly hidden><span id="shareStatus" role="status"></span><button id="newCalls" type="button" hidden>New calls available</button></div>
+      <div class="view-actions"><span id="filterSummary"></span><button id="clearFilters" type="button">Clear filters</button><button id="shareView" type="button">Share view</button><input id="shareLink" aria-label="Shareable view link" readonly hidden><span id="shareStatus" role="status"></span></div>
+
+      <section class="nearby-summary" id="nearbySummary" aria-labelledby="nearbySummaryHeading" aria-live="polite" aria-atomic="true" hidden>
+        <span class="section-kicker" id="nearbySummaryHeading">NEARBY SUMMARY</span>
+        <p id="nearbySummaryText"></p>
+      </section>
 
       <section class="map-stage">
         <div class="panel map-panel">
@@ -265,7 +270,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=data-branch-1"></script>
+  <script type="module" src="./app.js?v=nearby-summary-1"></script>
 </body>
 
 </html>

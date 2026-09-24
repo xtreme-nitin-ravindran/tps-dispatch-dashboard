@@ -4,14 +4,26 @@ from pathlib import Path
 import sys
 
 
-def generate(report, destination):
+def coverage_values(report):
     matches = re.findall(r'^# all files\s*\|\s*(\d+(?:\.\d+)?)\s*\|\s*(\d+(?:\.\d+)?)\s*\|\s*(\d+(?:\.\d+)?)\s*\|', report, re.M)
     if len(matches) != 1:
         raise ValueError('Expected one complete Node coverage summary')
-    if any(not 0 <= float(value) <= 100 for value in matches[0]):
+    values = tuple(float(value) for value in matches[0])
+    if any(not 0 <= value <= 100 for value in values):
         raise ValueError('Invalid coverage percentage')
+    return matches[0], values
+
+
+def require_full_coverage(report):
+    _, values = coverage_values(report)
+    if any(value != 100 for value in values):
+        raise ValueError('JavaScript line, branch, and function coverage must all be 100%')
+
+
+def generate(report, destination):
+    displayed_values, _ = coverage_values(report)
     destination.mkdir(parents=True, exist_ok=True)
-    for name, value in zip(('lines', 'branches', 'functions'), matches[0]):
+    for name, value in zip(('lines', 'branches', 'functions'), displayed_values):
         label = f'JS {name}'
         color = '#4c1' if float(value) >= 90 else '#dfb317'
         svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="190" height="20" role="img" aria-label="{label}: {value}%">
@@ -23,4 +35,6 @@ def generate(report, destination):
 
 
 if __name__ == '__main__':
-    generate(Path(sys.argv[1]).read_text(), Path(sys.argv[2]))
+    coverage_report = Path(sys.argv[1]).read_text()
+    require_full_coverage(coverage_report)
+    generate(coverage_report, Path(sys.argv[2]))

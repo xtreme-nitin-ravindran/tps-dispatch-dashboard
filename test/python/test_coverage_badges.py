@@ -23,3 +23,8 @@ class CoverageBadgesTests(unittest.TestCase):
             for report in ['', '# all files | 101 | 20 | 30 |', '# all files | 1 | 2 | 3 |\n' * 2]:
                 with self.subTest(report=report), self.assertRaises(ValueError):
                     badges.generate(report, Path(directory))
+
+    def test_full_coverage_is_required_for_publication(self):
+        badges.require_full_coverage('# all files | 100.00 | 100.00 | 100.00 |\n')
+        with self.assertRaisesRegex(ValueError, 'must all be 100%'):
+            badges.require_full_coverage('# all files | 100.00 | 99.99 | 100.00 |\n')
