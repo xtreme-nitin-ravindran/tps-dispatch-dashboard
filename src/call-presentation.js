@@ -1,3 +1,5 @@
+import { glossaryDefinition } from "./dispatch-glossary.js";
+
 export function reportedAge(timestamp, now = Date.now()) {
   const time = new Date(timestamp).getTime();
   if (!Number.isFinite(time)) return 'Report time unavailable';
@@ -26,20 +28,8 @@ export function compactReportedAge(timestamp, now = Date.now()) {
   return compactAge(timestamp, now);
 }
 
-const DESCRIPTIONS = {
-  'MEDICAL': 'A call for medical assistance.',
-  'PERSONAL INJURY COLLISION': 'A traffic collision reported to involve an injury.',
-  'PROPERTY DAMAGE COLLISION': 'A traffic collision reported as involving property damage.',
-  'VEHICLE - PERSONAL INJURY': 'A vehicle incident reported to involve an injury.',
-  'VEHICLE - PERSONAL INJURY HIGHWAY': 'A highway vehicle incident reported to involve an injury.',
-  'UNKNOWN TROUBLE': 'A request for help where the nature of the problem is unclear.',
-  'BREAK & ENTER': 'A reported break-in.',
-  'RESCUE - ELEVATOR': 'A request for rescue involving an elevator.',
-  'FIRE - GRASS/RUBBISH': 'A reported fire involving grass or rubbish.'
-};
 export function callExplanation(description) {
-  const key = String(description || '').trim().toUpperCase();
-  return Object.hasOwn(DESCRIPTIONS, key) ? DESCRIPTIONS[key] : '';
+  return glossaryDefinition(description);
 }
 
 export function locationConfidence(call) {

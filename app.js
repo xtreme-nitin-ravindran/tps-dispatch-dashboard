@@ -2,7 +2,7 @@ import { sourceStatus, sourceStatusText } from "./src/source-status.js?v=source-
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
 import { filterDefaults, filterSummary, readFilters, shareView, loadPreferences, savePreferences } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js?v=source-states-1";
-import { compactAge, compactReportedAge, callExplanation, locationConfidence, callStatus, sourceName } from "./src/call-presentation.js?v=incident-cards-1";
+import { compactAge, compactReportedAge, locationConfidence, callStatus, sourceName } from "./src/call-presentation.js?v=incident-cards-1";
 import { distanceKm, distanceLabel, withinGeographicScope } from "./src/nearby.js?v=radius-controls-1";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
@@ -13,6 +13,7 @@ import { rankSirenMatches, SIREN_RADIUS_KM } from "./src/siren-matches.js";
 import { reconcileIncidentSelection } from "./src/incident-selection.js";
 import { markerAgeLabel, markerAgeTier, markerGlyph } from "./src/marker-age.js";
 import { incidentBadge, incidentBadgeExpiry } from "./src/incident-badge.js?v=incident-badges-1";
+import { DISPATCH_GLOSSARY_FOOTER, glossaryDefinition } from "./src/dispatch-glossary.js?v=glossary-1";
 import { applyTheme, normalizeThemePreference } from "./src/theme.js";
 import { createRefreshFreshnessTracker } from "./src/refresh-freshness.js";
 
@@ -85,6 +86,7 @@ let choosingArea = false;
 let nearbyOriginKind = "device";
 let nearbyOriginLayer = null;
 let incidentBadgeTimer = null;
+let glossaryPopoverSequence = 0;
 let themePreference = "system";
 const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
 const themeColorMeta = document.querySelector('meta[name="theme-color"]');
@@ -472,6 +474,18 @@ function createIncidentCard(call, { distance = "", variant = "list" } = {}) {
   }
 
   row.querySelector(".call-title").textContent = call.description;
+  const glossaryText = glossaryDefinition(call.description);
+  if (glossaryText) {
+    const glossaryId = `dispatch-glossary-${++glossaryPopoverSequence}`;
+    const trigger = row.querySelector(".glossary-trigger");
+    const popover = row.querySelector(".glossary-popover");
+    trigger.hidden = false;
+    trigger.setAttribute("aria-controls", glossaryId);
+    trigger.setAttribute("aria-label", `What does “${call.description}” mean?`);
+    popover.id = glossaryId;
+    row.querySelector(".glossary-definition").textContent = glossaryText;
+    row.querySelector(".glossary-footer").textContent = DISPATCH_GLOSSARY_FOOTER;
+  }
   row.querySelector(".call-location").textContent = displayLocation(call).text;
 
   const distanceNode = row.querySelector(".distance-away");
@@ -507,9 +521,6 @@ function createIncidentCard(call, { distance = "", variant = "list" } = {}) {
   statusBadge.textContent = status || "";
   if (status) statusBadge.classList.add(`incident-status--${status.toLowerCase()}`);
 
-  const explanation = row.querySelector(".call-explanation");
-  explanation.textContent = callExplanation(call.description);
-  explanation.hidden = !explanation.textContent;
   row.querySelector(".location-confidence").textContent = locationConfidence(call);
 
   const division = row.querySelector(".division-value");
@@ -901,7 +912,7 @@ els.eventToggles.forEach(toggle => {
 });
 
 els.callList.addEventListener("click", (event) => {
-  if (event.target.closest("summary")) return;
+  if (event.target.closest("summary, .glossary-trigger, .glossary-popover")) return;
   const row = event.target.closest(".incident-card--list");
   if (!row) return;
   selectCall(row.dataset.callId);
@@ -915,12 +926,42 @@ els.callList.addEventListener("click", (event) => {
 });
 
 els.callList.addEventListener("keydown", (event) => {
-  if (event.target.closest(".show-map-hint")) return;
+  if (event.target.closest(".show-map-hint, .glossary-trigger, .glossary-popover")) return;
   if (event.key !== "Enter" && event.key !== " ") return;
   const row = event.target.closest(".incident-card--list");
   if (!row) return;
   event.preventDefault();
   selectCall(row.dataset.callId);
+});
+
+function closeGlossaryPopovers(except = null) {
+  document.querySelectorAll(".glossary-trigger[aria-expanded='true']").forEach(trigger => {
+    if (trigger === except) return;
+    trigger.setAttribute("aria-expanded", "false");
+    const popover = document.getElementById(trigger.getAttribute("aria-controls"));
+    if (popover) popover.hidden = true;
+  });
+}
+
+document.addEventListener("click", event => {
+  const trigger = event.target.closest(".glossary-trigger");
+  if (!trigger) {
+    if (!event.target.closest(".glossary-popover")) closeGlossaryPopovers();
+    return;
+  }
+  const opening = trigger.getAttribute("aria-expanded") !== "true";
+  closeGlossaryPopovers(trigger);
+  trigger.setAttribute("aria-expanded", String(opening));
+  const popover = document.getElementById(trigger.getAttribute("aria-controls"));
+  if (popover) popover.hidden = !opening;
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key !== "Escape") return;
+  const trigger = document.querySelector(".glossary-trigger[aria-expanded='true']");
+  if (!trigger) return;
+  closeGlossaryPopovers();
+  trigger.focus();
 });
 
 async function refreshLoop() {

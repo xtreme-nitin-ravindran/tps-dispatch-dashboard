@@ -44,5 +44,5 @@ test('map and card selection share one zoom-preserving selected incident', () =>
 test('show-on-map is a working in-page link that selects the incident and reveals the map', () => {
   assert.match(html, /<a class="show-map-hint" href="#dispatchMap" hidden>Show on map/);
   assert.match(app, /event\.target\.closest\("\.show-map-hint"\)[\s\S]*?event\.preventDefault\(\);[\s\S]*?els\.dispatchMap\.scrollIntoView/);
-  assert.match(app, /event\.target\.closest\("\.show-map-hint"\)\) return;[\s\S]*?event\.key !== "Enter"/);
+  assert.match(app, /event\.target\.closest\("\.show-map-hint, \.glossary-trigger, \.glossary-popover"\)\) return;[\s\S]*?event\.key !== "Enter"/);
 });
