@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T07:39:24.102Z",
-  "sourceUpdatedAt": "2026-09-24T07:30:02.000Z",
+  "fetchedAt": "2026-09-24T07:40:34.281Z",
+  "sourceUpdatedAt": "2026-09-24T07:40:01.000Z",
   "incidents": [
+    {
+      "id": "F26151333",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9A",
+      "division": "443",
+      "timestamp": "2026-09-24T07:31:52.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T07:40:34.281Z",
+      "lastSeenAt": "2026-09-24T07:40:34.281Z",
+      "geography": {
+        "text": "Approximate area: (M9A) Etobicoke (Islington Avenue)",
+        "approximate": true,
+        "coordinates": [
+          43.6662,
+          -79.5282
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-fe882c5a96ce83259e2bb73c",
       "source": "TPS",
@@ -27,6 +53,40 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-24T07:31:51.602Z"
+    },
+    {
+      "id": "F26151332",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "LAWRENCE AVE, SC / 3950 LAWRENCE AVE E / 3967 LAWRENCE AVE E",
+      "division": "234",
+      "timestamp": "2026-09-24T07:28:02.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "231",
+            "234"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-24T07:40:34.281Z",
+      "lastSeenAt": "2026-09-24T07:40:34.281Z",
+      "geography": {
+        "text": "Lawrence Avenue between 3950 Lawrence Avenue East & 3967 Lawrence Avenue East",
+        "approximate": false,
+        "coordinates": [
+          43.76438005,
+          -79.20420734999999
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-20T02:41:31.032Z"
+      }
     },
     {
       "id": "TPS-a10578b911b7ac1ab7d9812b",
@@ -146,7 +206,7 @@
         }
       ],
       "firstSeenAt": "2026-09-24T07:20:42.278Z",
-      "lastSeenAt": "2026-09-24T07:39:24.102Z",
+      "lastSeenAt": "2026-09-24T07:40:34.281Z",
       "geography": {
         "text": "Approximate area: (M1M) Scarborough (Cliffside / Cliffcrest / Scarborough Village West)",
         "approximate": true,
@@ -179,7 +239,7 @@
         }
       ],
       "firstSeenAt": "2026-09-24T07:20:42.278Z",
-      "lastSeenAt": "2026-09-24T07:39:24.102Z",
+      "lastSeenAt": "2026-09-24T07:40:34.281Z",
       "geography": {
         "text": "Approximate area: (M4T) Central Toronto (Moore Park / Summerhill East)",
         "approximate": true,
@@ -202,7 +262,7 @@
       "division": "114",
       "timestamp": "2026-09-24T07:09:44.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -12938,7 +12998,7 @@
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
       "lastMeaningfulUpdateAt": "2026-09-24T06:51:22.124Z",
-      "lastSeenAt": "2026-09-24T07:39:24.102Z",
+      "lastSeenAt": "2026-09-24T07:40:34.281Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -124679,12 +124739,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T07:39:24.102Z",
-      "sourceUpdatedAt": "2026-09-24T07:30:02.000Z",
+      "fetchedAt": "2026-09-24T07:40:34.281Z",
+      "sourceUpdatedAt": "2026-09-24T07:40:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T07:39:24.102Z",
+      "fetchedAt": "2026-09-24T07:40:34.281Z",
       "status": "ok"
     }
   },
@@ -204343,6 +204403,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M9A": {
+      "text": "Approximate area: (M9A) Etobicoke (Islington Avenue)",
+      "approximate": true,
+      "coordinates": [
+        43.6662,
+        -79.5282
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "LAWRENCE AVE, SC / 3950 LAWRENCE AVE E / 3967 LAWRENCE AVE E": {
+      "text": "Lawrence Avenue between 3950 Lawrence Avenue East & 3967 Lawrence Avenue East",
+      "approximate": false,
+      "coordinates": [
+        43.76438005,
+        -79.20420734999999
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-20T02:41:31.032Z"
+    },
     "M3J": {
       "text": "Approximate area: (M3J) North York (Northwood Park / York University)",
       "approximate": true,
@@ -204927,18 +205011,6 @@
         -79.3626
       ],
       "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M9A": {
-      "text": "Approximate area: (M9A) Etobicoke (Islington Avenue)",
-      "approximate": true,
-      "coordinates": [
-        43.6662,
-        -79.5282
-      ],
-      "division": "Division 22",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -205902,18 +205974,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T07:19:34.126Z"
-    },
-    "LAWRENCE AVE, SC / 3950 LAWRENCE AVE E / 3967 LAWRENCE AVE E": {
-      "text": "Lawrence Avenue between 3950 Lawrence Avenue East & 3967 Lawrence Avenue East",
-      "approximate": false,
-      "coordinates": [
-        43.76438005,
-        -79.20420734999999
-      ],
-      "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-20T02:41:31.032Z"
     },
     "STEVENSON RD, ET / KIPLING AVE BICYCLE TRL / SILVERSTONE DR": {
       "text": "Stevenson Road between Kipling Avenue Bicycle Trl & Silverstone Drive",
