@@ -30,7 +30,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./styles.css?v=glossary-1" />
+  <link rel="stylesheet" href="./styles.css?v=incident-share-1" />
 </head>
 
 <body>
@@ -137,6 +137,7 @@
       <div class="view-actions"><span id="filterSummary"></span><button id="clearFilters" type="button">Clear
           filters</button><button id="shareView" type="button">Share view</button><input id="shareLink"
           aria-label="Shareable view link" readonly hidden><span id="shareStatus" role="status"></span></div>
+      <p id="sharedIncidentStatus" class="shared-incident-status" role="status" hidden></p>
 
       <nav class="radius-controls" aria-label="Incident search area">
         <span class="section-kicker">SEARCH AREA</span>
@@ -393,14 +394,18 @@
             </div>
           </div>
         </details>
-        <a class="show-map-hint" href="#dispatchMap" hidden>Show on map ↑</a>
+        <div class="incident-actions">
+          <a class="show-map-hint" href="#dispatchMap" hidden>Show on map ↑</a>
+          <button class="share-incident" type="button">Share</button>
+          <span class="incident-share-status" role="status"></span>
+        </div>
       </div>
     </article>
   </template>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=glossary-1"></script>
+  <script type="module" src="./app.js?v=incident-share-1"></script>
 </body>
 
 </html>

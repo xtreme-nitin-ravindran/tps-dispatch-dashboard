@@ -30,6 +30,33 @@ export function shareView(base, state) {
   return url.href;
 }
 
+export function shareIncidentView(base, state, incidentId) {
+  const url = new URL(shareView(base, state));
+  url.searchParams.set('incident', String(incidentId));
+  return url.href;
+}
+
+export function readSharedIncident(params) {
+  const value = params.get('incident');
+  return value ? value.slice(0, 300) : null;
+}
+
+export async function shareIncident(navigatorApi, data) {
+  if (typeof navigatorApi.share === 'function') {
+    try {
+      await navigatorApi.share(data);
+      return 'shared';
+    } catch (error) {
+      if (error?.name === 'AbortError') return 'cancelled';
+    }
+  }
+  if (typeof navigatorApi.clipboard?.writeText === 'function') {
+    await navigatorApi.clipboard.writeText(data.url);
+    return 'copied';
+  }
+  return 'manual';
+}
+
 export function preferenceRecord(state, preferences) {
   return {hours:state.hours, service:state.serviceFilter, event:state.eventFilter, division:state.division, roads:Boolean(preferences.roads), boundaries:Boolean(preferences.boundaries), theme:normalizeThemePreference(preferences.theme)};
 }

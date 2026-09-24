@@ -1,6 +1,6 @@
 import { sourceStatus, sourceStatusText } from "./src/source-status.js?v=source-states-1";
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
-import { filterDefaults, filterSummary, readFilters, shareView, loadPreferences, savePreferences } from "./src/view-controls.js";
+import { filterDefaults, filterSummary, readFilters, shareView, shareIncidentView, readSharedIncident, shareIncident, loadPreferences, savePreferences } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js?v=source-states-1";
 import { compactAge, compactReportedAge, locationConfidence, callStatus, sourceName } from "./src/call-presentation.js?v=incident-cards-1";
 import { distanceKm, distanceLabel, withinGeographicScope } from "./src/nearby.js?v=radius-controls-1";
@@ -10,7 +10,7 @@ import { locationDisplay, expandLocationAbbreviations } from "./src/location-dis
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
 import { nearbySummary } from "./src/nearby-summary.js";
 import { rankSirenMatches, SIREN_RADIUS_KM } from "./src/siren-matches.js";
-import { reconcileIncidentSelection } from "./src/incident-selection.js";
+import { reconcileIncidentSelection, restoreSharedIncident } from "./src/incident-selection.js";
 import { markerAgeLabel, markerAgeTier, markerGlyph } from "./src/marker-age.js";
 import { incidentBadge, incidentBadgeExpiry } from "./src/incident-badge.js?v=incident-badges-1";
 import { DISPATCH_GLOSSARY_FOOTER, glossaryDefinition } from "./src/dispatch-glossary.js?v=glossary-1";
@@ -88,6 +88,8 @@ let nearbyOriginLayer = null;
 let incidentBadgeTimer = null;
 let glossaryPopoverSequence = 0;
 let themePreference = "system";
+const initialParams = new URLSearchParams(location.search);
+let pendingSharedIncidentId = readSharedIncident(initialParams);
 const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
 const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 function syncTheme() {
@@ -270,6 +272,19 @@ async function loadData() {
     if (callsChanged || firstSnapshot) {
       applyFilters();
       els.callList.scrollTop = scrollTop;
+    }
+    if (pendingSharedIncidentId !== null) {
+      const requestedId = pendingSharedIncidentId;
+      pendingSharedIncidentId = null;
+      const restored = restoreSharedIncident(requestedId, state.filtered);
+      const status = document.querySelector('#sharedIncidentStatus');
+      if (restored.found) {
+        status.hidden = true;
+        selectCall(restored.id, { revealRow: true });
+      } else {
+        status.textContent = 'This shared incident is no longer available.';
+        status.hidden = false;
+      }
     }
     renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
     updateFreshness();
@@ -460,6 +475,31 @@ function renderStats() {
     : "No calls in current view";
 }
 
+async function handleIncidentShare(event, call) {
+  event.preventDefault();
+  event.stopPropagation();
+  const button = event.currentTarget;
+  const url = shareIncidentView(location.href, state, call.id);
+  const status = button.closest('[data-call-id]').querySelector('.incident-share-status');
+  try {
+    const result = await shareIncident(navigator, {
+      title: `${call.description} · SirenTO`,
+      text: `${call.description} at ${displayLocation(call).text}`,
+      url
+    });
+    status.textContent = result === 'copied' ? 'Link copied.' : result === 'manual' ? 'Copy unavailable.' : '';
+    if (result === 'manual') {
+      const output = document.querySelector('#shareLink');
+      output.value = url;
+      output.hidden = false;
+      output.focus();
+      output.select();
+    }
+  } catch {
+    status.textContent = 'Could not copy link.';
+  }
+}
+
 function createIncidentCard(call, { distance = "", variant = "list" } = {}) {
   const row = els.callTemplate.content.firstElementChild.cloneNode(true);
   const selected = variant !== "popup" && call.id === focusedCallId;
@@ -541,6 +581,9 @@ function createIncidentCard(call, { distance = "", variant = "list" } = {}) {
 
   const hint = row.querySelector(".show-map-hint");
   hint.hidden = variant === "popup" || !coordinatesForCall(call);
+  const shareButton = row.querySelector('.share-incident');
+  shareButton.setAttribute('aria-label', `Share incident: ${call.description}`);
+  shareButton.addEventListener('click', event => handleIncidentShare(event, call));
   return row;
 }
 
@@ -912,7 +955,7 @@ els.eventToggles.forEach(toggle => {
 });
 
 els.callList.addEventListener("click", (event) => {
-  if (event.target.closest("summary, .glossary-trigger, .glossary-popover")) return;
+  if (event.target.closest("summary, .glossary-trigger, .glossary-popover, .share-incident")) return;
   const row = event.target.closest(".incident-card--list");
   if (!row) return;
   selectCall(row.dataset.callId);
@@ -926,7 +969,7 @@ els.callList.addEventListener("click", (event) => {
 });
 
 els.callList.addEventListener("keydown", (event) => {
-  if (event.target.closest(".show-map-hint, .glossary-trigger, .glossary-popover")) return;
+  if (event.target.closest(".show-map-hint, .glossary-trigger, .glossary-popover, .share-incident")) return;
   if (event.key !== "Enter" && event.key !== " ") return;
   const row = event.target.closest(".incident-card--list");
   if (!row) return;
@@ -999,8 +1042,8 @@ document.querySelector('#themePreference').addEventListener('change', event => {
   syncTheme();
   rememberPreferences();
 });
-if (new URLSearchParams(location.search).has('view')) {
-  Object.assign(state, readFilters(new URLSearchParams(location.search)));
+if (initialParams.has('view')) {
+  Object.assign(state, readFilters(initialParams));
   syncFilterControls();
 }
 refreshLoop();
@@ -1171,14 +1214,14 @@ document.querySelector('#clearNearby').addEventListener('click', () => {
 });
 
 document.querySelector('#sirenResultsList').addEventListener('click', event => {
-  if (event.target.closest('summary')) return;
+  if (event.target.closest('summary, .share-incident')) return;
   const result = event.target.closest('[data-call-id]');
   if (result) selectCall(result.dataset.callId);
 });
 
 document.querySelector('#sirenResultsList').addEventListener('keydown', event => {
   if (event.key !== 'Enter' && event.key !== ' ') return;
-  if (event.target.closest('summary')) return;
+  if (event.target.closest('summary, .share-incident')) return;
   const result = event.target.closest('[data-call-id]');
   if (!result) return;
   event.preventDefault();
