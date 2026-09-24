@@ -49,7 +49,8 @@ test('selected radius is derived from the existing state for the single shared c
 test('radius changes reuse the complete filtering and rendering pipeline', () => {
   assert.match(app, /function updateNearbyView\(\) {[\s\S]*?applyFilters\(\);[\s\S]*?syncRadiusControls\(\);/);
   assert.match(app, /function render\(map = true\) {[\s\S]*?renderNearbySummary\(\);[\s\S]*?renderCalls\(\);[\s\S]*?renderMap\(\);[\s\S]*?renderDisruptions/);
-  assert.match(app, /toggle\.dataset\.radiusKm === 'toronto'[\s\S]*?state\.radiusKm = null;[\s\S]*?updateNearbyView\(\);/);
+  assert.match(app, /function selectNearbyRadius\(value\) {[\s\S]*?value === null[\s\S]*?state\.radiusKm = null;[\s\S]*?updateNearbyView\(\);/);
+  assert.match(app, /radiusToggles\.forEach[\s\S]*?selectNearbyRadius\(toggle\.dataset\.radiusKm === 'toronto' \? null : Number\(toggle\.dataset\.radiusKm\)\)/);
 });
 
 test('map and card selection share one zoom-preserving selected incident', () => {

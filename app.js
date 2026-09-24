@@ -9,6 +9,7 @@ import { incidentCategory } from "./src/tfs/category.js";
 import { locationDisplay, expandLocationAbbreviations } from "./src/location-display.js?v=hydro-corridor-1";
 import { isWithinHistoryWindow } from "./src/tfs/time.js";
 import { nearbySummary } from "./src/nearby-summary.js";
+import { nearbyEmptyState, nextNearbyRadius, radiusLabel } from "./src/nearby-empty-state.js";
 import { nearbyCtaCopy } from "./src/cta-copy.js";
 import { rankSirenMatches, SIREN_RADIUS_KM } from "./src/siren-matches.js";
 import { reconcileIncidentSelection, restoreSharedIncident } from "./src/incident-selection.js";
@@ -82,6 +83,7 @@ const mobileSheetStateControls = document.querySelectorAll('[data-sheet-target]'
 const mobileSheetCallList = document.querySelector('#mobileSheetCallList');
 const mobileCallsFeedStatus = document.querySelector('#mobileCallsFeedStatus');
 const nearbySort = document.querySelector('#nearbySort');
+const expandNearbyRadius = document.querySelector('#expandNearbyRadius');
 
 const TORONTO_CENTER = [43.7001, -79.42];
 let dispatchMap = null;
@@ -405,6 +407,11 @@ function populateDivisionFilter(calls) {
   const divisions = [...new Set(calls.map(c => c.division).filter(Boolean))]
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
+  // A zero-result nearby radius should not erase a division the user selected.
+  if (!calls.length && state.radiusKm !== null && current !== "all" && !divisions.includes(current)) {
+    divisions.push(current);
+  }
+
   els.divisionSelect.innerHTML = `<option value="all">All police divisions</option>` +
     divisions.map(d => `<option value="${encodeURIComponent(d)}">${d}</option>`).join("");
 
@@ -533,12 +540,41 @@ function renderNearbySummary() {
   const summary = document.querySelector("#nearbySummary");
   summary.hidden = false;
   document.querySelector("#nearbySummaryHeading").textContent = state.radiusKm === null ? "TORONTO SUMMARY" : "NEARBY SUMMARY";
-  const summaryText = nearbySummary(state.filtered, state.radiusKm, Date.now(), state.nearby, coordinatesForCall);
+  const empty = !state.filtered.length
+    ? nearbyEmptyState({
+        radiusKm: state.radiusKm,
+        origin: state.nearby,
+        matchingCalls: callsMatchingNonGeographicFilters(),
+        datasetIsEmpty: !state.calls.length,
+        coordinatesForCall
+      })
+    : null;
+  const summaryText = empty?.message
+    || nearbySummary(state.filtered, state.radiusKm, Date.now(), state.nearby, coordinatesForCall);
   document.querySelector("#nearbySummaryText").textContent = summaryText;
   if (mobileSheetSummary) mobileSheetSummary.textContent = summaryText;
+  expandNearbyRadius.hidden = empty?.nextRadiusKm === undefined;
+  if (!expandNearbyRadius.hidden) {
+    expandNearbyRadius.dataset.radiusKm = empty.nextRadiusKm === null ? 'toronto' : String(empty.nextRadiusKm);
+    expandNearbyRadius.textContent = `Expand to ${radiusLabel(empty.nextRadiusKm)}`;
+  }
   if (!state.nearby && state.nearbySort === 'nearest') state.nearbySort = NEARBY_SORT_DEFAULT;
   nearbySort.value = state.nearbySort;
   nearbySort.querySelector('[value="nearest"]').disabled = !state.nearby;
+}
+
+function callsMatchingNonGeographicFilters() {
+  const q = state.search.trim().toLowerCase();
+  return state.calls.filter(call => {
+    if (state.serviceFilter !== "all" && call.source !== state.serviceFilter) return false;
+    if (!isWithinHistoryWindow(call.timestamp, state.hours)) return false;
+    if (state.eventFilter === "ongoing" && !call.isOngoing) return false;
+    if (state.eventFilter !== "all" && state.eventFilter !== "ongoing" && call.eventCategory !== state.eventFilter) return false;
+    if (state.division !== "all" && call.division !== state.division) return false;
+    if (!q) return true;
+    return [call.description, call.location, displayLocation(call).text, call.division, call.divisionId, call.id, call.keyword]
+      .some(value => value.toLowerCase().includes(q));
+  });
 }
 
 function renderStats() {
@@ -1302,17 +1338,17 @@ hearSirensButton.addEventListener('click', () => {
   requestLocation(SIREN_RADIUS_KM, true);
 });
 chooseAreaButton.addEventListener('click', beginAreaChoice);
-radiusToggles.forEach(toggle => toggle.addEventListener('click', () => {
+function selectNearbyRadius(value) {
   sirenMode = false;
   sirenMatches = [];
-  if (toggle.dataset.radiusKm === 'toronto') {
+  if (value === null) {
     requestedRadiusKm = null;
     state.radiusKm = null;
     mapHasFitted = false;
     updateNearbyView();
     return;
   }
-  const radiusKm = Number(toggle.dataset.radiusKm);
+  const radiusKm = value;
   lastRadiusKm = radiusKm;
   if (!state.nearby) {
     rememberPreferences({ radiusKm });
@@ -1321,7 +1357,14 @@ radiusToggles.forEach(toggle => toggle.addEventListener('click', () => {
   }
   state.radiusKm = radiusKm;
   updateNearbyView();
+}
+radiusToggles.forEach(toggle => toggle.addEventListener('click', () => {
+  selectNearbyRadius(toggle.dataset.radiusKm === 'toronto' ? null : Number(toggle.dataset.radiusKm));
 }));
+expandNearbyRadius.addEventListener('click', () => {
+  const nextRadiusKm = nextNearbyRadius(state.radiusKm);
+  if (nextRadiusKm !== undefined) selectNearbyRadius(nextRadiusKm);
+});
 if (state.radiusKm !== null) {
   lastRadiusKm = state.radiusKm;
   requestLocation(state.radiusKm);
