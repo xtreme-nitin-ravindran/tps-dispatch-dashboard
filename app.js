@@ -2,7 +2,7 @@ import { sourceStatus, sourceStatusText } from "./src/source-status.js?v=source-
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
 import { filterDefaults, filterSummary, readFilters, shareView, loadPreferences, savePreferences } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js?v=source-states-1";
-import { compactAge, compactReportedAge, callExplanation, locationConfidence, callStatus } from "./src/call-presentation.js?v=incident-time-2";
+import { compactAge, compactReportedAge, callExplanation, locationConfidence, callStatus, sourceName } from "./src/call-presentation.js?v=incident-cards-1";
 import { distanceKm, distanceLabel, withinGeographicScope } from "./src/nearby.js?v=radius-controls-1";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
@@ -368,10 +368,6 @@ function renderIncidentFeedStatus() {
   return availability;
 }
 
-function sourceName(source) {
-  return source === "TPS" ? "Toronto Police Service" : "Toronto Fire Services";
-}
-
 function updateSirenMatches() {
   sirenMatches = sirenMode && state.nearby
     ? rankSirenMatches(state.calls, state.nearby)
@@ -403,20 +399,7 @@ function renderSirenResults() {
 
   for (const { call, distanceKm: distance } of sirenMatches) {
     const item = document.createElement("li");
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "siren-result";
-    button.dataset.callId = call.id;
-    const title = document.createElement("strong");
-    title.textContent = call.description;
-    const place = document.createElement("span");
-    place.className = "siren-result-location";
-    place.textContent = displayLocation(call).text;
-    const meta = document.createElement("span");
-    meta.className = "siren-result-meta";
-    meta.textContent = `${distanceLabel(distance)} · ${compactReportedAge(call.time)} · ${sourceName(call.source)}`;
-    button.append(title, place, meta);
-    item.append(button);
+    item.append(createIncidentCard(call, { distance: distanceLabel(distance), variant: "nearby" }));
     list.append(item);
   }
 }
@@ -455,6 +438,73 @@ function renderStats() {
     : "No calls in current view";
 }
 
+function createIncidentCard(call, { distance = "", variant = "list" } = {}) {
+  const row = els.callTemplate.content.firstElementChild.cloneNode(true);
+  row.dataset.callId = call.id;
+  row.classList.add(`incident-card--${variant}`);
+  row.classList.toggle("selected", variant === "list" && call.id === focusedCallId);
+  if (variant !== "popup" && coordinatesForCall(call)) {
+    row.tabIndex = 0;
+    row.setAttribute("role", "button");
+    row.setAttribute("aria-label", `Show on map: ${call.description} at ${displayLocation(call).text}`);
+  }
+
+  row.querySelector(".call-title").textContent = call.description;
+  row.querySelector(".call-location").textContent = displayLocation(call).text;
+
+  const distanceNode = row.querySelector(".distance-away");
+  const distanceSeparator = row.querySelector(".distance-separator");
+  distanceNode.textContent = distance;
+  distanceNode.hidden = !distance;
+  distanceSeparator.hidden = !distance;
+
+  const reportedAge = row.querySelector(".time-ago");
+  reportedAge.textContent = compactReportedAge(call.time);
+  reportedAge.dataset.reportedAt = call.time.toISOString();
+  row.querySelector(".reported-time").textContent = `Reported ${formatIncidentTime(call.time)}`;
+
+  const updatedTime = row.querySelector(".updated-time");
+  const updatedSeparator = row.querySelector(".updated-separator");
+  updatedTime.hidden = !call.updatedAt;
+  updatedSeparator.hidden = !call.updatedAt;
+  if (call.updatedAt) {
+    updatedTime.textContent = `Updated ${compactAge(call.updatedAt)}`;
+    updatedTime.dataset.updatedAt = call.updatedAt.toISOString();
+  }
+  row.querySelector(".incident-source").textContent = sourceName(call.source);
+
+  const status = callStatus(call);
+  const statusBadge = row.querySelector(".incident-status");
+  statusBadge.hidden = !status;
+  statusBadge.textContent = status || "";
+  if (status) statusBadge.classList.add(`incident-status--${status.toLowerCase()}`);
+
+  const explanation = row.querySelector(".call-explanation");
+  explanation.textContent = callExplanation(call.description);
+  explanation.hidden = !explanation.textContent;
+  row.querySelector(".location-confidence").textContent = locationConfidence(call);
+
+  const division = row.querySelector(".division-value");
+  division.textContent = call.source === "TFS" && call.division !== "Unknown"
+    ? `${call.division} (estimated)` : call.division;
+  row.querySelector(".call-division").hidden = !call.division || call.division === "Unknown";
+
+  const alarm = row.querySelector(".call-alarm");
+  if (call.isFireRelated && call.alarmLevel) {
+    alarm.hidden = false;
+    row.querySelector(".alarm-value").textContent = call.alarmLevel;
+  }
+  const units = row.querySelector(".unit-list");
+  const vehicles = row.querySelector(".call-vehicles");
+  vehicles.hidden = !call.unitGroups.length;
+  units.innerHTML = call.unitGroups.map(group =>
+    `<div><strong>${escapeText(group.type)}:</strong> ${escapeText(group.values)}</div>`).join("");
+
+  const hint = row.querySelector(".show-map-hint");
+  hint.hidden = variant === "popup" || !coordinatesForCall(call);
+  return row;
+}
+
 function renderCalls() {
   const availability=renderIncidentFeedStatus();
   if (!state.filtered.length && !availability.hasRelevantCachedData && availability.unavailable.length) {
@@ -487,63 +537,8 @@ function renderCalls() {
   const fragment = document.createDocumentFragment();
 
   state.filtered.forEach(call => {
-    const node = els.callTemplate.content.cloneNode(true);
-    const row = node.querySelector(".call-row");
-    row.dataset.callId = call.id;
-    row.classList.toggle("selected", call.id === focusedCallId);
-    row.tabIndex = 0;
-    if (coordinatesForCall(call)) {
-      row.setAttribute("role", "button");
-      row.setAttribute("aria-label", `Show on map: ${call.description} at ${displayLocation(call).text}`);
-      const hint = document.createElement('span');
-      hint.className = 'show-map-hint'; hint.textContent = 'Show on map ↗';
-      node.querySelector('.call-main').append(hint);
-    }
     const distance = distanceLabel(distanceKm(state.nearby, coordinatesForCall(call)));
-    const distanceNode = node.querySelector(".distance-away");
-    const distanceSeparator = node.querySelector(".distance-separator");
-    distanceNode.textContent = distance;
-    distanceNode.hidden = !distance;
-    distanceSeparator.hidden = !distance;
-    node.querySelector(".time-ago").textContent = compactReportedAge(call.time);
-    node.querySelector(".time-ago").dataset.reportedAt = call.time.toISOString();
-    node.querySelector(".call-title").textContent = call.description;
-    const explanation = node.querySelector('.call-explanation');
-    explanation.textContent = callExplanation(call.description);
-    explanation.hidden = !explanation.textContent;
-    const statusBadge = node.querySelector('.ongoing-badge');
-    statusBadge.hidden = false;
-    statusBadge.textContent = callStatus(call);
-    statusBadge.classList.toggle('status-neutral', call.source !== 'TFS' || !call.isOngoing);
-    node.querySelector(".source-badge").textContent = call.source;
-    node.querySelector(".police-division-badge").textContent = call.source === "TFS" && call.division !== "Unknown"
-      ? `${call.division} (estimated)` : call.division;
-    node.querySelector(".call-vehicles").hidden = call.source === "TPS";
-    node.querySelector(".call-location").textContent = displayLocation(call).text;
-    node.querySelector(".location-confidence").textContent = locationConfidence(call);
-    const alarm = node.querySelector(".call-alarm");
-    const alarmValue = node.querySelector(".alarm-value");
-    const units = node.querySelector(".unit-list");
-    if (call.isFireRelated && call.alarmLevel) {
-      alarm.hidden = false;
-      alarmValue.textContent = call.alarmLevel;
-    }
-    units.innerHTML = call.unitGroups.length
-      ? call.unitGroups.map(group => `<div><strong>${escapeText(group.type)} #:</strong> ${escapeText(group.values)}</div>`).join("")
-      : "Not provided by public feed";
-    node.querySelector(".reported-time").textContent = `Reported ${formatIncidentTime(call.time)}`;
-    const updatedTime = node.querySelector(".updated-time");
-    const updatedSeparator = node.querySelector(".updated-separator");
-    updatedTime.hidden = !call.updatedAt;
-    updatedSeparator.hidden = !call.updatedAt;
-    if (call.updatedAt) {
-      updatedTime.textContent = `Updated ${compactAge(call.updatedAt)}`;
-      updatedTime.dataset.updatedAt = call.updatedAt.toISOString();
-    }
-    node.querySelector(".incident-source").textContent = call.source === "TPS"
-      ? "Toronto Police Service"
-      : "Toronto Fire Services";
-    fragment.appendChild(node);
+    fragment.appendChild(createIncidentCard(call, { distance }));
   });
 
   els.callList.replaceChildren(fragment);
@@ -648,7 +643,14 @@ function renderMapMarkers() {
     tooltip.textContent = `${call.source}: ${call.description}`;
     const marker = L.marker(position, { title: `${call.source}: ${call.description}`, icon: markerIcon(call.id === focusedCallId, isApproximateLocation(call), sirenIds.has(call.id)) })
       .bindTooltip(tooltip, { direction: "top" })
-      .on("click", () => selectCall(call.id, { pan: false, revealRow: true }));
+      .bindPopup(createIncidentCard(call, {
+        distance: distanceLabel(distanceKm(state.nearby, coordinates)),
+        variant: "popup"
+      }), { minWidth: 280, maxWidth: 360, closeOnClick: false })
+      .on("click", event => {
+        selectCall(call.id, { pan: false, revealRow: true });
+        setTimeout(() => event.target.openPopup(), 0);
+      });
     marker.addTo(callLayer);
     mapMarkers.set(call.id, marker);
   };
@@ -717,7 +719,7 @@ async function selectCall(callId, { pan = true, revealRow = false } = {}) {
 
 
   let selectedRow;
-  document.querySelectorAll(".call-row").forEach(row => {
+  document.querySelectorAll(".incident-card--list").forEach(row => {
     const selected = row.dataset.callId === callId;
     row.classList.toggle("selected", selected);
     row.classList.remove("pin-highlight");
@@ -824,13 +826,14 @@ els.eventToggles.forEach(toggle => {
 });
 
 els.callList.addEventListener("click", (event) => {
-  const row = event.target.closest(".call-row");
+  if (event.target.closest("summary")) return;
+  const row = event.target.closest(".incident-card--list");
   if (row) selectCall(row.dataset.callId);
 });
 
 els.callList.addEventListener("keydown", (event) => {
   if (event.key !== "Enter" && event.key !== " ") return;
-  const row = event.target.closest(".call-row");
+  const row = event.target.closest(".incident-card--list");
   if (!row) return;
   event.preventDefault();
   selectCall(row.dataset.callId);
@@ -1033,8 +1036,18 @@ document.querySelector('#clearNearby').addEventListener('click', () => {
 });
 
 document.querySelector('#sirenResultsList').addEventListener('click', event => {
+  if (event.target.closest('summary')) return;
   const result = event.target.closest('[data-call-id]');
   if (result) selectCall(result.dataset.callId);
+});
+
+document.querySelector('#sirenResultsList').addEventListener('keydown', event => {
+  if (event.key !== 'Enter' && event.key !== ' ') return;
+  if (event.target.closest('summary')) return;
+  const result = event.target.closest('[data-call-id]');
+  if (!result) return;
+  event.preventDefault();
+  selectCall(result.dataset.callId);
 });
 
 setInterval(() => {

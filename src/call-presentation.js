@@ -51,6 +51,9 @@ export function locationConfidence(call) {
 }
 
 export function callStatus(call) {
-  if (call.source !== 'TFS' || typeof call.isOngoing !== 'boolean') return 'Status not provided';
-  return call.isOngoing ? 'Ongoing in latest TFS update' : 'No longer listed as active by TFS';
+  return call.source === 'TFS' && call.isOngoing === true ? 'ONGOING' : null;
+}
+
+export function sourceName(source) {
+  return source === 'TPS' ? 'Toronto Police Service' : 'Toronto Fire Services';
 }

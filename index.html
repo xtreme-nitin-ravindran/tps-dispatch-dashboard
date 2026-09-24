@@ -249,13 +249,12 @@
   </div>
 
   <template id="callTemplate">
-    <article class="call-row">
+    <article class="incident-card call-row">
       <div class="call-main">
         <div class="call-title-row">
           <h4 class="call-title"></h4>
-
+          <span class="incident-status" hidden></span>
         </div>
-        <p class="call-explanation" hidden></p>
         <p class="call-location"></p>
         <p class="call-recency">
           <strong class="distance-away" hidden></strong>
@@ -269,31 +268,33 @@
           <span class="updated-separator" aria-hidden="true">·</span>
           <span class="incident-source"></span>
         </p>
-        <p class="location-confidence"></p>
-        <div class="call-details">
-          <div class="call-detail call-alarm" hidden>
-            <span class="detail-label">Alarm level</span>
-            <strong class="alarm-value"></strong>
-          </div>
-          <div class="call-detail call-vehicles">
-            <span class="detail-label">Emergency vehicles</span>
-            <div>
+        <details class="call-details">
+          <summary>More details</summary>
+          <div class="call-details-body">
+            <p class="call-explanation" hidden></p>
+            <p class="location-confidence"></p>
+            <div class="call-detail call-division">
+              <span class="detail-label">Division / district</span>
+              <strong class="division-value"></strong>
+            </div>
+            <div class="call-detail call-alarm" hidden>
+              <span class="detail-label">Alarm level</span>
+              <strong class="alarm-value"></strong>
+            </div>
+            <div class="call-detail call-vehicles">
+              <span class="detail-label">Responding units</span>
               <div class="unit-list"></div>
             </div>
           </div>
-        </div>
+        </details>
+        <span class="show-map-hint" hidden>Show on map ↗</span>
       </div>
-          <div class="call-badges">
-            <span class="division-badge source-badge"></span>
-            <span class="ongoing-badge" hidden>ONGOING</span>
-            <span class="division-badge police-division-badge"></span>
-          </div>
     </article>
   </template>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=source-states-1"></script>
+  <script type="module" src="./app.js?v=incident-cards-1"></script>
 </body>
 
 </html>
