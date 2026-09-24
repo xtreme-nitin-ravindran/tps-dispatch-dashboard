@@ -18,6 +18,7 @@ import { DISPATCH_GLOSSARY_FOOTER, glossaryDefinition } from "./src/dispatch-glo
 import { applyTheme, normalizeThemePreference } from "./src/theme.js";
 import { createRefreshFreshnessTracker } from "./src/refresh-freshness.js";
 import { mobileSheetActionLabel, mobileSheetStateAfterDrag, nextMobileSheetState } from "./src/mobile-bottom-sheet.js";
+import { NEARBY_SORT_DEFAULT, sortNearbyCalls } from "./src/nearby-sort.js";
 
 const CONFIG = {
   snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
@@ -36,7 +37,8 @@ const state = {
   search: "",
   division: "all",
   serviceFilter: "all",
-  eventFilter: "all"
+  eventFilter: "all",
+  nearbySort: NEARBY_SORT_DEFAULT
 };
 
 const els = {
@@ -79,6 +81,7 @@ const mobileSheetSummary = document.querySelector('#mobileSheetSummary');
 const mobileSheetStateControls = document.querySelectorAll('[data-sheet-target]');
 const mobileSheetCallList = document.querySelector('#mobileSheetCallList');
 const mobileCallsFeedStatus = document.querySelector('#mobileCallsFeedStatus');
+const nearbySort = document.querySelector('#nearbySort');
 
 const TORONTO_CENTER = [43.7001, -79.42];
 let dispatchMap = null;
@@ -529,9 +532,12 @@ function renderNearbySummary() {
   const summary = document.querySelector("#nearbySummary");
   summary.hidden = false;
   document.querySelector("#nearbySummaryHeading").textContent = state.radiusKm === null ? "TORONTO SUMMARY" : "NEARBY SUMMARY";
-  const summaryText = nearbySummary(state.filtered, state.radiusKm);
+  const summaryText = nearbySummary(state.filtered, state.radiusKm, Date.now(), state.nearby, coordinatesForCall);
   document.querySelector("#nearbySummaryText").textContent = summaryText;
   if (mobileSheetSummary) mobileSheetSummary.textContent = summaryText;
+  if (!state.nearby && state.nearbySort === 'nearest') state.nearbySort = NEARBY_SORT_DEFAULT;
+  nearbySort.value = state.nearbySort;
+  nearbySort.querySelector('[value="nearest"]').disabled = !state.nearby;
 }
 
 function renderStats() {
@@ -689,7 +695,7 @@ function renderCalls() {
     if (!list) return;
     if (state.filtered.length) {
       const fragment = document.createDocumentFragment();
-      state.filtered.forEach(call => {
+      sortNearbyCalls(state.filtered, state.nearbySort, state.nearby, coordinatesForCall).forEach(call => {
         const distance = distanceLabel(distanceKm(state.nearby, coordinatesForCall(call)));
         fragment.appendChild(createIncidentCard(call, { distance }));
       });
@@ -719,6 +725,12 @@ function renderCalls() {
   renderList(mobileSheetCallList);
   scheduleIncidentBadgeExpiry();
 }
+
+nearbySort.addEventListener('change', event => {
+  state.nearbySort = event.target.value === 'nearest' && state.nearby ? 'nearest' : NEARBY_SORT_DEFAULT;
+  nearbySort.value = state.nearbySort;
+  renderCalls();
+});
 
 function updateIncidentBadges() {
   const calls = new Map(state.calls.map(call => [call.id, call]));

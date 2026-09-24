@@ -831,6 +831,32 @@ a {
   line-height: 1.35;
 }
 
+.nearby-summary-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.nearby-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font: 10px/1 "Space Mono", monospace;
+  text-transform: uppercase;
+}
+
+.nearby-sort select {
+  min-height: 32px;
+  padding: 5px 28px 5px 9px;
+  border: 1px solid var(--accent-line);
+  border-radius: 8px;
+  color: var(--text);
+  background: var(--panel-2);
+  font: 600 12px/1 "DM Sans", sans-serif;
+}
+
 .nearby-summary[hidden] {
   display: none;
 }

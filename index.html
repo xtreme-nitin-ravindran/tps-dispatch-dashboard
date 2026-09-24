@@ -159,7 +159,15 @@
 
       <section class="nearby-summary" id="nearbySummary" aria-labelledby="nearbySummaryHeading" aria-live="polite"
         aria-atomic="true" hidden>
-        <span class="section-kicker" id="nearbySummaryHeading">NEARBY SUMMARY</span>
+        <div class="nearby-summary-head">
+          <span class="section-kicker" id="nearbySummaryHeading">NEARBY SUMMARY</span>
+          <label class="nearby-sort" for="nearbySort">Sort
+            <select id="nearbySort" aria-label="Sort nearby calls">
+              <option value="nearest">Nearest</option>
+              <option value="newest" selected>Newest</option>
+            </select>
+          </label>
+        </div>
         <p id="nearbySummaryText"></p>
       </section>
 

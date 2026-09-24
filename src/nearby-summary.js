@@ -1,3 +1,5 @@
+import { distanceKm, distanceLabel } from "./nearby.js";
+
 const CATEGORY_ORDER = ["Fire", "Medical", "Police", "Other"];
 
 function summaryCategory(call) {
@@ -17,7 +19,19 @@ function compactAge(timestamp, now) {
   return `${days} day${days === 1 ? "" : "s"} ago`;
 }
 
-export function nearbySummary(calls, radiusKm, now = Date.now()) {
+function closestDistance(calls, origin, coordinatesForCall) {
+  if (!origin || !calls.length) return "";
+  const distance = Math.min(...calls.map(call => distanceKm(origin, coordinatesForCall(call))));
+  return distanceLabel(distance).replace(/ away$/, "");
+}
+
+export function nearbySummary(
+  calls,
+  radiusKm,
+  now = Date.now(),
+  origin = null,
+  coordinatesForCall = call => call?.geography?.coordinates
+) {
   const noun = calls.length === 1 ? "call" : "calls";
   const opening = radiusKm === null
     ? `${calls.length} recent ${noun} across Toronto`
@@ -34,5 +48,6 @@ export function nearbySummary(calls, radiusKm, now = Date.now()) {
     .map(category => `${counts.get(category)} ${category}`)
     .join(" · ");
   const newest = Math.max(...calls.map(call => new Date(call.timestamp).getTime()));
-  return `${opening} · ${breakdown} · Latest ${compactAge(newest, now)}.`;
+  const closest = closestDistance(calls, origin, coordinatesForCall);
+  return `${opening} · ${breakdown}${closest ? ` · Closest ${closest}` : ""} · Latest ${compactAge(newest, now)}.`;
 }

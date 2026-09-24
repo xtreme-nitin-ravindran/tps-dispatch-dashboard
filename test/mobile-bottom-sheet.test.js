@@ -50,7 +50,7 @@ test('sheet remains operable without drag gestures', () => {
 });
 
 test('sheet reuses nearby summary, incident cards, and existing controls', () => {
-  assert.match(app, /const summaryText = nearbySummary\(state\.filtered, state\.radiusKm\)[\s\S]*?mobileSheetSummary\.textContent = summaryText/);
+  assert.match(app, /const summaryText = nearbySummary\(state\.filtered, state\.radiusKm,[^;]+\);[\s\S]*?mobileSheetSummary\.textContent = summaryText/);
   assert.match(html, /id="mobileSheetCallList"/);
   assert.match(app, /renderList\(els\.callList\);\s*renderList\(mobileSheetCallList\)/);
   assert.equal([...app.matchAll(/function createIncidentCard\(/g)].length, 1);
