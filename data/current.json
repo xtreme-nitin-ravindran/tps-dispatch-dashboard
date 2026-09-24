@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T14:54:33.536Z",
-  "sourceUpdatedAt": "2026-09-24T14:50:01.000Z",
+  "fetchedAt": "2026-09-24T14:56:09.328Z",
+  "sourceUpdatedAt": "2026-09-24T14:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26151472",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6S",
+      "division": "422",
+      "timestamp": "2026-09-24T14:49:50.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T14:56:09.328Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
+      "geography": {
+        "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
+        "approximate": true,
+        "coordinates": [
+          43.6512,
+          -79.4828
+        ],
+        "division": "Division 11",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26151471",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "RATHNELLY AVE, TT / MACPHERSON AVE / MC MASTER AVE",
+      "division": "344",
+      "timestamp": "2026-09-24T14:49:32.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T14:56:09.328Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
+      "geography": {
+        "text": "Approximate location near Rathnelly Avenue & Mc Master Avenue",
+        "approximate": true,
+        "coordinates": [
+          43.6784624,
+          -79.4008766
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-24T14:56:09.328Z"
+      }
+    },
+    {
+      "id": "F26151470",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "EPPLEWORTH RD, SC / CORVETTE AVE /",
+      "division": "221",
+      "timestamp": "2026-09-24T14:47:04.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T14:56:09.328Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
+      "geography": {
+        "text": "Eppleworth Road & Corvette Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.7258328,
+          -79.2625523
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-24T14:56:09.328Z"
+      }
+    },
     {
       "id": "TPS-7eba973178d0e433b7e4d421",
       "source": "TPS",
@@ -60,9 +138,17 @@
       "timestamp": "2026-09-24T14:44:26.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "433"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T14:50:49.259Z",
-      "lastSeenAt": "2026-09-24T14:54:33.536Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T14:56:09.328Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
       "geography": {
         "text": "Horner Avenue & Evans Avenue",
         "approximate": false,
@@ -85,7 +171,7 @@
       "division": "331",
       "timestamp": "2026-09-24T14:44:00.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-24T14:50:49.259Z",
       "lastSeenAt": "2026-09-24T14:54:33.536Z",
@@ -156,9 +242,50 @@
       "timestamp": "2026-09-24T14:41:18.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "415"
+          ]
+        },
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "14",
+            "41"
+          ]
+        },
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "111"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "411",
+            "412",
+            "415"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "413"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "445"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T14:50:49.259Z",
-      "lastSeenAt": "2026-09-24T14:54:33.536Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T14:56:09.328Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
       "geography": {
         "text": "Albion Road between Thistle Down Boulevard & Islington North Albion East Ramp",
         "approximate": false,
@@ -204,9 +331,17 @@
       "timestamp": "2026-09-24T14:40:25.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "244"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T14:50:49.259Z",
-      "lastSeenAt": "2026-09-24T14:54:33.536Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T14:56:09.328Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
       "geography": {
         "text": "Approximate area: (M1T) Scarborough (Clarks Corners / Tam O'Shanter / Sullivan)",
         "approximate": true,
@@ -240,7 +375,7 @@
       ],
       "firstSeenAt": "2026-09-24T14:46:05.110Z",
       "lastMeaningfulUpdateAt": "2026-09-24T14:50:49.259Z",
-      "lastSeenAt": "2026-09-24T14:54:33.536Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -263,7 +398,7 @@
       "division": "235",
       "timestamp": "2026-09-24T14:39:14.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -330,7 +465,7 @@
       ],
       "firstSeenAt": "2026-09-24T14:46:05.110Z",
       "lastMeaningfulUpdateAt": "2026-09-24T14:50:49.259Z",
-      "lastSeenAt": "2026-09-24T14:54:33.536Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
       "geography": {
         "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
         "approximate": true,
@@ -486,7 +621,7 @@
       ],
       "firstSeenAt": "2026-09-24T14:39:21.553Z",
       "lastMeaningfulUpdateAt": "2026-09-24T14:41:31.273Z",
-      "lastSeenAt": "2026-09-24T14:54:33.536Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
       "geography": {
         "text": "Approximate area: (M9A) Etobicoke (Islington Avenue)",
         "approximate": true,
@@ -520,7 +655,7 @@
       ],
       "firstSeenAt": "2026-09-24T14:39:21.553Z",
       "lastMeaningfulUpdateAt": "2026-09-24T14:41:31.273Z",
-      "lastSeenAt": "2026-09-24T14:54:33.536Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
       "geography": {
         "text": "Approximate location near Yonge Boulevard & Wilson Avenue",
         "approximate": true,
@@ -554,7 +689,7 @@
       ],
       "firstSeenAt": "2026-09-24T14:39:21.553Z",
       "lastMeaningfulUpdateAt": "2026-09-24T14:41:31.273Z",
-      "lastSeenAt": "2026-09-24T14:54:33.536Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
       "geography": {
         "text": "Approximate area: (M3N) North York (Jane and Finch)",
         "approximate": true,
@@ -643,7 +778,7 @@
       "division": "234",
       "timestamp": "2026-09-24T14:22:01.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -775,7 +910,7 @@
       ],
       "firstSeenAt": "2026-09-24T14:25:36.460Z",
       "lastMeaningfulUpdateAt": "2026-09-24T14:31:42.602Z",
-      "lastSeenAt": "2026-09-24T14:54:33.536Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
       "geography": {
         "text": "Queen Street West & Gladstone Avenue",
         "approximate": false,
@@ -875,7 +1010,7 @@
       ],
       "firstSeenAt": "2026-09-24T14:22:02.400Z",
       "lastMeaningfulUpdateAt": "2026-09-24T14:25:36.460Z",
-      "lastSeenAt": "2026-09-24T14:54:33.536Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
       "geography": {
         "text": "Pharmacy Avenue & Comstock Road",
         "approximate": false,
@@ -954,7 +1089,7 @@
       "division": "342",
       "timestamp": "2026-09-24T14:13:05.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -2458,7 +2593,7 @@
       ],
       "firstSeenAt": "2026-09-24T13:30:31.202Z",
       "lastMeaningfulUpdateAt": "2026-09-24T13:51:35.399Z",
-      "lastSeenAt": "2026-09-24T14:54:33.536Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
       "geography": {
         "text": "Dundas Street between Mccaul Street & Beverley Street",
         "approximate": false,
@@ -19291,7 +19426,7 @@
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
       "lastMeaningfulUpdateAt": "2026-09-24T12:40:44.360Z",
-      "lastSeenAt": "2026-09-24T14:54:33.536Z",
+      "lastSeenAt": "2026-09-24T14:56:09.328Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -131032,18 +131167,172 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T14:54:33.536Z",
-      "sourceUpdatedAt": "2026-09-24T14:50:01.000Z",
+      "fetchedAt": "2026-09-24T14:56:09.328Z",
+      "sourceUpdatedAt": "2026-09-24T14:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T14:54:33.536Z",
+      "fetchedAt": "2026-09-24T14:56:09.328Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "Tor-RD1H2026-1844-4",
+          "title": "Bay St 13 m North of Hagerman St to 9 m South of Hagerman St",
+          "description": "Toronto-TMC: inspections and roping locations will be completed at a pace of 2-3 a day WE ARE NOT SURE OF THE STARTING POINT BUT WE WILL NEED 1-2 DAYS TO COMPLETE",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1790118000000,
+          "end": 1790931600000,
+          "expired": false,
+          "coordinates": [
+            43.65445,
+            -79.38321
+          ],
+          "line": [
+            [
+              43.65445,
+              -79.38321
+            ],
+            [
+              43.65434,
+              -79.38316
+            ],
+            [
+              43.65434,
+              -79.38316
+            ],
+            [
+              43.65426,
+              -79.38314
+            ]
+          ],
+          "schedule": "Monday: 19:00-05:00; Tuesday: 19:00-05:00; Wednesday: 19:00-05:00; Thursday: 19:00-05:00; Friday: 19:00-05:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1H2026-1844-1",
+          "title": "Hagerman St at Elizabeth St to 17 m East of Elizabeth St",
+          "description": "Toronto-TMC: inspections and roping locations will be completed at a pace of 2-3 a day WE ARE NOT SURE OF THE STARTING POINT BUT WE WILL NEED 1-2 DAYS TO COMPLETE",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1790118000000,
+          "end": 1790931600000,
+          "expired": false,
+          "coordinates": [
+            43.65405,
+            -79.3846
+          ],
+          "line": [
+            [
+              43.65405,
+              -79.3846
+            ],
+            [
+              43.65404,
+              -79.38455
+            ],
+            [
+              43.65408,
+              -79.38439
+            ]
+          ],
+          "schedule": "Monday: 19:00-05:00; Tuesday: 19:00-05:00; Wednesday: 19:00-05:00; Thursday: 19:00-05:00; Friday: 19:00-05:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1H2026-1844-3",
+          "title": "Bay St at Hagerman St to 12 m North of Hagerman St",
+          "description": "Toronto-TMC: inspections and roping locations will be completed at a pace of 2-3 a day WE ARE NOT SURE OF THE STARTING POINT BUT WE WILL NEED 1-2 DAYS TO COMPLETE",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1790118000000,
+          "end": 1790931600000,
+          "expired": false,
+          "coordinates": [
+            43.65434,
+            -79.38316
+          ],
+          "line": [
+            [
+              43.65434,
+              -79.38316
+            ],
+            [
+              43.65444,
+              -79.38321
+            ]
+          ],
+          "schedule": "Monday: 19:00-05:00; Tuesday: 19:00-05:00; Wednesday: 19:00-05:00; Thursday: 19:00-05:00; Friday: 19:00-05:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1H2026-1844-2",
+          "title": "Hagerman St 22 m West of Bay St to Bay St",
+          "description": "Toronto-TMC: inspections and roping locations will be completed at a pace of 2-3 a day WE ARE NOT SURE OF THE STARTING POINT BUT WE WILL NEED 1-2 DAYS TO COMPLETE",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1790118000000,
+          "end": 1790931600000,
+          "expired": false,
+          "coordinates": [
+            43.65428,
+            -79.38342
+          ],
+          "line": [
+            [
+              43.65428,
+              -79.38342
+            ],
+            [
+              43.65434,
+              -79.38316
+            ]
+          ],
+          "schedule": "Monday: 19:00-05:00; Tuesday: 19:00-05:00; Wednesday: 19:00-05:00; Thursday: 19:00-05:00; Friday: 19:00-05:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD52026-5946-1",
+          "title": "Dixon Rd 59 m East of Highway 27 N to 31 m East of Hepc",
+          "description": "Toronto-TMC: - Guide rail repair on Dixon Rd & Highway 27. - A protected pathway is provided for pedestrians. - The ramp will be closed during the work.",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "start": 1790600400000,
+          "end": 1790712000000,
+          "expired": false,
+          "coordinates": [
+            43.68917,
+            -79.58139
+          ],
+          "line": [
+            [
+              43.68917,
+              -79.58139
+            ],
+            [
+              43.68966,
+              -79.57945
+            ],
+            [
+              43.68966,
+              -79.57945
+            ],
+            [
+              43.68973,
+              -79.57918
+            ],
+            [
+              43.68975,
+              -79.57908
+            ]
+          ],
+          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "Tor-RD52026-5946-2",
           "title": "27 N Dixon W Ramp 38 m Northeast of Dixon Rd to 38 m Northeast of Dixon Rd",
@@ -131161,44 +131450,6 @@
             [
               43.6901,
               -79.58252
-            ]
-          ],
-          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD52026-5946-1",
-          "title": "Dixon Rd 59 m East of Highway 27 N to 31 m East of Hepc",
-          "description": "Toronto-TMC: - Guide rail repair on Dixon Rd & Highway 27. - A protected pathway is provided for pedestrians. - The ramp will be closed during the work.",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "start": 1790600400000,
-          "end": 1790712000000,
-          "expired": false,
-          "coordinates": [
-            43.68917,
-            -79.58139
-          ],
-          "line": [
-            [
-              43.68917,
-              -79.58139
-            ],
-            [
-              43.68966,
-              -79.57945
-            ],
-            [
-              43.68966,
-              -79.57945
-            ],
-            [
-              43.68973,
-              -79.57918
-            ],
-            [
-              43.68975,
-              -79.57908
             ]
           ],
           "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
@@ -213986,8 +214237,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-24T14:50:49.259Z",
-      "fetchedAt": "2026-09-24T14:50:49.259Z"
+      "checkedAt": "2026-09-24T14:56:09.328Z",
+      "fetchedAt": "2026-09-24T14:56:09.328Z"
     },
     "transit": {
       "items": [
@@ -214051,38 +214302,6 @@
             {
               "start": 1789589371000,
               "end": 1790308740000
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "76829",
-          "title": "168 Symington: Buses are not stopping near Avon Loop at Weston Rd due to a blocked road.",
-          "description": "",
-          "effect": "NO SERVICE",
-          "routes": [
-            "168"
-          ],
-          "periods": [
-            {
-              "start": 1790260758000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "76828",
-          "title": "161 Rogers Rd: Buses are not stopping near Avon Loop at Weston Rd due to a blocked road.",
-          "description": "",
-          "effect": "NO SERVICE",
-          "routes": [
-            "161"
-          ],
-          "periods": [
-            {
-              "start": 1790260757000,
-              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -214581,6 +214800,22 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
+          "id": "76830",
+          "title": "503 Kingston Rd: Delays eastbound from Queen St East at Kingston Rd to Kingston Rd at Victoria Park Ave due to Marathon.",
+          "description": "",
+          "effect": "SIGNIFICANT DELAYS",
+          "routes": [
+            "503"
+          ],
+          "periods": [
+            {
+              "start": 1790261523000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
           "id": "76825",
           "title": "506 Carlton: Detour via Bathurst St, Dundas St W and Ossington Ave due to a collision.",
           "description": "",
@@ -214728,6 +214963,23 @@
             {
               "start": 1790038800000,
               "end": 1792051200000
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "207",
+          "title": "– Temporary route change due to streetcar infrastructure work",
+          "description": "512/312 St Clair streetcars will be replaced with buses. \n \nBoard replacement buses at curbside stops.",
+          "effect": "MODIFIED SERVICE",
+          "routes": [
+            "512",
+            "312"
+          ],
+          "periods": [
+            {
+              "start": 1790582400000,
+              "end": 1791014400000
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -215182,14 +215434,50 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-24T14:50:49.000Z",
+      "sourceUpdatedAt": "2026-09-24T14:56:10.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-24T14:50:49.259Z",
-      "fetchedAt": "2026-09-24T14:50:49.259Z"
+      "checkedAt": "2026-09-24T14:56:09.328Z",
+      "fetchedAt": "2026-09-24T14:56:09.328Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6S": {
+      "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
+      "approximate": true,
+      "coordinates": [
+        43.6512,
+        -79.4828
+      ],
+      "division": "Division 11",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "RATHNELLY AVE, TT / MACPHERSON AVE / MC MASTER AVE": {
+      "text": "Approximate location near Rathnelly Avenue & Mc Master Avenue",
+      "approximate": true,
+      "coordinates": [
+        43.6784624,
+        -79.4008766
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-24T14:56:09.328Z"
+    },
+    "EPPLEWORTH RD, SC / CORVETTE AVE /": {
+      "text": "Eppleworth Road & Corvette Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.7258328,
+        -79.2625523
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-24T14:56:09.328Z"
+    },
     "HORNER AVE / EVANS AVE": {
       "text": "Horner Avenue & Evans Avenue",
       "approximate": false,
@@ -217676,18 +217964,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-23T04:01:15.853Z"
-    },
-    "M6S": {
-      "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
-      "approximate": true,
-      "coordinates": [
-        43.6512,
-        -79.4828
-      ],
-      "division": "Division 11",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "FINCH AVE, NY / WESTON RD / LINDYLOU PARK TRL": {
       "text": "Approximate location near Finch Avenue & Weston Road",
