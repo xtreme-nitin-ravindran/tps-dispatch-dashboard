@@ -3,33 +3,90 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-24T12:09:55.612Z",
-  "sourceUpdatedAt": "2026-09-24T12:05:01.000Z",
+  "fetchedAt": "2026-09-24T12:10:36.909Z",
+  "sourceUpdatedAt": "2026-09-24T12:10:01.000Z",
   "incidents": [
+    {
+      "id": "F26151386",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Grass/Rubbish",
+      "location": "SPADINA AVE / LAKE SHORE BLVD W",
+      "division": "334",
+      "timestamp": "2026-09-24T12:03:37.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T12:10:36.909Z",
+      "lastSeenAt": "2026-09-24T12:10:36.909Z",
+      "geography": {
+        "text": "Approximate location on Spadina Avenue",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-24T11:22:55.620Z"
+      }
+    },
+    {
+      "id": "F26151385",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9N",
+      "division": "442",
+      "timestamp": "2026-09-24T12:00:52.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-24T12:10:36.909Z",
+      "lastSeenAt": "2026-09-24T12:10:36.909Z",
+      "geography": {
+        "text": "Approximate area: (M9N) Weston",
+        "approximate": true,
+        "coordinates": [
+          43.7068,
+          -79.517
+        ],
+        "division": "Division 12",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26151384",
       "source": "TFS",
       "eventType": "fire",
       "description": "Check Call - Non Emergency",
-      "location": "KING ST W / DOURO ST",
-      "division": "331",
+      "location": "WESTERN BATTERY RD / LYNN WILLIAMS ST",
+      "division": "346",
       "timestamp": "2026-09-24T11:59:48.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "331"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T12:06:11.191Z",
-      "lastSeenAt": "2026-09-24T12:09:55.612Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T12:10:36.909Z",
+      "lastSeenAt": "2026-09-24T12:10:36.909Z",
       "geography": {
-        "text": "King Street West & Douro Street",
+        "text": "Western Battery Road & Lynn Williams Street",
         "approximate": false,
         "coordinates": [
-          43.6411164,
-          -79.4166194
+          43.6390222,
+          -79.4159173
         ],
         "division": "Division 14",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-24T12:06:11.191Z"
+        "checkedAt": "2026-09-24T12:10:36.909Z"
       }
     },
     {
@@ -42,9 +99,17 @@
       "timestamp": "2026-09-24T11:56:23.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "112"
+          ]
+        }
+      ],
       "firstSeenAt": "2026-09-24T12:06:11.191Z",
-      "lastSeenAt": "2026-09-24T12:09:55.612Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T12:10:36.909Z",
+      "lastSeenAt": "2026-09-24T12:10:36.909Z",
       "geography": {
         "text": "Approximate area: (M2R) Willowdale West",
         "approximate": true,
@@ -78,7 +143,7 @@
       ],
       "firstSeenAt": "2026-09-24T12:01:10.793Z",
       "lastMeaningfulUpdateAt": "2026-09-24T12:06:11.191Z",
-      "lastSeenAt": "2026-09-24T12:09:55.612Z",
+      "lastSeenAt": "2026-09-24T12:10:36.909Z",
       "geography": {
         "text": "Approximate area: (M6M) York (Del Ray / Keelsdale / Mount Dennis / Silverthorne)",
         "approximate": true,
@@ -134,7 +199,7 @@
       ],
       "firstSeenAt": "2026-09-24T11:56:37.805Z",
       "lastMeaningfulUpdateAt": "2026-09-24T12:01:10.793Z",
-      "lastSeenAt": "2026-09-24T12:09:55.612Z",
+      "lastSeenAt": "2026-09-24T12:10:36.909Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -153,7 +218,7 @@
       "source": "TFS",
       "eventType": "fire",
       "description": "Rescue - Water/Ice - No Fireboat",
-      "location": "DON MILLS RD, NY / GATEWAY BLVD / ST DENNIS DR",
+      "location": "WEST DON RIVER TRL / LESLIE ST",
       "division": "125",
       "timestamp": "2026-09-24T11:45:36.000Z",
       "alarmLevel": 0,
@@ -190,19 +255,19 @@
         }
       ],
       "firstSeenAt": "2026-09-24T11:56:37.805Z",
-      "lastMeaningfulUpdateAt": "2026-09-24T12:01:10.793Z",
-      "lastSeenAt": "2026-09-24T12:09:55.612Z",
+      "lastMeaningfulUpdateAt": "2026-09-24T12:10:36.909Z",
+      "lastSeenAt": "2026-09-24T12:10:36.909Z",
       "geography": {
-        "text": "Approximate location near Don Mills Road & Street Dennis Drive",
-        "approximate": true,
+        "text": "West Don River Trl & Leslie Street",
+        "approximate": false,
         "coordinates": [
-          43.7165536,
-          -79.3373164
+          43.7170497,
+          -79.3499093
         ],
-        "division": "Unknown",
+        "division": "Division 55",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-24T11:56:37.805Z"
+        "checkedAt": "2026-09-24T12:10:36.909Z"
       }
     },
     {
@@ -388,7 +453,7 @@
       ],
       "firstSeenAt": "2026-09-24T11:26:25.445Z",
       "lastMeaningfulUpdateAt": "2026-09-24T11:35:08.135Z",
-      "lastSeenAt": "2026-09-24T12:09:55.612Z",
+      "lastSeenAt": "2026-09-24T12:10:36.909Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -15393,7 +15458,7 @@
       ],
       "firstSeenAt": "2026-09-23T18:44:38.917Z",
       "lastMeaningfulUpdateAt": "2026-09-24T11:15:26.083Z",
-      "lastSeenAt": "2026-09-24T12:09:55.612Z",
+      "lastSeenAt": "2026-09-24T12:10:36.909Z",
       "geography": {
         "text": "Approximate location on Spencer Avenue",
         "approximate": true,
@@ -127134,12 +127199,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-24T12:09:55.612Z",
-      "sourceUpdatedAt": "2026-09-24T12:05:01.000Z",
+      "fetchedAt": "2026-09-24T12:10:36.909Z",
+      "sourceUpdatedAt": "2026-09-24T12:10:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-24T12:09:55.612Z",
+      "fetchedAt": "2026-09-24T12:10:36.909Z",
       "status": "ok"
     }
   },
@@ -206722,17 +206787,38 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
-    "KING ST W / DOURO ST": {
-      "text": "King Street West & Douro Street",
+    "SPADINA AVE / LAKE SHORE BLVD W": {
+      "text": "Approximate location on Spadina Avenue",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-24T11:22:55.620Z"
+    },
+    "M9N": {
+      "text": "Approximate area: (M9N) Weston",
+      "approximate": true,
+      "coordinates": [
+        43.7068,
+        -79.517
+      ],
+      "division": "Division 12",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "WESTERN BATTERY RD / LYNN WILLIAMS ST": {
+      "text": "Western Battery Road & Lynn Williams Street",
       "approximate": false,
       "coordinates": [
-        43.6411164,
-        -79.4166194
+        43.6390222,
+        -79.4159173
       ],
       "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-24T12:06:11.191Z"
+      "checkedAt": "2026-09-24T12:10:36.909Z"
     },
     "M2R": {
       "text": "Approximate area: (M2R) Willowdale West",
@@ -206770,17 +206856,17 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
     },
-    "DON MILLS RD, NY / GATEWAY BLVD / ST DENNIS DR": {
-      "text": "Approximate location near Don Mills Road & Street Dennis Drive",
-      "approximate": true,
+    "WEST DON RIVER TRL / LESLIE ST": {
+      "text": "West Don River Trl & Leslie Street",
+      "approximate": false,
       "coordinates": [
-        43.7165536,
-        -79.3373164
+        43.7170497,
+        -79.3499093
       ],
-      "division": "Unknown",
+      "division": "Division 55",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-24T11:56:37.805Z"
+      "checkedAt": "2026-09-24T12:10:36.909Z"
     },
     "M9W": {
       "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
@@ -207111,18 +207197,6 @@
         -79.2819
       ],
       "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M9N": {
-      "text": "Approximate area: (M9N) Weston",
-      "approximate": true,
-      "coordinates": [
-        43.7068,
-        -79.517
-      ],
-      "division": "Division 12",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -212322,15 +212396,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-20T20:16:44.211Z"
-    },
-    "SPADINA AVE / LAKE SHORE BLVD W": {
-      "text": "Approximate location on Spadina Avenue",
-      "approximate": true,
-      "coordinates": null,
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-24T11:22:55.620Z"
     },
     "BLOOR ST, TT / YONGE ST / PARK RD": {
       "text": "Bloor Street between Yonge Street & Park Road",
