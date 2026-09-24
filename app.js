@@ -42,7 +42,6 @@ const els = {
   topCallFoot: document.querySelector("#topCallFoot"),
   resultCount: document.querySelector("#resultCount"),
   callList: document.querySelector("#callList"),
-  divisionBars: document.querySelector("#divisionBars"),
   eventToggles: document.querySelectorAll("[data-event-filter]"),
   dispatchMap: document.querySelector("#dispatchMap"),
   mapStatus: document.querySelector("#mapStatus"),
@@ -313,7 +312,6 @@ function render(map = true) {
   renderStats();
   renderCalls();
   if (map) renderMap();
-  renderDivisionBars();
   renderDisruptions(state.disruptions, state.nearby, state.radiusKm, dispatchMap);
   els.eventToggles.forEach(toggle => {
     const active = toggle.dataset.eventFilter === state.eventFilter;
@@ -588,26 +586,6 @@ async function selectCall(callId, { pan = true, revealRow = false } = {}) {
   if (marker) {
     marker.openTooltip();
   }
-}
-
-function renderDivisionBars() {
-  const counts = [...countBy(state.filtered, c => c.division).entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 10);
-
-  if (!counts.length) {
-    els.divisionBars.innerHTML = `<div class="empty-state" style="min-height:160px;padding:20px">No activity to chart.</div>`;
-    return;
-  }
-
-  const max = counts[0][1];
-  els.divisionBars.innerHTML = counts.map(([division, count]) => `
-    <div class="bar-item">
-      <span class="bar-label">${division.replace(/^Division (?=\d+$)/, "Div. ")}</span>
-      <div class="bar-track"><div class="bar-fill" style="width:${Math.max(4, (count / max) * 100)}%"></div></div>
-      <span class="bar-count">${count}</span>
-    </div>
-  `).join("");
 }
 
 function countBy(items, selector) {
