@@ -63,7 +63,7 @@ test('preferences are validated, exclude private session data and tolerate block
   assert.doesNotThrow(()=>savePreferences(blocked,filterDefaults,{}));
 });
 
-import { relativeUpdateAge, sourceStatus, sourceStatusText } from '../src/source-status.js';
+import { relativeUpdateAge, sourceStatus, sourceStatusText } from '../src/source-status.js?v=source-states-1';
 test('source lines distinguish published times from successful checks', () => {
   const now=Date.parse('2026-09-22T18:00:00Z');
   const feed={fetchedAt:'2026-09-22T18:00:00Z',sourceUpdatedAt:'2026-09-22T17:58:00Z'};
@@ -73,7 +73,13 @@ test('source lines distinguish published times from successful checks', () => {
   assert.equal(sourceStatus('TPS',{fetchedAt:'2026-09-22T17:00:00Z'},now).status,'stale');
   assert.equal(sourceStatus('TTC alerts',{...feed,status:'unavailable'},now).status,'unavailable');
   assert.equal(sourceStatus('TPS',feed,now).status,'ok');
+  assert.equal(relativeUpdateAge(now,now),'just now');
   assert.equal(relativeUpdateAge(Date.parse('2026-09-22T17:42:00Z'),now),'18 min ago');
+  assert.equal(relativeUpdateAge(Date.parse('2026-09-22T17:00:00Z'),now),'1 hr ago');
+  assert.equal(relativeUpdateAge(Date.parse('2026-09-22T16:00:00Z'),now),'2 hrs ago');
+  assert.equal(relativeUpdateAge(Date.parse('2026-09-21T18:00:00Z'),now),'1 day ago');
+  assert.equal(relativeUpdateAge(Date.parse('2026-09-20T18:00:00Z'),now),'2 days ago');
+  assert.equal(relativeUpdateAge(Date.parse('2026-09-22T19:00:00Z'),now),'just now');
   assert.equal(sourceStatusText('Road restriction',{fetchedAt:'2026-09-22T17:42:00Z'},now),'Last successfully updated 18 min ago. Data may be stale.');
   assert.equal(sourceStatusText('Road restriction',{fetchedAt:'2026-09-22T17:42:00Z',status:'unavailable'},now),'Road restriction data is temporarily unavailable. Last successfully updated 18 min ago.');
   assert.equal(sourceStatusText('Road restriction',null,now),'Road restriction data has not been checked yet.');

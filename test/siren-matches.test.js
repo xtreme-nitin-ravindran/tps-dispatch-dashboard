@@ -37,3 +37,12 @@ test("siren matching ignores invalid, future, and unmapped calls", () => {
   ], origin, { now });
   assert.deepEqual(matches, []);
 });
+
+test("siren matching has stable ID ordering and default options", () => {
+  const timestamp = Date.now();
+  const calls = [
+    { id: "b", timestamp, geography: { coordinates: origin } },
+    { id: "a", timestamp, geography: { coordinates: origin } }
+  ];
+  assert.deepEqual(rankSirenMatches(calls, origin).map(match => match.call.id), ["a", "b"]);
+});

@@ -17,6 +17,7 @@ test('compact report age fits beside incident distance', () => {
  const now = Date.UTC(2026,8,22);
  assert.equal(compactReportedAge(now-420000,now),'7 min ago');
  assert.equal(compactReportedAge(now-7200000,now),'2 hr ago');
+ assert.equal(compactReportedAge(now-86400000,now),'1 day ago');
  assert.equal(compactReportedAge(now-172800000,now),'2 days ago');
  assert.equal(compactReportedAge(now+60000,now),'Just now');
  assert.equal(compactReportedAge('invalid',now),'Time unavailable');
