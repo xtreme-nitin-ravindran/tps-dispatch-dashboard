@@ -7,6 +7,20 @@
   <meta name="theme-color" content="#0c1320" />
   <meta name="description" content="SirenTO — Fire and police calls, mapped to your neighbourhood. Independent Toronto Fire Services incident dashboard." />
   <title>SirenTO · Fire &amp; Police Calls</title>
+  <script>
+    (() => {
+      let preference = "system";
+      try {
+        const saved = JSON.parse(localStorage.getItem("sirento.preferences.v1"));
+        if (["system", "light", "dark"].includes(saved?.theme)) preference = saved.theme;
+      } catch { /* Use the system preference when storage is unavailable. */ }
+      const theme = preference === "system"
+        ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+        : preference;
+      document.documentElement.dataset.theme = theme;
+      document.querySelector('meta[name="theme-color"]').content = theme === "dark" ? "#0c1320" : "#f4f7f8";
+    })();
+  </script>
   <link rel="icon" type="image/png" sizes="64x64" href="./favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +29,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./styles.css?v=source-states-1" />
+  <link rel="stylesheet" href="./styles.css?v=themes-1" />
 </head>
 
 <body>
@@ -29,7 +43,17 @@
         </div>
       </div>
 
-      <div class="refresh-info" id="refreshStatus" role="status" aria-live="polite">Updates from official TFS and TPS feeds.</div>
+      <div class="topbar-tools">
+        <div class="refresh-info" id="refreshStatus" role="status" aria-live="polite">Updates from official TFS and TPS feeds.</div>
+        <label class="theme-control" for="themePreference">
+          <span>Theme</span>
+          <select id="themePreference" aria-label="Theme preference">
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+      </div>
       <div class="topbar-photo">
         <img class="brand-mark" src="./brand-doberman.jpg" alt="Doberman" width="44" height="44" />
       </div>
@@ -307,7 +331,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=incident-badges-1"></script>
+  <script type="module" src="./app.js?v=themes-1"></script>
 </body>
 
 </html>

@@ -36,7 +36,7 @@ emergency decisions or real-time safety guidance.**
 - Shows call counts by police division, distinguishing reported TPS divisions from estimated TFS divisions.
 - Displays road restrictions with an optional map overlay and nearby filtering, alongside citywide TTC service alerts.
 - Checks for new snapshots every 30 seconds and offers a **New calls available** button to apply updates without interrupting the current view.
-- Supports shareable filtered views, clearing filters, and remembering display preferences.
+- Supports shareable filtered views, clearing filters, remembering display preferences, and System/Light/Dark themes.
 - Explains location uncertainty and source timestamps, and credits the data providers.
 
 ## Data Sources
@@ -110,7 +110,7 @@ This combined run includes the live-source integration tests and requires intern
 It fails unless measured JavaScript line, branch, and function coverage are all 100%.
 Badge generation requires Python 3 and writes three SVG files to the output directory.
 
-`npm test` runs all 23 JavaScript unit test files below:
+`npm test` runs all 24 JavaScript unit test files below:
 
 | Test file (under `test/`) | What it verifies |
 | --- | --- |
@@ -135,6 +135,7 @@ Badge generation requires Python 3 and writes three SVG files to the output dire
 | `nearby-summary.test.js` | Nearby counts, service/category breakdowns, newest-call ages, and empty or singular results. |
 | `siren-matches.test.js` | Two-kilometre siren-result scope, recency/distance ranking, result limits, and invalid-call handling. |
 | `view-controls.test.js` | New-call detection, filter summaries/reset defaults, share links, clustering, row selection, preferences, and source timestamp labels. |
+| `theme.test.js` | Theme preference validation, system-theme resolution, and document/browser-colour updates. |
 | `mobile-radius-controls.test.js` | Mobile search-area options, sticky touch-target layout, and radius-change rendering integration. |
 | `promotion.test.js` | Promotion of only the tested dev commit, superseded/empty changes, protection rejection, existing PR reuse, retry handling, concurrent branch updates, and prevention of duplicate Pages requests. |
 
