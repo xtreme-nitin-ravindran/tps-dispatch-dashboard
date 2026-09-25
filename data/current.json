@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T07:49:19.772Z",
-  "sourceUpdatedAt": "2026-09-25T07:45:02.000Z",
+  "fetchedAt": "2026-09-25T07:50:30.136Z",
+  "sourceUpdatedAt": "2026-09-25T07:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26151993",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5A",
+      "division": "333",
+      "timestamp": "2026-09-25T07:43:08.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-25T07:50:30.136Z",
+      "lastSeenAt": "2026-09-25T07:50:30.136Z",
+      "geography": {
+        "text": "Approximate area: (M5A) Toronto",
+        "approximate": true,
+        "coordinates": [
+          43.6555,
+          -79.3626
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26151992",
       "source": "TFS",
@@ -16,9 +42,18 @@
       "timestamp": "2026-09-25T07:39:43.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "142"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T07:47:04.390Z",
-      "lastSeenAt": "2026-09-25T07:49:19.772Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T07:50:30.136Z",
+      "lastSeenAt": "2026-09-25T07:50:30.136Z",
       "geography": {
         "text": "Approximate area: (M3L) Downsview West",
         "approximate": true,
@@ -42,9 +77,18 @@
       "timestamp": "2026-09-25T07:37:34.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "142"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T07:47:04.390Z",
-      "lastSeenAt": "2026-09-25T07:49:19.772Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T07:50:30.136Z",
+      "lastSeenAt": "2026-09-25T07:50:30.136Z",
       "geography": {
         "text": "Approximate area: (M3N) North York (Jane and Finch)",
         "approximate": true,
@@ -164,7 +208,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T07:30:45.409Z",
       "lastMeaningfulUpdateAt": "2026-09-25T07:35:35.645Z",
-      "lastSeenAt": "2026-09-25T07:49:19.772Z",
+      "lastSeenAt": "2026-09-25T07:50:30.136Z",
       "geography": {
         "text": "Urban Court & Elmhurst Drive",
         "approximate": false,
@@ -253,7 +297,7 @@
       "division": "134",
       "timestamp": "2026-09-25T07:15:12.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -304,7 +348,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T07:21:08.101Z",
-      "lastSeenAt": "2026-09-25T07:49:19.772Z",
+      "lastSeenAt": "2026-09-25T07:50:30.136Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -414,7 +458,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T07:16:39.467Z",
       "lastMeaningfulUpdateAt": "2026-09-25T07:21:08.101Z",
-      "lastSeenAt": "2026-09-25T07:49:19.772Z",
+      "lastSeenAt": "2026-09-25T07:50:30.136Z",
       "geography": {
         "text": "Plug Hat Road & Meadowvale Road",
         "approximate": false,
@@ -605,7 +649,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T07:05:39.905Z",
-      "lastSeenAt": "2026-09-25T07:49:19.772Z",
+      "lastSeenAt": "2026-09-25T07:50:30.136Z",
       "geography": {
         "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
         "approximate": true,
@@ -11771,7 +11815,7 @@
       "respondingUnitCount": 36,
       "firstSeenAt": "2026-09-24T22:51:39.011Z",
       "lastMeaningfulUpdateAt": "2026-09-25T06:50:53.734Z",
-      "lastSeenAt": "2026-09-25T07:49:19.772Z",
+      "lastSeenAt": "2026-09-25T07:50:30.136Z",
       "geography": {
         "text": "Approximate location near Disco Road & Carlingview Drive",
         "approximate": true,
@@ -24519,7 +24563,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-25T06:50:14.837Z"
+        "checkedAt": "2026-09-25T07:50:30.136Z"
       }
     },
     {
@@ -154789,12 +154833,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T07:49:19.772Z",
-      "sourceUpdatedAt": "2026-09-25T07:45:02.000Z",
+      "fetchedAt": "2026-09-25T07:50:30.136Z",
+      "sourceUpdatedAt": "2026-09-25T07:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T07:49:19.772Z",
+      "fetchedAt": "2026-09-25T07:50:30.136Z",
       "status": "ok"
     }
   },
@@ -321646,6 +321690,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5A": {
+      "text": "Approximate area: (M5A) Toronto",
+      "approximate": true,
+      "coordinates": [
+        43.6555,
+        -79.3626
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M3L": {
       "text": "Approximate area: (M3L) Downsview West",
       "approximate": true,
@@ -321738,18 +321794,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T07:21:08.101Z"
-    },
-    "M5A": {
-      "text": "Approximate area: (M5A) Toronto",
-      "approximate": true,
-      "coordinates": [
-        43.6555,
-        -79.3626
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M4K": {
       "text": "Approximate area: (M4K) East Toronto (The Danforth West / Riverdale)",
@@ -324314,7 +324358,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-25T06:50:14.837Z"
+      "checkedAt": "2026-09-25T07:50:30.136Z"
     },
     "HANNA RD, EY / FIELD AVE / CRANDALL RD": {
       "text": "Hanna Road between Field Avenue & Crandall Road",
