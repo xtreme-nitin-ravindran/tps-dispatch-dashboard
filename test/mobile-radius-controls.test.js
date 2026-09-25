@@ -25,10 +25,10 @@ test('mobile radius selector stays at the viewport edge with touch-sized buttons
   assert.notEqual(css.indexOf(mobileQuery), -1, 'portrait and coarse-pointer landscape mobile layouts share the sticky rules');
   assert.match(mobileRules, /position: sticky/);
   assert.match(mobileRules, /top: calc\(6px \+ env\(safe-area-inset-top, 0px\)\)/);
-  assert.match(mobileRules, /grid-template-columns: \.95fr \.78fr \.78fr \.78fr 1\.45fr/);
+  assert.match(mobileRules, /grid-template-columns: repeat\(6, minmax\(0, 1fr\)\)/);
   assert.match(mobileRules, /min-height: 44px/);
-  assert.match(mobileRules, /\.map-panel \.leaflet-top \{ top: calc\(98px \+ env\(safe-area-inset-top, 0px\)\); \}/);
-  assert.match(mobileRules, /scroll-margin-top: calc\(104px \+ env\(safe-area-inset-top, 0px\)\)/);
+  assert.match(mobileRules, /\.map-panel \.leaflet-top \{ top: calc\(146px \+ env\(safe-area-inset-top, 0px\)\); \}/);
+  assert.match(mobileRules, /scroll-margin-top: calc\(152px \+ env\(safe-area-inset-top, 0px\)\)/);
 });
 
 test('desktop radius layout remains non-sticky and unchanged outside the mobile query', () => {
