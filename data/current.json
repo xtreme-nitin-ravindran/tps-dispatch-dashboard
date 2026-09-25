@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T04:59:41.316Z",
-  "sourceUpdatedAt": "2026-09-25T04:55:01.000Z",
+  "fetchedAt": "2026-09-25T05:01:12.810Z",
+  "sourceUpdatedAt": "2026-09-25T05:00:01.000Z",
   "incidents": [
+    {
+      "id": "F26151940",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Rescue - Elevator",
+      "location": "THORNCLIFFE PARK DR, EY / WEST DON RIVER TRL / R. V. BURGESS PARK TRL",
+      "division": "322",
+      "timestamp": "2026-09-25T04:53:28.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-25T05:01:12.810Z",
+      "lastSeenAt": "2026-09-25T05:01:12.810Z",
+      "geography": {
+        "text": "Approximate location near Thorncliffe Park Drive & West Don River Trl",
+        "approximate": true,
+        "coordinates": [
+          43.704561,
+          -79.3416563
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-25T05:01:12.810Z"
+      }
+    },
+    {
+      "id": "F26151939",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "QUEEN ST, SC / BLANTYRE AVE / COURCELETTE RD",
+      "division": "227",
+      "timestamp": "2026-09-25T04:53:17.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-25T05:01:12.810Z",
+      "lastSeenAt": "2026-09-25T05:01:12.810Z",
+      "geography": {
+        "text": "Queen Street between Blantyre Avenue & Courcelette Road",
+        "approximate": false,
+        "coordinates": [
+          43.67495685,
+          -79.2781256
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-25T05:01:12.810Z"
+      }
+    },
     {
       "id": "TPS-3a6a2b670d6272c7af99ea72",
       "source": "TPS",
@@ -49,7 +101,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T04:52:16.037Z",
       "lastMeaningfulUpdateAt": "2026-09-25T04:56:15.619Z",
-      "lastSeenAt": "2026-09-25T04:59:41.316Z",
+      "lastSeenAt": "2026-09-25T05:01:12.810Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -90,7 +142,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T04:52:16.037Z",
       "lastMeaningfulUpdateAt": "2026-09-25T04:56:15.619Z",
-      "lastSeenAt": "2026-09-25T04:59:41.316Z",
+      "lastSeenAt": "2026-09-25T05:01:12.810Z",
       "geography": {
         "text": "Weston Road between Lawrence Avenue West & John Street",
         "approximate": false,
@@ -374,7 +426,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T04:36:25.117Z",
-      "lastSeenAt": "2026-09-25T04:59:41.316Z",
+      "lastSeenAt": "2026-09-25T05:01:12.810Z",
       "geography": {
         "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
         "approximate": true,
@@ -713,7 +765,7 @@
       "division": "311",
       "timestamp": "2026-09-25T04:05:42.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -8799,7 +8851,7 @@
       "respondingUnitCount": 35,
       "firstSeenAt": "2026-09-24T22:51:39.011Z",
       "lastMeaningfulUpdateAt": "2026-09-25T04:45:51.879Z",
-      "lastSeenAt": "2026-09-25T04:59:41.316Z",
+      "lastSeenAt": "2026-09-25T05:01:12.810Z",
       "geography": {
         "text": "Approximate location near Disco Road & Carlingview Drive",
         "approximate": true,
@@ -151817,12 +151869,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T04:59:41.316Z",
-      "sourceUpdatedAt": "2026-09-25T04:55:01.000Z",
+      "fetchedAt": "2026-09-25T05:01:12.810Z",
+      "sourceUpdatedAt": "2026-09-25T05:00:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T04:59:41.316Z",
+      "fetchedAt": "2026-09-25T05:01:12.810Z",
       "status": "ok"
     }
   },
@@ -318775,6 +318827,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "THORNCLIFFE PARK DR, EY / WEST DON RIVER TRL / R. V. BURGESS PARK TRL": {
+      "text": "Approximate location near Thorncliffe Park Drive & West Don River Trl",
+      "approximate": true,
+      "coordinates": [
+        43.704561,
+        -79.3416563
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-25T05:01:12.810Z"
+    },
+    "QUEEN ST, SC / BLANTYRE AVE / COURCELETTE RD": {
+      "text": "Queen Street between Blantyre Avenue & Courcelette Road",
+      "approximate": false,
+      "coordinates": [
+        43.67495685,
+        -79.2781256
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-25T05:01:12.810Z"
+    },
     "M5A": {
       "text": "Approximate area: (M5A) Toronto",
       "approximate": true,
