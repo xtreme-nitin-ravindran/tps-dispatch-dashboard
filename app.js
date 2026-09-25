@@ -15,6 +15,7 @@ import { rankSirenMatches, SIREN_RADIUS_KM } from "./src/siren-matches.js";
 import { reconcileIncidentSelection, restoreSharedIncident } from "./src/incident-selection.js";
 import { markerAgeLabel, markerAgeTier, markerGlyph } from "./src/marker-age.js";
 import { incidentBadge, incidentBadgeExpiry } from "./src/incident-badge.js?v=incident-badges-1";
+import { incidentMatchesSearch } from "./src/incident-search.js";
 import { DISPATCH_GLOSSARY_FOOTER, glossaryDefinition } from "./src/dispatch-glossary.js?v=glossary-1";
 import { applyTheme, normalizeThemePreference } from "./src/theme.js";
 import { createRefreshFreshnessTracker } from "./src/refresh-freshness.js";
@@ -46,6 +47,7 @@ const els = {
   lastUpdated: document.querySelector("#lastUpdated"),
   windowLabel: document.querySelector("#windowLabel"),
   searchInput: document.querySelector("#searchInput"),
+  clearSearch: document.querySelector("#clearSearch"),
   divisionSelect: document.querySelector("#divisionSelect"),
   callsCount: document.querySelector("#callsCount"),
   callsCountFoot: document.querySelector("#callsCountFoot"),
@@ -421,32 +423,24 @@ function populateDivisionFilter(calls) {
 }
 
 function applyFilters({ map = true } = {}) {
-  const q = state.search.trim().toLowerCase();
-
   const eligibleCalls = state.calls.filter(call => {
     if (!withinGeographicScope(state.nearby, state.radiusKm, coordinatesForCall(call))) return false;
     if (state.serviceFilter !== "all" && call.source !== state.serviceFilter) return false;
     if (!isWithinHistoryWindow(call.timestamp, state.hours)) return false;
     if (state.eventFilter === "ongoing" && !call.isOngoing) return false;
     if (state.eventFilter !== "all" && state.eventFilter !== "ongoing" && call.eventCategory !== state.eventFilter) return false;
-    if (!q) return true;
-
-    return [
-      call.description,
-      call.location,
-      displayLocation(call).text,
-      call.division,
-      call.divisionId,
-      call.id,
-      call.keyword
-    ].some(v => v.toLowerCase().includes(q));
+    return true;
   });
 
-  // Build the facet before applying its own selection, so other divisions remain available.
+  // Build the facet before applying its own selection or search, so a query cannot reset the division.
   populateDivisionFilter(eligibleCalls);
-  state.filtered = eligibleCalls.filter(call => state.division === "all" || call.division === state.division);
+  state.filtered = eligibleCalls.filter(call =>
+    (state.division === "all" || call.division === state.division) &&
+    incidentMatchesSearch(call, state.search, displayLocation(call).text)
+  );
   focusedCallId = reconcileIncidentSelection(focusedCallId, state.filtered);
   document.querySelector("#filterSummary").textContent = filterSummary(state);
+  syncSearchControl();
   render(map);
   rememberPreferences();
 }
@@ -564,16 +558,13 @@ function renderNearbySummary() {
 }
 
 function callsMatchingNonGeographicFilters() {
-  const q = state.search.trim().toLowerCase();
   return state.calls.filter(call => {
     if (state.serviceFilter !== "all" && call.source !== state.serviceFilter) return false;
     if (!isWithinHistoryWindow(call.timestamp, state.hours)) return false;
     if (state.eventFilter === "ongoing" && !call.isOngoing) return false;
     if (state.eventFilter !== "all" && state.eventFilter !== "ongoing" && call.eventCategory !== state.eventFilter) return false;
     if (state.division !== "all" && call.division !== state.division) return false;
-    if (!q) return true;
-    return [call.description, call.location, displayLocation(call).text, call.division, call.divisionId, call.id, call.keyword]
-      .some(value => value.toLowerCase().includes(q));
+    return incidentMatchesSearch(call, state.search, displayLocation(call).text);
   });
 }
 
@@ -739,8 +730,10 @@ function renderCalls() {
       list.replaceChildren(fragment);
       return;
     }
-    let title='No calls match these filters.';
-    let detail='Try another time window, division, or search term.';
+    let title=state.search.trim() ? 'No calls match your search.' : 'No calls match these filters.';
+    let detail=state.search.trim()
+      ? 'Clear the search or try a different call type, street, intersection, or division.'
+      : 'Try another time window or division.';
     if (!availability.hasRelevantCachedData && availability.allUnavailable) {
       title='Public dispatch data is temporarily unavailable.';
       detail='The data source could not be checked. This is not a zero-call result.';
@@ -1095,6 +1088,12 @@ els.searchInput.addEventListener("input", (e) => {
   applyFilters();
 });
 
+els.clearSearch.addEventListener("click", () => {
+  state.search = "";
+  applyFilters();
+  els.searchInput.focus();
+});
+
 els.eventToggles.forEach(toggle => {
   toggle.addEventListener("click", () => {
     state.eventFilter = toggle.dataset.eventFilter;
@@ -1421,8 +1420,12 @@ document.querySelector('#roadOverlay').addEventListener('change', () => {
   renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
 });
 
-function syncFilterControls() {
+function syncSearchControl() {
   els.searchInput.value = state.search;
+  els.clearSearch.hidden = !state.search;
+}
+function syncFilterControls() {
+  syncSearchControl();
   document.querySelector('#historyHours').value = state.hours;
   document.querySelector('#serviceFilter').value = state.serviceFilter;
   syncRadiusControls();

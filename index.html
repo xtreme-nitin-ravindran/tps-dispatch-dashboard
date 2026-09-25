@@ -93,9 +93,12 @@
       </section>
       <section class="controls-card">
         <div class="search-wrap">
-          <span class="search-icon">⌕</span>
-          <input id="searchInput" type="search" placeholder="Search call type, location, or division…"
-            autocomplete="off" />
+          <label class="visually-hidden" for="searchInput">Search dispatch calls</label>
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="Search call type, street, intersection, or division…"
+            aria-describedby="searchHelp" autocomplete="off" />
+          <span id="searchHelp" class="visually-hidden">Search by call type, street, intersection, or division.</span>
+          <button id="clearSearch" class="clear-search" type="button" aria-label="Clear search" hidden>×</button>
         </div>
 
         <div class="control-group">
