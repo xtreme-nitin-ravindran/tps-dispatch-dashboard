@@ -39,6 +39,20 @@ test('map appearance follows live document theme without changing map layers', (
   assert.match(css, /\.leaflet-control-attribution[\s\S]*?background: var\(--map-attribution-background\)/);
 });
 
+test('incident pins and road restrictions remain distinct and prominent in both themes', () => {
+  const darkTheme = css.slice(css.indexOf(':root {'), css.indexOf(':root[data-theme="light"]'));
+  const lightTheme = css.slice(css.indexOf(':root[data-theme="light"]'), css.indexOf('* { box-sizing'));
+  assert.match(darkTheme, /--marker-other: #cbd5e1/);
+  assert.match(darkTheme, /--road-marker: #f43f5e/);
+  assert.match(darkTheme, /--marker-border: #fff/);
+  assert.match(darkTheme, /--marker-shadow: rgba\(0, 0, 0, \.7\)/);
+  assert.match(lightTheme, /--marker-other: #64748b/);
+  assert.match(lightTheme, /--road-marker: #be123c/);
+  assert.match(css, /\.road-restriction\s*{[^}]*stroke: var\(--road-marker\) !important;[^}]*fill: var\(--road-marker\) !important;/);
+  assert.match(css, /\.map-legend \.other-key\s*{\s*background: var\(--marker-other\)/);
+  assert.match(css, /\.road-key\s*{[^}]*border-top: 4px dashed var\(--road-marker\)/);
+});
+
 test('audited UI states use shared theme tokens', () => {
   assert.match(css, /\.dispatch-marker\s*{[\s\S]*?border: 2px solid var\(--marker-border\)[\s\S]*?background: var\(--marker-default\)/);
   assert.match(css, /\.dispatch-marker\.selected\s*{[\s\S]*?var\(--marker-selected-ring\)/);
