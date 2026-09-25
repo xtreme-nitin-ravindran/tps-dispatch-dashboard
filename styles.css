@@ -845,7 +845,7 @@ html[data-display-mode="standalone"] .app-shell {
 }
 
 .map-stage {
-  margin: 22px 0 18px;
+  margin: 12px 0 18px;
 }
 
 .nearby-summary {
@@ -923,6 +923,44 @@ html[data-display-mode="standalone"] .app-shell {
 
 .map-panel {
   overflow: hidden;
+}
+
+.map-info {
+  margin-top: 18px;
+  overflow: hidden;
+}
+
+.map-info > summary {
+  min-height: 54px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.map-info > summary:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: -4px;
+}
+
+.map-info-body {
+  padding: 18px 20px 20px;
+  border-top: 1px solid var(--line);
+}
+
+.map-info-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.map-info-heading h3 {
+  margin: 5px 0 0;
+  font-size: 20px;
 }
 
 .map-status {
@@ -1468,6 +1506,24 @@ footer {
     padding: 16px;
   }
 
+  .map-info > summary {
+    min-height: 48px;
+    padding: 0 14px;
+  }
+
+  .map-info-body {
+    padding: 14px;
+  }
+
+  .map-info-heading {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .map-legend {
+    gap: 12px 16px;
+  }
+
   #dispatchMap {
     height: 460px;
   }
@@ -1551,7 +1607,7 @@ footer {
   display: flex;
   flex-wrap: wrap;
   gap: 18px;
-  padding: 10px 24px;
+  padding: 18px 0 0;
   color: var(--muted);
   font-size: 12px;
 }
