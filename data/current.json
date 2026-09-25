@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T07:29:38.882Z",
-  "sourceUpdatedAt": "2026-09-25T07:20:01.000Z",
+  "fetchedAt": "2026-09-25T07:30:45.409Z",
+  "sourceUpdatedAt": "2026-09-25T07:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26151988",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Spill Clean Up",
+      "location": "URBAN CRT / ELMHURST DR",
+      "division": "415",
+      "timestamp": "2026-09-25T07:25:07.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "415"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-25T07:30:45.409Z",
+      "lastSeenAt": "2026-09-25T07:30:45.409Z",
+      "geography": {
+        "text": "Urban Court & Elmhurst Drive",
+        "approximate": false,
+        "coordinates": [
+          43.7236262,
+          -79.5567906
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-25T07:30:45.409Z"
+      }
+    },
     {
       "id": "F26151987",
       "source": "TFS",
@@ -26,7 +60,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T07:21:08.101Z",
-      "lastSeenAt": "2026-09-25T07:29:38.882Z",
+      "lastSeenAt": "2026-09-25T07:30:45.409Z",
       "geography": {
         "text": "Approximate area: (M4S) Central Toronto (Davisville)",
         "approximate": true,
@@ -66,7 +100,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T07:21:08.101Z",
-      "lastSeenAt": "2026-09-25T07:29:38.882Z",
+      "lastSeenAt": "2026-09-25T07:30:45.409Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -97,7 +131,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T07:21:08.101Z",
-      "lastSeenAt": "2026-09-25T07:29:38.882Z",
+      "lastSeenAt": "2026-09-25T07:30:45.409Z",
       "geography": {
         "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
         "approximate": true,
@@ -132,7 +166,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T07:16:39.467Z",
       "lastMeaningfulUpdateAt": "2026-09-25T07:21:08.101Z",
-      "lastSeenAt": "2026-09-25T07:29:38.882Z",
+      "lastSeenAt": "2026-09-25T07:30:45.409Z",
       "geography": {
         "text": "Plug Hat Road & Meadowvale Road",
         "approximate": false,
@@ -177,7 +211,7 @@
       "division": "333",
       "timestamp": "2026-09-25T07:06:21.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -323,7 +357,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T07:05:39.905Z",
-      "lastSeenAt": "2026-09-25T07:29:38.882Z",
+      "lastSeenAt": "2026-09-25T07:30:45.409Z",
       "geography": {
         "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
         "approximate": true,
@@ -11489,7 +11523,7 @@
       "respondingUnitCount": 36,
       "firstSeenAt": "2026-09-24T22:51:39.011Z",
       "lastMeaningfulUpdateAt": "2026-09-25T06:50:53.734Z",
-      "lastSeenAt": "2026-09-25T07:29:38.882Z",
+      "lastSeenAt": "2026-09-25T07:30:45.409Z",
       "geography": {
         "text": "Approximate location near Disco Road & Carlingview Drive",
         "approximate": true,
@@ -154507,12 +154541,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T07:29:38.882Z",
-      "sourceUpdatedAt": "2026-09-25T07:20:01.000Z",
+      "fetchedAt": "2026-09-25T07:30:45.409Z",
+      "sourceUpdatedAt": "2026-09-25T07:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T07:29:38.882Z",
+      "fetchedAt": "2026-09-25T07:30:45.409Z",
       "status": "ok"
     }
   },
@@ -321431,6 +321465,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "URBAN CRT / ELMHURST DR": {
+      "text": "Urban Court & Elmhurst Drive",
+      "approximate": false,
+      "coordinates": [
+        43.7236262,
+        -79.5567906
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-25T07:30:45.409Z"
+    },
     "M4S": {
       "text": "Approximate area: (M4S) Central Toronto (Davisville)",
       "approximate": true,
