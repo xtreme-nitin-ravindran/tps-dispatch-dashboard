@@ -52,8 +52,8 @@
   --panel-shadow: 0 16px 50px rgba(0, 0, 0, .14);
   --marker-border: #fff;
   --marker-text: #08111b;
-  --marker-ring: rgba(147, 197, 253, .18);
-  --marker-ring-strong: rgba(147, 197, 253, .3);
+  --marker-ring: rgba(8, 17, 27, .58);
+  --marker-ring-strong: rgba(255, 255, 255, .34);
   --marker-selected-border: #fff;
   --marker-selected-inner: #08111b;
   --marker-selected-ring: rgba(99, 230, 190, .48);
@@ -69,9 +69,9 @@
   --approximate-marker: #fbbf24;
   --road-marker: #f43f5e;
   --cluster-background: #16394c;
-  --cluster-border: #63e6be;
+  --cluster-border: #fff;
   --cluster-text: #fff;
-  --cluster-ring: rgba(8, 17, 27, .53);
+  --cluster-ring: rgba(8, 17, 27, .58);
   --boundary-marker: #93c5fd;
   --connector-line: #b7c8d9;
   --control-disabled: .58;
@@ -129,8 +129,8 @@
   --panel-shadow: 0 16px 42px rgba(31, 53, 59, .11);
   --marker-border: #173d35;
   --marker-text: #08111b;
-  --marker-ring: rgba(23, 105, 170, .2);
-  --marker-ring-strong: rgba(23, 105, 170, .32);
+  --marker-ring: rgba(255, 255, 255, .9);
+  --marker-ring-strong: rgba(16, 36, 42, .3);
   --marker-selected-border: #fff;
   --marker-selected-inner: #173d35;
   --marker-selected-ring: rgba(8, 127, 103, .42);
@@ -146,9 +146,9 @@
   --approximate-marker: #e0a000;
   --road-marker: #be123c;
   --cluster-background: #15526e;
-  --cluster-border: #087f67;
+  --cluster-border: #10242a;
   --cluster-text: #fff;
-  --cluster-ring: rgba(255, 255, 255, .78);
+  --cluster-ring: rgba(255, 255, 255, .9);
   --boundary-marker: #1769aa;
   --connector-line: #526970;
   --control-disabled: .55;
@@ -1059,7 +1059,7 @@ html[data-display-mode="standalone"] .app-shell {
   border: 2px solid var(--marker-border);
   border-radius: 50%;
   background: var(--marker-default);
-  box-shadow: 0 0 0 3px var(--marker-ring), 0 3px 8px var(--marker-shadow);
+  box-shadow: 0 0 0 2px var(--marker-ring), 0 3px 8px var(--marker-shadow);
   color: var(--marker-text);
   text-align: center;
   opacity: 1;
@@ -1072,7 +1072,7 @@ html[data-display-mode="standalone"] .app-shell {
 .dispatch-marker.category-other { background: var(--marker-other); }
 .dispatch-marker-glyph { display: block; font: 900 11px/16px system-ui, sans-serif; }
 .dispatch-marker.category-medical .dispatch-marker-glyph { font-size: 15px; line-height: 15px; }
-.dispatch-marker.age-recent { transform: scale(1.12); box-shadow: 0 0 0 4px var(--marker-ring-strong), 0 3px 10px var(--marker-shadow); }
+.dispatch-marker.age-recent { transform: scale(1.12); box-shadow: 0 0 0 2px var(--marker-ring), 0 0 0 5px var(--marker-ring-strong), 0 3px 10px var(--marker-shadow); }
 .dispatch-marker.age-current,
 .dispatch-marker.age-unknown { opacity: 1; }
 .dispatch-marker.age-aging { opacity: .72; }
@@ -1702,7 +1702,7 @@ footer {
 .view-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 16px 0; }
 .view-actions button { background: var(--accent); color: var(--on-accent); border: 0; border-radius: 8px; padding: 10px 16px; font: inherit; cursor: pointer; }
 
-.call-cluster { display: grid; place-items: center; border-radius: 50%; background: var(--cluster-background); border: 2px solid var(--cluster-border); color: var(--cluster-text); font: bold 13px "Space Mono", monospace; box-shadow: 0 0 0 5px var(--cluster-ring); }
+.call-cluster { display: grid; place-items: center; border-radius: 50%; background: var(--cluster-background); border: 2px solid var(--cluster-border); color: var(--cluster-text); font: bold 13px "Space Mono", monospace; text-shadow: 0 1px 2px rgba(0, 0, 0, .72); box-shadow: 0 0 0 3px var(--cluster-ring), 0 3px 10px var(--marker-shadow); }
 
 .show-map-hint { display: inline-block; margin-top: 10px; color: var(--accent-2); font-size: 12px; }
 
