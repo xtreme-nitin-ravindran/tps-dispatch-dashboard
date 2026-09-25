@@ -1,8 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {normalizeRoads,normalizeTransit,parseTextProto,updateDisruptions,fetchDisruptionSource} from '../src/disruptions/source.js';
-import {currentDisruptions,roadDistance} from '../src/disruptions/view.js';
-import {disruptionPresentation,renderDisruptions} from '../src/disruptions/ui.js';
+import {currentDisruptions,roadDistance,transitGeographicMatch} from '../src/disruptions/view.js';
+import {disruptionPresentation,nearbyTransitPresentation,renderDisruptions} from '../src/disruptions/ui.js';
+import {referenceCoordinates} from '../src/saved-locations.js';
 const now=Date.UTC(2026,8,22);
 const proto=`header { gtfs_realtime_version: "2.0" incrementality: FULL_DATASET timestamp: ${now/1000} }
 entity { id: "a" alert { active_period {start: ${now/1000-60} end: ${now/1000+60}} informed_entity {route_id: "1"} header_text {translation {text: "No service between A and B" language: "en"}} effect: NO_SERVICE }}
@@ -24,6 +25,68 @@ test('TTC parses repeated fields, active windows and rejects incomplete or stale
  assert.throws(()=>normalizeTransit(proto,now+3600001));
  assert.throws(()=>normalizeTransit(proto.replace('FULL_DATASET','DIFFERENTIAL'),now));
  assert.equal(normalizeTransit(proto.split('entity')[0],now).items.length,0);
+});
+
+test('TTC normalization preserves affected entities and resolves only structured stop data',()=>{
+ const header=proto.split('entity')[0];
+ const text=header+'entity {id:"geo" alert {header_text {translation {text:"Delay"}} informed_entity {route_id:"1" stop_id:"100"} informed_entity {route_id:"1" stop_id:"missing"} informed_entity {route_id:"2"}}}';
+ const [alert]=normalizeTransit(text,now,{'100':{coordinates:[43.65,-79.38],name:'Structured station'}}).items;
+ assert.deepEqual(alert.routes,['1','2']);
+ assert.deepEqual(alert.stopIds,['100','missing']);
+ assert.deepEqual(alert.affectedEntities,[
+  {routeId:'1',stopId:'100',coordinates:[43.65,-79.38],name:'Structured station'},
+  {routeId:'1',stopId:'missing'},
+  {routeId:'2',stopId:null}
+ ]);
+ const [withoutLookup]=normalizeTransit(text,now,{}).items;
+ assert.equal(withoutLookup.affectedEntities.some(entity => 'coordinates' in entity),false);
+ const [official]=normalizeTransit(header+'entity {id:"official" alert {header_text {translation {text:"Delay"}} informed_entity {stop_id:"662"}}}',now).items;
+ assert.deepEqual(official.affectedEntities[0],{routeId:null,stopId:'662',coordinates:[43.714379,-79.260939],name:'Danforth Rd at Kennedy Rd'});
+});
+
+test('TTC geographic matching handles radius boundaries, closest stops and unknown geography',()=>{
+ const origin=[43.65,-79.38];
+ const boundary=[43.65+1/111.195,-79.38];
+ const alert={affectedEntities:[
+  {routeId:'1',stopId:'far',coordinates:[43.7,-79.38],name:'Far stop'},
+  {routeId:'1',stopId:'edge',coordinates:boundary,name:'Boundary stop'}
+ ]};
+ const edgeDistance=transitGeographicMatch(alert,origin,Infinity).nearestDistanceKm;
+ const inside=transitGeographicMatch(alert,origin,edgeDistance);
+ assert.equal(inside.geographicStatus,'nearby');
+ assert.equal(inside.relevant,true);
+ assert.equal(inside.matchedEntity.stopId,'edge');
+ assert.equal(transitGeographicMatch(alert,origin,edgeDistance-Number.EPSILON).geographicStatus,'outside');
+ const unknown=transitGeographicMatch({affectedEntities:[{routeId:'1',stopId:null}]},origin,5);
+ assert.deepEqual(unknown,{relevant:false,geographicStatus:'unknown',nearestDistanceKm:null,matchedEntity:null});
+ const partial=transitGeographicMatch({affectedEntities:[
+  {routeId:'1',stopId:'far',coordinates:[43.7,-79.38]}, {routeId:'1',stopId:'missing'}
+ ]},origin,0.5);
+ assert.equal(partial.geographicStatus,'unknown');
+ assert.equal(partial.relevant,false);
+ assert.deepEqual(transitGeographicMatch(null,origin,5),{relevant:false,geographicStatus:'unknown',nearestDistanceKm:null,matchedEntity:null});
+ assert.equal(transitGeographicMatch({affectedEntities:[null,{stopId:'bad',coordinates:['x','y']}]},origin,5).geographicStatus,'unknown');
+});
+
+test('TTC matching uses the same current and saved-location reference and Toronto-wide retains alerts',()=>{
+ const coordinates=[43.65,-79.38];
+ const alert={affectedEntities:[{routeId:'1',stopId:'100',coordinates}]};
+ const live=referenceCoordinates({locationContext:{type:'current'},locations:[]},coordinates);
+ const saved=referenceCoordinates({locationContext:{type:'saved',id:'home'},locations:[{id:'home',label:'Home',latitude:coordinates[0],longitude:coordinates[1]}]},null);
+ assert.deepEqual(transitGeographicMatch(alert,live,0.5),transitGeographicMatch(alert,saved,0.5));
+ assert.equal(transitGeographicMatch(alert,[0,0],null).relevant,true);
+ assert.equal(transitGeographicMatch(alert,[0,0],null).geographicStatus,'toronto-wide');
+ const unknownCitywide=transitGeographicMatch({affectedEntities:[]},null,null);
+ assert.equal(unknownCitywide.relevant,true);
+ assert.equal(unknownCitywide.geographicStatus,'unknown');
+});
+
+test('inactive TTC alerts remain excluded before geographic matching',()=>{
+ const active={periods:[{start:now-1,end:now+1}],affectedEntities:[{stopId:'100',coordinates:[43.65,-79.38]}]};
+ const inactive={periods:[{start:now+1,end:null}],affectedEntities:[{stopId:'100',coordinates:[43.65,-79.38]}]};
+ const current=currentDisruptions(feed([active,inactive]),'transit',now);
+ assert.deepEqual(current,[active]);
+ assert.equal(transitGeographicMatch(current[0],[43.65,-79.38],0.5).relevant,true);
 });
 test('road filters exclude expired, future and no-impact entries; stale data expires',()=>{
  const r=normalizeRoads({Closure:[road]}).items[0];
@@ -109,6 +172,16 @@ test('disruption presentation distinguishes empty, unavailable, stale and filter
  assert.equal(stale.freshness,'Last successfully updated 20 min ago. Data may be stale.');
  assert.equal(disruptionPresentation('roads',{fetchedAt:new Date(now-2*3600000).toISOString(),status:'ok'},[],[],false,now).empty,'Road restriction data is too old to show.');
  assert.equal(disruptionPresentation('roads',unavailable,[],[{id:'road'}],true,now).empty,'No mapped road restrictions within this radius.');
+ assert.equal(nearbyTransitPresentation(fresh,[],now).empty,'No TTC disruptions found in this area.');
+ assert.equal(nearbyTransitPresentation(fresh,[],now).count,'0');
+ assert.match(nearbyTransitPresentation(unavailable,[],now).empty,/temporarily unavailable/);
+ assert.equal(nearbyTransitPresentation(unavailable,[],now).count,'Unavailable');
+ assert.equal(nearbyTransitPresentation({fetchedAt:new Date(now-20*60000).toISOString(),status:'ok'},[],now).freshness,'Last successfully updated 20 min ago. Data may be stale.');
+ assert.equal(nearbyTransitPresentation(null,[],now).empty,'TTC alert data could not be checked yet.');
+ assert.equal(nearbyTransitPresentation({fetchedAt:new Date(now-2*3600000).toISOString(),status:'ok'},[],now).empty,'TTC alert data is too old to show.');
+ assert.equal(nearbyTransitPresentation({fetchedAt:new Date(now-20*60000).toISOString(),status:'stale'},[],now).count,'Stale');
+ assert.equal(nearbyTransitPresentation(unavailable,[{id:'cached'}],now).count,'1');
+ assert.equal(nearbyTransitPresentation({fetchedAt:new Date().toISOString(),status:'ok'},[]).status,'ok');
 });
 
 test('disruption filters support open-ended periods and reject future fetch timestamps',()=>{
@@ -151,6 +224,8 @@ test('disruption renderer updates lists and optional map layers',()=>{
  try {
   renderDisruptions({},null,null,null);
   for(const selector of ['#disruptions','#roadOverlay','#roadScope','#roadsFreshness','#transitFreshness','#roadCount','#transitCount','#roadsList','#transitList']) node(selector);
+  renderDisruptions({},null,null,null);
+  for(const selector of ['#nearbyTransit','#nearbyTransitScope','#nearbyTransitCount','#nearbyTransitFreshness','#nearbyTransitList']) node(selector);
   const timestamp=Date.now();
   const roadBase={expired:false,start:null,impact:'High',title:'Road work',type:'Closure',description:'Use another street',schedule:'Monday',end:timestamp+60000};
   const roads=[
@@ -158,7 +233,17 @@ test('disruption renderer updates lists and optional map layers',()=>{
    {...roadBase,id:'point',line:[],coordinates:[43.702,-79.4],description:'',schedule:'',end:null},
    {...roadBase,id:'missing',line:[],coordinates:null,description:'',schedule:'',end:null}
   ];
-  const transit=[{id:'alert',title:'Delay',effect:'Delay',routes:['1'],description:'Allow extra time',periods:[]}];
+  const transit=[
+   {id:'near',title:'Line 1 service affected',effect:'Delay',routes:['1'],description:'Allow extra time',periods:[],affectedEntities:[
+    {stopId:'farther-near',name:'College Station',coordinates:[43.705,-79.4]},
+    {stopId:'near',name:'Wellesley Station',coordinates:[43.701,-79.4]}
+   ]},
+   {id:'unnamed',title:'Affected stop without a published name',effect:'',routes:[],description:'',periods:[],affectedEntities:[{stopId:'unnamed',coordinates:[43.706,-79.4]}]},
+   {id:'same-title',title:'Named Stop',effect:'Information',routes:[],description:'',periods:[],affectedEntities:[{stopId:'same-title',name:'Named Stop',coordinates:[43.707,-79.4]}]},
+   {id:'stop-only',title:'',effect:'Information',routes:[],description:'',periods:[],affectedEntities:[{stopId:'stop-only',name:'Stop-only label',coordinates:[43.708,-79.4]}]},
+   {id:'far',title:'Distant delay',effect:'Delay',routes:['2'],description:'',periods:[],affectedEntities:[{stopId:'far',name:'Far Station',coordinates:[43.8,-79.4]}]},
+   {id:'unknown',title:'Citywide notice',effect:'Information',routes:[],description:'',periods:[],affectedEntities:[]}
+  ];
   const data={
    roads:{items:roads,fetchedAt:new Date(timestamp).toISOString(),status:'ok'},
    transit:{items:transit,fetchedAt:new Date(timestamp).toISOString(),status:'ok'}
@@ -166,7 +251,20 @@ test('disruption renderer updates lists and optional map layers',()=>{
   renderDisruptions(data,[43.7,-79.4],10,null);
   assert.equal(nodes.get('#roadScope').textContent,'Road restrictions within 10 km');
   assert.equal(nodes.get('#roadsList').children.length,2);
-  assert.equal(nodes.get('#transitList').children.length,1);
+  assert.equal(nodes.get('#transitList').children.length,6);
+  assert.equal(nodes.get('#nearbyTransitList').children.length,4);
+  assert.equal(nodes.get('#nearbyTransitList').children[0].children[1].textContent,'Wellesley Station');
+  assert.match(nodes.get('#nearbyTransitList').children[0].children[2].textContent,/0\.1 km away/);
+  assert.equal(nodes.get('#nearbyTransitCount').textContent,'4');
+  assert.equal(nodes.get('#nearbyTransitFreshness').textContent,'Last successfully updated just now.');
+  renderDisruptions(data,[43.7,-79.4],0.05,null);
+  assert.equal(nodes.get('#nearbyTransitList').children[0].textContent,'No TTC disruptions found in this area.');
+  renderDisruptions(data,[43.8,-79.4],0.5,null);
+  assert.equal(nodes.get('#nearbyTransitList').children[0].children[1].textContent,'Far Station');
+  renderDisruptions(data,null,null,null);
+  assert.equal(nodes.get('#nearbyTransit').hidden,true);
+  assert.equal(nodes.get('#transitList').children.length,6);
+  renderDisruptions(data,[43.7,-79.4],10,null);
   renderDisruptions(data,[43.7,-79.4],10,null);
 
   nodes.get('#roadOverlay').checked=true;

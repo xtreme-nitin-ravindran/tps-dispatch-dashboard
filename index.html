@@ -412,8 +412,7 @@
           </div>
         </div>
         <p class="disruption-note">Separate from emergency calls; nearby events are not necessarily related. Road
-          restrictions follow your nearby radius. TTC alerts are citywide; stop coordinates are not supplied by this
-          feed.</p>
+          restrictions and geographically resolved TTC disruptions can follow your selected radius.</p>
         <details>
           <summary><span id="roadScope">Road restrictions · citywide</span> (<span id="roadCount">—</span>)</summary>
           <p id="roadsFreshness" class="disruption-note">Not available yet</p>
@@ -421,6 +420,11 @@
           <p><a
               href="https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
               target="_blank" rel="noopener noreferrer">City of Toronto road restrictions ↗</a></p>
+        </details>
+        <details id="nearbyTransit" hidden open>
+          <summary><span id="nearbyTransitScope">TTC disruptions near selected area</span> (<span id="nearbyTransitCount">—</span>)</summary>
+          <p id="nearbyTransitFreshness" class="disruption-note">Not available yet</p>
+          <div id="nearbyTransitList" class="disruption-list"></div>
         </details>
         <details>
           <summary>TTC service alerts · citywide (<span id="transitCount">—</span>)</summary>
