@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T04:34:55.012Z",
-  "sourceUpdatedAt": "2026-09-25T04:30:02.000Z",
+  "fetchedAt": "2026-09-25T04:36:25.117Z",
+  "sourceUpdatedAt": "2026-09-25T04:35:01.000Z",
   "incidents": [
+    {
+      "id": "F26151933",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M8V",
+      "division": "435",
+      "timestamp": "2026-09-25T04:29:38.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "435"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-25T04:36:25.117Z",
+      "lastSeenAt": "2026-09-25T04:36:25.117Z",
+      "geography": {
+        "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
+        "approximate": true,
+        "coordinates": [
+          43.6075,
+          -79.5013
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-264932cc26dc4f68427dd0b6",
       "source": "TPS",
@@ -71,7 +105,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T04:26:04.876Z",
       "lastMeaningfulUpdateAt": "2026-09-25T04:31:21.684Z",
-      "lastSeenAt": "2026-09-25T04:34:55.012Z",
+      "lastSeenAt": "2026-09-25T04:36:25.117Z",
       "geography": {
         "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
         "approximate": true,
@@ -138,7 +172,7 @@
       "division": "321",
       "timestamp": "2026-09-25T04:13:35.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -185,7 +219,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T04:21:30.919Z",
       "lastMeaningfulUpdateAt": "2026-09-25T04:26:04.876Z",
-      "lastSeenAt": "2026-09-25T04:34:55.012Z",
+      "lastSeenAt": "2026-09-25T04:36:25.117Z",
       "geography": {
         "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
         "approximate": true,
@@ -322,7 +356,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T04:16:09.161Z",
       "lastMeaningfulUpdateAt": "2026-09-25T04:21:30.919Z",
-      "lastSeenAt": "2026-09-25T04:34:55.012Z",
+      "lastSeenAt": "2026-09-25T04:36:25.117Z",
       "geography": {
         "text": "Lascelles Boulevard between Kilbarry Road & Beltline Trl",
         "approximate": false,
@@ -8324,6 +8358,7 @@
             "14",
             "40",
             "41",
+            "42",
             "43",
             "44",
             "10"
@@ -8389,10 +8424,10 @@
           ]
         }
       ],
-      "respondingUnitCount": 32,
+      "respondingUnitCount": 33,
       "firstSeenAt": "2026-09-24T22:51:39.011Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T03:45:59.443Z",
-      "lastSeenAt": "2026-09-25T04:34:55.012Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T04:36:25.117Z",
+      "lastSeenAt": "2026-09-25T04:36:25.117Z",
       "geography": {
         "text": "Approximate location near Disco Road & Carlingview Drive",
         "approximate": true,
@@ -151473,12 +151508,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T04:34:55.012Z",
-      "sourceUpdatedAt": "2026-09-25T04:30:02.000Z",
+      "fetchedAt": "2026-09-25T04:36:25.117Z",
+      "sourceUpdatedAt": "2026-09-25T04:35:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T04:34:55.012Z",
+      "fetchedAt": "2026-09-25T04:36:25.117Z",
       "status": "ok"
     }
   },
@@ -235573,8 +235608,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-25T04:30:08.703Z",
-      "fetchedAt": "2026-09-25T04:30:08.703Z"
+      "checkedAt": "2026-09-25T04:36:25.117Z",
+      "fetchedAt": "2026-09-25T04:36:25.117Z"
     },
     "transit": {
       "items": [
@@ -235637,22 +235672,6 @@
           "periods": [
             {
               "start": 1790298680000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "76857",
-          "title": "29, 29C Dufferin: No service between Princes' Gates Loop at Canada Blvd - CNE East Entrance and Dufferin St at Springhurst Ave due to an event.",
-          "description": "",
-          "effect": "NO SERVICE",
-          "routes": [
-            "29"
-          ],
-          "periods": [
-            {
-              "start": 1790288653000,
               "end": null
             }
           ],
@@ -236703,14 +236722,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-25T04:30:09.000Z",
+      "sourceUpdatedAt": "2026-09-25T04:36:25.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-25T04:30:08.703Z",
-      "fetchedAt": "2026-09-25T04:30:08.703Z"
+      "checkedAt": "2026-09-25T04:36:25.117Z",
+      "fetchedAt": "2026-09-25T04:36:25.117Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M8V": {
+      "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
+      "approximate": true,
+      "coordinates": [
+        43.6075,
+        -79.5013
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M9C": {
       "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
       "approximate": true,
@@ -239965,18 +239996,6 @@
         -79.4177
       ],
       "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M8V": {
-      "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
-      "approximate": true,
-      "coordinates": [
-        43.6075,
-        -79.5013
-      ],
-      "division": "Division 22",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
