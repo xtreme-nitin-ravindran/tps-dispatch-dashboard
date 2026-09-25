@@ -211,6 +211,7 @@
             <button type="button" data-sheet-target="half" aria-pressed="false">Half</button>
             <button type="button" data-sheet-target="expanded" aria-pressed="false">Expanded</button>
           </div>
+          <div id="mobileClosureDetail" class="mobile-closure-detail" hidden></div>
           <p id="mobileCallsFeedStatus" class="feed-status" role="status" aria-live="polite" hidden></p>
           <div class="call-list mobile-sheet-call-list" id="mobileSheetCallList"></div>
         </div>
@@ -244,6 +245,10 @@
             <span><i class="age-key age-old-key" aria-hidden="true"></i>60+ min</span>
           </div>
           <div class="map-wrap">
+            <label class="road-overlay-toggle map-layer-toggle"><input id="roadOverlay" type="checkbox" />
+              <span aria-hidden="true" class="road-key"></span><span>Road closures</span>
+              <small id="roadOverlayStatus" class="map-layer-status">Not available yet</small>
+            </label>
             <div id="dispatchMap" aria-label="Interactive map of Toronto dispatch calls"></div>
             <div class="map-empty" id="mapEmpty" hidden>
               <strong>Locating calls...</strong>
@@ -263,8 +268,6 @@
         <p class="disruption-note">Separate from emergency calls; nearby events are not necessarily related. Road
           restrictions follow your nearby radius. TTC alerts are citywide; stop coordinates are not supplied by this
           feed.</p>
-        <label class="road-overlay-toggle"><input id="roadOverlay" type="checkbox" /> Show road restrictions on map
-          <span aria-hidden="true" class="road-key"></span></label>
         <details>
           <summary><span id="roadScope">Road restrictions · citywide</span> (<span id="roadCount">—</span>)</summary>
           <p id="roadsFreshness" class="disruption-note">Not available yet</p>
