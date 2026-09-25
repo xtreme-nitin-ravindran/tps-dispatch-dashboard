@@ -16,6 +16,7 @@ test("normalizes a TFS incident into the dashboard contract", () => {
         timestamp: "2026-09-15T21:28:03.000Z",
         alarmLevel: 2,
         isOngoing: true,
+        respondingUnitCount: 19,
         vehicles: [
             { type: "Aerial Truck", numbers: ["213", "221", "231"] },
             { type: "Command Unit", numbers: ["10", "20", "22", "23", "24"] },
@@ -30,6 +31,25 @@ test("normalizes a TFS incident into the dashboard contract", () => {
 
 test("returns an empty vehicle list when TFS provides no assignments", () => {
     assert.deepEqual(parseDispatchedUnits(""), []);
+    assert.equal(normalizeTfsIncident({ timestamp: "2026-09-22T00:00:00Z", units: "" }).respondingUnitCount, undefined);
+});
+
+test("normalizes reliable TFS apparatus assignments without deriving severity", () => {
+    const result = normalizeTfsIncident({
+        timestamp: "2026-09-22T00:00:00Z",
+        units: "P213, R214, C20"
+    });
+    assert.equal(result.respondingUnitCount, 3);
+    assert.equal(result.alarmLevel, null);
+    assert.equal("severity" in result, false);
+});
+
+test("ignores unusable TFS unit values instead of reporting zero", () => {
+    for (const units of [undefined, null, "", "  ", 42, {}, [], "Pumper, , Cmd. unit-"]) {
+        const result = normalizeTfsIncident({ timestamp: "2026-09-22T00:00:00Z", units });
+        assert.equal(result.respondingUnitCount, undefined);
+        assert.equal("respondingUnitCount" in result, false);
+    }
 });
 
 test("preserves unknown apparatus as an Other Unit", () => {

@@ -47,3 +47,8 @@ export function callStatus(call) {
 export function sourceName(source) {
   return source === 'TPS' ? 'Toronto Police Service' : 'Toronto Fire Services';
 }
+
+export function respondingUnitLabel(count) {
+  if (!Number.isInteger(count) || count < 1) return '';
+  return `${count} responding unit${count === 1 ? '' : 's'}`;
+}
