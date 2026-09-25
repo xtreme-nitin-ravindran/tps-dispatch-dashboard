@@ -1,10 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {createClosureDetail,closureSymbolPositions,renderDisruptions,roadClosureSymbolSpacing} from '../src/disruptions/ui.js';
+import {createClosureDetail,closureSymbolPositions,renderDisruptions,roadClosureDensityTier,roadClosureSymbolSpacing} from '../src/disruptions/ui.js';
 
 const originalDocument=globalThis.document;
 const originalLeaflet=globalThis.L;
+const originalRequestAnimationFrame=globalThis.requestAnimationFrame;
+const originalCancelAnimationFrame=globalThis.cancelAnimationFrame;
 
 class FakeElement {
  constructor(tag='div') {this.tag=tag;this.children=[];this.checked=false;this.textContent='';this.className='';this.dataset={};}
@@ -17,10 +19,12 @@ function harness(zoom=12) {
  for(const selector of ['#disruptions','#roadOverlay','#roadOverlayStatus','#roadScope','#roadsFreshness','#transitFreshness','#roadCount','#transitCount','#roadsList','#transitList']) nodes.set(selector,new FakeElement());
  nodes.get('#roadOverlay').checked=true;
  globalThis.document={createElement:tag=>new FakeElement(tag),querySelector:selector=>nodes.get(selector) || null};
- const groups=[];
- const makeLayer=(kind,coordinates,options)=>({kind,coordinates,options,events:{},addTo(group){group.items.push(this);return this;},on(name,handler){this.events[name]=handler;return this;}});
+ const groups=[];const created=[];const frames=[];
+ globalThis.requestAnimationFrame=callback=>{frames.push(callback);return frames.length;};
+ globalThis.cancelAnimationFrame=id=>{frames[id-1]=null;};
+ const makeLayer=(kind,coordinates,options)=>{const layer={kind,coordinates,options,events:{},listenerCount:0,addTo(group){group.items.push(this);return this;},on(name,handler){this.events[name]=handler;this.listenerCount++;return this;}};created.push(layer);return layer;};
  globalThis.L={
-  layerGroup:()=>{const group={items:[],removed:false,addTo(map){this.map=map;return this;},remove(){this.removed=true;}};groups.push(group);return group;},
+  layerGroup:()=>{const group={items:[],removed:false,addTo(map){this.map=map;this.removed=false;return this;},removeLayer(layer){this.items=this.items.filter(item=>item!==layer);},remove(){this.removed=true;}};groups.push(group);return group;},
   polyline:(coordinates,options)=>makeLayer('line',coordinates,options),
   marker:(coordinates,options)=>makeLayer('symbol',coordinates,options),
   divIcon:options=>options,
@@ -35,7 +39,8 @@ function harness(zoom=12) {
   off(names,handler){for(const name of names.split(' ')) if(handlers[name]===handler) delete handlers[name];return this;},
   fire(name,payload){fired.push({name,payload});},trigger(name){handlers[name]?.();}
  };
- return {nodes,groups,map,fired};
+ const flush=()=>{const pending=frames.splice(0);for(const callback of pending) callback?.();};
+ return {nodes,groups,map,fired,created,flush};
 }
 
 const now=Date.now();
@@ -64,6 +69,7 @@ test('symbol density increases with zoom and positions remain on the authoritati
  const low=closureSymbolPositions(line,map);map.zoom=16;const high=closureSymbolPositions(line,map);
  assert.ok(high.length>low.length);assert.ok(roadClosureSymbolSpacing(16)<roadClosureSymbolSpacing(10));
  assert.equal(roadClosureSymbolSpacing(12),130);assert.equal(roadClosureSymbolSpacing(14),90);
+ assert.equal(roadClosureDensityTier(11),0);assert.equal(roadClosureDensityTier(12),1);assert.equal(roadClosureDensityTier(14),2);assert.equal(roadClosureDensityTier(16),3);
  for(const point of high) {assert.equal(point[0],43);assert.ok(point[1]>-79 && point[1]<-77);}
  assert.deepEqual(closureSymbolPositions(null,map),[]);
  assert.deepEqual(closureSymbolPositions([[43,-79]],map),[]);
@@ -83,15 +89,27 @@ test('point-only closures render one marker and select their normalized record',
 });
 
 test('toggle hides and restores every closure element without changing unrelated map state',()=>{
- const {nodes,groups,map}=harness();
+ const {nodes,groups,map,flush}=harness();
  map.center=[43.7,-79.4];map.filterState={service:'TPS'};map.selectedIncident='incident-7';
  renderDisruptions(data,null,10,map);
  const first=groups.at(-1);assert.ok(first.items.length>2);
+ map.trigger('moveend');
  nodes.get('#roadOverlay').checked=false;renderDisruptions(data,null,10,map);
+ flush();
  assert.equal(first.removed,true);
  nodes.get('#roadOverlay').checked=true;renderDisruptions(data,null,10,map);
  assert.ok(groups.at(-1).items.length>2);
  assert.deepEqual(map.center,[43.7,-79.4]);assert.deepEqual(map.filterState,{service:'TPS'});assert.equal(map.selectedIncident,'incident-7');assert.equal(map.zoom,12);
+});
+
+test('viewport scheduling falls back safely when requestAnimationFrame is unavailable',async()=>{
+ const {groups,map}=harness();
+ globalThis.requestAnimationFrame=undefined;
+ renderDisruptions(data,null,10,map);
+ const overlay=groups.at(-1);const initialLayers=[...overlay.items];
+ map.trigger('moveend');
+ await new Promise(resolve=>setTimeout(resolve,5));
+ assert.deepEqual(overlay.items,initialLayers);
 });
 
 test('overlay status distinguishes a valid empty feed from an unavailable source',()=>{
@@ -141,17 +159,56 @@ test('defensive map branches neither fabricate geometry nor require optional Lea
  map.trigger('zoomend');
  assert.equal(groups.at(-1).removed,false);
  delete map.getBounds;globalThis.L.latLngBounds=undefined;
- globalThis.L.polyline=(coordinates,options)=>({kind:'line',coordinates,options,addTo(group){group.items.push(this);return this;}});
  map.trigger('moveend');
  renderDisruptions(variants,null,10,null);
 });
 
-test('viewport and zoom refresh replaces rather than duplicates overlay layers',()=>{
+test('no-op viewport updates reuse closure layers and coalesce move and zoom events',()=>{
+ const {groups,map,created,flush}=harness();renderDisruptions(data,null,12,map);
+ const overlay=groups.at(-1);const initialLayers=[...overlay.items];const initialCreated=created.length;
+ map.trigger('moveend');map.trigger('zoomend');
+ assert.equal(created.length,initialCreated);flush();
+ assert.equal(groups.length,1);assert.deepEqual(overlay.items,initialLayers);assert.equal(created.length,initialCreated);
+ assert.ok(initialLayers.every(layer=>layer.listenerCount===1));
+});
+
+test('a stale scheduled viewport render is ignored after the map changes',()=>{
+ const first=harness();renderDisruptions(data,null,12,first.map);first.map.trigger('moveend');
+ const second=harness();renderDisruptions(data,null,12,second.map);
+ first.flush();
+ assert.equal(first.groups.length,1);assert.equal(second.groups.length,1);
+});
+
+test('viewport deltas remove departed closures and add newly visible closures without duplicates',()=>{
+ const {groups,map,flush}=harness();renderDisruptions(data,null,12,map);
+ const overlay=groups.at(-1);const retained=overlay.items.find(item=>item.options.closureId==='point-1');
+ map.bounds={contains:point=>point[0]===44 || point[0]===46,pad(){return this;}};
+ data.roads.items.push({...base,id:'point-2',geometryKind:'point',line:[],coordinates:[46,-79]});
+ renderDisruptions(data,null,13,map);map.trigger('moveend');flush();
+ assert.equal(overlay.items.includes(retained),true);
+ assert.equal(overlay.items.some(item=>item.options.closureId==='line-1'),false);
+ assert.equal(overlay.items.filter(item=>item.options.closureId==='point-2').length,1);
+ data.roads.items.pop();
+});
+
+test('changed geometry replaces only the affected closure representation',()=>{
  const {groups,map}=harness();renderDisruptions(data,null,12,map);
- const first=groups.at(-1);map.zoom=15;map.trigger('zoomend');const second=groups.at(-1);
- assert.equal(first.removed,true);assert.notEqual(second,first);assert.ok(second.items.length>first.items.length);
- map.bounds={contains:()=>false,pad(){return this;}};map.trigger('moveend');
- assert.equal(second.removed,true);assert.equal(groups.at(-1).items.length,0);
+ const overlay=groups.at(-1);const oldLine=overlay.items.find(item=>item.options.closureId==='line-1' && item.kind==='line');
+ const changed={...data,roads:{...data.roads,items:data.roads.items.map(item=>item.id==='line-1' ? {...item,line:[[43,-79],[43,-76]]} : item)}};
+ renderDisruptions(changed,null,12,map);
+ const newLine=overlay.items.find(item=>item.options.closureId==='line-1' && item.kind==='line');
+ assert.notEqual(newLine,oldLine);assert.equal(overlay.items.includes(oldLine),false);
+ assert.equal(overlay.items.filter(item=>item.options.closureId==='point-1').length,1);
+});
+
+test('symbols regenerate only when zoom crosses a density tier',()=>{
+ const {groups,map,created,flush}=harness(12);renderDisruptions(data,null,12,map);
+ const overlay=groups.at(-1);const line=overlay.items.find(item=>item.kind==='line');const point=overlay.items.find(item=>item.options.closureId==='point-1');
+ const initialCreated=created.length;map.zoom=13;map.trigger('zoomend');flush();
+ assert.equal(created.length,initialCreated);assert.equal(overlay.items.find(item=>item.kind==='line'),line);
+ map.zoom=14;map.trigger('moveend');map.trigger('zoomend');flush();
+ assert.equal(overlay.items.find(item=>item.kind==='line'),line);assert.equal(overlay.items.find(item=>item.options.closureId==='point-1'),point);
+ assert.ok(created.length>initialCreated);assert.equal(overlay.items.filter(item=>item.options.closureId==='line-1' && item.kind==='line').length,1);
 });
 
 test('closure styling uses theme variables defined for light and dark map modes',()=>{
@@ -170,4 +227,4 @@ test('map control is mobile-accessible and closure selection stays separate from
  assert.match(app,/callLayer = L\.layerGroup\(\)\.addTo\(dispatchMap\)/);
 });
 
-test.after(()=>{globalThis.document=originalDocument;globalThis.L=originalLeaflet;});
+test.after(()=>{globalThis.document=originalDocument;globalThis.L=originalLeaflet;globalThis.requestAnimationFrame=originalRequestAnimationFrame;globalThis.cancelAnimationFrame=originalCancelAnimationFrame;});

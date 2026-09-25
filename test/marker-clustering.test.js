@@ -55,7 +55,7 @@ test('expanded clusters preserve incident identity and individual marker selecti
 
   assert.deepEqual(expanded.map(({ id }) => id), ['a', 'b']);
   assert.notDeepEqual(expanded[0].point, expanded[1].point);
-  assert.match(app, /addMarker\(item,position\)/);
+  assert.match(app, /addMarker\(item,position,layers\)/);
   assert.match(app, /\.on\("click", event => \{[\s\S]*?selectCall\(call\.id, \{ pan: false, revealRow: true \}\)/);
 });
 
@@ -76,9 +76,10 @@ test('filter, search, radius, and Toronto-wide changes rebuild clusters from sta
   assert.match(app, /const groups = clusterPoints\(locatedCalls/);
 });
 
-test('cluster click zooms before expanding and repeated redraws replace incident layers', () => {
-  assert.match(app, /callLayer\.clearLayers\(\);[\s\S]*?mapMarkers = new Map\(\)/);
-  assert.match(app, /dispatchMap\.on\("zoomend", \(\) => \{ expandedCluster\.clear\(\); renderMapMarkers\(\); \}\)/);
+test('cluster click zooms before expanding and redraws reconcile incident layers', () => {
+  assert.doesNotMatch(app, /callLayer\.clearLayers\(\)/);
+  assert.match(app, /reconcileIncidentLayers\(renderedIncidentLayers, desiredKeys\)/);
+  assert.match(app, /dispatchMap\.on\("zoomend",[\s\S]*?expandedCluster\.clear\(\);[\s\S]*?scheduleMapMarkerRender\(\)/);
   assert.match(app, /if \(dispatchMap\.getZoom\(\) < 18\) dispatchMap\.setView\(center,Math\.min\(18,dispatchMap\.getZoom\(\)\+2\)\)/);
   assert.match(app, /else \{ expandedCluster = new Set\(group\.map\(item => item\.call\.id\)\); renderMapMarkers\(\); \}/);
   assert.match(app, /title:clusterLabel, alt:clusterLabel/);

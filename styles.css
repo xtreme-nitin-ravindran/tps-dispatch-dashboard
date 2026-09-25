@@ -43,7 +43,7 @@
   --status-danger: #ffb4b4;
   --marker-default: #93c5fd;
   --map-background: #101d2b;
-  --map-tile-filter: invert(.88) hue-rotate(180deg) brightness(.72) contrast(1.08) saturate(.72);
+  --map-tile-opacity: .46;
   --map-control-background: rgba(15, 25, 38, .9);
   --map-attribution-background: rgba(8, 16, 26, .78);
   --map-attribution-text: #8b98a8;
@@ -120,7 +120,7 @@
   --status-warning: #725000;
   --status-danger: #a5261c;
   --map-background: #e2eaec;
-  --map-tile-filter: none;
+  --map-tile-opacity: 1;
   --map-control-background: rgba(255, 255, 255, .92);
   --map-attribution-background: rgba(255, 255, 255, .82);
   --map-attribution-text: #526970;
@@ -969,7 +969,8 @@ html[data-display-mode="standalone"] .app-shell {
 }
 
 .leaflet-tile-pane {
-  filter: var(--map-tile-filter);
+  /* A muted OSM layer is cheaper than color-filtering the full tile pane. */
+  opacity: var(--map-tile-opacity);
 }
 
 .police-boundary { stroke: var(--boundary-marker) !important; fill: var(--boundary-marker) !important; }
@@ -1400,6 +1401,9 @@ footer {
   .controls-card {
     position: static;
     grid-template-columns: 1fr;
+    background: var(--panel);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .search-wrap {
@@ -1645,7 +1649,10 @@ footer {
     padding: 6px;
     border-color: var(--accent-line);
     border-radius: 12px;
-    backdrop-filter: blur(18px);
+    background: var(--panel);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 18%);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     flex-direction: column;
     gap: 6px;
   }
@@ -1671,6 +1678,10 @@ footer {
     max-width: none;
     min-height: 64px;
     padding: 8px;
+    background: var(--panel);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 18%);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
   .map-panel .leaflet-top.leaflet-right {
     top: 8px;
@@ -1684,6 +1695,12 @@ footer {
     margin: 0;
     display: flex;
     align-items: center;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 18%);
+    color: var(--text);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
   .map-panel .leaflet-control-layers-overlays label {
     min-height: 44px;
@@ -1705,9 +1722,10 @@ footer {
     border: 1px solid var(--line);
     border-bottom: 0;
     border-radius: 18px 18px 0 0;
-    background: var(--panel-glass);
-    box-shadow: 0 -10px 32px rgb(0 0 0 / 22%);
-    backdrop-filter: blur(18px);
+    background: var(--panel);
+    box-shadow: 0 -4px 12px rgb(0 0 0 / 18%);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     transition: height 180ms ease-out;
   }
   html[data-display-mode="standalone"] .mobile-bottom-sheet {
