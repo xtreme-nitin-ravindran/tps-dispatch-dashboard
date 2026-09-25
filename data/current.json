@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T21:49:55.081Z",
-  "sourceUpdatedAt": "2026-09-25T21:45:01.000Z",
+  "fetchedAt": "2026-09-25T21:51:08.638Z",
+  "sourceUpdatedAt": "2026-09-25T21:50:02.000Z",
   "incidents": [
     {
       "id": "F26152370",
@@ -16,9 +16,18 @@
       "timestamp": "2026-09-25T21:38:36.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "325"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T21:46:00.094Z",
-      "lastSeenAt": "2026-09-25T21:49:55.081Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T21:51:08.638Z",
+      "lastSeenAt": "2026-09-25T21:51:08.638Z",
       "geography": {
         "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
         "approximate": true,
@@ -42,9 +51,18 @@
       "timestamp": "2026-09-25T21:37:02.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "444"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T21:46:00.094Z",
-      "lastSeenAt": "2026-09-25T21:49:55.081Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T21:51:08.638Z",
+      "lastSeenAt": "2026-09-25T21:51:08.638Z",
       "geography": {
         "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
         "approximate": true,
@@ -57,6 +75,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-3cb43b8113024e6c76d727d9",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-25T21:34:30.000Z",
+      "location": "GARDINER XWY W - KIPLING AVE",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GARDINER XWY W - KIPLING AVE",
+        "coordinates": [
+          43.61590470427628,
+          -79.52467432505597
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T21:51:08.638Z"
     },
     {
       "id": "F26152368",
@@ -78,7 +118,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T21:41:19.185Z",
-      "lastSeenAt": "2026-09-25T21:49:55.081Z",
+      "lastSeenAt": "2026-09-25T21:51:08.638Z",
       "geography": {
         "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
         "approximate": true,
@@ -118,7 +158,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T21:41:19.185Z",
-      "lastSeenAt": "2026-09-25T21:49:55.081Z",
+      "lastSeenAt": "2026-09-25T21:51:08.638Z",
       "geography": {
         "text": "Four Winds Drive between Columbia Gt & Sentinel Road",
         "approximate": false,
@@ -141,7 +181,7 @@
       "division": "346",
       "timestamp": "2026-09-25T21:32:03.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -188,7 +228,7 @@
       ],
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-25T21:41:19.185Z",
-      "lastSeenAt": "2026-09-25T21:49:55.081Z",
+      "lastSeenAt": "2026-09-25T21:51:08.638Z",
       "geography": {
         "text": "Sheppard Avenue between Seeley Drive & Black Creek Trl",
         "approximate": false,
@@ -222,7 +262,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T21:41:19.185Z",
-      "lastSeenAt": "2026-09-25T21:49:55.081Z",
+      "lastSeenAt": "2026-09-25T21:51:08.638Z",
       "geography": {
         "text": "King Street between Brant Street & Portland Street",
         "approximate": false,
@@ -235,6 +275,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-25T21:41:19.185Z"
       }
+    },
+    {
+      "id": "TPS-839c55a51f5618cf372862a1",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-25T21:29:54.000Z",
+      "location": "TECUMSETH ST - NIAGARA ST",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "TECUMSETH ST - NIAGARA ST",
+        "coordinates": [
+          43.64140248194042,
+          -79.40444453185043
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T21:51:08.638Z"
+    },
+    {
+      "id": "TPS-daf4c865bb1ee784d05c6e8d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-25T21:29:24.000Z",
+      "location": "SHERBOURNE ST - SHUTER ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SHERBOURNE ST - SHUTER ST",
+        "coordinates": [
+          43.65616289526663,
+          -79.37009915354126
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T21:51:08.638Z"
     },
     {
       "id": "F26152361",
@@ -263,7 +347,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T21:36:01.422Z",
       "lastMeaningfulUpdateAt": "2026-09-25T21:41:19.185Z",
-      "lastSeenAt": "2026-09-25T21:49:55.081Z",
+      "lastSeenAt": "2026-09-25T21:51:08.638Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -295,7 +379,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T21:36:01.422Z",
       "lastMeaningfulUpdateAt": "2026-09-25T21:41:19.185Z",
-      "lastSeenAt": "2026-09-25T21:49:55.081Z",
+      "lastSeenAt": "2026-09-25T21:51:08.638Z",
       "geography": {
         "text": "Approximate area: (M6M) York (Del Ray / Keelsdale / Mount Dennis / Silverthorne)",
         "approximate": true,
@@ -345,6 +429,28 @@
       }
     },
     {
+      "id": "TPS-71e22ff375913cdde96acdca",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-25T21:25:23.000Z",
+      "location": "BAYVIEW VILLAGE PARK TRL - FOXWARREN DR",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BAYVIEW VILLAGE PARK TRL - FOXWARREN DR",
+        "coordinates": [
+          43.771821791541164,
+          -79.3846353092872
+        ],
+        "division": "Division 33",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T21:51:08.638Z"
+    },
+    {
       "id": "F26152360",
       "source": "TFS",
       "eventType": "fire",
@@ -371,7 +477,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T21:31:38.497Z",
       "lastMeaningfulUpdateAt": "2026-09-25T21:36:01.422Z",
-      "lastSeenAt": "2026-09-25T21:49:55.081Z",
+      "lastSeenAt": "2026-09-25T21:51:08.638Z",
       "geography": {
         "text": "Queen Street between Rhodes Avenue & Coxwell Avenue",
         "approximate": false,
@@ -488,7 +594,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T21:31:38.497Z",
       "lastMeaningfulUpdateAt": "2026-09-25T21:36:01.422Z",
-      "lastSeenAt": "2026-09-25T21:49:55.081Z",
+      "lastSeenAt": "2026-09-25T21:51:08.638Z",
       "geography": {
         "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
         "approximate": true,
@@ -529,7 +635,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T21:31:38.497Z",
       "lastMeaningfulUpdateAt": "2026-09-25T21:36:01.422Z",
-      "lastSeenAt": "2026-09-25T21:49:55.081Z",
+      "lastSeenAt": "2026-09-25T21:51:08.638Z",
       "geography": {
         "text": "Approximate location near Thorncliffe Park Drive & West Don River Trl",
         "approximate": true,
@@ -574,7 +680,7 @@
       "division": "346",
       "timestamp": "2026-09-25T21:17:01.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -719,7 +825,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T21:21:50.010Z",
       "lastMeaningfulUpdateAt": "2026-09-25T21:25:10.823Z",
-      "lastSeenAt": "2026-09-25T21:49:55.081Z",
+      "lastSeenAt": "2026-09-25T21:51:08.638Z",
       "geography": {
         "text": "Approximate area: (M6B) North York (Glencairn)",
         "approximate": true,
@@ -167010,12 +167116,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T21:49:55.081Z",
-      "sourceUpdatedAt": "2026-09-25T21:45:01.000Z",
+      "fetchedAt": "2026-09-25T21:51:08.638Z",
+      "sourceUpdatedAt": "2026-09-25T21:50:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T21:49:55.081Z",
+      "fetchedAt": "2026-09-25T21:51:08.638Z",
       "status": "ok"
     }
   },
