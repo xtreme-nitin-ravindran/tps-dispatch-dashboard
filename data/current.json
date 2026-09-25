@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T06:45:19.370Z",
-  "sourceUpdatedAt": "2026-09-25T06:40:01.000Z",
+  "fetchedAt": "2026-09-25T06:46:24.313Z",
+  "sourceUpdatedAt": "2026-09-25T06:45:01.000Z",
   "incidents": [
+    {
+      "id": "F26151973",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9W",
+      "division": "412",
+      "timestamp": "2026-09-25T06:36:55.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-25T06:46:24.313Z",
+      "lastSeenAt": "2026-09-25T06:46:24.313Z",
+      "geography": {
+        "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
+        "approximate": true,
+        "coordinates": [
+          43.7144,
+          -79.5909
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26151972",
       "source": "TFS",
@@ -26,7 +52,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T06:40:28.734Z",
-      "lastSeenAt": "2026-09-25T06:45:19.370Z",
+      "lastSeenAt": "2026-09-25T06:46:24.313Z",
       "geography": {
         "text": "Approximate area: (M1W) Scarborough (Steeles West / L'Amoreaux West)",
         "approximate": true,
@@ -60,7 +86,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T06:35:38.099Z",
-      "lastSeenAt": "2026-09-25T06:45:19.370Z",
+      "lastSeenAt": "2026-09-25T06:46:24.313Z",
       "geography": {
         "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
         "approximate": true,
@@ -138,7 +164,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T06:35:38.099Z",
-      "lastSeenAt": "2026-09-25T06:45:19.370Z",
+      "lastSeenAt": "2026-09-25T06:46:24.313Z",
       "geography": {
         "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
         "approximate": true,
@@ -239,7 +265,7 @@
       "division": "212",
       "timestamp": "2026-09-25T06:22:32.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -273,7 +299,7 @@
       "division": "311",
       "timestamp": "2026-09-25T06:21:26.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -307,7 +333,7 @@
       "division": "343",
       "timestamp": "2026-09-25T06:21:15.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -10684,7 +10710,7 @@
       "respondingUnitCount": 35,
       "firstSeenAt": "2026-09-24T22:51:39.011Z",
       "lastMeaningfulUpdateAt": "2026-09-25T04:45:51.879Z",
-      "lastSeenAt": "2026-09-25T06:45:19.370Z",
+      "lastSeenAt": "2026-09-25T06:46:24.313Z",
       "geography": {
         "text": "Approximate location near Disco Road & Carlingview Drive",
         "approximate": true,
@@ -153702,12 +153728,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T06:45:19.370Z",
-      "sourceUpdatedAt": "2026-09-25T06:40:01.000Z",
+      "fetchedAt": "2026-09-25T06:46:24.313Z",
+      "sourceUpdatedAt": "2026-09-25T06:45:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T06:45:19.370Z",
+      "fetchedAt": "2026-09-25T06:46:24.313Z",
       "status": "ok"
     }
   },
@@ -320626,6 +320652,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M9W": {
+      "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
+      "approximate": true,
+      "coordinates": [
+        43.7144,
+        -79.5909
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1W": {
       "text": "Approximate area: (M1W) Scarborough (Steeles West / L'Amoreaux West)",
       "approximate": true,
@@ -320644,18 +320682,6 @@
       "coordinates": [
         43.6898,
         -79.5582
-      ],
-      "division": "Division 23",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M9W": {
-      "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
-      "approximate": true,
-      "coordinates": [
-        43.7144,
-        -79.5909
       ],
       "division": "Division 23",
       "version": 1,
