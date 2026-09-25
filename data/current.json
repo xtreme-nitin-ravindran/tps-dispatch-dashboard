@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T06:39:14.298Z",
-  "sourceUpdatedAt": "2026-09-25T06:35:01.000Z",
+  "fetchedAt": "2026-09-25T06:40:28.734Z",
+  "sourceUpdatedAt": "2026-09-25T06:40:01.000Z",
   "incidents": [
+    {
+      "id": "F26151972",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1W",
+      "division": "241",
+      "timestamp": "2026-09-25T06:31:19.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "241"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-25T06:40:28.734Z",
+      "lastSeenAt": "2026-09-25T06:40:28.734Z",
+      "geography": {
+        "text": "Approximate area: (M1W) Scarborough (Steeles West / L'Amoreaux West)",
+        "approximate": true,
+        "coordinates": [
+          43.8016,
+          -79.3216
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26151971",
       "source": "TFS",
@@ -26,7 +60,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T06:35:38.099Z",
-      "lastSeenAt": "2026-09-25T06:39:14.298Z",
+      "lastSeenAt": "2026-09-25T06:40:28.734Z",
       "geography": {
         "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
         "approximate": true,
@@ -104,7 +138,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T06:35:38.099Z",
-      "lastSeenAt": "2026-09-25T06:39:14.298Z",
+      "lastSeenAt": "2026-09-25T06:40:28.734Z",
       "geography": {
         "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
         "approximate": true,
@@ -127,7 +161,7 @@
       "division": "312",
       "timestamp": "2026-09-25T06:25:59.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -216,7 +250,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T06:31:58.137Z",
-      "lastSeenAt": "2026-09-25T06:39:14.298Z",
+      "lastSeenAt": "2026-09-25T06:40:28.734Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -250,7 +284,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T06:31:58.137Z",
-      "lastSeenAt": "2026-09-25T06:39:14.298Z",
+      "lastSeenAt": "2026-09-25T06:40:28.734Z",
       "geography": {
         "text": "Approximate area: (M4S) Central Toronto (Davisville)",
         "approximate": true,
@@ -284,7 +318,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T06:31:58.137Z",
-      "lastSeenAt": "2026-09-25T06:39:14.298Z",
+      "lastSeenAt": "2026-09-25T06:40:28.734Z",
       "geography": {
         "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
         "approximate": true,
@@ -10650,7 +10684,7 @@
       "respondingUnitCount": 35,
       "firstSeenAt": "2026-09-24T22:51:39.011Z",
       "lastMeaningfulUpdateAt": "2026-09-25T04:45:51.879Z",
-      "lastSeenAt": "2026-09-25T06:39:14.298Z",
+      "lastSeenAt": "2026-09-25T06:40:28.734Z",
       "geography": {
         "text": "Approximate location near Disco Road & Carlingview Drive",
         "approximate": true,
@@ -153668,12 +153702,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T06:39:14.298Z",
-      "sourceUpdatedAt": "2026-09-25T06:35:01.000Z",
+      "fetchedAt": "2026-09-25T06:40:28.734Z",
+      "sourceUpdatedAt": "2026-09-25T06:40:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T06:39:14.298Z",
+      "fetchedAt": "2026-09-25T06:40:28.734Z",
       "status": "ok"
     }
   },
@@ -320606,6 +320640,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1W": {
+      "text": "Approximate area: (M1W) Scarborough (Steeles West / L'Amoreaux West)",
+      "approximate": true,
+      "coordinates": [
+        43.8016,
+        -79.3216
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M9R": {
       "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
       "approximate": true,
@@ -322093,18 +322139,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T22:51:39.011Z"
-    },
-    "M1W": {
-      "text": "Approximate area: (M1W) Scarborough (Steeles West / L'Amoreaux West)",
-      "approximate": true,
-      "coordinates": [
-        43.8016,
-        -79.3216
-      ],
-      "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "CHAPLIN CRES, TT / BELTLINE TRL / ROSELAWN AVE": {
       "text": "Approximate location near Chaplin Crescent & Roselawn Avenue",
