@@ -410,8 +410,29 @@ a {
 }
 
 .search-wrap input {
-  padding: 0 16px 0 45px;
+  padding: 0 44px 0 45px;
 }
+
+.search-wrap input::-webkit-search-cancel-button { display: none; }
+
+.clear-search {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font: 700 22px/1 "DM Sans", sans-serif;
+  cursor: pointer;
+}
+
+.clear-search:hover { background: var(--subtle-fill); color: var(--text); }
+.clear-search:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 1px; }
 
 .search-wrap input:focus,
 .control-group select:focus {
