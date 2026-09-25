@@ -995,7 +995,8 @@ function renderMapMarkers() {
     const matchingCluster = group.some(item => sirenIds.has(item.call.id));
     const newestTimestamp = Math.max(...group.map(item => item.call.timestamp));
     const clusterTier = markerAgeTier(newestTimestamp);
-    L.marker(center,{icon:L.divIcon({className:`call-cluster age-${clusterTier}${matchingCluster ? ' siren-match' : ''}`,html:String(group.length),iconSize:[40,40],iconAnchor:[20,20]}), title:`${group.length} calls; newest ${markerAgeLabel(clusterTier)}; zoom or expand`})
+    const clusterLabel = `${group.length} calls; newest ${markerAgeLabel(clusterTier)}; zoom or expand`;
+    L.marker(center,{icon:L.divIcon({className:`call-cluster age-${clusterTier}${matchingCluster ? ' siren-match' : ''}`,html:String(group.length),iconSize:[40,40],iconAnchor:[20,20]}), title:clusterLabel, alt:clusterLabel})
       .on('click', () => {
         if (dispatchMap.getZoom() < 18) dispatchMap.setView(center,Math.min(18,dispatchMap.getZoom()+2));
         else { expandedCluster = new Set(group.map(item => item.call.id)); renderMapMarkers(); }
