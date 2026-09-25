@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T09:05:06.971Z",
-  "sourceUpdatedAt": "2026-09-25T09:00:01.000Z",
+  "fetchedAt": "2026-09-25T09:06:19.156Z",
+  "sourceUpdatedAt": "2026-09-25T09:05:01.000Z",
   "incidents": [
+    {
+      "id": "F26152011",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5E",
+      "division": "333",
+      "timestamp": "2026-09-25T08:58:32.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "333"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-25T09:06:19.156Z",
+      "lastSeenAt": "2026-09-25T09:06:19.156Z",
+      "geography": {
+        "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
+        "approximate": true,
+        "coordinates": [
+          43.6456,
+          -79.3754
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26152010",
       "source": "TFS",
@@ -16,9 +50,18 @@
       "timestamp": "2026-09-25T08:53:34.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "232"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T09:00:38.371Z",
-      "lastSeenAt": "2026-09-25T09:05:06.971Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T09:06:19.156Z",
+      "lastSeenAt": "2026-09-25T09:06:19.156Z",
       "geography": {
         "text": "Approximate area: (M1P) Scarborough (Dorset Park / Wexford Heights / Scarborough Town Centre)",
         "approximate": true,
@@ -42,9 +85,24 @@
       "timestamp": "2026-09-25T08:50:17.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "135"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "135"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T09:00:38.371Z",
-      "lastSeenAt": "2026-09-25T09:05:06.971Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T09:06:19.156Z",
+      "lastSeenAt": "2026-09-25T09:06:19.156Z",
       "geography": {
         "text": "Burton Road between Spadina Road & Vesta Drive",
         "approximate": false,
@@ -72,6 +130,7 @@
         {
           "type": "Aerial Truck",
           "numbers": [
+            "231",
             "231"
           ]
         },
@@ -108,10 +167,10 @@
           ]
         }
       ],
-      "respondingUnitCount": 8,
+      "respondingUnitCount": 9,
       "firstSeenAt": "2026-09-25T08:56:51.824Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T09:00:38.371Z",
-      "lastSeenAt": "2026-09-25T09:05:06.971Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T09:06:19.156Z",
+      "lastSeenAt": "2026-09-25T09:06:19.156Z",
       "geography": {
         "text": "Gatesview Avenue between Cedar Drive & Scarborough Golf Club Road",
         "approximate": false,
@@ -281,7 +340,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T08:36:21.724Z",
-      "lastSeenAt": "2026-09-25T09:05:06.971Z",
+      "lastSeenAt": "2026-09-25T09:06:19.156Z",
       "geography": {
         "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
         "approximate": true,
@@ -1053,7 +1112,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T07:47:04.390Z",
       "lastMeaningfulUpdateAt": "2026-09-25T07:50:30.136Z",
-      "lastSeenAt": "2026-09-25T09:05:06.971Z",
+      "lastSeenAt": "2026-09-25T09:06:19.156Z",
       "geography": {
         "text": "Approximate area: (M3L) Downsview West",
         "approximate": true,
@@ -12904,7 +12963,7 @@
       "respondingUnitCount": 37,
       "firstSeenAt": "2026-09-24T22:51:39.011Z",
       "lastMeaningfulUpdateAt": "2026-09-25T08:46:18.257Z",
-      "lastSeenAt": "2026-09-25T09:05:06.971Z",
+      "lastSeenAt": "2026-09-25T09:06:19.156Z",
       "geography": {
         "text": "Approximate location near Disco Road & Carlingview Drive",
         "approximate": true,
@@ -155922,12 +155981,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T09:05:06.971Z",
-      "sourceUpdatedAt": "2026-09-25T09:00:01.000Z",
+      "fetchedAt": "2026-09-25T09:06:19.156Z",
+      "sourceUpdatedAt": "2026-09-25T09:05:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T09:05:06.971Z",
+      "fetchedAt": "2026-09-25T09:06:19.156Z",
       "status": "ok"
     }
   },
@@ -320563,6 +320622,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5E": {
+      "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
+      "approximate": true,
+      "coordinates": [
+        43.6456,
+        -79.3754
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1P": {
       "text": "Approximate area: (M1P) Scarborough (Dorset Park / Wexford Heights / Scarborough Town Centre)",
       "approximate": true,
@@ -322182,18 +322253,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T23:39:20.565Z"
-    },
-    "M5E": {
-      "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
-      "approximate": true,
-      "coordinates": [
-        43.6456,
-        -79.3754
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M6N": {
       "text": "Approximate area: (M6N) York (Runnymede / The Junction North)",
