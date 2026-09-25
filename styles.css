@@ -1548,12 +1548,37 @@ footer {
 .nearby-action { width: min(100%, 380px); }
 #nearMe { width: 100%; min-height: 54px; padding: 13px 20px; border: 0; border-radius: 12px; background: var(--accent); color: var(--on-accent); font: inherit; font-size: 17px; font-weight: 800; cursor: pointer; box-shadow: 0 8px 24px var(--accent-ring); }
 #nearMe:disabled, #hearSirens:disabled { opacity: .7; cursor: wait; }
-#nearMe:focus-visible, #hearSirens:focus-visible, #clearNearby:focus-visible, #chooseArea:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+#nearMe:focus-visible, #hearSirens:focus-visible, #clearNearby:focus-visible, #chooseArea:focus-visible, .saved-location-controls button:focus-visible, .saved-location-controls select:focus-visible, .saved-locations-dialog button:focus-visible, .saved-locations-dialog input:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
 #nearStatus { margin-top: 8px; font-size: 12px; line-height: 1.5; }
 #nearControls:not([hidden]) { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
 #hearSirens, #clearNearby, #chooseArea { padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: inherit; cursor: pointer; }
 #hearSirens { margin-top: 10px; }
+.saved-location-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.saved-location-controls label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; }
+.saved-location-controls select { min-height: 40px; max-width: 210px; padding: 7px 30px 7px 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: inherit; }
+#locationContextStatus { flex-basis: 100%; font-size: 13px; color: var(--accent); }
+.saved-location-controls button, .saved-location-form-actions button, .saved-location-item-actions button, .dialog-close { padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: inherit; cursor: pointer; }
+.saved-location-controls button:disabled { opacity: .55; cursor: not-allowed; }
+#savedLocationLimit { flex-basis: 100%; color: var(--muted); font-size: 12px; }
+.saved-locations-dialog { width: min(92vw, 460px); max-height: min(82vh, 620px); padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); color: var(--text); box-shadow: var(--shadow); }
+.saved-locations-dialog::backdrop { background: rgb(0 0 0 / .52); }
+.saved-locations-dialog-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.saved-locations-dialog h2 { margin: 4px 0 16px; font-size: 21px; }
+.dialog-close { min-width: 40px; min-height: 40px; font-size: 22px; line-height: 1; }
+#savedLocationForm { padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+#savedLocationForm[hidden] { display: none; }
+#savedLocationForm label { display: grid; gap: 6px; font-weight: 700; }
+#savedLocationLabel { width: 100%; min-height: 44px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: inherit; }
+#savedLocationLabel[aria-invalid="true"] { border-color: var(--danger, #c43d3d); }
+.saved-location-error { margin: 7px 0 0; color: var(--danger, #c43d3d); font-size: 13px; }
+.saved-location-form-actions { display: flex; gap: 8px; margin-top: 12px; }
+#submitSavedLocation { background: var(--accent); color: var(--on-accent); border-color: transparent; font-weight: 700; }
+.saved-locations-empty { margin: 16px 0 0; color: var(--muted); }
+.saved-locations-list { display: grid; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
+.saved-locations-list li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.saved-location-item-actions { display: flex; gap: 6px; flex: none; }
 @media (max-width: 680px) { .nearby-feature { flex-direction: column; align-items: stretch; gap: 14px; } .nearby-action { width: 100%; } }
+@media (max-width: 480px) { .saved-locations-dialog { width: calc(100vw - 24px); padding: 16px; } .saved-locations-list li { align-items: flex-start; flex-direction: column; } .saved-location-item-actions button { min-height: 44px; } }
 
 .siren-results { margin: 0 0 20px; padding: 22px; border: 1px solid var(--warning-line); border-radius: 18px; background: var(--warning-soft); }
 .siren-results[hidden] { display: none; }

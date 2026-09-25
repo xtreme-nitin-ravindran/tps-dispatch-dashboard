@@ -1,4 +1,4 @@
-const CACHE_VERSION = "sirento-shell-v1";
+const CACHE_VERSION = "sirento-shell-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -31,6 +31,7 @@ const APP_SHELL = [
   "./src/offline-status.js",
   "./src/postal-lookup.js",
   "./src/refresh-freshness.js",
+  "./src/saved-locations.js",
   "./src/siren-matches.js",
   "./src/source-status.js",
   "./src/theme.js",
