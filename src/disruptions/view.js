@@ -6,6 +6,34 @@ export function currentDisruptions(feed, kind, now = Date.now()) {
     ? !item.expired && (item.start == null || item.start <= now) && (item.end == null || item.end > now) && item.impact.toLowerCase() !== 'none'
     : !item.periods.length || item.periods.some(p => (p.start == null || p.start <= now) && (p.end == null || p.end > now)));
 }
+
+// TTC geography is trustworthy only when it comes from structured affected entities.
+// Route-only and unresolved stop scopes cannot be confidently classified as outside.
+export function transitGeographicMatch(alert, origin, radiusKm) {
+  const entities = Array.isArray(alert?.affectedEntities) ? alert.affectedEntities : [];
+  const resolved = entities
+    .filter(entity => Array.isArray(entity?.coordinates))
+    .map(entity => ({entity,distanceKm:distanceKm(origin,entity.coordinates)}))
+    .filter(match => Number.isFinite(match.distanceKm))
+    .sort((a,b) => a.distanceKm - b.distanceKm);
+  const nearest = resolved[0] || null;
+  const unresolved = !entities.length || entities.some(entity => !entity?.stopId || !Array.isArray(entity?.coordinates));
+
+  if (radiusKm === null) return {
+    relevant:true,
+    geographicStatus:nearest ? 'toronto-wide' : 'unknown',
+    nearestDistanceKm:nearest?.distanceKm ?? null,
+    matchedEntity:nearest?.entity ?? null
+  };
+  if (!nearest) return {relevant:false,geographicStatus:'unknown',nearestDistanceKm:null,matchedEntity:null};
+  if (nearest.distanceKm <= radiusKm) return {
+    relevant:true, geographicStatus:'nearby', nearestDistanceKm:nearest.distanceKm, matchedEntity:nearest.entity
+  };
+  if (unresolved) return {
+    relevant:false, geographicStatus:'unknown', nearestDistanceKm:nearest.distanceKm, matchedEntity:nearest.entity
+  };
+  return {relevant:false,geographicStatus:'outside',nearestDistanceKm:nearest.distanceKm,matchedEntity:nearest.entity};
+}
 // Distance to the nearest point on the published road segment (local equirectangular projection).
 export function roadDistance(item, origin) {
   if (!origin) return Infinity;

@@ -65,6 +65,8 @@ test("worker precaches the static app shell without live incident data", async (
   assert.ok(calls.added.includes("./styles.css"));
   assert.ok(calls.added.includes("./app.js"));
   assert.ok(calls.added.includes("./icon-192.png"));
+  assert.ok(calls.added.includes("./src/disruptions/ttc-nearby-fixture.js"));
+  assert.ok(calls.added.includes("./src/disruptions/ttc-stops.js"));
   assert.ok(calls.added.includes("./src/disruptions/ui.js"));
   assert.ok(!calls.added.some(asset => asset.includes("current.json")));
 });

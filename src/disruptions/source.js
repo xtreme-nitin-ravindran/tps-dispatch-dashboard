@@ -1,3 +1,5 @@
+import { TTC_STOP_LOOKUP } from './ttc-stops.js';
+
 export const ROAD_FEED = 'https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json';
 export const TTC_FEED = 'https://gtfsrt.ttc.ca/alerts/all?format=text';
 export const ROAD_LINK = 'https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/';
@@ -71,7 +73,7 @@ function translated(object) {
   const translations = object?.translation || [];
   return clean(first(translations.find(t => first(t,'language') === 'en') || translations[0], 'text'));
 }
-export function normalizeTransit(text, now = Date.now()) {
+export function normalizeTransit(text, now = Date.now(), stopLookup = TTC_STOP_LOOKUP) {
   const feed = parseTextProto(text);
   const header = first(feed,'header');
   const timestamp = Number(first(header,'timestamp')) * 1000;
@@ -84,7 +86,24 @@ export function normalizeTransit(text, now = Date.now()) {
     if (!title || !id) throw new Error('Invalid TTC alert');
     const periods = (alert.active_period || []).map(p => ({start: number(first(p,'start')) === null ? null : number(first(p,'start')) * 1000, end:number(first(p,'end')) === null ? null : number(first(p,'end')) * 1000}));
     if (periods.some(p => [p.start,p.end].some(v => v !== null && !Number.isFinite(v)))) throw new Error('Invalid TTC active period');
-    return [{id, title, description:translated(first(alert,'description_text')), effect:clean(first(alert,'effect')).replaceAll('_',' '), routes:[...new Set((alert.informed_entity || []).map(e => clean(first(e,'route_id'))).filter(Boolean))], periods, url:TTC_LINK}];
+    const affectedEntities = (alert.informed_entity || []).map(entity => {
+      const routeId = clean(first(entity,'route_id')) || null;
+      const stopId = clean(first(entity,'stop_id')) || null;
+      const stop = stopId ? stopLookup[stopId] : null;
+      const coordinates = Array.isArray(stop) ? stop.slice(0,2) : stop?.coordinates;
+      const name = Array.isArray(stop) ? clean(stop[2]) : clean(stop?.name);
+      return {
+        routeId, stopId,
+        ...(point(coordinates) ? {coordinates:[...coordinates]} : {}),
+        ...(name ? {name} : {})
+      };
+    });
+    return [{
+      id, title, description:translated(first(alert,'description_text')), effect:clean(first(alert,'effect')).replaceAll('_',' '),
+      routes:[...new Set(affectedEntities.map(entity => entity.routeId).filter(Boolean))],
+      stopIds:[...new Set(affectedEntities.map(entity => entity.stopId).filter(Boolean))],
+      affectedEntities, periods, url:TTC_LINK
+    }];
   });
   return {items, sourceUpdatedAt:new Date(timestamp).toISOString()};
 }

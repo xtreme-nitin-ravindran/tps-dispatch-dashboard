@@ -3,6 +3,7 @@ import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
 import { incidentGroupKey, reconcileIncidentLayers } from "./src/incident-layer-diff.js";
 import { filterDefaults, filterSummary, readFilters, shareView, shareIncidentView, readSharedIncident, shareIncident, loadPreferences, savePreferences } from "./src/view-controls.js";
 import { createClosureDetail, renderDisruptions } from "./src/disruptions/ui.js?v=road-closure-interaction-1";
+import { withTtcNearbyFixture } from "./src/disruptions/ttc-nearby-fixture.js";
 import { compactAge, compactReportedAge, locationConfidence, callStatus, sourceName, respondingUnitLabel } from "./src/call-presentation.js?v=responding-units-1";
 import { distanceKm, distanceLabel, withinGeographicScope } from "./src/nearby.js?v=radius-controls-1";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
@@ -322,7 +323,7 @@ async function fetchSnapshot() {
   return {
     calls: rows.map(row => normalizeCall(row))
       .sort((a, b) => b.timestamp - a.timestamp),
-    disruptions: payload.disruptions,
+    disruptions: withTtcNearbyFixture(payload.disruptions),
     feeds: payload.feeds,
     fetchedAt: payload.fetchedAt || null,
     updatedAt: payload.sourceUpdatedAt || payload.fetchedAt || null

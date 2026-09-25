@@ -1,4 +1,4 @@
-const CACHE_VERSION = "sirento-shell-v4";
+const CACHE_VERSION = "sirento-shell-v5";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -15,8 +15,10 @@ const APP_SHELL = [
   "./src/cta-copy.js",
   "./src/dispatch-glossary.js",
   "./src/disruptions/source.js",
+  "./src/disruptions/ttc-nearby-fixture.js",
   "./src/disruptions/ui.js",
   "./src/disruptions/view.js",
+  "./src/disruptions/ttc-stops.js",
   "./src/incident-badge.js",
   "./src/incident-search.js",
   "./src/incident-selection.js",
