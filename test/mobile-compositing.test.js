@@ -37,7 +37,7 @@ test('mobile map overlay containers avoid backdrop blur without changing alignme
     assert.doesNotMatch(rules, /blur\(/);
   }
   assert.match(declaration('.map-layer-toggle'), /width: calc\(50% - 12px\)/);
-  assert.match(declaration('.map-panel .leaflet-top.leaflet-right'), /left: calc\(50% \+ 4px\)/);
+  assert.match(mobileRules, /\.map-panel \.leaflet-top\.leaflet-right\s*\{[\s\S]*?left: calc\(50% \+ 4px\);/);
 });
 
 test('mobile search controls avoid blur while desktop glass styling remains available', () => {

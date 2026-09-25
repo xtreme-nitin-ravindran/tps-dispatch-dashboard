@@ -58,7 +58,7 @@ test("app shell links install metadata without changing its entry behavior", () 
   assert.match(html, /<meta name="apple-mobile-web-app-title" content="SirenTO" \/>/);
   assert.match(html, /<main>/);
   assert.match(html, /<section class="map-stage" id="mapView">/);
-  assert.match(html, /<script type="module" src="\.\/app\.js\?v=mobile-bottom-sheet-1"><\/script>/);
+  assert.match(html, /<script type="module" src="\.\/app\.js\?v=mobile-map-focus-1"><\/script>/);
   assert.match(html, /"serviceWorker" in navigator/);
   assert.match(html, /navigator\.serviceWorker\.register\("\.\/service-worker\.js"\)/);
 });
