@@ -1,7 +1,7 @@
 import { sourceStatus, sourceStatusText } from "./src/source-status.js?v=source-states-1";
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
 import { filterDefaults, filterSummary, readFilters, shareView, shareIncidentView, readSharedIncident, shareIncident, loadPreferences, savePreferences } from "./src/view-controls.js";
-import { renderDisruptions } from "./src/disruptions/ui.js?v=source-states-1";
+import { createClosureDetail, renderDisruptions } from "./src/disruptions/ui.js?v=road-closure-interaction-1";
 import { compactAge, compactReportedAge, locationConfidence, callStatus, sourceName, respondingUnitLabel } from "./src/call-presentation.js?v=responding-units-1";
 import { distanceKm, distanceLabel, withinGeographicScope } from "./src/nearby.js?v=radius-controls-1";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
@@ -86,6 +86,7 @@ const mobileSheetSummary = document.querySelector('#mobileSheetSummary');
 const mobileSheetStateControls = document.querySelectorAll('[data-sheet-target]');
 const mobileSheetCallList = document.querySelector('#mobileSheetCallList');
 const mobileCallsFeedStatus = document.querySelector('#mobileCallsFeedStatus');
+const mobileClosureDetail = document.querySelector('#mobileClosureDetail');
 const nearbySort = document.querySelector('#nearbySort');
 const expandNearbyRadius = document.querySelector('#expandNearbyRadius');
 
@@ -95,6 +96,7 @@ let mapMarkers = new Map();
 let callLayer;
 let expandedCluster = new Set();
 let focusedCallId = null;
+let focusedClosureId = null;
 let rowHighlightTimer;
 let mapHasFitted = false;
 let lastRadiusKm = 2;
@@ -735,7 +737,7 @@ function renderCalls() {
   const availability=renderIncidentFeedStatus();
   if (mobileCallsFeedStatus) {
     mobileCallsFeedStatus.textContent = callsFeedStatus.textContent;
-    mobileCallsFeedStatus.hidden = callsFeedStatus.hidden;
+    mobileCallsFeedStatus.hidden = Boolean(focusedClosureId) || callsFeedStatus.hidden;
   }
   if (!state.filtered.length && !availability.hasRelevantCachedData && availability.unavailable.length) {
     els.resultCount.textContent = availability.allUnavailable ? 'UNAVAILABLE' : '0 FROM AVAILABLE SOURCES';
@@ -822,12 +824,44 @@ function initMap() {
   }).addTo(dispatchMap);
   callLayer = L.layerGroup().addTo(dispatchMap);
   nearbyOriginLayer = L.layerGroup().addTo(dispatchMap);
+  dispatchMap.on('roadclosureselect', event => selectClosure(event.item,event.layer));
   dispatchMap.on("zoomend", () => { expandedCluster.clear(); renderMapMarkers(); });
   dispatchMap.on("click", event => {
     if (!choosingArea) return;
     chooseManualArea([event.latlng.lat, event.latlng.lng]);
   });
   loadDivisionOverlay();
+}
+
+function clearClosureSelection() {
+  const hadClosure=focusedClosureId !== null;
+  focusedClosureId=null;
+  if (mobileClosureDetail) {
+    mobileClosureDetail.hidden=true;
+    mobileClosureDetail.replaceChildren();
+  }
+  mobileSheetCallList.hidden=false;
+  mobileCallsFeedStatus.hidden=callsFeedStatus.hidden;
+  if (hadClosure) renderNearbySummary();
+}
+
+function selectClosure(closure, layer) {
+  if (!closure) return;
+  focusedClosureId=String(closure.id ?? '');
+  const detail=createClosureDetail(closure);
+  if (isMobileViewLayout()) {
+    const back=document.createElement('button');
+    back.type='button';back.className='closure-detail-back';back.textContent='← Back to incident list';
+    back.addEventListener('click',clearClosureSelection);
+    mobileClosureDetail.replaceChildren(back,detail);
+    mobileClosureDetail.hidden=false;
+    mobileSheetCallList.hidden=true;
+    mobileCallsFeedStatus.hidden=true;
+    mobileSheetSummary.textContent=closure.street || closure.title || 'Road closure';
+    setMobileSheetState(mobileSheetState === 'collapsed' ? 'half' : mobileSheetState);
+    return;
+  }
+  layer?.bindPopup?.(detail,{minWidth:260,maxWidth:340,closeOnClick:false}).openPopup?.();
 }
 
 async function loadDivisionOverlay() {
@@ -996,6 +1030,8 @@ function renderMap() {
 function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false } = {}) {
   const call = state.filtered.find(item => item.id === callId);
   if (!call) return;
+
+  clearClosureSelection();
 
   focusedCallId = callId;
   if (pan && dispatchMap && coordinatesForCall(call)) {
@@ -1450,6 +1486,7 @@ setInterval(() => {
 }, 60000);
 
 document.querySelector('#roadOverlay').addEventListener('change', () => {
+  if (!document.querySelector('#roadOverlay').checked) clearClosureSelection();
   rememberPreferences();
   renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
 });

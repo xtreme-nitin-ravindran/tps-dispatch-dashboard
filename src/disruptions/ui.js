@@ -1,8 +1,11 @@
 import { currentDisruptions, roadDistance } from './view.js';
-import { ROAD_LINK } from './source.js';
 import { sourceStatus, sourceStatusText } from '../source-status.js?v=source-states-1';
 let roadLayer;
+let roadMap;
+let roadItems=[];
+let roadMapHandler;
 let previousRender;
+const ROAD_PANE='roadClosurePane';
 const definitions = {
   roads: {subject:'Road restriction', empty:'No road restrictions currently reported.'},
   transit: {subject:'TTC alert', empty:'No TTC service alerts currently reported.'}
@@ -10,6 +13,107 @@ const definitions = {
 const element = (tag, text, className) => {
   const node=document.createElement(tag); if (text) node.textContent=text; if (className) node.className=className; return node;
 };
+const closureId = item => String(item.id ?? '');
+const isClosure = item => /(?:ROAD )?CLOS(?:ED|URE)/i.test(item.restrictionType || item.type || '');
+const project = (map,coordinate) => {
+  const value=map.project ? map.project(coordinate,map.getZoom()) : map.latLngToLayerPoint(coordinate);
+  return {x:value.x,y:value.y};
+};
+export function roadClosureSymbolSpacing(zoom) {
+  if (zoom <= 11) return 180;
+  if (zoom <= 13) return 130;
+  if (zoom <= 15) return 90;
+  return 64;
+}
+export function closureSymbolPositions(line, map) {
+  if (!map || !Array.isArray(line) || line.length < 2) return [];
+  const segments=[]; let total=0;
+  for (let i=1;i<line.length;i++) {
+    const a=project(map,line[i-1]),b=project(map,line[i]);
+    const length=Math.hypot(b.x-a.x,b.y-a.y);
+    if (length) {segments.push({from:line[i-1],to:line[i],length,start:total});total+=length;}
+  }
+  if (!total) return [];
+  const spacing=roadClosureSymbolSpacing(map.getZoom());
+  const count=Math.min(24,Math.max(1,Math.floor(total/spacing)));
+  return Array.from({length:count},(_,index) => {
+    const distance=total*(index+1)/(count+1);
+    const segment=segments.find(candidate => distance <= candidate.start+candidate.length);
+    const ratio=Math.max(0,Math.min(1,(distance-segment.start)/segment.length));
+    return [segment.from[0]+(segment.to[0]-segment.from[0])*ratio,segment.from[1]+(segment.to[1]-segment.from[1])*ratio];
+  });
+}
+function visibleOnMap(item,map) {
+  if (!map.getBounds || !globalThis.L?.latLngBounds) return true;
+  const bounds=map.getBounds().pad?.(0.1) || map.getBounds();
+  const coordinates=item.line?.length > 1 ? item.line : item.coordinates ? [item.coordinates] : [];
+  return coordinates.length && L.latLngBounds(coordinates).intersects(bounds);
+}
+function selectable(layer,item,map) {
+  layer.closureId=closureId(item);
+  layer.on?.('click',event => map.fire?.('roadclosureselect',{closureId:layer.closureId,item,layer,originalEvent:event}));
+  return layer;
+}
+const closureTime = value => {
+  const timestamp=Number(value);
+  if (!Number.isFinite(timestamp) || timestamp <= 0) return '';
+  return new Intl.DateTimeFormat('en-CA',{dateStyle:'medium',timeStyle:'short',timeZone:'America/Toronto'}).format(timestamp)+' Toronto';
+};
+export function createClosureDetail(item) {
+  const article=element('article',null,'closure-detail');
+  article.dataset.closureId=closureId(item);
+  article.append(element('span','ROAD CLOSURE','closure-detail-kicker'));
+  article.append(element('h3',item.street || item.title || 'Road closure'));
+  const fields=[
+    ['Restriction',item.restrictionType || item.type],
+    ['Start location',item.startLocation],
+    ['End location',item.endLocation],
+    ['Started / reported',closureTime(item.start || item.reportedAt)],
+    ['Expected end',closureTime(item.end)],
+    ['Status',item.status]
+  ];
+  const list=element('dl',null,'closure-detail-fields');
+  for (const [label,value] of fields) {
+    if (!value) continue;
+    list.append(element('dt',label),element('dd',String(value)));
+  }
+  if (list.children.length) article.append(list);
+  const source=item.source;
+  if (source?.name && (source.url || item.url)) {
+    const link=element('a',`${source.name} ↗`,'closure-source-link');
+    link.href=source.url || item.url; link.target='_blank'; link.rel='noopener noreferrer';
+    article.append(link);
+  } else if (source?.name) article.append(element('p',source.name,'closure-source-link'));
+  return article;
+}
+function closureIcon(item,pointOnly=false) {
+  const id=closureId(item).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+  return L.divIcon({className:`road-closure-symbol${pointOnly ? ' road-closure-symbol--point' : ''}`,html:`<span aria-hidden="true" data-closure-id="${id}">⛔</span>`,iconSize:[20,20],iconAnchor:[10,10]});
+}
+function renderRoadLayer(map) {
+  if (roadLayer) {roadLayer.remove();roadLayer=null;}
+  if (!map.getPane?.(ROAD_PANE)) {
+    const pane=map.createPane?.(ROAD_PANE);
+    if (pane) pane.style.zIndex='450';
+  }
+  roadLayer=L.layerGroup();
+  for (const item of roadItems.filter(item => visibleOnMap(item,map))) {
+    const options={pane:ROAD_PANE,closureId:closureId(item)};
+    if (item.geometryKind === 'line' || item.line?.length > 1) {
+      selectable(L.polyline(item.line,{...options,className:'road-closure-line',weight:6,opacity:.88,lineCap:'round'}),item,map).addTo(roadLayer);
+      for (const position of closureSymbolPositions(item.line,map)) {
+        selectable(L.marker(position,{...options,icon:closureIcon(item),keyboard:true,title:`Road closure: ${item.title}`}),item,map).addTo(roadLayer);
+      }
+    } else if ((item.geometryKind === 'point' || !item.geometryKind) && item.coordinates) {
+      selectable(L.marker(item.coordinates,{...options,icon:closureIcon(item,true),keyboard:true,title:`Road closure: ${item.title}`}),item,map).addTo(roadLayer);
+    }
+  }
+  roadLayer.addTo(map);
+}
+function detachRoadMap() {
+  if (roadMap && roadMapHandler) roadMap.off?.('zoomend moveend',roadMapHandler);
+  roadMap=null;roadMapHandler=null;
+}
 export function disruptionPresentation(kind, feed, items, baseItems, hasOrigin, now = Date.now()) {
   const definition=definitions[kind];
   const info=sourceStatus(definition.subject,feed,now);
@@ -44,6 +148,13 @@ export function renderDisruptions(data, origin, radius, map) {
   document.querySelector('#roadsFreshness').textContent=presentations.roads.freshness;
   document.querySelector('#transitFreshness').textContent=presentations.transit.freshness;
   document.querySelector('#roadCount').textContent=presentations.roads.count;
+  const overlayStatus=document.querySelector('#roadOverlayStatus');
+  if (overlayStatus) {
+    overlayStatus.textContent=presentations.roads.status === 'ok'
+      ? `${presentations.roads.count} current`
+      : `${presentations.roads.count} · ${presentations.roads.freshness}`;
+    overlayStatus.className=`map-layer-status source-state-${presentations.roads.status}`;
+  }
   document.querySelector('#transitCount').textContent=presentations.transit.count;
   for (const [kind,items] of [['roads',roads],['transit',transit]]) {
     const list=document.querySelector(`#${kind}List`); list.replaceChildren();
@@ -62,14 +173,12 @@ export function renderDisruptions(data, origin, radius, map) {
     }
   }
   if (roadLayer) {roadLayer.remove();roadLayer=null;}
+  detachRoadMap();
   if (map && showMap) {
-    roadLayer=L.layerGroup();
-    for (const item of roads) {
-      const popup=element('div'); popup.append(element('strong',item.title),element('p',item.type));
-      const link=element('a','Official road restrictions');link.href=ROAD_LINK;link.target='_blank';link.rel='noopener noreferrer';popup.append(link);
-      const layer=item.line?.length>1 ? L.polyline(item.line,{className:'road-restriction',weight:5,opacity:1,dashArray:'8 6'}) : item.coordinates ? L.circleMarker(item.coordinates,{className:'road-restriction',fillOpacity:.8,radius:6}) : null;
-      layer?.bindPopup(popup).addTo(roadLayer);
-    }
-    roadLayer.addTo(map);
+    roadItems=roads.filter(isClosure);
+    roadMap=map;
+    roadMapHandler=()=>renderRoadLayer(map);
+    map.on?.('zoomend moveend',roadMapHandler);
+    renderRoadLayer(map);
   }
 }

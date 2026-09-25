@@ -142,10 +142,11 @@ test('disruption renderer updates lists and optional map layers',()=>{
  globalThis.L={
   layerGroup:()=>{const group={items:[],removed:false,addTo(map){this.map=map;return this;},remove(){this.removed=true;}};layerGroups.push(group);return group;},
   polyline:(coordinates,options)=>layer('line',coordinates,options),
-  circleMarker:(coordinates,options)=>layer('point',coordinates,options)
+  marker:(coordinates,options)=>layer('point',coordinates,options),
+  divIcon:options=>options,
  };
  function layer(kind,coordinates,options) {
-  return {kind,coordinates,options,bindPopup(popup){this.popup=popup;return this;},addTo(group){group.items.push(this);return this;}};
+  return {kind,coordinates,options,addTo(group){group.items.push(this);return this;}};
  }
  try {
   renderDisruptions({},null,null,null);
@@ -169,9 +170,9 @@ test('disruption renderer updates lists and optional map layers',()=>{
   renderDisruptions(data,[43.7,-79.4],10,null);
 
   nodes.get('#roadOverlay').checked=true;
-  const map={id:'map'};
+  const map={id:'map',panes:{},getZoom:()=>12,project:point=>({x:point[1]*100,y:point[0]*100}),on(){},off(){},getPane(name){return this.panes[name];},createPane(name){return this.panes[name]={style:{}};}};
   renderDisruptions(data,null,10,map);
-  assert.deepEqual(layerGroups[0].items.map(item=>item.kind),['line','point']);
+  assert.deepEqual(layerGroups[0].items.map(item=>item.kind),['line','point','point']);
   assert.equal(layerGroups[0].map,map);
   nodes.get('#roadOverlay').checked=false;
   renderDisruptions(data,null,null,map);

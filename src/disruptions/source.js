@@ -5,6 +5,7 @@ export const TTC_LINK = 'https://www.ttc.ca/service-advisories/all-service-alert
 const clean = value => String(value ?? '').trim();
 const number = value => value == null || value === '' ? null : Number(value);
 const point = p => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite) && Math.abs(p[0]) <= 90 && Math.abs(p[1]) <= 180;
+const ROAD_SOURCE = Object.freeze({name:'City of Toronto Road Restrictions',url:ROAD_LINK,feedUrl:ROAD_FEED});
 
 // Parse the documented TTC textproto endpoint; reject incomplete/unsupported input.
 export function parseTextProto(text) {
@@ -94,10 +95,23 @@ export function normalizeRoads(payload) {
     if ([row.startTime,row.endTime].some(v => number(v) !== null && !Number.isFinite(number(v)))) throw new Error('Invalid road dates');
     let line = [];
     try { line = JSON.parse(`[${row.geoPolyline || ''}]`).map(p => [p[1],p[0]]); } catch { /* Some restrictions have no segment geometry. */ }
-    if (!line.every(point)) line = [];
+    if (line.length < 2 || !line.every(point)) line = [];
     const coordinates = [number(row.latitude),number(row.longitude)];
+    const validCoordinates = point(coordinates) ? coordinates : null;
+    const geometry = line.length
+      ? {type:'LineString',coordinates:line.map(([latitude,longitude]) => [longitude,latitude])}
+      : validCoordinates ? {type:'Point',coordinates:[validCoordinates[1],validCoordinates[0]]} : null;
     const schedules = ['Everyday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].filter(day => row[`schedule${day}`]).map(day => `${day}: ${row[`schedule${day}`]}`).join('; ');
-    return {id:clean(row.id),title:clean(row.name || row.road),description:clean(row.description),type:clean(row.type).replaceAll('_',' '),impact:clean(row.currImpact),start:number(row.startTime),end:number(row.endTime),expired:Number(row.expired) === 1,coordinates:point(coordinates) ? coordinates : null,line,schedule:schedules,url:ROAD_LINK};
+    const url=clean(row.URL) || ROAD_LINK;
+    return {
+      id:clean(row.id), street:clean(row.road), title:clean(row.name || row.road), description:clean(row.description),
+      restrictionType:clean(row.type).replaceAll('_',' '), type:clean(row.type).replaceAll('_',' '), impact:clean(row.currImpact),
+      startLocation:clean(row.fromRoad || row.atRoad), endLocation:clean(row.toRoad),
+      start:number(row.startTime), reportedAt:number(row.createdTime), end:number(row.endTime), status:clean(row.status) || null,
+      expired:Number(row.expired) === 1, coordinates:validCoordinates, line, geometry,
+      geometryKind:geometry?.type === 'LineString' ? 'line' : geometry?.type === 'Point' ? 'point' : 'none',
+      schedule:schedules, source:{...ROAD_SOURCE,url}, url
+    };
   });
   return {items};
 }
