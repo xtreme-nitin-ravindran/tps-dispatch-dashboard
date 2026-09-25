@@ -3,9 +3,75 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T17:30:26.250Z",
-  "sourceUpdatedAt": "2026-09-25T17:25:01.000Z",
+  "fetchedAt": "2026-09-25T17:31:34.046Z",
+  "sourceUpdatedAt": "2026-09-25T17:30:02.000Z",
   "incidents": [
+    {
+      "id": "TPS-1a2a37c14d8a895a002efc1a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-25T17:24:36.000Z",
+      "location": "WESTON RD - ORMONT DR",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WESTON RD - ORMONT DR",
+        "coordinates": [
+          43.75999850798964,
+          -79.55804472309967
+        ],
+        "division": "Division 31",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T17:31:34.046Z"
+    },
+    {
+      "id": "TPS-8df68664690f1416b687a375",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-25T17:24:07.000Z",
+      "location": "CLARK ST - CUMMINGS ST",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CLARK ST - CUMMINGS ST",
+        "coordinates": [
+          43.66117620834079,
+          -79.34641037633361
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T17:31:34.046Z"
+    },
+    {
+      "id": "TPS-2b2c45f0310ccf979e7d9fd9",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-25T17:22:15.000Z",
+      "location": "RIVER ST - ",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "RIVER ST - ",
+        "coordinates": [
+          43.6624291015328,
+          -79.35868536454589
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T17:31:34.046Z"
+    },
     {
       "id": "F26152225",
       "source": "TFS",
@@ -16,9 +82,24 @@
       "timestamp": "2026-09-25T17:19:04.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "334"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "346"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T17:25:33.222Z",
-      "lastSeenAt": "2026-09-25T17:30:26.250Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T17:31:34.046Z",
+      "lastSeenAt": "2026-09-25T17:31:34.046Z",
       "geography": {
         "text": "Bathurst Street between Fleet Street & Bruyeres Mews",
         "approximate": false,
@@ -42,9 +123,19 @@
       "timestamp": "2026-09-25T17:15:27.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "331",
+            "332"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T17:25:33.222Z",
-      "lastSeenAt": "2026-09-25T17:30:26.250Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T17:31:34.046Z",
+      "lastSeenAt": "2026-09-25T17:31:34.046Z",
       "geography": {
         "text": "Front Street between Portland Street & Bathurst Street",
         "approximate": false,
@@ -85,7 +176,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T17:20:37.175Z",
       "lastMeaningfulUpdateAt": "2026-09-25T17:25:33.222Z",
-      "lastSeenAt": "2026-09-25T17:30:26.250Z",
+      "lastSeenAt": "2026-09-25T17:31:34.046Z",
       "geography": {
         "text": "Royal York Road between Mccallum Court & Yorkview Drive",
         "approximate": false,
@@ -98,6 +189,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-25T17:20:37.175Z"
       }
+    },
+    {
+      "id": "TPS-69eb43dcafbfd6fef25d6245",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-25T17:14:26.000Z",
+      "location": "AVENUE RD - OTTER CRES",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "AVENUE RD - OTTER CRES",
+        "coordinates": [
+          43.718065370968674,
+          -79.41452631820636
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T17:31:34.046Z"
     },
     {
       "id": "F26152222",
@@ -120,7 +233,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T17:20:37.175Z",
       "lastMeaningfulUpdateAt": "2026-09-25T17:25:33.222Z",
-      "lastSeenAt": "2026-09-25T17:30:26.250Z",
+      "lastSeenAt": "2026-09-25T17:31:34.046Z",
       "geography": {
         "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
         "approximate": true,
@@ -161,7 +274,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T17:20:37.175Z",
       "lastMeaningfulUpdateAt": "2026-09-25T17:25:33.222Z",
-      "lastSeenAt": "2026-09-25T17:30:26.250Z",
+      "lastSeenAt": "2026-09-25T17:31:34.046Z",
       "geography": {
         "text": "Toryork Drive between Weston Road & Ormont Drive",
         "approximate": false,
@@ -196,7 +309,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T17:20:37.175Z",
       "lastMeaningfulUpdateAt": "2026-09-25T17:25:33.222Z",
-      "lastSeenAt": "2026-09-25T17:30:26.250Z",
+      "lastSeenAt": "2026-09-25T17:31:34.046Z",
       "geography": {
         "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
         "approximate": true,
@@ -231,7 +344,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T17:20:37.175Z",
       "lastMeaningfulUpdateAt": "2026-09-25T17:25:33.222Z",
-      "lastSeenAt": "2026-09-25T17:30:26.250Z",
+      "lastSeenAt": "2026-09-25T17:31:34.046Z",
       "geography": {
         "text": "Toryork Drive between Weston Road & Ormont Drive",
         "approximate": false,
@@ -254,7 +367,7 @@
       "division": "113",
       "timestamp": "2026-09-25T17:12:06.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -281,6 +394,50 @@
       }
     },
     {
+      "id": "TPS-fc43ddcbafe6e559d65c1721",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-25T17:11:22.000Z",
+      "location": "SIMCOE ST - ST PATRICK ST",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SIMCOE ST - ST PATRICK ST",
+        "coordinates": [
+          43.65448999359373,
+          -79.39032524083046
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T17:31:34.046Z"
+    },
+    {
+      "id": "TPS-f2a8e668f01811dbde38e049",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-25T17:11:08.000Z",
+      "location": "SIMCOE ST - ED MIRVISH WAY",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SIMCOE ST - ED MIRVISH WAY",
+        "coordinates": [
+          43.646963186066834,
+          -79.38814103947816
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T17:31:34.046Z"
+    },
+    {
       "id": "F26152217",
       "source": "TFS",
       "eventType": "fire",
@@ -301,7 +458,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T17:16:03.012Z",
       "lastMeaningfulUpdateAt": "2026-09-25T17:20:37.175Z",
-      "lastSeenAt": "2026-09-25T17:30:26.250Z",
+      "lastSeenAt": "2026-09-25T17:31:34.046Z",
       "geography": {
         "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
         "approximate": true,
@@ -314,6 +471,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-0a52d794150fd07dd74a24e2",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT JUST OCCURRED",
+      "callTypeCode": "THEJU",
+      "timestamp": "2026-09-25T17:08:39.000Z",
+      "location": "QUEEN'S PARK CRES W - TOWER RD",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "QUEEN'S PARK CRES W - TOWER RD",
+        "coordinates": [
+          43.664677105123445,
+          -79.3956941420939
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T17:31:34.046Z"
+    },
+    {
+      "id": "TPS-f6ee2ae93393028a1445e069",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-25T17:08:21.000Z",
+      "location": "ISLINGTON AVE - RATHBURN RD",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ISLINGTON AVE - RATHBURN RD",
+        "coordinates": [
+          43.66241694641395,
+          -79.53115238857416
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T17:31:34.046Z"
     },
     {
       "id": "F26152216",
@@ -342,6 +543,28 @@
       }
     },
     {
+      "id": "TPS-2c9e642f1708aafe4f581636",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "INDECENT EXPOSURE JUST OCCURRED",
+      "callTypeCode": "EXPJU",
+      "timestamp": "2026-09-25T17:07:21.000Z",
+      "location": "JANE OSLER BLVD - 401 C E YORKDALE RD RAMP",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "JANE OSLER BLVD - 401 C E YORKDALE RD RAMP",
+        "coordinates": [
+          43.723657055150866,
+          -79.45130621630454
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T17:31:34.046Z"
+    },
+    {
       "id": "F26152215",
       "source": "TFS",
       "eventType": "fire",
@@ -362,7 +585,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T17:16:03.012Z",
       "lastMeaningfulUpdateAt": "2026-09-25T17:20:37.175Z",
-      "lastSeenAt": "2026-09-25T17:30:26.250Z",
+      "lastSeenAt": "2026-09-25T17:31:34.046Z",
       "geography": {
         "text": "Approximate area: (M1C) Scarborough (Rouge Hill / Port Union / Highland Creek)",
         "approximate": true,
@@ -375,6 +598,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-040e2139b5491392b7a47766",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-25T17:05:33.000Z",
+      "location": "EUCLID AVE - MANNING AVE",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "EUCLID AVE - MANNING AVE",
+        "coordinates": [
+          43.64628608821101,
+          -79.40856813047594
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T17:31:34.046Z"
     },
     {
       "id": "F26152214",
@@ -397,7 +642,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T17:16:03.012Z",
       "lastMeaningfulUpdateAt": "2026-09-25T17:20:37.175Z",
-      "lastSeenAt": "2026-09-25T17:30:26.250Z",
+      "lastSeenAt": "2026-09-25T17:31:34.046Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -410,6 +655,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-b2740c69c630fea426d45e95",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-25T17:05:16.000Z",
+      "location": "TRETHEWEY DR - CLEARVIEW HTS",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "TRETHEWEY DR - CLEARVIEW HTS",
+        "coordinates": [
+          43.69342468121233,
+          -79.4832739786703
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T17:31:34.046Z"
+    },
+    {
+      "id": "TPS-f00cdf68f3dcd1343b357892",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-25T17:05:15.000Z",
+      "location": "SHUTER ST - DUNDAS ST E",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SHUTER ST - DUNDAS ST E",
+        "coordinates": [
+          43.65829659740034,
+          -79.37100285365003
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T17:31:34.046Z"
     },
     {
       "id": "F26152213",
@@ -472,7 +761,7 @@
       "respondingUnitCount": 16,
       "firstSeenAt": "2026-09-25T17:10:44.061Z",
       "lastMeaningfulUpdateAt": "2026-09-25T17:16:03.012Z",
-      "lastSeenAt": "2026-09-25T17:30:26.250Z",
+      "lastSeenAt": "2026-09-25T17:31:34.046Z",
       "geography": {
         "text": "Approximate location near Bridlegrove Drive & Storebridge Drive",
         "approximate": true,
@@ -864,7 +1153,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T16:55:42.745Z",
       "lastMeaningfulUpdateAt": "2026-09-25T17:01:26.696Z",
-      "lastSeenAt": "2026-09-25T17:30:26.250Z",
+      "lastSeenAt": "2026-09-25T17:31:34.046Z",
       "geography": {
         "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
         "approximate": true,
@@ -966,7 +1255,7 @@
       "division": "413",
       "timestamp": "2026-09-25T16:42:53.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -1369,7 +1658,7 @@
       "division": "435",
       "timestamp": "2026-09-25T16:24:41.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -163989,12 +164278,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T17:30:26.250Z",
-      "sourceUpdatedAt": "2026-09-25T17:25:01.000Z",
+      "fetchedAt": "2026-09-25T17:31:34.046Z",
+      "sourceUpdatedAt": "2026-09-25T17:30:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T17:30:26.250Z",
+      "fetchedAt": "2026-09-25T17:31:34.046Z",
       "status": "ok"
     }
   },
