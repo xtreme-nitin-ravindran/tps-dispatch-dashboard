@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T08:14:50.650Z",
-  "sourceUpdatedAt": "2026-09-25T08:10:01.000Z",
+  "fetchedAt": "2026-09-25T08:15:36.945Z",
+  "sourceUpdatedAt": "2026-09-25T08:15:02.000Z",
   "incidents": [
+    {
+      "id": "F26151998",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "DUNDAS ST, TT / HAMILTON ST / LN W BROADVIEW N DUNDAS",
+      "division": "324",
+      "timestamp": "2026-09-25T08:08:50.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-25T08:15:36.945Z",
+      "lastSeenAt": "2026-09-25T08:15:36.945Z",
+      "geography": {
+        "text": "Dundas Street between Hamilton Street & Lane West Broadview North Dundas",
+        "approximate": false,
+        "coordinates": [
+          43.6622799,
+          -79.3520082
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-25T08:15:36.945Z"
+      }
+    },
     {
       "id": "F26151997",
       "source": "TFS",
@@ -16,9 +42,18 @@
       "timestamp": "2026-09-25T08:03:55.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "332"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T08:11:00.228Z",
-      "lastSeenAt": "2026-09-25T08:14:50.650Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T08:15:36.945Z",
+      "lastSeenAt": "2026-09-25T08:15:36.945Z",
       "geography": {
         "text": "Adelaide Street East & Yonge Street",
         "approximate": false,
@@ -41,7 +76,7 @@
       "division": "225",
       "timestamp": "2026-09-25T07:56:14.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -110,7 +145,7 @@
       "division": "133",
       "timestamp": "2026-09-25T07:50:22.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -214,7 +249,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T07:47:04.390Z",
       "lastMeaningfulUpdateAt": "2026-09-25T07:50:30.136Z",
-      "lastSeenAt": "2026-09-25T08:14:50.650Z",
+      "lastSeenAt": "2026-09-25T08:15:36.945Z",
       "geography": {
         "text": "Approximate area: (M3L) Downsview West",
         "approximate": true,
@@ -12064,7 +12099,7 @@
       "respondingUnitCount": 36,
       "firstSeenAt": "2026-09-24T22:51:39.011Z",
       "lastMeaningfulUpdateAt": "2026-09-25T06:50:53.734Z",
-      "lastSeenAt": "2026-09-25T08:14:50.650Z",
+      "lastSeenAt": "2026-09-25T08:15:36.945Z",
       "geography": {
         "text": "Approximate location near Disco Road & Carlingview Drive",
         "approximate": true,
@@ -155082,12 +155117,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T08:14:50.650Z",
-      "sourceUpdatedAt": "2026-09-25T08:10:01.000Z",
+      "fetchedAt": "2026-09-25T08:15:36.945Z",
+      "sourceUpdatedAt": "2026-09-25T08:15:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T08:14:50.650Z",
+      "fetchedAt": "2026-09-25T08:15:36.945Z",
       "status": "ok"
     }
   },
@@ -321499,6 +321534,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "DUNDAS ST, TT / HAMILTON ST / LN W BROADVIEW N DUNDAS": {
+      "text": "Dundas Street between Hamilton Street & Lane West Broadview North Dundas",
+      "approximate": false,
+      "coordinates": [
+        43.6622799,
+        -79.3520082
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-25T08:15:36.945Z"
+    },
     "ADELAIDE ST E / YONGE ST": {
       "text": "Adelaide Street East & Yonge Street",
       "approximate": false,
