@@ -3,9 +3,77 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T12:34:37.467Z",
-  "sourceUpdatedAt": "2026-09-25T12:30:01.000Z",
+  "fetchedAt": "2026-09-25T12:35:47.257Z",
+  "sourceUpdatedAt": "2026-09-25T12:35:01.000Z",
   "incidents": [
+    {
+      "id": "F26152073",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire Alarm - Check Call",
+      "location": "MILLIKEN BLVD, SC / TROJAN GT / HEPC",
+      "division": "242",
+      "timestamp": "2026-09-25T12:29:45.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "242"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-25T12:35:47.257Z",
+      "lastSeenAt": "2026-09-25T12:35:47.257Z",
+      "geography": {
+        "text": "Milliken Boulevard between Trojan Gt & Hepc",
+        "approximate": false,
+        "coordinates": [
+          43.8076119,
+          -79.29692220000001
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-25T11:31:24.578Z"
+      }
+    },
+    {
+      "id": "F26152072",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4C",
+      "division": "224",
+      "timestamp": "2026-09-25T12:27:25.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "224"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-25T12:35:47.257Z",
+      "lastSeenAt": "2026-09-25T12:35:47.257Z",
+      "geography": {
+        "text": "Approximate area: (M4C) East York (Woodbine Heights)",
+        "approximate": true,
+        "coordinates": [
+          43.6913,
+          -79.3116
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-910a81441c454003e5ba9353",
       "source": "TPS",
@@ -48,7 +116,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T12:26:27.210Z",
-      "lastSeenAt": "2026-09-25T12:34:37.467Z",
+      "lastSeenAt": "2026-09-25T12:35:47.257Z",
       "geography": {
         "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
         "approximate": true,
@@ -88,7 +156,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T12:26:27.210Z",
-      "lastSeenAt": "2026-09-25T12:34:37.467Z",
+      "lastSeenAt": "2026-09-25T12:35:47.257Z",
       "geography": {
         "text": "Approximate location on Rosehill Avenue",
         "approximate": true,
@@ -169,7 +237,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T12:21:26.848Z",
-      "lastSeenAt": "2026-09-25T12:34:37.467Z",
+      "lastSeenAt": "2026-09-25T12:35:47.257Z",
       "geography": {
         "text": "Scholars Walk between The Pond Road & Library Lane",
         "approximate": false,
@@ -304,7 +372,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T12:15:40.971Z",
       "lastMeaningfulUpdateAt": "2026-09-25T12:21:26.848Z",
-      "lastSeenAt": "2026-09-25T12:34:37.467Z",
+      "lastSeenAt": "2026-09-25T12:35:47.257Z",
       "geography": {
         "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
         "approximate": true,
@@ -851,7 +919,7 @@
       "division": "113",
       "timestamp": "2026-09-25T11:41:16.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -158719,12 +158787,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T12:34:37.467Z",
-      "sourceUpdatedAt": "2026-09-25T12:30:01.000Z",
+      "fetchedAt": "2026-09-25T12:35:47.257Z",
+      "sourceUpdatedAt": "2026-09-25T12:35:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T12:34:37.467Z",
+      "fetchedAt": "2026-09-25T12:35:47.257Z",
       "status": "ok"
     }
   },
@@ -325191,6 +325259,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "MILLIKEN BLVD, SC / TROJAN GT / HEPC": {
+      "text": "Milliken Boulevard between Trojan Gt & Hepc",
+      "approximate": false,
+      "coordinates": [
+        43.8076119,
+        -79.29692220000001
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-25T11:31:24.578Z"
+    },
+    "M4C": {
+      "text": "Approximate area: (M4C) East York (Woodbine Heights)",
+      "approximate": true,
+      "coordinates": [
+        43.6913,
+        -79.3116
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1L": {
       "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
       "approximate": true,
@@ -325425,18 +325517,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
     },
-    "MILLIKEN BLVD, SC / TROJAN GT / HEPC": {
-      "text": "Milliken Boulevard between Trojan Gt & Hepc",
-      "approximate": false,
-      "coordinates": [
-        43.8076119,
-        -79.29692220000001
-      ],
-      "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-25T11:31:24.578Z"
-    },
     "NAVY WHARF CRT, TT / BREMNER BLVD / BLUE JAYS WAY": {
       "text": "Navy Wharf Court between Bremner Boulevard & Blue Jays Way",
       "approximate": false,
@@ -325529,18 +325609,6 @@
         -79.517
       ],
       "division": "Division 12",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4C": {
-      "text": "Approximate area: (M4C) East York (Woodbine Heights)",
-      "approximate": true,
-      "coordinates": [
-        43.6913,
-        -79.3116
-      ],
-      "division": "Division 55",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
