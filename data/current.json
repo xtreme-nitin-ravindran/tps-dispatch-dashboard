@@ -3,9 +3,221 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T06:30:26.837Z",
-  "sourceUpdatedAt": "2026-09-25T06:25:02.000Z",
+  "fetchedAt": "2026-09-25T06:31:58.137Z",
+  "sourceUpdatedAt": "2026-09-25T06:30:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-3d6949458c5fb72fc16eacd2",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "NOISY PARTY",
+      "callTypeCode": "NOIPA",
+      "timestamp": "2026-09-25T06:28:00.000Z",
+      "location": "FEENEY AVE - HALFWAY AVE",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "FEENEY AVE - HALFWAY AVE",
+        "coordinates": [
+          43.816873458656666,
+          -79.2149555910155
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T06:31:58.137Z"
+    },
+    {
+      "id": "TPS-4e0de27eb2e656911c2b6894",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "NOISY PARTY",
+      "callTypeCode": "NOIPA",
+      "timestamp": "2026-09-25T06:27:34.000Z",
+      "location": "HUNTSMILL BLVD - HUNTSMILL BLVD",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HUNTSMILL BLVD - HUNTSMILL BLVD",
+        "coordinates": [
+          43.80566182132712,
+          -79.32394799883015
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T06:31:58.137Z"
+    },
+    {
+      "id": "TPS-be92a69c2536392c0ecc5e3a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT IN PROGRESS",
+      "callTypeCode": "THEPR",
+      "timestamp": "2026-09-25T06:25:44.000Z",
+      "location": "RITA DR - SAN MARINOWAY",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "RITA DR - SAN MARINOWAY",
+        "coordinates": [
+          43.74310536401783,
+          -79.51412030120011
+        ],
+        "division": "Division 31",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T06:31:58.137Z"
+    },
+    {
+      "id": "TPS-2478ae5153d86701a50095e6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-25T06:23:05.000Z",
+      "location": "RICHMOND ST W - JACK COOPER LANE",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "RICHMOND ST W - JACK COOPER LANE",
+        "coordinates": [
+          43.64840308750672,
+          -79.39327793738313
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T06:31:58.137Z"
+    },
+    {
+      "id": "F26151968",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1B",
+      "division": "212",
+      "timestamp": "2026-09-25T06:22:32.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "212"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-25T06:31:58.137Z",
+      "lastSeenAt": "2026-09-25T06:31:58.137Z",
+      "geography": {
+        "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
+        "approximate": true,
+        "coordinates": [
+          43.8113,
+          -79.193
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26151967",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4S",
+      "division": "311",
+      "timestamp": "2026-09-25T06:21:26.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "311"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-25T06:31:58.137Z",
+      "lastSeenAt": "2026-09-25T06:31:58.137Z",
+      "geography": {
+        "text": "Approximate area: (M4S) Central Toronto (Davisville)",
+        "approximate": true,
+        "coordinates": [
+          43.702,
+          -79.3853
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26151966",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6G",
+      "division": "343",
+      "timestamp": "2026-09-25T06:21:15.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "343"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-25T06:31:58.137Z",
+      "lastSeenAt": "2026-09-25T06:31:58.137Z",
+      "geography": {
+        "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
+        "approximate": true,
+        "coordinates": [
+          43.6683,
+          -79.4205
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-5907add1efd75ee09fa8cdef",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-25T06:15:31.000Z",
+      "location": "MOUNT PLEASANT BLOOR RAMP - SHERBOURNE ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MOUNT PLEASANT BLOOR RAMP - SHERBOURNE ST",
+        "coordinates": [
+          43.671910411014075,
+          -79.37905065456997
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T06:31:58.137Z"
+    },
     {
       "id": "F26151965",
       "source": "TFS",
@@ -33,7 +245,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T06:21:02.779Z",
       "lastMeaningfulUpdateAt": "2026-09-25T06:25:44.377Z",
-      "lastSeenAt": "2026-09-25T06:30:26.837Z",
+      "lastSeenAt": "2026-09-25T06:31:58.137Z",
       "geography": {
         "text": "Approximate location near Glen Everest Road & Wynnview Court",
         "approximate": true,
@@ -48,6 +260,28 @@
       }
     },
     {
+      "id": "TPS-e65618294f765119020bf689",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-25T06:13:49.000Z",
+      "location": "BLACKWELL AVE - 80 TAPSCOTT RD",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BLACKWELL AVE - 80 TAPSCOTT RD",
+        "coordinates": [
+          43.80564330042488,
+          -79.22095167470565
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T06:31:58.137Z"
+    },
+    {
       "id": "F26151964",
       "source": "TFS",
       "eventType": "fire",
@@ -56,7 +290,7 @@
       "division": "312",
       "timestamp": "2026-09-25T06:10:39.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -81,6 +315,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-bb84a3a932e875498c8676df",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-25T06:08:53.000Z",
+      "location": "GABIAN WAY - VENN CRES",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GABIAN WAY - VENN CRES",
+        "coordinates": [
+          43.69178638227676,
+          -79.46765068928133
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T06:31:58.137Z"
     },
     {
       "id": "F26151963",
@@ -116,6 +372,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-06890f9f80b2408456d43918",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING VULNERABLE PERSON",
+      "callTypeCode": "MISVU",
+      "timestamp": "2026-09-25T06:05:18.000Z",
+      "location": "FOLLIS AVE - YARMOUTH RD",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "FOLLIS AVE - YARMOUTH RD",
+        "coordinates": [
+          43.67024781668055,
+          -79.41971873248575
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T06:31:58.137Z"
     },
     {
       "id": "F26151962",
@@ -182,7 +460,7 @@
       "division": "116",
       "timestamp": "2026-09-25T06:04:57.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -602,7 +880,7 @@
       "division": "426",
       "timestamp": "2026-09-25T05:43:43.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Ladder Truck",
@@ -10270,7 +10548,7 @@
       "respondingUnitCount": 35,
       "firstSeenAt": "2026-09-24T22:51:39.011Z",
       "lastMeaningfulUpdateAt": "2026-09-25T04:45:51.879Z",
-      "lastSeenAt": "2026-09-25T06:30:26.837Z",
+      "lastSeenAt": "2026-09-25T06:31:58.137Z",
       "geography": {
         "text": "Approximate location near Disco Road & Carlingview Drive",
         "approximate": true,
@@ -153288,12 +153566,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T06:30:26.837Z",
-      "sourceUpdatedAt": "2026-09-25T06:25:02.000Z",
+      "fetchedAt": "2026-09-25T06:31:58.137Z",
+      "sourceUpdatedAt": "2026-09-25T06:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T06:30:26.837Z",
+      "fetchedAt": "2026-09-25T06:31:58.137Z",
       "status": "ok"
     }
   },
@@ -320226,6 +320504,42 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1B": {
+      "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
+      "approximate": true,
+      "coordinates": [
+        43.8113,
+        -79.193
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4S": {
+      "text": "Approximate area: (M4S) Central Toronto (Davisville)",
+      "approximate": true,
+      "coordinates": [
+        43.702,
+        -79.3853
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M6G": {
+      "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
+      "approximate": true,
+      "coordinates": [
+        43.6683,
+        -79.4205
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "GLEN EVEREST RD, SC / ROSETTA MCCLAIN GARDENS TRL / WYNNVIEW CRT": {
       "text": "Approximate location near Glen Everest Road & Wynnview Court",
       "approximate": true,
@@ -320981,18 +321295,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T02:41:08.039Z"
-    },
-    "M6G": {
-      "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
-      "approximate": true,
-      "coordinates": [
-        43.6683,
-        -79.4205
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "YONGE ST, NY / WILSON AVE / WILLIAM CARSON CRES": {
       "text": "Yonge Street between Wilson Avenue & William Carson Crescent",
@@ -321846,18 +322148,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T22:22:02.622Z"
     },
-    "M1B": {
-      "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
-      "approximate": true,
-      "coordinates": [
-        43.8113,
-        -79.193
-      ],
-      "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "COLLEGE ST, TT / BORDEN ST / CROFT ST": {
       "text": "College Street between Borden Street & Croft Street",
       "approximate": false,
@@ -322313,18 +322603,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T19:27:06.722Z"
-    },
-    "M4S": {
-      "text": "Approximate area: (M4S) Central Toronto (Davisville)",
-      "approximate": true,
-      "coordinates": [
-        43.702,
-        -79.3853
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "BAYVIEW AVE, NY / BAYVIEW S LAWRENCE RAMP / ARJAY CRES": {
       "text": "Approximate location near Bayview Avenue & Bayview South Lawrence Ramp",
