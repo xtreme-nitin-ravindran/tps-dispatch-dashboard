@@ -5,9 +5,27 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0c1320" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="SirenTO" />
   <meta name="description"
     content="SirenTO — Fire and police calls, mapped to your neighbourhood. Independent Toronto Fire Services incident dashboard." />
   <title>SirenTO · Fire &amp; Police Calls</title>
+  <script>
+    (() => {
+      const standaloneQuery = matchMedia("(display-mode: standalone)");
+      const viewport = document.querySelector('meta[name="viewport"]');
+      const browserViewport = "width=device-width,initial-scale=1";
+      const syncDisplayMode = () => {
+        const standalone = standaloneQuery.matches || navigator.standalone === true;
+        document.documentElement.dataset.displayMode = standalone ? "standalone" : "browser";
+        viewport.content = standalone ? `${browserViewport},viewport-fit=cover` : browserViewport;
+      };
+      syncDisplayMode();
+      standaloneQuery.addEventListener?.("change", syncDisplayMode);
+    })();
+  </script>
   <script>
     (() => {
       let preference = "system";
@@ -23,6 +41,8 @@
     })();
   </script>
   <link rel="icon" type="image/png" sizes="64x64" href="./favicon.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png" />
+  <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -62,6 +82,8 @@
         <img class="brand-mark" src="./brand-doberman.jpg" alt="Doberman" width="44" height="44" />
       </div>
     </header>
+
+    <p id="offlineStatus" class="offline-status" role="status" aria-live="polite" hidden></p>
 
     <main>
       <section class="nearby-feature" aria-labelledby="nearHeading">
@@ -444,6 +466,11 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script type="module" src="./app.js?v=mobile-bottom-sheet-1"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js"));
+    }
+  </script>
 </body>
 
 </html>

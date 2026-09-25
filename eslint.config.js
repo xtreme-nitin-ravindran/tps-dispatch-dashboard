@@ -18,6 +18,14 @@ export default [
     },
   },
   {
+    files: ['service-worker.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'script',
+      globals: globals.serviceworker,
+    },
+  },
+  {
     files: ['eslint.config.js', 'scripts/**/*.js', 'test/**/*.js'],
     languageOptions: {
       ecmaVersion: 'latest',

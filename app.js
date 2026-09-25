@@ -21,6 +21,7 @@ import { applyTheme, normalizeThemePreference } from "./src/theme.js";
 import { createRefreshFreshnessTracker } from "./src/refresh-freshness.js";
 import { mobileSheetActionLabel, mobileSheetStateAfterDrag, nextMobileSheetState } from "./src/mobile-bottom-sheet.js";
 import { NEARBY_SORT_DEFAULT, sortNearbyCalls } from "./src/nearby-sort.js";
+import { offlineStatus } from "./src/offline-status.js";
 
 const CONFIG = {
   snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
@@ -67,6 +68,7 @@ const els = {
   footerClock: document.querySelector("#footerClock")
 };
 const refreshStatus = document.querySelector('#refreshStatus');
+const offlineStatusElement = document.querySelector('#offlineStatus');
 const refreshFreshnessIndicator = document.querySelector('#refreshFreshness');
 const refreshFreshness = createRefreshFreshnessTracker({
   onChange(label) {
@@ -320,6 +322,22 @@ async function fetchSnapshot() {
 
 let sourceHighlightTimer;
 let snapshotLoaded = false;
+function lastSuccessfulUpdateLabel() {
+  const timestamp = parseLooseTime(state.fetchedAt || state.lastIngest);
+  return timestamp ? `${formatDate(timestamp)} · ${formatTime(timestamp)} Toronto time` : null;
+}
+
+function renderOfflineStatus() {
+  const status = offlineStatus({
+    online: navigator.onLine,
+    hasPreviouslyLoadedData: snapshotLoaded && state.calls.length > 0,
+    lastSuccessfulUpdate: snapshotLoaded ? lastSuccessfulUpdateLabel() : null
+  });
+  offlineStatusElement.textContent = status.text;
+  offlineStatusElement.hidden = status.hidden;
+  document.documentElement.classList.toggle('is-offline', !status.hidden);
+}
+
 function setRefreshState(status) {
   refreshStatus.classList.toggle('is-updating',status === 'updating');
   refreshStatus.classList.toggle('is-error',status === 'error');
@@ -344,6 +362,7 @@ async function loadData() {
     state.feeds = snapshot.feeds || {};
     state.lastIngest = snapshot.updatedAt;
     state.fetchedAt = snapshot.fetchedAt;
+    renderOfflineStatus();
     const sourceTime = parseLooseTime(snapshot.updatedAt);
     const sources = [
       ['TFS', snapshot.feeds?.TFS || {fetchedAt:snapshot.fetchedAt, sourceUpdatedAt:snapshot.updatedAt}],
@@ -675,7 +694,8 @@ function createIncidentCard(call, { distance = "", variant = "list" } = {}) {
   changeBadge.textContent = badge || "";
   changeBadge.classList.toggle("incident-change-badge--updated", badge === "UPDATED");
 
-  const status = callStatus(call);
+  // An "ONGOING" badge is a live-data claim, so do not carry it forward offline.
+  const status = navigator.onLine ? callStatus(call) : null;
   const statusBadge = row.querySelector(".incident-status");
   statusBadge.hidden = !status;
   statusBadge.textContent = status || "";
@@ -1203,6 +1223,16 @@ if (initialParams.has('view')) {
   syncFilterControls();
 }
 refreshLoop();
+renderOfflineStatus();
+window.addEventListener('offline', () => {
+  renderOfflineStatus();
+  if (snapshotLoaded) render();
+});
+window.addEventListener('online', () => {
+  renderOfflineStatus();
+  if (snapshotLoaded) render();
+  void checkForChanges();
+});
 
 document.querySelector("#serviceFilter").addEventListener("change", event => {
   state.serviceFilter = event.target.value;
