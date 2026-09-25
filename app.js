@@ -1,5 +1,6 @@
 import { sourceStatus, sourceStatusText } from "./src/source-status.js?v=source-states-1";
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
+import { incidentGroupKey, reconcileIncidentLayers } from "./src/incident-layer-diff.js";
 import { filterDefaults, filterSummary, readFilters, shareView, shareIncidentView, readSharedIncident, shareIncident, loadPreferences, savePreferences } from "./src/view-controls.js";
 import { createClosureDetail, renderDisruptions } from "./src/disruptions/ui.js?v=road-closure-interaction-1";
 import { compactAge, compactReportedAge, locationConfidence, callStatus, sourceName, respondingUnitLabel } from "./src/call-presentation.js?v=responding-units-1";
@@ -98,6 +99,8 @@ let dispatchMap = null;
 let mapMarkers = new Map();
 let callLayer;
 let expandedCluster = new Set();
+let renderedIncidentLayers = new Map();
+let scheduledMarkerRender = null;
 let focusedCallId = null;
 let focusedClosureId = null;
 let rowHighlightTimer;
@@ -463,10 +466,15 @@ function applyFilters({ map = true } = {}) {
     (state.division === "all" || call.division === state.division) &&
     incidentMatchesSearch(call, state.search, displayLocation(call).text)
   );
+  const previouslyFocusedCallId = focusedCallId;
   focusedCallId = reconcileIncidentSelection(focusedCallId, state.filtered);
   document.querySelector("#filterSummary").textContent = filterSummary(state);
   syncSearchControl();
   render(map);
+  if (map && previouslyFocusedCallId !== focusedCallId) {
+    updateMarkerAppearance(previouslyFocusedCallId);
+    updateMarkerAppearance(focusedCallId);
+  }
   rememberPreferences();
 }
 
@@ -829,7 +837,10 @@ function initMap() {
   callLayer = L.layerGroup().addTo(dispatchMap);
   nearbyOriginLayer = L.layerGroup().addTo(dispatchMap);
   dispatchMap.on('roadclosureselect', event => selectClosure(event.item,event.layer));
-  dispatchMap.on("zoomend", () => { expandedCluster.clear(); renderMapMarkers(); });
+  dispatchMap.on("zoomend", () => {
+    expandedCluster.clear();
+    scheduleMapMarkerRender();
+  });
   dispatchMap.on("click", event => {
     if (!choosingArea) return;
     chooseManualArea([event.latlng.lat, event.latlng.lng]);
@@ -937,28 +948,48 @@ function markerIcon(call, selected = false, sirenMatch = false, now = Date.now()
 }
 
 function updateMarkerAppearances(now = Date.now()) {
-  const sirenIds = new Set(sirenMatches.map(match => match.call.id));
-  mapMarkers.forEach((marker, id) => {
-    const call = state.filtered.find(item => item.id === id);
-    if (!call) return;
-    const selected = id === focusedCallId;
-    const label = markerAccessibleLabel(call, selected, now);
-    marker.setIcon(markerIcon(call, selected, sirenIds.has(id), now));
-    marker.getElement()?.setAttribute("aria-label", label);
-    marker.getElement()?.setAttribute("title", label);
+  mapMarkers.forEach((_marker, id) => updateMarkerAppearance(id, now));
+}
+
+function updateMarkerAppearance(id, now = Date.now()) {
+  const marker = mapMarkers.get(id);
+  const call = marker && state.filtered.find(item => item.id === id);
+  if (!call) return;
+  const selected = id === focusedCallId;
+  const label = markerAccessibleLabel(call, selected, now);
+  const sirenMatch = sirenMatches.some(match => match.call.id === id);
+  marker.setIcon(markerIcon(call, selected, sirenMatch, now));
+  marker.getElement()?.setAttribute("aria-label", label);
+  marker.getElement()?.setAttribute("title", label);
+}
+
+function scheduleMapMarkerRender() {
+  if (scheduledMarkerRender !== null) return;
+  scheduledMarkerRender = requestAnimationFrame(() => {
+    scheduledMarkerRender = null;
+    renderMapMarkers();
   });
 }
 
+function incidentRepresentationVersion(group, expanded, sirenIds) {
+  if (!expanded && group.length > 1) {
+    return JSON.stringify(group.map(({call, coordinates}) => [
+      call.id, coordinates, call.timestamp, sirenIds.has(call.id)
+    ]));
+  }
+  return JSON.stringify(group.map(({call, coordinates}) => [
+    call, coordinates, sirenIds.has(call.id), state.nearby
+  ]));
+}
+
 function renderMapMarkers() {
-  callLayer.clearLayers();
-  mapMarkers = new Map();
   const sirenIds = new Set(sirenMatches.map(match => match.call.id));
 
   const locatedCalls = state.filtered
     .map(call => ({ call, coordinates: coordinatesForCall(call) }))
     .filter(item => item.coordinates);
 
-  const addMarker = ({call, coordinates}, position = coordinates) => {
+  const addMarker = ({call, coordinates}, position = coordinates, layers = []) => {
     const tooltip = document.createElement('span');
     tooltip.textContent = `${call.source}: ${call.description}`;
     const selected = call.id === focusedCallId;
@@ -980,31 +1011,62 @@ function renderMapMarkers() {
         if (!mobile) setTimeout(() => event.target.openPopup(), 0);
       });
     marker.addTo(callLayer);
+    layers.push(marker);
     mapMarkers.set(call.id, marker);
+    return marker;
   };
   const groups = clusterPoints(locatedCalls, point => dispatchMap.project(point, dispatchMap.getZoom()));
-  for (const group of groups) {
-    if (group.length === 1) { addMarker(group[0]); continue; }
+  const representations = groups.map(group => {
+    const expanded = group.length > 1 && group.every(item => expandedCluster.has(item.call.id));
+    const version = incidentRepresentationVersion(group, expanded, sirenIds);
+    return {group, expanded, key: incidentGroupKey(group, expanded, version)};
+  });
+  const desiredKeys = representations.map(({key}) => key);
+  const changes = reconcileIncidentLayers(renderedIncidentLayers, desiredKeys);
+  for (const key of changes.remove) {
+    renderedIncidentLayers.get(key).layers.forEach(layer => callLayer.removeLayer(layer));
+    renderedIncidentLayers.delete(key);
+  }
+  mapMarkers = new Map();
+  for (const {group, expanded, key} of representations) {
+    const retained = renderedIncidentLayers.get(key);
+    if (retained) {
+      retained.markers.forEach((marker, id) => mapMarkers.set(id, marker));
+      continue;
+    }
+    const layers = [];
+    const markers = new Map();
+    if (group.length === 1) {
+      const marker = addMarker(group[0], group[0].coordinates, layers);
+      markers.set(group[0].call.id, marker);
+      renderedIncidentLayers.set(key, {layers, markers});
+      continue;
+    }
     const center = L.latLngBounds(group.map(item => item.coordinates)).getCenter();
-    if (group.every(item => expandedCluster.has(item.call.id))) {
+    if (expanded) {
       const pixel = dispatchMap.latLngToLayerPoint(center);
       group.forEach((item,index) => {
         const spread = spreadPoint(index,group.length,pixel);
         const position = dispatchMap.layerPointToLatLng(L.point(spread.x,spread.y));
-        L.polyline([item.coordinates,position],{className:'cluster-connector',color:'#b7c8d9',weight:1,interactive:false}).addTo(callLayer);
-        addMarker(item,position);
+        const connector = L.polyline([item.coordinates,position],{className:'cluster-connector',color:'#b7c8d9',weight:1,interactive:false}).addTo(callLayer);
+        layers.push(connector);
+        const marker = addMarker(item,position,layers);
+        markers.set(item.call.id, marker);
       });
+      renderedIncidentLayers.set(key, {layers, markers});
       continue;
     }
     const matchingCluster = group.some(item => sirenIds.has(item.call.id));
     const newestTimestamp = Math.max(...group.map(item => item.call.timestamp));
     const clusterTier = markerAgeTier(newestTimestamp);
     const clusterLabel = `${group.length} calls; newest ${markerAgeLabel(clusterTier)}; zoom or expand`;
-    L.marker(center,{icon:L.divIcon({className:`call-cluster age-${clusterTier}${matchingCluster ? ' siren-match' : ''}`,html:String(group.length),iconSize:[40,40],iconAnchor:[20,20]}), title:clusterLabel, alt:clusterLabel})
+    const cluster = L.marker(center,{icon:L.divIcon({className:`call-cluster age-${clusterTier}${matchingCluster ? ' siren-match' : ''}`,html:String(group.length),iconSize:[40,40],iconAnchor:[20,20]}), title:clusterLabel, alt:clusterLabel})
       .on('click', () => {
         if (dispatchMap.getZoom() < 18) dispatchMap.setView(center,Math.min(18,dispatchMap.getZoom()+2));
         else { expandedCluster = new Set(group.map(item => item.call.id)); renderMapMarkers(); }
       }).addTo(callLayer);
+    layers.push(cluster);
+    renderedIncidentLayers.set(key, {layers, markers});
   }
 
   els.mapStatus.textContent = locatedCalls.length ? `${locatedCalls.length}/${state.filtered.length} LOCATED` : "NO MAPPED LOCATIONS";
@@ -1038,6 +1100,7 @@ function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false
 
   clearClosureSelection();
 
+  const previouslyFocusedCallId = focusedCallId;
   focusedCallId = callId;
   if (pan && dispatchMap && coordinatesForCall(call)) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1074,7 +1137,8 @@ function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false
     rowHighlightTimer = setTimeout(() => selectedRow.classList.remove("pin-highlight"), 3500);
   }
 
-  updateMarkerAppearances();
+  if (previouslyFocusedCallId !== callId) updateMarkerAppearance(previouslyFocusedCallId);
+  updateMarkerAppearance(callId);
   const marker = mapMarkers.get(callId);
   if (marker) {
     marker.openTooltip();

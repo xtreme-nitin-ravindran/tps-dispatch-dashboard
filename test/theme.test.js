@@ -32,9 +32,10 @@ test('applying a theme updates reusable document and browser chrome hooks', () =
 test('map appearance follows live document theme without changing map layers', () => {
   const darkTheme = css.slice(css.indexOf(':root {'), css.indexOf(':root[data-theme="light"]'));
   const lightTheme = css.slice(css.indexOf(':root[data-theme="light"]'), css.indexOf('* { box-sizing'));
-  assert.match(darkTheme, /--map-tile-filter: invert\(\.88\) hue-rotate\(180deg\) brightness\(\.72\) contrast\(1\.08\) saturate\(\.72\)/);
-  assert.match(lightTheme, /--map-tile-filter: none/);
-  assert.match(css, /\.leaflet-tile-pane\s*{\s*filter: var\(--map-tile-filter\)/);
+  assert.match(darkTheme, /--map-tile-opacity: \.46/);
+  assert.match(lightTheme, /--map-tile-opacity: 1/);
+  assert.match(css, /\.leaflet-tile-pane\s*{[^}]*opacity: var\(--map-tile-opacity\)/);
+  assert.doesNotMatch(css, /\.leaflet-tile-pane\s*{[^}]*filter:/);
   assert.match(css, /#dispatchMap[\s\S]*?background: var\(--map-background\)/);
   assert.match(css, /\.leaflet-control-attribution[\s\S]*?background: var\(--map-attribution-background\)/);
 });

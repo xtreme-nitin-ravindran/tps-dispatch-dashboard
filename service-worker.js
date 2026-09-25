@@ -1,4 +1,4 @@
-const CACHE_VERSION = "sirento-shell-v2";
+const CACHE_VERSION = "sirento-shell-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -20,6 +20,7 @@ const APP_SHELL = [
   "./src/incident-badge.js",
   "./src/incident-search.js",
   "./src/incident-selection.js",
+  "./src/incident-layer-diff.js",
   "./src/location-display.js",
   "./src/map-clusters.js",
   "./src/marker-age.js",

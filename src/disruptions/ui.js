@@ -4,6 +4,8 @@ let roadLayer;
 let roadMap;
 let roadItems=[];
 let roadMapHandler;
+let roadRenderFrame;
+let renderedClosures=new Map();
 let previousRender;
 const ROAD_PANE='roadClosurePane';
 const definitions = {
@@ -24,6 +26,12 @@ export function roadClosureSymbolSpacing(zoom) {
   if (zoom <= 13) return 130;
   if (zoom <= 15) return 90;
   return 64;
+}
+export function roadClosureDensityTier(zoom) {
+  if (zoom <= 11) return 0;
+  if (zoom <= 13) return 1;
+  if (zoom <= 15) return 2;
+  return 3;
 }
 export function closureSymbolPositions(line, map) {
   if (!map || !Array.isArray(line) || line.length < 2) return [];
@@ -49,11 +57,12 @@ function visibleOnMap(item,map) {
   const coordinates=item.line?.length > 1 ? item.line : item.coordinates ? [item.coordinates] : [];
   return coordinates.length && L.latLngBounds(coordinates).intersects(bounds);
 }
-function selectable(layer,item,map) {
-  layer.closureId=closureId(item);
-  layer.on?.('click',event => map.fire?.('roadclosureselect',{closureId:layer.closureId,item,layer,originalEvent:event}));
+function selectable(layer,currentItem,map) {
+  layer.closureId=closureId(currentItem());
+  layer.on?.('click',event => map.fire?.('roadclosureselect',{closureId:layer.closureId,item:currentItem(),layer,originalEvent:event}));
   return layer;
 }
+const closureGeometryKey = item => JSON.stringify([item.geometryKind,item.line,item.coordinates]);
 const closureTime = value => {
   const timestamp=Number(value);
   if (!Number.isFinite(timestamp) || timestamp <= 0) return '';
@@ -90,28 +99,64 @@ function closureIcon(item,pointOnly=false) {
   const id=closureId(item).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
   return L.divIcon({className:`road-closure-symbol${pointOnly ? ' road-closure-symbol--point' : ''}`,html:`<span aria-hidden="true" data-closure-id="${id}">⛔</span>`,iconSize:[20,20],iconAnchor:[10,10]});
 }
+function removeClosureLayers(entry) {
+  for (const layer of [entry.line,entry.point,...entry.symbols].filter(Boolean)) roadLayer?.removeLayer?.(layer);
+}
+function createClosureLayers(item,map,densityTier) {
+  const options={pane:ROAD_PANE,closureId:closureId(item)};
+  const entry={item,geometryKey:closureGeometryKey(item),densityTier,symbols:[]};
+  if (item.geometryKind === 'line' || item.line?.length > 1) {
+    entry.line=selectable(L.polyline(item.line,{...options,className:'road-closure-line',weight:6,opacity:.88,lineCap:'round'}),()=>entry.item,map).addTo(roadLayer);
+    entry.symbols=closureSymbolPositions(item.line,map).map(position => selectable(L.marker(position,{...options,icon:closureIcon(item),keyboard:true,title:`Road closure: ${item.title}`}),()=>entry.item,map).addTo(roadLayer));
+  } else if ((item.geometryKind === 'point' || !item.geometryKind) && item.coordinates) {
+    entry.point=selectable(L.marker(item.coordinates,{...options,icon:closureIcon(item,true),keyboard:true,title:`Road closure: ${item.title}`}),()=>entry.item,map).addTo(roadLayer);
+  }
+  return entry;
+}
+function refreshClosureSymbols(entry,map,densityTier) {
+  for (const symbol of entry.symbols) roadLayer.removeLayer?.(symbol);
+  const options={pane:ROAD_PANE,closureId:closureId(entry.item)};
+  entry.symbols=closureSymbolPositions(entry.item.line,map).map(position => selectable(L.marker(position,{...options,icon:closureIcon(entry.item),keyboard:true,title:`Road closure: ${entry.item.title}`}),()=>entry.item,map).addTo(roadLayer));
+  entry.densityTier=densityTier;
+}
 function renderRoadLayer(map) {
-  if (roadLayer) {roadLayer.remove();roadLayer=null;}
   if (!map.getPane?.(ROAD_PANE)) {
     const pane=map.createPane?.(ROAD_PANE);
     if (pane) pane.style.zIndex='450';
   }
-  roadLayer=L.layerGroup();
-  for (const item of roadItems.filter(item => visibleOnMap(item,map))) {
-    const options={pane:ROAD_PANE,closureId:closureId(item)};
-    if (item.geometryKind === 'line' || item.line?.length > 1) {
-      selectable(L.polyline(item.line,{...options,className:'road-closure-line',weight:6,opacity:.88,lineCap:'round'}),item,map).addTo(roadLayer);
-      for (const position of closureSymbolPositions(item.line,map)) {
-        selectable(L.marker(position,{...options,icon:closureIcon(item),keyboard:true,title:`Road closure: ${item.title}`}),item,map).addTo(roadLayer);
-      }
-    } else if ((item.geometryKind === 'point' || !item.geometryKind) && item.coordinates) {
-      selectable(L.marker(item.coordinates,{...options,icon:closureIcon(item,true),keyboard:true,title:`Road closure: ${item.title}`}),item,map).addTo(roadLayer);
-    }
+  if (!roadLayer) roadLayer=L.layerGroup().addTo(map);
+  const densityTier=roadClosureDensityTier(map.getZoom());
+  const visible=new Map(roadItems.filter(item => visibleOnMap(item,map)).map(item => [closureId(item),item]));
+  for (const [id,entry] of renderedClosures) {
+    if (!visible.has(id)) {removeClosureLayers(entry);renderedClosures.delete(id);}
   }
-  roadLayer.addTo(map);
+  for (const [id,item] of visible) {
+    const entry=renderedClosures.get(id);
+    const geometryKey=closureGeometryKey(item);
+    if (!entry || entry.geometryKey !== geometryKey) {
+      if (entry) removeClosureLayers(entry);
+      renderedClosures.set(id,createClosureLayers(item,map,densityTier));
+    } else if (entry.line && entry.densityTier !== densityTier) {
+      entry.item=item;
+      refreshClosureSymbols(entry,map,densityTier);
+    } else entry.item=item;
+  }
+}
+function scheduleRoadLayer(map) {
+  if (roadRenderFrame !== undefined) return;
+  const schedule=globalThis.requestAnimationFrame || (callback => setTimeout(callback,0));
+  roadRenderFrame=schedule(()=>{roadRenderFrame=undefined;if (roadMap === map) renderRoadLayer(map);});
+}
+function clearRoadLayer() {
+  if (roadLayer) roadLayer.remove();
+  roadLayer=null;renderedClosures=new Map();
 }
 function detachRoadMap() {
   if (roadMap && roadMapHandler) roadMap.off?.('zoomend moveend',roadMapHandler);
+  if (roadRenderFrame !== undefined) {
+    const cancel=globalThis.cancelAnimationFrame || clearTimeout;
+    cancel(roadRenderFrame);roadRenderFrame=undefined;
+  }
   roadMap=null;roadMapHandler=null;
 }
 export function disruptionPresentation(kind, feed, items, baseItems, hasOrigin, now = Date.now()) {
@@ -133,7 +178,7 @@ export function renderDisruptions(data, origin, radius, map) {
   if (!container) return;
   const showMap=document.querySelector('#roadOverlay').checked;
   const signature=JSON.stringify([data,origin,radius,showMap,Math.floor(Date.now()/60000),Boolean(map)]);
-  if (signature === previousRender) return;
+  if (signature === previousRender && map === roadMap) return;
   previousRender=signature;
   const now=Date.now();
   const allRoads=currentDisruptions(data?.roads,'roads',now);
@@ -172,13 +217,14 @@ export function renderDisruptions(data, origin, radius, map) {
       list.append(article);
     }
   }
-  if (roadLayer) {roadLayer.remove();roadLayer=null;}
-  detachRoadMap();
+  if (roadMap !== map || !showMap) {clearRoadLayer();detachRoadMap();}
   if (map && showMap) {
     roadItems=roads.filter(isClosure);
-    roadMap=map;
-    roadMapHandler=()=>renderRoadLayer(map);
-    map.on?.('zoomend moveend',roadMapHandler);
+    if (roadMap !== map) {
+      roadMap=map;
+      roadMapHandler=()=>scheduleRoadLayer(map);
+      map.on?.('zoomend moveend',roadMapHandler);
+    }
     renderRoadLayer(map);
   }
 }
