@@ -93,12 +93,6 @@ const mobileCallsFeedStatus = document.querySelector('#mobileCallsFeedStatus');
 const mobileClosureDetail = document.querySelector('#mobileClosureDetail');
 const nearbySort = document.querySelector('#nearbySort');
 const expandNearbyRadius = document.querySelector('#expandNearbyRadius');
-const mapFocusToggle = document.querySelector('#mapFocusToggle');
-const focusedRadius = document.querySelector('#focusedRadius');
-const focusedViewToggles = document.querySelectorAll('[data-focused-view]');
-const roadOverlay = document.querySelector('#roadOverlay');
-const mobileRoadOverlay = document.querySelector('#mobileRoadOverlay');
-const mobilePoliceBoundaries = document.querySelector('#mobilePoliceBoundaries');
 
 const TORONTO_CENTER = [43.7001, -79.42];
 let dispatchMap = null;
@@ -123,9 +117,7 @@ let incidentBadgeTimer = null;
 let glossaryPopoverSequence = 0;
 let themePreference = "system";
 let mobileView = "map";
-let mapFocused = false;
 let mobileSheetState = "collapsed";
-let divisionLayer = null;
 let mobileSheetDrag = null;
 let suppressNextMobileSheetClick = false;
 const initialParams = new URLSearchParams(location.search);
@@ -153,11 +145,6 @@ function setMobileView(view, { focusSelection = false, persist = true } = {}) {
     toggle.classList.toggle("active", active);
     toggle.setAttribute("aria-pressed", String(active));
   });
-  focusedViewToggles.forEach(toggle => {
-    const active = toggle.dataset.focusedView === view;
-    toggle.classList.toggle("active", active);
-    toggle.setAttribute("aria-pressed", String(active));
-  });
   if (persist) rememberPreferences();
   if (view === "map") requestAnimationFrame(() => {
     dispatchMap?.invalidateSize({ pan: false });
@@ -166,28 +153,6 @@ function setMobileView(view, { focusSelection = false, persist = true } = {}) {
     }
   });
 }
-
-function setMapFocus(focused) {
-  mapFocused = Boolean(focused) && isMobileViewLayout();
-  document.documentElement.dataset.mapFocus = String(mapFocused);
-  mapFocusToggle?.setAttribute("aria-pressed", String(mapFocused));
-  if (mapFocusToggle) mapFocusToggle.textContent = mapFocused ? "Close map" : "Expand map";
-  if (mapFocused && mobileView !== "map") setMobileView("map", { persist: false });
-  requestAnimationFrame(() => dispatchMap?.invalidateSize({ pan: false }));
-}
-
-mapFocusToggle?.addEventListener("click", () => setMapFocus(!mapFocused));
-focusedViewToggles.forEach(toggle => toggle.addEventListener("click", () => {
-  const view = toggle.dataset.focusedView;
-  if (view === "calls") setMobileSheetState(mobileSheetState === "collapsed" ? "half" : mobileSheetState);
-  else {
-    setMobileSheetState("collapsed");
-    setMobileView("map", { focusSelection: true });
-  }
-}));
-window.matchMedia(mobileViewQuery).addEventListener?.("change", event => {
-  if (!event.matches && mapFocused) setMapFocus(false);
-});
 
 mobileViewToggles.forEach(toggle => toggle.addEventListener("click", () => {
   setMobileView(toggle.dataset.mobileView, { focusSelection: toggle.dataset.mobileView === "map" });
@@ -204,11 +169,6 @@ function setMobileSheetState(nextState) {
   mobileSheetToggle.setAttribute("aria-label", mobileSheetActionLabel(nextState));
   mobileSheetStateControls.forEach(control => {
     control.setAttribute("aria-pressed", String(control.dataset.sheetTarget === nextState));
-  });
-  focusedViewToggles.forEach(toggle => {
-    const active = toggle.dataset.focusedView === (nextState === "collapsed" ? "map" : "calls");
-    toggle.classList.toggle("active", active);
-    toggle.setAttribute("aria-pressed", String(active));
   });
   requestAnimationFrame(() => dispatchMap?.invalidateSize({ pan: false }));
 }
@@ -943,13 +903,10 @@ async function loadDivisionOverlay() {
         polygon.bindPopup(details(feature.properties));
       }
     });
-    divisionLayer = layer;
-    mobilePoliceBoundaries.checked = boundaryVisible;
     if (boundaryVisible) layer.addTo(dispatchMap);
     dispatchMap.on('overlayadd overlayremove', event => {
       if (event.layer !== layer) return;
       boundaryVisible = event.type === 'overlayadd';
-      mobilePoliceBoundaries.checked = boundaryVisible;
       rememberPreferences();
     });
     L.control.layers(null, { "Police division boundaries": layer }, {
@@ -1363,7 +1320,6 @@ try {
     syncFilterControls();
   }
 } catch { /* Defaults remain usable when storage is blocked. */ }
-mobileRoadOverlay.checked = roadOverlay.checked;
 const savedLocationState = loadSavedLocationState(localStorage);
 state.savedLocations = savedLocationState.locations;
 state.locationContext = savedLocationState.locationContext;
@@ -1546,7 +1502,6 @@ function syncRadiusControls() {
     toggle.classList.toggle('active', active);
     toggle.setAttribute('aria-pressed', String(active));
   });
-  if (focusedRadius) focusedRadius.value = state.radiusKm === null ? 'toronto' : String(state.radiusKm);
 }
 function clearLocationWatch() {
   if (locationWatch !== null && typeof navigator.geolocation?.clearWatch === 'function') {
@@ -1716,9 +1671,6 @@ function selectNearbyRadius(value) {
 radiusToggles.forEach(toggle => toggle.addEventListener('click', () => {
   selectNearbyRadius(toggle.dataset.radiusKm === 'toronto' ? null : Number(toggle.dataset.radiusKm));
 }));
-focusedRadius?.addEventListener('change', () => {
-  selectNearbyRadius(focusedRadius.value === 'toronto' ? null : Number(focusedRadius.value));
-});
 expandNearbyRadius.addEventListener('click', () => {
   const nextRadiusKm = nextNearbyRadius(state.radiusKm);
   if (nextRadiusKm !== undefined) selectNearbyRadius(nextRadiusKm);
@@ -1780,22 +1732,10 @@ setInterval(() => {
   updateMarkerAppearances();
 }, 60000);
 
-function setRoadOverlay(checked) {
-  roadOverlay.checked = checked;
-  mobileRoadOverlay.checked = checked;
-  if (!checked) clearClosureSelection();
+document.querySelector('#roadOverlay').addEventListener('change', () => {
+  if (!document.querySelector('#roadOverlay').checked) clearClosureSelection();
   rememberPreferences();
   renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
-}
-roadOverlay.addEventListener('change', () => setRoadOverlay(roadOverlay.checked));
-mobileRoadOverlay?.addEventListener('change', () => setRoadOverlay(mobileRoadOverlay.checked));
-mobilePoliceBoundaries?.addEventListener('change', () => {
-  boundaryVisible = mobilePoliceBoundaries.checked;
-  if (divisionLayer) {
-    if (boundaryVisible && !dispatchMap.hasLayer(divisionLayer)) divisionLayer.addTo(dispatchMap);
-    if (!boundaryVisible && dispatchMap.hasLayer(divisionLayer)) dispatchMap.removeLayer(divisionLayer);
-  }
-  rememberPreferences();
 });
 
 function syncSearchControl() {

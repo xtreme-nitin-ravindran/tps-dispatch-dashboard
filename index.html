@@ -253,28 +253,6 @@
               <span aria-hidden="true" class="road-key"></span><span>Road closures</span>
               <small id="roadOverlayStatus" class="map-layer-status">Not available yet</small>
             </label>
-            <div class="mobile-map-toolbar" aria-label="Map controls">
-              <button id="mapFocusToggle" class="map-focus-toggle" type="button" aria-pressed="false"
-                aria-controls="mapView">Expand map</button>
-              <label class="focused-radius" for="focusedRadius"><span>Radius</span>
-                <select id="focusedRadius" aria-label="Incident search radius">
-                  <option value="0.5">500 m</option><option value="1">1 km</option>
-                  <option value="2">2 km</option><option value="5">5 km</option>
-                  <option value="toronto">Toronto</option>
-                </select>
-              </label>
-              <div class="focused-view-toggle" role="group" aria-label="Choose focused map view">
-                <button type="button" data-focused-view="map" aria-pressed="true">Map</button>
-                <button type="button" data-focused-view="calls" aria-pressed="false">Calls</button>
-              </div>
-              <details class="mobile-layers" id="mobileLayers">
-                <summary>Layers</summary>
-                <div class="mobile-layers-menu">
-                  <label><input id="mobileRoadOverlay" type="checkbox"> Road closures</label>
-                  <label><input id="mobilePoliceBoundaries" type="checkbox"> Police division boundaries</label>
-                </div>
-              </details>
-            </div>
             <div id="dispatchMap" aria-label="Interactive map of Toronto dispatch calls"></div>
             <div class="map-empty" id="mapEmpty" hidden>
               <strong>Locating calls...</strong>
@@ -526,7 +504,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=mobile-map-focus-1"></script>
+  <script type="module" src="./app.js?v=mobile-bottom-sheet-1"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js"));
