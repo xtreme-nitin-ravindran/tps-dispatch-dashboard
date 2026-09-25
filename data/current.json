@@ -3,9 +3,139 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T21:20:43.096Z",
-  "sourceUpdatedAt": "2026-09-25T21:15:01.000Z",
+  "fetchedAt": "2026-09-25T21:21:50.010Z",
+  "sourceUpdatedAt": "2026-09-25T21:20:01.000Z",
   "incidents": [
+    {
+      "id": "F26152355",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1B",
+      "division": "212",
+      "timestamp": "2026-09-25T21:14:58.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-25T21:21:50.010Z",
+      "lastSeenAt": "2026-09-25T21:21:50.010Z",
+      "geography": {
+        "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
+        "approximate": true,
+        "coordinates": [
+          43.8113,
+          -79.193
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152354",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "WILLIAMSON RD, TT / WINEVA AVE / SOUTHWOOD DR",
+      "division": "227",
+      "timestamp": "2026-09-25T21:14:40.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-25T21:21:50.010Z",
+      "lastSeenAt": "2026-09-25T21:21:50.010Z",
+      "geography": {
+        "text": "Williamson Road between Wineva Avenue & Southwood Drive",
+        "approximate": false,
+        "coordinates": [
+          43.67413335,
+          -79.2966182
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-25T21:21:50.010Z"
+      }
+    },
+    {
+      "id": "F26152353",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6B",
+      "division": "341",
+      "timestamp": "2026-09-25T21:14:04.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-25T21:21:50.010Z",
+      "lastSeenAt": "2026-09-25T21:21:50.010Z",
+      "geography": {
+        "text": "Approximate area: (M6B) North York (Glencairn)",
+        "approximate": true,
+        "coordinates": [
+          43.7081,
+          -79.4479
+        ],
+        "division": "Division 13",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152352",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9V",
+      "division": "413",
+      "timestamp": "2026-09-25T21:10:27.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-25T21:21:50.010Z",
+      "lastSeenAt": "2026-09-25T21:21:50.010Z",
+      "geography": {
+        "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
+        "approximate": true,
+        "coordinates": [
+          43.7432,
+          -79.5876
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152351",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4L",
+      "division": "323",
+      "timestamp": "2026-09-25T21:10:16.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-25T21:21:50.010Z",
+      "lastSeenAt": "2026-09-25T21:21:50.010Z",
+      "geography": {
+        "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
+        "approximate": true,
+        "coordinates": [
+          43.6693,
+          -79.3155
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26152350",
       "source": "TFS",
@@ -16,9 +146,24 @@
       "timestamp": "2026-09-25T21:10:09.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "244"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "115"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T21:16:14.826Z",
-      "lastSeenAt": "2026-09-25T21:20:43.096Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T21:21:50.010Z",
+      "lastSeenAt": "2026-09-25T21:21:50.010Z",
       "geography": {
         "text": "Approximate location near Kathrose Drive & Brian Drive",
         "approximate": true,
@@ -42,9 +187,18 @@
       "timestamp": "2026-09-25T21:07:32.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "213"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T21:16:14.826Z",
-      "lastSeenAt": "2026-09-25T21:20:43.096Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T21:21:50.010Z",
+      "lastSeenAt": "2026-09-25T21:21:50.010Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -68,9 +222,18 @@
       "timestamp": "2026-09-25T21:06:41.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "325"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T21:16:14.826Z",
-      "lastSeenAt": "2026-09-25T21:20:43.096Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T21:21:50.010Z",
+      "lastSeenAt": "2026-09-25T21:21:50.010Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -94,9 +257,24 @@
       "timestamp": "2026-09-25T21:06:40.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "212"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "214"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T21:16:14.826Z",
-      "lastSeenAt": "2026-09-25T21:20:43.096Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T21:21:50.010Z",
+      "lastSeenAt": "2026-09-25T21:21:50.010Z",
       "geography": {
         "text": "Approximate location near Old Kingston Road & Manse Road",
         "approximate": true,
@@ -131,7 +309,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T21:10:33.550Z",
       "lastMeaningfulUpdateAt": "2026-09-25T21:16:14.826Z",
-      "lastSeenAt": "2026-09-25T21:20:43.096Z",
+      "lastSeenAt": "2026-09-25T21:21:50.010Z",
       "geography": {
         "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
         "approximate": true,
@@ -232,7 +410,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T21:05:49.555Z",
       "lastMeaningfulUpdateAt": "2026-09-25T21:10:33.550Z",
-      "lastSeenAt": "2026-09-25T21:20:43.096Z",
+      "lastSeenAt": "2026-09-25T21:21:50.010Z",
       "geography": {
         "text": "Roselawn Avenue & Duplex Avenue",
         "approximate": false,
@@ -356,7 +534,7 @@
       "division": "341",
       "timestamp": "2026-09-25T20:54:09.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -391,7 +569,7 @@
       "division": "321",
       "timestamp": "2026-09-25T20:47:32.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -964,7 +1142,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T20:41:19.935Z",
       "lastMeaningfulUpdateAt": "2026-09-25T20:46:19.707Z",
-      "lastSeenAt": "2026-09-25T21:20:43.096Z",
+      "lastSeenAt": "2026-09-25T21:21:50.010Z",
       "geography": {
         "text": "Approximate area: (M4K) East Toronto (The Danforth West / Riverdale)",
         "approximate": true,
@@ -166360,12 +166538,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T21:20:43.096Z",
-      "sourceUpdatedAt": "2026-09-25T21:15:01.000Z",
+      "fetchedAt": "2026-09-25T21:21:50.010Z",
+      "sourceUpdatedAt": "2026-09-25T21:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T21:20:43.096Z",
+      "fetchedAt": "2026-09-25T21:21:50.010Z",
       "status": "ok"
     }
   },
@@ -333816,18 +333994,6 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
-    "KATHROSE DR, NY / BRIAN DR / CLYDESDALE PARK TRL": {
-      "text": "Approximate location near Kathrose Drive & Brian Drive",
-      "approximate": true,
-      "coordinates": [
-        43.7837026,
-        -79.3329909
-      ],
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-25T21:16:14.826Z"
-    },
     "M1B": {
       "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
       "approximate": true,
@@ -333839,6 +334005,66 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "WILLIAMSON RD, TT / WINEVA AVE / SOUTHWOOD DR": {
+      "text": "Williamson Road between Wineva Avenue & Southwood Drive",
+      "approximate": false,
+      "coordinates": [
+        43.67413335,
+        -79.2966182
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-25T21:21:50.010Z"
+    },
+    "M6B": {
+      "text": "Approximate area: (M6B) North York (Glencairn)",
+      "approximate": true,
+      "coordinates": [
+        43.7081,
+        -79.4479
+      ],
+      "division": "Division 13",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M9V": {
+      "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
+      "approximate": true,
+      "coordinates": [
+        43.7432,
+        -79.5876
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4L": {
+      "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
+      "approximate": true,
+      "coordinates": [
+        43.6693,
+        -79.3155
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "KATHROSE DR, NY / BRIAN DR / CLYDESDALE PARK TRL": {
+      "text": "Approximate location near Kathrose Drive & Brian Drive",
+      "approximate": true,
+      "coordinates": [
+        43.7837026,
+        -79.3329909
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-25T21:16:14.826Z"
     },
     "M5A": {
       "text": "Approximate area: (M5A) Toronto",
@@ -333896,18 +334122,6 @@
         -79.3754
       ],
       "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6B": {
-      "text": "Approximate area: (M6B) North York (Glencairn)",
-      "approximate": true,
-      "coordinates": [
-        43.7081,
-        -79.4479
-      ],
-      "division": "Division 13",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -334026,18 +334240,6 @@
       "coordinates": [
         43.6913,
         -79.3116
-      ],
-      "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4L": {
-      "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
-      "approximate": true,
-      "coordinates": [
-        43.6693,
-        -79.3155
       ],
       "division": "Division 55",
       "version": 1,
@@ -334766,18 +334968,6 @@
         -79.3978
       ],
       "division": "Division 52",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M9V": {
-      "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
-      "approximate": true,
-      "coordinates": [
-        43.7432,
-        -79.5876
-      ],
-      "division": "Division 23",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
