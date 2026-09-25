@@ -3,9 +3,57 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T10:50:05.088Z",
-  "sourceUpdatedAt": "2026-09-25T10:45:01.000Z",
+  "fetchedAt": "2026-09-25T10:51:04.539Z",
+  "sourceUpdatedAt": "2026-09-25T10:50:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-7852f3f8f51368e79d1e90b6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FIGHT",
+      "callTypeCode": "FIG",
+      "timestamp": "2026-09-25T10:45:45.000Z",
+      "location": "PARLIAMENT ST - CHERRY ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "PARLIAMENT ST - CHERRY ST",
+        "coordinates": [
+          43.647861286964854,
+          -79.36117945743422
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T10:51:04.539Z"
+    },
+    {
+      "id": "F26152034",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Burning Odours",
+      "location": "DUNDAS ST, TT / EDNA AVE / CHELSEA AVE",
+      "division": "423",
+      "timestamp": "2026-09-25T10:41:57.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-25T10:51:04.539Z",
+      "lastSeenAt": "2026-09-25T10:51:04.539Z",
+      "geography": {
+        "text": "Dundas Street between Edna Avenue & Chelsea Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.6577237,
+          -79.45282005
+        ],
+        "division": "Division 11",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-25T10:51:04.539Z"
+      }
+    },
     {
       "id": "F26152033",
       "source": "TFS",
@@ -16,9 +64,18 @@
       "timestamp": "2026-09-25T10:39:29.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "314"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T10:46:24.884Z",
-      "lastSeenAt": "2026-09-25T10:50:05.088Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T10:51:04.539Z",
+      "lastSeenAt": "2026-09-25T10:51:04.539Z",
       "geography": {
         "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
         "approximate": true,
@@ -31,6 +88,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-6914ae94ae65cd59af35a3e7",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-25T10:38:46.000Z",
+      "location": "LN 2 N QUEEN E KINGSTON - LARK ST",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN 2 N QUEEN E KINGSTON - LARK ST",
+        "coordinates": [
+          43.66748149675699,
+          -79.31138382839757
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T10:51:04.539Z"
+    },
+    {
+      "id": "TPS-85ca1c799a801d69a0cb164d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-25T10:33:49.000Z",
+      "location": "MAGNOLIA AVE - GRANGER AVE",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MAGNOLIA AVE - GRANGER AVE",
+        "coordinates": [
+          43.72388189227918,
+          -79.25503761706173
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T10:51:04.539Z"
     },
     {
       "id": "F26152032",
@@ -53,7 +154,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T10:41:21.797Z",
       "lastMeaningfulUpdateAt": "2026-09-25T10:46:24.884Z",
-      "lastSeenAt": "2026-09-25T10:50:05.088Z",
+      "lastSeenAt": "2026-09-25T10:51:04.539Z",
       "geography": {
         "text": "Approximate area: (M9N) Weston",
         "approximate": true,
@@ -68,6 +169,28 @@
       }
     },
     {
+      "id": "TPS-8989206e5f3eabaeb14f17e6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-25T10:31:42.000Z",
+      "location": "METROLINX - PARK LAWN RD",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "METROLINX - PARK LAWN RD",
+        "coordinates": [
+          43.62545188019389,
+          -79.48568571369577
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T10:51:04.539Z"
+    },
+    {
       "id": "F26152031",
       "source": "TFS",
       "eventType": "fire",
@@ -76,7 +199,7 @@
       "division": "142",
       "timestamp": "2026-09-25T10:31:20.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -224,7 +347,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T10:31:50.211Z",
       "lastMeaningfulUpdateAt": "2026-09-25T10:35:30.908Z",
-      "lastSeenAt": "2026-09-25T10:50:05.088Z",
+      "lastSeenAt": "2026-09-25T10:51:04.539Z",
       "geography": {
         "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
         "approximate": true,
@@ -247,7 +370,7 @@
       "division": "332",
       "timestamp": "2026-09-25T10:20:39.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Command Unit",
@@ -329,7 +452,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T10:26:42.013Z",
       "lastMeaningfulUpdateAt": "2026-09-25T10:31:50.211Z",
-      "lastSeenAt": "2026-09-25T10:50:05.088Z",
+      "lastSeenAt": "2026-09-25T10:51:04.539Z",
       "geography": {
         "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
         "approximate": true,
@@ -612,7 +735,7 @@
       ],
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-25T10:06:20.629Z",
-      "lastSeenAt": "2026-09-25T10:50:05.088Z",
+      "lastSeenAt": "2026-09-25T10:51:04.539Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -939,7 +1062,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T09:25:38.140Z",
       "lastMeaningfulUpdateAt": "2026-09-25T09:46:10.490Z",
-      "lastSeenAt": "2026-09-25T10:50:05.088Z",
+      "lastSeenAt": "2026-09-25T10:51:04.539Z",
       "geography": {
         "text": "Peter Street between Adelaide Street West & Lane North Adelaide East Peter",
         "approximate": false,
@@ -156970,12 +157093,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T10:50:05.088Z",
-      "sourceUpdatedAt": "2026-09-25T10:45:01.000Z",
+      "fetchedAt": "2026-09-25T10:51:04.539Z",
+      "sourceUpdatedAt": "2026-09-25T10:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T10:50:05.088Z",
+      "fetchedAt": "2026-09-25T10:51:04.539Z",
       "status": "ok"
     }
   },
@@ -321683,6 +321806,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "DUNDAS ST, TT / EDNA AVE / CHELSEA AVE": {
+      "text": "Dundas Street between Edna Avenue & Chelsea Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.6577237,
+        -79.45282005
+      ],
+      "division": "Division 11",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-25T10:51:04.539Z"
+    },
     "M4Y": {
       "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
       "approximate": true,
