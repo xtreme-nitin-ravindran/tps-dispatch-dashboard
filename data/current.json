@@ -3,9 +3,53 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T04:30:08.703Z",
-  "sourceUpdatedAt": "2026-09-25T04:25:01.000Z",
+  "fetchedAt": "2026-09-25T04:31:21.684Z",
+  "sourceUpdatedAt": "2026-09-25T04:30:02.000Z",
   "incidents": [
+    {
+      "id": "TPS-264932cc26dc4f68427dd0b6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-25T04:22:08.000Z",
+      "location": "BLACKWELL AVE - 80 TAPSCOTT RD",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BLACKWELL AVE - 80 TAPSCOTT RD",
+        "coordinates": [
+          43.80564330042488,
+          -79.22095167470565
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T04:31:21.684Z"
+    },
+    {
+      "id": "TPS-0cac97cb541a9f213f09113a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SOUND OF GUNSHOTS",
+      "callTypeCode": "SOUGU",
+      "timestamp": "2026-09-25T04:17:13.000Z",
+      "location": "NOTTINGHILL GT - DECARIE CRCL",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "NOTTINGHILL GT - DECARIE CRCL",
+        "coordinates": [
+          43.67173220795905,
+          -79.56364560448363
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-25T04:31:21.684Z"
+    },
     {
       "id": "F26151931",
       "source": "TFS",
@@ -16,9 +60,18 @@
       "timestamp": "2026-09-25T04:16:08.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "444"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T04:26:04.876Z",
-      "lastSeenAt": "2026-09-25T04:30:08.703Z",
+      "lastMeaningfulUpdateAt": "2026-09-25T04:31:21.684Z",
+      "lastSeenAt": "2026-09-25T04:31:21.684Z",
       "geography": {
         "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
         "approximate": true,
@@ -97,7 +150,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T04:21:30.919Z",
       "lastMeaningfulUpdateAt": "2026-09-25T04:26:04.876Z",
-      "lastSeenAt": "2026-09-25T04:30:08.703Z",
+      "lastSeenAt": "2026-09-25T04:31:21.684Z",
       "geography": {
         "text": "Millwood Road between Randolph Road & Southvale Drive",
         "approximate": false,
@@ -132,7 +185,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-25T04:21:30.919Z",
       "lastMeaningfulUpdateAt": "2026-09-25T04:26:04.876Z",
-      "lastSeenAt": "2026-09-25T04:30:08.703Z",
+      "lastSeenAt": "2026-09-25T04:31:21.684Z",
       "geography": {
         "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
         "approximate": true,
@@ -155,7 +208,7 @@
       "division": "135",
       "timestamp": "2026-09-25T04:11:37.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -269,7 +322,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-25T04:16:09.161Z",
       "lastMeaningfulUpdateAt": "2026-09-25T04:21:30.919Z",
-      "lastSeenAt": "2026-09-25T04:30:08.703Z",
+      "lastSeenAt": "2026-09-25T04:31:21.684Z",
       "geography": {
         "text": "Lascelles Boulevard between Kilbarry Road & Beltline Trl",
         "approximate": false,
@@ -8339,7 +8392,7 @@
       "respondingUnitCount": 32,
       "firstSeenAt": "2026-09-24T22:51:39.011Z",
       "lastMeaningfulUpdateAt": "2026-09-25T03:45:59.443Z",
-      "lastSeenAt": "2026-09-25T04:30:08.703Z",
+      "lastSeenAt": "2026-09-25T04:31:21.684Z",
       "geography": {
         "text": "Approximate location near Disco Road & Carlingview Drive",
         "approximate": true,
@@ -151420,12 +151473,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T04:30:08.703Z",
-      "sourceUpdatedAt": "2026-09-25T04:25:01.000Z",
+      "fetchedAt": "2026-09-25T04:31:21.684Z",
+      "sourceUpdatedAt": "2026-09-25T04:30:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T04:30:08.703Z",
+      "fetchedAt": "2026-09-25T04:31:21.684Z",
       "status": "ok"
     }
   },
