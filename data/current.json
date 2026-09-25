@@ -3,9 +3,68 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-25T04:15:31.123Z",
-  "sourceUpdatedAt": "2026-09-25T04:05:01.000Z",
+  "fetchedAt": "2026-09-25T04:16:09.161Z",
+  "sourceUpdatedAt": "2026-09-25T04:15:01.000Z",
   "incidents": [
+    {
+      "id": "F26151927",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "LASCELLES BLVD, TT / KILBARRY RD / BELTLINE TRL",
+      "division": "311",
+      "timestamp": "2026-09-25T04:05:42.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-25T04:16:09.161Z",
+      "lastSeenAt": "2026-09-25T04:16:09.161Z",
+      "geography": {
+        "text": "Lascelles Boulevard between Kilbarry Road & Beltline Trl",
+        "approximate": false,
+        "coordinates": [
+          43.6961768,
+          -79.3999693
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-25T04:16:09.161Z"
+      }
+    },
+    {
+      "id": "F26151926",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4E",
+      "division": "226",
+      "timestamp": "2026-09-25T04:03:44.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "226"
+          ]
+        }
+      ],
+      "firstSeenAt": "2026-09-25T04:16:09.161Z",
+      "lastSeenAt": "2026-09-25T04:16:09.161Z",
+      "geography": {
+        "text": "Approximate area: (M4E) East Toronto (The Beaches)",
+        "approximate": true,
+        "coordinates": [
+          43.6784,
+          -79.2941
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26151925",
       "source": "TFS",
@@ -41,7 +100,7 @@
       "division": "346",
       "timestamp": "2026-09-25T03:48:38.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -109,7 +168,7 @@
       "division": "313",
       "timestamp": "2026-09-25T03:46:12.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -178,7 +237,7 @@
       "division": "333",
       "timestamp": "2026-09-25T03:43:50.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -212,7 +271,7 @@
       "division": "115",
       "timestamp": "2026-09-25T03:43:23.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -7873,7 +7932,7 @@
       ],
       "firstSeenAt": "2026-09-24T22:51:39.011Z",
       "lastMeaningfulUpdateAt": "2026-09-25T03:45:59.443Z",
-      "lastSeenAt": "2026-09-25T04:15:31.123Z",
+      "lastSeenAt": "2026-09-25T04:16:09.161Z",
       "geography": {
         "text": "Approximate location near Disco Road & Carlingview Drive",
         "approximate": true,
@@ -151020,12 +151079,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-25T04:15:31.123Z",
-      "sourceUpdatedAt": "2026-09-25T04:05:01.000Z",
+      "fetchedAt": "2026-09-25T04:16:09.161Z",
+      "sourceUpdatedAt": "2026-09-25T04:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-25T04:15:31.123Z",
+      "fetchedAt": "2026-09-25T04:16:09.161Z",
       "status": "ok"
     }
   },
@@ -236258,6 +236317,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "LASCELLES BLVD, TT / KILBARRY RD / BELTLINE TRL": {
+      "text": "Lascelles Boulevard between Kilbarry Road & Beltline Trl",
+      "approximate": false,
+      "coordinates": [
+        43.6961768,
+        -79.3999693
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-25T04:16:09.161Z"
+    },
+    "M4E": {
+      "text": "Approximate area: (M4E) East Toronto (The Beaches)",
+      "approximate": true,
+      "coordinates": [
+        43.6784,
+        -79.2941
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1M": {
       "text": "Approximate area: (M1M) Scarborough (Cliffside / Cliffcrest / Scarborough Village West)",
       "approximate": true,
@@ -237328,18 +237411,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T23:39:20.565Z"
-    },
-    "M4E": {
-      "text": "Approximate area: (M4E) East Toronto (The Beaches)",
-      "approximate": true,
-      "coordinates": [
-        43.6784,
-        -79.2941
-      ],
-      "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "BRANT ST, TT / CAMDEN ST / RICHMOND ST W": {
       "text": "Brant Street between Camden Street & Richmond Street West",
