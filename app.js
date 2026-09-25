@@ -2,7 +2,7 @@ import { sourceStatus, sourceStatusText } from "./src/source-status.js?v=source-
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
 import { filterDefaults, filterSummary, readFilters, shareView, shareIncidentView, readSharedIncident, shareIncident, loadPreferences, savePreferences } from "./src/view-controls.js";
 import { renderDisruptions } from "./src/disruptions/ui.js?v=source-states-1";
-import { compactAge, compactReportedAge, locationConfidence, callStatus, sourceName } from "./src/call-presentation.js?v=incident-cards-1";
+import { compactAge, compactReportedAge, locationConfidence, callStatus, sourceName, respondingUnitLabel } from "./src/call-presentation.js?v=responding-units-1";
 import { distanceKm, distanceLabel, withinGeographicScope } from "./src/nearby.js?v=radius-controls-1";
 import { policeUnitLabel } from "./src/tps/unit-label.js?v=3";
 import { incidentCategory } from "./src/tfs/category.js";
@@ -713,6 +713,10 @@ function createIncidentCard(call, { distance = "", variant = "list" } = {}) {
     alarm.hidden = false;
     row.querySelector(".alarm-value").textContent = call.alarmLevel;
   }
+  const respondingUnits = respondingUnitLabel(call.respondingUnitCount);
+  const respondingUnitsDetail = row.querySelector(".call-responding-units");
+  respondingUnitsDetail.hidden = !respondingUnits;
+  row.querySelector(".responding-unit-count").textContent = respondingUnits;
   const units = row.querySelector(".unit-list");
   const vehicles = row.querySelector(".call-vehicles");
   vehicles.hidden = !call.unitGroups.length;

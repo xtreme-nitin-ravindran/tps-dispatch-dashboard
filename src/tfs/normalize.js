@@ -34,6 +34,10 @@ export function normalizeTfsIncident(row) {
     }
 
     const timestamp = parseTfsTimestamp(row.time_unix ?? row.time ?? row.timestamp);
+    const vehicles = parseDispatchedUnits(row.units);
+    // TFS publishes apparatus assignments in units_disp. TPS has no equivalent
+    // reliable field, so respondingUnitCount is intentionally TFS-only for now.
+    const respondingUnitCount = countDispatchedUnits(row.units, vehicles);
     return {
         id: String(row.event_id || "").trim(),
         source: "TFS",
@@ -44,8 +48,15 @@ export function normalizeTfsIncident(row) {
         timestamp,
         alarmLevel: numberOrNull(row.alarm_level),
         isOngoing: typeof row.isOngoing === "boolean" ? row.isOngoing : Number(row.cad) === 1,
-        vehicles: parseDispatchedUnits(row.units)
+        vehicles,
+        ...(respondingUnitCount === undefined ? {} : { respondingUnitCount })
     };
+}
+
+function countDispatchedUnits(units, vehicles) {
+    if (typeof units !== "string" || !units.trim()) return undefined;
+    const count = vehicles.reduce((total, vehicle) => total + vehicle.numbers.length, 0);
+    return count > 0 ? count : undefined;
 }
 
 export function parseDispatchedUnits(units) {

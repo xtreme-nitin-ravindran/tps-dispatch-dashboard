@@ -7,6 +7,8 @@ test('TPS uses stable source-prefixed IDs, reported division and no invented ong
  assert.equal(a.id,normalizeTps({...row,OBJECTID:99}).id);
  assert.equal(a.geography.division,'Division 33');
  assert.equal(a.isOngoing,false);
+ assert.equal(a.respondingUnitCount,undefined); // TPS publishes no reliable responding-unit count.
+ assert.equal('respondingUnitCount' in a,false);
  assert.notEqual(a.id,normalizeTps({...row,OCCURRENCE_TIME_AGOL:row.OCCURRENCE_TIME_AGOL+1000}).id);
  assert.equal(normalizeTps({...row,LATITUDE:null}).geography.coordinates,null);
 });
