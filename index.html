@@ -96,12 +96,41 @@
           <button id="hearSirens" type="button" aria-label="Find nearby calls that may explain sirens">Hear sirens?</button>
           <p id="nearStatus" role="status">Uses your location with permission. Your location stays in this browser
             session.</p>
+          <div id="savedLocationControls" class="saved-location-controls">
+            <label for="locationContext">Location</label>
+            <select id="locationContext" aria-describedby="locationContextStatus">
+              <option value="current">Current location</option>
+            </select>
+            <strong id="locationContextStatus" hidden></strong>
+            <button id="saveLocation" type="button" disabled>Save location</button>
+            <button id="manageSavedLocations" type="button" hidden>Manage saved locations</button>
+            <span id="savedLocationLimit" role="status" aria-live="polite"></span>
+          </div>
           <div id="nearControls" hidden>
             <button id="chooseArea" type="button">Choose an area on the map</button>
             <button id="clearNearby" type="button">Clear nearby filter</button>
           </div>
         </div>
       </section>
+      <dialog id="savedLocationsDialog" class="saved-locations-dialog" aria-labelledby="savedLocationsTitle">
+        <div class="saved-locations-dialog-head">
+          <div><span class="section-kicker">YOUR PLACES</span><h2 id="savedLocationsTitle">Saved locations</h2></div>
+          <button id="closeSavedLocations" class="dialog-close" type="button" aria-label="Close saved locations">×</button>
+        </div>
+        <form id="savedLocationForm" novalidate>
+          <input id="savedLocationId" type="hidden" />
+          <label for="savedLocationLabel"><span id="savedLocationFormLabel">Location label</span>
+            <input id="savedLocationLabel" type="text" maxlength="60" autocomplete="off" />
+          </label>
+          <p id="savedLocationError" class="saved-location-error" role="alert" hidden></p>
+          <div class="saved-location-form-actions">
+            <button id="submitSavedLocation" type="submit">Save</button>
+            <button id="cancelSavedLocation" type="button">Cancel</button>
+          </div>
+        </form>
+        <p id="savedLocationsEmpty" class="saved-locations-empty">No saved locations yet.</p>
+        <ul id="savedLocationsList" class="saved-locations-list"></ul>
+      </dialog>
       <section class="siren-results" id="sirenResults" aria-labelledby="sirenResultsHeading" aria-live="polite" hidden>
         <div class="siren-results-head">
           <div><span class="section-kicker">NEARBY NOW</span>

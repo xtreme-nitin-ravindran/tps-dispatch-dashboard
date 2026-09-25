@@ -22,6 +22,7 @@ import { createRefreshFreshnessTracker } from "./src/refresh-freshness.js";
 import { mobileSheetActionLabel, mobileSheetStateAfterDrag, nextMobileSheetState } from "./src/mobile-bottom-sheet.js";
 import { NEARBY_SORT_DEFAULT, sortNearbyCalls } from "./src/nearby-sort.js";
 import { offlineStatus } from "./src/offline-status.js";
+import { MAX_SAVED_LOCATIONS, addSavedLocation, deleteSavedLocation, loadSavedLocationState, referenceCoordinates, renameSavedLocation, savedLocationForContext, selectCurrentLocation, selectSavedLocation } from "./src/saved-locations.js";
 
 const CONFIG = {
   snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
@@ -30,6 +31,8 @@ const CONFIG = {
 
 const state = {
   nearby: null,
+  savedLocations: [],
+  locationContext: { type: "current" },
   radiusKm: null,
   hours: 24,
   calls: [],
@@ -105,6 +108,7 @@ let sirenMode = false;
 let sirenMatches = [];
 let choosingArea = false;
 let nearbyOriginKind = "device";
+let liveLocation = null;
 let nearbyOriginLayer = null;
 let incidentBadgeTimer = null;
 let glossaryPopoverSequence = 0;
@@ -1252,6 +1256,9 @@ try {
     syncFilterControls();
   }
 } catch { /* Defaults remain usable when storage is blocked. */ }
+const savedLocationState = loadSavedLocationState(localStorage);
+state.savedLocations = savedLocationState.locations;
+state.locationContext = savedLocationState.locationContext;
 systemTheme.addEventListener('change', syncTheme);
 document.querySelector('#themePreference').addEventListener('change', event => {
   themePreference = normalizeThemePreference(event.target.value);
@@ -1285,9 +1292,142 @@ const hearSirensButton = document.querySelector('#hearSirens');
 const nearStatus = document.querySelector('#nearStatus');
 const nearControls = document.querySelector('#nearControls');
 const chooseAreaButton = document.querySelector('#chooseArea');
+const saveLocationButton = document.querySelector('#saveLocation');
+const manageSavedLocationsButton = document.querySelector('#manageSavedLocations');
+const savedLocationLimit = document.querySelector('#savedLocationLimit');
+const savedLocationsDialog = document.querySelector('#savedLocationsDialog');
+const savedLocationForm = document.querySelector('#savedLocationForm');
+const savedLocationId = document.querySelector('#savedLocationId');
+const savedLocationLabel = document.querySelector('#savedLocationLabel');
+const savedLocationFormLabel = document.querySelector('#savedLocationFormLabel');
+const savedLocationError = document.querySelector('#savedLocationError');
+const savedLocationsList = document.querySelector('#savedLocationsList');
+const savedLocationsEmpty = document.querySelector('#savedLocationsEmpty');
+const locationContextSelect = document.querySelector('#locationContext');
+const locationContextStatus = document.querySelector('#locationContextStatus');
 let locationRequest = 0;
 let locationWatch = null;
 let requestedRadiusKm = null;
+function updateSavedLocationState(nextState) {
+  state.savedLocations = nextState.locations;
+  state.locationContext = nextState.locationContext;
+  renderSavedLocations();
+}
+function syncLocationContextControl() {
+  const selected = savedLocationForContext(state);
+  locationContextSelect.replaceChildren(
+    new Option('Current location', 'current'),
+    ...state.savedLocations.map(location => new Option(location.label, location.id))
+  );
+  locationContextSelect.value = selected?.id || 'current';
+  locationContextStatus.hidden = !selected;
+  locationContextStatus.textContent = selected ? `Showing near ${selected.label}` : '';
+}
+function showSavedLocationError(error) {
+  savedLocationError.textContent = error instanceof RangeError
+    ? `You can save up to ${MAX_SAVED_LOCATIONS} locations.`
+    : error.message;
+  savedLocationError.hidden = false;
+  savedLocationLabel.setAttribute('aria-invalid', 'true');
+  savedLocationLabel.focus();
+}
+function resetSavedLocationForm() {
+  savedLocationForm.reset();
+  savedLocationId.value = '';
+  savedLocationFormLabel.textContent = 'Location label';
+  document.querySelector('#submitSavedLocation').textContent = 'Save';
+  savedLocationError.hidden = true;
+  savedLocationLabel.removeAttribute('aria-invalid');
+}
+function renderSavedLocations() {
+  const atLimit = state.savedLocations.length >= MAX_SAVED_LOCATIONS;
+  saveLocationButton.disabled = !state.nearby || atLimit;
+  manageSavedLocationsButton.hidden = state.savedLocations.length === 0;
+  savedLocationLimit.textContent = atLimit ? `You can save up to ${MAX_SAVED_LOCATIONS} locations.` : '';
+  savedLocationsEmpty.hidden = state.savedLocations.length !== 0;
+  savedLocationsList.replaceChildren(...state.savedLocations.map(location => {
+    const item = document.createElement('li');
+    item.dataset.savedLocationId = location.id;
+    const label = document.createElement('span');
+    label.textContent = location.label;
+    const actions = document.createElement('div');
+    actions.className = 'saved-location-item-actions';
+    for (const [action, text] of [['rename', 'Rename'], ['delete', 'Delete']]) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.dataset.action = action;
+      button.textContent = text;
+      actions.append(button);
+    }
+    item.append(label, actions);
+    return item;
+  }));
+  syncLocationContextControl();
+}
+function openSavedLocations(mode = 'manage') {
+  resetSavedLocationForm();
+  savedLocationForm.hidden = mode !== 'save';
+  savedLocationsDialog.showModal();
+  (mode === 'save' ? savedLocationLabel : document.querySelector('#closeSavedLocations')).focus();
+}
+saveLocationButton.addEventListener('click', () => openSavedLocations('save'));
+manageSavedLocationsButton.addEventListener('click', () => openSavedLocations());
+document.querySelector('#closeSavedLocations').addEventListener('click', () => savedLocationsDialog.close());
+document.querySelector('#cancelSavedLocation').addEventListener('click', () => {
+  resetSavedLocationForm();
+  savedLocationForm.hidden = true;
+  document.querySelector('#closeSavedLocations').focus();
+});
+savedLocationForm.addEventListener('submit', event => {
+  event.preventDefault();
+  savedLocationError.hidden = true;
+  savedLocationLabel.removeAttribute('aria-invalid');
+  try {
+    const nextState = savedLocationId.value
+      ? renameSavedLocation(localStorage, state, savedLocationId.value, savedLocationLabel.value)
+      : addSavedLocation(localStorage, state, {
+        label: savedLocationLabel.value,
+        latitude: state.nearby?.[0],
+        longitude: state.nearby?.[1]
+      });
+    updateSavedLocationState(nextState);
+    resetSavedLocationForm();
+    savedLocationForm.hidden = true;
+    document.querySelector('#closeSavedLocations').focus();
+  } catch (error) {
+    showSavedLocationError(error);
+  }
+});
+savedLocationsList.addEventListener('click', event => {
+  const button = event.target.closest('button[data-action]');
+  const item = button?.closest('[data-saved-location-id]');
+  const savedLocation = item && state.savedLocations.find(location => location.id === item.dataset.savedLocationId);
+  if (!savedLocation) return;
+  if (button.dataset.action === 'rename') {
+    resetSavedLocationForm();
+    savedLocationForm.hidden = false;
+    savedLocationId.value = savedLocation.id;
+    savedLocationLabel.value = savedLocation.label;
+    savedLocationFormLabel.textContent = 'Rename location';
+    document.querySelector('#submitSavedLocation').textContent = 'Rename';
+    savedLocationLabel.focus();
+    savedLocationLabel.select();
+    return;
+  }
+  if (button.dataset.action === 'delete' && button.dataset.confirm !== 'true') {
+    button.dataset.confirm = 'true';
+    button.textContent = 'Confirm delete';
+    button.setAttribute('aria-label', `Confirm deleting ${savedLocation.label}`);
+    button.focus();
+    return;
+  }
+  const wasActive = state.locationContext.type === 'saved' && state.locationContext.id === savedLocation.id;
+  updateSavedLocationState(deleteSavedLocation(localStorage, state, savedLocation.id));
+  if (wasActive) useCurrentLocation();
+  document.querySelector('#closeSavedLocations').focus();
+});
+savedLocationsDialog.addEventListener('close', resetSavedLocationForm);
+renderSavedLocations();
 function radiusFilterOrigin() {
   return state.radiusKm === null ? null : state.nearby;
 }
@@ -1305,6 +1445,34 @@ function clearLocationWatch() {
   }
   locationWatch = null;
 }
+function useSavedLocation(id) {
+  updateSavedLocationState(selectSavedLocation(localStorage, state, id));
+  const saved = savedLocationForContext(state);
+  if (!saved) {
+    useCurrentLocation();
+    return;
+  }
+  locationRequest++;
+  clearLocationWatch();
+  requestedRadiusKm = null;
+  state.nearby = referenceCoordinates(state, liveLocation);
+  nearbyOriginKind = 'saved';
+  nearControls.hidden = false;
+  chooseAreaButton.hidden = false;
+  mapHasFitted = false;
+  updateNearbyView();
+}
+function useCurrentLocation() {
+  updateSavedLocationState(selectCurrentLocation(localStorage, state));
+  state.nearby = null;
+  nearbyOriginKind = 'device';
+  mapHasFitted = false;
+  requestLocation(state.radiusKm === null ? null : state.radiusKm);
+}
+locationContextSelect.addEventListener('change', event => {
+  if (event.target.value === 'current') useCurrentLocation();
+  else useSavedLocation(event.target.value);
+});
 function updateNearbyView() {
   if (state.radiusKm !== null) mapHasFitted = false;
   applyFilters();
@@ -1313,7 +1481,7 @@ function updateNearbyView() {
     ? state.nearby
       ? 'Toronto-wide view. Distance filtering is off; card distances still update from your location.'
       : 'Toronto-wide view. Distance filtering is off. Choose a radius to use your location.'
-    : `Within ${state.radiusKm} km of ${nearbyOriginKind === 'map' ? 'the selected area' : 'your location'}. Distances use approximate call locations; unmapped calls are excluded.`;
+    : `Within ${state.radiusKm} km of ${nearbyOriginKind === 'map' ? 'the selected area' : nearbyOriginKind === 'saved' ? savedLocationForContext(state)?.label || 'the saved location' : 'your location'}. Distances use approximate call locations; unmapped calls are excluded.`;
 }
 function showLocationFallback(message) {
   nearStatus.textContent = `${message} Enable location in your browser, or choose an area manually.`;
@@ -1347,6 +1515,7 @@ function chooseManualArea(origin) {
   els.dispatchMap.classList.remove('choosing-area');
   chooseAreaButton.textContent = 'Choose a different area on the map';
   state.nearby = origin;
+  renderSavedLocations();
   nearbyOriginKind = 'map';
   state.radiusKm = SIREN_RADIUS_KM;
   lastRadiusKm = SIREN_RADIUS_KM;
@@ -1354,6 +1523,11 @@ function chooseManualArea(origin) {
   nearStatus.textContent = 'Showing recent calls within 2 km of the area you chose.';
 }
 function requestLocation(radiusKm = lastRadiusKm, forSiren = false) {
+  if (state.locationContext.type === 'saved') {
+    updateSavedLocationState(selectCurrentLocation(localStorage, state));
+    state.nearby = null;
+    nearbyOriginKind = 'device';
+  }
   if (!navigator.geolocation) {
     showLocationFallback('Location is unavailable in this browser.');
     return;
@@ -1369,6 +1543,8 @@ function requestLocation(radiusKm = lastRadiusKm, forSiren = false) {
   const onPosition = position => {
     if (request !== locationRequest) return;
     state.nearby = [position.coords.latitude, position.coords.longitude];
+    liveLocation = [...state.nearby];
+    renderSavedLocations();
     nearbyOriginKind = 'device';
     if (requestedRadiusKm !== null) {
       state.radiusKm = requestedRadiusKm;
@@ -1437,13 +1613,19 @@ expandNearbyRadius.addEventListener('click', () => {
 });
 if (state.radiusKm !== null) {
   lastRadiusKm = state.radiusKm;
-  requestLocation(state.radiusKm);
+  const restoredSavedLocation = savedLocationForContext(state);
+  if (restoredSavedLocation) useSavedLocation(restoredSavedLocation.id);
+  else requestLocation(state.radiusKm);
+} else {
+  const restoredSavedLocation = savedLocationForContext(state);
+  if (restoredSavedLocation) useSavedLocation(restoredSavedLocation.id);
 }
 document.querySelector('#clearNearby').addEventListener('click', () => {
   locationRequest++;
   clearLocationWatch();
   requestedRadiusKm = null;
   state.nearby = null;
+  renderSavedLocations();
   state.radiusKm = null;
   sirenMode = false;
   sirenMatches = [];
