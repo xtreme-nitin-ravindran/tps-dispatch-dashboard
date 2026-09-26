@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T11:55:23.413Z",
-  "sourceUpdatedAt": "2026-09-26T11:50:01.000Z",
+  "fetchedAt": "2026-09-26T11:56:22.083Z",
+  "sourceUpdatedAt": "2026-09-26T11:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26152701",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5S",
+      "division": "314",
+      "timestamp": "2026-09-26T11:49:19.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T11:56:22.083Z",
+      "lastSeenAt": "2026-09-26T11:56:22.083Z",
+      "geography": {
+        "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
+        "approximate": true,
+        "coordinates": [
+          43.6629,
+          -79.3987
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-971de7117312fc4b3d8dee82",
       "source": "TPS",
@@ -49,7 +75,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T11:51:26.338Z",
-      "lastSeenAt": "2026-09-26T11:55:23.413Z",
+      "lastSeenAt": "2026-09-26T11:56:22.083Z",
       "geography": {
         "text": "Approximate location on North Bonnington Avenue",
         "approximate": true,
@@ -191,7 +217,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T11:40:31.424Z",
       "lastMeaningfulUpdateAt": "2026-09-26T11:46:56.948Z",
-      "lastSeenAt": "2026-09-26T11:55:23.413Z",
+      "lastSeenAt": "2026-09-26T11:56:22.083Z",
       "geography": {
         "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
         "approximate": true,
@@ -173701,12 +173727,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T11:55:23.413Z",
-      "sourceUpdatedAt": "2026-09-26T11:50:01.000Z",
+      "fetchedAt": "2026-09-26T11:56:22.083Z",
+      "sourceUpdatedAt": "2026-09-26T11:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T11:55:23.413Z",
+      "fetchedAt": "2026-09-26T11:56:22.083Z",
       "status": "ok"
     }
   },
@@ -327796,6 +327822,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5S": {
+      "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
+      "approximate": true,
+      "coordinates": [
+        43.6629,
+        -79.3987
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "NORTH BONNINGTON AVE, SC / MOIRA AVE / MOIRA AVE": {
       "text": "Approximate location on North Bonnington Avenue",
       "approximate": true,
@@ -329601,18 +329639,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T21:31:38.497Z"
-    },
-    "M5S": {
-      "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
-      "approximate": true,
-      "coordinates": [
-        43.6629,
-        -79.3987
-      ],
-      "division": "Division 52",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "THORNCLIFFE PARK DR, EY / R. V. BURGESS PARK TRL / WEST DON RIVER TRL": {
       "text": "Approximate location near Thorncliffe Park Drive & West Don River Trl",
