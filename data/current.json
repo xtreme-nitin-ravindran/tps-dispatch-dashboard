@@ -3,9 +3,77 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T13:14:24.762Z",
-  "sourceUpdatedAt": "2026-09-26T13:10:01.000Z",
+  "fetchedAt": "2026-09-26T13:15:35.006Z",
+  "sourceUpdatedAt": "2026-09-26T13:15:01.000Z",
   "incidents": [
+    {
+      "id": "F26152728",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "RIVER ST / DUNDAS ST E",
+      "division": "325",
+      "timestamp": "2026-09-26T13:08:22.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "325"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T13:15:35.006Z",
+      "lastSeenAt": "2026-09-26T13:15:35.006Z",
+      "geography": {
+        "text": "River Street & Dundas Street East",
+        "approximate": false,
+        "coordinates": [
+          43.661198,
+          -79.3581624
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T13:15:35.006Z"
+      }
+    },
+    {
+      "id": "F26152727",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9M",
+      "division": "411",
+      "timestamp": "2026-09-26T13:05:23.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "413"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T13:15:35.006Z",
+      "lastSeenAt": "2026-09-26T13:15:35.006Z",
+      "geography": {
+        "text": "Approximate area: (M9M) North York (Humberlea / Emery)",
+        "approximate": true,
+        "coordinates": [
+          43.7366,
+          -79.5401
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26152726",
       "source": "TFS",
@@ -16,9 +84,18 @@
       "timestamp": "2026-09-26T13:01:37.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "133"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T13:11:44.555Z",
-      "lastSeenAt": "2026-09-26T13:14:24.762Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T13:15:35.006Z",
+      "lastSeenAt": "2026-09-26T13:15:35.006Z",
       "geography": {
         "text": "Approximate area: (M9N) Weston",
         "approximate": true,
@@ -174,7 +251,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T13:00:48.421Z",
-      "lastSeenAt": "2026-09-26T13:14:24.762Z",
+      "lastSeenAt": "2026-09-26T13:15:35.006Z",
       "geography": {
         "text": "Approximate area: (M9N) Weston",
         "approximate": true,
@@ -197,7 +274,7 @@
       "division": "142",
       "timestamp": "2026-09-26T12:48:32.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -902,7 +979,7 @@
       "respondingUnitCount": 12,
       "firstSeenAt": "2026-09-26T12:26:34.015Z",
       "lastMeaningfulUpdateAt": "2026-09-26T12:42:04.322Z",
-      "lastSeenAt": "2026-09-26T13:14:24.762Z",
+      "lastSeenAt": "2026-09-26T13:15:35.006Z",
       "geography": {
         "text": "Gerrard Street between Yonge Street & Bay Street",
         "approximate": false,
@@ -1506,7 +1583,7 @@
       "respondingUnitCount": 19,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-26T12:20:43.518Z",
-      "lastSeenAt": "2026-09-26T13:14:24.762Z",
+      "lastSeenAt": "2026-09-26T13:15:35.006Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -175024,12 +175101,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T13:14:24.762Z",
-      "sourceUpdatedAt": "2026-09-26T13:10:01.000Z",
+      "fetchedAt": "2026-09-26T13:15:35.006Z",
+      "sourceUpdatedAt": "2026-09-26T13:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T13:14:24.762Z",
+      "fetchedAt": "2026-09-26T13:15:35.006Z",
       "status": "ok"
     }
   },
@@ -329200,6 +329277,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "RIVER ST / DUNDAS ST E": {
+      "text": "River Street & Dundas Street East",
+      "approximate": false,
+      "coordinates": [
+        43.661198,
+        -79.3581624
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T13:15:35.006Z"
+    },
+    "M9M": {
+      "text": "Approximate area: (M9M) North York (Humberlea / Emery)",
+      "approximate": true,
+      "coordinates": [
+        43.7366,
+        -79.5401
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M9N": {
       "text": "Approximate area: (M9N) Weston",
       "approximate": true,
@@ -330456,18 +330557,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T04:05:40.147Z"
-    },
-    "M9M": {
-      "text": "Approximate area: (M9M) North York (Humberlea / Emery)",
-      "approximate": true,
-      "coordinates": [
-        43.7366,
-        -79.5401
-      ],
-      "division": "Division 31",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "FIRE STATION 334 DRIVEWAY LANE / LOWER SPADINA AVE": {
       "text": "Approximate location on Fire Station 334 Driveway Lane",
