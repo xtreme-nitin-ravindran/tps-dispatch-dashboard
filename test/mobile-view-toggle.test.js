@@ -23,8 +23,9 @@ test('mobile view rules show one existing primary view without changing desktop 
   assert.match(html, /<section class="map-stage" id="mapView">/);
   assert.match(html, /<section class="content-grid" id="callsView">/);
   const mobileRules = css.slice(css.indexOf(mobileQuery));
-  assert.match(mobileRules, /html\[data-mobile-view="calls"\] \.map-stage,[\s\S]*?\.disruptions-panel \{ display: none; \}/);
+  assert.match(mobileRules, /html\[data-mobile-view="calls"\] \.map-stage,[\s\S]*?\.map-info,[\s\S]*?\.mobile-bottom-sheet \{ display: none; \}/);
   assert.match(mobileRules, /html\[data-mobile-view="map"\] \.content-grid,[\s\S]*?\.disruptions-panel \{ display: none; \}/);
+  assert.doesNotMatch(mobileRules, /html\[data-mobile-view="calls"\][^{]*\.disruptions-panel\s*\{\s*display:\s*none/);
   assert.doesNotMatch(css.slice(0, css.indexOf(mobileQuery)), /data-mobile-view=/);
 });
 
@@ -34,9 +35,27 @@ test('view switching only updates presentation and preserves filters, radius, da
   assert.match(setter, /document\.documentElement\.dataset\.mobileView = view/);
   assert.match(setter, /setAttribute\("aria-pressed", String\(active\)\)/);
   assert.match(setter, /dispatchMap\?\.invalidateSize/);
-  assert.doesNotMatch(setter, /state\.|applyFilters|renderCalls|renderMap|loadData|fetch|focusedCallId\s*=/);
+  assert.doesNotMatch(setter, /state\.|applyFilters|renderMap|loadData|fetch|focusedCallId\s*=/);
+  assert.match(setter, /mobileBottomSheet\?\.setAttribute\("aria-hidden", String\(view !== "map"\)\)/);
+  assert.match(setter, /renderCalls\(\)/);
   assert.match(setter, /selectCall\(focusedCallId, \{ panIfNeeded: true \}\)/);
   assert.match(app, /mobileViewToggles\.forEach\(toggle => toggle\.addEventListener\("click", \(\) => \{[\s\S]*?setMobileView\(toggle\.dataset\.mobileView,/);
+});
+
+test('breakpoint changes rebuild only the active incident surface without stale ownership', () => {
+  assert.match(app, /mobileLayoutMedia\.addEventListener\?\.\("change", \(\) => setMobileView\(mobileView, \{ persist: false \}\)\)/);
+  const setterStart = app.indexOf('function setMobileView(');
+  const setter = app.slice(setterStart, app.indexOf('\nmobileViewToggles.forEach', setterStart));
+  assert.match(setter, /removeAttribute\("aria-hidden"\)/);
+});
+
+test('each mobile mode owns one incident surface and switching clears the inactive list', () => {
+  const rendererStart = app.indexOf('function renderCalls()');
+  const renderer = app.slice(rendererStart, app.indexOf('\nnearbySort.addEventListener', rendererStart));
+  assert.match(renderer, /mobile && mobileView === "map" \? mobileSheetCallList : els\.callList/);
+  assert.match(renderer, /inactiveList\?\.replaceChildren\(\)/);
+  assert.match(renderer, /renderList\(activeList\)/);
+  assert.doesNotMatch(renderer, /renderList\(els\.callList\);\s*renderList\(mobileSheetCallList\)/);
 });
 
 test('show-on-map keeps the selected incident and activates the map view', () => {

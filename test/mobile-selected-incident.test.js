@@ -42,7 +42,7 @@ test('mobile behavior reuses the desktop selection model and leaves desktop mark
 });
 
 test('desktop list and layout remain the default outside the mobile media query', () => {
-  assert.match(app, /renderList\(els\.callList\);/);
+  assert.match(app, /const activeList = mobile && mobileView === "map" \? mobileSheetCallList : els\.callList/);
   assert.match(app, /\[els\.callList, mobileSheetCallList\][\s\S]*?handleIncidentListClick/);
   assert.match(app, /if \(!mobile\) setTimeout\(\(\) => event\.target\.openPopup\(\), 0\)/);
 });

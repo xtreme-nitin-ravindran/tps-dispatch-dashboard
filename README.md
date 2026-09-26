@@ -92,6 +92,54 @@ temporary files/repositories; they do not publish changes or require live feeds.
 
 ### Local watch and push fixtures
 
+For repeatable mobile layout audits without live feeds, use the loopback-only
+`mobileAuditFixture` query switch. `many`, `zero`, `stale`, and `unavailable` provide deterministic
+incident/disruption shapes; `mobileAuditView=map|calls` and
+`mobileAuditSheet=collapsed|half|expanded` select presentation state. Add
+`mobileAuditLocation=none|current|unavailable|denied|saved|manual` to exercise the compact Quick Look location states. The `many`
+fixture enables the road overlay and police boundaries, includes long labels and a
+selected-incident target, and can be combined with `watchFixture=current`:
+
+Add `mobileAuditFilters=none|one|multiple|long|service|event|division|history|search|zero`
+to exercise deterministic secondary-filter states through the production controls and rendering path.
+Add `mobileAuditRadius=0.5|1|2|5|toronto` to select each production radius control;
+combine it with `mobileAuditLocation=current` for deterministic nearby results.
+Use `mobileAuditSheet=collapsed|half|expanded` with map mode to audit the compact
+48 px overlay-control row and 52 px collapsed sheet header. For example:
+`http://127.0.0.1:4173/?mobileAuditFixture=many&mobileAuditView=map&mobileAuditLocation=current&mobileAuditRadius=toronto&mobileAuditSheet=collapsed`.
+
+On mobile, Map mode uses the bottom-sheet header for the concise call count, closest-call,
+and latest-call context rather than repeating the full Toronto/Nearby summary above the map.
+Calls mode shows the same concise summary once above the incident list. Routine located counts,
+source timestamps, marker shape/age keys, location-resolution guidance, and the source-times help
+link stay inside the normal-flow **Map info** disclosure. Incident-feed stale or unavailable
+warnings remain visible above the map and are never hidden in that disclosure. At 390 px, the
+default summary plus Map-info footprint changed from about 187 px to 46 px (141 px recovered);
+expanded Map info is about 481 px and may push the map in document flow. The compact result has
+no document overflow at 320, 375, 390, or 430 px.
+
+The remaining pre-map stack is also compact on mobile. Essential branding and the
+44 px theme control share one header row; the duplicate second brand photo and routine
+refresh copy are hidden there because source detail remains available in **Map info** and
+critical feed warnings stay visible. Search and collapsed **Filters** share one row, while
+Quick Look keeps its heading, primary action, location status, manual fallback, and
+**Location & more options** disclosure. With the `many/current/toronto` fixture, the
+radius controls begin at about 428 px and the map at about 548 px across 320, 375, 390,
+and 430 px. At 390 px the previous positions were about 612 px and 732 px, recovering
+about 184 px before both surfaces. Calls mode places its compact summary at about 544 px
+and its first incident at about 664–682 px depending on summary wrapping. These states
+have no document-level horizontal overflow.
+
+- full map audit: `http://127.0.0.1:4173/?mobileAuditFixture=many&watchFixture=current&incident=mobile-audit-selected`
+- expanded sheet: append `&mobileAuditSheet=expanded`
+- calls view: append `&mobileAuditView=calls`
+- zero calls: `http://127.0.0.1:4173/?mobileAuditFixture=zero&watchFixture=current`
+- stale sources: `http://127.0.0.1:4173/?mobileAuditFixture=stale&watchFixture=current`
+- unavailable TTC source with retained alerts: `http://127.0.0.1:4173/?mobileAuditFixture=unavailable&watchFixture=current`
+
+These parameters are ignored off `localhost`, `127.0.0.1`, and `::1`; they do not
+send push notifications or fetch the production snapshot.
+
 Push fixtures are accepted only on `localhost`, `127.0.0.1`, or `::1`. Start a static
 server on port 4173, select a current/saved/map location, open **Watch this area**, and
 use these URLs to exercise the browser controller without a real push service or backend:
@@ -486,11 +534,13 @@ Badge generation requires Python 3 and writes three SVG files to the output dire
 | `marker-age.test.js` | Exact marker-age boundaries, accessible freshness labels, future/invalid timestamps, and persistent category/service glyphs. |
 | `refresh-freshness.test.js` | Refresh completion timestamps, live age progression, failure preservation, and timer cleanup. |
 | `nearby-summary.test.js` | Nearby counts, service/category breakdowns, newest-call ages, and empty or singular results. |
+| `mobile-summary-map-info.test.js` | Concise mobile summary ownership, collapsed secondary map metadata, visible trust warnings, Calls-mode spacing, and desktop preservation. |
+| `mobile-pre-map-stack.test.js` | Compact mobile header, visible Search and Quick Look action, collapsed Filters, bounded flow layout, and unchanged desktop spacing. |
 | `nearby-sort.test.js` | Client-side nearest/newest ordering, stable ties, location availability, and preservation of nearby view state. |
 | `siren-matches.test.js` | Two-kilometre siren-result scope, recency/distance ranking, result limits, and invalid-call handling. |
 | `view-controls.test.js` | New-call detection, filter summaries/reset defaults, share links, clustering, row selection, preferences, and source timestamp labels. |
 | `theme.test.js` | Theme preference validation, system-theme resolution, and document/browser-colour updates. |
-| `mobile-radius-controls.test.js` | Mobile search-area options, sticky touch-target layout, and radius-change rendering integration. |
+| `mobile-radius-controls.test.js` | Mobile single-row search-area options, touch-target layout, active-option visibility, and radius-change rendering integration. |
 | `promotion.test.js` | Promotion of only the tested dev commit, superseded/empty changes, protection rejection, existing PR reuse, retry handling, concurrent branch updates, and prevention of duplicate Pages requests. |
 
 `npm run test:python` runs the files in `test/python/` using Python 3’s standard-library unittest runner. It verifies street endpoints, coordinate order and rounding, node deduplication, postal-area filtering and labels, repeatable output, and preservation of the existing index when inputs fail. Tests use temporary fixtures and do not download data or modify the bundled index.

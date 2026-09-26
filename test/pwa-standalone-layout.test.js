@@ -34,7 +34,7 @@ test('normal browser mode retains the base shell sizing without standalone paddi
 
 test('standalone mobile controls and sheet remain visible, touch-sized, and safe-area aware', () => {
   const mobileRules = css.slice(css.indexOf(mobileQuery));
-  assert.match(mobileRules, /\.radius-controls \{[\s\S]*?position: sticky;[\s\S]*?safe-area-inset-top/);
+  assert.match(mobileRules, /\.radius-controls \{[\s\S]*?position: static;/);
   assert.match(mobileRules, /\.mobile-view-toggle \{ display: grid;[\s\S]*?\.mobile-view-toggle button \{ min-height: 44px/);
   assert.match(mobileRules, /\.mobile-bottom-sheet \{[\s\S]*?position: fixed;[\s\S]*?display: grid;[\s\S]*?safe-area-inset-bottom/);
   assert.match(mobileRules, /data-display-mode="standalone"\] \.mobile-bottom-sheet \{[\s\S]*?safe-area-inset-right[\s\S]*?safe-area-inset-left/);

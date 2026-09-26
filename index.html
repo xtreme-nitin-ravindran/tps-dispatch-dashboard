@@ -52,7 +52,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./styles.css?v=local-watch-1" />
+  <link rel="stylesheet" href="./styles.css?v=mobile-pre-map-2" />
 </head>
 
 <body>
@@ -98,21 +98,24 @@
           <button id="hearSirens" type="button" aria-label="Find nearby calls that may explain sirens">Hear sirens?</button>
           <p id="nearStatus" role="status">Uses your location with permission. Your location stays in this browser
             session.</p>
-          <div id="savedLocationControls" class="saved-location-controls">
-            <label for="locationContext">Location</label>
-            <select id="locationContext" aria-describedby="locationContextStatus">
-              <option value="current">Current location</option>
-            </select>
-            <strong id="locationContextStatus" hidden></strong>
-            <button id="saveLocation" type="button" disabled>Save location</button>
-            <button id="manageSavedLocations" type="button" hidden>Manage saved locations</button>
-            <span id="savedLocationLimit" role="status" aria-live="polite"></span>
-          </div>
           <div id="nearControls" hidden>
-            <button id="chooseArea" type="button">Choose an area on the map</button>
-            <button id="clearNearby" type="button">Clear nearby filter</button>
+            <button id="chooseArea" type="button"><span class="desktop-location-action">Choose an area on the map</span><span class="mobile-location-action">Choose area</span></button>
+            <button id="clearNearby" type="button"><span class="desktop-location-action">Clear nearby filter</span><span class="mobile-location-action">Clear nearby</span></button>
           </div>
-          <button id="openWatch" class="open-watch" type="button">Watch this area</button>
+          <details class="nearby-options" open>
+            <summary>Location &amp; more options</summary>
+            <div id="savedLocationControls" class="saved-location-controls">
+              <label for="locationContext">Location</label>
+              <select id="locationContext" aria-describedby="locationContextStatus">
+                <option value="current">Current location</option>
+              </select>
+              <strong id="locationContextStatus" hidden></strong>
+              <button id="saveLocation" type="button" disabled>Save location</button>
+              <button id="manageSavedLocations" type="button" hidden>Manage saved locations</button>
+              <span id="savedLocationLimit" role="status" aria-live="polite"></span>
+            </div>
+            <button id="openWatch" class="open-watch" type="button">Watch this area</button>
+          </details>
         </div>
       </section>
       <dialog id="watchDialog" class="watch-dialog" aria-labelledby="watchTitle">
@@ -188,13 +191,18 @@
           <button id="clearSearch" class="clear-search" type="button" aria-label="Clear search" hidden>×</button>
         </div>
 
-        <div class="control-group">
+        <button id="mobileFiltersToggle" class="mobile-filters-toggle" type="button" aria-expanded="false"
+          aria-controls="divisionSelect historyHours serviceFilter eventFilterGroup clearFilters shareView">
+          <span>Filters</span><span id="mobileFilterCount" class="mobile-filter-count" hidden></span>
+        </button>
+
+        <div class="control-group secondary-filter-control">
           <label for="divisionSelect">Police division</label>
           <select id="divisionSelect">
             <option value="all">All police divisions</option>
           </select>
         </div>
-        <div class="control-group">
+        <div class="control-group secondary-filter-control">
           <label for="historyHours">History</label>
           <select id="historyHours">
             <option value="1">Last 1 hour</option>
@@ -208,7 +216,7 @@
         </div>
       </section>
 
-      <section class="event-filters" aria-label="Filter calls by service and event type">
+      <section class="event-filters secondary-filter-control" aria-label="Filter calls by service and event type">
         <label for="serviceFilter" class="section-kicker">SERVICE</label>
         <select id="serviceFilter">
           <option value="all">All services</option>
@@ -216,7 +224,7 @@
           <option value="TPS">Police (TPS)</option>
         </select>
         <span class="section-kicker">EVENT TYPE</span>
-        <div class="event-toggle-group" role="group" aria-label="Event type">
+        <div id="eventFilterGroup" class="event-toggle-group" role="group" aria-label="Event type">
           <button class="event-toggle active" type="button" data-event-filter="all" aria-pressed="true">All</button>
           <button class="event-toggle" type="button" data-event-filter="medical" aria-pressed="false">Medical</button>
           <button class="event-toggle" type="button" data-event-filter="fire" aria-pressed="false">Fire</button>
@@ -225,7 +233,7 @@
         </div>
       </section>
 
-      <div class="view-actions"><span id="filterSummary"></span><button id="clearFilters" type="button">Clear
+      <div class="view-actions secondary-filter-control"><span id="filterSummary"></span><button id="clearFilters" type="button">Clear
           filters</button><button id="shareView" type="button">Share view</button><input id="shareLink"
           aria-label="Shareable view link" readonly hidden><span id="shareStatus" role="status"></span></div>
       <p id="sharedIncidentStatus" class="shared-incident-status" role="status" hidden></p>
@@ -258,7 +266,8 @@
             </select>
           </label>
         </div>
-        <p id="nearbySummaryText"></p>
+        <p id="nearbySummaryText" class="desktop-nearby-summary-text"></p>
+        <p id="mobileNearbySummaryText" class="mobile-nearby-summary-text"></p>
         <button id="expandNearbyRadius" class="expand-nearby-radius" type="button" hidden></button>
       </section>
 
@@ -281,6 +290,8 @@
           <div class="call-list mobile-sheet-call-list" id="mobileSheetCallList"></div>
         </div>
       </aside>
+
+      <p id="mobileMapDataWarning" class="feed-status mobile-map-data-warning" role="status" aria-live="polite" hidden></p>
 
       <section class="map-stage" id="mapView">
         <div class="panel map-panel">
@@ -415,10 +426,12 @@
 
       <details class="panel map-info" id="mapInfo">
         <summary>
-          <span>Map info &amp; legend</span>
+          <span class="desktop-map-info-label">Map info &amp; legend</span>
+          <span class="mobile-map-info-label">Map info</span>
           <span class="map-status" id="mapStatus">—</span>
         </summary>
         <div class="map-info-body">
+          <p class="mobile-map-located"><strong>Mapped calls:</strong> <span id="mobileMapStatus">—</span></p>
           <div class="map-info-heading">
             <div><span class="section-kicker">GEOGRAPHY</span><h3>Toronto call map</h3></div>
             <div class="source-updated"><span class="source-updated-title">Source updates</span><span
@@ -544,7 +557,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=notification-ux-1"></script>
+  <script type="module" src="./app.js?v=mobile-pre-map-2"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js"));

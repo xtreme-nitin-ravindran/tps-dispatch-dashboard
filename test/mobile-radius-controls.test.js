@@ -19,16 +19,18 @@ test('mobile radius selector exposes every supported search area in one shared c
   for (const label of ['500 m', '1 km', '2 km', '5 km', 'Toronto-wide']) assert.match(controls, new RegExp(`>${label}<`));
 });
 
-test('mobile radius selector stays at the viewport edge with touch-sized buttons', () => {
+test('mobile radius selector is a single scrollable row with touch-sized buttons', () => {
   const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)';
   const mobileRules = css.slice(css.indexOf(`${mobileQuery} {\n  .radius-controls`));
-  assert.notEqual(css.indexOf(mobileQuery), -1, 'portrait and coarse-pointer landscape mobile layouts share the sticky rules');
-  assert.match(mobileRules, /position: sticky/);
-  assert.match(mobileRules, /top: calc\(6px \+ env\(safe-area-inset-top, 0px\)\)/);
-  assert.match(mobileRules, /grid-template-columns: repeat\(6, minmax\(0, 1fr\)\)/);
+  assert.notEqual(css.indexOf(mobileQuery), -1, 'portrait and coarse-pointer landscape mobile layouts share the control rules');
+  assert.match(mobileRules, /position: static/);
+  assert.doesNotMatch(mobileRules, /position: sticky/);
+  assert.match(mobileRules, /flex-wrap: nowrap/);
+  assert.match(mobileRules, /overflow-x: auto/);
+  assert.match(mobileRules, /max-width: 100%/);
   assert.match(mobileRules, /min-height: 44px/);
-  assert.match(mobileRules, /\.map-panel \.leaflet-top \{ top: calc\(146px \+ env\(safe-area-inset-top, 0px\)\); \}/);
-  assert.match(mobileRules, /scroll-margin-top: calc\(152px \+ env\(safe-area-inset-top, 0px\)\)/);
+  assert.match(mobileRules, /\.map-panel \.leaflet-top \{ top: 60px; \}/);
+  assert.match(mobileRules, /scroll-margin-top: 12px/);
 });
 
 test('desktop radius layout remains non-sticky and unchanged outside the mobile query', () => {
@@ -44,6 +46,12 @@ test('selected radius is derived from the existing state for the single shared c
   assert.equal([...app.matchAll(/const radiusToggles = document\.querySelectorAll\('\[data-radius-km\]'\);/g)].length, 1);
   assert.equal([...app.matchAll(/radiusToggles\.forEach\(toggle => toggle\.addEventListener\('click'/g)].length, 1);
   assert.match(app, /function syncRadiusControls\(\) \{[\s\S]*?const active = value === state\.radiusKm;[\s\S]*?classList\.toggle\('active', active\);[\s\S]*?setAttribute\('aria-pressed', String\(active\)\);/);
+  assert.match(app, /activeToggle\.scrollIntoView\(\{ block: 'nearest', inline: 'nearest' \}\)/);
+});
+
+test('deterministic fixture can select every radius without duplicating controls', () => {
+  assert.match(app, /mobileAuditFixture\.radius === 'toronto' \? null : Number\(mobileAuditFixture\.radius\)/);
+  assert.equal([...html.matchAll(/data-radius-km=/g)].length, 5);
 });
 
 test('radius changes reuse the complete filtering and rendering pipeline', () => {
