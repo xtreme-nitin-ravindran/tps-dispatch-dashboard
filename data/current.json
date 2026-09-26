@@ -3,9 +3,139 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T19:50:14.356Z",
-  "sourceUpdatedAt": "2026-09-26T19:45:01.000Z",
+  "fetchedAt": "2026-09-26T19:51:06.847Z",
+  "sourceUpdatedAt": "2026-09-26T19:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26152938",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "QUEEN'S PLATE DR, ET / REXDALE BLVD / WW E QUEEN'S PLATE S HARNESS",
+      "division": "415",
+      "timestamp": "2026-09-26T19:44:20.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T19:51:06.847Z",
+      "lastSeenAt": "2026-09-26T19:51:06.847Z",
+      "geography": {
+        "text": "Approximate location near Queen's Plate Drive & Ww East Queen's Plate South Harness",
+        "approximate": true,
+        "coordinates": [
+          43.7204024,
+          -79.5944016
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T19:51:06.847Z"
+      }
+    },
+    {
+      "id": "F26152939",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "YONGE ST, TT / QUEEN ST W / SHUTER ST",
+      "division": "332",
+      "timestamp": "2026-09-26T19:43:19.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T19:51:06.847Z",
+      "lastSeenAt": "2026-09-26T19:51:06.847Z",
+      "geography": {
+        "text": "Yonge Street between Queen Street West & Shuter Street",
+        "approximate": false,
+        "coordinates": [
+          43.65325135,
+          -79.37961645
+        ],
+        "division": "Possible divisions 51 / 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T08:56:04.987Z"
+      }
+    },
+    {
+      "id": "F26152937",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "VICTORIA PARK AVE, SC / PATRICK BLVD / OLD SHEPPARD AVE",
+      "division": "244",
+      "timestamp": "2026-09-26T19:42:43.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T19:51:06.847Z",
+      "lastSeenAt": "2026-09-26T19:51:06.847Z",
+      "geography": {
+        "text": "Victoria Park Avenue between Patrick Boulevard & Old Sheppard Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.77904755,
+          -79.32478295
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T19:51:06.847Z"
+      }
+    },
+    {
+      "id": "F26152936",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3C",
+      "division": "123",
+      "timestamp": "2026-09-26T19:40:34.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T19:51:06.847Z",
+      "lastSeenAt": "2026-09-26T19:51:06.847Z",
+      "geography": {
+        "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
+        "approximate": true,
+        "coordinates": [
+          43.7334,
+          -79.3329
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152935",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Hazmat Level 1",
+      "location": "CANYON AVE, NY / SHEPPARD AVE W / BATHURST ST",
+      "division": "143",
+      "timestamp": "2026-09-26T19:40:17.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T19:51:06.847Z",
+      "lastSeenAt": "2026-09-26T19:51:06.847Z",
+      "geography": {
+        "text": "Canyon Avenue between Sheppard Avenue West & Bathurst Street",
+        "approximate": false,
+        "coordinates": [
+          43.75673485,
+          -79.43800345
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T19:51:06.847Z"
+      }
+    },
     {
       "id": "F26152934",
       "source": "TFS",
@@ -16,9 +146,24 @@
       "timestamp": "2026-09-26T19:37:53.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "325"
+          ]
+        },
+        {
+          "type": "Tower Truck",
+          "numbers": [
+            "333"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T19:46:48.463Z",
-      "lastSeenAt": "2026-09-26T19:50:14.356Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T19:51:06.847Z",
+      "lastSeenAt": "2026-09-26T19:51:06.847Z",
       "geography": {
         "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
         "approximate": true,
@@ -31,6 +176,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-bea6f320380b45877bf1675f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSON WITH A GUN",
+      "callTypeCode": "PERGU",
+      "timestamp": "2026-09-26T19:37:17.000Z",
+      "location": "OAKWOOD AVE - EGLINTON AVE W",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "OAKWOOD AVE - EGLINTON AVE W",
+        "coordinates": [
+          43.69729606471763,
+          -79.44278558784455
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T19:51:06.847Z"
+    },
+    {
+      "id": "TPS-d992f1359e711b853b41c4d0",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ROBBERY",
+      "callTypeCode": "ROB",
+      "timestamp": "2026-09-26T19:34:42.000Z",
+      "location": "C P R - RESURRECTION RD",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "C P R - RESURRECTION RD",
+        "coordinates": [
+          43.6430330658674,
+          -79.53080659585216
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T19:51:06.847Z"
     },
     {
       "id": "F26152932",
@@ -52,7 +241,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T19:40:52.672Z",
-      "lastSeenAt": "2026-09-26T19:50:14.356Z",
+      "lastSeenAt": "2026-09-26T19:51:06.847Z",
       "geography": {
         "text": "Approximate area: (M8Z) Etobicoke (Mimico NW / The Queensway West / South of Bloor / Kingsway Park South West / Royal York South West)",
         "approximate": true,
@@ -120,7 +309,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T19:40:52.672Z",
-      "lastSeenAt": "2026-09-26T19:50:14.356Z",
+      "lastSeenAt": "2026-09-26T19:51:06.847Z",
       "geography": {
         "text": "Approximate area: (M3K) Downsview East (CFB Toronto)",
         "approximate": true,
@@ -133,6 +322,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-39d8de5bfb15b484d4922781",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING VULNERABLE PERSON",
+      "callTypeCode": "MISVU",
+      "timestamp": "2026-09-26T19:33:14.000Z",
+      "location": "SPARKS AVE - VICTORIA PARK AVE",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SPARKS AVE - VICTORIA PARK AVE",
+        "coordinates": [
+          43.80685384032421,
+          -79.34540562113048
+        ],
+        "division": "Division 33",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T19:51:06.847Z"
+    },
+    {
+      "id": "TPS-76612864a3156a07c971054d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING VULNERABLE PERSON",
+      "callTypeCode": "MISVU",
+      "timestamp": "2026-09-26T19:31:09.000Z",
+      "location": "SAM FRUSTAGLIO DR - WRIGHT AVE",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SAM FRUSTAGLIO DR - WRIGHT AVE",
+        "coordinates": [
+          43.70016725934924,
+          -79.50617714983426
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T19:51:06.847Z"
     },
     {
       "id": "F26152930",
@@ -154,7 +387,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T19:40:52.672Z",
-      "lastSeenAt": "2026-09-26T19:50:14.356Z",
+      "lastSeenAt": "2026-09-26T19:51:06.847Z",
       "geography": {
         "text": "Approximate area: (M9N) Weston",
         "approximate": true,
@@ -167,6 +400,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-b89b546e630c6077000efa90",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FOUND CHILD",
+      "callTypeCode": "FOUCH",
+      "timestamp": "2026-09-26T19:30:53.000Z",
+      "location": "WW E FIREBRACE S STEELES - HUNTSMILL BLVD",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WW E FIREBRACE S STEELES - HUNTSMILL BLVD",
+        "coordinates": [
+          43.816840547949425,
+          -79.32925940963555
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T19:51:06.847Z"
     },
     {
       "id": "F26152929",
@@ -194,7 +449,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T19:40:52.672Z",
-      "lastSeenAt": "2026-09-26T19:50:14.356Z",
+      "lastSeenAt": "2026-09-26T19:51:06.847Z",
       "geography": {
         "text": "Bayview Avenue between Finch Avenue East & Ruddington Drive",
         "approximate": false,
@@ -207,6 +462,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-26T19:40:52.672Z"
       }
+    },
+    {
+      "id": "TPS-1cb5564b22f7e6beba6a1a25",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-26T19:29:44.000Z",
+      "location": "LN W CALLENDER N HARVARD - TRILLER AVE",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN W CALLENDER N HARVARD - TRILLER AVE",
+        "coordinates": [
+          43.64098579134359,
+          -79.44277811907274
+        ],
+        "division": "Division 11",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T19:51:06.847Z"
     },
     {
       "id": "F26152928",
@@ -234,7 +511,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T19:36:24.562Z",
-      "lastSeenAt": "2026-09-26T19:50:14.356Z",
+      "lastSeenAt": "2026-09-26T19:51:06.847Z",
       "geography": {
         "text": "Glamorgan Avenue between Kennedy Road & Dundalk Drive",
         "approximate": false,
@@ -247,6 +524,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-26T19:36:24.562Z"
       }
+    },
+    {
+      "id": "TPS-ad1f7efeb9e60781cbf59e9c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-26T19:27:16.000Z",
+      "location": "MILL RD - MILLWOOD PARK TRL",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MILL RD - MILLWOOD PARK TRL",
+        "coordinates": [
+          43.632042118644335,
+          -79.57512968949959
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T19:51:06.847Z"
     },
     {
       "id": "F26152927",
@@ -268,7 +567,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T19:36:24.562Z",
-      "lastSeenAt": "2026-09-26T19:50:14.356Z",
+      "lastSeenAt": "2026-09-26T19:51:06.847Z",
       "geography": {
         "text": "Approximate area: (M5C) Downtown Toronto (St. James Park)",
         "approximate": true,
@@ -291,7 +590,7 @@
       "division": "221",
       "timestamp": "2026-09-26T19:24:54.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -1139,7 +1438,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-26T19:12:05.530Z",
       "lastMeaningfulUpdateAt": "2026-09-26T19:31:34.700Z",
-      "lastSeenAt": "2026-09-26T19:50:14.356Z",
+      "lastSeenAt": "2026-09-26T19:51:06.847Z",
       "geography": {
         "text": "Approximate location near Don Mills Road & Taylor Creek Trl",
         "approximate": true,
@@ -1621,7 +1920,7 @@
       "division": "312",
       "timestamp": "2026-09-26T18:47:56.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -12002,7 +12301,7 @@
       "respondingUnitCount": 21,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-26T16:45:34.233Z",
-      "lastSeenAt": "2026-09-26T19:50:14.356Z",
+      "lastSeenAt": "2026-09-26T19:51:06.847Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -182129,49 +182428,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26148737",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M5R",
-      "division": "344",
-      "timestamp": "2026-09-19T19:50:16.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "312"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-19T20:01:16.735Z",
-      "lastSeenAt": "2026-09-19T20:06:02.347Z",
-      "geography": {
-        "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
-        "approximate": true,
-        "coordinates": [
-          43.6736,
-          -79.4035
-        ],
-        "division": "Division 53",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T19:50:14.356Z",
-      "sourceUpdatedAt": "2026-09-26T19:45:01.000Z",
+      "fetchedAt": "2026-09-26T19:51:06.847Z",
+      "sourceUpdatedAt": "2026-09-26T19:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T19:50:14.356Z",
+      "fetchedAt": "2026-09-26T19:51:06.847Z",
       "status": "ok"
     }
   },
@@ -336359,6 +336625,66 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "QUEEN'S PLATE DR, ET / REXDALE BLVD / WW E QUEEN'S PLATE S HARNESS": {
+      "text": "Approximate location near Queen's Plate Drive & Ww East Queen's Plate South Harness",
+      "approximate": true,
+      "coordinates": [
+        43.7204024,
+        -79.5944016
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T19:51:06.847Z"
+    },
+    "YONGE ST, TT / QUEEN ST W / SHUTER ST": {
+      "text": "Yonge Street between Queen Street West & Shuter Street",
+      "approximate": false,
+      "coordinates": [
+        43.65325135,
+        -79.37961645
+      ],
+      "division": "Possible divisions 51 / 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T08:56:04.987Z"
+    },
+    "VICTORIA PARK AVE, SC / PATRICK BLVD / OLD SHEPPARD AVE": {
+      "text": "Victoria Park Avenue between Patrick Boulevard & Old Sheppard Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.77904755,
+        -79.32478295
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T19:51:06.847Z"
+    },
+    "M3C": {
+      "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
+      "approximate": true,
+      "coordinates": [
+        43.7334,
+        -79.3329
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "CANYON AVE, NY / SHEPPARD AVE W / BATHURST ST": {
+      "text": "Canyon Avenue between Sheppard Avenue West & Bathurst Street",
+      "approximate": false,
+      "coordinates": [
+        43.75673485,
+        -79.43800345
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T19:51:06.847Z"
+    },
     "M5B": {
       "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
       "approximate": true,
@@ -337813,18 +338139,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T14:01:19.245Z"
-    },
-    "M3C": {
-      "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
-      "approximate": true,
-      "coordinates": [
-        43.7334,
-        -79.3329
-      ],
-      "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M5T": {
       "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
@@ -344782,18 +345096,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T10:50:57.061Z"
-    },
-    "YONGE ST, TT / QUEEN ST W / SHUTER ST": {
-      "text": "Yonge Street between Queen Street West & Shuter Street",
-      "approximate": false,
-      "coordinates": [
-        43.65325135,
-        -79.37961645
-      ],
-      "division": "Possible divisions 51 / 52",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T08:56:04.987Z"
     },
     "CARLTON ST, TT / ALLAN GARDENS TRL / ALLAN GARDENS TRL": {
       "text": "Approximate location on Carlton Street",
