@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { nearbySummary } from "../src/nearby-summary.js";
+import { mobileNearbySummary } from "../src/mobile-nearby-summary.js";
 import { distanceLabel } from "../src/nearby.js";
 
 const now = Date.UTC(2026, 8, 23, 18);
@@ -83,6 +84,31 @@ test("nearby summary omits closest distance with no incidents or no user locatio
   assert.equal(
     nearbySummary([locatedCall("TPS", "other", 0, [43.652, -79.38])], 2, now),
     "1 recent call within 2 km · 1 Police · Latest just now."
+  );
+});
+
+test("mobile summary keeps only count, closest, latest, and Toronto-wide context", () => {
+  const origin = [43.65, -79.38];
+  const calls = [
+    locatedCall("TFS", "fire", 4, [43.66, -79.38]),
+    locatedCall("TPS", "other", 8, [43.652, -79.38])
+  ];
+
+  assert.equal(mobileNearbySummary(calls, 2, now, origin), "2 calls · Closest 0.2 km · Latest 4 min ago");
+  assert.equal(mobileNearbySummary(calls, null, now), "2 Toronto calls · Latest 4 min ago");
+  assert.equal(mobileNearbySummary([], 0.5, now, origin), "No calls match in this area.");
+  assert.equal(mobileNearbySummary([], null, now), "No recent Toronto calls.");
+});
+
+test("mobile summary formats singular, hour, day, plural-day, future, and custom-coordinate ages", () => {
+  const origin = [43.65, -79.38];
+  assert.equal(mobileNearbySummary([locatedCall("TFS", "fire", 60, [43.652, -79.38])], 2, now, origin), "1 call · Closest 0.2 km · Latest 1 hr ago");
+  assert.equal(mobileNearbySummary([call("TFS", "fire", 1_440)], null, now), "1 Toronto call · Latest 1 day ago");
+  assert.equal(mobileNearbySummary([call("TFS", "fire", 2_880)], null, now), "1 Toronto call · Latest 2 days ago");
+  assert.equal(mobileNearbySummary([call("TPS", "other", -5)], 2, now), "1 call · Latest just now");
+  assert.equal(
+    mobileNearbySummary([{ timestamp: now - 120_000, point: [43.652, -79.38] }], 2, now, origin, item => item.point),
+    "1 call · Closest 0.2 km · Latest 2 min ago"
   );
 });
 

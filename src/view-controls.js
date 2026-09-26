@@ -7,6 +7,10 @@ export function updateLabel(current, incoming) {
 }
 
 export const filterDefaults = { search: '', division: 'all', serviceFilter: 'all', eventFilter: 'all', hours: 24 };
+export function activeSecondaryFilterCount(state) {
+  return ['division', 'serviceFilter', 'eventFilter', 'hours']
+    .filter(field => state[field] !== filterDefaults[field]).length;
+}
 const supportedRadii = [0.5, 1, 2, 5];
 const supportedMobileViews = ['map', 'calls'];
 export function filterSummary(s) {

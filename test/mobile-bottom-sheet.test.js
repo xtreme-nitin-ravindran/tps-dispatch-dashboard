@@ -19,9 +19,10 @@ test('bottom sheet shell renders only at the mobile breakpoint and preserves des
 
 test('collapsed, half, and expanded states have bounded safe-area-aware heights', () => {
   const mobileRules = css.slice(css.indexOf(mobileQuery));
-  assert.match(mobileRules, /--mobile-sheet-height: calc\(72px \+ env\(safe-area-inset-bottom, 0px\)\)/);
-  assert.match(mobileRules, /data-mobile-sheet-state="half"[\s\S]*?42dvh/);
-  assert.match(mobileRules, /data-mobile-sheet-state="expanded"[\s\S]*?68dvh/);
+  assert.match(mobileRules, /--mobile-sheet-height: calc\(52px \+ env\(safe-area-inset-bottom, 0px\)\)/);
+  assert.match(mobileRules, /--mobile-map-height: 460px/);
+  assert.match(mobileRules, /data-mobile-sheet-state="half"[\s\S]*?min\(30dvh, calc\(var\(--mobile-map-height\) - 220px\)\)/);
+  assert.match(mobileRules, /data-mobile-sheet-state="expanded"[\s\S]*?min\(50dvh, calc\(var\(--mobile-map-height\) - 160px\)\)/);
   assert.match(mobileRules, /padding-bottom: env\(safe-area-inset-bottom, 0px\)/);
   assert.match(mobileRules, /\.map-panel \.leaflet-bottom \{ bottom: var\(--mobile-sheet-height\)/);
 });
@@ -50,9 +51,10 @@ test('sheet remains operable without drag gestures', () => {
 });
 
 test('sheet reuses nearby summary, incident cards, and existing controls', () => {
-  assert.match(app, /const summaryText = empty\?\.message[\s\S]*?nearbySummary\(state\.filtered, state\.radiusKm,[^;]+\);[\s\S]*?mobileSheetSummary\.textContent = summaryText/);
+  assert.match(app, /const summaryText = empty\?\.message[\s\S]*?nearbySummary\(state\.filtered, state\.radiusKm,[^;]+\);[\s\S]*?const mobileSummaryText = mobileNearbySummary\([\s\S]*?mobileSheetSummary\.textContent = mobileSummaryText/);
   assert.match(html, /id="mobileSheetCallList"/);
-  assert.match(app, /renderList\(els\.callList\);\s*renderList\(mobileSheetCallList\)/);
+  assert.match(app, /const activeList = mobile && mobileView === "map" \? mobileSheetCallList : els\.callList/);
+  assert.match(app, /inactiveList\?\.replaceChildren\(\);\s*renderList\(activeList\)/);
   assert.equal([...app.matchAll(/function createIncidentCard\(/g)].length, 1);
   assert.match(app, /fragment\.appendChild\(createIncidentCard\(call, \{ distance \}\)\)/);
   assert.equal([...html.matchAll(/data-radius-km=/g)].length, 5);
@@ -61,11 +63,29 @@ test('sheet reuses nearby summary, incident cards, and existing controls', () =>
   assert.match(app, /mobileViewToggles\.forEach\(toggle => toggle\.addEventListener\("click"/);
 });
 
+test('Calls mode removes the fixed sheet from layout while retaining its prior state', () => {
+  const mobileRules = css.slice(css.indexOf(mobileQuery));
+  assert.match(mobileRules, /html\[data-mobile-view="calls"\][\s\S]*?\.mobile-bottom-sheet \{ display: none; \}/);
+  const setterStart = app.indexOf('function setMobileView(');
+  const setter = app.slice(setterStart, app.indexOf('\nmobileViewToggles.forEach', setterStart));
+  assert.doesNotMatch(setter, /mobileSheetState\s*=/);
+});
+
+test('map controls stay inside the usable map above every sheet state', () => {
+  const mobileRules = css.slice(css.indexOf(mobileQuery));
+  assert.match(mobileRules, /\.map-panel \.leaflet-top \{ top: 60px; \}/);
+  assert.match(mobileRules, /\.map-panel \.leaflet-bottom \{ bottom: var\(--mobile-sheet-height\)/);
+  assert.equal(460 - 240, 220, 'half sheet leaves at least 220px of the 460px map');
+  assert.equal(460 - 300, 160, 'expanded sheet leaves room for map controls');
+});
+
 test('sheet header stays visible while incident content scrolls independently', () => {
   const mobileRules = css.slice(css.indexOf(mobileQuery));
   assert.match(mobileRules, /\.mobile-bottom-sheet \{[\s\S]*?grid-template-rows: auto minmax\(0, 1fr\);[\s\S]*?overflow: hidden/);
   assert.match(mobileRules, /\.mobile-sheet-body \{[\s\S]*?overflow-y: auto;[\s\S]*?overscroll-behavior: contain;[\s\S]*?touch-action: pan-y/);
   assert.match(mobileRules, /\.mobile-sheet-header \{[\s\S]*?touch-action: none/);
+  assert.match(mobileRules, /\.mobile-sheet-header \{[\s\S]*?min-height: 52px/);
+  assert.match(mobileRules, /\.mobile-sheet-handle \{[\s\S]*?position: absolute;[\s\S]*?top: 4px/);
   assert.doesNotMatch(app, /mobileSheetBody\?\.addEventListener\("pointer(?:down|move|up)"/);
 });
 

@@ -79,7 +79,7 @@ test('desktop and mobile controls remain usable without changing map toolbar con
   assert.match(css, /\.saved-locations-dialog \{ width: min\(92vw, 460px\)/);
   assert.match(css, /@media \(max-width: 480px\)[^{]*\{[^}]*\.saved-locations-dialog/);
   assert.match(css, /\.saved-location-item-actions button \{ min-height: 44px; \}/);
-  assert.match(html, /id="chooseArea"[^>]*>Choose an area on the map<\/button>/);
-  assert.match(html, /id="clearNearby"[^>]*>Clear nearby filter<\/button>/);
+  assert.match(html, /id="chooseArea"[^>]*>[\s\S]*?Choose an area on the map[\s\S]*?<\/button>/);
+  assert.match(html, /id="clearNearby"[^>]*>[\s\S]*?Clear nearby filter[\s\S]*?<\/button>/);
   assert.equal([...html.matchAll(/data-radius-km=/g)].length, 5);
 });
