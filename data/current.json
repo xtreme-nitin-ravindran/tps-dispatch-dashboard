@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T21:50:15.384Z",
-  "sourceUpdatedAt": "2026-09-26T21:45:01.000Z",
+  "fetchedAt": "2026-09-26T21:52:00.007Z",
+  "sourceUpdatedAt": "2026-09-26T21:50:02.000Z",
   "incidents": [
+    {
+      "id": "F26153005",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9W",
+      "division": "412",
+      "timestamp": "2026-09-26T21:43:12.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T21:52:00.007Z",
+      "lastSeenAt": "2026-09-26T21:52:00.007Z",
+      "geography": {
+        "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
+        "approximate": true,
+        "coordinates": [
+          43.7144,
+          -79.5909
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26153004",
       "source": "TFS",
@@ -16,9 +42,18 @@
       "timestamp": "2026-09-26T21:38:29.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "223"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T21:45:59.037Z",
-      "lastSeenAt": "2026-09-26T21:50:15.384Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T21:52:00.007Z",
+      "lastSeenAt": "2026-09-26T21:52:00.007Z",
       "geography": {
         "text": "Approximate area: (M1N) Scarborough (Birch Cliff / Cliffside West)",
         "approximate": true,
@@ -42,9 +77,18 @@
       "timestamp": "2026-09-26T21:37:43.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "425"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T21:45:59.037Z",
-      "lastSeenAt": "2026-09-26T21:50:15.384Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T21:52:00.007Z",
+      "lastSeenAt": "2026-09-26T21:52:00.007Z",
       "geography": {
         "text": "Approximate area: (M6P) West Toronto (High Park / The Junction South)",
         "approximate": true,
@@ -67,7 +111,7 @@
       "division": "314",
       "timestamp": "2026-09-26T21:36:50.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-26T21:45:59.037Z",
       "lastSeenAt": "2026-09-26T21:50:15.384Z",
@@ -83,6 +127,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-bc790026bf3672911e8e5098",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-26T21:34:57.000Z",
+      "location": "WALTONICE RD - ANDREW AVE",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WALTONICE RD - ANDREW AVE",
+        "coordinates": [
+          43.7199228958785,
+          -79.24580452288181
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T21:52:00.007Z"
     },
     {
       "id": "F26153001",
@@ -111,7 +177,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T21:41:33.488Z",
       "lastMeaningfulUpdateAt": "2026-09-26T21:45:59.037Z",
-      "lastSeenAt": "2026-09-26T21:50:15.384Z",
+      "lastSeenAt": "2026-09-26T21:52:00.007Z",
       "geography": {
         "text": "Tuxedo Court & Markham Road",
         "approximate": false,
@@ -124,6 +190,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-25T00:26:50.119Z"
       }
+    },
+    {
+      "id": "TPS-4fd83f25e946a2052356f7ed",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING VULNERABLE PERSON",
+      "callTypeCode": "MISVU",
+      "timestamp": "2026-09-26T21:34:00.000Z",
+      "location": "SUSSEX AVE - BLOOR ST W",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SUSSEX AVE - BLOOR ST W",
+        "coordinates": [
+          43.666361509958335,
+          -79.40534273800408
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T21:52:00.007Z"
     },
     {
       "id": "F26153000",
@@ -146,7 +234,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T21:41:33.488Z",
       "lastMeaningfulUpdateAt": "2026-09-26T21:45:59.037Z",
-      "lastSeenAt": "2026-09-26T21:50:15.384Z",
+      "lastSeenAt": "2026-09-26T21:52:00.007Z",
       "geography": {
         "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
         "approximate": true,
@@ -159,6 +247,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-01cbc92e8e53f9b29bd53606",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-26T21:32:33.000Z",
+      "location": "PENROSE RD - MANOR RD E",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "PENROSE RD - MANOR RD E",
+        "coordinates": [
+          43.70431412973568,
+          -79.38854336444021
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T21:52:00.007Z"
     },
     {
       "id": "F26152999",
@@ -181,7 +291,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T21:41:33.488Z",
       "lastMeaningfulUpdateAt": "2026-09-26T21:45:59.037Z",
-      "lastSeenAt": "2026-09-26T21:50:15.384Z",
+      "lastSeenAt": "2026-09-26T21:52:00.007Z",
       "geography": {
         "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
         "approximate": true,
@@ -194,6 +304,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-50feaa1579a8fda7d795ca25",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-26T21:28:13.000Z",
+      "location": "BERING AVE - JUDGE RD",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BERING AVE - JUDGE RD",
+        "coordinates": [
+          43.63726064556237,
+          -79.53070909711816
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T21:52:00.007Z"
     },
     {
       "id": "F26152997",
@@ -649,7 +781,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T21:21:45.771Z",
       "lastMeaningfulUpdateAt": "2026-09-26T21:26:16.782Z",
-      "lastSeenAt": "2026-09-26T21:50:15.384Z",
+      "lastSeenAt": "2026-09-26T21:52:00.007Z",
       "geography": {
         "text": "Approximate location on Islington Avenue",
         "approximate": true,
@@ -682,7 +814,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T21:21:45.771Z",
       "lastMeaningfulUpdateAt": "2026-09-26T21:26:16.782Z",
-      "lastSeenAt": "2026-09-26T21:50:15.384Z",
+      "lastSeenAt": "2026-09-26T21:52:00.007Z",
       "geography": {
         "text": "Yonge Street between Montgomery Avenue & Roselawn Avenue",
         "approximate": false,
@@ -1701,7 +1833,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-26T20:46:04.458Z",
       "lastMeaningfulUpdateAt": "2026-09-26T20:55:59.404Z",
-      "lastSeenAt": "2026-09-26T21:50:15.384Z",
+      "lastSeenAt": "2026-09-26T21:52:00.007Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -15390,7 +15522,7 @@
       "respondingUnitCount": 22,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-26T20:15:53.067Z",
-      "lastSeenAt": "2026-09-26T21:50:15.384Z",
+      "lastSeenAt": "2026-09-26T21:52:00.007Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -181919,12 +182051,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T21:50:15.384Z",
-      "sourceUpdatedAt": "2026-09-26T21:45:01.000Z",
+      "fetchedAt": "2026-09-26T21:52:00.007Z",
+      "sourceUpdatedAt": "2026-09-26T21:50:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T21:50:15.384Z",
+      "fetchedAt": "2026-09-26T21:52:00.007Z",
       "status": "ok"
     }
   },
@@ -335725,6 +335857,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M9W": {
+      "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
+      "approximate": true,
+      "coordinates": [
+        43.7144,
+        -79.5909
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1N": {
       "text": "Approximate area: (M1N) Scarborough (Birch Cliff / Cliffside West)",
       "approximate": true,
@@ -335979,18 +336123,6 @@
         -79.4111
       ],
       "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M9W": {
-      "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
-      "approximate": true,
-      "coordinates": [
-        43.7144,
-        -79.5909
-      ],
-      "division": "Division 23",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
