@@ -3,9 +3,41 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T11:50:15.513Z",
-  "sourceUpdatedAt": "2026-09-26T11:45:01.000Z",
+  "fetchedAt": "2026-09-26T11:51:26.338Z",
+  "sourceUpdatedAt": "2026-09-26T11:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26152700",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "NORTH BONNINGTON AVE, SC / MOIRA AVE / MOIRA AVE",
+      "division": "225",
+      "timestamp": "2026-09-26T11:43:18.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "222",
+            "225"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-26T11:51:26.338Z",
+      "lastSeenAt": "2026-09-26T11:51:26.338Z",
+      "geography": {
+        "text": "Approximate location on North Bonnington Avenue",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T11:51:26.338Z"
+      }
+    },
     {
       "id": "F26152698",
       "source": "TFS",
@@ -27,7 +59,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T11:40:31.424Z",
       "lastMeaningfulUpdateAt": "2026-09-26T11:46:56.948Z",
-      "lastSeenAt": "2026-09-26T11:50:15.513Z",
+      "lastSeenAt": "2026-09-26T11:51:26.338Z",
       "geography": {
         "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
         "approximate": true,
@@ -50,7 +82,7 @@
       "division": "222",
       "timestamp": "2026-09-26T11:31:33.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -173515,12 +173547,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T11:50:15.513Z",
-      "sourceUpdatedAt": "2026-09-26T11:45:01.000Z",
+      "fetchedAt": "2026-09-26T11:51:26.338Z",
+      "sourceUpdatedAt": "2026-09-26T11:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T11:50:15.513Z",
+      "fetchedAt": "2026-09-26T11:51:26.338Z",
       "status": "ok"
     }
   },
@@ -323151,8 +323183,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-26T11:45:22.585Z",
-      "fetchedAt": "2026-09-26T11:45:22.585Z"
+      "checkedAt": "2026-09-26T11:51:26.338Z",
+      "fetchedAt": "2026-09-26T11:51:26.338Z"
     },
     "transit": {
       "items": [
@@ -324577,90 +324609,30 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
-          "id": "76968",
-          "title": "334 Eglinton: Detour westbound via Victoria Park Ave, Lawrence Ave E and Don Mills Rd due to a collision.",
+          "id": "76971",
+          "title": "37A Islington: Buses are not stopping near Woodbine Racetrack Loop (Main Entrance) due to a Protest.",
           "description": "",
-          "effect": "DETOUR",
+          "effect": "NO SERVICE",
           "routes": [
-            "334"
+            "37"
           ],
           "stopIds": [
-            "11722",
-            "2278",
-            "2311",
-            "2314",
-            "2320",
-            "2267",
-            "2263"
+            "13938"
           ],
           "affectedEntities": [
             {
-              "routeId": "334",
-              "stopId": "11722",
+              "routeId": "37",
+              "stopId": "13938",
               "coordinates": [
-                43.724837,
-                -79.302367
+                43.716178,
+                -79.603632
               ],
-              "name": "Eglinton Ave East at Victoria Park Ave"
-            },
-            {
-              "routeId": "334",
-              "stopId": "2278",
-              "coordinates": [
-                43.725127,
-                -79.306649
-              ],
-              "name": "Eglinton Ave East at Jonesville Cres"
-            },
-            {
-              "routeId": "334",
-              "stopId": "2311",
-              "coordinates": [
-                43.726134,
-                -79.313172
-              ],
-              "name": "Eglinton Ave East at Sloane Ave"
-            },
-            {
-              "routeId": "334",
-              "stopId": "2314",
-              "coordinates": [
-                43.726325,
-                -79.318099
-              ],
-              "name": "Eglinton Ave East at Swift Dr"
-            },
-            {
-              "routeId": "334",
-              "stopId": "2320",
-              "coordinates": [
-                43.724363,
-                -79.325724
-              ],
-              "name": "Eglinton Ave East at Wynford Dr West Side"
-            },
-            {
-              "routeId": "334",
-              "stopId": "2267",
-              "coordinates": [
-                43.722716,
-                -79.331944
-              ],
-              "name": "Eglinton Ave East at Don Valley Pkwy West Side"
-            },
-            {
-              "routeId": "334",
-              "stopId": "2263",
-              "coordinates": [
-                43.720769,
-                -79.338566
-              ],
-              "name": "Eglinton Ave East at Don Mills Rd"
+              "name": "Woodbine Racetrack Loop (Main Entrance)"
             }
           ],
           "periods": [
             {
-              "start": 1790417300000,
+              "start": 1790423327000,
               "end": null
             }
           ],
@@ -325789,6 +325761,82 @@
             {
               "start": 1790582400000,
               "end": 1791014400000
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "76970",
+          "title": "Avenue: Escalator 1 out of service between platform and lower concourse while we perform maintenance.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "16071",
+            "16072"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "16071",
+              "coordinates": [
+                43.704723,
+                -79.408728
+              ],
+              "name": "Avenue Station Eastbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "16072",
+              "coordinates": [
+                43.704902,
+                -79.409062
+              ],
+              "name": "Avenue Station Westbound Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790423254000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "76969",
+          "title": "King: Escalator 8Y4E out of service from Line 1 Vaughan via Union platform to north concourse while we perform maintenance.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "13813",
+            "13814"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "13813",
+              "coordinates": [
+                43.649649,
+                -79.378088
+              ],
+              "name": "King Station - Northbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13814",
+              "coordinates": [
+                43.648449,
+                -79.377688
+              ],
+              "name": "King Station - Southbound Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790423169000,
+              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -327586,14 +327634,23 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-26T11:45:23.000Z",
+      "sourceUpdatedAt": "2026-09-26T11:51:27.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-26T11:45:22.585Z",
-      "fetchedAt": "2026-09-26T11:45:22.585Z"
+      "checkedAt": "2026-09-26T11:51:26.338Z",
+      "fetchedAt": "2026-09-26T11:51:26.338Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "NORTH BONNINGTON AVE, SC / MOIRA AVE / MOIRA AVE": {
+      "text": "Approximate location on North Bonnington Avenue",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T11:51:26.338Z"
+    },
     "M3H": {
       "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
       "approximate": true,
