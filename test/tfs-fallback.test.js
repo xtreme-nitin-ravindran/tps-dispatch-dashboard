@@ -2,14 +2,26 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, writeFile, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { needsUpdate, runFallback } from '../scripts/tfs-fallback.js';
 import { runTfsEtl } from '../scripts/tfs-etl.js';
 const now = new Date('2026-09-18T16:00:00Z');
+const fixturePath = join(dirname(fileURLToPath(import.meta.url)), 'fixtures/fresh-snapshot-stale-feed.json');
 test('freshness uses fetch time, including exact cutoff and invalid clocks', () => {
   assert.equal(needsUpdate({fetchedAt:'2026-09-18T15:50:00.001Z'},now),false);
   assert.equal(needsUpdate({fetchedAt:'2026-09-18T15:50:00Z'},now),true);
   for (const fetchedAt of [undefined,'invalid','2026-09-19T00:00:00Z']) assert.equal(needsUpdate({fetchedAt},now),true);
+});
+test('fresh snapshot envelope does not hide stale or unavailable incident feeds', async () => {
+  const snapshot = JSON.parse(await readFile(fixturePath, 'utf8'));
+  assert.equal(needsUpdate(snapshot, now), true);
+  snapshot.feeds.TFS.fetchedAt = snapshot.fetchedAt;
+  assert.equal(needsUpdate(snapshot, now), false);
+  snapshot.feeds.TPS.status = 'unavailable';
+  assert.equal(needsUpdate(snapshot, now), true);
+  delete snapshot.feeds.TPS;
+  assert.equal(needsUpdate(snapshot, now), true);
 });
 test('fresh snapshot is untouched; stale snapshot records GitHub updater; corrupt history fails', async t => {
   const dir = await mkdtemp(join(tmpdir(),'tfs-fallback-'));
