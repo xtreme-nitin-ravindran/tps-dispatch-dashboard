@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T11:59:52.781Z",
-  "sourceUpdatedAt": "2026-09-26T11:55:01.000Z",
+  "fetchedAt": "2026-09-26T12:01:16.525Z",
+  "sourceUpdatedAt": "2026-09-26T12:00:01.000Z",
   "incidents": [
+    {
+      "id": "F26152703",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Grass/Rubbish",
+      "location": "MASON RD, SC / ADANAC DR / EGLINTON AVE E",
+      "division": "223",
+      "timestamp": "2026-09-26T11:51:47.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T12:01:16.525Z",
+      "lastSeenAt": "2026-09-26T12:01:16.525Z",
+      "geography": {
+        "text": "Mason Road between Adanac Drive & Eglinton Avenue East",
+        "approximate": false,
+        "coordinates": [
+          43.74122955,
+          -79.22492274999999
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T12:01:16.525Z"
+      }
+    },
+    {
+      "id": "F26152702",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Residential",
+      "location": "GALT AVE, TT / LN 1 N GERRARD W JONES / LN 2 N GERRARD W JONES",
+      "division": "324",
+      "timestamp": "2026-09-26T11:50:30.000Z",
+      "alarmLevel": 1,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T12:01:16.525Z",
+      "lastSeenAt": "2026-09-26T12:01:16.525Z",
+      "geography": {
+        "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
+        "approximate": false,
+        "coordinates": [
+          43.670288850000006,
+          -79.33712560000001
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T12:01:16.525Z"
+      }
+    },
     {
       "id": "F26152701",
       "source": "TFS",
@@ -16,9 +68,18 @@
       "timestamp": "2026-09-26T11:49:19.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "314"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T11:56:22.083Z",
-      "lastSeenAt": "2026-09-26T11:59:52.781Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T12:01:16.525Z",
+      "lastSeenAt": "2026-09-26T12:01:16.525Z",
       "geography": {
         "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
         "approximate": true,
@@ -75,7 +136,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T11:51:26.338Z",
-      "lastSeenAt": "2026-09-26T11:59:52.781Z",
+      "lastSeenAt": "2026-09-26T12:01:16.525Z",
       "geography": {
         "text": "Approximate location on North Bonnington Avenue",
         "approximate": true,
@@ -205,7 +266,7 @@
       "division": "145",
       "timestamp": "2026-09-26T11:34:10.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -173691,12 +173752,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T11:59:52.781Z",
-      "sourceUpdatedAt": "2026-09-26T11:55:01.000Z",
+      "fetchedAt": "2026-09-26T12:01:16.525Z",
+      "sourceUpdatedAt": "2026-09-26T12:00:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T11:59:52.781Z",
+      "fetchedAt": "2026-09-26T12:01:16.525Z",
       "status": "ok"
     }
   },
@@ -327786,6 +327847,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "MASON RD, SC / ADANAC DR / EGLINTON AVE E": {
+      "text": "Mason Road between Adanac Drive & Eglinton Avenue East",
+      "approximate": false,
+      "coordinates": [
+        43.74122955,
+        -79.22492274999999
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T12:01:16.525Z"
+    },
+    "GALT AVE, TT / LN 1 N GERRARD W JONES / LN 2 N GERRARD W JONES": {
+      "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
+      "approximate": false,
+      "coordinates": [
+        43.670288850000006,
+        -79.33712560000001
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T12:01:16.525Z"
+    },
     "M5S": {
       "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
       "approximate": true,
