@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T12:07:55.118Z",
+  "fetchedAt": "2026-09-26T12:09:13.098Z",
   "sourceUpdatedAt": "2026-09-26T12:05:01.000Z",
   "incidents": [
     {
@@ -26,7 +26,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T12:07:06.695Z",
-      "lastSeenAt": "2026-09-26T12:07:55.118Z",
+      "lastSeenAt": "2026-09-26T12:09:13.098Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -60,7 +60,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T12:07:06.695Z",
-      "lastSeenAt": "2026-09-26T12:07:55.118Z",
+      "lastSeenAt": "2026-09-26T12:09:13.098Z",
       "geography": {
         "text": "Approximate area: (M1N) Scarborough (Birch Cliff / Cliffside West)",
         "approximate": true,
@@ -101,7 +101,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-26T12:07:06.695Z",
-      "lastSeenAt": "2026-09-26T12:07:55.118Z",
+      "lastSeenAt": "2026-09-26T12:09:13.098Z",
       "geography": {
         "text": "Mason Road between Adanac Drive & Eglinton Avenue East",
         "approximate": false,
@@ -172,7 +172,7 @@
       "respondingUnitCount": 12,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-26T12:07:06.695Z",
-      "lastSeenAt": "2026-09-26T12:07:55.118Z",
+      "lastSeenAt": "2026-09-26T12:09:13.098Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -173880,12 +173880,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T12:07:55.118Z",
+      "fetchedAt": "2026-09-26T12:09:13.098Z",
       "sourceUpdatedAt": "2026-09-26T12:05:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T12:07:55.118Z",
+      "fetchedAt": "2026-09-26T12:09:13.098Z",
       "status": "ok"
     }
   },
@@ -323516,8 +323516,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-26T12:03:17.399Z",
-      "fetchedAt": "2026-09-26T12:03:17.399Z"
+      "checkedAt": "2026-09-26T12:09:13.098Z",
+      "fetchedAt": "2026-09-26T12:09:13.098Z"
     },
     "transit": {
       "items": [
@@ -324942,6 +324942,46 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
+          "id": "76972",
+          "title": "11 Bayview: Detour northbound via Yonge St, Merton St and Mt Pleasant Rd due to construction.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "11"
+          ],
+          "stopIds": [
+            "1878",
+            "1875"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "11",
+              "stopId": "1878",
+              "coordinates": [
+                43.700197,
+                -79.387156
+              ],
+              "name": "Davisville Ave at Mt Pleasant Rd"
+            },
+            {
+              "routeId": "11",
+              "stopId": "1875",
+              "coordinates": [
+                43.700997,
+                -79.383433
+              ],
+              "name": "Davisville Ave at Belle Ayre Blvd"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790424545000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
           "id": "76971",
           "title": "37A Islington: Buses are not stopping near Woodbine Racetrack Loop (Main Entrance) due to a Protest.",
           "description": "",
@@ -326175,44 +326215,6 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
-          "id": "76966",
-          "title": "Mount Pleasant: Escalator 6 out of service between upper concourse and grade level (main entrance) while we perform maintenance.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "stopIds": [
-            "16212",
-            "16213"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": null,
-              "stopId": "16212",
-              "coordinates": [
-                43.708503,
-                -79.390329
-              ],
-              "name": "Mount Pleasant Station Eastbound Platform"
-            },
-            {
-              "routeId": null,
-              "stopId": "16213",
-              "coordinates": [
-                43.708666,
-                -79.390542
-              ],
-              "name": "Mount Pleasant Station Westbound Platform"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790417001000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
           "id": "76965",
           "title": "Warden: Escalator 15D3E out of service from concourse to Line 2 platform while we perform maintenance.",
           "description": "",
@@ -326245,44 +326247,6 @@
           "periods": [
             {
               "start": 1790416990000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "76964",
-          "title": "Mount Pleasant: Escalator 3 out of service between lower concourse and upper concourse (landing) while we perform maintenance.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "stopIds": [
-            "16212",
-            "16213"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": null,
-              "stopId": "16212",
-              "coordinates": [
-                43.708503,
-                -79.390329
-              ],
-              "name": "Mount Pleasant Station Eastbound Platform"
-            },
-            {
-              "routeId": null,
-              "stopId": "16213",
-              "coordinates": [
-                43.708666,
-                -79.390542
-              ],
-              "name": "Mount Pleasant Station Westbound Platform"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790416987000,
               "end": null
             }
           ],
@@ -327967,10 +327931,10 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-26T12:03:18.000Z",
+      "sourceUpdatedAt": "2026-09-26T12:09:14.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-26T12:03:17.399Z",
-      "fetchedAt": "2026-09-26T12:03:17.399Z"
+      "checkedAt": "2026-09-26T12:09:13.098Z",
+      "fetchedAt": "2026-09-26T12:09:13.098Z"
     }
   },
   "updatedBy": "concourse",
