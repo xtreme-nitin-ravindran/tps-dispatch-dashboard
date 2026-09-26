@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T17:25:11.652Z",
-  "sourceUpdatedAt": "2026-09-26T17:20:01.000Z",
+  "fetchedAt": "2026-09-26T17:26:31.935Z",
+  "sourceUpdatedAt": "2026-09-26T17:25:01.000Z",
   "incidents": [
+    {
+      "id": "F26152860",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1B",
+      "division": "212",
+      "timestamp": "2026-09-26T17:20:06.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T17:26:31.935Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
+      "geography": {
+        "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
+        "approximate": true,
+        "coordinates": [
+          43.8113,
+          -79.193
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152859",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6G",
+      "division": "344",
+      "timestamp": "2026-09-26T17:19:45.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T17:26:31.935Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
+      "geography": {
+        "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
+        "approximate": true,
+        "coordinates": [
+          43.6683,
+          -79.4205
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152858",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4X",
+      "division": "313",
+      "timestamp": "2026-09-26T17:17:27.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T17:26:31.935Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
+      "geography": {
+        "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
+        "approximate": true,
+        "coordinates": [
+          43.6684,
+          -79.3689
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26152857",
       "source": "TFS",
@@ -16,9 +94,18 @@
       "timestamp": "2026-09-26T17:13:22.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "341"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T17:20:28.349Z",
-      "lastSeenAt": "2026-09-26T17:25:11.652Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T17:26:31.935Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
       "geography": {
         "text": "Approximate area: (M6C) York (Cedarvale)",
         "approximate": true,
@@ -42,9 +129,24 @@
       "timestamp": "2026-09-26T17:12:58.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "312"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "312"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T17:20:28.349Z",
-      "lastSeenAt": "2026-09-26T17:25:11.652Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T17:26:31.935Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
       "geography": {
         "text": "Isabella Street between Huntley Street & Sherbourne Street",
         "approximate": false,
@@ -68,9 +170,18 @@
       "timestamp": "2026-09-26T17:12:17.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "432"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T17:20:28.349Z",
-      "lastSeenAt": "2026-09-26T17:25:11.652Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T17:26:31.935Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
       "geography": {
         "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
         "approximate": true,
@@ -93,7 +204,7 @@
       "division": "144",
       "timestamp": "2026-09-26T17:12:02.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-26T17:20:28.349Z",
       "lastSeenAt": "2026-09-26T17:25:11.652Z",
@@ -120,9 +231,18 @@
       "timestamp": "2026-09-26T17:10:45.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "223"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T17:20:28.349Z",
-      "lastSeenAt": "2026-09-26T17:25:11.652Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T17:26:31.935Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
       "geography": {
         "text": "Approximate area: (M1J) Scarborough (Eglinton)",
         "approximate": true,
@@ -150,14 +270,15 @@
         {
           "type": "Fire Truck",
           "numbers": [
+            "311",
             "313"
           ]
         }
       ],
-      "respondingUnitCount": 1,
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T17:15:44.242Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T17:20:28.349Z",
-      "lastSeenAt": "2026-09-26T17:25:11.652Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T17:26:31.935Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
       "geography": {
         "text": "Cosburn Avenue between Todmorden Lane & Gowan Avenue",
         "approximate": false,
@@ -192,7 +313,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T17:15:44.242Z",
       "lastMeaningfulUpdateAt": "2026-09-26T17:20:28.349Z",
-      "lastSeenAt": "2026-09-26T17:25:11.652Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -215,7 +336,7 @@
       "division": "323",
       "timestamp": "2026-09-26T17:05:13.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -328,7 +449,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T17:10:40.998Z",
-      "lastSeenAt": "2026-09-26T17:25:11.652Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
       "geography": {
         "text": "Approximate location on Ashley Road",
         "approximate": true,
@@ -430,7 +551,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T17:06:15.386Z",
       "lastMeaningfulUpdateAt": "2026-09-26T17:10:40.998Z",
-      "lastSeenAt": "2026-09-26T17:25:11.652Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
       "geography": {
         "text": "Midland Avenue & Danforth Road",
         "approximate": false,
@@ -465,7 +586,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T17:00:28.853Z",
       "lastMeaningfulUpdateAt": "2026-09-26T17:06:15.386Z",
-      "lastSeenAt": "2026-09-26T17:25:11.652Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
       "geography": {
         "text": "Mccowan Road & Street Andrews Road",
         "approximate": false,
@@ -598,7 +719,7 @@
       "respondingUnitCount": 5,
       "firstSeenAt": "2026-09-26T16:55:31.180Z",
       "lastMeaningfulUpdateAt": "2026-09-26T17:00:28.853Z",
-      "lastSeenAt": "2026-09-26T17:25:11.652Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
       "geography": {
         "text": "Wilson Avenue between Agate Road & Julian Road",
         "approximate": false,
@@ -769,7 +890,7 @@
       "division": "421",
       "timestamp": "2026-09-26T16:40:25.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -2699,7 +2820,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T15:45:37.981Z",
       "lastMeaningfulUpdateAt": "2026-09-26T15:50:29.510Z",
-      "lastSeenAt": "2026-09-26T17:25:11.652Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
       "geography": {
         "text": "Bayview Avenue between Scenic Millway & Heathcote Avenue",
         "approximate": false,
@@ -8030,7 +8151,7 @@
       "respondingUnitCount": 21,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-26T16:45:34.233Z",
-      "lastSeenAt": "2026-09-26T17:25:11.652Z",
+      "lastSeenAt": "2026-09-26T17:26:31.935Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -180895,12 +181016,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T17:25:11.652Z",
-      "sourceUpdatedAt": "2026-09-26T17:20:01.000Z",
+      "fetchedAt": "2026-09-26T17:26:31.935Z",
+      "sourceUpdatedAt": "2026-09-26T17:25:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T17:25:11.652Z",
+      "fetchedAt": "2026-09-26T17:26:31.935Z",
       "status": "ok"
     }
   },
@@ -335059,6 +335180,42 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1B": {
+      "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
+      "approximate": true,
+      "coordinates": [
+        43.8113,
+        -79.193
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M6G": {
+      "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
+      "approximate": true,
+      "coordinates": [
+        43.6683,
+        -79.4205
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4X": {
+      "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
+      "approximate": true,
+      "coordinates": [
+        43.6684,
+        -79.3689
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M6C": {
       "text": "Approximate area: (M6C) York (Cedarvale)",
       "approximate": true,
@@ -335328,18 +335485,6 @@
         -79.1866
       ],
       "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6G": {
-      "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
-      "approximate": true,
-      "coordinates": [
-        43.6683,
-        -79.4205
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -335766,18 +335911,6 @@
         -79.3813
       ],
       "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1B": {
-      "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
-      "approximate": true,
-      "coordinates": [
-        43.8113,
-        -79.193
-      ],
-      "division": "Division 42",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -336594,18 +336727,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T09:45:44.347Z"
-    },
-    "M4X": {
-      "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
-      "approximate": true,
-      "coordinates": [
-        43.6684,
-        -79.3689
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "BROADVIEW AVE, EY / NEALON AVE / LOWER DON RIVER TRL": {
       "text": "Broadview Avenue between Nealon Avenue & Lower Don River Trl",
