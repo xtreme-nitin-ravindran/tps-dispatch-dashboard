@@ -1640,8 +1640,9 @@ footer {
 #nearMe:focus-visible, #hearSirens:focus-visible, #clearNearby:focus-visible, #chooseArea:focus-visible, .saved-location-controls button:focus-visible, .saved-location-controls select:focus-visible, .saved-locations-dialog button:focus-visible, .saved-locations-dialog input:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
 #nearStatus { margin-top: 8px; font-size: 12px; line-height: 1.5; }
 #nearControls:not([hidden]) { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-#hearSirens, #clearNearby, #chooseArea { padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: inherit; cursor: pointer; }
+#hearSirens, #clearNearby, #chooseArea, .open-watch { padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: inherit; cursor: pointer; }
 #hearSirens { margin-top: 10px; }
+.open-watch { margin-top: 10px; color: var(--accent); font-weight: 700; }
 .saved-location-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
 .saved-location-controls label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; }
 .saved-location-controls select { min-height: 40px; max-width: 210px; padding: 7px 30px 7px 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: inherit; }
@@ -1668,6 +1669,24 @@ footer {
 .saved-location-item-actions { display: flex; gap: 6px; flex: none; }
 @media (max-width: 680px) { .nearby-feature { flex-direction: column; align-items: stretch; gap: 14px; } .nearby-action { width: 100%; } }
 @media (max-width: 480px) { .saved-locations-dialog { width: calc(100vw - 24px); padding: 16px; } .saved-locations-list li { align-items: flex-start; flex-direction: column; } .saved-location-item-actions button { min-height: 44px; } }
+
+.watch-dialog { width: min(92vw, 440px); padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); color: var(--text); box-shadow: var(--shadow); }
+.watch-dialog::backdrop { background: rgb(0 0 0 / .52); }
+.watch-dialog-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.watch-dialog h2 { margin: 4px 0 12px; font-size: 21px; }
+.watch-support, .watch-location-required { margin: 0 0 14px; padding: 10px 12px; border-radius: 8px; background: var(--subtle-fill); color: var(--muted); font-size: 13px; }
+.watch-support[data-kind="denied"], .watch-support[data-kind="unsupported"], .watch-support[data-kind="ios-install"], .watch-location-required { border: 1px solid var(--warning-line); background: var(--warning-soft); color: var(--text); }
+.watch-dialog form { display: grid; gap: 13px; }
+.watch-dialog label { display: grid; gap: 6px; font-weight: 700; }
+.watch-dialog select { min-height: 44px; padding: 8px 32px 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: inherit; }
+.watch-location { display: grid; gap: 4px; margin: 0; }
+.watch-location span { color: var(--accent); }
+#saveWatch { min-height: 44px; padding: 10px 14px; border: 0; border-radius: 8px; background: var(--accent); color: var(--on-accent); font: inherit; font-weight: 800; cursor: pointer; }
+#saveWatch:disabled { opacity: .55; cursor: not-allowed; }
+.stop-watch { min-height: 40px; margin-top: 8px; padding: 8px 10px; border: 1px solid var(--warning-line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: inherit; font-weight: 700; cursor: pointer; }
+.stop-watch:disabled { opacity: .55; cursor: not-allowed; }
+.watch-result { min-height: 1.5em; margin: 12px 0 0; color: var(--accent); font-size: 13px; }
+.watch-future-note { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
 
 .siren-results { margin: 0 0 20px; padding: 22px; border: 1px solid var(--warning-line); border-radius: 18px; background: var(--warning-soft); }
 .siren-results[hidden] { display: none; }

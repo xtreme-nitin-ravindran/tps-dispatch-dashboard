@@ -4,3 +4,9 @@ values.yml
 # Python test bytecode.
 __pycache__/
 *.pyc
+
+# Local Cloudflare Worker configuration and state may contain deployment identifiers.
+wrangler.toml
+.wrangler/
+.dev.vars*
+.env*

@@ -1,7 +1,7 @@
 import { sourceStatus, sourceStatusText } from "./src/source-status.js?v=source-states-1";
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
 import { incidentGroupKey, reconcileIncidentLayers } from "./src/incident-layer-diff.js";
-import { filterDefaults, filterSummary, readFilters, shareView, shareIncidentView, readSharedIncident, shareIncident, loadPreferences, savePreferences } from "./src/view-controls.js";
+import { filterDefaults, filterSummary, incidentDeepLink, readFilters, shareView, shareIncidentView, readSharedIncident, shareIncident, loadPreferences, savePreferences } from "./src/view-controls.js";
 import { createClosureDetail, renderDisruptions } from "./src/disruptions/ui.js?v=road-closure-interaction-1";
 import { withTtcNearbyFixture } from "./src/disruptions/ttc-nearby-fixture.js";
 import { compactAge, compactReportedAge, locationConfidence, callStatus, sourceName, respondingUnitLabel } from "./src/call-presentation.js?v=responding-units-1";
@@ -14,7 +14,7 @@ import { nearbySummary } from "./src/nearby-summary.js";
 import { nearbyEmptyState, nextNearbyRadius, radiusLabel } from "./src/nearby-empty-state.js";
 import { nearbyCtaCopy } from "./src/cta-copy.js";
 import { rankSirenMatches, SIREN_RADIUS_KM } from "./src/siren-matches.js";
-import { reconcileIncidentSelection, restoreSharedIncident } from "./src/incident-selection.js";
+import { incidentArrivalState, reconcileIncidentSelection } from "./src/incident-selection.js";
 import { markerAgeLabel, markerAgeTier, markerGlyph } from "./src/marker-age.js";
 import { incidentBadge, incidentBadgeExpiry } from "./src/incident-badge.js?v=incident-badges-1";
 import { incidentMatchesSearch } from "./src/incident-search.js";
@@ -25,6 +25,8 @@ import { mobileSheetActionLabel, mobileSheetStateAfterDrag, nextMobileSheetState
 import { NEARBY_SORT_DEFAULT, sortNearbyCalls } from "./src/nearby-sort.js";
 import { offlineStatus } from "./src/offline-status.js";
 import { MAX_SAVED_LOCATIONS, addSavedLocation, deleteSavedLocation, loadSavedLocationState, referenceCoordinates, renameSavedLocation, savedLocationForContext, selectCurrentLocation, selectSavedLocation } from "./src/saved-locations.js";
+import { createLocalWatch, defaultWatchRadius, loadLocalWatch, saveLocalWatch, watchFixtureState, watchLocationContext, watchSupportState } from './src/watch-config.js';
+import { clearWatchActivation, createHttpWatchSubscriptionAdapter, createPushFixtureRuntime, createPushSubscriptionController, loadWatchActivation, pushFixtureOptions, saveWatchActivation, vapidPublicKeyFrom, watchApiBaseUrlFrom } from './src/push-subscription.js';
 
 const CONFIG = {
   snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
@@ -123,6 +125,12 @@ let mobileSheetDrag = null;
 let suppressNextMobileSheetClick = false;
 const initialParams = new URLSearchParams(location.search);
 let pendingSharedIncidentId = readSharedIncident(initialParams);
+const pushFixtures = pushFixtureOptions(location);
+const loopbackFixtureHost = new Set(['localhost', '127.0.0.1', '::1']).has(location.hostname);
+const notificationArrivalFixture = pushFixtures?.arrival || (loopbackFixtureHost
+  ? pendingSharedIncidentId === 'fixture-incident-1' ? 'present'
+    : pendingSharedIncidentId === 'fixture-expired-incident' ? 'missing' : null
+  : null);
 const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
 const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 const mobileViewQuery = "(max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)";
@@ -316,6 +324,22 @@ function parseLooseTime(value) {
 }
 
 async function fetchSnapshot() {
+  if (notificationArrivalFixture) {
+    const timestamp = new Date().toISOString();
+    const incidents = notificationArrivalFixture === 'present' ? [{
+      id: 'fixture-incident-1', source: 'TFS', description: 'Residential Fire Alarm',
+      location: 'Queen St W / University Ave', timestamp, firstSeenAt: timestamp,
+      lastSeenAt: timestamp, eventCategory: 'fire', isOngoing: true,
+      geography: { coordinates: [43.6505, -79.386] }
+    }] : [];
+    return {
+      calls: incidents.map(row => normalizeCall(row)),
+      disruptions: withTtcNearbyFixture({}),
+      feeds: { TFS: { status: 'ok', fetchedAt: timestamp }, TPS: { status: 'ok', fetchedAt: timestamp } },
+      fetchedAt: timestamp,
+      updatedAt: timestamp
+    };
+  }
   const response = await fetch(`${CONFIG.snapshotUrl}?ts=${Date.now()}`, { cache: "no-store" });
   if (!response.ok) throw new Error(`Official TFS snapshot returned HTTP ${response.status}`);
   const payload = await response.json();
@@ -332,6 +356,32 @@ async function fetchSnapshot() {
 
 let sourceHighlightTimer;
 let snapshotLoaded = false;
+
+function restorePendingIncident() {
+  if (!snapshotLoaded || pendingSharedIncidentId === null) return;
+  const requestedId = pendingSharedIncidentId;
+  pendingSharedIncidentId = null;
+  let arrival = incidentArrivalState(requestedId, state.calls, state.filtered, { mobile: isMobileViewLayout() });
+  const status = document.querySelector('#sharedIncidentStatus');
+  if (!arrival.found) {
+    focusedCallId = null;
+    status.textContent = arrival.message;
+    status.hidden = false;
+    return;
+  }
+  if (arrival.needsReveal) {
+    Object.assign(state, filterDefaults, { hours: 168, radiusKm: null });
+    syncFilterControls();
+    syncRadiusControls();
+    applyFilters();
+    arrival = incidentArrivalState(requestedId, state.calls, state.filtered, { mobile: isMobileViewLayout() });
+  }
+  status.hidden = true;
+  if (arrival.mobileView) setMobileView(arrival.mobileView, { persist: false });
+  if (arrival.mobileSheetState) setMobileSheetState(arrival.mobileSheetState);
+  selectCall(arrival.id, { revealRow: true, panIfNeeded: true });
+}
+
 function lastSuccessfulUpdateLabel() {
   const timestamp = parseLooseTime(state.fetchedAt || state.lastIngest);
   return timestamp ? `${formatDate(timestamp)} · ${formatTime(timestamp)} Toronto time` : null;
@@ -394,19 +444,7 @@ async function loadData() {
       applyFilters();
       els.callList.scrollTop = scrollTop;
     }
-    if (pendingSharedIncidentId !== null) {
-      const requestedId = pendingSharedIncidentId;
-      pendingSharedIncidentId = null;
-      const restored = restoreSharedIncident(requestedId, state.filtered);
-      const status = document.querySelector('#sharedIncidentStatus');
-      if (restored.found) {
-        status.hidden = true;
-        selectCall(restored.id, { revealRow: true });
-      } else {
-        status.textContent = 'This shared incident is no longer available.';
-        status.hidden = false;
-      }
-    }
+    restorePendingIncident();
     renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
     updateFreshness();
     refreshFreshness.complete(true);
@@ -1370,6 +1408,32 @@ const savedLocationsList = document.querySelector('#savedLocationsList');
 const savedLocationsEmpty = document.querySelector('#savedLocationsEmpty');
 const locationContextSelect = document.querySelector('#locationContext');
 const locationContextStatus = document.querySelector('#locationContextStatus');
+const watchDialog = document.querySelector('#watchDialog');
+const watchForm = document.querySelector('#watchForm');
+const watchSupport = document.querySelector('#watchSupport');
+const watchLocationLabel = document.querySelector('#watchLocationLabel');
+const watchLocationRequired = document.querySelector('#watchLocationRequired');
+const watchRadius = document.querySelector('#watchRadius');
+const watchService = document.querySelector('#watchService');
+const watchCategory = document.querySelector('#watchCategory');
+const saveWatchButton = document.querySelector('#saveWatch');
+const stopWatchButton = document.querySelector('#stopWatch');
+const watchResult = document.querySelector('#watchResult');
+const watchFixture = watchFixtureState(location);
+const pushFixtureRuntime = createPushFixtureRuntime(location, {
+  enabled: Boolean(watchFixture),
+  unsupported: watchFixture === 'unsupported',
+  permissionOverride: watchFixture === 'denied' ? 'denied' : null
+});
+const pushController = createPushSubscriptionController({
+  environment: pushFixtureRuntime?.environment || window,
+  adapter: pushFixtureRuntime?.adapter || createHttpWatchSubscriptionAdapter({
+    baseUrl: watchApiBaseUrlFrom(document),
+    storage: localStorage
+  }),
+  vapidPublicKey: pushFixtureRuntime?.vapidPublicKey || vapidPublicKeyFrom(document)
+});
+let pendingWatchLocation = null;
 let locationRequest = 0;
 let locationWatch = null;
 let requestedRadiusKm = null;
@@ -1493,6 +1557,137 @@ savedLocationsList.addEventListener('click', event => {
 });
 savedLocationsDialog.addEventListener('close', resetSavedLocationForm);
 renderSavedLocations();
+function watchCapabilityState() {
+  const presentation = watchSupportState(window);
+  return watchFixture === 'ios' ? presentation : pushController.capability();
+}
+function watchStatusMessage(kind) {
+  return {
+    active: 'Watch notifications are active on this device.',
+    denied: 'Notifications are blocked. Change this in your browser or device settings to activate the watch.',
+    dismissed: 'Notification permission was not granted. Your watch settings were saved but remain inactive.',
+    unsupported: 'Notifications are not supported in this browser or platform.',
+    'ios-install': 'Add SirenTO to your Home Screen before notifications can be enabled.',
+    missing: 'Watch settings are saved, but the push subscription is missing. Save again to recover it.',
+    expired: 'The push subscription has expired. Save again to create a replacement.',
+    orphaned: 'A browser subscription exists without a local watch. You can stop it below or save new watch settings.',
+    idle: 'No watch notification subscription is active.',
+    'backend-unavailable': 'Notification delivery is not configured yet. Your watch settings were saved but remain inactive.',
+    'subscribe-failed': 'The browser could not create a push subscription. Your watch settings remain inactive.',
+    unsubscribed: 'Watch notifications are turned off on this device.'
+  }[kind] || 'Watch settings could not be activated.';
+}
+function renderWatchLifecycle(result, watch = loadLocalWatch(localStorage)) {
+  watchResult.textContent = watchStatusMessage(result.kind);
+  const hasSubscription = ['active', 'orphaned'].includes(result.kind) || Boolean(result.subscription);
+  stopWatchButton.hidden = !hasSubscription;
+  if (result.kind === 'active' && watch) {
+    saveWatchActivation(localStorage, { version: 1, watchId: watch.id, active: true });
+  } else if (!hasSubscription) {
+    clearWatchActivation(localStorage);
+  }
+}
+async function reconcileWatchSubscription({ showResult = false } = {}) {
+  try {
+    const watch = loadLocalWatch(localStorage);
+    const result = await pushController.reconcile(watch);
+    if (showResult || result.kind !== 'idle') renderWatchLifecycle(result, watch);
+    return result;
+  } catch {
+    if (showResult) renderWatchLifecycle({ kind: 'subscribe-failed' });
+    return { kind: 'subscribe-failed' };
+  }
+}
+function openWatchConfiguration() {
+  const support = watchCapabilityState();
+  const saved = savedLocationForContext(state);
+  pendingWatchLocation = watchLocationContext({
+    fixture: watchFixture,
+    locationContext: state.locationContext,
+    savedLocation: saved,
+    coordinates: state.nearby,
+    originKind: nearbyOriginKind
+  });
+  const storedWatch = loadLocalWatch(localStorage);
+  watchSupport.dataset.kind = support.kind;
+  watchSupport.textContent = support.message;
+  watchLocationLabel.textContent = pendingWatchLocation?.label || 'No location selected';
+  watchLocationRequired.hidden = Boolean(pendingWatchLocation);
+  watchRadius.value = String(storedWatch?.radiusKm || defaultWatchRadius(state.radiusKm));
+  watchService.value = storedWatch?.service || 'all';
+  watchCategory.value = storedWatch?.category || 'all';
+  saveWatchButton.disabled = !pendingWatchLocation || support.kind !== 'supported';
+  stopWatchButton.hidden = !loadWatchActivation(localStorage)?.active;
+  watchResult.textContent = '';
+  watchDialog.showModal();
+  document.querySelector('#closeWatch').focus();
+  void reconcileWatchSubscription({ showResult: true });
+}
+document.querySelector('#openWatch').addEventListener('click', openWatchConfiguration);
+document.querySelector('#closeWatch').addEventListener('click', () => watchDialog.close());
+watchForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!pendingWatchLocation || saveWatchButton.disabled) return;
+  saveWatchButton.disabled = true;
+  try {
+    const existing = loadLocalWatch(localStorage);
+    const id = existing?.id || globalThis.crypto?.randomUUID?.() || `local-${Date.now().toString(36)}`;
+    const watch = createLocalWatch({
+      id,
+      location: pendingWatchLocation,
+      radiusKm: Number(watchRadius.value),
+      service: watchService.value,
+      category: watchCategory.value
+    });
+    saveLocalWatch(localStorage, { ...watch, active: false });
+    const result = await pushController.activate(watch, { explicitUserAction: true });
+    if (result.kind === 'active') saveLocalWatch(localStorage, watch);
+    renderWatchLifecycle(result, result.kind === 'active' ? watch : { ...watch, active: false });
+  } catch {
+    watchResult.textContent = 'These watch settings could not be saved on this device.';
+  } finally {
+    saveWatchButton.disabled = !pendingWatchLocation || watchCapabilityState().kind !== 'supported';
+  }
+});
+stopWatchButton.addEventListener('click', async () => {
+  stopWatchButton.disabled = true;
+  try {
+    const watch = loadLocalWatch(localStorage);
+    const result = await pushController.unsubscribe(watch);
+    if (watch) saveLocalWatch(localStorage, { ...watch, active: false });
+    clearWatchActivation(localStorage);
+    renderWatchLifecycle(result, watch);
+  } catch {
+    watchResult.textContent = 'The browser could not turn off this subscription.';
+  } finally {
+    stopWatchButton.disabled = false;
+  }
+});
+window.addEventListener('load', () => {
+  void reconcileWatchSubscription();
+  if (pushFixtures?.push) {
+    navigator.serviceWorker.ready.then(registration => registration.active?.postMessage({
+      type: 'sirento.fixture.push', fixture: pushFixtures.push, arrival: pushFixtures.arrival
+    })).catch(() => {});
+  }
+});
+navigator.serviceWorker?.addEventListener?.('message', event => {
+  if (event.data?.type === 'sirento.pushsubscriptionchange') {
+    void reconcileWatchSubscription({ showResult: watchDialog.open });
+    return;
+  }
+  if (event.data?.type !== 'sirento.notification.navigate' || typeof event.data.incidentId !== 'string') return;
+  let destination;
+  try { destination = incidentDeepLink(location.href, event.data.incidentId); } catch { return; }
+  if (event.data.url !== destination) return;
+  history.replaceState(null, '', destination);
+  pendingSharedIncidentId = event.data.incidentId;
+  restorePendingIncident();
+});
+window.addEventListener('popstate', () => {
+  pendingSharedIncidentId = readSharedIncident(new URLSearchParams(location.search));
+  restorePendingIncident();
+});
 function radiusFilterOrigin() {
   return state.radiusKm === null ? null : state.nearby;
 }

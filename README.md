@@ -90,6 +90,358 @@ and Ruff environment as CI. For local checks, install a supported Node.js releas
 temporary files/repositories; they do not publish changes or require live feeds. See
 [Test coverage](#test-coverage) for how coverage is measured and published.
 
+### Local watch and push fixtures
+
+Push fixtures are accepted only on `localhost`, `127.0.0.1`, or `::1`. Start a static
+server on port 4173, select a current/saved/map location, open **Watch this area**, and
+use these URLs to exercise the browser controller without a real push service or backend:
+
+- granted subscribe: `http://127.0.0.1:4173/?watchFixture=current&permission=granted&subscription=missing&subscribe=success`
+- denied or dismissed: `http://127.0.0.1:4173/?watchFixture=current&permission=denied` and `http://127.0.0.1:4173/?watchFixture=current&permission=default`
+- unsupported: `http://127.0.0.1:4173/?watchFixture=unsupported`
+- valid, missing, or expired reconciliation: append `subscription=valid`, `subscription=missing`, or `subscription=expired` with `permission=granted`
+- subscribe failure: `http://127.0.0.1:4173/?watchFixture=current&permission=granted&subscription=missing&subscribe=failure`
+- unsubscribe: `http://127.0.0.1:4173/?watchFixture=current&permission=granted&subscription=valid&unsubscribe=success`
+- notification rendering: append `push=new-tfs`, `push=new-tps`, `push=update`, or `push=no-distance`; use `push=malformed` and `push=external` to verify rejection
+- notification arrival: append `arrival=present` for a deterministic current incident or `arrival=missing` for the expired/missing state; these loopback-only modes use local data and do not fetch the live snapshot
+- click handling: `click=existing-client` documents clicking with the fixture page open, while `click=no-client` documents closing it before clicking the notification
+
+The default adapter intentionally does not send watch or subscription data anywhere.
+Set the public VAPID key through the `sirento-vapid-public-key` meta element and inject a
+backend adapter before enabling delivery in production. `pushsubscriptionchange` only
+notifies open clients; foreground `getSubscription()` reconciliation is authoritative
+until a backend exists to register replacement subscriptions.
+
+### Local watch backend contract
+
+The vendor-neutral Story 33E1 domain layer accepts the versioned
+`sirento.watch-subscription` payload produced by the browser, but does not expose an
+HTTP route or select a production database. It validates the complete payload again on
+the server side and rejects unknown fields. Requests are limited to 16 KiB; coordinates,
+the four supported radii, service/category filters, active state, HTTPS push endpoint,
+optional expiry, and the standard 65-byte `p256dh` and 16-byte `auth` base64url keys are
+all checked before storage.
+
+The backend record contains only:
+
+```text
+id, centre, radiusKm, service, category, subscription,
+createdAt, updatedAt, lastConfirmedAt, active,
+possessionTokenHash, optional vapidKeyVersion
+```
+
+`subscription` contains `endpoint`, nullable `expirationTime`, `p256dh`, and `auth`.
+The client-local watch ID is validated for contract compatibility and then discarded.
+Saved-location labels and IDs, addresses, location history, map/search state, and UI
+preferences are never stored.
+
+Watch centres are rounded to four decimal places before storage. Around Toronto this is
+roughly 11 m of latitude and 8 m of longitude per increment, with less than about 7 m of
+rounding displacement. Three decimals could move a centre by tens of metres, while four
+preserves reliable 500 m boundary matching without retaining unnecessary device-level
+precision.
+
+`createWatchService` depends only on the repository methods `createWatch`, `getWatch`,
+`updateWatch`, `deleteWatch`, and `listActiveWatches`. Production defaults use a random
+UUID watch ID and a 32-byte random possession token. The token is returned only by
+creation and only its SHA-256 hash is stored; update and delete use a constant-time hash
+comparison. Client responses omit the push endpoint, subscription keys, and token hash.
+Errors and validation results identify fields without echoing endpoints, keys, tokens,
+or coordinates.
+
+`InMemoryWatchRepository` is deterministic, process-local, resettable, and writes
+nothing to disk. It is not production persistence. Its guarded fixture factory requires
+both an explicit enable switch and a loopback hostname, so a development mode cannot be
+activated on the production hostname. Run its network-free targeted suite in Docker:
+
+```bash
+docker build -f Dockerfile.test -t toronto-dispatch-tests .
+docker run --rm toronto-dispatch-tests npm run test:watch-backend
+```
+
+The suite uses injectable IDs, possession tokens, clocks, and real validation/service/
+repository code. No push messages are sent and no real database or production data is
+used.
+
+### Production Watch API and durable storage
+
+Story 33E2 uses a small Cloudflare Worker plus a private D1 database. SirenTO remains a
+static GitHub Pages site; only the watch API is deployed to Cloudflare. This adds public
+HTTPS, durable private storage, environment/secret bindings, and local Worker tooling
+without migrating the dashboard or putting push subscriptions in a Git branch.
+
+The Worker entry point is `src/watch-worker.js`. It wraps the existing Story 33E1
+service with `D1WatchRepository` and the transport in `src/watch-api.js`; validation,
+coordinate minimization, record normalization, token hashing/comparison, and response
+sanitization remain in the shared domain layer. D1 stores each complete private record
+as defensive JSON plus a separately indexed `active` flag. Apply
+`migrations/0001_create_watches.sql` before serving traffic.
+
+The API contract is:
+
+```text
+POST   /watches       application/json body; returns 201 with { watch, possessionToken }
+PATCH  /watches/:id   application/json body and x-sirento-possession-token; returns 200
+DELETE /watches/:id   x-sirento-possession-token; returns 204 and is idempotent
+OPTIONS               CORS preflight for the routes above
+```
+
+There is intentionally no public read/list route. `watch` responses contain only the
+opaque ID, minimized centre, matching settings, active state, timestamps, and optional
+VAPID key version. Push endpoints, subscription keys, and token hashes never appear in
+responses. A wrong PATCH token is indistinguishable from an unknown watch. DELETE
+returns the same empty 204 response for successful, repeated, unknown, and wrong-token
+requests, while only an authorized existing watch is actually removed. The API emits
+small error codes and never logs request bodies, headers, coordinates, push endpoints,
+subscription keys, or possession tokens.
+
+All requests, including creation and preflight, require an exact origin from the
+comma-separated `WATCH_ALLOWED_ORIGINS` binding. The example admits the real SirenTO
+origin and explicit port-4173 loopback development origins; wildcard CORS is rejected.
+This blocks drive-by browser mutations, while possession tokens additionally authorize
+updates and deletes. It is not user authentication and an automated client can forge an
+Origin header. Production creation requests therefore also require the
+`WATCH_CREATE_RATE_LIMITER` Cloudflare binding, limited to 30 requests per client key per
+minute. If the binding is absent, creation fails closed with 503; exceeded limits return
+429 with a 60-second `Retry-After`. Updates and deletes remain narrowly protected by the
+unpredictable possession token, exact origin, route/method allowlists, and request-size limits.
+
+Copy `wrangler.toml.example` to the ignored `wrangler.toml`, create the D1 database,
+replace its database ID, and configure the public VAPID values. Keep the private VAPID
+key out of files and Git:
+
+```bash
+npx wrangler d1 create sirento-watch
+npx wrangler d1 migrations apply sirento-watch --remote
+npx wrangler secret put VAPID_PRIVATE_KEY
+npx wrangler deploy
+```
+
+For local Worker/D1 development, put the private key in the ignored `.dev.vars` file,
+apply the migration with `--local`, and run `npx wrangler dev`. Wrangler simulates the
+D1 binding locally and persists its local state by default.
+
+`loadWatchBackendConfig` prepares `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`,
+`VAPID_SUBJECT`, and `VAPID_KEY_VERSION` for later server-side delivery. The private
+key is loaded only when sending configuration is explicitly requested, and that path
+fails clearly if any required sending value is absent. Story 33E2 does not send push
+messages.
+
+### Incident matching and durable notification dedupe
+
+Story 33F1 adds a scheduled matching stage. The Worker cron
+fetches only the normalized `data/current.json` configured by `WATCH_SNAPSHOT_URL`,
+validates it, retrieves active watches from D1, and passes each watch/incident pair to
+the existing Story 33B matcher. `WATCH_INCIDENT_BASE_URL` supplies canonical incident
+links. There is no public ingestion or candidate endpoint.
+
+Apply `migrations/0002_create_notification_dedupe.sql` after the watches migration.
+The `notification_dedupe` table stores only the stable dedupe key, opaque watch and
+incident IDs, notification kind, timestamps, and minimal delivery state. Its primary key makes
+overlapping cron runs and retried snapshots idempotent through `INSERT OR IGNORE`.
+Subscription data is present only in the in-memory internal candidate and is neither
+logged nor copied into dedupe storage.
+
+Candidates use schema `sirento.notification-candidate` version 1 and contain the watch
+and incident IDs, notification kind, stable dedupe key, canonical incident URL, minimal
+published display fields (`source`, `description`, `location`, and `timestamp`), an
+in-memory approximate distance derived during matching, and the private subscription
+needed by delivery. They omit watch labels, coordinates, possession tokens, full incident
+payloads, and UI state. The derived distance is not stored in dedupe state.
+
+Dedupe rows expire after 30 days, comfortably beyond the seven-day incident retention.
+Expired rows are removed at the start of each matching run using the injected run time,
+so cleanup is deterministic. A first sighting uses `new:v1`; a meaningful lifecycle
+update uses its normalized `lastMeaningfulUpdateAt` in the notification kind. Routine
+refreshes, `lastSeenAt` changes, and timestamp churn retain the same key and create no
+candidate. Stale or unavailable feeds create no candidates and do not mutate watches.
+
+Run the targeted deterministic suite and the safe local demonstration in Docker:
+
+```bash
+docker build -f Dockerfile.test -t toronto-dispatch-tests .
+docker run --rm toronto-dispatch-tests npm run test:watch-matching
+docker run --rm toronto-dispatch-tests npm run fixture:watch-matching
+```
+
+The demonstration reports safe counts only: first match and first dedupe row `1`, repeat
+`0`, meaningful update `1`, stale and unavailable `0`, and two overlapping runs totaling `1`. Fixtures
+live under `test/fixtures`, use a fake D1 binding plus the real repository/pipeline, and
+cannot be enabled by production Worker requests or environment configuration.
+
+### Web Push delivery
+
+Story 33F2 sends approved matcher candidates from the scheduled Worker with standards-based
+Web Push (`aes128gcm`) and VAPID (`ES256`). The private VAPID key and subject remain Worker
+configuration; only the public key is client-visible. The payload is intentionally small:
+`sirento.push` version 1 plus the incident ID, a short title/body, and the canonical same-origin
+incident URL. Watch geometry, labels, possession tokens, endpoints, and encryption keys are not
+included.
+
+The existing dedupe row is also the delivery state record. It moves from `pending` to an
+atomically leased `sending` state, then to `delivered`, `permanent_failed`, or
+`retry_exhausted`. Successful and permanent outcomes cannot be reclaimed. An expired `sending`
+lease can recover after an interrupted invocation, while each matching run reconstructs
+eligible pending candidates without storing subscriptions in the dedupe table.
+
+Delivery tries at most three times. HTTP 408, 429, 5xx, and transport failures use bounded
+exponential delays (100 ms, then 200 ms); `Retry-After` is honored but capped at one second for
+Worker execution limits. HTTP 404 and 410 mark the notification permanently failed and
+deactivate the watch only when its current endpoint is still the failed endpoint, preserving a
+concurrently replaced subscription. At most 100 candidates are processed per invocation in
+dedupe-key order. Delivery code does not log endpoints, subscription keys, possession tokens,
+watch coordinates, or VAPID secrets.
+
+Apply `migrations/0003_add_notification_delivery.sql` after the Story 33F1 dedupe migration,
+then `migrations/0004_add_watch_retention.sql` for deterministic inactive-watch cleanup.
+
+Run the deterministic sender/controller suite and demonstration without contacting a push
+service or requiring notification permission:
+
+```bash
+docker build -f Dockerfile.test -t toronto-dispatch-tests .
+docker run --rm toronto-dispatch-tests npm run test:watch-delivery
+docker run --rm toronto-dispatch-tests npm run fixture:watch-delivery
+```
+
+Set the deployed Worker URL in the `sirento-watch-api-base-url` meta element and the
+matching public key in `sirento-vapid-public-key`. The browser HTTP adapter creates a
+server watch on first activation, retains the server ID and possession token only in
+browser local storage, PATCHes subsequent saves, and DELETEs before unsubscribing. An
+empty API URL keeps the adapter disabled. Loopback fixture mode still injects its own
+adapter and makes no production network request; fixture query parameters are ignored
+on production hostnames.
+
+### Notification content and incident arrival
+
+Story 33G uses the two notification kinds already produced by matching: `new:v1` and
+`updated:<meaningful-update-time>`. New incidents use **SirenTO — New incident nearby**;
+meaningful updates use **SirenTO — Incident update nearby**. The body contains the
+normalized incident description, an approximate one-decimal distance only when reliably
+derived during matching, and the full Toronto Fire Services or Toronto Police Service
+name. It never includes a saved-location label, watch coordinates, watch ID, possession
+token, or push-subscription data. Routine refreshes remain deduplicated and do not produce
+update wording.
+
+The canonical notification destination is `?view=1&incident=<stable-id>` on the configured
+SirenTO origin and application path. Notification clicks close the notification, reject any
+other origin/path/query shape, focus and navigate an existing SirenTO client when possible,
+and otherwise open one new window. Arrival selects and reveals an incident from the full
+current dataset even when local filters hid it. On mobile it opens the map with the selected
+card in the half-height bottom sheet. If the incident has expired, SirenTO says “This
+incident is no longer in the current SirenTO data.” while leaving the dashboard usable.
+
+Run the deterministic UX suite and fixture without notification permission or push delivery:
+
+```bash
+docker build -f Dockerfile.test -t toronto-dispatch-tests .
+docker run --rm toronto-dispatch-tests npm run test:notification-ux
+docker run --rm toronto-dispatch-tests npm run fixture:notification-ux
+```
+
+For manual visual checks, serve the repository on port 4173 and use:
+
+- New TFS incident with distance: `http://127.0.0.1:4173/?push=new-tfs&arrival=present&click=existing-client`
+- New TPS incident: `http://127.0.0.1:4173/?push=new-tps&arrival=present`
+- Meaningful update: `http://127.0.0.1:4173/?push=update&arrival=present`
+- No reliable distance: `http://127.0.0.1:4173/?push=no-distance&arrival=present`
+- Missing/expired incident: `http://127.0.0.1:4173/?push=new-tfs&arrival=missing`
+- Direct present arrival: `http://127.0.0.1:4173/?view=1&incident=fixture-incident-1`
+- Direct missing arrival: `http://127.0.0.1:4173/?view=1&incident=fixture-expired-incident`
+
+For the existing-client case, leave the fixture page open and click its notification. For
+the closed-client case, close the page after the notification appears, then click it. Use
+responsive device mode at 390 × 844 for the mobile bottom-sheet check and a desktop viewport
+for card/map synchronization. Browser notification permission is needed only for these
+manual visual checks; the automated fixture does not request it.
+
+### Watch production operations
+
+Deploy the Worker only after all four D1 migrations have been applied in order. Copy
+`wrangler.toml.example`, replace the D1 database ID and the rate-limit `namespace_id`
+(a positive integer unique within the Cloudflare account), and configure:
+
+| Setting | Purpose |
+| --- | --- |
+| `WATCH_DB` | Private D1 database containing watches and notification state. |
+| `WATCH_ALLOWED_ORIGINS` | Comma-separated exact dashboard origins; never `*`. |
+| `WATCH_SNAPSHOT_URL` | HTTPS URL of normalized `data/current.json`. |
+| `WATCH_INCIDENT_BASE_URL` | HTTPS dashboard root used for notification links. |
+| `WATCH_CREATE_RATE_LIMITER` | Cloudflare Rate Limiting binding; 30 creation attempts per client key per 60 seconds. |
+| `VAPID_PUBLIC_KEY` | Base64url P-256 public key; also set in `sirento-vapid-public-key` in `index.html`. |
+| `VAPID_PRIVATE_KEY` | Matching private key, stored only with `wrangler secret put`; never in TOML, HTML, logs, or Git. |
+| `VAPID_SUBJECT` | Operator contact as a `mailto:` or HTTPS URI. |
+| `VAPID_KEY_VERSION` | Opaque version recorded with new or updated watches for rotation tracking. |
+| cron trigger | Runs matching, cleanup, and delivery every five minutes. |
+
+Set the deployed Worker URL in `sirento-watch-api-base-url` in `index.html`, apply
+`0001_create_watches.sql` through `0004_add_watch_retention.sql`, add the private-key
+secret, and deploy. Missing D1, origin, rate-limit, snapshot, incident-base, or VAPID
+sending configuration fails closed with no push attempt. Invalid VAPID material is rejected
+before transport.
+
+Keep a VAPID key pair stable. For a planned rotation, change the Worker secret, public key,
+HTML public key, and `VAPID_KEY_VERSION` together. Existing push subscriptions are bound to
+the old public key and stop receiving after the server key changes; they are not silently
+reused. The next explicit **Watch this area** activation detects a browser-exposed key
+mismatch, removes the old backend watch where possible, unsubscribes, and creates a fresh
+subscription. A retained browser credential whose server watch was already cleaned up is
+also recreated after a 404. Emergency rotation therefore fails closed but requires users to
+explicitly re-enable watches; there is no hidden permission prompt.
+
+Notification dedupe and all associated delivery-state rows expire 30 days after creation.
+Disabled watches and watches deactivated after a 404/410 push response expire 30 days after
+their last update. User deletion removes a watch immediately. Active watches do not expire:
+they represent an explicit continuing user choice and are removed by unsubscribe, disable,
+or confirmed dead-endpoint handling. Cleanup occurs deterministically at the start of a valid
+scheduled matching run; stale/unavailable source states suppress candidates without deleting
+active watches.
+
+Each scheduled run writes one aggregate JSON operational event containing active-watch,
+candidate, success, retry, failure, delivery-ceiling, and cleanup counts. A failed run writes
+only the event name and failure flag. Neither path logs endpoints, subscription keys,
+possession tokens, watch coordinates, saved-location labels, incident IDs, or VAPID secrets.
+
+Platform behavior is feature-detected rather than inferred from browser branding. Desktop
+and Android Chromium can enable push when the secure-context, Notification, Service Worker,
+and Push APIs exist. On iOS/iPadOS, Web Push requires an installed Home Screen web app;
+permission is requested only after the user presses the watch action. Safari, Brave, and
+other iOS browsers show the installed-app instruction or unsupported state when those runtime
+capabilities are absent. Verify actual delivery and notification-tap arrival on each target
+device; desktop emulation does not establish iOS or Android delivery support.
+
+The deterministic suites are the repeatable regression path and contact no real push service:
+
+```bash
+docker run --rm toronto-dispatch-tests npm run test:watch-production
+docker run --rm toronto-dispatch-tests npm run test:watch-matching
+docker run --rm toronto-dispatch-tests npm run test:watch-delivery
+docker run --rm toronto-dispatch-tests npm run test:notification-ux
+docker run --rm toronto-dispatch-tests npm run fixture:watch-matching
+docker run --rm toronto-dispatch-tests npm run fixture:watch-delivery
+docker run --rm toronto-dispatch-tests npm run fixture:notification-ux
+```
+
+Together these cover permission states, subscription validation and renewal, inside/outside
+matching, service/category mismatch, duplicate and overlapping processing, stale/unavailable
+sources, delivery success, transient retries and exhaustion, 404/410 cleanup, malformed push
+payloads, click arrival, missing incidents, the send ceiling, creation rate limiting, and both
+retention cleanups. Browser fixture query parameters remain inert off loopback hosts.
+
+Run the deterministic Story 33E2 suite without live D1, Web Push, incident data, or
+production secrets:
+
+```bash
+docker build -f Dockerfile.test -t toronto-dispatch-tests .
+docker run --rm toronto-dispatch-tests npm run test:watch-production
+```
+
+The suite drives the real HTTP handler and D1 repository contract through an in-memory
+D1-compatible fixture. It covers routing, create/update/delete, idempotency, token
+enforcement, CORS, local origins, malformed/oversized/invalid requests, storage
+failures, response redaction, browser adapter behavior, configuration, and production
+fixture guards.
+
 `npm run lint` runs ESLint over the JavaScript application, scripts, and tests, then
 Ruff over the Python scripts and tests. Run either linter alone with `npm run lint:js`
 or `npm run lint:python`. The Docker test image pins both tools, so Docker is the
