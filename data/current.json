@@ -3,9 +3,77 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T13:33:54.803Z",
-  "sourceUpdatedAt": "2026-09-26T13:30:01.000Z",
+  "fetchedAt": "2026-09-26T13:35:39.096Z",
+  "sourceUpdatedAt": "2026-09-26T13:35:02.000Z",
   "incidents": [
+    {
+      "id": "F26152733",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "LAUGHTON AVE / EXETER ST",
+      "division": "342",
+      "timestamp": "2026-09-26T13:29:50.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "342"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T13:35:39.096Z",
+      "lastSeenAt": "2026-09-26T13:35:39.096Z",
+      "geography": {
+        "text": "Laughton Avenue & Exeter Street",
+        "approximate": false,
+        "coordinates": [
+          43.6732013,
+          -79.4569804
+        ],
+        "division": "Division 11",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T13:35:39.096Z"
+      }
+    },
+    {
+      "id": "F26152732",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1E",
+      "division": "234",
+      "timestamp": "2026-09-26T13:25:33.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "214"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T13:35:39.096Z",
+      "lastSeenAt": "2026-09-26T13:35:39.096Z",
+      "geography": {
+        "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+        "approximate": true,
+        "coordinates": [
+          43.7678,
+          -79.1866
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26152731",
       "source": "TFS",
@@ -27,7 +95,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T13:25:35.823Z",
       "lastMeaningfulUpdateAt": "2026-09-26T13:32:05.210Z",
-      "lastSeenAt": "2026-09-26T13:33:54.803Z",
+      "lastSeenAt": "2026-09-26T13:35:39.096Z",
       "geography": {
         "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
         "approximate": true,
@@ -94,7 +162,7 @@
       "division": "232",
       "timestamp": "2026-09-26T13:14:28.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -294,7 +362,7 @@
       "division": "325",
       "timestamp": "2026-09-26T13:08:22.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -328,7 +396,7 @@
       "division": "411",
       "timestamp": "2026-09-26T13:05:23.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -519,7 +587,7 @@
       "division": "442",
       "timestamp": "2026-09-26T12:50:44.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -1210,7 +1278,7 @@
       "division": "314",
       "timestamp": "2026-09-26T12:18:13.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Command Unit",
@@ -1862,7 +1930,7 @@
       "respondingUnitCount": 19,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-26T12:20:43.518Z",
-      "lastSeenAt": "2026-09-26T13:33:54.803Z",
+      "lastSeenAt": "2026-09-26T13:35:39.096Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -175380,12 +175448,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T13:33:54.803Z",
-      "sourceUpdatedAt": "2026-09-26T13:30:01.000Z",
+      "fetchedAt": "2026-09-26T13:35:39.096Z",
+      "sourceUpdatedAt": "2026-09-26T13:35:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T13:33:54.803Z",
+      "fetchedAt": "2026-09-26T13:35:39.096Z",
       "status": "ok"
     }
   },
@@ -329556,6 +329624,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "LAUGHTON AVE / EXETER ST": {
+      "text": "Laughton Avenue & Exeter Street",
+      "approximate": false,
+      "coordinates": [
+        43.6732013,
+        -79.4569804
+      ],
+      "division": "Division 11",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T13:35:39.096Z"
+    },
+    "M1E": {
+      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+      "approximate": true,
+      "coordinates": [
+        43.7678,
+        -79.1866
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1R": {
       "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
       "approximate": true,
@@ -330488,18 +330580,6 @@
         -79.5582
       ],
       "division": "Division 23",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1E": {
-      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
-      "approximate": true,
-      "coordinates": [
-        43.7678,
-        -79.1866
-      ],
-      "division": "Division 43",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
