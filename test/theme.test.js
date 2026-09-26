@@ -61,7 +61,6 @@ test('audited UI states use shared theme tokens', () => {
   assert.match(css, /\.call-row\.selected\s*{[\s\S]*?var\(--accent-soft\)[\s\S]*?var\(--accent-line\)/);
   assert.match(css, /\.leaflet-tooltip\s*{[\s\S]*?background: var\(--panel\)/);
   assert.match(css, /\.leaflet-popup-content-wrapper,[\s\S]*?background: var\(--panel-2\)/);
-  assert.match(css, /\.map-empty\s*{[\s\S]*?background: var\(--map-empty-background\)/);
   assert.match(css, /\.error-state strong\s*{\s*color: var\(--danger\)/);
   assert.match(css, /\.feed-status\s*{[\s\S]*?background: var\(--warning-soft\)[\s\S]*?color: var\(--status-warning\)/);
   assert.match(css, /\.event-filters select\s*{[\s\S]*?color: var\(--text\)[\s\S]*?background: var\(--control-bg\)/);

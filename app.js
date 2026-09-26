@@ -74,7 +74,6 @@ const els = {
   dispatchMap: document.querySelector("#dispatchMap"),
   mapStatus: document.querySelector("#mapStatus"),
   sourceUpdated: document.querySelector("#sourceUpdated"),
-  mapEmpty: document.querySelector("#mapEmpty"),
   callTemplate: document.querySelector("#callTemplate"),
   footerClock: document.querySelector("#footerClock")
 };
@@ -1159,7 +1158,6 @@ function renderMapMarkers() {
   const mapStatusText = locatedCalls.length ? `${locatedCalls.length}/${state.filtered.length} LOCATED` : "NO MAPPED LOCATIONS";
   els.mapStatus.textContent = mapStatusText;
   document.querySelector('#mobileMapStatus').textContent = mapStatusText;
-  els.mapEmpty.hidden = locatedCalls.length > 0;
   nearbyOriginLayer?.clearLayers();
   if (state.nearby && state.radiusKm !== null) {
     L.circle(state.nearby, { className: 'nearby-radius', radius: state.radiusKm * 1000, color: '#63e6be', weight: 1, opacity: .65, fillOpacity: .035, interactive: false }).addTo(nearbyOriginLayer);
@@ -1179,8 +1177,6 @@ function renderMap() {
   if (!dispatchMap) return;
 
   renderMapMarkers();
-  els.mapEmpty.querySelector("strong").textContent = "No mapped locations";
-  els.mapEmpty.querySelector("span").textContent = "No locations in this view could be resolved from the published data.";
 }
 
 function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false } = {}) {
