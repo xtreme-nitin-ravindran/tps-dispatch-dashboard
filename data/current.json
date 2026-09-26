@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T03:44:14.994Z",
-  "sourceUpdatedAt": "2026-09-26T03:40:02.000Z",
+  "fetchedAt": "2026-09-26T03:45:35.568Z",
+  "sourceUpdatedAt": "2026-09-26T03:45:01.000Z",
   "incidents": [
+    {
+      "id": "F26152571",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4C",
+      "division": "226",
+      "timestamp": "2026-09-26T03:38:08.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T03:45:35.568Z",
+      "lastSeenAt": "2026-09-26T03:45:35.568Z",
+      "geography": {
+        "text": "Approximate area: (M4C) East York (Woodbine Heights)",
+        "approximate": true,
+        "coordinates": [
+          43.6913,
+          -79.3116
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152570",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5R",
+      "division": "344",
+      "timestamp": "2026-09-26T03:37:04.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T03:45:35.568Z",
+      "lastSeenAt": "2026-09-26T03:45:35.568Z",
+      "geography": {
+        "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
+        "approximate": true,
+        "coordinates": [
+          43.6736,
+          -79.4035
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152569",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "BATHURST ST, TT / FRONT ST W / LN S NIAGARA W BATHURST",
+      "division": "331",
+      "timestamp": "2026-09-26T03:35:18.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T03:45:35.568Z",
+      "lastSeenAt": "2026-09-26T03:45:35.568Z",
+      "geography": {
+        "text": "Bathurst Street between Front Street West & Lane South Niagara West Bathurst",
+        "approximate": false,
+        "coordinates": [
+          43.64114465,
+          -79.40157095
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T03:45:35.568Z"
+      }
+    },
     {
       "id": "F26152568",
       "source": "TFS",
@@ -16,9 +94,18 @@
       "timestamp": "2026-09-26T03:31:23.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "344"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T03:40:28.906Z",
-      "lastSeenAt": "2026-09-26T03:44:14.994Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T03:45:35.568Z",
+      "lastSeenAt": "2026-09-26T03:45:35.568Z",
       "geography": {
         "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
         "approximate": true,
@@ -53,7 +140,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T03:36:48.752Z",
       "lastMeaningfulUpdateAt": "2026-09-26T03:40:28.906Z",
-      "lastSeenAt": "2026-09-26T03:44:14.994Z",
+      "lastSeenAt": "2026-09-26T03:45:35.568Z",
       "geography": {
         "text": "Approximate area: (M2R) Willowdale West",
         "approximate": true,
@@ -102,7 +189,7 @@
       "division": "311",
       "timestamp": "2026-09-26T03:25:13.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -216,7 +303,7 @@
       "division": "226",
       "timestamp": "2026-09-26T03:23:30.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -263,7 +350,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T03:30:51.747Z",
       "lastMeaningfulUpdateAt": "2026-09-26T03:36:48.752Z",
-      "lastSeenAt": "2026-09-26T03:44:14.994Z",
+      "lastSeenAt": "2026-09-26T03:45:35.568Z",
       "geography": {
         "text": "Approximate area: (M4A) North York (Sweeney Park / Wigmore Park)",
         "approximate": true,
@@ -308,7 +395,7 @@
       "division": "234",
       "timestamp": "2026-09-26T03:18:45.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -365,7 +452,7 @@
       "division": "435",
       "timestamp": "2026-09-26T03:15:17.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -583,7 +670,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T03:21:14.375Z",
       "lastMeaningfulUpdateAt": "2026-09-26T03:26:04.032Z",
-      "lastSeenAt": "2026-09-26T03:44:14.994Z",
+      "lastSeenAt": "2026-09-26T03:45:35.568Z",
       "geography": {
         "text": "Street Mary Street & Bay Street",
         "approximate": false,
@@ -678,7 +765,7 @@
       "respondingUnitCount": 9,
       "firstSeenAt": "2026-09-26T03:15:45.800Z",
       "lastMeaningfulUpdateAt": "2026-09-26T03:30:51.747Z",
-      "lastSeenAt": "2026-09-26T03:44:14.994Z",
+      "lastSeenAt": "2026-09-26T03:45:35.568Z",
       "geography": {
         "text": "Beechwood Avenue between Hedgewood Road & Highland Crescent",
         "approximate": false,
@@ -735,7 +822,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T03:15:45.800Z",
       "lastMeaningfulUpdateAt": "2026-09-26T03:21:14.375Z",
-      "lastSeenAt": "2026-09-26T03:44:14.994Z",
+      "lastSeenAt": "2026-09-26T03:45:35.568Z",
       "geography": {
         "text": "Approximate area: (M4H) East York (Thorncliffe Park)",
         "approximate": true,
@@ -1099,7 +1186,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T03:00:55.207Z",
       "lastMeaningfulUpdateAt": "2026-09-26T03:05:26.732Z",
-      "lastSeenAt": "2026-09-26T03:44:14.994Z",
+      "lastSeenAt": "2026-09-26T03:45:35.568Z",
       "geography": {
         "text": "Approximate location near Pharmacy Avenue & Dolphin Drive",
         "approximate": true,
@@ -6321,7 +6408,7 @@
       "respondingUnitCount": 15,
       "firstSeenAt": "2026-09-25T22:15:55.589Z",
       "lastMeaningfulUpdateAt": "2026-09-26T01:56:04.195Z",
-      "lastSeenAt": "2026-09-26T03:44:14.994Z",
+      "lastSeenAt": "2026-09-26T03:45:35.568Z",
       "geography": {
         "text": "Wellesley Street between Street Nicholas Street & Bay Street",
         "approximate": false,
@@ -168855,12 +168942,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T03:44:14.994Z",
-      "sourceUpdatedAt": "2026-09-26T03:40:02.000Z",
+      "fetchedAt": "2026-09-26T03:45:35.568Z",
+      "sourceUpdatedAt": "2026-09-26T03:45:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T03:44:14.994Z",
+      "fetchedAt": "2026-09-26T03:45:35.568Z",
       "status": "ok"
     }
   },
@@ -319686,8 +319773,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-26T03:40:28.906Z",
-      "fetchedAt": "2026-09-26T03:40:28.906Z"
+      "checkedAt": "2026-09-26T03:45:35.568Z",
+      "fetchedAt": "2026-09-26T03:45:35.568Z"
     },
     "transit": {
       "items": [
@@ -321402,36 +321489,6 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
-          "id": "76897",
-          "title": "37A Islington: Buses are not stopping near Woodbine Racetrack Loop (Main Entrance) due to a demonstration.",
-          "description": "",
-          "effect": "NO SERVICE",
-          "routes": [
-            "37"
-          ],
-          "stopIds": [
-            "13938"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": "37",
-              "stopId": "13938",
-              "coordinates": [
-                43.716178,
-                -79.603632
-              ],
-              "name": "Woodbine Racetrack Loop (Main Entrance)"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790342973000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
           "id": "100",
           "title": "101 Downsview Park – Temporary route change due to Rogers Stadium concert road closures",
           "description": "during concert dates as shown (subject to change):\n \n\n101 Downsview Park buses will divert both ways on Sheppard Avenue West to Keele Street. Buses will stop on the street outside of Downsview Park Station.\n \nDuring this time, the 101 Downsview Park route will be extended to Sheppard West Station. \n \nStops not served: John Drury Drive, Carl Hall Road, and Service Road to Downsview Park Station.",
@@ -322600,6 +322657,82 @@
             {
               "start": 1790582400000,
               "end": 1791014400000
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "76958",
+          "title": "York Mills: Escalator 20Y9E out of service from concourse to bus platform due to a technical problem.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "13791",
+            "13792"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "13791",
+              "coordinates": [
+                43.744448,
+                -79.406191
+              ],
+              "name": "York Mills Station - Northbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13792",
+              "coordinates": [
+                43.743248,
+                -79.405991
+              ],
+              "name": "York Mills Station - Southbound Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790394190000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "76957",
+          "title": "York Mills: Escalator 20Y6E out of service from bus platform to concourse due to a technical problem.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "13791",
+            "13792"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "13791",
+              "coordinates": [
+                43.744448,
+                -79.406191
+              ],
+              "name": "York Mills Station - Northbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13792",
+              "coordinates": [
+                43.743248,
+                -79.405991
+              ],
+              "name": "York Mills Station - Southbound Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790394171000,
+              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -324111,14 +324244,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-26T03:40:29.000Z",
+      "sourceUpdatedAt": "2026-09-26T03:45:36.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-26T03:40:28.906Z",
-      "fetchedAt": "2026-09-26T03:40:28.906Z"
+      "checkedAt": "2026-09-26T03:45:35.568Z",
+      "fetchedAt": "2026-09-26T03:45:35.568Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4C": {
+      "text": "Approximate area: (M4C) East York (Woodbine Heights)",
+      "approximate": true,
+      "coordinates": [
+        43.6913,
+        -79.3116
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M5R": {
       "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
       "approximate": true,
@@ -324130,6 +324275,18 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "BATHURST ST, TT / FRONT ST W / LN S NIAGARA W BATHURST": {
+      "text": "Bathurst Street between Front Street West & Lane South Niagara West Bathurst",
+      "approximate": false,
+      "coordinates": [
+        43.64114465,
+        -79.40157095
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T03:45:35.568Z"
     },
     "M2R": {
       "text": "Approximate area: (M2R) Willowdale West",
@@ -324760,18 +324917,6 @@
         -79.193
       ],
       "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4C": {
-      "text": "Approximate area: (M4C) East York (Woodbine Heights)",
-      "approximate": true,
-      "coordinates": [
-        43.6913,
-        -79.3116
-      ],
-      "division": "Division 55",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
