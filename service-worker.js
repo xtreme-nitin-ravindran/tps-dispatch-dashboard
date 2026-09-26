@@ -8,7 +8,7 @@ const APP_SHELL = [
   "./favicon.png",
   "./icon-192.png",
   "./icon-512.png",
-  "./brand-dog.jpg",
+  "./brand-spaghetti.jpg",
   "./brand-doberman.jpg",
   "./data/police-divisions.geojson",
   "./src/call-presentation.js",

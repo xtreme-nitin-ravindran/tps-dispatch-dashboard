@@ -59,7 +59,7 @@
   <div class="app-shell">
     <header class="topbar">
       <div class="brand">
-        <img class="brand-mark" src="./brand-dog.jpg" alt="Golden retriever" width="44" height="44" />
+        <img class="brand-mark" src="./brand-spaghetti.jpg" alt="Golden retriever" width="44" height="44" />
         <div>
           <h1>SirenTO</h1>
           <div class="brand-kicker">Fire and police calls, mapped to your neighbourhood.</div>
@@ -95,12 +95,15 @@
         </div>
         <div class="nearby-action">
           <button id="nearMe" type="button">What’s happening near me?</button>
-          <button id="hearSirens" type="button" aria-label="Find nearby calls that may explain sirens">Hear sirens?</button>
+          <button id="hearSirens" type="button" aria-label="Find nearby calls that may explain sirens">Hear
+            sirens?</button>
           <p id="nearStatus" role="status">Uses your location with permission. Your location stays in this browser
             session.</p>
           <div id="nearControls" hidden>
-            <button id="chooseArea" type="button"><span class="desktop-location-action">Choose an area on the map</span><span class="mobile-location-action">Choose area</span></button>
-            <button id="clearNearby" type="button"><span class="desktop-location-action">Clear nearby filter</span><span class="mobile-location-action">Clear nearby</span></button>
+            <button id="chooseArea" type="button"><span class="desktop-location-action">Choose an area on the
+                map</span><span class="mobile-location-action">Choose area</span></button>
+            <button id="clearNearby" type="button"><span class="desktop-location-action">Clear nearby filter</span><span
+                class="mobile-location-action">Clear nearby</span></button>
           </div>
           <details class="nearby-options" open>
             <summary>Location &amp; more options</summary>
@@ -120,41 +123,54 @@
       </section>
       <dialog id="watchDialog" class="watch-dialog" aria-labelledby="watchTitle">
         <div class="watch-dialog-head">
-          <div><span class="section-kicker">LOCAL WATCH</span><h2 id="watchTitle">Watch this area</h2></div>
+          <div><span class="section-kicker">LOCAL WATCH</span>
+            <h2 id="watchTitle">Watch this area</h2>
+          </div>
           <button id="closeWatch" class="dialog-close" type="button" aria-label="Close watch settings">×</button>
         </div>
         <p id="watchSupport" class="watch-support" role="status"></p>
         <form id="watchForm">
           <p class="watch-location"><strong>Location</strong><span id="watchLocationLabel"></span></p>
-          <p id="watchLocationRequired" class="watch-location-required" role="alert" hidden>Select a current, saved, or map location before configuring a watch.</p>
+          <p id="watchLocationRequired" class="watch-location-required" role="alert" hidden>Select a current, saved, or
+            map location before configuring a watch.</p>
           <label for="watchRadius">Radius
             <select id="watchRadius">
-              <option value="0.5">500 m</option><option value="1">1 km</option>
-              <option value="2">2 km</option><option value="5">5 km</option>
+              <option value="0.5">500 m</option>
+              <option value="1">1 km</option>
+              <option value="2">2 km</option>
+              <option value="5">5 km</option>
             </select>
           </label>
           <label for="watchService">Service
             <select id="watchService">
-              <option value="all">All services</option><option value="TFS">Toronto Fire Services</option>
+              <option value="all">All services</option>
+              <option value="TFS">Toronto Fire Services</option>
               <option value="TPS">Toronto Police Service</option>
             </select>
           </label>
           <label for="watchCategory">Event type
             <select id="watchCategory">
-              <option value="all">All event types</option><option value="medical">Medical</option>
-              <option value="fire">Fire</option><option value="ongoing">Ongoing</option><option value="other">Other</option>
+              <option value="all">All event types</option>
+              <option value="medical">Medical</option>
+              <option value="fire">Fire</option>
+              <option value="ongoing">Ongoing</option>
+              <option value="other">Other</option>
             </select>
           </label>
           <button id="saveWatch" type="submit">Save and enable notifications</button>
         </form>
         <p id="watchResult" class="watch-result" role="status" aria-live="polite"></p>
         <button id="stopWatch" class="stop-watch" type="button" hidden>Stop watching this area</button>
-        <p class="watch-future-note">Permission is requested only when you save. SirenTO never includes your watch coordinates or labels in notification payloads.</p>
+        <p class="watch-future-note">Permission is requested only when you save. SirenTO never includes your watch
+          coordinates or labels in notification payloads.</p>
       </dialog>
       <dialog id="savedLocationsDialog" class="saved-locations-dialog" aria-labelledby="savedLocationsTitle">
         <div class="saved-locations-dialog-head">
-          <div><span class="section-kicker">YOUR PLACES</span><h2 id="savedLocationsTitle">Saved locations</h2></div>
-          <button id="closeSavedLocations" class="dialog-close" type="button" aria-label="Close saved locations">×</button>
+          <div><span class="section-kicker">YOUR PLACES</span>
+            <h2 id="savedLocationsTitle">Saved locations</h2>
+          </div>
+          <button id="closeSavedLocations" class="dialog-close" type="button"
+            aria-label="Close saved locations">×</button>
         </div>
         <form id="savedLocationForm" novalidate>
           <input id="savedLocationId" type="hidden" />
@@ -233,7 +249,8 @@
         </div>
       </section>
 
-      <div class="view-actions secondary-filter-control"><span id="filterSummary"></span><button id="clearFilters" type="button">Clear
+      <div class="view-actions secondary-filter-control"><span id="filterSummary"></span><button id="clearFilters"
+          type="button">Clear
           filters</button><button id="shareView" type="button">Share view</button><input id="shareLink"
           aria-label="Shareable view link" readonly hidden><span id="shareStatus" role="status"></span></div>
       <p id="sharedIncidentStatus" class="shared-incident-status" role="status" hidden></p>
@@ -250,8 +267,7 @@
         <div class="mobile-view-toggle" role="group" aria-label="Choose mobile dashboard view">
           <button type="button" data-mobile-view="map" class="active" aria-pressed="true"
             aria-controls="mapView">Map</button>
-          <button type="button" data-mobile-view="calls" aria-pressed="false"
-            aria-controls="callsView">Calls</button>
+          <button type="button" data-mobile-view="calls" aria-pressed="false" aria-controls="callsView">Calls</button>
         </div>
       </nav>
 
@@ -291,7 +307,8 @@
         </div>
       </aside>
 
-      <p id="mobileMapDataWarning" class="feed-status mobile-map-data-warning" role="status" aria-live="polite" hidden></p>
+      <p id="mobileMapDataWarning" class="feed-status mobile-map-data-warning" role="status" aria-live="polite" hidden>
+      </p>
 
       <section class="map-stage" id="mapView">
         <div class="panel map-panel">
@@ -433,7 +450,9 @@
         <div class="map-info-body">
           <p class="mobile-map-located"><strong>Mapped calls:</strong> <span id="mobileMapStatus">—</span></p>
           <div class="map-info-heading">
-            <div><span class="section-kicker">GEOGRAPHY</span><h3>Toronto call map</h3></div>
+            <div><span class="section-kicker">GEOGRAPHY</span>
+              <h3>Toronto call map</h3>
+            </div>
             <div class="source-updated"><span class="source-updated-title">Source updates</span><span
                 class="source-updated-title">Toronto time</span><strong id="sourceUpdated">—</strong><a
                 class="source-times-help" href="#source-timestamps">What do these times mean?</a></div>
@@ -471,7 +490,8 @@
               target="_blank" rel="noopener noreferrer">City of Toronto road restrictions ↗</a></p>
         </details>
         <details id="nearbyTransit" hidden open>
-          <summary><span id="nearbyTransitScope">TTC disruptions near selected area</span> (<span id="nearbyTransitCount">—</span>)</summary>
+          <summary><span id="nearbyTransitScope">TTC disruptions near selected area</span> (<span
+              id="nearbyTransitCount">—</span>)</summary>
           <p id="nearbyTransitFreshness" class="disruption-note">Not available yet</p>
           <div id="nearbyTransitList" class="disruption-list"></div>
         </details>
