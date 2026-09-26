@@ -5,7 +5,7 @@ import { createNotificationDeliveryController } from './notification-delivery.js
 import { loadWatchBackendConfig } from './watch-backend-config.js';
 import { createWebPushSender } from './web-push-sender.js';
 
-const SNAPSHOT_MAX_BYTES = 4 * 1024 * 1024;
+const SNAPSHOT_MAX_BYTES = 8 * 1024 * 1024;
 
 function requiredUrl(environment, name) {
   const value = environment?.[name];

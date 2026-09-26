@@ -246,10 +246,17 @@ test('scheduled snapshot loading rejects unavailable, oversized, and malformed s
     WATCH_SNAPSHOT_URL: 'https://sirento.example/data/current.json',
     WATCH_INCIDENT_BASE_URL: incidentBaseUrl
   };
+  const productionSized = createScheduledWatchMatcher({
+    fetchImpl: async () => Response.json({
+      ...matchingSnapshot({ incidents: [], fetchedAt: new Date().toISOString() }),
+      padding: 'x'.repeat(5 * 1024 * 1024)
+    })
+  });
+  assert.equal((await productionSized(environment)).candidates.length, 0);
   const cases = [
     new Response('', { status: 503 }),
-    new Response('{}', { headers: { 'content-length': String(4 * 1024 * 1024 + 1) } }),
-    new Response('x'.repeat(4 * 1024 * 1024 + 1)),
+    new Response('{}', { headers: { 'content-length': String(8 * 1024 * 1024 + 1) } }),
+    new Response('x'.repeat(8 * 1024 * 1024 + 1)),
     new Response('{broken')
   ];
   for (const response of cases) {
