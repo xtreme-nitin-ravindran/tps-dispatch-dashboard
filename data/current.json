@@ -3,9 +3,135 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T19:10:37.998Z",
-  "sourceUpdatedAt": "2026-09-26T19:05:01.000Z",
+  "fetchedAt": "2026-09-26T19:12:05.530Z",
+  "sourceUpdatedAt": "2026-09-26T19:10:02.000Z",
   "incidents": [
+    {
+      "id": "F26152908",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "DON MILLS RD, EY / TAYLOR CREEK TRL / WEST DON RIVER TRL",
+      "division": "322",
+      "timestamp": "2026-09-26T19:04:52.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T19:12:05.530Z",
+      "lastSeenAt": "2026-09-26T19:12:05.530Z",
+      "geography": {
+        "text": "Approximate location near Don Mills Road & Taylor Creek Trl",
+        "approximate": true,
+        "coordinates": [
+          43.7026925,
+          -79.3351161
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-25T01:16:17.738Z"
+      }
+    },
+    {
+      "id": "F26152907",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6K",
+      "division": "346",
+      "timestamp": "2026-09-26T19:03:55.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T19:12:05.530Z",
+      "lastSeenAt": "2026-09-26T19:12:05.530Z",
+      "geography": {
+        "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+        "approximate": true,
+        "coordinates": [
+          43.6383,
+          -79.4301
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152906",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6S",
+      "division": "425",
+      "timestamp": "2026-09-26T19:03:00.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T19:12:05.530Z",
+      "lastSeenAt": "2026-09-26T19:12:05.530Z",
+      "geography": {
+        "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
+        "approximate": true,
+        "coordinates": [
+          43.6512,
+          -79.4828
+        ],
+        "division": "Division 11",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152905",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4Y",
+      "division": "314",
+      "timestamp": "2026-09-26T19:00:55.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T19:12:05.530Z",
+      "lastSeenAt": "2026-09-26T19:12:05.530Z",
+      "geography": {
+        "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
+        "approximate": true,
+        "coordinates": [
+          43.6656,
+          -79.383
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-7bd03071d41154ce4ad4cc47",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-26T18:59:43.000Z",
+      "location": "MILL ST - YONGE ST",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MILL ST - YONGE ST",
+        "coordinates": [
+          43.74037838003843,
+          -79.40588977305173
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T19:12:05.530Z"
+    },
     {
       "id": "F26152904",
       "source": "TFS",
@@ -16,9 +142,18 @@
       "timestamp": "2026-09-26T18:59:11.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "412"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T19:06:43.622Z",
-      "lastSeenAt": "2026-09-26T19:10:37.998Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T19:12:05.530Z",
+      "lastSeenAt": "2026-09-26T19:12:05.530Z",
       "geography": {
         "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
         "approximate": true,
@@ -42,9 +177,18 @@
       "timestamp": "2026-09-26T18:55:57.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "422"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T19:06:43.622Z",
-      "lastSeenAt": "2026-09-26T19:10:37.998Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T19:12:05.530Z",
+      "lastSeenAt": "2026-09-26T19:12:05.530Z",
       "geography": {
         "text": "Approximate area: (M6N) York (Runnymede / The Junction North)",
         "approximate": true,
@@ -59,6 +203,28 @@
       }
     },
     {
+      "id": "TPS-58334b8b583e83279e5c3faf",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-26T18:55:39.000Z",
+      "location": "BAYVIEW AVE - NESBITT DR",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BAYVIEW AVE - NESBITT DR",
+        "coordinates": [
+          43.694163786201926,
+          -79.3662825033669
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T19:12:05.530Z"
+    },
+    {
       "id": "F26152902",
       "source": "TFS",
       "eventType": "fire",
@@ -68,9 +234,18 @@
       "timestamp": "2026-09-26T18:55:36.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "226"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T19:06:43.622Z",
-      "lastSeenAt": "2026-09-26T19:10:37.998Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T19:12:05.530Z",
+      "lastSeenAt": "2026-09-26T19:12:05.530Z",
       "geography": {
         "text": "Approximate area: (M4C) East York (Woodbine Heights)",
         "approximate": true,
@@ -83,6 +258,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-7a387ec53fd21276ed672a9b",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-26T18:55:26.000Z",
+      "location": "LN N AUSTIN E PAPE - LN S GERRARD W MARJORY",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN N AUSTIN E PAPE - LN S GERRARD W MARJORY",
+        "coordinates": [
+          43.66750694702429,
+          -79.33702199609084
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T19:12:05.530Z"
+    },
+    {
+      "id": "TPS-35dbe2601240b20a1b4640cf",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT IN PROGRESS",
+      "callTypeCode": "THEPR",
+      "timestamp": "2026-09-26T18:54:56.000Z",
+      "location": "YONGE ST - REDPATH AVE",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "YONGE ST - REDPATH AVE",
+        "coordinates": [
+          43.70735320893923,
+          -79.39547074974986
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T19:12:05.530Z"
+    },
+    {
+      "id": "TPS-56cccdab16b5df0788d6fb99",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING ELDERLY",
+      "callTypeCode": "MISEL",
+      "timestamp": "2026-09-26T18:54:37.000Z",
+      "location": "EGLINTON AVE WEST TRL - ROYAL YORK RD",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "EGLINTON AVE WEST TRL - ROYAL YORK RD",
+        "coordinates": [
+          43.682307201041205,
+          -79.51884098418208
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T19:12:05.530Z"
     },
     {
       "id": "F26152901",
@@ -105,7 +346,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T19:04:04.069Z",
       "lastMeaningfulUpdateAt": "2026-09-26T19:06:43.622Z",
-      "lastSeenAt": "2026-09-26T19:10:37.998Z",
+      "lastSeenAt": "2026-09-26T19:12:05.530Z",
       "geography": {
         "text": "Approximate area: (M6M) York (Del Ray / Keelsdale / Mount Dennis / Silverthorne)",
         "approximate": true,
@@ -128,7 +369,7 @@
       "division": "241",
       "timestamp": "2026-09-26T18:50:35.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -174,7 +415,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T18:55:53.639Z",
-      "lastSeenAt": "2026-09-26T19:10:37.998Z",
+      "lastSeenAt": "2026-09-26T19:12:05.530Z",
       "geography": {
         "text": "Approximate area: (M8Y) Etobicoke (Old Mill South / King's Mill Park / Sunnylea / Humber Bay / Mimico NE / The Queensway East / Royal York South East / Kingsway Park South East)",
         "approximate": true,
@@ -208,7 +449,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T18:55:53.639Z",
-      "lastSeenAt": "2026-09-26T19:10:37.998Z",
+      "lastSeenAt": "2026-09-26T19:12:05.530Z",
       "geography": {
         "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
         "approximate": true,
@@ -300,7 +541,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T18:46:15.029Z",
       "lastMeaningfulUpdateAt": "2026-09-26T18:51:15.615Z",
-      "lastSeenAt": "2026-09-26T19:10:37.998Z",
+      "lastSeenAt": "2026-09-26T19:12:05.530Z",
       "geography": {
         "text": "Yonge Street & Queens Quay West",
         "approximate": false,
@@ -1587,7 +1828,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T18:03:24.473Z",
-      "lastSeenAt": "2026-09-26T19:10:37.998Z",
+      "lastSeenAt": "2026-09-26T19:12:05.530Z",
       "geography": {
         "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
         "approximate": true,
@@ -10578,7 +10819,7 @@
       "respondingUnitCount": 21,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-26T16:45:34.233Z",
-      "lastSeenAt": "2026-09-26T19:10:37.998Z",
+      "lastSeenAt": "2026-09-26T19:12:05.530Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -181472,58 +181713,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T19:21:01.278Z"
       }
-    },
-    {
-      "id": "TPS-2c424235f5690d79806a1807",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "IMPAIRED DRIVER",
-      "callTypeCode": "IMPDR",
-      "timestamp": "2026-09-19T19:12:04.000Z",
-      "location": "JOHN DRURY DR - METROLINX",
-      "division": "Division 31",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "JOHN DRURY DR - METROLINX",
-        "coordinates": [
-          43.74827614349597,
-          -79.48266291493303
-        ],
-        "division": "Division 31",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-0f7407e9ad0fc316eb8fd768",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "UNKNOWN TROUBLE",
-      "callTypeCode": "UNKTR",
-      "timestamp": "2026-09-19T19:11:21.000Z",
-      "location": "FERNANDEZ LANE - RUSHTON RD",
-      "division": "Division 13",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "FERNANDEZ LANE - RUSHTON RD",
-        "coordinates": [
-          43.68893908576939,
-          -79.43296211056513
-        ],
-        "division": "Division 13",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T19:10:37.998Z",
-      "sourceUpdatedAt": "2026-09-26T19:05:01.000Z",
+      "fetchedAt": "2026-09-26T19:12:05.530Z",
+      "sourceUpdatedAt": "2026-09-26T19:10:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T19:10:37.998Z",
+      "fetchedAt": "2026-09-26T19:12:05.530Z",
       "status": "ok"
     }
   },
@@ -335779,6 +335978,54 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "DON MILLS RD, EY / TAYLOR CREEK TRL / WEST DON RIVER TRL": {
+      "text": "Approximate location near Don Mills Road & Taylor Creek Trl",
+      "approximate": true,
+      "coordinates": [
+        43.7026925,
+        -79.3351161
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-25T01:16:17.738Z"
+    },
+    "M6K": {
+      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+      "approximate": true,
+      "coordinates": [
+        43.6383,
+        -79.4301
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M6S": {
+      "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
+      "approximate": true,
+      "coordinates": [
+        43.6512,
+        -79.4828
+      ],
+      "division": "Division 11",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4Y": {
+      "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
+      "approximate": true,
+      "coordinates": [
+        43.6656,
+        -79.383
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M9W": {
       "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
       "approximate": true,
@@ -335847,18 +336094,6 @@
         -79.4939
       ],
       "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4Y": {
-      "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
-      "approximate": true,
-      "coordinates": [
-        43.6656,
-        -79.383
-      ],
-      "division": "Division 51",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -336261,18 +336496,6 @@
         -79.34401564999999
       ],
       "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6K": {
-      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
-      "approximate": true,
-      "coordinates": [
-        43.6383,
-        -79.4301
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -337692,18 +337915,6 @@
         -79.2069
       ],
       "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6S": {
-      "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
-      "approximate": true,
-      "coordinates": [
-        43.6512,
-        -79.4828
-      ],
-      "division": "Division 11",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -340287,18 +340498,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T01:56:11.112Z"
-    },
-    "DON MILLS RD, EY / TAYLOR CREEK TRL / WEST DON RIVER TRL": {
-      "text": "Approximate location near Don Mills Road & Taylor Creek Trl",
-      "approximate": true,
-      "coordinates": [
-        43.7026925,
-        -79.3351161
-      ],
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-25T01:16:17.738Z"
     },
     "BLUE JAYS WAY, TT / CONCORD CITYPLACE WAY / NAVY WHARF CRT": {
       "text": "Blue Jays Way between Concord Cityplace Way & Navy Wharf Court",
