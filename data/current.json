@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T16:58:41.066Z",
-  "sourceUpdatedAt": "2026-09-26T16:55:01.000Z",
+  "fetchedAt": "2026-09-26T17:00:28.853Z",
+  "sourceUpdatedAt": "2026-09-26T17:00:01.000Z",
   "incidents": [
+    {
+      "id": "F26152843",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Grass/Rubbish",
+      "location": "MCCOWAN RD / ST ANDREWS RD",
+      "division": "231",
+      "timestamp": "2026-09-26T16:52:08.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T17:00:28.853Z",
+      "lastSeenAt": "2026-09-26T17:00:28.853Z",
+      "geography": {
+        "text": "Mccowan Road & Street Andrews Road",
+        "approximate": false,
+        "coordinates": [
+          43.7600792,
+          -79.2468513
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T17:00:28.853Z"
+      }
+    },
     {
       "id": "TPS-5e9de8591f9051084dbf059c",
       "source": "TPS",
@@ -27,6 +53,32 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-26T16:55:31.180Z"
+    },
+    {
+      "id": "F26152842",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4Y",
+      "division": "314",
+      "timestamp": "2026-09-26T16:51:19.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T17:00:28.853Z",
+      "lastSeenAt": "2026-09-26T17:00:28.853Z",
+      "geography": {
+        "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
+        "approximate": true,
+        "coordinates": [
+          43.6656,
+          -79.383
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
     },
     {
       "id": "TPS-3cefd53df0aa6835ae37182f",
@@ -60,9 +112,37 @@
       "timestamp": "2026-09-26T16:48:04.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "14"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "143",
+            "144"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "133"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "143"
+          ]
+        }
+      ],
+      "respondingUnitCount": 5,
       "firstSeenAt": "2026-09-26T16:55:31.180Z",
-      "lastSeenAt": "2026-09-26T16:58:41.066Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T17:00:28.853Z",
+      "lastSeenAt": "2026-09-26T17:00:28.853Z",
       "geography": {
         "text": "Wilson Avenue between Agate Road & Julian Road",
         "approximate": false,
@@ -86,9 +166,18 @@
       "timestamp": "2026-09-26T16:47:16.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "115"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T16:55:31.180Z",
-      "lastSeenAt": "2026-09-26T16:58:41.066Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T17:00:28.853Z",
+      "lastSeenAt": "2026-09-26T17:00:28.853Z",
       "geography": {
         "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
         "approximate": true,
@@ -112,9 +201,18 @@
       "timestamp": "2026-09-26T16:47:10.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "131"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T16:55:31.180Z",
-      "lastSeenAt": "2026-09-26T16:58:41.066Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T17:00:28.853Z",
+      "lastSeenAt": "2026-09-26T17:00:28.853Z",
       "geography": {
         "text": "Forman Avenue & Eglinton Avenue East",
         "approximate": false,
@@ -211,7 +309,7 @@
       "source": "TFS",
       "eventType": "fire",
       "description": "Vehicle - Personal Injury",
-      "location": "SCOTT RD, YK / KERSDALE AVE / AILEEN AVE",
+      "location": "EGLINTON AVE, YK / SCOTT RD / KEELE ST",
       "division": "421",
       "timestamp": "2026-09-26T16:40:25.000Z",
       "alarmLevel": 0,
@@ -226,15 +324,16 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T16:50:33.950Z",
-      "lastSeenAt": "2026-09-26T16:58:41.066Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T17:00:28.853Z",
+      "lastSeenAt": "2026-09-26T17:00:28.853Z",
       "geography": {
-        "text": "Scott Road between Kersdale Avenue & Aileen Avenue",
-        "approximate": false,
+        "text": "Approximate location near Eglinton Avenue & Scott Road",
+        "approximate": true,
         "coordinates": [
-          43.68336685,
-          -79.4695588
+          43.6906924,
+          -79.4727017
         ],
-        "division": "Division 12",
+        "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-26T16:50:33.950Z"
@@ -260,7 +359,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T16:45:34.233Z",
-      "lastSeenAt": "2026-09-26T16:58:41.066Z",
+      "lastSeenAt": "2026-09-26T17:00:28.853Z",
       "geography": {
         "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
         "approximate": true,
@@ -283,7 +382,7 @@
       "division": "315",
       "timestamp": "2026-09-26T16:36:22.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -429,7 +528,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T16:40:43.674Z",
       "lastMeaningfulUpdateAt": "2026-09-26T16:45:34.233Z",
-      "lastSeenAt": "2026-09-26T16:58:41.066Z",
+      "lastSeenAt": "2026-09-26T17:00:28.853Z",
       "geography": {
         "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
         "approximate": true,
@@ -1201,7 +1300,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T16:16:53.368Z",
-      "lastSeenAt": "2026-09-26T16:58:41.066Z",
+      "lastSeenAt": "2026-09-26T17:00:28.853Z",
       "geography": {
         "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
         "approximate": true,
@@ -2144,7 +2243,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T15:45:37.981Z",
       "lastMeaningfulUpdateAt": "2026-09-26T15:50:29.510Z",
-      "lastSeenAt": "2026-09-26T16:58:41.066Z",
+      "lastSeenAt": "2026-09-26T17:00:28.853Z",
       "geography": {
         "text": "Bayview Avenue between Scenic Millway & Heathcote Avenue",
         "approximate": false,
@@ -3522,7 +3621,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T15:06:19.925Z",
       "lastMeaningfulUpdateAt": "2026-09-26T15:15:51.738Z",
-      "lastSeenAt": "2026-09-26T16:58:41.066Z",
+      "lastSeenAt": "2026-09-26T17:00:28.853Z",
       "geography": {
         "text": "Morningside Avenue & Kennedy Avenue",
         "approximate": false,
@@ -7475,7 +7574,7 @@
       "respondingUnitCount": 21,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-26T16:45:34.233Z",
-      "lastSeenAt": "2026-09-26T16:58:41.066Z",
+      "lastSeenAt": "2026-09-26T17:00:28.853Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -180568,12 +180667,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T16:58:41.066Z",
-      "sourceUpdatedAt": "2026-09-26T16:55:01.000Z",
+      "fetchedAt": "2026-09-26T17:00:28.853Z",
+      "sourceUpdatedAt": "2026-09-26T17:00:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T16:58:41.066Z",
+      "fetchedAt": "2026-09-26T17:00:28.853Z",
       "status": "ok"
     }
   },
@@ -330204,8 +330303,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-26T16:54:11.300Z",
-      "fetchedAt": "2026-09-26T16:54:11.300Z"
+      "checkedAt": "2026-09-26T17:00:28.853Z",
+      "fetchedAt": "2026-09-26T17:00:28.853Z"
     },
     "transit": {
       "items": [
@@ -334697,14 +334796,38 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-26T16:54:11.000Z",
+      "sourceUpdatedAt": "2026-09-26T17:00:29.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-26T16:54:11.300Z",
-      "fetchedAt": "2026-09-26T16:54:11.300Z"
+      "checkedAt": "2026-09-26T17:00:28.853Z",
+      "fetchedAt": "2026-09-26T17:00:28.853Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "MCCOWAN RD / ST ANDREWS RD": {
+      "text": "Mccowan Road & Street Andrews Road",
+      "approximate": false,
+      "coordinates": [
+        43.7600792,
+        -79.2468513
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T17:00:28.853Z"
+    },
+    "M4Y": {
+      "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
+      "approximate": true,
+      "coordinates": [
+        43.6656,
+        -79.383
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "WILSON AVE, NY / AGATE RD / JULIAN RD": {
       "text": "Wilson Avenue between Agate Road & Julian Road",
       "approximate": false,
@@ -334749,18 +334872,6 @@
         -79.4727017
       ],
       "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-26T16:50:33.950Z"
-    },
-    "SCOTT RD, YK / KERSDALE AVE / AILEEN AVE": {
-      "text": "Scott Road between Kersdale Avenue & Aileen Avenue",
-      "approximate": false,
-      "coordinates": [
-        43.68336685,
-        -79.4695588
-      ],
-      "division": "Division 12",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T16:50:33.950Z"
@@ -335769,18 +335880,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T12:56:04.222Z"
-    },
-    "M4Y": {
-      "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
-      "approximate": true,
-      "coordinates": [
-        43.6656,
-        -79.383
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M4P": {
       "text": "Approximate area: (M4P) Central Toronto (Davisville North)",
