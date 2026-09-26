@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T07:09:26.305Z",
-  "sourceUpdatedAt": "2026-09-26T07:05:01.000Z",
+  "fetchedAt": "2026-09-26T07:11:03.741Z",
+  "sourceUpdatedAt": "2026-09-26T07:10:02.000Z",
   "incidents": [
+    {
+      "id": "F26152635",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6G",
+      "division": "315",
+      "timestamp": "2026-09-26T07:04:24.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "315"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T07:11:03.741Z",
+      "lastSeenAt": "2026-09-26T07:11:03.741Z",
+      "geography": {
+        "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
+        "approximate": true,
+        "coordinates": [
+          43.6683,
+          -79.4205
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26152634",
       "source": "TFS",
@@ -26,7 +60,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T07:00:30.059Z",
-      "lastSeenAt": "2026-09-26T07:09:26.305Z",
+      "lastSeenAt": "2026-09-26T07:11:03.741Z",
       "geography": {
         "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
         "approximate": true,
@@ -60,7 +94,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T07:00:30.059Z",
-      "lastSeenAt": "2026-09-26T07:09:26.305Z",
+      "lastSeenAt": "2026-09-26T07:11:03.741Z",
       "geography": {
         "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
         "approximate": true,
@@ -152,7 +186,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T06:46:28.659Z",
       "lastMeaningfulUpdateAt": "2026-09-26T06:55:05.194Z",
-      "lastSeenAt": "2026-09-26T07:09:26.305Z",
+      "lastSeenAt": "2026-09-26T07:11:03.741Z",
       "geography": {
         "text": "Approximate area: (M2P) North York (York Mills West)",
         "approximate": true,
@@ -369,7 +403,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-26T06:31:10.811Z",
       "lastMeaningfulUpdateAt": "2026-09-26T06:36:01.365Z",
-      "lastSeenAt": "2026-09-26T07:09:26.305Z",
+      "lastSeenAt": "2026-09-26T07:11:03.741Z",
       "geography": {
         "text": "Sheppard Avenue between Yonge Street & Doris Avenue",
         "approximate": false,
@@ -170349,13 +170383,13 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T07:09:26.305Z",
-      "sourceUpdatedAt": "2026-09-26T07:05:01.000Z",
+      "fetchedAt": "2026-09-26T07:11:03.741Z",
+      "sourceUpdatedAt": "2026-09-26T07:10:02.000Z",
       "status": "ok"
     },
     "TPS": {
       "fetchedAt": "2026-09-26T07:09:26.305Z",
-      "status": "ok"
+      "status": "unavailable"
     }
   },
   "disruptions": {
@@ -321216,8 +321250,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-26T07:05:50.506Z",
-      "fetchedAt": "2026-09-26T07:05:50.506Z"
+      "checkedAt": "2026-09-26T07:11:03.741Z",
+      "fetchedAt": "2026-09-26T07:11:03.741Z"
     },
     "transit": {
       "items": [
@@ -325389,14 +325423,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-26T07:05:51.000Z",
+      "sourceUpdatedAt": "2026-09-26T07:11:04.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-26T07:05:50.506Z",
-      "fetchedAt": "2026-09-26T07:05:50.506Z"
+      "checkedAt": "2026-09-26T07:11:03.741Z",
+      "fetchedAt": "2026-09-26T07:11:03.741Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6G": {
+      "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
+      "approximate": true,
+      "coordinates": [
+        43.6683,
+        -79.4205
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M9R": {
       "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
       "approximate": true,
@@ -326287,18 +326333,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T02:41:08.566Z"
-    },
-    "M6G": {
-      "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
-      "approximate": true,
-      "coordinates": [
-        43.6683,
-        -79.4205
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "JANE ST / EGLINTON AVE W": {
       "text": "Jane Street & Eglinton Avenue West",
