@@ -1,6 +1,6 @@
 # Bundled location reference data
 
-Retrieved 2026-09-19. These datasets are not covered by the code's Unlicense.
+Retrieved 2026-09-19. These datasets are not covered by the code's Spaghetti License.
 
 - Toronto Centreline, City of Toronto: https://open.toronto.ca/dataset/toronto-centreline-tcl/
   Open Government Licence – Toronto: https://www.toronto.ca/city-government/data-research-maps/open-data/open-data-licence/
