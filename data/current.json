@@ -3,9 +3,117 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T08:05:09.698Z",
-  "sourceUpdatedAt": "2026-09-26T08:00:02.000Z",
+  "fetchedAt": "2026-09-26T08:06:31.949Z",
+  "sourceUpdatedAt": "2026-09-26T08:05:01.000Z",
   "incidents": [
+    {
+      "id": "F26152649",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6K",
+      "division": "426",
+      "timestamp": "2026-09-26T08:00:08.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "426"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T08:06:31.949Z",
+      "lastSeenAt": "2026-09-26T08:06:31.949Z",
+      "geography": {
+        "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+        "approximate": true,
+        "coordinates": [
+          43.6383,
+          -79.4301
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152650",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5N",
+      "division": "135",
+      "timestamp": "2026-09-26T08:00:08.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "135"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T08:06:31.949Z",
+      "lastSeenAt": "2026-09-26T08:06:31.949Z",
+      "geography": {
+        "text": "Approximate area: (M5N) Central Toronto (Roselawn)",
+        "approximate": true,
+        "coordinates": [
+          43.7113,
+          -79.4195
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152648",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "ISLINGTON AVE, ET / DIXON RD / SWEET PEA PATH",
+      "division": "443",
+      "timestamp": "2026-09-26T07:57:27.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "443"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "441"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-26T08:06:31.949Z",
+      "lastSeenAt": "2026-09-26T08:06:31.949Z",
+      "geography": {
+        "text": "Islington Avenue between Dixon Road & Sweet Pea Path",
+        "approximate": false,
+        "coordinates": [
+          43.698405550000004,
+          -79.54732469999999
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T08:06:31.949Z"
+      }
+    },
     {
       "id": "F26152647",
       "source": "TFS",
@@ -170842,12 +170950,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T08:05:09.698Z",
-      "sourceUpdatedAt": "2026-09-26T08:00:02.000Z",
+      "fetchedAt": "2026-09-26T08:06:31.949Z",
+      "sourceUpdatedAt": "2026-09-26T08:05:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T08:05:09.698Z",
+      "fetchedAt": "2026-09-26T08:06:31.949Z",
       "status": "ok"
     }
   },
@@ -321709,8 +321817,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-26T08:00:27.435Z",
-      "fetchedAt": "2026-09-26T08:00:27.435Z"
+      "checkedAt": "2026-09-26T08:06:31.949Z",
+      "fetchedAt": "2026-09-26T08:06:31.949Z"
     },
     "transit": {
       "items": [
@@ -325882,14 +325990,50 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-26T08:00:28.000Z",
+      "sourceUpdatedAt": "2026-09-26T08:06:32.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-26T08:00:27.435Z",
-      "fetchedAt": "2026-09-26T08:00:27.435Z"
+      "checkedAt": "2026-09-26T08:06:31.949Z",
+      "fetchedAt": "2026-09-26T08:06:31.949Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6K": {
+      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+      "approximate": true,
+      "coordinates": [
+        43.6383,
+        -79.4301
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M5N": {
+      "text": "Approximate area: (M5N) Central Toronto (Roselawn)",
+      "approximate": true,
+      "coordinates": [
+        43.7113,
+        -79.4195
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "ISLINGTON AVE, ET / DIXON RD / SWEET PEA PATH": {
+      "text": "Islington Avenue between Dixon Road & Sweet Pea Path",
+      "approximate": false,
+      "coordinates": [
+        43.698405550000004,
+        -79.54732469999999
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T08:06:31.949Z"
+    },
     "M6B": {
       "text": "Approximate area: (M6B) North York (Glencairn)",
       "approximate": true,
@@ -326744,18 +326888,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T13:35:38.457Z"
-    },
-    "M6K": {
-      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
-      "approximate": true,
-      "coordinates": [
-        43.6383,
-        -79.4301
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M6A": {
       "text": "Approximate area: (M6A) North York (Lawrence Manor / Lawrence Heights)",
@@ -330707,18 +330839,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T15:12:24.155Z"
-    },
-    "M5N": {
-      "text": "Approximate area: (M5N) Central Toronto (Roselawn)",
-      "approximate": true,
-      "coordinates": [
-        43.7113,
-        -79.4195
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "SILVER AVE, TT / MORROW AVE / GOLDEN AVE": {
       "text": "Silver Avenue between Morrow Avenue & Golden Avenue",
