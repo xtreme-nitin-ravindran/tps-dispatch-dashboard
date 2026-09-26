@@ -3,9 +3,101 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T17:29:50.101Z",
-  "sourceUpdatedAt": "2026-09-26T17:25:01.000Z",
+  "fetchedAt": "2026-09-26T17:31:12.425Z",
+  "sourceUpdatedAt": "2026-09-26T17:30:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-9cdd55d98bbb21706d355a7a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-26T17:23:08.000Z",
+      "location": "EGLINTON AVE W - SCOTT RD",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "EGLINTON AVE W - SCOTT RD",
+        "coordinates": [
+          43.69069258539013,
+          -79.47270118850369
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
+    },
+    {
+      "id": "TPS-6af515063d87c00baf657286",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-26T17:22:37.000Z",
+      "location": "BAY ST - YORK ST",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BAY ST - YORK ST",
+        "coordinates": [
+          43.64591718502081,
+          -79.37908774449542
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
+    },
+    {
+      "id": "F26152862",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Natural Gas Leak",
+      "location": "QUEENSCOURT DR, SC / EAGLESTONE RD / DUNMURRAY BLVD",
+      "division": "244",
+      "timestamp": "2026-09-26T17:21:06.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T17:31:12.425Z",
+      "lastSeenAt": "2026-09-26T17:31:12.425Z",
+      "geography": {
+        "text": "Queenscourt Drive between Eaglestone Road & Dunmurray Boulevard",
+        "approximate": false,
+        "coordinates": [
+          43.78424055,
+          -79.30489505
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T17:31:12.425Z"
+      }
+    },
+    {
+      "id": "TPS-e299341c6abf7ab58397e37a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT",
+      "callTypeCode": "THE",
+      "timestamp": "2026-09-26T17:20:21.000Z",
+      "location": "LIBERTY ST - SNOOKER ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LIBERTY ST - SNOOKER ST",
+        "coordinates": [
+          43.63967858240562,
+          -79.4199989266657
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
+    },
     {
       "id": "F26152860",
       "source": "TFS",
@@ -16,9 +108,18 @@
       "timestamp": "2026-09-26T17:20:06.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "212"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T17:26:31.935Z",
-      "lastSeenAt": "2026-09-26T17:29:50.101Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T17:31:12.425Z",
+      "lastSeenAt": "2026-09-26T17:31:12.425Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -33,18 +134,49 @@
       }
     },
     {
+      "id": "TPS-87902f0c4e7b67bf94dee608",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-26T17:19:56.000Z",
+      "location": "LN N KING E PETER - ADELAIDE ST W",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN N KING E PETER - ADELAIDE ST W",
+        "coordinates": [
+          43.64631338541703,
+          -79.39103823795996
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
+    },
+    {
       "id": "F26152859",
       "source": "TFS",
       "eventType": "fire",
       "description": "MEDICAL",
       "location": "M6G",
-      "division": "344",
+      "division": "314",
       "timestamp": "2026-09-26T17:19:45.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "343"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T17:26:31.935Z",
-      "lastSeenAt": "2026-09-26T17:29:50.101Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T17:31:12.425Z",
+      "lastSeenAt": "2026-09-26T17:31:12.425Z",
       "geography": {
         "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
         "approximate": true,
@@ -59,6 +191,28 @@
       }
     },
     {
+      "id": "TPS-c9fe43f16ab8ade460cd6a85",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FIGHT",
+      "callTypeCode": "FIG",
+      "timestamp": "2026-09-26T17:18:11.000Z",
+      "location": "AVENUE RD - GREY RD",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "AVENUE RD - GREY RD",
+        "coordinates": [
+          43.729883168947865,
+          -79.4186773269365
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
+    },
+    {
       "id": "F26152858",
       "source": "TFS",
       "eventType": "fire",
@@ -67,7 +221,7 @@
       "division": "313",
       "timestamp": "2026-09-26T17:17:27.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-26T17:26:31.935Z",
       "lastSeenAt": "2026-09-26T17:29:50.101Z",
@@ -85,6 +239,50 @@
       }
     },
     {
+      "id": "TPS-1c697218828099ee3bc9e651",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-26T17:14:05.000Z",
+      "location": "HEPC - MANSTOR RD",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HEPC - MANSTOR RD",
+        "coordinates": [
+          43.619508310527635,
+          -79.55373578807699
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
+    },
+    {
+      "id": "TPS-72661d8b6a3e101746fdfcb3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "STRIKE TROUBLE",
+      "callTypeCode": "STR",
+      "timestamp": "2026-09-26T17:13:33.000Z",
+      "location": "CORPORATE DR - CORPORATE DR",
+      "division": "Division 43",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CORPORATE DR - CORPORATE DR",
+        "coordinates": [
+          43.78053647650218,
+          -79.24701496040137
+        ],
+        "division": "Division 43",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
+    },
+    {
       "id": "F26152857",
       "source": "TFS",
       "eventType": "fire",
@@ -93,7 +291,7 @@
       "division": "341",
       "timestamp": "2026-09-26T17:13:22.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -146,7 +344,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T17:20:28.349Z",
       "lastMeaningfulUpdateAt": "2026-09-26T17:26:31.935Z",
-      "lastSeenAt": "2026-09-26T17:29:50.101Z",
+      "lastSeenAt": "2026-09-26T17:31:12.425Z",
       "geography": {
         "text": "Isabella Street between Huntley Street & Sherbourne Street",
         "approximate": false,
@@ -181,7 +379,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T17:20:28.349Z",
       "lastMeaningfulUpdateAt": "2026-09-26T17:26:31.935Z",
-      "lastSeenAt": "2026-09-26T17:29:50.101Z",
+      "lastSeenAt": "2026-09-26T17:31:12.425Z",
       "geography": {
         "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
         "approximate": true,
@@ -222,6 +420,28 @@
       }
     },
     {
+      "id": "TPS-daa51614bc15fa174f2ccdcf",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-26T17:11:50.000Z",
+      "location": "LOWTHER AVE - BERNARD AVE",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LOWTHER AVE - BERNARD AVE",
+        "coordinates": [
+          43.67299181558383,
+          -79.40213154285294
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
+    },
+    {
       "id": "F26152853",
       "source": "TFS",
       "eventType": "fire",
@@ -242,7 +462,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T17:20:28.349Z",
       "lastMeaningfulUpdateAt": "2026-09-26T17:26:31.935Z",
-      "lastSeenAt": "2026-09-26T17:29:50.101Z",
+      "lastSeenAt": "2026-09-26T17:31:12.425Z",
       "geography": {
         "text": "Approximate area: (M1J) Scarborough (Eglinton)",
         "approximate": true,
@@ -278,7 +498,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T17:15:44.242Z",
       "lastMeaningfulUpdateAt": "2026-09-26T17:26:31.935Z",
-      "lastSeenAt": "2026-09-26T17:29:50.101Z",
+      "lastSeenAt": "2026-09-26T17:31:12.425Z",
       "geography": {
         "text": "Cosburn Avenue between Todmorden Lane & Gowan Avenue",
         "approximate": false,
@@ -293,6 +513,50 @@
       }
     },
     {
+      "id": "TPS-97cc81213781b9c4097ad1b0",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-26T17:09:32.000Z",
+      "location": "QUEENS WHARF RD - BATHURST ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "QUEENS WHARF RD - BATHURST ST",
+        "coordinates": [
+          43.63883867807971,
+          -79.40062333312414
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
+    },
+    {
+      "id": "TPS-ea34310175372b8509043ae7",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HOLDING ONE WITH TROUBLE",
+      "callTypeCode": "HOLTR",
+      "timestamp": "2026-09-26T17:07:28.000Z",
+      "location": "DELORAINE AVE - OLD ORCHARD GRV",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DELORAINE AVE - OLD ORCHARD GRV",
+        "coordinates": [
+          43.73087016899914,
+          -79.41909392869701
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
+    },
+    {
       "id": "F26152850",
       "source": "TFS",
       "eventType": "fire",
@@ -301,7 +565,7 @@
       "division": "346",
       "timestamp": "2026-09-26T17:07:00.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -326,6 +590,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-2f863f42ba379781ebb8963a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-26T17:06:07.000Z",
+      "location": "AGATE RD - JULIAN RD",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "AGATE RD - JULIAN RD",
+        "coordinates": [
+          43.7260602471047,
+          -79.49071904552055
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
     },
     {
       "id": "F26152849",
@@ -363,6 +649,72 @@
       }
     },
     {
+      "id": "TPS-23681d6f052d5f077a7b1fb8",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT IN PROGRESS",
+      "callTypeCode": "ASSPR",
+      "timestamp": "2026-09-26T17:04:45.000Z",
+      "location": "FRATER AVE - MORTIMER AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "FRATER AVE - MORTIMER AVE",
+        "coordinates": [
+          43.69178931664952,
+          -79.315430243495
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
+    },
+    {
+      "id": "TPS-8083d63cd1c986e69f4d9e4f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FAIL TO REMAIN PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "FTRPD",
+      "timestamp": "2026-09-26T17:04:30.000Z",
+      "location": "MIDLAND AVE - DANFORTH RD",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MIDLAND AVE - DANFORTH RD",
+        "coordinates": [
+          43.72488149059374,
+          -79.25397971911923
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
+    },
+    {
+      "id": "TPS-2671c11f796629d30101599c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-26T17:03:40.000Z",
+      "location": "TOLMAN ST - FINCH AVE W",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "TOLMAN ST - FINCH AVE W",
+        "coordinates": [
+          43.77874339614056,
+          -79.41529315076288
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
+    },
+    {
       "id": "TPS-97f035ef72b00402cd9dd8c1",
       "source": "TPS",
       "eventType": "police",
@@ -383,6 +735,28 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-26T17:10:40.998Z"
+    },
+    {
+      "id": "TPS-a22975977f042600cdd12cdb",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-26T17:01:50.000Z",
+      "location": "27 HWY N - NEARCTIC DR",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "27 HWY N - NEARCTIC DR",
+        "coordinates": [
+          43.71419233613667,
+          -79.59419099962328
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T17:31:12.425Z"
     },
     {
       "id": "TPS-6a2c9dc3b6eef2538d0726c9",
@@ -449,7 +823,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T17:10:40.998Z",
-      "lastSeenAt": "2026-09-26T17:29:50.101Z",
+      "lastSeenAt": "2026-09-26T17:31:12.425Z",
       "geography": {
         "text": "Approximate location on Ashley Road",
         "approximate": true,
@@ -539,7 +913,7 @@
       "division": "221",
       "timestamp": "2026-09-26T16:55:38.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -586,7 +960,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T17:00:28.853Z",
       "lastMeaningfulUpdateAt": "2026-09-26T17:06:15.386Z",
-      "lastSeenAt": "2026-09-26T17:29:50.101Z",
+      "lastSeenAt": "2026-09-26T17:31:12.425Z",
       "geography": {
         "text": "Mccowan Road & Street Andrews Road",
         "approximate": false,
@@ -688,7 +1062,7 @@
       "division": "144",
       "timestamp": "2026-09-26T16:48:04.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Command Unit",
@@ -2820,7 +3194,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T15:45:37.981Z",
       "lastMeaningfulUpdateAt": "2026-09-26T15:50:29.510Z",
-      "lastSeenAt": "2026-09-26T17:29:50.101Z",
+      "lastSeenAt": "2026-09-26T17:31:12.425Z",
       "geography": {
         "text": "Bayview Avenue between Scenic Millway & Heathcote Avenue",
         "approximate": false,
@@ -8151,7 +8525,7 @@
       "respondingUnitCount": 21,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-26T16:45:34.233Z",
-      "lastSeenAt": "2026-09-26T17:29:50.101Z",
+      "lastSeenAt": "2026-09-26T17:31:12.425Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -180949,37 +181323,16 @@
         "division": "Division 43",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-524952782bbf93167d28c005",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "ATTEMPT BREAK & ENTER",
-      "callTypeCode": "ATTBR",
-      "timestamp": "2026-09-19T17:30:54.000Z",
-      "location": "GREYLAWN CRES - ROWENA PARK TRL",
-      "division": "Division 41",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "GREYLAWN CRES - ROWENA PARK TRL",
-        "coordinates": [
-          43.74883302608374,
-          -79.31210437443856
-        ],
-        "division": "Division 41",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T17:29:50.101Z",
-      "sourceUpdatedAt": "2026-09-26T17:25:01.000Z",
+      "fetchedAt": "2026-09-26T17:31:12.425Z",
+      "sourceUpdatedAt": "2026-09-26T17:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T17:29:50.101Z",
+      "fetchedAt": "2026-09-26T17:31:12.425Z",
       "status": "ok"
     }
   },
@@ -335178,6 +335531,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "QUEENSCOURT DR, SC / EAGLESTONE RD / DUNMURRAY BLVD": {
+      "text": "Queenscourt Drive between Eaglestone Road & Dunmurray Boulevard",
+      "approximate": false,
+      "coordinates": [
+        43.78424055,
+        -79.30489505
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T17:31:12.425Z"
+    },
     "M1B": {
       "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
       "approximate": true,
