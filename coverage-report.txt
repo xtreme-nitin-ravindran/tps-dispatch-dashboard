@@ -6,1147 +6,1147 @@ TAP version 13
 # Subtest: report age covers boundaries, invalid times and clock skew
 ok 1 - report age covers boundaries, invalid times and clock skew
   ---
-  duration_ms: 1.79376
+  duration_ms: 2.172436
   ...
 # Subtest: compact report age fits beside incident distance
 ok 2 - compact report age fits beside incident distance
   ---
-  duration_ms: 0.379622
+  duration_ms: 0.359613
   ...
 # Subtest: compact age can label incident update times
 ok 3 - compact age can label incident update times
   ---
-  duration_ms: 0.179757
+  duration_ms: 0.201055
   ...
 # Subtest: explanations preserve uncertainty and leave unfamiliar types unexplained
 ok 4 - explanations preserve uncertainty and leave unfamiliar types unexplained
   ---
-  duration_ms: 0.284914
+  duration_ms: 0.383744
   ...
 # Subtest: confidence distinguishes unmapped, postal, resolved and approximate locations
 ok 5 - confidence distinguishes unmapped, postal, resolved and approximate locations
   ---
-  duration_ms: 0.343214
+  duration_ms: 0.395426
   ...
 # Subtest: status only labels active calls when the TFS feed supports it
 ok 6 - status only labels active calls when the TFS feed supports it
   ---
-  duration_ms: 0.185357
+  duration_ms: 0.214202
   ...
 # Subtest: source names are expanded for card attribution
 ok 7 - source names are expanded for card attribution
   ---
-  duration_ms: 0.152505
+  duration_ms: 0.192895
   ...
 # Subtest: live Centreline sample exposes street and intersection fields
 ok 8 - live Centreline sample exposes street and intersection fields
   ---
-  duration_ms: 452.443574
+  duration_ms: 323.250842
   ...
 # Subtest: commits only snapshot changes, skips unchanged data, rejects staged unrelated files
 ok 9 - commits only snapshot changes, skips unchanged data, rejects staged unrelated files
   ---
-  duration_ms: 86.925554
+  duration_ms: 83.205987
   ...
 # Subtest: snapshot commit CLI reports changed and unchanged snapshots
 ok 10 - snapshot commit CLI reports changed and unchanged snapshots
   ---
-  duration_ms: 185.052547
+  duration_ms: 146.955612
   ...
 # Subtest: nearby entry points use clear, accessible action labels
 ok 11 - nearby entry points use clear, accessible action labels
   ---
-  duration_ms: 2.865017
+  duration_ms: 2.145892
   ...
 # Subtest: nearby CTA wording remains consistent through location states
 ok 12 - nearby CTA wording remains consistent through location states
   ---
-  duration_ms: 0.440445
+  duration_ms: 0.372126
   ...
 # Subtest: replaced generic and implementation-oriented labels are absent
 ok 13 - replaced generic and implementation-oriented labels are absent
   ---
-  duration_ms: 1.004321
+  duration_ms: 1.107195
   ...
 # Subtest: dark map dims the existing tiles without a full-pane filter or overlay
 ok 14 - dark map dims the existing tiles without a full-pane filter or overlay
   ---
-  duration_ms: 2.603627
+  duration_ms: 2.29791
   ...
 # Subtest: light map retains fully opaque standard OpenStreetMap tiles
 ok 15 - light map retains fully opaque standard OpenStreetMap tiles
   ---
-  duration_ms: 0.285555
+  duration_ms: 0.305594
   ...
 # Subtest: explicit and system theme changes retarget map CSS without a reload
 ok 16 - explicit and system theme changes retarget map CSS without a reload
   ---
-  duration_ms: 0.541133
+  duration_ms: 0.52683
   ...
 # Subtest: theme switching keeps one tile layer and existing map interactions
 ok 17 - theme switching keeps one tile layer and existing map interactions
   ---
-  duration_ms: 0.415197
+  duration_ms: 0.420873
   ...
 # Subtest: markers and vector overlays remain above and readable on the dimmed tiles
 ok 18 - markers and vector overlays remain above and readable on the dimmed tiles
   ---
-  duration_ms: 0.619231
+  duration_ms: 0.586353
   ...
 # Subtest: known terms have a plain-language glossary definition and unknown terms do not
 ok 19 - known terms have a plain-language glossary definition and unknown terms do not
   ---
-  duration_ms: 2.013321
+  duration_ms: 1.525972
   ...
 # Subtest: only known terms reveal the glossary affordance and its correct explanation
 ok 20 - only known terms reveal the glossary affordance and its correct explanation
   ---
-  duration_ms: 0.339005
+  duration_ms: 0.338575
   ...
 # Subtest: popover uses an accessible button relationship and supports dismissal
 ok 21 - popover uses an accessible button relationship and supports dismissal
   ---
-  duration_ms: 0.298239
+  duration_ms: 0.278231
   ...
 # Subtest: glossary controls do not activate keyboard or pointer card selection
 ok 22 - glossary controls do not activate keyboard or pointer card selection
   ---
-  duration_ms: 0.215935
+  duration_ms: 0.152272
   ...
 # Subtest: road geometry flips longitude/latitude and retains schedules and closure type
 ok 23 - road geometry flips longitude/latitude and retains schedules and closure type
   ---
-  duration_ms: 3.347531
+  duration_ms: 6.777858
   ...
 # Subtest: TTC parses repeated fields, active windows and rejects incomplete or stale snapshots
 ok 24 - TTC parses repeated fields, active windows and rejects incomplete or stale snapshots
   ---
-  duration_ms: 1.970702
+  duration_ms: 2.54276
   ...
 # Subtest: TTC normalization preserves affected entities and resolves only structured stop data
 ok 25 - TTC normalization preserves affected entities and resolves only structured stop data
   ---
-  duration_ms: 0.558777
+  duration_ms: 0.80828
   ...
 # Subtest: TTC geographic matching handles radius boundaries, closest stops and unknown geography
 ok 26 - TTC geographic matching handles radius boundaries, closest stops and unknown geography
   ---
-  duration_ms: 0.650689
+  duration_ms: 0.851142
   ...
 # Subtest: TTC matching uses the same current and saved-location reference and Toronto-wide retains alerts
 ok 27 - TTC matching uses the same current and saved-location reference and Toronto-wide retains alerts
   ---
-  duration_ms: 0.367519
+  duration_ms: 0.528936
   ...
 # Subtest: inactive TTC alerts remain excluded before geographic matching
 ok 28 - inactive TTC alerts remain excluded before geographic matching
   ---
-  duration_ms: 0.252032
+  duration_ms: 0.312852
   ...
 # Subtest: road filters exclude expired, future and no-impact entries; stale data expires
 ok 29 - road filters exclude expired, future and no-impact entries; stale data expires
   ---
-  duration_ms: 0.253846
+  duration_ms: 0.388597
   ...
 # Subtest: nearby road filtering uses segments even when endpoints are outside radius
 ok 30 - nearby road filtering uses segments even when endpoints are outside radius
   ---
-  duration_ms: 0.378249
+  duration_ms: 0.682086
   ...
 # Subtest: sources refresh independently, cache five minutes, and preserve successful timestamps on failure
 ok 31 - sources refresh independently, cache five minutes, and preserve successful timestamps on failure
   ---
-  duration_ms: 1.84694
+  duration_ms: 2.190478
   ...
 # Subtest: TTC mixed JSON entities use camelCase and numeric string timestamps
 ok 32 - TTC mixed JSON entities use camelCase and numeric string timestamps
   ---
-  duration_ms: 0.623779
+  duration_ms: 0.812766
   ...
 # Subtest: textproto rejects malformed fields, values, separators and excessive nesting
 ok 33 - textproto rejects malformed fields, values, separators and excessive nesting
   ---
-  duration_ms: 0.344406
+  duration_ms: 0.445548
   ...
 # Subtest: TTC validates headers, alert identities and active periods, while tolerating optional fields
 ok 34 - TTC validates headers, alert identities and active periods, while tolerating optional fields
   ---
-  duration_ms: 0.637203
+  duration_ms: 0.790932
   ...
 # Subtest: roads reject malformed identities and dates, and discard invalid geometry
 ok 35 - roads reject malformed identities and dates, and discard invalid geometry
   ---
-  duration_ms: 0.386534
+  duration_ms: 0.48617
   ...
 # Subtest: failed initial disruption refresh publishes unavailable empty sources and future cache is retried
 ok 36 - failed initial disruption refresh publishes unavailable empty sources and future cache is retried
   ---
-  duration_ms: 0.470291
+  duration_ms: 0.399666
   ...
 # Subtest: disruption presentation distinguishes empty, unavailable, stale and filtered cached data
 ok 37 - disruption presentation distinguishes empty, unavailable, stale and filtered cached data
   ---
-  duration_ms: 0.757539
+  duration_ms: 0.596067
   ...
 # Subtest: disruption filters support open-ended periods and reject future fetch timestamps
 ok 38 - disruption filters support open-ended periods and reject future fetch timestamps
   ---
-  duration_ms: 0.288601
+  duration_ms: 0.249351
   ...
 # Subtest: disruption renderer updates lists and optional map layers
 ok 39 - disruption renderer updates lists and optional map layers
   ---
-  duration_ms: 17.728802
+  duration_ms: 15.832534
   ...
 # Subtest: live GeoNames Canada archive contains Toronto postal coordinates
 ok 40 - live GeoNames Canada archive contains Toronto postal coordinates
   ---
-  duration_ms: 1283.016787
+  duration_ms: 708.83434
   ...
 # Subtest: NEW lasts for the configured window and exposes its exact expiry
 ok 41 - NEW lasts for the configured window and exposes its exact expiry
   ---
-  duration_ms: 2.646708
+  duration_ms: 2.642974
   ...
 # Subtest: UPDATED takes precedence and persists after the NEW window
 ok 42 - UPDATED takes precedence and persists after the NEW window
   ---
-  duration_ms: 0.336341
+  duration_ms: 0.304607
   ...
 # Subtest: lifecycle metadata survives refreshes and records only meaningful changes
 ok 43 - lifecycle metadata survives refreshes and records only meaningful changes
   ---
-  duration_ms: 13.02466
+  duration_ms: 12.250445
   ...
 # Subtest: cards render compact change badges and schedule NEW expiry
 ok 44 - cards render compact change badges and schedule NEW expiry
   ---
-  duration_ms: 9.078888
+  duration_ms: 9.818329
   ...
 # Subtest: unchanged incident representations are retained without additions or removals
 ok 45 - unchanged incident representations are retained without additions or removals
   ---
-  duration_ms: 3.123993
+  duration_ms: 2.142528
   ...
 # Subtest: filters remove stale incidents and add newly visible incidents
 ok 46 - filters remove stale incidents and add newly visible incidents
   ---
-  duration_ms: 0.28264
+  duration_ms: 0.200847
   ...
 # Subtest: changed marker state replaces only that incident representation
 ok 47 - changed marker state replaces only that incident representation
   ---
-  duration_ms: 0.235411
+  duration_ms: 0.143465
   ...
 # Subtest: zoom grouping changes reconcile without duplicate representations
 ok 48 - zoom grouping changes reconcile without duplicate representations
   ---
-  duration_ms: 0.650508
+  duration_ms: 0.456818
   ...
 # Subtest: map rendering is incremental, selection-targeted, and zoom-coalesced
 ok 49 - map rendering is incremental, selection-targeted, and zoom-coalesced
   ---
-  duration_ms: 0.831658
+  duration_ms: 0.615147
   ...
 # Subtest: popup clicks and unaffected overlays retain their established paths
 ok 50 - popup clicks and unaffected overlays retain their established paths
   ---
-  duration_ms: 0.329537
+  duration_ms: 0.257676
   ...
 # Subtest: existing incident fields support case-insensitive partial matching
 ok 51 - existing incident fields support case-insensitive partial matching
   ---
-  duration_ms: 2.807449
+  duration_ms: 3.138798
   ...
 # Subtest: display locations and missing optional fields are handled safely
 ok 52 - display locations and missing optional fields are handled safely
   ---
-  duration_ms: 0.206437
+  duration_ms: 0.253752
   ...
 # Subtest: common intersection separators match the existing location
 ok 53 - common intersection separators match the existing location
   ---
-  duration_ms: 0.344194
+  duration_ms: 0.393164
   ...
 # Subtest: street order is ignored for unseparated intersection queries
 ok 54 - street order is ignored for unseparated intersection queries
   ---
-  duration_ms: 0.246602
+  duration_ms: 0.243947
   ...
 # Subtest: common street suffix variants are equivalent
 ok 55 - common street suffix variants are equivalent
   ---
-  duration_ms: 0.27738
+  duration_ms: 0.25889
   ...
 # Subtest: street punctuation, whitespace, accents, and directions normalize without broadening matches
 ok 56 - street punctuation, whitespace, accents, and directions normalize without broadening matches
   ---
-  duration_ms: 1.220367
+  duration_ms: 1.464094
   ...
 # Subtest: malformed or incomplete intersections fall back without false positives
 ok 57 - malformed or incomplete intersections fall back without false positives
   ---
-  duration_ms: 0.249608
+  duration_ms: 0.361479
   ...
 # Subtest: intersection normalization does not match unrelated locations
 ok 58 - intersection normalization does not match unrelated locations
   ---
-  duration_ms: 0.264886
+  duration_ms: 0.244045
   ...
 # Subtest: search input reuses loaded data without refetching
 ok 59 - search input reuses loaded data without refetching
   ---
-  duration_ms: 0.34185
+  duration_ms: 0.455188
   ...
 # Subtest: search control explains its scope and has explicit accessible labels
 ok 60 - search control explains its scope and has explicit accessible labels
   ---
-  duration_ms: 0.242715
+  duration_ms: 0.291786
   ...
 # Subtest: a search with no matches renders a clear search-specific empty state
 ok 61 - a search with no matches renders a clear search-specific empty state
   ---
-  duration_ms: 0.179567
+  duration_ms: 0.194789
   ...
 # Subtest: clear search removes only the query and reapplies the current filters
 ok 62 - clear search removes only the query and reapplies the current filters
   ---
-  duration_ms: 1.146789
+  duration_ms: 1.470531
   ...
 # Subtest: filter and radius changes preserve and resync the current query
 ok 63 - filter and radius changes preserve and resync the current query
   ---
-  duration_ms: 0.40034
+  duration_ms: 0.55874
   ...
 # Subtest: incident share URL contains its stable identifier and no private nearby coordinates
 ok 64 - incident share URL contains its stable identifier and no private nearby coordinates
   ---
-  duration_ms: 2.870949
+  duration_ms: 3.223962
   ...
 # Subtest: shared incident selection restores only an available matching incident
 ok 65 - shared incident selection restores only an available matching incident
   ---
-  duration_ms: 0.933058
+  duration_ms: 0.870422
   ...
 # Subtest: native Web Share is used when supported
 ok 66 - native Web Share is used when supported
   ---
-  duration_ms: 0.284964
+  duration_ms: 0.227811
   ...
 # Subtest: copy-link fallback is used when Web Share is unavailable
 ok 67 - copy-link fallback is used when Web Share is unavailable
   ---
-  duration_ms: 0.246983
+  duration_ms: 0.156764
   ...
 # Subtest: cancelled, failed and unsupported sharing use the expected fallbacks
 ok 68 - cancelled, failed and unsupported sharing use the expected fallbacks
   ---
-  duration_ms: 0.542457
+  duration_ms: 0.439564
   ...
 # Subtest: app restores the shared incident through the normal card and marker selection path
 ok 69 - app restores the shared incident through the normal card and marker selection path
   ---
-  duration_ms: 8.821777
+  duration_ms: 10.5256
   ...
 # Subtest: splits a TFS street segment into two cleaned intersections
 ok 70 - splits a TFS street segment into two cleaned intersections
   ---
-  duration_ms: 2.835462
+  duration_ms: 3.678175
   ...
 # Subtest: requires all endpoints and reports both possible divisions
 ok 71 - requires all endpoints and reports both possible divisions
   ---
-  duration_ms: 1.246705
+  duration_ms: 1.59493
   ...
 # Subtest: accepts only high confidence Canadian intersection matches
 ok 72 - accepts only high confidence Canadian intersection matches
   ---
-  duration_ms: 2.378216
+  duration_ms: 2.770758
   ...
 # Subtest: formats resolved TFS segments and distinguishes missing endpoints
 ok 73 - formats resolved TFS segments and distinguishes missing endpoints
   ---
-  duration_ms: 3.019046
+  duration_ms: 3.784683
   ...
 # Subtest: formats postal area hints and laneways without claiming exact addresses
 ok 74 - formats postal area hints and laneways without claiming exact addresses
   ---
-  duration_ms: 0.243927
+  duration_ms: 0.333487
   ...
 # Subtest: single intersections, duplicate cross streets and missing locations remain readable
 ok 75 - single intersections, duplicate cross streets and missing locations remain readable
   ---
-  duration_ms: 0.270056
+  duration_ms: 0.328758
   ...
 # Subtest: hydro corridor abbreviations expand without changing other words
 ok 76 - hydro corridor abbreviations expand without changing other words
   ---
-  duration_ms: 0.541635
+  duration_ms: 0.637607
   ...
 # Subtest: resolves duplicate locations once and reuses published cache across updaters
 ok 77 - resolves duplicate locations once and reuses published cache across updaters
   ---
-  duration_ms: 2.734193
+  duration_ms: 2.383836
   ...
 # Subtest: bounds lookups and retries pending locations on the next run
 ok 78 - bounds lookups and retries pending locations on the next run
   ---
-  duration_ms: 1.001156
+  duration_ms: 0.925789
   ...
 # Subtest: expired cached results survive resolver outages and unused cache is removed
 ok 79 - expired cached results survive resolver outages and unused cache is removed
   ---
-  duration_ms: 0.533569
+  duration_ms: 0.446291
   ...
 # Subtest: map immediately follows the filter summary controls without permanent metadata above it
 ok 80 - map immediately follows the filter summary controls without permanent metadata above it
   ---
-  duration_ms: 2.156149
+  duration_ms: 1.735389
   ...
 # Subtest: results follow the map before map metadata and travel disruptions on desktop
 ok 81 - results follow the map before map metadata and travel disruptions on desktop
   ---
-  duration_ms: 0.304961
+  duration_ms: 0.328106
   ...
 # Subtest: legend, located count, map heading, and source freshness remain accessible in collapsed map info
 ok 82 - legend, located count, map heading, and source freshness remain accessible in collapsed map info
   ---
-  duration_ms: 0.421089
+  duration_ms: 0.372311
   ...
 # Subtest: the map stays unobstructed when incident filters have no mapped calls
 ok 83 - the map stays unobstructed when incident filters have no mapped calls
   ---
-  duration_ms: 0.287038
+  duration_ms: 0.244104
   ...
 # Subtest: mobile map/results switching and bottom sheet behavior remain intact
 ok 84 - mobile map/results switching and bottom sheet behavior remain intact
   ---
-  duration_ms: 0.231965
+  duration_ms: 0.224872
   ...
 # Subtest: filters remain earlier in normal document flow and map info uses theme tokens
 ok 85 - filters remain earlier in normal document flow and map info uses theme tokens
   ---
-  duration_ms: 0.288291
+  duration_ms: 0.20337
   ...
 # Subtest: marker age tiers change at the 10, 30, and 60 minute boundaries
 ok 86 - marker age tiers change at the 10, 30, and 60 minute boundaries
   ---
-  duration_ms: 2.008963
+  duration_ms: 1.648273
   ...
 # Subtest: future times are treated as just reported and invalid times are neutral
 ok 87 - future times are treated as just reported and invalid times are neutral
   ---
-  duration_ms: 0.19742
+  duration_ms: 0.169352
   ...
 # Subtest: age labels describe freshness without implying incident status
 ok 88 - age labels describe freshness without implying incident status
   ---
-  duration_ms: 0.212078
+  duration_ms: 0.149595
   ...
 # Subtest: glyphs retain category and service cues independently of opacity
 ok 89 - glyphs retain category and service cues independently of opacity
   ---
-  duration_ms: 0.178745
+  duration_ms: 0.130561
   ...
 # Subtest: map wiring refreshes age styles and preserves non-opacity cues and selection
 ok 90 - map wiring refreshes age styles and preserves non-opacity cues and selection
   ---
-  duration_ms: 8.725877
+  duration_ms: 7.217298
   ...
 # Subtest: dense incidents cluster at wide zoom and split as zoom increases
 ok 91 - dense incidents cluster at wide zoom and split as zoom increases
   ---
-  duration_ms: 2.630528
+  duration_ms: 2.927698
   ...
 # Subtest: cluster counts contain only the current filtered incident set
 ok 92 - cluster counts contain only the current filtered incident set
   ---
-  duration_ms: 0.342762
+  duration_ms: 0.334721
   ...
 # Subtest: expanded clusters preserve incident identity and individual marker selection
 ok 93 - expanded clusters preserve incident identity and individual marker selection
   ---
-  duration_ms: 0.597769
+  duration_ms: 0.552491
   ...
 # Subtest: incident clustering excludes road closures, user location, and unrelated overlays
 ok 94 - incident clustering excludes road closures, user location, and unrelated overlays
   ---
-  duration_ms: 0.379792
+  duration_ms: 0.416474
   ...
 # Subtest: filter, search, radius, and Toronto-wide changes rebuild clusters from state.filtered
 ok 95 - filter, search, radius, and Toronto-wide changes rebuild clusters from state.filtered
   ---
-  duration_ms: 0.323926
+  duration_ms: 0.280402
   ...
 # Subtest: cluster click zooms before expanding and redraws reconcile incident layers
 ok 96 - cluster click zooms before expanding and redraws reconcile incident layers
   ---
-  duration_ms: 0.294852
+  duration_ms: 0.256257
   ...
 # Subtest: incident pins have a defined theme-aware edge and restrained halo
 ok 97 - incident pins have a defined theme-aware edge and restrained halo
   ---
-  duration_ms: 1.908305
+  duration_ms: 1.728964
   ...
 # Subtest: live explicit and system theme changes retarget marker variables
 ok 98 - live explicit and system theme changes retarget marker variables
   ---
-  duration_ms: 0.372748
+  duration_ms: 0.310671
   ...
 # Subtest: selection remains distinct while aging retains relative de-emphasis
 ok 99 - selection remains distinct while aging retains relative de-emphasis
   ---
-  duration_ms: 0.292087
+  duration_ms: 0.261013
   ...
 # Subtest: clusters keep readable counts and unchanged grouping behavior
 ok 100 - clusters keep readable counts and unchanged grouping behavior
   ---
-  duration_ms: 0.446937
+  duration_ms: 0.393662
   ...
 # Subtest: contrast styles are scoped away from location and road-closure objects
 ok 101 - contrast styles are scoped away from location and road-closure objects
   ---
-  duration_ms: 0.362109
+  duration_ms: 0.345003
   ...
 # Subtest: incident marker click still uses the existing selection path
 ok 102 - incident marker click still uses the existing selection path
   ---
-  duration_ms: 0.205274
+  duration_ms: 0.162062
   ...
 # Subtest: mobile audit fixture is explicit and loopback-only
 ok 103 - mobile audit fixture is explicit and loopback-only
   ---
-  duration_ms: 3.447829
+  duration_ms: 2.715087
   ...
 # Subtest: fixture options expose deterministic mobile view and sheet states
 ok 104 - fixture options expose deterministic mobile view and sheet states
   ---
-  duration_ms: 1.066518
+  duration_ms: 1.138101
   ...
 # Subtest: fixture exposes every radius and rejects arbitrary values
 ok 105 - fixture exposes every radius and rejects arbitrary values
   ---
-  duration_ms: 0.387525
+  duration_ms: 0.371391
   ...
 # Subtest: fixture exposes deterministic secondary filter states with safe defaults
 ok 106 - fixture exposes deterministic secondary filter states with safe defaults
   ---
-  duration_ms: 0.532928
+  duration_ms: 0.433392
   ...
 # Subtest: fixture exposes every compact Nearby location state without enabling arbitrary values
 ok 107 - fixture exposes every compact Nearby location state without enabling arbitrary values
   ---
-  duration_ms: 0.305633
+  duration_ms: 0.239024
   ...
 # Subtest: fixture covers multiple, zero, stale, unavailable, unresolved, and long TTC states
 ok 108 - fixture covers multiple, zero, stale, unavailable, unresolved, and long TTC states
   ---
-  duration_ms: 1.130227
+  duration_ms: 0.972224
   ...
 # Subtest: bottom sheet shell renders only at the mobile breakpoint and preserves desktop layout
 ok 109 - bottom sheet shell renders only at the mobile breakpoint and preserves desktop layout
   ---
-  duration_ms: 2.017229
+  duration_ms: 1.661927
   ...
 # Subtest: collapsed, half, and expanded states have bounded safe-area-aware heights
 ok 110 - collapsed, half, and expanded states have bounded safe-area-aware heights
   ---
-  duration_ms: 0.297357
+  duration_ms: 0.264346
   ...
 # Subtest: tap and drag interactions move through the three sheet states
 ok 111 - tap and drag interactions move through the three sheet states
   ---
-  duration_ms: 0.399819
+  duration_ms: 0.319092
   ...
 # Subtest: sheet remains operable without drag gestures
 ok 112 - sheet remains operable without drag gestures
   ---
-  duration_ms: 0.34173
+  duration_ms: 0.256814
   ...
 # Subtest: sheet reuses nearby summary, incident cards, and existing controls
 ok 113 - sheet reuses nearby summary, incident cards, and existing controls
   ---
-  duration_ms: 0.502121
+  duration_ms: 0.402447
   ...
 # Subtest: Calls mode removes the fixed sheet from layout while retaining its prior state
 ok 114 - Calls mode removes the fixed sheet from layout while retaining its prior state
   ---
-  duration_ms: 0.276097
+  duration_ms: 0.196896
   ...
 # Subtest: map controls stay inside the usable map above every sheet state
 ok 115 - map controls stay inside the usable map above every sheet state
   ---
-  duration_ms: 0.219281
+  duration_ms: 1.001958
   ...
 # Subtest: sheet header stays visible while incident content scrolls independently
 ok 116 - sheet header stays visible while incident content scrolls independently
   ---
-  duration_ms: 0.593021
+  duration_ms: 0.34176
   ...
 # Subtest: opening and closing the sheet is presentation-only and never refetches data
 ok 117 - opening and closing the sheet is presentation-only and never refetches data
   ---
-  duration_ms: 0.292077
+  duration_ms: 0.164511
   ...
 # Subtest: mobile fixed and sticky surfaces use opaque theme backgrounds without backdrop blur
 ok 118 - mobile fixed and sticky surfaces use opaque theme backgrounds without backdrop blur
   ---
-  duration_ms: 2.123979
+  duration_ms: 1.755349
   ...
 # Subtest: mobile map overlay containers avoid backdrop blur without changing alignment
 ok 119 - mobile map overlay containers avoid backdrop blur without changing alignment
   ---
-  duration_ms: 0.401823
+  duration_ms: 0.338805
   ...
 # Subtest: mobile search controls avoid blur while desktop glass styling remains available
 ok 120 - mobile search controls avoid blur while desktop glass styling remains available
   ---
-  duration_ms: 0.293499
+  duration_ms: 0.265651
   ...
 # Subtest: opaque mobile surfaces resolve to readable light and dark theme pairs
 ok 121 - opaque mobile surfaces resolve to readable light and dark theme pairs
   ---
-  duration_ms: 0.230833
+  duration_ms: 0.179862
   ...
 # Subtest: the revised mobile stylesheet replaces the cached app-shell asset
 ok 122 - the revised mobile stylesheet replaces the cached app-shell asset
   ---
-  duration_ms: 0.180438
+  duration_ms: 0.195257
   ...
 # Subtest: mobile filters and actions use aligned grids with usable touch targets
 ok 123 - mobile filters and actions use aligned grids with usable touch targets
   ---
-  duration_ms: 1.993224
+  duration_ms: 2.370672
   ...
 # Subtest: radius choices stay on one bounded row above Map and Calls
 ok 124 - radius choices stay on one bounded row above Map and Calls
   ---
-  duration_ms: 0.323226
+  duration_ms: 0.472911
   ...
 # Subtest: road and police boundary controls share aligned mobile map columns
 ok 125 - road and police boundary controls share aligned mobile map columns
   ---
-  duration_ms: 0.352711
+  duration_ms: 0.414389
   ...
 # Subtest: desktop control layouts remain outside the mobile overrides
 ok 126 - desktop control layouts remain outside the mobile overrides
   ---
-  duration_ms: 0.258805
+  duration_ms: 0.355889
   ...
 # Subtest: mobile controls remain in flow and bottom-sheet safe-area behavior is preserved
 ok 127 - mobile controls remain in flow and bottom-sheet safe-area behavior is preserved
   ---
-  duration_ms: 0.238537
+  duration_ms: 0.295359
   ...
 # Subtest: mobile overlay controls share one compact row with full labels and 44px targets
 ok 128 - mobile overlay controls share one compact row with full labels and 44px targets
   ---
-  duration_ms: 2.094193
+  duration_ms: 1.782871
   ...
 # Subtest: zoom, attribution, and overlay chrome remain inside the usable map in every sheet state
 ok 129 - zoom, attribution, and overlay chrome remain inside the usable map in every sheet state
   ---
-  duration_ms: 0.271148
+  duration_ms: 0.283061
   ...
 # Subtest: collapsed sheet is compact and tappable while Calls mode owns no sheet
 ok 130 - collapsed sheet is compact and tappable while Calls mode owns no sheet
   ---
-  duration_ms: 0.330119
+  duration_ms: 0.25935
   ...
 # Subtest: mobile-only compaction preserves desktop map chrome
 ok 131 - mobile-only compaction preserves desktop map chrome
   ---
-  duration_ms: 0.261089
+  duration_ms: 0.186279
   ...
 # Subtest: compact fixed surfaces do not introduce horizontal overflow or expensive blur
 ok 132 - compact fixed surfaces do not introduce horizontal overflow or expensive blur
   ---
-  duration_ms: 0.258324
+  duration_ms: 0.181681
   ...
 # Subtest: mobile Quick Look keeps its primary action and status immediately visible
 ok 133 - mobile Quick Look keeps its primary action and status immediately visible
   ---
-  duration_ms: 2.000988
+  duration_ms: 1.678377
   ...
 # Subtest: secondary location management and Watch action use one native disclosure on mobile and desktop markup
 ok 134 - secondary location management and Watch action use one native disclosure on mobile and desktop markup
   ---
-  duration_ms: 0.35232
+  duration_ms: 0.341997
   ...
 # Subtest: mobile compaction is scoped and preserves readable controls
 ok 135 - mobile compaction is scoped and preserves readable controls
   ---
-  duration_ms: 0.252243
+  duration_ms: 0.271171
   ...
 # Subtest: unavailable and denied fixtures reuse the production fallback path without expanding options
 ok 136 - unavailable and denied fixtures reuse the production fallback path without expanding options
   ---
-  duration_ms: 0.490599
+  duration_ms: 0.436754
   ...
 # Subtest: mobile header keeps branding and theme access in one compact row
 ok 137 - mobile header keeps branding and theme access in one compact row
   ---
-  duration_ms: 2.316109
+  duration_ms: 2.466374
   ...
 # Subtest: Search and collapsed Filters share one mobile row without hiding either control
 ok 138 - Search and collapsed Filters share one mobile row without hiding either control
   ---
-  duration_ms: 0.409497
+  duration_ms: 0.581348
   ...
 # Subtest: Quick Look keeps its action, status, fallback and disclosure while avoiding a wrapped fallback row
 ok 139 - Quick Look keeps its action, status, fallback and disclosure while avoiding a wrapped fallback row
   ---
-  duration_ms: 0.361137
+  duration_ms: 0.486267
   ...
 # Subtest: mobile compaction stays in normal flow and desktop layout remains unchanged
 ok 140 - mobile compaction stays in normal flow and desktop layout remains unchanged
   ---
-  duration_ms: 0.3253
+  duration_ms: 0.462142
   ...
 # Subtest: mobile widths are constrained and hidden controls cannot reserve space
 ok 141 - mobile widths are constrained and hidden controls cannot reserve space
   ---
-  duration_ms: 0.247715
+  duration_ms: 0.307231
   ...
 # Subtest: mobile radius selector exposes every supported search area in one shared control
 ok 142 - mobile radius selector exposes every supported search area in one shared control
   ---
-  duration_ms: 2.754531
+  duration_ms: 4.928852
   ...
 # Subtest: mobile radius selector is a single scrollable row with touch-sized buttons
 ok 143 - mobile radius selector is a single scrollable row with touch-sized buttons
   ---
-  duration_ms: 0.28839
+  duration_ms: 0.500557
   ...
 # Subtest: desktop radius layout remains non-sticky and unchanged outside the mobile query
 ok 144 - desktop radius layout remains non-sticky and unchanged outside the mobile query
   ---
-  duration_ms: 0.208521
+  duration_ms: 0.452989
   ...
 # Subtest: selected radius is derived from the existing state for the single shared control
 ok 145 - selected radius is derived from the existing state for the single shared control
   ---
-  duration_ms: 0.402234
+  duration_ms: 0.655028
   ...
 # Subtest: deterministic fixture can select every radius without duplicating controls
 ok 146 - deterministic fixture can select every radius without duplicating controls
   ---
-  duration_ms: 0.211546
+  duration_ms: 0.471897
   ...
 # Subtest: radius changes reuse the complete filtering and rendering pipeline
 ok 147 - radius changes reuse the complete filtering and rendering pipeline
   ---
-  duration_ms: 0.438963
+  duration_ms: 0.851061
   ...
 # Subtest: map and card selection share one zoom-preserving selected incident
 ok 148 - map and card selection share one zoom-preserving selected incident
   ---
-  duration_ms: 0.467316
+  duration_ms: 0.821291
   ...
 # Subtest: show-on-map is a working in-page link that selects the incident and reveals the map
 ok 149 - show-on-map is a working in-page link that selects the incident and reveals the map
   ---
-  duration_ms: 0.298579
+  duration_ms: 0.640399
   ...
 # Subtest: search remains visible while one mobile affordance owns secondary controls
 ok 150 - search remains visible while one mobile affordance owns secondary controls
   ---
-  duration_ms: 2.578261
+  duration_ms: 2.796776
   ...
 # Subtest: meaningful secondary filters drive the count while search and radius do not
 ok 151 - meaningful secondary filters drive the count while search and radius do not
   ---
-  duration_ms: 0.266539
+  duration_ms: 0.358824
   ...
 # Subtest: mobile disclosure stays in document flow and desktop layouts remain visible
 ok 152 - mobile disclosure stays in document flow and desktop layouts remain visible
   ---
-  duration_ms: 0.49109
+  duration_ms: 0.526951
   ...
 # Subtest: clear filters reuses existing semantics and refreshes the count
 ok 153 - clear filters reuses existing semantics and refreshes the count
   ---
-  duration_ms: 0.307346
+  duration_ms: 0.366479
   ...
 # Subtest: tapping a mobile marker opens the sheet and reveals its matching shared card
 ok 154 - tapping a mobile marker opens the sheet and reveals its matching shared card
   ---
-  duration_ms: 2.849278
+  duration_ms: 2.409891
   ...
 # Subtest: card selection persists into Map and highlights the same marker without changing zoom
 ok 155 - card selection persists into Map and highlights the same marker without changing zoom
   ---
-  duration_ms: 0.652953
+  duration_ms: 0.647157
   ...
 # Subtest: selection clears whenever filtering or refreshed data removes the incident
 ok 156 - selection clears whenever filtering or refreshed data removes the incident
   ---
-  duration_ms: 0.495178
+  duration_ms: 0.41775
   ...
 # Subtest: mobile behavior reuses the desktop selection model and leaves desktop marker behavior intact
 ok 157 - mobile behavior reuses the desktop selection model and leaves desktop marker behavior intact
   ---
-  duration_ms: 0.572111
+  duration_ms: 0.660246
   ...
 # Subtest: desktop list and layout remain the default outside the mobile media query
 ok 158 - desktop list and layout remain the default outside the mobile media query
   ---
-  duration_ms: 0.367849
+  duration_ms: 0.353082
   ...
 # Subtest: mobile uses one concise production-rendered summary per active view
 ok 159 - mobile uses one concise production-rendered summary per active view
   ---
-  duration_ms: 1.952408
+  duration_ms: 2.425082
   ...
 # Subtest: secondary located count, source times, marker shapes, ages, and resolution guide stay in Map info
 ok 160 - secondary located count, source times, marker shapes, ages, and resolution guide stay in Map info
   ---
-  duration_ms: 0.406502
+  duration_ms: 0.50974
   ...
 # Subtest: critical stale and unavailable incident warnings remain outside Map info
 ok 161 - critical stale and unavailable incident warnings remain outside Map info
   ---
-  duration_ms: 0.338103
+  duration_ms: 0.429841
   ...
 # Subtest: Calls mode reserves no Map info or warning space and desktop disclosure is unchanged
 ok 162 - Calls mode reserves no Map info or warning space and desktop disclosure is unchanged
   ---
-  duration_ms: 0.302216
+  duration_ms: 0.355019
   ...
 # Subtest: mobile collapsed density is bounded and keeps a 44px disclosure target
 ok 163 - mobile collapsed density is bounded and keeps a 44px disclosure target
   ---
-  duration_ms: 0.262311
+  duration_ms: 0.315236
   ...
 # Subtest: mobile Calls exposes the single production disruption panel after incidents
 ok 164 - mobile Calls exposes the single production disruption panel after incidents
   ---
-  duration_ms: 2.046995
+  duration_ms: 3.368829
   ...
 # Subtest: mobile Map keeps TTC content off the map and uses the existing Calls switch
 ok 165 - mobile Map keeps TTC content off the map and uses the existing Calls switch
   ---
-  duration_ms: 0.279253
+  duration_ms: 0.388257
   ...
 # Subtest: TTC keeps production renderer, disclosures, source states, and wrapping contract
 ok 166 - TTC keeps production renderer, disclosures, source states, and wrapping contract
   ---
-  duration_ms: 0.302406
+  duration_ms: 0.531968
   ...
 # Subtest: desktop disruption order and layout rules remain unchanged
 ok 167 - desktop disruption order and layout rules remain unchanged
   ---
-  duration_ms: 0.252893
+  duration_ms: 0.355058
   ...
 # Subtest: accessible Map and Calls toggle is available only at the mobile breakpoint
 ok 168 - accessible Map and Calls toggle is available only at the mobile breakpoint
   ---
-  duration_ms: 2.558243
+  duration_ms: 1.788505
   ...
 # Subtest: mobile view rules show one existing primary view without changing desktop layout
 ok 169 - mobile view rules show one existing primary view without changing desktop layout
   ---
-  duration_ms: 0.375794
+  duration_ms: 0.371028
   ...
 # Subtest: view switching only updates presentation and preserves filters, radius, data, and selection
 ok 170 - view switching only updates presentation and preserves filters, radius, data, and selection
   ---
-  duration_ms: 0.288911
+  duration_ms: 0.261728
   ...
 # Subtest: breakpoint changes rebuild only the active incident surface without stale ownership
 ok 171 - breakpoint changes rebuild only the active incident surface without stale ownership
   ---
-  duration_ms: 0.221926
+  duration_ms: 0.148382
   ...
 # Subtest: each mobile mode owns one incident surface and switching clears the inactive list
 ok 172 - each mobile mode owns one incident surface and switching clears the inactive list
   ---
-  duration_ms: 0.245811
+  duration_ms: 0.186725
   ...
 # Subtest: show-on-map keeps the selected incident and activates the map view
 ok 173 - show-on-map keeps the selected incident and activates the map view
   ---
-  duration_ms: 0.27743
+  duration_ms: 0.273804
   ...
 # Subtest: empty state appears when no incidents are inside the selected radius
 ok 174 - empty state appears when no incidents are inside the selected radius
   ---
-  duration_ms: 1.931067
+  duration_ms: 2.359801
   ...
 # Subtest: empty radius state includes the selected radius and closest loaded outside call
 ok 175 - empty radius state includes the selected radius and closest loaded outside call
   ---
-  duration_ms: 0.474148
+  duration_ms: 0.590695
   ...
 # Subtest: fallback is omitted if the supplied matching calls already include one inside the radius
 ok 176 - fallback is omitted if the supplied matching calls already include one inside the radius
   ---
-  duration_ms: 0.204604
+  duration_ms: 0.242288
   ...
 # Subtest: fallback ignores matching calls without usable coordinates
 ok 177 - fallback ignores matching calls without usable coordinates
   ---
-  duration_ms: 0.188243
+  duration_ms: 0.268533
   ...
 # Subtest: fallback accepts the application's coordinate resolver
 ok 178 - fallback accepts the application's coordinate resolver
   ---
-  duration_ms: 0.214772
+  duration_ms: 0.298714
   ...
 # Subtest: closest distance is omitted when user location is unavailable
 ok 179 - closest distance is omitted when user location is unavailable
   ---
-  duration_ms: 0.189966
+  duration_ms: 0.239146
   ...
 # Subtest: Toronto-wide empty state describes filtered results without a fallback or expansion
 ok 180 - Toronto-wide empty state describes filtered results without a fallback or expansion
   ---
-  duration_ms: 0.82202
+  duration_ms: 1.184689
   ...
 # Subtest: expand action chooses each next sensible radius
 ok 181 - expand action chooses each next sensible radius
   ---
-  duration_ms: 0.200996
+  duration_ms: 0.213143
   ...
 # Subtest: global empty dataset has a clean message and no expand action
 ok 182 - global empty dataset has a clean message and no expand action
   ---
-  duration_ms: 0.162885
+  duration_ms: 0.221297
   ...
 # Subtest: fallback and radius expansion use loaded data without fetching or resetting filters
 ok 183 - fallback and radius expansion use loaded data without fetching or resetting filters
   ---
-  duration_ms: 12.224712
+  duration_ms: 18.709326
   ...
 # Subtest: saved radius, filters, history, and Map / Calls view are restored
 ok 184 - saved radius, filters, history, and Map / Calls view are restored
   ---
-  duration_ms: 3.158066
+  duration_ms: 3.777776
   ...
 # Subtest: invalid and stale stored options fall back to current defaults
 ok 185 - invalid and stale stored options fall back to current defaults
   ---
-  duration_ms: 0.26657
+  duration_ms: 0.37
   ...
 # Subtest: missing preferences preserve existing defaults
 ok 186 - missing preferences preserve existing defaults
   ---
-  duration_ms: 0.224621
+  duration_ms: 0.314042
   ...
 # Subtest: preference changes are written without exact coordinates or transient state
 ok 187 - preference changes are written without exact coordinates or transient state
   ---
-  duration_ms: 0.362329
+  duration_ms: 0.485977
   ...
 # Subtest: UI changes persist through the existing state update paths
 ok 188 - UI changes persist through the existing state update paths
   ---
-  duration_ms: 8.9301
+  duration_ms: 10.633846
   ...
 # Subtest: Nearest orders calls by distance ascending with deterministic time and id ties
 ok 189 - Nearest orders calls by distance ascending with deterministic time and id ties
   ---
-  duration_ms: 13.172297
+  duration_ms: 12.616916
   ...
 # Subtest: Newest orders calls by reported time descending with deterministic id ties
 ok 190 - Newest orders calls by reported time descending with deterministic id ties
   ---
-  duration_ms: 0.353923
+  duration_ms: 0.361235
   ...
 # Subtest: sorting handles unavailable locations, timestamp fallbacks, and stable anonymous ties
 ok 191 - sorting handles unavailable locations, timestamp fallbacks, and stable anonymous ties
   ---
-  duration_ms: 0.481191
+  duration_ms: 0.433921
   ...
 # Subtest: sort control has only the requested modes and Nearest follows location availability
 ok 192 - sort control has only the requested modes and Nearest follows location availability
   ---
-  duration_ms: 0.707816
+  duration_ms: 0.659153
   ...
 # Subtest: sort changes rerender loaded calls without fetching or changing filters, radius, or selection
 ok 193 - sort changes rerender loaded calls without fetching or changing filters, radius, or selection
   ---
-  duration_ms: 0.368731
+  duration_ms: 0.386327
   ...
 # Subtest: mobile view switching preserves the session sort selection
 ok 194 - mobile view switching preserves the session sort selection
   ---
-  duration_ms: 0.262041
+  duration_ms: 0.197011
   ...
 # Subtest: nearby summary counts filtered calls by service and incident category
 ok 195 - nearby summary counts filtered calls by service and incident category
   ---
-  duration_ms: 3.832901
+  duration_ms: 2.448083
   ...
 # Subtest: nearby summary handles empty and singular results
 ok 196 - nearby summary handles empty and singular results
   ---
-  duration_ms: 0.228338
+  duration_ms: 0.274514
   ...
 # Subtest: Toronto-wide summary does not imply a radius
 ok 197 - Toronto-wide summary does not imply a radius
   ---
-  duration_ms: 0.187191
+  duration_ms: 0.213361
   ...
 # Subtest: nearby summary formats hour, day, plural-day, and future ages
 ok 198 - nearby summary formats hour, day, plural-day, and future ages
   ---
-  duration_ms: 0.453509
+  duration_ms: 0.542931
   ...
 # Subtest: nearby summary calculates the closest filtered incident with the card distance formatter
 ok 199 - nearby summary calculates the closest filtered incident with the card distance formatter
   ---
-  duration_ms: 0.47528
+  duration_ms: 0.597474
   ...
 # Subtest: nearby summary recalculates closest distance and preserves counts as filtered calls and radius change
 ok 200 - nearby summary recalculates closest distance and preserves counts as filtered calls and radius change
   ---
-  duration_ms: 0.36336
+  duration_ms: 0.339317
   ...
 # Subtest: nearby summary omits closest distance with no incidents or no user location
 ok 201 - nearby summary omits closest distance with no incidents or no user location
   ---
-  duration_ms: 0.178895
+  duration_ms: 0.199598
   ...
 # Subtest: mobile summary keeps only count, closest, latest, and Toronto-wide context
 ok 202 - mobile summary keeps only count, closest, latest, and Toronto-wide context
   ---
-  duration_ms: 0.381034
+  duration_ms: 0.476945
   ...
 # Subtest: mobile summary formats singular, hour, day, plural-day, future, and custom-coordinate ages
 ok 203 - mobile summary formats singular, hour, day, plural-day, future, and custom-coordinate ages
   ---
-  duration_ms: 1.428229
+  duration_ms: 0.30727
   ...
 # Subtest: nearby summary render derives non-empty details from loaded filtered calls without fetching
 ok 204 - nearby summary render derives non-empty details from loaded filtered calls without fetching
   ---
-  duration_ms: 16.267816
+  duration_ms: 20.851777
   ...
 # Subtest: production wording is concise, source-aware, and differs for the two supported kinds
 ok 205 - production wording is concise, source-aware, and differs for the two supported kinds
   ---
-  duration_ms: 4.543552
+  duration_ms: 3.410182
   ...
 # Subtest: notification content omits invalid distance and private watch context
 ok 206 - notification content omits invalid distance and private watch context
   ---
-  duration_ms: 0.783257
+  duration_ms: 0.735985
   ...
 # Subtest: canonical incident links reuse the established parser and contain only allowlisted context
 ok 207 - canonical incident links reuse the established parser and contain only allowlisted context
   ---
-  duration_ms: 3.473828
+  duration_ms: 1.994525
   ...
 # Subtest: arrival restoration distinguishes visible, filtered, missing, mobile, and desktop states
 ok 208 - arrival restoration distinguishes visible, filtered, missing, mobile, and desktop states
   ---
-  duration_ms: 1.226658
+  duration_ms: 0.569339
   ...
 # Subtest: manual notification fixtures are loopback-only production guards
 ok 209 - manual notification fixtures are loopback-only production guards
   ---
-  duration_ms: 0.738303
+  duration_ms: 0.392035
   ...
 # Subtest: offline state displays a live-data warning
 ok 210 - offline state displays a live-data warning
   ---
-  duration_ms: 4.152459
+  duration_ms: 2.084562
   ...
 # Subtest: offline state marks previously loaded incident data as potentially stale
 ok 211 - offline state marks previously loaded incident data as potentially stale
   ---
-  duration_ms: 0.442499
+  duration_ms: 0.297125
   ...
 # Subtest: offline state preserves the last successful update when available
 ok 212 - offline state preserves the last successful update when available
   ---
-  duration_ms: 0.248215
+  duration_ms: 0.137714
   ...
 # Subtest: online state removes the offline warning and leaves live behavior unchanged
 ok 213 - online state removes the offline warning and leaves live behavior unchanged
   ---
-  duration_ms: 0.236483
+  duration_ms: 0.152597
   ...
 # Subtest: app reacts to connectivity changes and exposes one shared responsive warning
 ok 214 - app reacts to connectivity changes and exposes one shared responsive warning
   ---
-  duration_ms: 14.666777
+  duration_ms: 8.547959
   ...
 # Subtest: bundled open data resolves postal areas and the supplied Lake Shore segment
 ok 215 - bundled open data resolves postal areas and the supplied Lake Shore segment
   ---
-  duration_ms: 42.735221
+  duration_ms: 56.068212
   ...
 # Subtest: missing cross street does not imply a resolved division or exact match
 ok 216 - missing cross street does not imply a resolved division or exact match
   ---
-  duration_ms: 2.81351
+  duration_ms: 2.365799
   ...
 # Subtest: ambiguous shared intersections are rejected
 ok 217 - ambiguous shared intersections are rejected
   ---
-  duration_ms: 0.439023
+  duration_ms: 2.829357
   ...
 # Subtest: unknown postal areas and empty locations remain unresolved
 ok 218 - unknown postal areas and empty locations remain unresolved
   ---
-  duration_ms: 0.347791
+  duration_ms: 0.341416
   ...
 # Subtest: live OpenStreetMap sample tile is a PNG
 ok 219 - live OpenStreetMap sample tile is a PNG
   ---
-  duration_ms: 134.043142
+  duration_ms: 128.023094
   ...
 # Subtest: live TPS boundaries contain polygon geometry
 ok 220 - live TPS boundaries contain polygon geometry
   ---
-  duration_ms: 275.451199
+  duration_ms: 293.116594
   ...
 # Subtest: matches polygon and rejects missing, invalid, outside and postal-area locations
 ok 221 - matches polygon and rejects missing, invalid, outside and postal-area locations
   ---
-  duration_ms: 3.757007
+  duration_ms: 3.352612
   ...
 # Subtest: accepts postal estimates and ignores unsupported boundary geometry
 ok 222 - accepts postal estimates and ignores unsupported boundary geometry
   ---
-  duration_ms: 0.291477
+  duration_ms: 0.329145
   ...
 # Subtest: supports multipolygons, excludes holes and ambiguous overlaps
 ok 223 - supports multipolygons, excludes holes and ambiguous overlaps
   ---
-  duration_ms: 0.419165
+  duration_ms: 0.380446
   ...
 # Subtest: bundled Toronto boundaries match downtown location, not fire beat
 ok 224 - bundled Toronto boundaries match downtown location, not fire beat
   ---
-  duration_ms: 54.287955
+  duration_ms: 37.704762
   ...
 # Subtest: recognizes only standalone Toronto postal prefixes
 ok 225 - recognizes only standalone Toronto postal prefixes
   ---
-  duration_ms: 1.850236
+  duration_ms: 1.577177
   ...
 # Subtest: M5A ArcGIS result matches TPS Division 51 without using old map cache
 ok 226 - M5A ArcGIS result matches TPS Division 51 without using old map cache
   ---
-  duration_ms: 42.775574
+  duration_ms: 33.190271
   ...
 # Subtest: rejects failed, wrong-country, wrong-prefix, low-score and invalid coordinate results
 ok 227 - rejects failed, wrong-country, wrong-prefix, low-score and invalid coordinate results
   ---
-  duration_ms: 1.419559
+  duration_ms: 1.459391
   ...
 # Subtest: postal candidates must identify a postal area and usable Toronto coordinates
 ok 228 - postal candidates must identify a postal area and usable Toronto coordinates
   ---
-  duration_ms: 0.916948
+  duration_ms: 0.737097
   ...
 # Subtest: neighbourhood lookup returns Canadian area hints and requests longitude first
 ok 229 - neighbourhood lookup returns Canadian area hints and requests longitude first
   ---
-  duration_ms: 1.496773
+  duration_ms: 1.324683
   ...
 # A newer dev commit exists; its run will handle promotion.
 # Pull request: https://github.com/owner/repo/pull/1
@@ -1158,1302 +1158,1307 @@ ok 229 - neighbourhood lookup returns Canadian area hints and requests longitude
 # Merged https://example.test/7; Pages publishes from main.
 # Pull request: https://github.com/owner/repo/pull/1
 # Pull request: https://github.com/owner/repo/pull/1
-# Dev advanced concurrently; leaving its history intact.
 # Merged https://github.com/owner/repo/pull/1; Pages publishes from main.
+# Dev advanced concurrently; leaving its history intact.
 # Subtest: GitHub API wrapper serializes requests and retry delays use the supplied timer
 ok 230 - GitHub API wrapper serializes requests and retry delays use the supplied timer
   ---
-  duration_ms: 6.460703
+  duration_ms: 4.665875
   ...
 # Subtest: only tested dev SHA can be promoted without a duplicate Pages request
 ok 231 - only tested dev SHA can be promoted without a duplicate Pages request
   ---
-  duration_ms: 1.188817
+  duration_ms: 0.743613
   ...
 # Subtest: superseded dev, empty diffs and other branches cannot promote
 ok 232 - superseded dev, empty diffs and other branches cannot promote
   ---
-  duration_ms: 1.402397
+  duration_ms: 0.959697
   ...
 # Subtest: branch protection rejection never updates branches or deploys
 ok 233 - branch protection rejection never updates branches or deploys
   ---
-  duration_ms: 0.88071
+  duration_ms: 0.481046
   ...
 # Subtest: reuses existing PR, retries a transient rejection and protects concurrent dev changes
 ok 234 - reuses existing PR, retries a transient rejection and protects concurrent dev changes
   ---
-  duration_ms: 1.036472
+  duration_ms: 0.80578
   ...
 # Subtest: unsuccessful merge responses never advance dev; concurrent fast-forward rejection is safe
 ok 235 - unsuccessful merge responses never advance dev; concurrent fast-forward rejection is safe
   ---
-  duration_ms: 0.829714
+  duration_ms: 0.75613
   ...
 # Subtest: promotion CLI rejects runs outside dev
 ok 236 - promotion CLI rejects runs outside dev
   ---
-  duration_ms: 72.434086
+  duration_ms: 56.29686
   ...
 # Subtest: promotion CLI completes a successful dev promotion
 ok 237 - promotion CLI completes a successful dev promotion
   ---
-  duration_ms: 126.508199
+  duration_ms: 62.405178
   ...
 # Subtest: capability detection covers secure context, APIs, denial, and detectable iOS installation
 ok 238 - capability detection covers secure context, APIs, denial, and detectable iOS installation
   ---
-  duration_ms: 2.591826
+  duration_ms: 2.618101
   ...
 # Subtest: permission is never requested without an explicit user action
 ok 239 - permission is never requested without an explicit user action
   ---
-  duration_ms: 0.457056
+  duration_ms: 0.602813
   ...
 # Subtest: granted permission subscribes with userVisibleOnly and converted public VAPID key
 ok 240 - granted permission subscribes with userVisibleOnly and converted public VAPID key
   ---
-  duration_ms: 1.641996
+  duration_ms: 2.07447
   ...
 # Subtest: explicit activation replaces a subscription created with an old VAPID key
 ok 241 - explicit activation replaces a subscription created with an old VAPID key
   ---
-  duration_ms: 1.309323
+  duration_ms: 2.747101
   ...
 # Subtest: denied and dismissed permission never subscribe or repeatedly prompt
 ok 242 - denied and dismissed permission never subscribe or repeatedly prompt
   ---
-  duration_ms: 1.197904
+  duration_ms: 0.356361
   ...
 # Subtest: subscription serializer and pairing contain only backend fields
 ok 243 - subscription serializer and pairing contain only backend fields
   ---
-  duration_ms: 0.395882
+  duration_ms: 0.509023
   ...
 # Subtest: subscribe failures are contained and reported
 ok 244 - subscribe failures are contained and reported
   ---
-  duration_ms: 0.484347
+  duration_ms: 0.525018
   ...
 # Subtest: foreground reconciliation trusts actual subscription state
 ok 245 - foreground reconciliation trusts actual subscription state
   ---
-  duration_ms: 0.41632
+  duration_ms: 0.556132
   ...
 # Subtest: unsubscribe invokes backend deletion before browser unsubscribe
 ok 246 - unsubscribe invokes backend deletion before browser unsubscribe
   ---
-  duration_ms: 0.430006
+  duration_ms: 0.501516
   ...
 # Subtest: loopback fixtures are deterministic and cannot activate on production hosts
 ok 247 - loopback fixtures are deterministic and cannot activate on production hosts
   ---
-  duration_ms: 0.490188
+  duration_ms: 0.811756
   ...
 # Subtest: push helpers reject malformed state and tolerate absent optional browser plumbing
 ok 248 - push helpers reject malformed state and tolerate absent optional browser plumbing
   ---
-  duration_ms: 0.908953
+  duration_ms: 1.17435
   ...
 # Subtest: activation, reconciliation, and unsubscribe cover safe fallback outcomes
 ok 249 - activation, reconciliation, and unsubscribe cover safe fallback outcomes
   ---
-  duration_ms: 1.117855
+  duration_ms: 1.366775
   ...
 # Subtest: activation storage and HTTP adapter contain corrupt credentials and backend failures
 ok 250 - activation storage and HTTP adapter contain corrupt credentials and backend failures
   ---
-  duration_ms: 28.422624
+  duration_ms: 35.148842
   ...
 # Subtest: loopback runtime variants exercise permission, expiry, failure, and cleanup deterministically
 ok 251 - loopback runtime variants exercise permission, expiry, failure, and cleanup deterministically
   ---
-  duration_ms: 0.644798
+  duration_ms: 0.745241
   ...
 # Subtest: web app manifest contains SirenTO install metadata
 ok 252 - web app manifest contains SirenTO install metadata
   ---
-  duration_ms: 3.461384
+  duration_ms: 3.297511
   ...
 # Subtest: manifest and declared icons are served as static app assets
 ok 253 - manifest and declared icons are served as static app assets
   ---
-  duration_ms: 91.727129
+  duration_ms: 89.410571
   ...
 # Subtest: app shell links install metadata without changing its entry behavior
 ok 254 - app shell links install metadata without changing its entry behavior
   ---
-  duration_ms: 0.396663
+  duration_ms: 0.406883
   ...
 # Subtest: installed mode is detected with standard display-mode and the iOS standalone fallback
 ok 255 - installed mode is detected with standard display-mode and the iOS standalone fallback
   ---
-  duration_ms: 2.537484
+  duration_ms: 2.255831
   ...
 # Subtest: standalone layout opts into the full viewport and protects every device edge
 ok 256 - standalone layout opts into the full viewport and protects every device edge
   ---
-  duration_ms: 0.429083
+  duration_ms: 0.447892
   ...
 # Subtest: normal browser mode retains the base shell sizing without standalone padding
 ok 257 - normal browser mode retains the base shell sizing without standalone padding
   ---
-  duration_ms: 0.364613
+  duration_ms: 0.323368
   ...
 # Subtest: standalone mobile controls and sheet remain visible, touch-sized, and safe-area aware
 ok 258 - standalone mobile controls and sheet remain visible, touch-sized, and safe-area aware
   ---
-  duration_ms: 0.614021
+  duration_ms: 0.299846
   ...
 # Subtest: freshness stays hidden before success and stops its timer on cleanup
 ok 259 - freshness stays hidden before success and stops its timer on cleanup
   ---
-  duration_ms: 2.973942
+  duration_ms: 2.237525
   ...
 # Subtest: successful refresh records its completion time
 ok 260 - successful refresh records its completion time
   ---
-  duration_ms: 0.430276
+  duration_ms: 0.401612
   ...
 # Subtest: freshness progresses without another refresh request
 ok 261 - freshness progresses without another refresh request
   ---
-  duration_ms: 0.267391
+  duration_ms: 0.229467
   ...
 # Subtest: a later successful refresh resets freshness
 ok 262 - a later successful refresh resets freshness
   ---
-  duration_ms: 0.260729
+  duration_ms: 0.190721
   ...
 # Subtest: a failed refresh preserves the previous successful timestamp
 ok 263 - a failed refresh preserves the previous successful timestamp
   ---
-  duration_ms: 0.278442
+  duration_ms: 0.283254
   ...
 # Subtest: responding-unit wording is singular or plural as appropriate
 ok 264 - responding-unit wording is singular or plural as appropriate
   ---
-  duration_ms: 1.815411
+  duration_ms: 1.47818
   ...
 # Subtest: unavailable, invalid, and zero counts are omitted
 ok 265 - unavailable, invalid, and zero counts are omitted
   ---
-  duration_ms: 0.390872
+  duration_ms: 0.313679
   ...
 # Subtest: responding-unit count is a secondary More details field
 ok 266 - responding-unit count is a secondary More details field
   ---
-  duration_ms: 0.432841
+  duration_ms: 0.409694
   ...
 # Subtest: list and map popup share the unchanged incident-card renderer
 ok 267 - list and map popup share the unchanged incident-card renderer
   ---
-  duration_ms: 0.300463
+  duration_ms: 0.236445
   ...
 # Subtest: valid authoritative line geometry and closure metadata are normalized
 ok 268 - valid authoritative line geometry and closure metadata are normalized
   ---
-  duration_ms: 4.652015
+  duration_ms: 3.947452
   ...
 # Subtest: point-only closure remains a point and does not invent a line
 ok 269 - point-only closure remains a point and does not invent a line
   ---
-  duration_ms: 0.430857
+  duration_ms: 0.435633
   ...
 # Subtest: missing geometry remains absent
 ok 270 - missing geometry remains absent
   ---
-  duration_ms: 0.355506
+  duration_ms: 0.313848
   ...
 # Subtest: missing expected end time remains unknown
 ok 271 - missing expected end time remains unknown
   ---
-  duration_ms: 0.318717
+  duration_ms: 0.252466
   ...
 # Subtest: invalid line geometry is ignored safely while a valid source point survives
 ok 272 - invalid line geometry is ignored safely while a valid source point survives
   ---
-  duration_ms: 0.404528
+  duration_ms: 0.335729
   ...
 # Subtest: source attribution and URLs are preserved
 ok 273 - source attribution and URLs are preserved
   ---
-  duration_ms: 0.301635
+  duration_ms: 0.346671
   ...
 # Subtest: feed unavailable remains distinguishable from a successful empty feed
 ok 274 - feed unavailable remains distinguishable from a successful empty feed
   ---
-  duration_ms: 1.432213
+  duration_ms: 1.272981
   ...
 # Subtest: existing road filtering and distance behavior accepts normalized records
 ok 275 - existing road filtering and distance behavior accepts normalized records
   ---
-  duration_ms: 0.83288
+  duration_ms: 0.801073
   ...
 # Subtest: line closures render below incident markers with repeated identifiable symbols
 ok 276 - line closures render below incident markers with repeated identifiable symbols
   ---
-  duration_ms: 7.54783
+  duration_ms: 6.18063
   ...
 # Subtest: symbol density increases with zoom and positions remain on the authoritative segment
 ok 277 - symbol density increases with zoom and positions remain on the authoritative segment
   ---
-  duration_ms: 0.6508
+  duration_ms: 0.503293
   ...
 # Subtest: point-only closures render one marker and select their normalized record
 ok 278 - point-only closures render one marker and select their normalized record
   ---
-  duration_ms: 1.796626
+  duration_ms: 2.411545
   ...
 # Subtest: toggle hides and restores every closure element without changing unrelated map state
 ok 279 - toggle hides and restores every closure element without changing unrelated map state
   ---
-  duration_ms: 1.107965
+  duration_ms: 1.163787
   ...
 # Subtest: viewport scheduling falls back safely when requestAnimationFrame is unavailable
 ok 280 - viewport scheduling falls back safely when requestAnimationFrame is unavailable
   ---
-  duration_ms: 12.609602
+  duration_ms: 8.62553
   ...
 # Subtest: overlay status distinguishes a valid empty feed from an unavailable source
 ok 281 - overlay status distinguishes a valid empty feed from an unavailable source
   ---
-  duration_ms: 0.772687
+  duration_ms: 0.526528
   ...
 # Subtest: closure detail includes available normalized fields and official attribution
 ok 282 - closure detail includes available normalized fields and official attribution
   ---
-  duration_ms: 26.116746
+  duration_ms: 14.237808
   ...
 # Subtest: closure detail omits unavailable optional fields without inventing values
 ok 283 - closure detail omits unavailable optional fields without inventing values
   ---
-  duration_ms: 0.877144
+  duration_ms: 0.563008
   ...
 # Subtest: defensive map branches neither fabricate geometry nor require optional Leaflet methods
 ok 284 - defensive map branches neither fabricate geometry nor require optional Leaflet methods
   ---
-  duration_ms: 0.847076
+  duration_ms: 0.534034
   ...
 # Subtest: no-op viewport updates reuse closure layers and coalesce move and zoom events
 ok 285 - no-op viewport updates reuse closure layers and coalesce move and zoom events
   ---
-  duration_ms: 0.529452
+  duration_ms: 0.296136
   ...
 # Subtest: a stale scheduled viewport render is ignored after the map changes
 ok 286 - a stale scheduled viewport render is ignored after the map changes
   ---
-  duration_ms: 0.561211
+  duration_ms: 0.316954
   ...
 # Subtest: viewport deltas remove departed closures and add newly visible closures without duplicates
 ok 287 - viewport deltas remove departed closures and add newly visible closures without duplicates
   ---
-  duration_ms: 0.853039
+  duration_ms: 0.582792
   ...
 # Subtest: changed geometry replaces only the affected closure representation
 ok 288 - changed geometry replaces only the affected closure representation
   ---
-  duration_ms: 0.854121
+  duration_ms: 0.468718
   ...
 # Subtest: symbols regenerate only when zoom crosses a density tier
 ok 289 - symbols regenerate only when zoom crosses a density tier
   ---
-  duration_ms: 0.96051
+  duration_ms: 0.540475
   ...
 # Subtest: closure styling uses theme variables defined for light and dark map modes
 ok 290 - closure styling uses theme variables defined for light and dark map modes
   ---
-  duration_ms: 1.033396
+  duration_ms: 0.765817
   ...
 # Subtest: map control is mobile-accessible and closure selection stays separate from incident selection
 ok 291 - map control is mobile-accessible and closure selection stays separate from incident selection
   ---
-  duration_ms: 1.052322
+  duration_ms: 0.852118
   ...
 # Subtest: live roads feed satisfies production parser
 ok 292 - live roads feed satisfies production parser
   ---
-  duration_ms: 3006.932107
+  duration_ms: 2929.657079
   ...
 # Subtest: saved context resolves its coordinates without replacing live coordinates
 ok 293 - saved context resolves its coordinates without replacing live coordinates
   ---
-  duration_ms: 2.470758
+  duration_ms: 3.046066
   ...
 # Subtest: radius, distance, nearest sort, summary, and empty fallback use the saved origin
 ok 294 - radius, distance, nearest sort, summary, and empty fallback use the saved origin
   ---
-  duration_ms: 1.344388
+  duration_ms: 1.594624
   ...
 # Subtest: selector, recenter, current-location restoration, and preserved state use existing paths
 ok 295 - selector, recenter, current-location restoration, and preserved state use existing paths
   ---
-  duration_ms: 0.755986
+  duration_ms: 1.105224
   ...
 # Subtest: selection reconciliation, clustering, road visibility, stale fallback, and privacy remain intact
 ok 296 - selection reconciliation, clustering, road visibility, stale fallback, and privacy remain intact
   ---
-  duration_ms: 0.403876
+  duration_ms: 0.516056
   ...
 # Subtest: save action opens a compact, labelled dialog with save and cancel controls
 ok 297 - save action opens a compact, labelled dialog with save and cancel controls
   ---
-  duration_ms: 2.860379
+  duration_ms: 2.344633
   ...
 # Subtest: valid save is immediate, blank labels show helper validation, and cancel does not persist
 ok 298 - valid save is immediate, blank labels show helper validation, and cancel does not persist
   ---
-  duration_ms: 1.723949
+  duration_ms: 1.342661
   ...
 # Subtest: five-location maximum is visible and prevents another save
 ok 299 - five-location maximum is visible and prevents another save
   ---
-  duration_ms: 0.312446
+  duration_ms: 0.236715
   ...
 # Subtest: rename preserves identity and coordinates, delete targets one entry, and active deletion falls back
 ok 300 - rename preserves identity and coordinates, delete targets one entry, and active deletion falls back
   ---
-  duration_ms: 1.952507
+  duration_ms: 1.226023
   ...
 # Subtest: management renders labels only, preserves stable order, and never displays coordinates
 ok 301 - management renders labels only, preserves stable order, and never displays coordinates
   ---
-  duration_ms: 0.398086
+  duration_ms: 0.267462
   ...
 # Subtest: desktop and mobile controls remain usable without changing map toolbar controls
 ok 302 - desktop and mobile controls remain usable without changing map toolbar controls
   ---
-  duration_ms: 0.460262
+  duration_ms: 0.311986
   ...
 # Subtest: valid saved locations persist and restore with only the supported data shape
 ok 303 - valid saved locations persist and restore with only the supported data shape
   ---
-  duration_ms: 4.395936
+  duration_ms: 3.84256
   ...
 # Subtest: blank labels and invalid coordinates are rejected before storage
 ok 304 - blank labels and invalid coordinates are rejected before storage
   ---
-  duration_ms: 0.942456
+  duration_ms: 0.922123
   ...
 # Subtest: a maximum of five locations and obvious coordinate duplicates are enforced
 ok 305 - a maximum of five locations and obvious coordinate duplicates are enforced
   ---
-  duration_ms: 0.730208
+  duration_ms: 0.618706
   ...
 # Subtest: invalid persisted records are ignored and a stale selection falls back safely
 ok 306 - invalid persisted records are ignored and a stale selection falls back safely
   ---
-  duration_ms: 0.363981
+  duration_ms: 0.326157
   ...
 # Subtest: rename and delete update only the requested record
 ok 307 - rename and delete update only the requested record
   ---
-  duration_ms: 0.612988
+  duration_ms: 0.56727
   ...
 # Subtest: deleting the selected location and selecting a stale ID fall back to Current location
 ok 308 - deleting the selected location and selecting a stale ID fall back to Current location
   ---
-  duration_ms: 0.416861
+  duration_ms: 0.336024
   ...
 # Subtest: selecting a saved location neither overwrites live geolocation nor calls backend APIs
 ok 309 - selecting a saved location neither overwrites live geolocation nor calls backend APIs
   ---
-  duration_ms: 0.287398
+  duration_ms: 0.286293
   ...
 # Subtest: default IDs work with UUID support and its local fallback
 ok 310 - default IDs work with UUID support and its local fallback
   ---
-  duration_ms: 0.620883
+  duration_ms: 0.561297
   ...
 # Subtest: blocked or malformed storage falls back safely while keeping usable in-memory state
 ok 311 - blocked or malformed storage falls back safely while keeping usable in-memory state
   ---
-  duration_ms: 0.470722
+  duration_ms: 0.420979
   ...
 # Subtest: persisted normalization removes duplicates, caps records, and preserves only a valid selection
 ok 312 - persisted normalization removes duplicates, caps records, and preserves only a valid selection
   ---
-  duration_ms: 0.370725
+  duration_ms: 0.311066
   ...
 # Subtest: invalid IDs and absent records are rejected or ignored without changing saved data
 ok 313 - invalid IDs and absent records are rejected or ignored without changing saved data
   ---
-  duration_ms: 0.90725
+  duration_ms: 1.637536
   ...
 # Subtest: worker precaches the static app shell without live incident data
 ok 314 - worker precaches the static app shell without live incident data
   ---
-  duration_ms: 5.208234
+  duration_ms: 3.347127
   ...
 # Subtest: worker ignores live API and incident snapshot requests
 ok 315 - worker ignores live API and incident snapshot requests
   ---
-  duration_ms: 1.934303
+  duration_ms: 2.344537
   ...
 # Subtest: worker serves listed assets from cache and leaves other online requests alone
 ok 316 - worker serves listed assets from cache and leaves other online requests alone
   ---
-  duration_ms: 1.25479
+  duration_ms: 1.965717
   ...
 # Subtest: navigations remain network-first and fall back to the cached shell
 ok 317 - navigations remain network-first and fall back to the cached shell
   ---
-  duration_ms: 2.798844
+  duration_ms: 4.439247
   ...
 # Subtest: activation removes old SirenTO shell versions only
 ok 318 - activation removes old SirenTO shell versions only
   ---
-  duration_ms: 1.042442
+  duration_ms: 1.343711
   ...
 # Subtest: valid versioned push payload renders a concise user-visible notification
 ok 319 - valid versioned push payload renders a concise user-visible notification
   ---
-  duration_ms: 2.107097
+  duration_ms: 2.452611
   ...
 # Subtest: malformed, cross-origin, and coordinate-only push payloads are ignored
 ok 320 - malformed, cross-origin, and coordinate-only push payloads are ignored
   ---
-  duration_ms: 2.484744
+  duration_ms: 3.105175
   ...
 # Subtest: notification click focuses and navigates an existing SirenTO client
 ok 321 - notification click focuses and navigates an existing SirenTO client
   ---
-  duration_ms: 1.298433
+  duration_ms: 1.554385
   ...
 # Subtest: notification click opens the canonical incident URL when no client exists
 ok 322 - notification click opens the canonical incident URL when no client exists
   ---
-  duration_ms: 1.072139
+  duration_ms: 1.351706
   ...
 # Subtest: notification click reselects an incident in an already canonical client without a duplicate window
 ok 323 - notification click reselects an incident in an already canonical client without a duplicate window
   ---
-  duration_ms: 1.948598
+  duration_ms: 3.110621
   ...
 # Subtest: notification click closes but rejects malformed and non-allowlisted destinations
 ok 324 - notification click closes but rejects malformed and non-allowlisted destinations
   ---
-  duration_ms: 2.948646
+  duration_ms: 3.010518
   ...
 # Subtest: siren matches stay within 2 km and rank by recency then distance
 ok 325 - siren matches stay within 2 km and rank by recency then distance
   ---
-  duration_ms: 2.783885
+  duration_ms: 2.44083
   ...
 # Subtest: siren matches show no more than five incidents
 ok 326 - siren matches show no more than five incidents
   ---
-  duration_ms: 0.319549
+  duration_ms: 0.232537
   ...
 # Subtest: siren matching ignores invalid, future, and unmapped calls
 ok 327 - siren matching ignores invalid, future, and unmapped calls
   ---
-  duration_ms: 0.246442
+  duration_ms: 0.200712
   ...
 # Subtest: siren matching has stable ID ordering and default options
 ok 328 - siren matching has stable ID ordering and default options
   ---
-  duration_ms: 8.622063
+  duration_ms: 7.092761
   ...
 # Subtest: medical calls are classified separately
 ok 329 - medical calls are classified separately
   ---
-  duration_ms: 1.819789
+  duration_ms: 2.064811
   ...
 # Subtest: fires and alarms remain in Fire, including vehicle fires
 ok 330 - fires and alarms remain in Fire, including vehicle fires
   ---
-  duration_ms: 0.288671
+  duration_ms: 0.346101
   ...
 # Subtest: non-fire TFS calls populate Other
 ok 331 - non-fire TFS calls populate Other
   ---
-  duration_ms: 0.252994
+  duration_ms: 0.2672
   ...
 # Subtest: missing and unfamiliar descriptions safely fall back to Other
 ok 332 - missing and unfamiliar descriptions safely fall back to Other
   ---
-  duration_ms: 0.227156
+  duration_ms: 0.258239
   ...
 # Subtest: ETL bootstraps, persists and merges fetched incidents across runs
 ok 333 - ETL bootstraps, persists and merges fetched incidents across runs
   ---
-  duration_ms: 316.101821
+  duration_ms: 291.244464
   ...
 # Subtest: Concourse XML input merges separate history without modifying input
 ok 334 - Concourse XML input merges separate history without modifying input
   ---
-  duration_ms: 124.433957
+  duration_ms: 139.845422
   ...
 # Subtest: failed fetch, malformed XML, stale feed and invalid history preserve published output
 ok 335 - failed fetch, malformed XML, stale feed and invalid history preserve published output
   ---
-  duration_ms: 8.645707
+  duration_ms: 14.884119
   ...
 # Subtest: combined updater keeps each feed when the other fails and preserves output if both fail
 ok 336 - combined updater keeps each feed when the other fails and preserves output if both fail
   ---
-  duration_ms: 383.619288
+  duration_ms: 351.96925
   ...
 # Subtest: disruption snapshots are separate from incidents and receive previous cache
 ok 337 - disruption snapshots are separate from incidents and receive previous cache
   ---
-  duration_ms: 231.130068
+  duration_ms: 224.521645
   ...
 # Subtest: ETL validates updater identity and fills unavailable-feed defaults without history
 ok 338 - ETL validates updater identity and fills unavailable-feed defaults without history
   ---
-  duration_ms: 115.387636
+  duration_ms: 102.512905
   ...
 # Subtest: ETL carries prior disruptions and legacy feed timestamps through failures
 ok 339 - ETL carries prior disruptions and legacy feed timestamps through failures
   ---
-  duration_ms: 237.338783
+  duration_ms: 224.907683
   ...
 # Subtest: CLI entry points honor environment paths and fallback writes GitHub output
 ok 340 - CLI entry points honor environment paths and fallback writes GitHub output
   ---
-  duration_ms: 1492.995743
+  duration_ms: 1204.234718
   ...
 # Subtest: freshness uses fetch time, including exact cutoff and invalid clocks
 ok 341 - freshness uses fetch time, including exact cutoff and invalid clocks
   ---
-  duration_ms: 2.119912
+  duration_ms: 2.040799
+  ...
+# Subtest: fresh snapshot envelope does not hide stale or unavailable incident feeds
+ok 342 - fresh snapshot envelope does not hide stale or unavailable incident feeds
+  ---
+  duration_ms: 5.423238
   ...
 # Subtest: fresh snapshot is untouched; stale snapshot records GitHub updater; corrupt history fails
-ok 342 - fresh snapshot is untouched; stale snapshot records GitHub updater; corrupt history fails
+ok 343 - fresh snapshot is untouched; stale snapshot records GitHub updater; corrupt history fails
   ---
-  duration_ms: 295.207253
+  duration_ms: 299.842657
   ...
 # Subtest: missing snapshots run the injected updater
-ok 343 - missing snapshots run the injected updater
+ok 344 - missing snapshots run the injected updater
   ---
-  duration_ms: 2.638704
+  duration_ms: 2.84735
   ...
 # Subtest: default fallback updater fetches all sources for a missing snapshot
-ok 344 - default fallback updater fetches all sources for a missing snapshot
+ok 345 - default fallback updater fetches all sources for a missing snapshot
   ---
-  duration_ms: 132.293896
+  duration_ms: 133.995815
   ...
 # Subtest: normalizes a TFS incident into the dashboard contract
-ok 345 - normalizes a TFS incident into the dashboard contract
+ok 346 - normalizes a TFS incident into the dashboard contract
   ---
-  duration_ms: 4.353739
+  duration_ms: 3.657077
   ...
 # Subtest: returns an empty vehicle list when TFS provides no assignments
-ok 346 - returns an empty vehicle list when TFS provides no assignments
+ok 347 - returns an empty vehicle list when TFS provides no assignments
   ---
-  duration_ms: 0.368079
+  duration_ms: 0.31383
   ...
 # Subtest: normalizes reliable TFS apparatus assignments without deriving severity
-ok 347 - normalizes reliable TFS apparatus assignments without deriving severity
+ok 348 - normalizes reliable TFS apparatus assignments without deriving severity
   ---
-  duration_ms: 0.337212
+  duration_ms: 0.280828
   ...
 # Subtest: ignores unusable TFS unit values instead of reporting zero
-ok 348 - ignores unusable TFS unit values instead of reporting zero
+ok 349 - ignores unusable TFS unit values instead of reporting zero
   ---
-  duration_ms: 0.399659
+  duration_ms: 0.370331
   ...
 # Subtest: preserves unknown apparatus as an Other Unit
-ok 349 - preserves unknown apparatus as an Other Unit
+ok 350 - preserves unknown apparatus as an Other Unit
   ---
-  duration_ms: 0.259095
+  duration_ms: 0.187787
   ...
 # Subtest: normalization rejects non-records and handles missing fields and unit identifiers
-ok 350 - normalization rejects non-records and handles missing fields and unit identifiers
+ok 351 - normalization rejects non-records and handles missing fields and unit identifiers
   ---
-  duration_ms: 1.494761
+  duration_ms: 1.395744
   ...
 # Subtest: TFS fetch propagates HTTP failures and the supplied abort signal
-ok 351 - TFS fetch propagates HTTP failures and the supplied abort signal
+ok 352 - TFS fetch propagates HTTP failures and the supplied abort signal
   ---
-  duration_ms: 11.047703
+  duration_ms: 8.884214
   ...
 # Subtest: builds a dashboard-ready TFS snapshot with freshness metadata
-ok 352 - builds a dashboard-ready TFS snapshot with freshness metadata
+ok 353 - builds a dashboard-ready TFS snapshot with freshness metadata
   ---
-  duration_ms: 4.547983
+  duration_ms: 3.968287
   ...
 # Subtest: accumulates history, updates IDs, expires old calls and clears ongoing status
-ok 353 - accumulates history, updates IDs, expires old calls and clears ongoing status
+ok 354 - accumulates history, updates IDs, expires old calls and clears ongoing status
   ---
-  duration_ms: 1.679498
+  duration_ms: 0.977195
   ...
 # Subtest: retained ongoing incident becomes inactive when absent from the new feed
-ok 354 - retained ongoing incident becomes inactive when absent from the new feed
+ok 355 - retained ongoing incident becomes inactive when absent from the new feed
   ---
-  duration_ms: 0.472375
+  duration_ms: 0.274633
   ...
 # Subtest: retained ongoing incident becomes inactive when marked inactive by cad
-ok 355 - retained ongoing incident becomes inactive when marked inactive by cad
+ok 356 - retained ongoing incident becomes inactive when marked inactive by cad
   ---
-  duration_ms: 0.466455
+  duration_ms: 0.207877
   ...
 # Subtest: retained ongoing incident becomes inactive when explicitly not ongoing despite cad
-ok 356 - retained ongoing incident becomes inactive when explicitly not ongoing despite cad
+ok 357 - retained ongoing incident becomes inactive when explicitly not ongoing despite cad
   ---
-  duration_ms: 0.37328
+  duration_ms: 0.229584
   ...
 # Subtest: snapshot rejects absent sources and non-array incidents
-ok 357 - snapshot rejects absent sources and non-array incidents
+ok 358 - snapshot rejects absent sources and non-array incidents
   ---
-  duration_ms: 0.656009
+  duration_ms: 0.508218
   ...
 # Subtest: normalizes one incident from the official TFS live source when active calls exist
-ok 358 - normalizes one incident from the official TFS live source when active calls exist
+ok 359 - normalizes one incident from the official TFS live source when active calls exist
   ---
-  duration_ms: 288.099437
+  duration_ms: 216.804466
   ...
 # Subtest: Toronto timestamp: 2026-09-16T00:43:33
-ok 359 - Toronto timestamp: 2026-09-16T00:43:33
+ok 360 - Toronto timestamp: 2026-09-16T00:43:33
   ---
-  duration_ms: 2.147735
+  duration_ms: 1.797595
   ...
 # Subtest: Toronto timestamp: 2026-01-16 00:43:33
-ok 360 - Toronto timestamp: 2026-01-16 00:43:33
+ok 361 - Toronto timestamp: 2026-01-16 00:43:33
   ---
-  duration_ms: 0.26677
+  duration_ms: 0.256547
   ...
 # Subtest: Toronto timestamp: 2026-03-08T01:59:59
-ok 361 - Toronto timestamp: 2026-03-08T01:59:59
+ok 362 - Toronto timestamp: 2026-03-08T01:59:59
   ---
-  duration_ms: 0.230301
+  duration_ms: 0.141867
   ...
 # Subtest: Toronto timestamp: 2026-03-08T03:00:00
-ok 362 - Toronto timestamp: 2026-03-08T03:00:00
+ok 363 - Toronto timestamp: 2026-03-08T03:00:00
   ---
-  duration_ms: 0.16023
+  duration_ms: 0.111544
   ...
 # Subtest: Toronto timestamp: 2026-03-08T02:30:00
-ok 363 - Toronto timestamp: 2026-03-08T02:30:00
+ok 364 - Toronto timestamp: 2026-03-08T02:30:00
   ---
-  duration_ms: 0.163917
+  duration_ms: 0.115655
   ...
 # Subtest: Toronto timestamp: 2026-11-01T01:30:00
-ok 364 - Toronto timestamp: 2026-11-01T01:30:00
+ok 365 - Toronto timestamp: 2026-11-01T01:30:00
   ---
-  duration_ms: 0.216405
+  duration_ms: 0.169153
   ...
 # Subtest: Toronto timestamp: 2026-11-01T02:30:00
-ok 365 - Toronto timestamp: 2026-11-01T02:30:00
+ok 366 - Toronto timestamp: 2026-11-01T02:30:00
   ---
-  duration_ms: 0.140173
+  duration_ms: 0.127641
   ...
 # Subtest: Toronto timestamp: 2026-09-16T04:43:33Z
-ok 366 - Toronto timestamp: 2026-09-16T04:43:33Z
+ok 367 - Toronto timestamp: 2026-09-16T04:43:33Z
   ---
-  duration_ms: 0.198302
+  duration_ms: 0.14523
   ...
 # Subtest: Toronto timestamp: 2026-09-16T00:43:33-04:00
-ok 367 - Toronto timestamp: 2026-09-16T00:43:33-04:00
+ok 368 - Toronto timestamp: 2026-09-16T00:43:33-04:00
   ---
-  duration_ms: 0.161463
+  duration_ms: 0.112055
   ...
 # Subtest: Toronto timestamp: 1789507683
-ok 368 - Toronto timestamp: 1789507683
+ok 369 - Toronto timestamp: 1789507683
   ---
-  duration_ms: 0.100709
+  duration_ms: 0.075438
   ...
 # Subtest: Toronto timestamp: 2026-02-30T01:00:00
-ok 369 - Toronto timestamp: 2026-02-30T01:00:00
+ok 370 - Toronto timestamp: 2026-02-30T01:00:00
   ---
-  duration_ms: 0.129984
+  duration_ms: 0.09774
   ...
 # Subtest: Toronto timestamp: 
-ok 370 - Toronto timestamp: 
+ok 371 - Toronto timestamp: 
   ---
-  duration_ms: 0.088827
+  duration_ms: 0.066182
   ...
 # Subtest: Toronto timestamp: null
-ok 371 - Toronto timestamp: null
+ok 372 - Toronto timestamp: null
   ---
-  duration_ms: 0.082664
+  duration_ms: 0.063198
   ...
 # Subtest: Toronto timestamp: invalid
-ok 372 - Toronto timestamp: invalid
+ok 373 - Toronto timestamp: invalid
   ---
-  duration_ms: 0.113333
+  duration_ms: 0.064043
   ...
 # Subtest: Toronto timestamp: invalidZ
-ok 373 - Toronto timestamp: invalidZ
+ok 374 - Toronto timestamp: invalidZ
   ---
-  duration_ms: 0.122689
+  duration_ms: 0.068575
   ...
 # Subtest: official XML preserves beat and Toronto timestamps through snapshot generation
-ok 374 - official XML preserves beat and Toronto timestamps through snapshot generation
+ok 375 - official XML preserves beat and Toronto timestamps through snapshot generation
   ---
-  duration_ms: 3.875483
+  duration_ms: 2.546809
   ...
 # Subtest: freshness detects stalled source, stalled updater, and missing metadata
-ok 375 - freshness detects stalled source, stalled updater, and missing metadata
+ok 376 - freshness detects stalled source, stalled updater, and missing metadata
   ---
-  duration_ms: 0.33126
+  duration_ms: 0.191662
   ...
 # Subtest: history selections include the cutoff and exclude older or future calls
-ok 376 - history selections include the cutoff and exclude older or future calls
+ok 377 - history selections include the cutoff and exclude older or future calls
   ---
-  duration_ms: 0.58726
+  duration_ms: 0.406141
   ...
 # Subtest: theme preferences validate and resolve explicit and system choices
-ok 377 - theme preferences validate and resolve explicit and system choices
+ok 378 - theme preferences validate and resolve explicit and system choices
   ---
-  duration_ms: 2.425675
+  duration_ms: 2.885305
   ...
 # Subtest: applying a theme updates reusable document and browser chrome hooks
-ok 378 - applying a theme updates reusable document and browser chrome hooks
+ok 379 - applying a theme updates reusable document and browser chrome hooks
   ---
-  duration_ms: 0.242314
+  duration_ms: 0.214981
   ...
 # Subtest: map appearance follows live document theme without changing map layers
-ok 379 - map appearance follows live document theme without changing map layers
+ok 380 - map appearance follows live document theme without changing map layers
   ---
-  duration_ms: 0.468828
+  duration_ms: 0.418726
   ...
 # Subtest: incident pins and road restrictions remain distinct and prominent in both themes
-ok 380 - incident pins and road restrictions remain distinct and prominent in both themes
+ok 381 - incident pins and road restrictions remain distinct and prominent in both themes
   ---
-  duration_ms: 0.401903
+  duration_ms: 0.346217
   ...
 # Subtest: audited UI states use shared theme tokens
-ok 381 - audited UI states use shared theme tokens
+ok 382 - audited UI states use shared theme tokens
   ---
-  duration_ms: 0.498464
+  duration_ms: 0.448409
   ...
 # Subtest: explicit and system theme changes update the document theme live
-ok 382 - explicit and system theme changes update the document theme live
+ok 383 - explicit and system theme changes update the document theme live
   ---
-  duration_ms: 0.306484
+  duration_ms: 0.240893
   ...
 # Subtest: live TPS sample normalizes into police calls
-ok 383 - live TPS sample normalizes into police calls
+ok 384 - live TPS sample normalizes into police calls
   ---
-  duration_ms: 204.075082
+  duration_ms: 174.217179
   ...
 # Subtest: TPS uses stable source-prefixed IDs, reported division and no invented ongoing status
-ok 384 - TPS uses stable source-prefixed IDs, reported division and no invented ongoing status
+ok 385 - TPS uses stable source-prefixed IDs, reported division and no invented ongoing status
   ---
-  duration_ms: 2.894905
+  duration_ms: 2.419646
   ...
 # Subtest: TPS fetch checks IDs and rejects partial or error payloads
-ok 385 - TPS fetch checks IDs and rejects partial or error payloads
+ok 386 - TPS fetch checks IDs and rejects partial or error payloads
   ---
-  duration_ms: 1.951056
+  duration_ms: 1.644593
   ...
 # Subtest: police retention preserves separate records without conflating TFS
-ok 386 - police retention preserves separate records without conflating TFS
+ok 387 - police retention preserves separate records without conflating TFS
   ---
-  duration_ms: 0.4962
+  duration_ms: 0.452447
   ...
 # Subtest: unit labels handle numeric-leading codes without changing geographic divisions
-ok 387 - unit labels handle numeric-leading codes without changing geographic divisions
+ok 388 - unit labels handle numeric-leading codes without changing geographic divisions
   ---
-  duration_ms: 7.099464
+  duration_ms: 6.541394
   ...
 # Subtest: nearby distances handle geographic distance and missing locations
-ok 388 - nearby distances handle geographic distance and missing locations
+ok 389 - nearby distances handle geographic distance and missing locations
   ---
-  duration_ms: 1.985862
+  duration_ms: 1.739093
   ...
 # Subtest: TPS normalization rejects invalid records and preserves unpublished-field fallbacks
-ok 389 - TPS normalization rejects invalid records and preserves unpublished-field fallbacks
+ok 390 - TPS normalization rejects invalid records and preserves unpublished-field fallbacks
   ---
-  duration_ms: 1.437825
+  duration_ms: 1.353176
   ...
 # Subtest: TPS fetch handles empty feeds and paginates beyond 100 records
-ok 390 - TPS fetch handles empty feeds and paginates beyond 100 records
+ok 391 - TPS fetch handles empty feeds and paginates beyond 100 records
   ---
-  duration_ms: 1.905812
+  duration_ms: 1.524654
   ...
 # Subtest: TPS fetch rejects HTTP failures, missing IDs and incomplete pages
-ok 391 - TPS fetch rejects HTTP failures, missing IDs and incomplete pages
+ok 392 - TPS fetch rejects HTTP failures, missing IDs and incomplete pages
   ---
-  duration_ms: 1.008079
+  duration_ms: 0.724857
   ...
 # Subtest: police retention includes the seven-day boundary and replaces refreshed records
-ok 392 - police retention includes the seven-day boundary and replaces refreshed records
+ok 393 - police retention includes the seven-day boundary and replaces refreshed records
   ---
-  duration_ms: 1.216239
+  duration_ms: 1.054925
   ...
 # Subtest: live transit feed satisfies production parser
-ok 393 - live transit feed satisfies production parser
+ok 394 - live transit feed satisfies production parser
   ---
-  duration_ms: 374.701111
+  duration_ms: 366.781296
   ...
 # Subtest: fixture switch requires an explicit flag on a loopback host
-ok 394 - fixture switch requires an explicit flag on a loopback host
+ok 395 - fixture switch requires an explicit flag on a loopback host
   ---
-  duration_ms: 2.813022
+  duration_ms: 1.846705
   ...
 # Subtest: disabled fixture preserves the production disruptions object
-ok 395 - disabled fixture preserves the production disruptions object
+ok 396 - disabled fixture preserves the production disruptions object
   ---
-  duration_ms: 0.362179
+  duration_ms: 0.273251
   ...
 # Subtest: fixture alerts use normalized shape and merge without replacing real alerts
-ok 396 - fixture alerts use normalized shape and merge without replacing real alerts
+ok 397 - fixture alerts use normalized shape and merge without replacing real alerts
   ---
-  duration_ms: 1.127403
+  duration_ms: 0.776196
   ...
 # Subtest: fixture exercises TTC radius boundaries, closest entity, unresolved, and citywide behavior
-ok 397 - fixture exercises TTC radius boundaries, closest entity, unresolved, and citywide behavior
+ok 398 - fixture exercises TTC radius boundaries, closest entity, unresolved, and citywide behavior
   ---
-  duration_ms: 1.880434
+  duration_ms: 1.319093
   ...
 # Subtest: updates distinguish new calls from revisions and removals
-ok 398 - updates distinguish new calls from revisions and removals
+ok 399 - updates distinguish new calls from revisions and removals
   ---
-  duration_ms: 2.393906
+  duration_ms: 1.494053
   ...
 # Subtest: summary includes each applied filter and clear defaults
-ok 399 - summary includes each applied filter and clear defaults
+ok 400 - summary includes each applied filter and clear defaults
   ---
-  duration_ms: 0.51792
+  duration_ms: 0.34069
   ...
 # Subtest: share links round trip filters without coordinates or unrelated URL data
-ok 400 - share links round trip filters without coordinates or unrelated URL data
+ok 401 - share links round trip filters without coordinates or unrelated URL data
   ---
-  duration_ms: 2.41717
+  duration_ms: 2.123523
   ...
 # Subtest: clustering preserves calls and separates distant screen cells
-ok 401 - clustering preserves calls and separates distant screen cells
+ok 402 - clustering preserves calls and separates distant screen cells
   ---
-  duration_ms: 0.611666
+  duration_ms: 0.660017
   ...
 # Subtest: row selection finds the entire overlapping group, or none for missing calls
-ok 402 - row selection finds the entire overlapping group, or none for missing calls
+ok 403 - row selection finds the entire overlapping group, or none for missing calls
   ---
-  duration_ms: 0.450334
+  duration_ms: 0.435096
   ...
 # Subtest: preferences are validated, exclude private session data and tolerate blocked storage
-ok 403 - preferences are validated, exclude private session data and tolerate blocked storage
+ok 404 - preferences are validated, exclude private session data and tolerate blocked storage
   ---
-  duration_ms: 0.922338
+  duration_ms: 0.90624
   ...
 # Subtest: source lines distinguish published times from successful checks
-ok 404 - source lines distinguish published times from successful checks
+ok 405 - source lines distinguish published times from successful checks
   ---
-  duration_ms: 0.600435
+  duration_ms: 0.602975
   ...
 # Subtest: incident selection survives refreshes only while the incident remains visible
-ok 405 - incident selection survives refreshes only while the incident remains visible
+ok 406 - incident selection survives refreshes only while the incident remains visible
   ---
-  duration_ms: 0.277089
+  duration_ms: 0.22698
   ...
 # Subtest: valid creation stores the minimal backend record and returns only client-safe data
-ok 406 - valid creation stores the minimal backend record and returns only client-safe data
+ok 407 - valid creation stores the minimal backend record and returns only client-safe data
   ---
-  duration_ms: 5.277901
+  duration_ms: 3.900845
   ...
 # Subtest: validation rejects malformed coordinates, radii, filters, subscriptions, and active state
-ok 407 - validation rejects malformed coordinates, radii, filters, subscriptions, and active state
+ok 408 - validation rejects malformed coordinates, radii, filters, subscriptions, and active state
   ---
-  duration_ms: 1.869073
+  duration_ms: 1.557434
   ...
 # Subtest: schema versions, unknown fields, and oversized payloads are rejected explicitly
-ok 408 - schema versions, unknown fields, and oversized payloads are rejected explicitly
+ok 409 - schema versions, unknown fields, and oversized payloads are rejected explicitly
   ---
-  duration_ms: 0.963205
+  duration_ms: 0.785419
   ...
 # Subtest: coordinate minimization uses four decimals without mutating the request
-ok 409 - coordinate minimization uses four decimals without mutating the request
+ok 410 - coordinate minimization uses four decimals without mutating the request
   ---
-  duration_ms: 1.266213
+  duration_ms: 1.177756
   ...
 # Subtest: opaque ID and possession token generators are injectable and deterministic
-ok 410 - opaque ID and possession token generators are injectable and deterministic
+ok 411 - opaque ID and possession token generators are injectable and deterministic
   ---
-  duration_ms: 0.605023
+  duration_ms: 0.575362
   ...
 # Subtest: service rejects broken generators and handles absent or malformed authorization state
-ok 411 - service rejects broken generators and handles absent or malformed authorization state
+ok 412 - service rejects broken generators and handles absent or malformed authorization state
   ---
-  duration_ms: 2.934019
+  duration_ms: 2.51426
   ...
 # Subtest: authorized update replaces mutable domain data and preserves internal fields
-ok 412 - authorized update replaces mutable domain data and preserves internal fields
+ok 413 - authorized update replaces mutable domain data and preserves internal fields
   ---
-  duration_ms: 0.910547
+  duration_ms: 0.894055
   ...
 # Subtest: wrong possession token cannot update or delete an existing watch
-ok 413 - wrong possession token cannot update or delete an existing watch
+ok 414 - wrong possession token cannot update or delete an existing watch
   ---
-  duration_ms: 0.835637
+  duration_ms: 0.684065
   ...
 # Subtest: delete is authorized and duplicate deletion is idempotent
-ok 414 - delete is authorized and duplicate deletion is idempotent
+ok 415 - delete is authorized and duplicate deletion is idempotent
   ---
-  duration_ms: 1.486676
+  duration_ms: 0.494537
   ...
 # Subtest: repository supports multiple watches, active filtering, defensive copies, and reset
-ok 415 - repository supports multiple watches, active filtering, defensive copies, and reset
+ok 416 - repository supports multiple watches, active filtering, defensive copies, and reset
   ---
-  duration_ms: 1.426343
+  duration_ms: 1.208254
   ...
 # Subtest: expired subscription metadata is retained for later reconciliation
-ok 416 - expired subscription metadata is retained for later reconciliation
+ok 417 - expired subscription metadata is retained for later reconciliation
   ---
-  duration_ms: 0.41046
+  duration_ms: 0.385747
   ...
 # Subtest: validation and authorization errors never echo sensitive request values
-ok 417 - validation and authorization errors never echo sensitive request values
+ok 418 - validation and authorization errors never echo sensitive request values
   ---
-  duration_ms: 0.601998
+  duration_ms: 0.533811
   ...
 # Subtest: process-local fixture repository requires an explicit switch and loopback host
-ok 418 - process-local fixture repository requires an explicit switch and loopback host
+ok 419 - process-local fixture repository requires an explicit switch and loopback host
   ---
-  duration_ms: 0.40028
+  duration_ms: 0.349507
   ...
 # Subtest: watch surface has an entry point, close control, exact matcher choices, and no Toronto-wide option
-ok 419 - watch surface has an entry point, close control, exact matcher choices, and no Toronto-wide option
+ok 420 - watch surface has an entry point, close control, exact matcher choices, and no Toronto-wide option
   ---
-  duration_ms: 3.490351
+  duration_ms: 2.711815
   ...
 # Subtest: watch object maps UI values to the exact Story 33B schema and persists locally
-ok 420 - watch object maps UI values to the exact Story 33B schema and persists locally
+ok 421 - watch object maps UI values to the exact Story 33B schema and persists locally
   ---
-  duration_ms: 1.078511
+  duration_ms: 0.679379
   ...
 # Subtest: selected current, saved, map, and missing location contexts are deterministic
-ok 421 - selected current, saved, map, and missing location contexts are deterministic
+ok 422 - selected current, saved, map, and missing location contexts are deterministic
   ---
-  duration_ms: 0.48044
+  duration_ms: 0.307917
   ...
 # Subtest: radius defaults only to matcher-supported values
-ok 422 - radius defaults only to matcher-supported values
+ok 423 - radius defaults only to matcher-supported values
   ---
-  duration_ms: 0.724998
+  duration_ms: 0.467572
   ...
 # Subtest: support states cover supported, unsupported, denied, and iOS installation guidance
-ok 423 - support states cover supported, unsupported, denied, and iOS installation guidance
+ok 424 - support states cover supported, unsupported, denied, and iOS installation guidance
   ---
-  duration_ms: 1.320815
+  duration_ms: 0.869947
   ...
 # Subtest: fixtures require an explicit valid state on a loopback hostname
-ok 424 - fixtures require an explicit valid state on a loopback hostname
+ok 425 - fixtures require an explicit valid state on a loopback hostname
   ---
-  duration_ms: 1.933173
+  duration_ms: 1.071916
   ...
 # Subtest: watch implementation requests permission and subscribes only through the explicit submit flow
-ok 425 - watch implementation requests permission and subscribes only through the explicit submit flow
+ok 426 - watch implementation requests permission and subscribes only through the explicit submit flow
   ---
-  duration_ms: 0.627866
+  duration_ms: 0.530221
   ...
 # Subtest: payload is compact, versioned, and excludes private watch and subscription data
-ok 426 - payload is compact, versioned, and excludes private watch and subscription data
+ok 427 - payload is compact, versioned, and excludes private watch and subscription data
   ---
-  duration_ms: 4.235427
+  duration_ms: 4.031224
   ...
 # Subtest: payload wording distinguishes updates and includes only a reliable derived distance
-ok 427 - payload wording distinguishes updates and includes only a reliable derived distance
+ok 428 - payload wording distinguishes updates and includes only a reliable derived distance
   ---
-  duration_ms: 0.937727
+  duration_ms: 0.900642
   ...
 # Subtest: successful delivery is persisted and a duplicate run sends nothing
-ok 428 - successful delivery is persisted and a duplicate run sends nothing
+ok 429 - successful delivery is persisted and a duplicate run sends nothing
   ---
-  duration_ms: 2.808143
+  duration_ms: 2.708177
   ...
 # Subtest: permanent 404 deactivates only the current failed subscription
-ok 429 - permanent 404 deactivates only the current failed subscription
+ok 430 - permanent 404 deactivates only the current failed subscription
   ---
-  duration_ms: 1.325444
+  duration_ms: 1.181854
   ...
 # Subtest: permanent 410 deactivates only the current failed subscription
-ok 430 - permanent 410 deactivates only the current failed subscription
+ok 431 - permanent 410 deactivates only the current failed subscription
   ---
-  duration_ms: 0.663273
+  duration_ms: 0.580933
   ...
 # Subtest: a replaced endpoint is not deactivated by an old permanent failure
-ok 431 - a replaced endpoint is not deactivated by an old permanent failure
+ok 432 - a replaced endpoint is not deactivated by an old permanent failure
   ---
-  duration_ms: 0.726271
+  duration_ms: 1.141546
   ...
 # Subtest: 429 honors bounded Retry-After and succeeds on the second attempt
-ok 432 - 429 honors bounded Retry-After and succeeds on the second attempt
+ok 433 - 429 honors bounded Retry-After and succeeds on the second attempt
   ---
-  duration_ms: 0.809457
+  duration_ms: 0.771179
   ...
 # Subtest: transient 408 exhausts bounded retries
-ok 433 - transient 408 exhausts bounded retries
+ok 434 - transient 408 exhausts bounded retries
   ---
-  duration_ms: 0.642193
+  duration_ms: 1.67323
   ...
 # Subtest: transient 500 exhausts bounded retries
-ok 434 - transient 500 exhausts bounded retries
+ok 435 - transient 500 exhausts bounded retries
   ---
-  duration_ms: 1.841591
+  duration_ms: 0.489354
   ...
 # Subtest: transient 503 exhausts bounded retries
-ok 435 - transient 503 exhausts bounded retries
+ok 436 - transient 503 exhausts bounded retries
   ---
-  duration_ms: 0.688491
+  duration_ms: 0.525422
   ...
 # Subtest: network failure retries and can succeed
-ok 436 - network failure retries and can succeed
+ok 437 - network failure retries and can succeed
   ---
-  duration_ms: 0.964998
+  duration_ms: 0.731305
   ...
 # Subtest: delivery fixture falls back after configured responses and exposes non-retry headers
-ok 437 - delivery fixture falls back after configured responses and exposes non-retry headers
+ok 438 - delivery fixture falls back after configured responses and exposes non-retry headers
   ---
-  duration_ms: 0.307987
+  duration_ms: 0.326096
   ...
 # Subtest: pending and expired sending leases can retry, while delivered candidates cannot
-ok 438 - pending and expired sending leases can retry, while delivered candidates cannot
+ok 439 - pending and expired sending leases can retry, while delivered candidates cannot
   ---
-  duration_ms: 1.281512
+  duration_ms: 0.995657
   ...
 # Subtest: a due retryable row can be reclaimed for the same logical notification
-ok 439 - a due retryable row can be reclaimed for the same logical notification
+ok 440 - a due retryable row can be reclaimed for the same logical notification
   ---
-  duration_ms: 0.525214
+  duration_ms: 0.442593
   ...
 # Subtest: one failed candidate does not block another and the ceiling is deterministic
-ok 440 - one failed candidate does not block another and the ceiling is deterministic
+ok 441 - one failed candidate does not block another and the ceiling is deterministic
   ---
-  duration_ms: 13.691809
+  duration_ms: 14.086468
   ...
 # Subtest: already-delivered rows do not consume the send ceiling or starve pending rows
-ok 441 - already-delivered rows do not consume the send ceiling or starve pending rows
+ok 442 - already-delivered rows do not consume the send ceiling or starve pending rows
   ---
-  duration_ms: 0.870972
+  duration_ms: 0.870355
   ...
 # Subtest: a permanent failure does not prevent the remaining batch from succeeding
-ok 442 - a permanent failure does not prevent the remaining batch from succeeding
+ok 443 - a permanent failure does not prevent the remaining batch from succeeding
   ---
-  duration_ms: 0.839593
+  duration_ms: 0.796637
   ...
 # Subtest: malformed candidates and subscriptions are isolated without a send
-ok 443 - malformed candidates and subscriptions are isolated without a send
+ok 444 - malformed candidates and subscriptions are isolated without a send
   ---
-  duration_ms: 0.629349
+  duration_ms: 0.66167
   ...
 # Subtest: response classification separates success, permanent, and transient outcomes
-ok 444 - response classification separates success, permanent, and transient outcomes
+ok 445 - response classification separates success, permanent, and transient outcomes
   ---
-  duration_ms: 0.365505
+  duration_ms: 0.345805
   ...
 # Subtest: delivery validates dependencies and limits, handles non-arrays, and parses Retry-After dates
-ok 445 - delivery validates dependencies and limits, handles non-arrays, and parses Retry-After dates
+ok 446 - delivery validates dependencies and limits, handles non-arrays, and parses Retry-After dates
   ---
-  duration_ms: 39.288011
+  duration_ms: 1.296579
   ...
 # Subtest: default delivery clock and wait adapters are reachable without external services
-ok 446 - default delivery clock and wait adapters are reachable without external services
+ok 447 - default delivery clock and wait adapters are reachable without external services
   ---
-  duration_ms: 115.073496
+  duration_ms: 56.137359
   ...
 # Subtest: non-endpoint permanent errors do not deactivate the subscription
-ok 447 - non-endpoint permanent errors do not deactivate the subscription
+ok 448 - non-endpoint permanent errors do not deactivate the subscription
   ---
-  duration_ms: 1.601142
+  duration_ms: 0.546723
   ...
 # Subtest: production sender creates encrypted aes128gcm Web Push with VAPID authorization
-ok 448 - production sender creates encrypted aes128gcm Web Push with VAPID authorization
+ok 449 - production sender creates encrypted aes128gcm Web Push with VAPID authorization
   ---
-  duration_ms: 27.651538
+  duration_ms: 39.822663
   ...
 # Subtest: scheduled delivery default adapters can complete an empty deterministic run
-ok 449 - scheduled delivery default adapters can complete an empty deterministic run
+ok 450 - scheduled delivery default adapters can complete an empty deterministic run
   ---
-  duration_ms: 8.433986
+  duration_ms: 8.212728
   ...
 # Subtest: scheduled production sender stays deterministic behind an injected transport
-ok 450 - scheduled production sender stays deterministic behind an injected transport
+ok 451 - scheduled production sender stays deterministic behind an injected transport
   ---
-  duration_ms: 19.233744
+  duration_ms: 18.153512
   ...
 # Subtest: production sender rejects malformed VAPID keys before transport
-ok 451 - production sender rejects malformed VAPID keys before transport
+ok 452 - production sender rejects malformed VAPID keys before transport
   ---
-  duration_ms: 1.36053
+  duration_ms: 0.65623
   ...
 # Subtest: scheduled production delivery requires VAPID secrets before changing dedupe state
-ok 452 - scheduled production delivery requires VAPID secrets before changing dedupe state
+ok 453 - scheduled production delivery requires VAPID secrets before changing dedupe state
   ---
-  duration_ms: 0.583804
+  duration_ms: 0.493179
   ...
 # Subtest: scheduled delivery sends once and a duplicate snapshot does not send again
-ok 453 - scheduled delivery sends once and a duplicate snapshot does not send again
+ok 454 - scheduled delivery sends once and a duplicate snapshot does not send again
   ---
-  duration_ms: 7.870019
+  duration_ms: 3.88499
   ...
 # Subtest: delivery source has no console logging and worker logs aggregate fields only
-ok 454 - delivery source has no console logging and worker logs aggregate fields only
+ok 455 - delivery source has no console logging and worker logs aggregate fields only
   ---
-  duration_ms: 32.855785
+  duration_ms: 19.958139
   ...
 # Subtest: valid watches normalize to the minimal versioned schema
-ok 455 - valid watches normalize to the minimal versioned schema
+ok 456 - valid watches normalize to the minimal versioned schema
   ---
-  duration_ms: 5.034776
+  duration_ms: 2.783051
   ...
 # Subtest: watch validation rejects invalid schema, coordinates, radius, filters, and active state
-ok 456 - watch validation rejects invalid schema, coordinates, radius, filters, and active state
+ok 457 - watch validation rejects invalid schema, coordinates, radius, filters, and active state
   ---
-  duration_ms: 1.767282
+  duration_ms: 0.969411
   ...
 # Subtest: geographic matching includes a point immediately inside the boundary
-ok 457 - geographic matching includes a point immediately inside the boundary
+ok 458 - geographic matching includes a point immediately inside the boundary
   ---
-  duration_ms: 1.343237
+  duration_ms: 0.761533
   ...
 # Subtest: service and category filters use existing SirenTO semantics
-ok 458 - service and category filters use existing SirenTO semantics
+ok 459 - service and category filters use existing SirenTO semantics
   ---
-  duration_ms: 0.957364
+  duration_ms: 0.478655
   ...
 # Subtest: lifecycle eligibility distinguishes new, meaningful updates, and routine refreshes
-ok 459 - lifecycle eligibility distinguishes new, meaningful updates, and routine refreshes
+ok 460 - lifecycle eligibility distinguishes new, meaningful updates, and routine refreshes
   ---
-  duration_ms: 0.740508
+  duration_ms: 0.447552
   ...
 # Subtest: dedupe keys are stable across refreshes and change for meaningful updates
-ok 460 - dedupe keys are stable across refreshes and change for meaningful updates
+ok 461 - dedupe keys are stable across refreshes and change for meaningful updates
   ---
-  duration_ms: 0.605725
+  duration_ms: 0.401049
   ...
 # Subtest: stale and unavailable sources suppress matching without invalidating the watch
-ok 461 - stale and unavailable sources suppress matching without invalidating the watch
+ok 462 - stale and unavailable sources suppress matching without invalidating the watch
   ---
-  duration_ms: 0.348724
+  duration_ms: 0.210978
   ...
 # Subtest: test-only fixtures exercise invalid and unsupported matcher paths deterministically
-ok 462 - test-only fixtures exercise invalid and unsupported matcher paths deterministically
+ok 463 - test-only fixtures exercise invalid and unsupported matcher paths deterministically
   ---
-  duration_ms: 0.299321
+  duration_ms: 1.196296
   ...
 # Subtest: matching creates the minimal candidate and one durable private dedupe row
-ok 463 - matching creates the minimal candidate and one durable private dedupe row
+ok 464 - matching creates the minimal candidate and one durable private dedupe row
   ---
-  duration_ms: 9.058145
+  duration_ms: 5.668503
   ...
 # Subtest: radius, service, category, and inactive watch filtering reuse backend matcher behavior
-ok 464 - radius, service, category, and inactive watch filtering reuse backend matcher behavior
+ok 465 - radius, service, category, and inactive watch filtering reuse backend matcher behavior
   ---
-  duration_ms: 1.505692
+  duration_ms: 0.714557
   ...
 # Subtest: fresh feeds may match while stale and unavailable feeds preserve watches without candidates
-ok 465 - fresh feeds may match while stale and unavailable feeds preserve watches without candidates
+ok 466 - fresh feeds may match while stale and unavailable feeds preserve watches without candidates
   ---
-  duration_ms: 1.640946
+  duration_ms: 0.692959
   ...
 # Subtest: first sighting, routine refresh, and meaningful update follow stable lifecycle dedupe semantics
-ok 466 - first sighting, routine refresh, and meaningful update follow stable lifecycle dedupe semantics
+ok 467 - first sighting, routine refresh, and meaningful update follow stable lifecycle dedupe semantics
   ---
-  duration_ms: 2.512829
+  duration_ms: 0.626878
   ...
 # Subtest: duplicate and overlapping processing atomically produce exactly one candidate
-ok 467 - duplicate and overlapping processing atomically produce exactly one candidate
+ok 468 - duplicate and overlapping processing atomically produce exactly one candidate
   ---
-  duration_ms: 1.325615
+  duration_ms: 1.258463
   ...
 # Subtest: multiple watches and incidents create one candidate for each eligible pair
-ok 468 - multiple watches and incidents create one candidate for each eligible pair
+ok 469 - multiple watches and incidents create one candidate for each eligible pair
   ---
-  duration_ms: 16.155927
+  duration_ms: 7.280242
   ...
 # Subtest: corrupt stored watches are skipped independently and expired dedupe rows are cleaned deterministically
-ok 469 - corrupt stored watches are skipped independently and expired dedupe rows are cleaned deterministically
+ok 470 - corrupt stored watches are skipped independently and expired dedupe rows are cleaned deterministically
   ---
-  duration_ms: 1.029499
+  duration_ms: 0.544844
   ...
 # Subtest: inactive watches expire after 30 days while active and recently disabled watches remain
-ok 470 - inactive watches expire after 30 days while active and recently disabled watches remain
+ok 471 - inactive watches expire after 30 days while active and recently disabled watches remain
   ---
-  duration_ms: 1.321216
+  duration_ms: 0.90552
   ...
 # Subtest: malformed snapshots fail before watches or dedupe are changed
-ok 471 - malformed snapshots fail before watches or dedupe are changed
+ok 472 - malformed snapshots fail before watches or dedupe are changed
   ---
-  duration_ms: 1.55295
+  duration_ms: 1.222911
   ...
 # Subtest: snapshot validation covers malformed feeds, timestamps, and incident shapes
-ok 472 - snapshot validation covers malformed feeds, timestamps, and incident shapes
+ok 473 - snapshot validation covers malformed feeds, timestamps, and incident shapes
   ---
-  duration_ms: 0.584005
+  duration_ms: 0.483026
   ...
 # Subtest: pipeline rejects unsafe configuration and invalid clocks without touching storage
-ok 473 - pipeline rejects unsafe configuration and invalid clocks without touching storage
+ok 474 - pipeline rejects unsafe configuration and invalid clocks without touching storage
   ---
-  duration_ms: 1.437574
+  duration_ms: 1.027443
   ...
 # Subtest: invalid subscriptions are skipped independently before durable claims
-ok 474 - invalid subscriptions are skipped independently before durable claims
+ok 475 - invalid subscriptions are skipped independently before durable claims
   ---
-  duration_ms: 5.66124
+  duration_ms: 2.145901
   ...
 # Subtest: scheduled handler fetches the normalized snapshot and has no public fixture or push path
-ok 475 - scheduled handler fetches the normalized snapshot and has no public fixture or push path
+ok 476 - scheduled handler fetches the normalized snapshot and has no public fixture or push path
   ---
-  duration_ms: 86.494968
+  duration_ms: 62.883434
   ...
 # Subtest: scheduled snapshot loading rejects unavailable, oversized, and malformed sources
-ok 476 - scheduled snapshot loading rejects unavailable, oversized, and malformed sources
+ok 477 - scheduled snapshot loading rejects unavailable, oversized, and malformed sources
   ---
-  duration_ms: 33.337966
+  duration_ms: 21.18932
   ...
 # Subtest: real API and durable adapter create, update, sanitize, delete, and idempotently re-delete
-ok 477 - real API and durable adapter create, update, sanitize, delete, and idempotently re-delete
+ok 478 - real API and durable adapter create, update, sanitize, delete, and idempotently re-delete
   ---
-  duration_ms: 76.697875
+  duration_ms: 50.168291
   ...
 # Subtest: API enforces routes, methods, JSON media type, size, parsing, validation, token, and origin
-ok 478 - API enforces routes, methods, JSON media type, size, parsing, validation, token, and origin
+ok 479 - API enforces routes, methods, JSON media type, size, parsing, validation, token, and origin
   ---
-  duration_ms: 21.918215
+  duration_ms: 11.517959
   ...
 # Subtest: watch creation fails closed without the Cloudflare limiter and returns a bounded 429
-ok 479 - watch creation fails closed without the Cloudflare limiter and returns a bounded 429
+ok 480 - watch creation fails closed without the Cloudflare limiter and returns a bounded 429
   ---
-  duration_ms: 4.698315
+  duration_ms: 4.215289
   ...
 # Subtest: D1 failures become small non-sensitive service failures and corrupt rows are rejected
-ok 480 - D1 failures become small non-sensitive service failures and corrupt rows are rejected
+ok 481 - D1 failures become small non-sensitive service failures and corrupt rows are rejected
   ---
-  duration_ms: 5.607508
+  duration_ms: 2.836127
   ...
 # Subtest: VAPID config keeps sending secrets server-side and fails clearly when required values are absent
-ok 481 - VAPID config keeps sending secrets server-side and fails clearly when required values are absent
+ok 482 - VAPID config keeps sending secrets server-side and fails clearly when required values are absent
   ---
-  duration_ms: 2.190795
+  duration_ms: 2.103051
   ...
 # Subtest: API and D1 adapters reject missing dependencies and preserve empty mutation results
-ok 482 - API and D1 adapters reject missing dependencies and preserve empty mutation results
+ok 483 - API and D1 adapters reject missing dependencies and preserve empty mutation results
   ---
-  duration_ms: 2.814705
+  duration_ms: 2.410554
   ...
 # Subtest: production D1 fixture covers reachable write conflicts and storage failures
-ok 483 - production D1 fixture covers reachable write conflicts and storage failures
+ok 484 - production D1 fixture covers reachable write conflicts and storage failures
   ---
-  duration_ms: 0.728625
+  duration_ms: 0.486743
   ...
 # Subtest: HTTP client adapter creates, updates, deletes, and stores credentials only in browser storage
-ok 484 - HTTP client adapter creates, updates, deletes, and stores credentials only in browser storage
+ok 485 - HTTP client adapter creates, updates, deletes, and stores credentials only in browser storage
   ---
-  duration_ms: 2.789497
+  duration_ms: 1.928727
   ...
 # Subtest: HTTP client recreates a watch when retention removed its stale backend credential
-ok 485 - HTTP client recreates a watch when retention removed its stale backend credential
+ok 486 - HTTP client recreates a watch when retention removed its stale backend credential
   ---
-  duration_ms: 0.804087
+  duration_ms: 0.771908
   ...
 # Subtest: production fixture query parameters have no effect
-ok 486 - production fixture query parameters have no effect
+ok 487 - production fixture query parameters have no effect
   ---
-  duration_ms: 0.298259
+  duration_ms: 0.362333
   ...
-1..486
-# tests 486
+1..487
+# tests 487
 # suites 0
-# pass 486
+# pass 487
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 6793.782803
+# duration_ms 5914.757803
 # start of coverage report
 # --------------------------------------------------------------------------------------------------
 # file                                              | line % | branch % | funcs % | uncovered lines
