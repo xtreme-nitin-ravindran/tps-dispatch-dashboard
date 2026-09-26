@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T12:19:32.822Z",
-  "sourceUpdatedAt": "2026-09-26T12:15:01.000Z",
+  "fetchedAt": "2026-09-26T12:20:43.518Z",
+  "sourceUpdatedAt": "2026-09-26T12:20:01.000Z",
   "incidents": [
+    {
+      "id": "F26152711",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Grass/Rubbish",
+      "location": "CHURCH ST, TT / WELLESLEY ST E / ANVIL ALLE",
+      "division": "314",
+      "timestamp": "2026-09-26T12:10:17.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "314"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T12:20:43.518Z",
+      "lastSeenAt": "2026-09-26T12:20:43.518Z",
+      "geography": {
+        "text": "Approximate location near Church Street & Wellesley Street East",
+        "approximate": true,
+        "coordinates": [
+          43.6657061,
+          -79.380932
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T12:20:43.518Z"
+      }
+    },
     {
       "id": "TPS-a2e7b41198162bdb9bf904a8",
       "source": "TPS",
@@ -38,9 +72,19 @@
       "timestamp": "2026-09-26T12:07:39.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "225",
+            "232"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T12:15:56.991Z",
-      "lastSeenAt": "2026-09-26T12:19:32.822Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T12:20:43.518Z",
+      "lastSeenAt": "2026-09-26T12:20:43.518Z",
       "geography": {
         "text": "Eglinton Avenue between Rosemount Drive & Ionview Road",
         "approximate": false,
@@ -103,7 +147,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T12:10:33.439Z",
       "lastMeaningfulUpdateAt": "2026-09-26T12:15:56.991Z",
-      "lastSeenAt": "2026-09-26T12:19:32.822Z",
+      "lastSeenAt": "2026-09-26T12:20:43.518Z",
       "geography": {
         "text": "Wakunda Place & O'connor Drive",
         "approximate": false,
@@ -126,7 +170,7 @@
       "division": "135",
       "timestamp": "2026-09-26T12:04:10.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -201,7 +245,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T12:10:33.439Z",
       "lastMeaningfulUpdateAt": "2026-09-26T12:15:56.991Z",
-      "lastSeenAt": "2026-09-26T12:19:32.822Z",
+      "lastSeenAt": "2026-09-26T12:20:43.518Z",
       "geography": {
         "text": "Pharmacy Avenue between Sheppard Avenue East & 2020 Pharmacy Avenue",
         "approximate": false,
@@ -235,7 +279,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T12:07:06.695Z",
-      "lastSeenAt": "2026-09-26T12:19:32.822Z",
+      "lastSeenAt": "2026-09-26T12:20:43.518Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -302,7 +346,7 @@
       "division": "225",
       "timestamp": "2026-09-26T11:58:18.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -358,7 +402,7 @@
       "division": "223",
       "timestamp": "2026-09-26T11:51:47.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -435,7 +479,14 @@
             "22",
             "30",
             "31",
-            "32"
+            "32",
+            "30"
+          ]
+        },
+        {
+          "type": "Other Unit",
+          "numbers": [
+            "CMD30C"
           ]
         },
         {
@@ -476,10 +527,10 @@
           ]
         }
       ],
-      "respondingUnitCount": 17,
+      "respondingUnitCount": 19,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T12:15:56.991Z",
-      "lastSeenAt": "2026-09-26T12:19:32.822Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T12:20:43.518Z",
+      "lastSeenAt": "2026-09-26T12:20:43.518Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -174209,12 +174260,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T12:19:32.822Z",
-      "sourceUpdatedAt": "2026-09-26T12:15:01.000Z",
+      "fetchedAt": "2026-09-26T12:20:43.518Z",
+      "sourceUpdatedAt": "2026-09-26T12:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T12:19:32.822Z",
+      "fetchedAt": "2026-09-26T12:20:43.518Z",
       "status": "ok"
     }
   },
@@ -328268,6 +328319,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "CHURCH ST, TT / WELLESLEY ST E / ANVIL ALLE": {
+      "text": "Approximate location near Church Street & Wellesley Street East",
+      "approximate": true,
+      "coordinates": [
+        43.6657061,
+        -79.380932
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T12:20:43.518Z"
+    },
     "EGLINTON AVE, SC / ROSEMOUNT DR / IONVIEW RD": {
       "text": "Eglinton Avenue between Rosemount Drive & Ionview Road",
       "approximate": false,
