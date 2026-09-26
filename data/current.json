@@ -3,9 +3,78 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T13:40:23.350Z",
-  "sourceUpdatedAt": "2026-09-26T13:35:02.000Z",
+  "fetchedAt": "2026-09-26T13:41:45.719Z",
+  "sourceUpdatedAt": "2026-09-26T13:40:02.000Z",
   "incidents": [
+    {
+      "id": "F26152735",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3H",
+      "division": "143",
+      "timestamp": "2026-09-26T13:33:20.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "135"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T13:41:45.719Z",
+      "lastSeenAt": "2026-09-26T13:41:45.719Z",
+      "geography": {
+        "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
+        "approximate": true,
+        "coordinates": [
+          43.7535,
+          -79.4472
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152734",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4J",
+      "division": "323",
+      "timestamp": "2026-09-26T13:30:54.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "312",
+            "323"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-26T13:41:45.719Z",
+      "lastSeenAt": "2026-09-26T13:41:45.719Z",
+      "geography": {
+        "text": "Approximate area: (M4J) East Toronto (The Danforth East)",
+        "approximate": true,
+        "coordinates": [
+          43.6872,
+          -79.3368
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26152733",
       "source": "TFS",
@@ -15,7 +84,7 @@
       "division": "342",
       "timestamp": "2026-09-26T13:29:50.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -60,7 +129,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T13:35:39.096Z",
-      "lastSeenAt": "2026-09-26T13:40:23.350Z",
+      "lastSeenAt": "2026-09-26T13:41:45.719Z",
       "geography": {
         "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
         "approximate": true,
@@ -95,7 +164,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T13:25:35.823Z",
       "lastMeaningfulUpdateAt": "2026-09-26T13:32:05.210Z",
-      "lastSeenAt": "2026-09-26T13:40:23.350Z",
+      "lastSeenAt": "2026-09-26T13:41:45.719Z",
       "geography": {
         "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
         "approximate": true,
@@ -1930,7 +1999,7 @@
       "respondingUnitCount": 19,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-26T12:20:43.518Z",
-      "lastSeenAt": "2026-09-26T13:40:23.350Z",
+      "lastSeenAt": "2026-09-26T13:41:45.719Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -175448,12 +175517,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T13:40:23.350Z",
-      "sourceUpdatedAt": "2026-09-26T13:35:02.000Z",
+      "fetchedAt": "2026-09-26T13:41:45.719Z",
+      "sourceUpdatedAt": "2026-09-26T13:40:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T13:40:23.350Z",
+      "fetchedAt": "2026-09-26T13:41:45.719Z",
       "status": "ok"
     }
   },
@@ -329662,6 +329731,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3H": {
+      "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
+      "approximate": true,
+      "coordinates": [
+        43.7535,
+        -79.4472
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4J": {
+      "text": "Approximate area: (M4J) East Toronto (The Danforth East)",
+      "approximate": true,
+      "coordinates": [
+        43.6872,
+        -79.3368
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "LAUGHTON AVE / EXETER ST": {
       "text": "Laughton Avenue & Exeter Street",
       "approximate": false,
@@ -330000,18 +330093,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T12:52:48.326Z"
-    },
-    "M3H": {
-      "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
-      "approximate": true,
-      "coordinates": [
-        43.7535,
-        -79.4472
-      ],
-      "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M1L": {
       "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
@@ -330753,18 +330834,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T05:26:30.409Z"
-    },
-    "M4J": {
-      "text": "Approximate area: (M4J) East Toronto (The Danforth East)",
-      "approximate": true,
-      "coordinates": [
-        43.6872,
-        -79.3368
-      ],
-      "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M4E": {
       "text": "Approximate area: (M4E) East Toronto (The Beaches)",
