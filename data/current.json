@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T08:35:22.050Z",
-  "sourceUpdatedAt": "2026-09-26T08:30:01.000Z",
+  "fetchedAt": "2026-09-26T08:36:37.612Z",
+  "sourceUpdatedAt": "2026-09-26T08:35:01.000Z",
   "incidents": [
+    {
+      "id": "F26152655",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6J",
+      "division": "426",
+      "timestamp": "2026-09-26T08:29:28.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "426"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T08:36:37.612Z",
+      "lastSeenAt": "2026-09-26T08:36:37.612Z",
+      "geography": {
+        "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+        "approximate": true,
+        "coordinates": [
+          43.648,
+          -79.4177
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-5c100fa09adbb7e1c428edf2",
       "source": "TPS",
@@ -71,7 +105,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T08:25:35.022Z",
       "lastMeaningfulUpdateAt": "2026-09-26T08:31:35.135Z",
-      "lastSeenAt": "2026-09-26T08:35:22.050Z",
+      "lastSeenAt": "2026-09-26T08:36:37.612Z",
       "geography": {
         "text": "Approximate area: (M8Z) Etobicoke (Mimico NW / The Queensway West / South of Bloor / Kingsway Park South West / Royal York South West)",
         "approximate": true,
@@ -171,7 +205,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T08:21:20.156Z",
-      "lastSeenAt": "2026-09-26T08:35:22.050Z",
+      "lastSeenAt": "2026-09-26T08:36:37.612Z",
       "geography": {
         "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
         "approximate": true,
@@ -272,7 +306,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T08:11:16.322Z",
       "lastMeaningfulUpdateAt": "2026-09-26T08:15:38.789Z",
-      "lastSeenAt": "2026-09-26T08:35:22.050Z",
+      "lastSeenAt": "2026-09-26T08:36:37.612Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -385,7 +419,7 @@
       "division": "443",
       "timestamp": "2026-09-26T07:57:27.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -171270,49 +171304,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26148491",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M5A",
-      "division": "325",
-      "timestamp": "2026-09-19T08:36:33.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "325"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-19T08:51:32.834Z",
-      "lastSeenAt": "2026-09-19T09:01:23.393Z",
-      "geography": {
-        "text": "Approximate area: (M5A) Toronto",
-        "approximate": true,
-        "coordinates": [
-          43.6555,
-          -79.3626
-        ],
-        "division": "Division 51",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T08:35:22.050Z",
-      "sourceUpdatedAt": "2026-09-26T08:30:01.000Z",
+      "fetchedAt": "2026-09-26T08:36:37.612Z",
+      "sourceUpdatedAt": "2026-09-26T08:35:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T08:35:22.050Z",
+      "fetchedAt": "2026-09-26T08:36:37.612Z",
       "status": "ok"
     }
   },
@@ -326355,6 +326356,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6J": {
+      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+      "approximate": true,
+      "coordinates": [
+        43.648,
+        -79.4177
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M8Z": {
       "text": "Approximate area: (M8Z) Etobicoke (Mimico NW / The Queensway West / South of Bloor / Kingsway Park South West / Royal York South West)",
       "approximate": true,
@@ -326936,18 +326949,6 @@
         -79.2707
       ],
       "division": "Division 41",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6J": {
-      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
-      "approximate": true,
-      "coordinates": [
-        43.648,
-        -79.4177
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
