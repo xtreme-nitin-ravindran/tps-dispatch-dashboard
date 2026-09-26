@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T10:05:11.528Z",
-  "sourceUpdatedAt": "2026-09-26T10:00:01.000Z",
+  "fetchedAt": "2026-09-26T10:06:48.324Z",
+  "sourceUpdatedAt": "2026-09-26T10:05:02.000Z",
   "incidents": [
+    {
+      "id": "F26152683",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1T",
+      "division": "244",
+      "timestamp": "2026-09-26T09:57:36.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "244"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T10:06:48.324Z",
+      "lastSeenAt": "2026-09-26T10:06:48.324Z",
+      "geography": {
+        "text": "Approximate area: (M1T) Scarborough (Clarks Corners / Tam O'Shanter / Sullivan)",
+        "approximate": true,
+        "coordinates": [
+          43.7812,
+          -79.3036
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26152682",
       "source": "TFS",
@@ -27,7 +61,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T10:01:09.314Z",
-      "lastSeenAt": "2026-09-26T10:05:11.528Z",
+      "lastSeenAt": "2026-09-26T10:06:48.324Z",
       "geography": {
         "text": "Rosedale Road between Avondale Road & Cluny Avenue",
         "approximate": false,
@@ -68,7 +102,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T09:56:29.929Z",
       "lastMeaningfulUpdateAt": "2026-09-26T10:01:09.314Z",
-      "lastSeenAt": "2026-09-26T10:05:11.528Z",
+      "lastSeenAt": "2026-09-26T10:06:48.324Z",
       "geography": {
         "text": "Spadina Avenue between Bulwer Street & Phoebe Street",
         "approximate": false,
@@ -103,7 +137,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T09:56:29.929Z",
       "lastMeaningfulUpdateAt": "2026-09-26T10:01:09.314Z",
-      "lastSeenAt": "2026-09-26T10:05:11.528Z",
+      "lastSeenAt": "2026-09-26T10:06:48.324Z",
       "geography": {
         "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
         "approximate": true,
@@ -259,7 +293,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T09:40:58.051Z",
       "lastMeaningfulUpdateAt": "2026-09-26T09:45:44.347Z",
-      "lastSeenAt": "2026-09-26T10:05:11.528Z",
+      "lastSeenAt": "2026-09-26T10:06:48.324Z",
       "geography": {
         "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
         "approximate": true,
@@ -329,7 +363,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T09:31:43.207Z",
       "lastMeaningfulUpdateAt": "2026-09-26T09:35:59.299Z",
-      "lastSeenAt": "2026-09-26T10:05:11.528Z",
+      "lastSeenAt": "2026-09-26T10:06:48.324Z",
       "geography": {
         "text": "Broadview Avenue between Nealon Avenue & Lower Don River Trl",
         "approximate": false,
@@ -462,7 +496,7 @@
       "division": "442",
       "timestamp": "2026-09-26T09:14:36.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -1419,7 +1453,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T08:21:20.156Z",
-      "lastSeenAt": "2026-09-26T10:05:11.528Z",
+      "lastSeenAt": "2026-09-26T10:06:48.324Z",
       "geography": {
         "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
         "approximate": true,
@@ -172200,12 +172234,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T10:05:11.528Z",
-      "sourceUpdatedAt": "2026-09-26T10:00:01.000Z",
+      "fetchedAt": "2026-09-26T10:06:48.324Z",
+      "sourceUpdatedAt": "2026-09-26T10:05:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T10:05:11.528Z",
+      "fetchedAt": "2026-09-26T10:06:48.324Z",
       "status": "ok"
     }
   },
@@ -172738,7 +172772,7 @@
           "description": "Toronto-TMC: Replacement of Culvert at Warden Avenue over West Highland Creek",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
-          "impact": "Medium",
+          "impact": "High",
           "startLocation": "Bridletowne Crcl",
           "endLocation": "West Highland Creek Trl",
           "start": 1786680000000,
@@ -172829,7 +172863,7 @@
           "description": "Toronto-TMC: This is a very short duration closure for taking reading of instruments at the road.",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
-          "impact": "Medium",
+          "impact": "High",
           "startLocation": "Ln E Pape S Danforth",
           "endLocation": "Pape Ave",
           "start": 1782878400000,
@@ -174225,7 +174259,7 @@
           "description": "Toronto-TMC: Form 1SOP - Application for work requiring a SOP (Street occupation permit) Permit Status: Approved",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
-          "impact": "Medium",
+          "impact": "High",
           "startLocation": "Ln E Strachan N King",
           "endLocation": "Strachan Ave",
           "start": 1774260000000,
@@ -322147,8 +322181,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-26T10:00:23.874Z",
-      "fetchedAt": "2026-09-26T10:00:23.874Z"
+      "checkedAt": "2026-09-26T10:06:48.324Z",
+      "fetchedAt": "2026-09-26T10:06:48.324Z"
     },
     "transit": {
       "items": [
@@ -324700,6 +324734,120 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
+          "id": "76966",
+          "title": "Mount Pleasant: Escalator 6 out of service between upper concourse and grade level (main entrance) while we perform maintenance.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "16212",
+            "16213"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "16212",
+              "coordinates": [
+                43.708503,
+                -79.390329
+              ],
+              "name": "Mount Pleasant Station Eastbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "16213",
+              "coordinates": [
+                43.708666,
+                -79.390542
+              ],
+              "name": "Mount Pleasant Station Westbound Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790417001000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "76965",
+          "title": "Warden: Escalator 15D3E out of service from concourse to Line 2 platform while we perform maintenance.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "13732",
+            "13731"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "13732",
+              "coordinates": [
+                43.712149,
+                -79.278785
+              ],
+              "name": "Warden Station - Eastbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13731",
+              "coordinates": [
+                43.710949,
+                -79.279085
+              ],
+              "name": "Warden Station - Westbound Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790416990000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "76964",
+          "title": "Mount Pleasant: Escalator 3 out of service between lower concourse and upper concourse (landing) while we perform maintenance.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "16212",
+            "16213"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "16212",
+              "coordinates": [
+                43.708503,
+                -79.390329
+              ],
+              "name": "Mount Pleasant Station Eastbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "16213",
+              "coordinates": [
+                43.708666,
+                -79.390542
+              ],
+              "name": "Mount Pleasant Station Westbound Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790416987000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
           "id": "76963",
           "title": "Wilson: Escalator 8S9E out of service from lower bus platform to upper bus platform due to a technical problem.",
           "description": "",
@@ -326378,14 +326526,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-26T10:00:24.000Z",
+      "sourceUpdatedAt": "2026-09-26T10:06:49.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-26T10:00:23.874Z",
-      "fetchedAt": "2026-09-26T10:00:23.874Z"
+      "checkedAt": "2026-09-26T10:06:48.324Z",
+      "fetchedAt": "2026-09-26T10:06:48.324Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1T": {
+      "text": "Approximate area: (M1T) Scarborough (Clarks Corners / Tam O'Shanter / Sullivan)",
+      "approximate": true,
+      "coordinates": [
+        43.7812,
+        -79.3036
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "ROSEDALE RD, TT / AVONDALE RD / CLUNY AVE": {
       "text": "Rosedale Road between Avondale Road & Cluny Avenue",
       "approximate": false,
@@ -328332,18 +328492,6 @@
         -79.359
       ],
       "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1T": {
-      "text": "Approximate area: (M1T) Scarborough (Clarks Corners / Tam O'Shanter / Sullivan)",
-      "approximate": true,
-      "coordinates": [
-        43.7812,
-        -79.3036
-      ],
-      "division": "Division 42",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
