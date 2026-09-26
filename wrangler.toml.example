@@ -1,0 +1,32 @@
+name = "sirento-watch-api"
+main = "src/watch-worker.js"
+compatibility_date = "2026-09-25"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "WATCH_DB"
+database_name = "sirento-watch"
+database_id = "replace-with-cloudflare-d1-database-id"
+
+[[ratelimits]]
+name = "WATCH_CREATE_RATE_LIMITER"
+# Replace with a positive integer namespace unique within the Cloudflare account.
+namespace_id = "1001"
+
+[ratelimits.simple]
+limit = 30
+period = 60
+
+[vars]
+WATCH_ALLOWED_ORIGINS = "https://sirento.nitin.run,http://localhost:4173,http://127.0.0.1:4173"
+WATCH_SNAPSHOT_URL = "https://sirento.nitin.run/data/current.json"
+WATCH_INCIDENT_BASE_URL = "https://sirento.nitin.run/"
+VAPID_PUBLIC_KEY = "replace-with-public-vapid-key"
+VAPID_KEY_VERSION = "v1"
+VAPID_SUBJECT = "mailto:replace@example.com"
+
+[secrets]
+required = ["VAPID_PRIVATE_KEY"]
+
+[triggers]
+crons = ["4-59/5 * * * *"]

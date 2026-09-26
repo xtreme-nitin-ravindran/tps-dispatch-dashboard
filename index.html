@@ -5,6 +5,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0c1320" />
+  <meta name="sirento-vapid-public-key" content="" />
+  <meta name="sirento-watch-api-base-url" content="" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -50,7 +52,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./styles.css?v=map-priority-1" />
+  <link rel="stylesheet" href="./styles.css?v=local-watch-1" />
 </head>
 
 <body>
@@ -110,8 +112,42 @@
             <button id="chooseArea" type="button">Choose an area on the map</button>
             <button id="clearNearby" type="button">Clear nearby filter</button>
           </div>
+          <button id="openWatch" class="open-watch" type="button">Watch this area</button>
         </div>
       </section>
+      <dialog id="watchDialog" class="watch-dialog" aria-labelledby="watchTitle">
+        <div class="watch-dialog-head">
+          <div><span class="section-kicker">LOCAL WATCH</span><h2 id="watchTitle">Watch this area</h2></div>
+          <button id="closeWatch" class="dialog-close" type="button" aria-label="Close watch settings">×</button>
+        </div>
+        <p id="watchSupport" class="watch-support" role="status"></p>
+        <form id="watchForm">
+          <p class="watch-location"><strong>Location</strong><span id="watchLocationLabel"></span></p>
+          <p id="watchLocationRequired" class="watch-location-required" role="alert" hidden>Select a current, saved, or map location before configuring a watch.</p>
+          <label for="watchRadius">Radius
+            <select id="watchRadius">
+              <option value="0.5">500 m</option><option value="1">1 km</option>
+              <option value="2">2 km</option><option value="5">5 km</option>
+            </select>
+          </label>
+          <label for="watchService">Service
+            <select id="watchService">
+              <option value="all">All services</option><option value="TFS">Toronto Fire Services</option>
+              <option value="TPS">Toronto Police Service</option>
+            </select>
+          </label>
+          <label for="watchCategory">Event type
+            <select id="watchCategory">
+              <option value="all">All event types</option><option value="medical">Medical</option>
+              <option value="fire">Fire</option><option value="ongoing">Ongoing</option><option value="other">Other</option>
+            </select>
+          </label>
+          <button id="saveWatch" type="submit">Save and enable notifications</button>
+        </form>
+        <p id="watchResult" class="watch-result" role="status" aria-live="polite"></p>
+        <button id="stopWatch" class="stop-watch" type="button" hidden>Stop watching this area</button>
+        <p class="watch-future-note">Permission is requested only when you save. SirenTO never includes your watch coordinates or labels in notification payloads.</p>
+      </dialog>
       <dialog id="savedLocationsDialog" class="saved-locations-dialog" aria-labelledby="savedLocationsTitle">
         <div class="saved-locations-dialog-head">
           <div><span class="section-kicker">YOUR PLACES</span><h2 id="savedLocationsTitle">Saved locations</h2></div>
@@ -508,7 +544,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=mobile-bottom-sheet-1"></script>
+  <script type="module" src="./app.js?v=notification-ux-1"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js"));

@@ -38,6 +38,17 @@ export function shareIncidentView(base, state, incidentId) {
   return url.href;
 }
 
+export function incidentDeepLink(base, incidentId) {
+  const id = String(incidentId ?? '');
+  if (!id || id.length > 300) throw new TypeError('incidentId must be between 1 and 300 characters');
+  const url = new URL(base);
+  url.search = '';
+  url.hash = '';
+  url.searchParams.set('view', '1');
+  url.searchParams.set('incident', id);
+  return url.href;
+}
+
 export function readSharedIncident(params) {
   const value = params.get('incident');
   return value ? value.slice(0, 300) : null;

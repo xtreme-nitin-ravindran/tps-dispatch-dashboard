@@ -6,9 +6,9 @@ import vm from "node:vm";
 const root = new URL("../", import.meta.url);
 const source = await readFile(new URL("service-worker.js", root), "utf8");
 
-function loadWorker({ cachedResponse = { source: "cache" }, networkResponse = { source: "network" } } = {}) {
+function loadWorker({ cachedResponse = { source: "cache" }, networkResponse = { source: "network" }, windowClients = [] } = {}) {
   const listeners = {};
-  const calls = { added: [], deleted: [], fetched: [], matched: [] };
+  const calls = { added: [], deleted: [], fetched: [], matched: [], notifications: [], opened: [] };
   const cache = {
     addAll(assets) {
       calls.added.push(...assets);
@@ -20,9 +20,16 @@ function loadWorker({ cachedResponse = { source: "cache" }, networkResponse = { 
     Set,
     Promise,
     self: {
-      registration: { scope: "https://example.test/sirento/" },
+      registration: {
+        scope: "https://example.test/sirento/",
+        async showNotification(title, options) { calls.notifications.push({ title, options }); }
+      },
       location: { origin: "https://example.test" },
-      clients: { claim: () => Promise.resolve() },
+      clients: {
+        claim: () => Promise.resolve(),
+        matchAll: async () => windowClients,
+        openWindow: async url => { calls.opened.push(url); }
+      },
       addEventListener(type, listener) { listeners[type] = listener; },
       skipWaiting() {}
     },
@@ -121,4 +128,112 @@ test("activation removes old SirenTO shell versions only", async () => {
   listeners.activate({ waitUntil(value) { activation = value; } });
   await activation;
   assert.deepEqual(calls.deleted, ["sirento-shell-old"]);
+});
+
+test("valid versioned push payload renders a concise user-visible notification", async () => {
+  const { listeners, calls } = loadWorker();
+  let work;
+  listeners.push({
+    data: { json: () => ({
+      schema: "sirento.push", version: 1,
+      incident: {
+        id: "TFS-123", title: "Nearby fire call", body: "A new incident matched your watch.",
+        url: "https://example.test/sirento/?view=1&incident=TFS-123"
+      }
+    }) },
+    waitUntil(value) { work = value; }
+  });
+  assert.equal(await work, true);
+  assert.equal(calls.notifications.length, 1);
+  assert.equal(calls.notifications[0].title, "Nearby fire call");
+  assert.deepEqual(Object.keys(calls.notifications[0].options.data), ["url", "incidentId"]);
+});
+
+test("malformed, cross-origin, and coordinate-only push payloads are ignored", async () => {
+  for (const value of [
+    () => { throw new Error("bad json"); },
+    () => ({ schema: "sirento.push", version: 1, incident: { id: "1", title: "Title", body: "Body", url: "https://evil.test/?incident=1" } }),
+    () => ({ latitude: 43.65, longitude: -79.38 })
+  ]) {
+    const { listeners, calls } = loadWorker();
+    let work;
+    listeners.push({ data: { json: value }, waitUntil(result) { work = result; } });
+    assert.equal(await work, false);
+    assert.equal(calls.notifications.length, 0);
+  }
+});
+
+test("notification click focuses and navigates an existing SirenTO client", async () => {
+  const events = [];
+  const existing = {
+    url: "https://example.test/sirento/",
+    async navigate(url) { events.push(`navigate:${url}`); return this; },
+    async focus() { events.push("focus"); }
+  };
+  const worker = loadWorker({ windowClients: [existing] });
+  let work;
+  const url = "https://example.test/sirento/?view=1&incident=TFS-2";
+  worker.listeners.notificationclick({
+    notification: {
+      data: { url, incidentId: "TFS-2" },
+      close() { events.push("close"); }
+    },
+    waitUntil(value) { work = value; }
+  });
+  assert.equal(await work, true);
+  assert.deepEqual(events, ["close", `navigate:${url}`, "focus"]);
+  assert.equal(worker.calls.opened.length, 0);
+});
+
+test("notification click opens the canonical incident URL when no client exists", async () => {
+  const { listeners, calls } = loadWorker();
+  let work;
+  let closed = false;
+  const url = "https://example.test/sirento/?view=1&incident=TPS-9";
+  listeners.notificationclick({
+    notification: { data: { url, incidentId: "TPS-9" }, close() { closed = true; } },
+    waitUntil(value) { work = value; }
+  });
+  assert.equal(await work, true);
+  assert.equal(closed, true);
+  assert.deepEqual(calls.opened, [url]);
+});
+
+test("notification click reselects an incident in an already canonical client without a duplicate window", async () => {
+  const events = [];
+  const url = "https://example.test/sirento/?view=1&incident=TFS-2";
+  const existing = {
+    url,
+    postMessage(message) { events.push(message); },
+    async focus() { events.push("focus"); }
+  };
+  const worker = loadWorker({ windowClients: [existing] });
+  let work;
+  worker.listeners.notificationclick({
+    notification: { data: { url, incidentId: "TFS-2" }, close() { events.push("close"); } },
+    waitUntil(value) { work = value; }
+  });
+  assert.equal(await work, true);
+  assert.deepEqual(JSON.parse(JSON.stringify(events)), ["close", {
+    type: "sirento.notification.navigate", url, incidentId: "TFS-2"
+  }, "focus"]);
+  assert.deepEqual(worker.calls.opened, []);
+});
+
+test("notification click closes but rejects malformed and non-allowlisted destinations", async () => {
+  for (const data of [
+    { url: "https://evil.test/?view=1&incident=x", incidentId: "x" },
+    { url: "https://example.test/sirento/?view=1&incident=x&token=private", incidentId: "x" },
+    { url: "https://example.test/sirento/?view=1&incident=x", incidentId: "different" }
+  ]) {
+    const worker = loadWorker();
+    let work;
+    let closed = false;
+    worker.listeners.notificationclick({
+      notification: { data, close() { closed = true; } }, waitUntil(value) { work = value; }
+    });
+    assert.equal(await work, false);
+    assert.equal(closed, true);
+    assert.deepEqual(worker.calls.opened, []);
+  }
 });
