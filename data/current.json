@@ -3,9 +3,77 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T21:09:45.084Z",
-  "sourceUpdatedAt": "2026-09-26T21:05:01.000Z",
+  "fetchedAt": "2026-09-26T21:14:11.355Z",
+  "sourceUpdatedAt": "2026-09-26T21:10:02.000Z",
   "incidents": [
+    {
+      "id": "F26152978",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M2N",
+      "division": "114",
+      "timestamp": "2026-09-26T21:03:31.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "114"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T21:14:11.355Z",
+      "lastSeenAt": "2026-09-26T21:14:11.355Z",
+      "geography": {
+        "text": "Approximate area: (M2N) Willowdale South",
+        "approximate": true,
+        "coordinates": [
+          43.7673,
+          -79.4111
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152977",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5R",
+      "division": "344",
+      "timestamp": "2026-09-26T21:03:03.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "344"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T21:14:11.355Z",
+      "lastSeenAt": "2026-09-26T21:14:11.355Z",
+      "geography": {
+        "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
+        "approximate": true,
+        "coordinates": [
+          43.6736,
+          -79.4035
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26152975",
       "source": "TFS",
@@ -16,9 +84,18 @@
       "timestamp": "2026-09-26T20:58:33.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "415"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T21:06:15.288Z",
-      "lastSeenAt": "2026-09-26T21:09:45.084Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T21:14:11.355Z",
+      "lastSeenAt": "2026-09-26T21:14:11.355Z",
       "geography": {
         "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
         "approximate": true,
@@ -31,6 +108,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-676f5a08dc88115c39c20298",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT JUST OCCURRED",
+      "callTypeCode": "THEJU",
+      "timestamp": "2026-09-26T20:57:42.000Z",
+      "location": "EGLINTON AVE W - LIVINGSTONE AVE",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "EGLINTON AVE W - LIVINGSTONE AVE",
+        "coordinates": [
+          43.69640146524358,
+          -79.45079108278703
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T21:14:11.355Z"
+    },
+    {
+      "id": "TPS-9bbd037210bf28e3ed1ef96d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-26T20:56:37.000Z",
+      "location": "WASHBURN WAY - SHEPPARD AVE E",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WASHBURN WAY - SHEPPARD AVE E",
+        "coordinates": [
+          43.79614269194559,
+          -79.22753047585533
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T21:14:11.355Z"
+    },
+    {
+      "id": "TPS-bd3b6c7e5a79ce4f95c22304",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-26T20:55:16.000Z",
+      "location": "HOWARD ST - MORLEY CALLAGHAN FOOTBRIDGE",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HOWARD ST - MORLEY CALLAGHAN FOOTBRIDGE",
+        "coordinates": [
+          43.671285110402756,
+          -79.37496165688604
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T21:14:11.355Z"
     },
     {
       "id": "F26152974",
@@ -53,7 +196,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T21:01:45.594Z",
       "lastMeaningfulUpdateAt": "2026-09-26T21:06:15.288Z",
-      "lastSeenAt": "2026-09-26T21:09:45.084Z",
+      "lastSeenAt": "2026-09-26T21:14:11.355Z",
       "geography": {
         "text": "Approximate area: (M3K) Downsview East (CFB Toronto)",
         "approximate": true,
@@ -88,7 +231,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T21:01:45.594Z",
       "lastMeaningfulUpdateAt": "2026-09-26T21:06:15.288Z",
-      "lastSeenAt": "2026-09-26T21:09:45.084Z",
+      "lastSeenAt": "2026-09-26T21:14:11.355Z",
       "geography": {
         "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
         "approximate": true,
@@ -103,6 +246,28 @@
       }
     },
     {
+      "id": "TPS-69cbf787c0cdd1acc86ccb8d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-26T20:50:03.000Z",
+      "location": "C P R SPUR - LN W ISLINGTON S ADVANCE",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "C P R SPUR - LN W ISLINGTON S ADVANCE",
+        "coordinates": [
+          43.635882181084035,
+          -79.51979670506132
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T21:14:11.355Z"
+    },
+    {
       "id": "F26152972",
       "source": "TFS",
       "eventType": "fire",
@@ -111,7 +276,7 @@
       "division": "214",
       "timestamp": "2026-09-26T20:49:59.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -158,7 +323,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T20:55:59.404Z",
       "lastMeaningfulUpdateAt": "2026-09-26T21:01:45.594Z",
-      "lastSeenAt": "2026-09-26T21:09:45.084Z",
+      "lastSeenAt": "2026-09-26T21:14:11.355Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -171,6 +336,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-45e5d71c604f6cbb787bc9cd",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-26T20:49:19.000Z",
+      "location": "YONGE ST - DELISLE AVE",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "YONGE ST - DELISLE AVE",
+        "coordinates": [
+          43.68913124478681,
+          -79.39452656345365
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T21:14:11.355Z"
+    },
+    {
+      "id": "TPS-9f73adf06ece1d09a719cf26",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT",
+      "callTypeCode": "THE",
+      "timestamp": "2026-09-26T20:48:00.000Z",
+      "location": "GAIL GRV - LIDO RD",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GAIL GRV - LIDO RD",
+        "coordinates": [
+          43.74180637267205,
+          -79.53083669824879
+        ],
+        "division": "Division 31",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T21:14:11.355Z"
+    },
+    {
+      "id": "TPS-fa8e7fe7dfc3476751f5609e",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DAMAGE JUST OCCURRED",
+      "callTypeCode": "DAMJU",
+      "timestamp": "2026-09-26T20:47:52.000Z",
+      "location": "STEELES AVE E - MARKHAM RD",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "STEELES AVE E - MARKHAM RD",
+        "coordinates": [
+          43.8372369342981,
+          -79.24847747822174
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T21:14:11.355Z"
     },
     {
       "id": "F26152970",
@@ -243,6 +474,50 @@
       }
     },
     {
+      "id": "TPS-77edb6c4e3d69a11edc8a7dd",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSON WITH A KNIFE",
+      "callTypeCode": "PERKN",
+      "timestamp": "2026-09-26T20:46:09.000Z",
+      "location": "LN W YONGE N YORKVILLE - BAY ST",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN W YONGE N YORKVILLE - BAY ST",
+        "coordinates": [
+          43.67192891190004,
+          -79.38745604948559
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T21:14:11.355Z"
+    },
+    {
+      "id": "TPS-694a531e4a4c905f3dd35a64",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-26T20:46:00.000Z",
+      "location": "ROGATE PL - ELIZABETH SIMCOE PARK TRL",
+      "division": "Division 43",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ROGATE PL - ELIZABETH SIMCOE PARK TRL",
+        "coordinates": [
+          43.73768969656935,
+          -79.20587158023741
+        ],
+        "division": "Division 43",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T21:14:11.355Z"
+    },
+    {
       "id": "F26152968",
       "source": "TFS",
       "eventType": "fire",
@@ -251,7 +526,7 @@
       "division": "233",
       "timestamp": "2026-09-26T20:45:13.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -377,7 +652,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T20:50:45.200Z",
       "lastMeaningfulUpdateAt": "2026-09-26T20:55:59.404Z",
-      "lastSeenAt": "2026-09-26T21:09:45.084Z",
+      "lastSeenAt": "2026-09-26T21:14:11.355Z",
       "geography": {
         "text": "Approximate area: (M6C) York (Cedarvale)",
         "approximate": true,
@@ -472,7 +747,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-26T20:46:04.458Z",
       "lastMeaningfulUpdateAt": "2026-09-26T20:55:59.404Z",
-      "lastSeenAt": "2026-09-26T21:09:45.084Z",
+      "lastSeenAt": "2026-09-26T21:14:11.355Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -661,7 +936,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T20:40:34.027Z",
       "lastMeaningfulUpdateAt": "2026-09-26T20:46:04.458Z",
-      "lastSeenAt": "2026-09-26T21:09:45.084Z",
+      "lastSeenAt": "2026-09-26T21:14:11.355Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -2370,7 +2645,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T19:36:24.562Z",
-      "lastSeenAt": "2026-09-26T21:09:45.084Z",
+      "lastSeenAt": "2026-09-26T21:14:11.355Z",
       "geography": {
         "text": "Glamorgan Avenue between Kennedy Road & Dundalk Drive",
         "approximate": false,
@@ -14161,7 +14436,7 @@
       "respondingUnitCount": 22,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-26T20:15:53.067Z",
-      "lastSeenAt": "2026-09-26T21:09:45.084Z",
+      "lastSeenAt": "2026-09-26T21:14:11.355Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -181499,37 +181774,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "TPS-961c12089ad9d73beb3329c6",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "PERSONAL INJURY COLLISION",
-      "callTypeCode": "PIACC",
-      "timestamp": "2026-09-19T21:10:43.000Z",
-      "location": "JANE ST - HANDEL ST",
-      "division": "Division 12",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "JANE ST - HANDEL ST",
-        "coordinates": [
-          43.67129693455818,
-          -79.49482460341882
-        ],
-        "division": "Division 12",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T21:09:45.084Z",
-      "sourceUpdatedAt": "2026-09-26T21:05:01.000Z",
+      "fetchedAt": "2026-09-26T21:14:11.355Z",
+      "sourceUpdatedAt": "2026-09-26T21:10:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T21:09:45.084Z",
+      "fetchedAt": "2026-09-26T21:14:11.355Z",
       "status": "ok"
     }
   },
@@ -330586,8 +330840,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-26T21:06:15.288Z",
-      "fetchedAt": "2026-09-26T21:06:15.288Z"
+      "checkedAt": "2026-09-26T21:14:11.355Z",
+      "fetchedAt": "2026-09-26T21:14:11.355Z"
     },
     "transit": {
       "items": [
@@ -335162,14 +335416,38 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-26T21:06:15.000Z",
+      "sourceUpdatedAt": "2026-09-26T21:14:12.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-26T21:06:15.288Z",
-      "fetchedAt": "2026-09-26T21:06:15.288Z"
+      "checkedAt": "2026-09-26T21:14:11.355Z",
+      "fetchedAt": "2026-09-26T21:14:11.355Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M2N": {
+      "text": "Approximate area: (M2N) Willowdale South",
+      "approximate": true,
+      "coordinates": [
+        43.7673,
+        -79.4111
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M5R": {
+      "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
+      "approximate": true,
+      "coordinates": [
+        43.6736,
+        -79.4035
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M9W": {
       "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
       "approximate": true,
@@ -335956,18 +336234,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
     },
-    "M5R": {
-      "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
-      "approximate": true,
-      "coordinates": [
-        43.6736,
-        -79.4035
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "M4M": {
       "text": "Approximate area: (M4M) East Toronto (Studio District)",
       "approximate": true,
@@ -336579,18 +336845,6 @@
         -79.4633
       ],
       "division": "Division 11",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M2N": {
-      "text": "Approximate area: (M2N) Willowdale South",
-      "approximate": true,
-      "coordinates": [
-        43.7673,
-        -79.4111
-      ],
-      "division": "Division 32",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
