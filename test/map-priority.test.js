@@ -45,6 +45,12 @@ test('legend, located count, map heading, and source freshness remain accessible
   assert.match(app, /els\.mapStatus\.textContent/);
 });
 
+test('the map stays unobstructed when incident filters have no mapped calls', () => {
+  assert.doesNotMatch(mapMarkup, /id="mapEmpty"|class="map-empty"/);
+  assert.doesNotMatch(app, /mapEmpty|map-empty/);
+  assert.match(app, /locatedCalls\.length \? `\$\{locatedCalls\.length\}\/\$\{state\.filtered\.length\} LOCATED` : "NO MAPPED LOCATIONS"/);
+});
+
 test('mobile map/results switching and bottom sheet behavior remain intact', () => {
   assert.match(mobileRules, /html\[data-mobile-view="calls"\] \.map-stage,/);
   assert.match(mobileRules, /html\[data-mobile-view="map"\] \.content-grid,/);

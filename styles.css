@@ -65,7 +65,6 @@
   --warning-marker-glow: rgba(255, 209, 102, .8);
   --warning-cluster: #7a5b00;
   --map-overlay-border: rgba(255, 255, 255, .1);
-  --map-empty-background: rgba(8, 16, 26, .9);
   --approximate-marker: #fbbf24;
   --road-marker: #f43f5e;
   --cluster-background: #16394c;
@@ -142,7 +141,6 @@
   --warning-marker-glow: rgba(128, 86, 0, .46);
   --warning-cluster: #765300;
   --map-overlay-border: rgba(16, 36, 42, .16);
-  --map-empty-background: rgba(255, 255, 255, .94);
   --approximate-marker: #e0a000;
   --road-marker: #be123c;
   --cluster-background: #15526e;
@@ -1167,37 +1165,6 @@ html[data-display-mode="standalone"] .app-shell {
   background: var(--map-attribution-background);
   font: 10px/1.2 "Space Mono", monospace;
   pointer-events: none;
-}
-
-.map-empty {
-  position: absolute;
-  inset: 50% auto auto 50%;
-  z-index: 500;
-  width: min(360px, calc(100% - 36px));
-  transform: translate(-50%, -50%);
-  padding: 18px 20px;
-  border: 1px solid var(--accent-line);
-  border-radius: 12px;
-  color: var(--muted);
-  background: var(--map-empty-background);
-  box-shadow: var(--shadow);
-  text-align: center;
-}
-
-.map-empty strong,
-.map-empty span {
-  display: block;
-}
-
-.map-empty strong {
-  color: var(--accent);
-  font-size: 15px;
-}
-
-.map-empty span {
-  margin-top: 6px;
-  font-size: 12px;
-  line-height: 1.5;
 }
 
 .notice {
