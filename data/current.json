@@ -3,9 +3,79 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T04:12:56.312Z",
-  "sourceUpdatedAt": "2026-09-26T04:10:02.000Z",
+  "fetchedAt": "2026-09-26T04:18:54.735Z",
+  "sourceUpdatedAt": "2026-09-26T04:15:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-fc3a5529fe2329b9cc41826b",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-26T04:11:54.000Z",
+      "location": "DOLPHIN DR - DONSIDE DR",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DOLPHIN DR - DONSIDE DR",
+        "coordinates": [
+          43.70010001279945,
+          -79.28672506823307
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
+    },
+    {
+      "id": "F26152583",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5H",
+      "division": "332",
+      "timestamp": "2026-09-26T04:08:12.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T04:18:54.735Z",
+      "lastSeenAt": "2026-09-26T04:18:54.735Z",
+      "geography": {
+        "text": "Approximate area: (M5H) Downtown Toronto (Richmond / Adelaide / King)",
+        "approximate": true,
+        "coordinates": [
+          43.6496,
+          -79.3833
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-7be1eca5b456335768697439",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-26T04:04:59.000Z",
+      "location": "QUEEN ST W - BULWER ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "QUEEN ST W - BULWER ST",
+        "coordinates": [
+          43.648733187836804,
+          -79.39649573549008
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
+    },
     {
       "id": "F26152582",
       "source": "TFS",
@@ -16,9 +86,24 @@
       "timestamp": "2026-09-26T04:04:27.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "212"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "214"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T04:11:30.379Z",
-      "lastSeenAt": "2026-09-26T04:12:56.312Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T04:18:54.735Z",
+      "lastSeenAt": "2026-09-26T04:18:54.735Z",
       "geography": {
         "text": "Scarboro Avenue between Scarbell Drive & Euclid Avenue",
         "approximate": false,
@@ -42,9 +127,18 @@
       "timestamp": "2026-09-26T04:03:04.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "334"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T04:11:30.379Z",
-      "lastSeenAt": "2026-09-26T04:12:56.312Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T04:18:54.735Z",
+      "lastSeenAt": "2026-09-26T04:18:54.735Z",
       "geography": {
         "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
         "approximate": true,
@@ -68,9 +162,24 @@
       "timestamp": "2026-09-26T04:01:40.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "333"
+          ]
+        },
+        {
+          "type": "Tower Truck",
+          "numbers": [
+            "333"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T04:11:30.379Z",
-      "lastSeenAt": "2026-09-26T04:12:56.312Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T04:18:54.735Z",
+      "lastSeenAt": "2026-09-26T04:18:54.735Z",
       "geography": {
         "text": "Approximate location on Cooper Street",
         "approximate": true,
@@ -80,6 +189,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-26T04:11:30.379Z"
       }
+    },
+    {
+      "id": "TPS-53ed7a7072d8ce4bfb5ebb27",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-26T04:00:55.000Z",
+      "location": "GLENAVON RD - KING ST W",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GLENAVON RD - KING ST W",
+        "coordinates": [
+          43.635894283063585,
+          -79.43830412056401
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
+    },
+    {
+      "id": "TPS-fbbeabd7be1747079da20192",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-09-26T04:00:48.000Z",
+      "location": "CHURCHILL AVE - ST ANNES RD",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CHURCHILL AVE - ST ANNES RD",
+        "coordinates": [
+          43.65144329676334,
+          -79.42554102481836
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
+    },
+    {
+      "id": "TPS-6929150686c737987acb2802",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-26T04:00:32.000Z",
+      "location": "SUNNYDALE ACRES PARK TRL - WAXHAM RD",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SUNNYDALE ACRES PARK TRL - WAXHAM RD",
+        "coordinates": [
+          43.724814357500236,
+          -79.57766097522746
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
     },
     {
       "id": "F26152579",
@@ -107,7 +282,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T04:05:40.147Z",
-      "lastSeenAt": "2026-09-26T04:12:56.312Z",
+      "lastSeenAt": "2026-09-26T04:18:54.735Z",
       "geography": {
         "text": "West Lodge Avenue between Seaforth Avenue & West Lodge Park Trl",
         "approximate": false,
@@ -120,6 +295,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-8b1f0c6587632c27d3b21405",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "NOISY PARTY",
+      "callTypeCode": "NOIPA",
+      "timestamp": "2026-09-26T03:57:07.000Z",
+      "location": "BRIAR HILL AVE - AVENUE RD",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BRIAR HILL AVE - AVENUE RD",
+        "coordinates": [
+          43.711205779728694,
+          -79.41146542364316
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
+    },
+    {
+      "id": "TPS-1ce90c2989bf5bc795bfbd68",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-26T03:56:43.000Z",
+      "location": "AVENUE RD - BEDFORD RD",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "AVENUE RD - BEDFORD RD",
+        "coordinates": [
+          43.67037191129492,
+          -79.39482514503938
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
     },
     {
       "id": "F26152578",
@@ -141,7 +360,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T04:05:40.147Z",
-      "lastSeenAt": "2026-09-26T04:12:56.312Z",
+      "lastSeenAt": "2026-09-26T04:18:54.735Z",
       "geography": {
         "text": "Davisville Avenue between Yonge Street & Pailton Crescent",
         "approximate": false,
@@ -154,6 +373,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-26T04:05:40.147Z"
       }
+    },
+    {
+      "id": "TPS-432926e5a352f2ea077072d8",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "NOISY PARTY",
+      "callTypeCode": "NOIPA",
+      "timestamp": "2026-09-26T03:55:48.000Z",
+      "location": "PRINCE ARTHUR AVE - ST GEORGE ST",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "PRINCE ARTHUR AVE - ST GEORGE ST",
+        "coordinates": [
+          43.66873451071916,
+          -79.4003094411357
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
+    },
+    {
+      "id": "TPS-2e6bb9b2457f492ad2fb7f68",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-26T03:55:07.000Z",
+      "location": "DOLPHIN DR - DONSIDE DR",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DOLPHIN DR - DONSIDE DR",
+        "coordinates": [
+          43.70010001279945,
+          -79.28672506823307
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
+    },
+    {
+      "id": "TPS-3ca1a41f4cf7a3e8e531c128",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-26T03:53:23.000Z",
+      "location": "GARDINER W S KINGSWAY RAMP - SOUTH KINGSWAY",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GARDINER W S KINGSWAY RAMP - SOUTH KINGSWAY",
+        "coordinates": [
+          43.637068708672224,
+          -79.47106891395835
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
     },
     {
       "id": "F26152577",
@@ -176,7 +461,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T03:55:34.133Z",
       "lastMeaningfulUpdateAt": "2026-09-26T04:00:49.291Z",
-      "lastSeenAt": "2026-09-26T04:12:56.312Z",
+      "lastSeenAt": "2026-09-26T04:18:54.735Z",
       "geography": {
         "text": "Approximate area: (M9M) North York (Humberlea / Emery)",
         "approximate": true,
@@ -229,6 +514,28 @@
       }
     },
     {
+      "id": "TPS-4028d5d49dcfdff0f66576b4",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-26T03:47:02.000Z",
+      "location": "FRONT ST W - CLARENCE SQ",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "FRONT ST W - CLARENCE SQ",
+        "coordinates": [
+          43.64361298271667,
+          -79.39415743573367
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
+    },
+    {
       "id": "F26152576",
       "source": "TFS",
       "eventType": "fire",
@@ -261,6 +568,50 @@
       }
     },
     {
+      "id": "TPS-6c12e86987c65bcec129f756",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-26T03:44:41.000Z",
+      "location": "ELLIS AVE - WINDERMERE AVE",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ELLIS AVE - WINDERMERE AVE",
+        "coordinates": [
+          43.63617529429255,
+          -79.46588691320109
+        ],
+        "division": "Division 11",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
+    },
+    {
+      "id": "TPS-9e38eee8e433ccfb3aee5c05",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SOUND OF GUNSHOTS",
+      "callTypeCode": "SOUGU",
+      "timestamp": "2026-09-26T03:44:19.000Z",
+      "location": "KNOWLAND DR - MULHAM PL",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KNOWLAND DR - MULHAM PL",
+        "coordinates": [
+          43.68148330335668,
+          -79.5184889849148
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
+    },
+    {
       "id": "F26152573",
       "source": "TFS",
       "eventType": "fire",
@@ -281,7 +632,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T03:51:14.900Z",
       "lastMeaningfulUpdateAt": "2026-09-26T03:55:34.133Z",
-      "lastSeenAt": "2026-09-26T04:12:56.312Z",
+      "lastSeenAt": "2026-09-26T04:18:54.735Z",
       "geography": {
         "text": "Approximate area: (M4P) Central Toronto (Davisville North)",
         "approximate": true,
@@ -294,6 +645,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-20T04:26:30.207Z"
       }
+    },
+    {
+      "id": "TPS-e38f067c2ed552bad1a2cc33",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-26T03:42:42.000Z",
+      "location": "MANNING AVE - CLINTON ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MANNING AVE - CLINTON ST",
+        "coordinates": [
+          43.663828108661306,
+          -79.41718802943348
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
+    },
+    {
+      "id": "TPS-a16a0bd910e8bbda214bf4d5",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-26T03:42:09.000Z",
+      "location": "MERTON ST - BALLIOL ST",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MERTON ST - BALLIOL ST",
+        "coordinates": [
+          43.69817164783117,
+          -79.38647167221784
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T04:18:54.735Z"
     },
     {
       "id": "F26152572",
@@ -328,7 +723,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-26T03:51:14.900Z",
       "lastMeaningfulUpdateAt": "2026-09-26T04:00:49.291Z",
-      "lastSeenAt": "2026-09-26T04:12:56.312Z",
+      "lastSeenAt": "2026-09-26T04:18:54.735Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -382,7 +777,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T03:45:35.568Z",
       "lastMeaningfulUpdateAt": "2026-09-26T03:51:14.900Z",
-      "lastSeenAt": "2026-09-26T04:12:56.312Z",
+      "lastSeenAt": "2026-09-26T04:18:54.735Z",
       "geography": {
         "text": "Approximate area: (M4C) East York (Woodbine Heights)",
         "approximate": true,
@@ -1314,7 +1709,7 @@
       "respondingUnitCount": 9,
       "firstSeenAt": "2026-09-26T03:15:45.800Z",
       "lastMeaningfulUpdateAt": "2026-09-26T03:30:51.747Z",
-      "lastSeenAt": "2026-09-26T04:12:56.312Z",
+      "lastSeenAt": "2026-09-26T04:18:54.735Z",
       "geography": {
         "text": "Beechwood Avenue between Hedgewood Road & Highland Crescent",
         "approximate": false,
@@ -1723,7 +2118,7 @@
       "division": "225",
       "timestamp": "2026-09-26T02:50:45.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -6958,7 +7353,7 @@
       "respondingUnitCount": 16,
       "firstSeenAt": "2026-09-25T22:15:55.589Z",
       "lastMeaningfulUpdateAt": "2026-09-26T03:55:34.133Z",
-      "lastSeenAt": "2026-09-26T04:12:56.312Z",
+      "lastSeenAt": "2026-09-26T04:18:54.735Z",
       "geography": {
         "text": "Wellesley Street between Street Nicholas Street & Bay Street",
         "approximate": false,
@@ -169257,49 +169652,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26148413",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M9B",
-      "division": "445",
-      "timestamp": "2026-09-19T04:14:31.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "445"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-19T04:21:40.115Z",
-      "lastSeenAt": "2026-09-19T04:56:20.626Z",
-      "geography": {
-        "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
-        "approximate": true,
-        "coordinates": [
-          43.6505,
-          -79.5517
-        ],
-        "division": "Division 22",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T04:12:56.312Z",
-      "sourceUpdatedAt": "2026-09-26T04:10:02.000Z",
+      "fetchedAt": "2026-09-26T04:18:54.735Z",
+      "sourceUpdatedAt": "2026-09-26T04:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T04:12:56.312Z",
+      "fetchedAt": "2026-09-26T04:18:54.735Z",
       "status": "ok"
     }
   },
@@ -320161,8 +320523,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-26T04:08:56.769Z",
-      "fetchedAt": "2026-09-26T04:08:56.769Z"
+      "checkedAt": "2026-09-26T04:18:54.735Z",
+      "fetchedAt": "2026-09-26T04:18:54.735Z"
     },
     "transit": {
       "items": [
@@ -324296,14 +324658,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-26T04:08:57.000Z",
+      "sourceUpdatedAt": "2026-09-26T04:18:55.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-26T04:08:56.769Z",
-      "fetchedAt": "2026-09-26T04:08:56.769Z"
+      "checkedAt": "2026-09-26T04:18:54.735Z",
+      "fetchedAt": "2026-09-26T04:18:54.735Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5H": {
+      "text": "Approximate area: (M5H) Downtown Toronto (Richmond / Adelaide / King)",
+      "approximate": true,
+      "coordinates": [
+        43.6496,
+        -79.3833
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "SCARBORO AVE, SC / SCARBELL DR / EUCLID AVE": {
       "text": "Scarboro Avenue between Scarbell Drive & Euclid Avenue",
       "approximate": false,
@@ -325917,18 +326291,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T18:35:47.037Z"
-    },
-    "M5H": {
-      "text": "Approximate area: (M5H) Downtown Toronto (Richmond / Adelaide / King)",
-      "approximate": true,
-      "coordinates": [
-        43.6496,
-        -79.3833
-      ],
-      "division": "Division 52",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "LAIRD DR, EY / LEA AVE / INDUSTRIAL ST": {
       "text": "Laird Drive between Lea Avenue & Industrial Street",
