@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T10:44:51.300Z",
-  "sourceUpdatedAt": "2026-09-26T10:40:02.000Z",
+  "fetchedAt": "2026-09-26T10:45:40.255Z",
+  "sourceUpdatedAt": "2026-09-26T10:45:02.000Z",
   "incidents": [
+    {
+      "id": "F26152690",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "ST JOSEPH ST, TT / BAY ST / ELMSLEY PL",
+      "division": "314",
+      "timestamp": "2026-09-26T10:35:33.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T10:45:40.255Z",
+      "lastSeenAt": "2026-09-26T10:45:40.255Z",
+      "geography": {
+        "text": "Street Joseph Street between Bay Street & Elmsley Place",
+        "approximate": false,
+        "coordinates": [
+          43.6654338,
+          -79.3885905
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T10:45:40.255Z"
+      }
+    },
     {
       "id": "F26152689",
       "source": "TFS",
@@ -15,7 +41,7 @@
       "division": "134",
       "timestamp": "2026-09-26T10:30:55.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -60,7 +86,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T10:35:54.073Z",
-      "lastSeenAt": "2026-09-26T10:44:51.300Z",
+      "lastSeenAt": "2026-09-26T10:45:40.255Z",
       "geography": {
         "text": "Approximate area: (M3N) North York (Jane and Finch)",
         "approximate": true,
@@ -83,7 +109,7 @@
       "division": "131",
       "timestamp": "2026-09-26T10:27:42.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -213,7 +239,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T10:21:04.973Z",
-      "lastSeenAt": "2026-09-26T10:44:51.300Z",
+      "lastSeenAt": "2026-09-26T10:45:40.255Z",
       "geography": {
         "text": "Eglinton Avenue East & Swift Drive",
         "approximate": false,
@@ -236,7 +262,7 @@
       "division": "312",
       "timestamp": "2026-09-26T10:07:51.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -172556,12 +172582,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T10:44:51.300Z",
-      "sourceUpdatedAt": "2026-09-26T10:40:02.000Z",
+      "fetchedAt": "2026-09-26T10:45:40.255Z",
+      "sourceUpdatedAt": "2026-09-26T10:45:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T10:44:51.300Z",
+      "fetchedAt": "2026-09-26T10:45:40.255Z",
       "status": "ok"
     }
   },
@@ -326946,6 +326972,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "ST JOSEPH ST, TT / BAY ST / ELMSLEY PL": {
+      "text": "Street Joseph Street between Bay Street & Elmsley Place",
+      "approximate": false,
+      "coordinates": [
+        43.6654338,
+        -79.3885905
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T10:45:40.255Z"
+    },
     "YONGE ST, TT / ORCHARD VIEW BLVD / HELENDALE AVE": {
       "text": "Yonge Street between Orchard View Boulevard & Helendale Avenue",
       "approximate": false,
