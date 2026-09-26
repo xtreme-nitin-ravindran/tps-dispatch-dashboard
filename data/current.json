@@ -3,9 +3,105 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T05:10:18.845Z",
-  "sourceUpdatedAt": "2026-09-26T05:05:02.000Z",
+  "fetchedAt": "2026-09-26T05:11:29.182Z",
+  "sourceUpdatedAt": "2026-09-26T05:10:02.000Z",
   "incidents": [
+    {
+      "id": "F26152606",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5P",
+      "division": "135",
+      "timestamp": "2026-09-26T05:03:20.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T05:11:29.182Z",
+      "lastSeenAt": "2026-09-26T05:11:29.182Z",
+      "geography": {
+        "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
+        "approximate": true,
+        "coordinates": [
+          43.6966,
+          -79.412
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26152605",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4E",
+      "division": "226",
+      "timestamp": "2026-09-26T05:01:58.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T05:11:29.182Z",
+      "lastSeenAt": "2026-09-26T05:11:29.182Z",
+      "geography": {
+        "text": "Approximate area: (M4E) East Toronto (The Beaches)",
+        "approximate": true,
+        "coordinates": [
+          43.6784,
+          -79.2941
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-fb1432865cd8b27357ec8048",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-26T05:01:55.000Z",
+      "location": "BARBARA HALL PARK TRL - BARBARA HALL PARK TRL",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BARBARA HALL PARK TRL - BARBARA HALL PARK TRL",
+        "coordinates": [
+          43.666698505802216,
+          -79.38134984956254
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T05:11:29.182Z"
+    },
+    {
+      "id": "TPS-8f9745692a4df3cec9e34c6d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT IN PROGRESS",
+      "callTypeCode": "THEPR",
+      "timestamp": "2026-09-26T04:59:46.000Z",
+      "location": "JARVIS ST - ALLAN GARDENS TRL",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "JARVIS ST - ALLAN GARDENS TRL",
+        "coordinates": [
+          43.66242040152412,
+          -79.37670375122408
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T05:11:29.182Z"
+    },
     {
       "id": "F26152604",
       "source": "TFS",
@@ -16,9 +112,50 @@
       "timestamp": "2026-09-26T04:58:47.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "142"
+          ]
+        },
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "11",
+            "14"
+          ]
+        },
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "111"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "143",
+            "144"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "133"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "143"
+          ]
+        }
+      ],
+      "respondingUnitCount": 8,
       "firstSeenAt": "2026-09-26T05:05:28.881Z",
-      "lastSeenAt": "2026-09-26T05:10:18.845Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T05:11:29.182Z",
+      "lastSeenAt": "2026-09-26T05:11:29.182Z",
       "geography": {
         "text": "William Duncan Road between Thomas Mulholland Drive & Maria Iacampo Gardens",
         "approximate": false,
@@ -33,6 +170,50 @@
       }
     },
     {
+      "id": "TPS-9e204110156dd16d07b76fcc",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-26T04:57:35.000Z",
+      "location": "GREENWOOD AVE - BILLINGS AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GREENWOOD AVE - BILLINGS AVE",
+        "coordinates": [
+          43.66964047475042,
+          -79.32650651325079
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T05:11:29.182Z"
+    },
+    {
+      "id": "TPS-636fdc2dba4ac5aa188a4fa8",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-26T04:57:27.000Z",
+      "location": "JANE ST - EGLINTON AVE W",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "JANE ST - EGLINTON AVE W",
+        "coordinates": [
+          43.68447249140483,
+          -79.49881288466511
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T05:11:29.182Z"
+    },
+    {
       "id": "F26152603",
       "source": "TFS",
       "eventType": "fire",
@@ -42,9 +223,19 @@
       "timestamp": "2026-09-26T04:56:08.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "323",
+            "326"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T05:05:28.881Z",
-      "lastSeenAt": "2026-09-26T05:10:18.845Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T05:11:29.182Z",
+      "lastSeenAt": "2026-09-26T05:11:29.182Z",
       "geography": {
         "text": "Approximate location near Coxwell Avenue & Casci Avenue",
         "approximate": true,
@@ -68,9 +259,18 @@
       "timestamp": "2026-09-26T04:55:16.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "314"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T05:05:28.881Z",
-      "lastSeenAt": "2026-09-26T05:10:18.845Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T05:11:29.182Z",
+      "lastSeenAt": "2026-09-26T05:11:29.182Z",
       "geography": {
         "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
         "approximate": true,
@@ -83,6 +283,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-f3007a0431ac178816c74300",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-26T04:55:15.000Z",
+      "location": "KIPLING AVE - FINCH AVE W",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KIPLING AVE - FINCH AVE W",
+        "coordinates": [
+          43.741089572019206,
+          -79.58922306495246
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T05:11:29.182Z"
     },
     {
       "id": "F26152601",
@@ -105,7 +327,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T05:00:28.025Z",
       "lastMeaningfulUpdateAt": "2026-09-26T05:05:28.881Z",
-      "lastSeenAt": "2026-09-26T05:10:18.845Z",
+      "lastSeenAt": "2026-09-26T05:11:29.182Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -118,6 +340,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-046122d2f1d25de88c772ebd",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-26T04:49:55.000Z",
+      "location": "JEROME ST - DUNDAS ST W",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "JEROME ST - DUNDAS ST W",
+        "coordinates": [
+          43.66149902436778,
+          -79.45495751794937
+        ],
+        "division": "Division 11",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T05:11:29.182Z"
     },
     {
       "id": "F26152600",
@@ -139,7 +383,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T04:55:55.205Z",
-      "lastSeenAt": "2026-09-26T05:10:18.845Z",
+      "lastSeenAt": "2026-09-26T05:11:29.182Z",
       "geography": {
         "text": "Middlefield Road between Passmore Avenue & Select Avenue",
         "approximate": false,
@@ -186,6 +430,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-15bf0722c8e22f6041c0149a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSON WITH A KNIFE",
+      "callTypeCode": "PERKN",
+      "timestamp": "2026-09-26T04:47:50.000Z",
+      "location": "JAMESON AVE - KING ST W",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "JAMESON AVE - KING ST W",
+        "coordinates": [
+          43.63692578408837,
+          -79.43725262091455
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T05:11:29.182Z"
+    },
+    {
+      "id": "TPS-ec2e8ff8e1fec06a44790c21",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-26T04:47:19.000Z",
+      "location": "MARSHLYNN AVE - JANE ST",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MARSHLYNN AVE - JANE ST",
+        "coordinates": [
+          43.70447355224308,
+          -79.50423324552794
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T05:11:29.182Z"
+    },
+    {
+      "id": "TPS-6a5e620cdb5431add4ed387c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-26T04:47:18.000Z",
+      "location": "BURNHAMTHORPE RD - REDSTONE PATH",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BURNHAMTHORPE RD - REDSTONE PATH",
+        "coordinates": [
+          43.63920815448781,
+          -79.58434800043761
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T05:11:29.182Z"
     },
     {
       "id": "F26152598",
@@ -265,7 +575,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T04:50:41.995Z",
       "lastMeaningfulUpdateAt": "2026-09-26T04:55:55.205Z",
-      "lastSeenAt": "2026-09-26T05:10:18.845Z",
+      "lastSeenAt": "2026-09-26T05:11:29.182Z",
       "geography": {
         "text": "Victoria Park Avenue & Farmcrest Drive",
         "approximate": false,
@@ -323,7 +633,7 @@
       "division": "231",
       "timestamp": "2026-09-26T04:37:09.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -376,7 +686,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T04:46:55.301Z",
       "lastMeaningfulUpdateAt": "2026-09-26T04:50:41.995Z",
-      "lastSeenAt": "2026-09-26T05:10:18.845Z",
+      "lastSeenAt": "2026-09-26T05:11:29.182Z",
       "geography": {
         "text": "Green Belt Drive & Dallimore Crcl",
         "approximate": false,
@@ -169860,49 +170170,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26148437",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M9B",
-      "division": "445",
-      "timestamp": "2026-09-19T05:10:54.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "445"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-19T05:35:58.676Z",
-      "lastSeenAt": "2026-09-19T06:01:48.437Z",
-      "geography": {
-        "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
-        "approximate": true,
-        "coordinates": [
-          43.6505,
-          -79.5517
-        ],
-        "division": "Division 22",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T05:10:18.845Z",
-      "sourceUpdatedAt": "2026-09-26T05:05:02.000Z",
+      "fetchedAt": "2026-09-26T05:11:29.182Z",
+      "sourceUpdatedAt": "2026-09-26T05:10:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T05:10:18.845Z",
+      "fetchedAt": "2026-09-26T05:11:29.182Z",
       "status": "ok"
     }
   },
@@ -325021,6 +325298,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5P": {
+      "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
+      "approximate": true,
+      "coordinates": [
+        43.6966,
+        -79.412
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4E": {
+      "text": "Approximate area: (M4E) East Toronto (The Beaches)",
+      "approximate": true,
+      "coordinates": [
+        43.6784,
+        -79.2941
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "WILLIAM DUNCAN RD, NY / THOMAS MULHOLLAND DR / MARIA IACAMPO GDNS": {
       "text": "William Duncan Road between Thomas Mulholland Drive & Maria Iacampo Gardens",
       "approximate": false,
@@ -327844,18 +328145,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T09:46:10.490Z"
     },
-    "M5P": {
-      "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
-      "approximate": true,
-      "coordinates": [
-        43.6966,
-        -79.412
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "KING ST, TT / LAMPORT STADIUM PARK TRL / FRASER AVE": {
       "text": "Approximate location near King Street & Fraser Avenue",
       "approximate": true,
@@ -328191,18 +328480,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T04:16:09.161Z"
-    },
-    "M4E": {
-      "text": "Approximate area: (M4E) East Toronto (The Beaches)",
-      "approximate": true,
-      "coordinates": [
-        43.6784,
-        -79.2941
-      ],
-      "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "WELLESLEY ST, TT / DARLING LANE / PARLIAMENT ST": {
       "text": "Wellesley Street between Darling Lane & Parliament Street",
