@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T08:24:24.798Z",
-  "sourceUpdatedAt": "2026-09-26T08:20:01.000Z",
+  "fetchedAt": "2026-09-26T08:25:35.022Z",
+  "sourceUpdatedAt": "2026-09-26T08:25:01.000Z",
   "incidents": [
+    {
+      "id": "F26152654",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M8Z",
+      "division": "433",
+      "timestamp": "2026-09-26T08:16:18.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T08:25:35.022Z",
+      "lastSeenAt": "2026-09-26T08:25:35.022Z",
+      "geography": {
+        "text": "Approximate area: (M8Z) Etobicoke (Mimico NW / The Queensway West / South of Bloor / Kingsway Park South West / Royal York South West)",
+        "approximate": true,
+        "coordinates": [
+          43.6256,
+          -79.5231
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26152652",
       "source": "TFS",
@@ -26,7 +52,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T08:21:20.156Z",
-      "lastSeenAt": "2026-09-26T08:24:24.798Z",
+      "lastSeenAt": "2026-09-26T08:25:35.022Z",
       "geography": {
         "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
         "approximate": true,
@@ -127,7 +153,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T08:11:16.322Z",
       "lastMeaningfulUpdateAt": "2026-09-26T08:15:38.789Z",
-      "lastSeenAt": "2026-09-26T08:24:24.798Z",
+      "lastSeenAt": "2026-09-26T08:25:35.022Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -150,7 +176,7 @@
       "division": "426",
       "timestamp": "2026-09-26T08:00:08.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -257,7 +283,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T08:06:31.949Z",
-      "lastSeenAt": "2026-09-26T08:24:24.798Z",
+      "lastSeenAt": "2026-09-26T08:25:35.022Z",
       "geography": {
         "text": "Islington Avenue between Dixon Road & Sweet Pea Path",
         "approximate": false,
@@ -171162,12 +171188,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T08:24:24.798Z",
-      "sourceUpdatedAt": "2026-09-26T08:20:01.000Z",
+      "fetchedAt": "2026-09-26T08:25:35.022Z",
+      "sourceUpdatedAt": "2026-09-26T08:25:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T08:24:24.798Z",
+      "fetchedAt": "2026-09-26T08:25:35.022Z",
       "status": "ok"
     }
   },
@@ -326210,6 +326236,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M8Z": {
+      "text": "Approximate area: (M8Z) Etobicoke (Mimico NW / The Queensway West / South of Bloor / Kingsway Park South West / Royal York South West)",
+      "approximate": true,
+      "coordinates": [
+        43.6256,
+        -79.5231
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M8V": {
       "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
       "approximate": true,
@@ -327196,18 +327234,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T02:30:53.011Z"
-    },
-    "M8Z": {
-      "text": "Approximate area: (M8Z) Etobicoke (Mimico NW / The Queensway West / South of Bloor / Kingsway Park South West / Royal York South West)",
-      "approximate": true,
-      "coordinates": [
-        43.6256,
-        -79.5231
-      ],
-      "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "ALNESS ST, NY / MARTIN ROSS AVE / SUPERTEST RD": {
       "text": "Alness Street between Martin Ross Avenue & Supertest Road",
