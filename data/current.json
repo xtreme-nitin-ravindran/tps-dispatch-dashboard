@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T14:40:17.383Z",
-  "sourceUpdatedAt": "2026-09-26T14:35:01.000Z",
+  "fetchedAt": "2026-09-26T14:41:36.836Z",
+  "sourceUpdatedAt": "2026-09-26T14:40:02.000Z",
   "incidents": [
+    {
+      "id": "F26152763",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "LOGAN AVE, TT / EASTERN AVE / LN N EASTERN E LOGAN",
+      "division": "324",
+      "timestamp": "2026-09-26T14:34:53.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T14:41:36.836Z",
+      "lastSeenAt": "2026-09-26T14:41:36.836Z",
+      "geography": {
+        "text": "Logan Avenue between Eastern Avenue & Lane North Eastern East Logan",
+        "approximate": false,
+        "coordinates": [
+          43.65806725,
+          -79.34147055
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T14:41:36.836Z"
+      }
+    },
     {
       "id": "F26152762",
       "source": "TFS",
@@ -15,7 +41,7 @@
       "division": "415",
       "timestamp": "2026-09-26T14:26:13.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -89,7 +115,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T14:31:07.110Z",
       "lastMeaningfulUpdateAt": "2026-09-26T14:36:37.015Z",
-      "lastSeenAt": "2026-09-26T14:40:17.383Z",
+      "lastSeenAt": "2026-09-26T14:41:36.836Z",
       "geography": {
         "text": "Lawrence Avenue East & Greencrest Crct",
         "approximate": false,
@@ -146,7 +172,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T14:31:07.110Z",
       "lastMeaningfulUpdateAt": "2026-09-26T14:36:37.015Z",
-      "lastSeenAt": "2026-09-26T14:40:17.383Z",
+      "lastSeenAt": "2026-09-26T14:41:36.836Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -194,7 +220,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-26T14:31:07.110Z",
       "lastMeaningfulUpdateAt": "2026-09-26T14:36:37.015Z",
-      "lastSeenAt": "2026-09-26T14:40:17.383Z",
+      "lastSeenAt": "2026-09-26T14:41:36.836Z",
       "geography": {
         "text": "Sheppard Avenue between Blairville Road & Faywood Boulevard",
         "approximate": false,
@@ -217,7 +243,7 @@
       "division": "412",
       "timestamp": "2026-09-26T14:22:49.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -252,7 +278,7 @@
       "division": "235",
       "timestamp": "2026-09-26T14:17:51.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -502,7 +528,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-26T14:11:28.930Z",
       "lastMeaningfulUpdateAt": "2026-09-26T14:21:07.220Z",
-      "lastSeenAt": "2026-09-26T14:40:17.383Z",
+      "lastSeenAt": "2026-09-26T14:41:36.836Z",
       "geography": {
         "text": "Middlefield Road between Passmore Avenue & Select Avenue",
         "approximate": false,
@@ -678,7 +704,7 @@
       ],
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-26T14:05:29.670Z",
-      "lastSeenAt": "2026-09-26T14:40:17.383Z",
+      "lastSeenAt": "2026-09-26T14:41:36.836Z",
       "geography": {
         "text": "Nairn Avenue between Chudleigh Road & Kitchener Avenue",
         "approximate": false,
@@ -3384,7 +3410,7 @@
       "respondingUnitCount": 20,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-26T14:16:35.036Z",
-      "lastSeenAt": "2026-09-26T14:40:17.383Z",
+      "lastSeenAt": "2026-09-26T14:41:36.836Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -176902,12 +176928,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T14:40:17.383Z",
-      "sourceUpdatedAt": "2026-09-26T14:35:01.000Z",
+      "fetchedAt": "2026-09-26T14:41:36.836Z",
+      "sourceUpdatedAt": "2026-09-26T14:40:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T14:40:17.383Z",
+      "fetchedAt": "2026-09-26T14:41:36.836Z",
       "status": "ok"
     }
   },
@@ -331071,6 +331097,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "LOGAN AVE, TT / EASTERN AVE / LN N EASTERN E LOGAN": {
+      "text": "Logan Avenue between Eastern Avenue & Lane North Eastern East Logan",
+      "approximate": false,
+      "coordinates": [
+        43.65806725,
+        -79.34147055
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T14:41:36.836Z"
+    },
     "M9W": {
       "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
       "approximate": true,
