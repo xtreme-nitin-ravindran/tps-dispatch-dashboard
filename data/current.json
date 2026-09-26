@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T12:13:43.919Z",
-  "sourceUpdatedAt": "2026-09-26T12:10:01.000Z",
+  "fetchedAt": "2026-09-26T12:15:56.991Z",
+  "sourceUpdatedAt": "2026-09-26T12:15:01.000Z",
   "incidents": [
     {
       "id": "TPS-a2e7b41198162bdb9bf904a8",
@@ -27,6 +27,32 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-26T12:11:32.068Z"
+    },
+    {
+      "id": "F26152710",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "EGLINTON AVE, SC / ROSEMOUNT DR / IONVIEW RD",
+      "division": "221",
+      "timestamp": "2026-09-26T12:07:39.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-26T12:15:56.991Z",
+      "lastSeenAt": "2026-09-26T12:15:56.991Z",
+      "geography": {
+        "text": "Eglinton Avenue between Rosemount Drive & Ionview Road",
+        "approximate": false,
+        "coordinates": [
+          43.731175199999996,
+          -79.27256485000001
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-23T00:42:19.839Z"
+      }
     },
     {
       "id": "TPS-8f4ba5dd9fce2b81f0d5e9b1",
@@ -60,9 +86,24 @@
       "timestamp": "2026-09-26T12:04:17.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "125"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "235"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T12:10:33.439Z",
-      "lastSeenAt": "2026-09-26T12:13:43.919Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T12:15:56.991Z",
+      "lastSeenAt": "2026-09-26T12:15:56.991Z",
       "geography": {
         "text": "Wakunda Place & O'connor Drive",
         "approximate": false,
@@ -86,9 +127,18 @@
       "timestamp": "2026-09-26T12:04:10.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "135"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T12:10:33.439Z",
-      "lastSeenAt": "2026-09-26T12:13:43.919Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T12:15:56.991Z",
+      "lastSeenAt": "2026-09-26T12:15:56.991Z",
       "geography": {
         "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
         "approximate": true,
@@ -134,9 +184,24 @@
       "timestamp": "2026-09-26T12:02:29.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "245"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "115"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T12:10:33.439Z",
-      "lastSeenAt": "2026-09-26T12:13:43.919Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T12:15:56.991Z",
+      "lastSeenAt": "2026-09-26T12:15:56.991Z",
       "geography": {
         "text": "Pharmacy Avenue between Sheppard Avenue East & 2020 Pharmacy Avenue",
         "approximate": false,
@@ -170,7 +235,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T12:07:06.695Z",
-      "lastSeenAt": "2026-09-26T12:13:43.919Z",
+      "lastSeenAt": "2026-09-26T12:15:56.991Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -248,7 +313,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T12:07:06.695Z",
-      "lastSeenAt": "2026-09-26T12:13:43.919Z",
+      "lastSeenAt": "2026-09-26T12:15:56.991Z",
       "geography": {
         "text": "Approximate area: (M1N) Scarborough (Birch Cliff / Cliffside West)",
         "approximate": true,
@@ -311,7 +376,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-26T12:07:06.695Z",
-      "lastSeenAt": "2026-09-26T12:13:43.919Z",
+      "lastSeenAt": "2026-09-26T12:15:56.991Z",
       "geography": {
         "text": "Mason Road between Adanac Drive & Eglinton Avenue East",
         "approximate": false,
@@ -367,13 +432,22 @@
         {
           "type": "Command Unit",
           "numbers": [
+            "22",
+            "30",
             "31",
             "32"
           ]
         },
         {
+          "type": "Hazmat Unit",
+          "numbers": [
+            "145"
+          ]
+        },
+        {
           "type": "Ladder Truck",
           "numbers": [
+            "226",
             "325",
             "325"
           ]
@@ -384,7 +458,8 @@
             "224",
             "226",
             "323",
-            "324"
+            "324",
+            "332"
           ]
         },
         {
@@ -401,10 +476,10 @@
           ]
         }
       ],
-      "respondingUnitCount": 12,
+      "respondingUnitCount": 17,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T12:10:33.439Z",
-      "lastSeenAt": "2026-09-26T12:13:43.919Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T12:15:56.991Z",
+      "lastSeenAt": "2026-09-26T12:15:56.991Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -174134,12 +174209,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T12:13:43.919Z",
-      "sourceUpdatedAt": "2026-09-26T12:10:01.000Z",
+      "fetchedAt": "2026-09-26T12:15:56.991Z",
+      "sourceUpdatedAt": "2026-09-26T12:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T12:13:43.919Z",
+      "fetchedAt": "2026-09-26T12:15:56.991Z",
       "status": "ok"
     }
   },
@@ -323770,8 +323845,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-26T12:09:13.098Z",
-      "fetchedAt": "2026-09-26T12:09:13.098Z"
+      "checkedAt": "2026-09-26T12:15:56.991Z",
+      "fetchedAt": "2026-09-26T12:15:56.991Z"
     },
     "transit": {
       "items": [
@@ -328185,14 +328260,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-26T12:09:14.000Z",
+      "sourceUpdatedAt": "2026-09-26T12:15:57.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-26T12:09:13.098Z",
-      "fetchedAt": "2026-09-26T12:09:13.098Z"
+      "checkedAt": "2026-09-26T12:15:56.991Z",
+      "fetchedAt": "2026-09-26T12:15:56.991Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "EGLINTON AVE, SC / ROSEMOUNT DR / IONVIEW RD": {
+      "text": "Eglinton Avenue between Rosemount Drive & Ionview Road",
+      "approximate": false,
+      "coordinates": [
+        43.731175199999996,
+        -79.27256485000001
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-23T00:42:19.839Z"
+    },
     "WAKUNDA PL, NY / O'CONNOR DR /": {
       "text": "Wakunda Place & O'connor Drive",
       "approximate": false,
@@ -334942,18 +335029,6 @@
         -79.4518461
       ],
       "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-23T00:42:19.839Z"
-    },
-    "EGLINTON AVE, SC / ROSEMOUNT DR / IONVIEW RD": {
-      "text": "Eglinton Avenue between Rosemount Drive & Ionview Road",
-      "approximate": false,
-      "coordinates": [
-        43.731175199999996,
-        -79.27256485000001
-      ],
-      "division": "Division 41",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-23T00:42:19.839Z"
