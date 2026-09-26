@@ -3,9 +3,153 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T07:30:03.202Z",
-  "sourceUpdatedAt": "2026-09-26T07:25:02.000Z",
+  "fetchedAt": "2026-09-26T07:31:19.564Z",
+  "sourceUpdatedAt": "2026-09-26T07:30:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-cd915d652aa4970efd727d4c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-26T07:28:48.000Z",
+      "location": "ST CLAIR AVE W - DUFFERIN ST",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ST CLAIR AVE W - DUFFERIN ST",
+        "coordinates": [
+          43.67802091468211,
+          -79.4430868175514
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T07:31:19.564Z"
+    },
+    {
+      "id": "F26152642",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire Alarm - Check Call",
+      "location": "KINGSTON RD, SC / MIDLAND AVE / CHINE DR",
+      "division": "223",
+      "timestamp": "2026-09-26T07:23:42.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "223"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T07:31:19.564Z",
+      "lastSeenAt": "2026-09-26T07:31:19.564Z",
+      "geography": {
+        "text": "Kingston Road between Midland Avenue & Chine Drive",
+        "approximate": false,
+        "coordinates": [
+          43.712617550000004,
+          -79.24663015
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T07:31:19.564Z"
+      }
+    },
+    {
+      "id": "TPS-92f2fdadf42d7abbf1d0e87a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-26T07:21:55.000Z",
+      "location": "MCGREGOR RD - LAWRENCE AVE E",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MCGREGOR RD - LAWRENCE AVE E",
+        "coordinates": [
+          43.747514252332344,
+          -79.28482491055821
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T07:31:19.564Z"
+    },
+    {
+      "id": "TPS-ca68afc585be9d1ef6939724",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-26T07:19:54.000Z",
+      "location": " - ",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": " - ",
+        "coordinates": [
+          43.77367971935504,
+          -79.33206276500428
+        ],
+        "division": "Division 33",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T07:31:19.564Z"
+    },
+    {
+      "id": "TPS-33d25a9bb10a2e5019f09474",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-26T07:19:09.000Z",
+      "location": "CHURCH ST - GOULD ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CHURCH ST - GOULD ST",
+        "coordinates": [
+          43.65820689731066,
+          -79.37784204906069
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T07:31:19.564Z"
+    },
+    {
+      "id": "TPS-72c0e6716cf314d80f9e636c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-26T07:15:25.000Z",
+      "location": "HUMBER HILL AVE - HOWLAND ST",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HUMBER HILL AVE - HOWLAND ST",
+        "coordinates": [
+          43.664304636967444,
+          -79.5021524020291
+        ],
+        "division": "Division 11",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T07:31:19.564Z"
+    },
     {
       "id": "F26152640",
       "source": "TFS",
@@ -26,7 +170,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T07:26:39.647Z",
-      "lastSeenAt": "2026-09-26T07:30:03.202Z",
+      "lastSeenAt": "2026-09-26T07:31:19.564Z",
       "geography": {
         "text": "Approximate area: (M1X) Scarborough (Upper Rouge)",
         "approximate": true,
@@ -39,6 +183,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-4132c94209713d6a2a532d45",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-26T07:12:57.000Z",
+      "location": "OSSINGTON AVE - CONCORD AVE",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "OSSINGTON AVE - CONCORD AVE",
+        "coordinates": [
+          43.65413229999004,
+          -79.42392092535836
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T07:31:19.564Z"
     },
     {
       "id": "F26152639",
@@ -66,7 +232,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T07:26:39.647Z",
-      "lastSeenAt": "2026-09-26T07:30:03.202Z",
+      "lastSeenAt": "2026-09-26T07:31:19.564Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -86,7 +252,7 @@
       "division": "313",
       "timestamp": "2026-09-26T07:10:53.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -112,6 +278,28 @@
       }
     },
     {
+      "id": "TPS-3f744918b70c195118914ac3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "NOISY PARTY",
+      "callTypeCode": "NOIPA",
+      "timestamp": "2026-09-26T07:10:42.000Z",
+      "location": "OAKWOOD AVE - GLENHOLME AVE",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "OAKWOOD AVE - GLENHOLME AVE",
+        "coordinates": [
+          43.69606556636643,
+          -79.4449890880939
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T07:31:19.564Z"
+    },
+    {
       "id": "F26152637",
       "source": "TFS",
       "eventType": "fire",
@@ -131,7 +319,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T07:26:39.647Z",
-      "lastSeenAt": "2026-09-26T07:30:03.202Z",
+      "lastSeenAt": "2026-09-26T07:31:19.564Z",
       "geography": {
         "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
         "approximate": true,
@@ -144,6 +332,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-e84da0d5a9afd85d98f3902d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FIGHT",
+      "callTypeCode": "FIG",
+      "timestamp": "2026-09-26T07:09:01.000Z",
+      "location": "QUEEN ST E - BROADVIEW AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "QUEEN ST E - BROADVIEW AVE",
+        "coordinates": [
+          43.65887789870206,
+          -79.34983557097203
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-26T07:31:19.564Z"
     },
     {
       "id": "F26152636",
@@ -3310,7 +3520,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-26T06:30:07.816Z"
+        "checkedAt": "2026-09-26T07:31:19.564Z"
       }
     },
     {
@@ -170643,12 +170853,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T07:30:03.202Z",
-      "sourceUpdatedAt": "2026-09-26T07:25:02.000Z",
+      "fetchedAt": "2026-09-26T07:31:19.564Z",
+      "sourceUpdatedAt": "2026-09-26T07:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T07:30:03.202Z",
+      "fetchedAt": "2026-09-26T07:31:19.564Z",
       "status": "ok"
     }
   },
@@ -325691,6 +325901,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "KINGSTON RD, SC / MIDLAND AVE / CHINE DR": {
+      "text": "Kingston Road between Midland Avenue & Chine Drive",
+      "approximate": false,
+      "coordinates": [
+        43.712617550000004,
+        -79.24663015
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T07:31:19.564Z"
+    },
     "M1X": {
       "text": "Approximate area: (M1X) Scarborough (Upper Rouge)",
       "approximate": true,
@@ -326247,7 +326469,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-26T06:30:07.816Z"
+      "checkedAt": "2026-09-26T07:31:19.564Z"
     },
     "WEST LODGE AVE, TT / SEAFORTH AVE / WEST LODGE PARK TRL": {
       "text": "West Lodge Avenue between Seaforth Avenue & West Lodge Park Trl",
