@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T11:15:11.836Z",
-  "sourceUpdatedAt": "2026-09-26T11:10:01.000Z",
+  "fetchedAt": "2026-09-26T11:16:14.739Z",
+  "sourceUpdatedAt": "2026-09-26T11:15:01.000Z",
   "incidents": [
     {
       "id": "TPS-29d71f74eaa39641a3650713",
@@ -38,9 +38,19 @@
       "timestamp": "2026-09-26T11:03:22.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "421",
+            "443"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T11:10:31.934Z",
-      "lastSeenAt": "2026-09-26T11:15:11.836Z",
+      "lastMeaningfulUpdateAt": "2026-09-26T11:16:14.739Z",
+      "lastSeenAt": "2026-09-26T11:16:14.739Z",
       "geography": {
         "text": "North Drive between Edenbridge Drive & Woodcrest Drive",
         "approximate": false,
@@ -63,7 +73,7 @@
       "division": "325",
       "timestamp": "2026-09-26T11:02:34.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-26T11:10:31.934Z",
       "lastSeenAt": "2026-09-26T11:15:11.836Z",
@@ -454,7 +464,7 @@
       "division": "314",
       "timestamp": "2026-09-26T10:35:33.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -173097,12 +173107,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T11:15:11.836Z",
-      "sourceUpdatedAt": "2026-09-26T11:10:01.000Z",
+      "fetchedAt": "2026-09-26T11:16:14.739Z",
+      "sourceUpdatedAt": "2026-09-26T11:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T11:15:11.836Z",
+      "fetchedAt": "2026-09-26T11:16:14.739Z",
       "status": "ok"
     }
   },
@@ -322733,8 +322743,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-26T11:10:31.934Z",
-      "fetchedAt": "2026-09-26T11:10:31.934Z"
+      "checkedAt": "2026-09-26T11:16:14.739Z",
+      "fetchedAt": "2026-09-26T11:16:14.739Z"
     },
     "transit": {
       "items": [
@@ -327168,10 +327178,10 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-26T11:10:32.000Z",
+      "sourceUpdatedAt": "2026-09-26T11:16:15.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-26T11:10:31.934Z",
-      "fetchedAt": "2026-09-26T11:10:31.934Z"
+      "checkedAt": "2026-09-26T11:16:14.739Z",
+      "fetchedAt": "2026-09-26T11:16:14.739Z"
     }
   },
   "updatedBy": "concourse",
