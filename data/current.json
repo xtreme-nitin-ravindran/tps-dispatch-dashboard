@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-26T10:39:17.722Z",
-  "sourceUpdatedAt": "2026-09-26T10:35:02.000Z",
+  "fetchedAt": "2026-09-26T10:40:50.826Z",
+  "sourceUpdatedAt": "2026-09-26T10:40:02.000Z",
   "incidents": [
+    {
+      "id": "F26152689",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Check Call",
+      "location": "YONGE ST, TT / ORCHARD VIEW BLVD / HELENDALE AVE",
+      "division": "134",
+      "timestamp": "2026-09-26T10:30:55.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "134"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-26T10:40:50.826Z",
+      "lastSeenAt": "2026-09-26T10:40:50.826Z",
+      "geography": {
+        "text": "Yonge Street between Orchard View Boulevard & Helendale Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.7086678,
+          -79.3987508
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-26T10:40:50.826Z"
+      }
+    },
     {
       "id": "F26152688",
       "source": "TFS",
@@ -26,7 +60,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T10:35:54.073Z",
-      "lastSeenAt": "2026-09-26T10:39:17.722Z",
+      "lastSeenAt": "2026-09-26T10:40:50.826Z",
       "geography": {
         "text": "Approximate area: (M3N) North York (Jane and Finch)",
         "approximate": true,
@@ -60,7 +94,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T10:35:54.073Z",
-      "lastSeenAt": "2026-09-26T10:39:17.722Z",
+      "lastSeenAt": "2026-09-26T10:40:50.826Z",
       "geography": {
         "text": "Approximate area: (M5M) North York (Bedford Park / Lawrence Park West / Lawrence Manor East)",
         "approximate": true,
@@ -83,7 +117,7 @@
       "division": "244",
       "timestamp": "2026-09-26T10:14:49.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -179,7 +213,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-26T10:21:04.973Z",
-      "lastSeenAt": "2026-09-26T10:39:17.722Z",
+      "lastSeenAt": "2026-09-26T10:40:50.826Z",
       "geography": {
         "text": "Eglinton Avenue East & Swift Drive",
         "approximate": false,
@@ -214,7 +248,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-26T10:21:04.973Z",
-      "lastSeenAt": "2026-09-26T10:39:17.722Z",
+      "lastSeenAt": "2026-09-26T10:40:50.826Z",
       "geography": {
         "text": "Prince Arthur Avenue between Bedford Road & Street George Street",
         "approximate": false,
@@ -172522,12 +172556,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-26T10:39:17.722Z",
-      "sourceUpdatedAt": "2026-09-26T10:35:02.000Z",
+      "fetchedAt": "2026-09-26T10:40:50.826Z",
+      "sourceUpdatedAt": "2026-09-26T10:40:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-26T10:39:17.722Z",
+      "fetchedAt": "2026-09-26T10:40:50.826Z",
       "status": "ok"
     }
   },
@@ -326912,6 +326946,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "YONGE ST, TT / ORCHARD VIEW BLVD / HELENDALE AVE": {
+      "text": "Yonge Street between Orchard View Boulevard & Helendale Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.7086678,
+        -79.3987508
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-26T10:40:50.826Z"
+    },
     "M3N": {
       "text": "Approximate area: (M3N) North York (Jane and Finch)",
       "approximate": true,
