@@ -3,9 +3,127 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T15:50:20.216Z",
-  "sourceUpdatedAt": "2026-09-27T15:45:01.000Z",
+  "fetchedAt": "2026-09-27T15:51:18.844Z",
+  "sourceUpdatedAt": "2026-09-27T15:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26153411",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4X",
+      "division": "313",
+      "timestamp": "2026-09-27T15:44:02.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T15:51:18.844Z",
+      "lastSeenAt": "2026-09-27T15:51:18.844Z",
+      "geography": {
+        "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
+        "approximate": true,
+        "coordinates": [
+          43.6684,
+          -79.3689
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26153412",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Rescue - Elevator",
+      "location": "PROVOST DR, NY / ESTHER SHINER BLVD /",
+      "division": "116",
+      "timestamp": "2026-09-27T15:43:58.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T15:51:18.844Z",
+      "lastSeenAt": "2026-09-27T15:51:18.844Z",
+      "geography": {
+        "text": "Provost Drive & Esther Shiner Boulevard",
+        "approximate": false,
+        "coordinates": [
+          43.7683403,
+          -79.37048
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-27T15:51:18.844Z"
+      }
+    },
+    {
+      "id": "TPS-b610998504da9aff5d32cc29",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-27T15:43:34.000Z",
+      "location": "401 C W WILSON AV RAMP - BATHURST ST",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "401 C W WILSON AV RAMP - BATHURST ST",
+        "coordinates": [
+          43.73737106234383,
+          -79.43400061001351
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:51:18.844Z"
+    },
+    {
+      "id": "TPS-60f8f53a4563a7c5b77488be",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-27T15:43:31.000Z",
+      "location": "STEELES AVE E - BESTVIEW DR",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "STEELES AVE E - BESTVIEW DR",
+        "coordinates": [
+          43.8061013919992,
+          -79.38339568190251
+        ],
+        "division": "Division 33",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:51:18.844Z"
+    },
+    {
+      "id": "TPS-f6e11b46869376dac9fb86de",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "BREAK & ENTER",
+      "callTypeCode": "BREEN",
+      "timestamp": "2026-09-27T15:41:14.000Z",
+      "location": "ST CLAIR AVE W - SHORNCLIFFE AVE",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ST CLAIR AVE W - SHORNCLIFFE AVE",
+        "coordinates": [
+          43.68508303045149,
+          -79.40936934509186
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:51:18.844Z"
+    },
     {
       "id": "F26153410",
       "source": "TFS",
@@ -16,9 +134,18 @@
       "timestamp": "2026-09-27T15:38:52.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "142"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T15:45:34.191Z",
-      "lastSeenAt": "2026-09-27T15:50:20.216Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T15:51:18.844Z",
+      "lastSeenAt": "2026-09-27T15:51:18.844Z",
       "geography": {
         "text": "Approximate area: (M3N) North York (Jane and Finch)",
         "approximate": true,
@@ -31,6 +158,138 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-193681884187287fe2aa682d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT JUST OCCURRED",
+      "callTypeCode": "THEJU",
+      "timestamp": "2026-09-27T15:37:34.000Z",
+      "location": "CINEMART DR - SHADOWOOD CRT",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CINEMART DR - SHADOWOOD CRT",
+        "coordinates": [
+          43.79744149348966,
+          -79.20481856927056
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:51:18.844Z"
+    },
+    {
+      "id": "TPS-447b4760d8f46d3febd2e68a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-27T15:33:09.000Z",
+      "location": "MCNICOLL AVE - PURCELL SQ",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MCNICOLL AVE - PURCELL SQ",
+        "coordinates": [
+          43.81645469394736,
+          -79.30503860038854
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:51:18.844Z"
+    },
+    {
+      "id": "TPS-32423271f9fa16d3af3458f1",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-27T15:32:02.000Z",
+      "location": "GAMBLE AVE - TORRENS AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GAMBLE AVE - TORRENS AVE",
+        "coordinates": [
+          43.69135960505814,
+          -79.34954071761383
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:51:18.844Z"
+    },
+    {
+      "id": "TPS-75ca2751b2879a57a9cbc1cb",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-27T15:32:00.000Z",
+      "location": "JOHN GARLAND BLVD - RAMPART RD",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "JOHN GARLAND BLVD - RAMPART RD",
+        "coordinates": [
+          43.73201827690042,
+          -79.5894134692479
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:51:18.844Z"
+    },
+    {
+      "id": "TPS-6be0bb29d770b8c43fb7f94e",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-27T15:30:51.000Z",
+      "location": "PARK ST - AYLESWORTH AVE",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "PARK ST - AYLESWORTH AVE",
+        "coordinates": [
+          43.71377230504495,
+          -79.2492610127287
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:51:18.844Z"
+    },
+    {
+      "id": "TPS-20022eac50c96828a6bf797f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING ELDERLY",
+      "callTypeCode": "MISEL",
+      "timestamp": "2026-09-27T15:30:20.000Z",
+      "location": "JOHN ST - KING ST W",
+      "division": "SESU1",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "JOHN ST - KING ST W",
+        "coordinates": [
+          43.64659898570262,
+          -79.38972473866458
+        ],
+        "division": "SESU1",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:51:18.844Z"
     },
     {
       "id": "F26153408",
@@ -67,6 +326,28 @@
       }
     },
     {
+      "id": "TPS-f44ed5b00fa834cbf51aa0f3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "BREAK & ENTER",
+      "callTypeCode": "BREEN",
+      "timestamp": "2026-09-27T15:28:38.000Z",
+      "location": "GAIETY DR - LAWRENCE AVE E",
+      "division": "Division 43",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GAIETY DR - LAWRENCE AVE E",
+        "coordinates": [
+          43.75557488438989,
+          -79.23899149946106
+        ],
+        "division": "Division 43",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:51:18.844Z"
+    },
+    {
       "id": "F26153407",
       "source": "TFS",
       "eventType": "fire",
@@ -93,7 +374,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T15:31:04.227Z",
       "lastMeaningfulUpdateAt": "2026-09-27T15:35:39.674Z",
-      "lastSeenAt": "2026-09-27T15:50:20.216Z",
+      "lastSeenAt": "2026-09-27T15:51:18.844Z",
       "geography": {
         "text": "Steeles Avenue East & Bestview Drive",
         "approximate": false,
@@ -106,6 +387,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-27T15:31:04.227Z"
       }
+    },
+    {
+      "id": "TPS-c057cc68e7c466f073ee7fbe",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-27T15:24:52.000Z",
+      "location": "GALLOWAY RD - ANDOVER CRES",
+      "division": "Division 43",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GALLOWAY RD - ANDOVER CRES",
+        "coordinates": [
+          43.76650299357238,
+          -79.19486880585487
+        ],
+        "division": "Division 43",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:51:18.844Z"
     },
     {
       "id": "F26153406",
@@ -1080,6 +1383,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-23T21:07:10.160Z"
       }
+    },
+    {
+      "id": "TPS-cf3ac586d3ccfef79e3e3669",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DAMAGE",
+      "callTypeCode": "DAM",
+      "timestamp": "2026-09-27T14:32:53.000Z",
+      "location": "LN N GERRARD E REDWOOD - WALPOLE AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN N GERRARD E REDWOOD - WALPOLE AVE",
+        "coordinates": [
+          43.6743071845949,
+          -79.32820701645097
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:51:18.844Z"
     },
     {
       "id": "TPS-01c7172e59d4ef4d1456a6b0",
@@ -12538,6 +12863,7 @@
           "numbers": [
             "30",
             "31",
+            "32",
             "32"
           ]
         },
@@ -12577,10 +12903,10 @@
           ]
         }
       ],
-      "respondingUnitCount": 19,
+      "respondingUnitCount": 20,
       "firstSeenAt": "2026-09-27T03:05:07.090Z",
-      "lastMeaningfulUpdateAt": "2026-09-27T14:05:28.171Z",
-      "lastSeenAt": "2026-09-27T15:50:20.216Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T15:51:18.844Z",
+      "lastSeenAt": "2026-09-27T15:51:18.844Z",
       "geography": {
         "text": "Woodycrest Avenue between Gertrude Place & Selkirk Street",
         "approximate": false,
@@ -188411,12 +188737,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T15:50:20.216Z",
-      "sourceUpdatedAt": "2026-09-27T15:45:01.000Z",
+      "fetchedAt": "2026-09-27T15:51:18.844Z",
+      "sourceUpdatedAt": "2026-09-27T15:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T15:50:20.216Z",
+      "fetchedAt": "2026-09-27T15:51:18.844Z",
       "status": "ok"
     }
   },
@@ -341300,6 +341626,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4X": {
+      "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
+      "approximate": true,
+      "coordinates": [
+        43.6684,
+        -79.3689
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "PROVOST DR, NY / ESTHER SHINER BLVD /": {
+      "text": "Provost Drive & Esther Shiner Boulevard",
+      "approximate": false,
+      "coordinates": [
+        43.7683403,
+        -79.37048
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-27T15:51:18.844Z"
+    },
     "M3N": {
       "text": "Approximate area: (M3N) North York (Jane and Finch)",
       "approximate": true,
@@ -342424,18 +342774,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T00:26:50.119Z"
-    },
-    "M4X": {
-      "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
-      "approximate": true,
-      "coordinates": [
-        43.6684,
-        -79.3689
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M1L": {
       "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
