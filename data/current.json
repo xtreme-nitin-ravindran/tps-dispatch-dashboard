@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T14:55:35.904Z",
+  "fetchedAt": "2026-09-27T14:56:52.871Z",
   "sourceUpdatedAt": "2026-09-27T14:55:01.000Z",
   "incidents": [
     {
@@ -33,7 +33,7 @@
       ],
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-27T14:55:35.904Z",
-      "lastSeenAt": "2026-09-27T14:55:35.904Z",
+      "lastSeenAt": "2026-09-27T14:56:52.871Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -86,7 +86,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T14:51:48.863Z",
-      "lastSeenAt": "2026-09-27T14:55:35.904Z",
+      "lastSeenAt": "2026-09-27T14:56:52.871Z",
       "geography": {
         "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
         "approximate": true,
@@ -208,7 +208,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T14:45:17.578Z",
-      "lastSeenAt": "2026-09-27T14:55:35.904Z",
+      "lastSeenAt": "2026-09-27T14:56:52.871Z",
       "geography": {
         "text": "Approximate area: (M2K) North York (Bayview Village)",
         "approximate": true,
@@ -283,7 +283,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-27T14:41:11.566Z",
       "lastMeaningfulUpdateAt": "2026-09-27T14:45:17.578Z",
-      "lastSeenAt": "2026-09-27T14:55:35.904Z",
+      "lastSeenAt": "2026-09-27T14:56:52.871Z",
       "geography": {
         "text": "Fernwood Park Avenue between Fir Avenue & Hazel Avenue",
         "approximate": false,
@@ -318,7 +318,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T14:41:11.566Z",
       "lastMeaningfulUpdateAt": "2026-09-27T14:45:17.578Z",
-      "lastSeenAt": "2026-09-27T14:55:35.904Z",
+      "lastSeenAt": "2026-09-27T14:56:52.871Z",
       "geography": {
         "text": "Weston Road & Lawrence Avenue West",
         "approximate": false,
@@ -11831,7 +11831,7 @@
       "respondingUnitCount": 19,
       "firstSeenAt": "2026-09-27T03:05:07.090Z",
       "lastMeaningfulUpdateAt": "2026-09-27T14:05:28.171Z",
-      "lastSeenAt": "2026-09-27T14:55:35.904Z",
+      "lastSeenAt": "2026-09-27T14:56:52.871Z",
       "geography": {
         "text": "Woodycrest Avenue between Gertrude Place & Selkirk Street",
         "approximate": false,
@@ -188346,12 +188346,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T14:55:35.904Z",
+      "fetchedAt": "2026-09-27T14:56:52.871Z",
       "sourceUpdatedAt": "2026-09-27T14:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T14:55:35.904Z",
+      "fetchedAt": "2026-09-27T14:56:52.871Z",
       "status": "ok"
     }
   },
@@ -337003,8 +337003,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-27T14:51:48.863Z",
-      "fetchedAt": "2026-09-27T14:51:48.863Z"
+      "checkedAt": "2026-09-27T14:56:52.871Z",
+      "fetchedAt": "2026-09-27T14:56:52.871Z"
     },
     "transit": {
       "items": [
@@ -338424,6 +338424,66 @@
             {
               "start": 1790395140000,
               "end": 1790586000000
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "77037",
+          "title": "52 Lawrence West: Detour eastbound via Weston Rd, Denison Ave and Jane St due to a collision.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "52"
+          ],
+          "stopIds": [
+            "5414",
+            "5397",
+            "5395",
+            "2824"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "52",
+              "stopId": "5414",
+              "coordinates": [
+                43.699921,
+                -79.516784
+              ],
+              "name": "Lawrence Ave West at Weston Rd"
+            },
+            {
+              "routeId": "52",
+              "stopId": "5397",
+              "coordinates": [
+                43.701092,
+                -79.511712
+              ],
+              "name": "Lawrence Ave West at Ralph St - Weston GO Station"
+            },
+            {
+              "routeId": "52",
+              "stopId": "5395",
+              "coordinates": [
+                43.701855,
+                -79.508389
+              ],
+              "name": "Lawrence Ave West at Pine St"
+            },
+            {
+              "routeId": "52",
+              "stopId": "2824",
+              "coordinates": [
+                43.702738,
+                -79.504198
+              ],
+              "name": "Lawrence Ave West at Jane St"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790520855000,
+              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -341003,10 +341063,10 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-27T14:51:49.000Z",
+      "sourceUpdatedAt": "2026-09-27T14:56:53.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-27T14:51:48.863Z",
-      "fetchedAt": "2026-09-27T14:51:48.863Z"
+      "checkedAt": "2026-09-27T14:56:52.871Z",
+      "fetchedAt": "2026-09-27T14:56:52.871Z"
     }
   },
   "updatedBy": "concourse",
