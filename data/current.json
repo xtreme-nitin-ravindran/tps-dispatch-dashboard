@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T23:40:08.100Z",
-  "sourceUpdatedAt": "2026-09-27T23:35:01.000Z",
+  "fetchedAt": "2026-09-27T23:41:29.338Z",
+  "sourceUpdatedAt": "2026-09-27T23:40:01.000Z",
   "incidents": [
+    {
+      "id": "F26153647",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6K",
+      "division": "426",
+      "timestamp": "2026-09-27T23:32:09.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "331"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-27T23:41:29.338Z",
+      "lastSeenAt": "2026-09-27T23:41:29.338Z",
+      "geography": {
+        "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+        "approximate": true,
+        "coordinates": [
+          43.6383,
+          -79.4301
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26153646",
       "source": "TFS",
@@ -24,15 +58,23 @@
           ]
         },
         {
+          "type": "Ladder Truck",
+          "numbers": [
+            "426"
+          ]
+        },
+        {
           "type": "Fire Truck",
           "numbers": [
+            "426",
             "433"
           ]
         }
       ],
-      "respondingUnitCount": 2,
+      "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-27T23:35:29.530Z",
-      "lastSeenAt": "2026-09-27T23:40:08.100Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T23:41:29.338Z",
+      "lastSeenAt": "2026-09-27T23:41:29.338Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -64,7 +106,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T23:31:22.604Z",
-      "lastSeenAt": "2026-09-27T23:40:08.100Z",
+      "lastSeenAt": "2026-09-27T23:41:29.338Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -95,7 +137,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T23:31:22.604Z",
-      "lastSeenAt": "2026-09-27T23:40:08.100Z",
+      "lastSeenAt": "2026-09-27T23:41:29.338Z",
       "geography": {
         "text": "Approximate area: (M2N) Willowdale South",
         "approximate": true,
@@ -130,7 +172,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T23:31:22.604Z",
-      "lastSeenAt": "2026-09-27T23:40:08.100Z",
+      "lastSeenAt": "2026-09-27T23:41:29.338Z",
       "geography": {
         "text": "Front Street between Bay Street & York Street",
         "approximate": false,
@@ -230,7 +272,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T23:26:07.832Z",
-      "lastSeenAt": "2026-09-27T23:40:08.100Z",
+      "lastSeenAt": "2026-09-27T23:41:29.338Z",
       "geography": {
         "text": "Tiffield Road between Finch Avenue East & Nashdene Road",
         "approximate": false,
@@ -299,7 +341,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T23:21:06.970Z",
-      "lastSeenAt": "2026-09-27T23:40:08.100Z",
+      "lastSeenAt": "2026-09-27T23:41:29.338Z",
       "geography": {
         "text": "Approximate area: (M4G) East York (Leaside)",
         "approximate": true,
@@ -563,7 +605,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T23:10:37.657Z",
-      "lastSeenAt": "2026-09-27T23:40:08.100Z",
+      "lastSeenAt": "2026-09-27T23:41:29.338Z",
       "geography": {
         "text": "Approximate area: (M3B) Don Mills North",
         "approximate": true,
@@ -1683,7 +1725,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T22:30:57.883Z",
-      "lastSeenAt": "2026-09-27T23:40:08.100Z",
+      "lastSeenAt": "2026-09-27T23:41:29.338Z",
       "geography": {
         "text": "Approximate area: (M9N) Weston",
         "approximate": true,
@@ -190681,12 +190723,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T23:40:08.100Z",
-      "sourceUpdatedAt": "2026-09-27T23:35:01.000Z",
+      "fetchedAt": "2026-09-27T23:41:29.338Z",
+      "sourceUpdatedAt": "2026-09-27T23:40:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T23:40:08.100Z",
+      "fetchedAt": "2026-09-27T23:41:29.338Z",
       "status": "ok"
     }
   },
@@ -342994,6 +343036,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6K": {
+      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+      "approximate": true,
+      "coordinates": [
+        43.6383,
+        -79.4301
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "/": {
       "text": "Approximate location on an unspecified street",
       "approximate": true,
@@ -343258,18 +343312,6 @@
       "coordinates": [
         43.6404,
         -79.3995
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6K": {
-      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
-      "approximate": true,
-      "coordinates": [
-        43.6383,
-        -79.4301
       ],
       "division": "Division 14",
       "version": 1,
