@@ -3,9 +3,47 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T14:54:08.491Z",
-  "sourceUpdatedAt": "2026-09-27T14:50:01.000Z",
+  "fetchedAt": "2026-09-27T14:55:35.904Z",
+  "sourceUpdatedAt": "2026-09-27T14:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26153391",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury Highway",
+      "location": "/",
+      "division": "441",
+      "timestamp": "2026-09-27T14:48:19.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "415"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "441",
+            "441"
+          ]
+        }
+      ],
+      "respondingUnitCount": 3,
+      "firstSeenAt": "2026-09-27T14:55:35.904Z",
+      "lastSeenAt": "2026-09-27T14:55:35.904Z",
+      "geography": {
+        "text": "Approximate location on an unspecified street",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-27T14:16:58.496Z"
+      }
+    },
     {
       "id": "TPS-ff753f0c0ce27bae9f89df27",
       "source": "TPS",
@@ -48,7 +86,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T14:51:48.863Z",
-      "lastSeenAt": "2026-09-27T14:54:08.491Z",
+      "lastSeenAt": "2026-09-27T14:55:35.904Z",
       "geography": {
         "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
         "approximate": true,
@@ -170,7 +208,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T14:45:17.578Z",
-      "lastSeenAt": "2026-09-27T14:54:08.491Z",
+      "lastSeenAt": "2026-09-27T14:55:35.904Z",
       "geography": {
         "text": "Approximate area: (M2K) North York (Bayview Village)",
         "approximate": true,
@@ -245,7 +283,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-27T14:41:11.566Z",
       "lastMeaningfulUpdateAt": "2026-09-27T14:45:17.578Z",
-      "lastSeenAt": "2026-09-27T14:54:08.491Z",
+      "lastSeenAt": "2026-09-27T14:55:35.904Z",
       "geography": {
         "text": "Fernwood Park Avenue between Fir Avenue & Hazel Avenue",
         "approximate": false,
@@ -280,7 +318,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T14:41:11.566Z",
       "lastMeaningfulUpdateAt": "2026-09-27T14:45:17.578Z",
-      "lastSeenAt": "2026-09-27T14:54:08.491Z",
+      "lastSeenAt": "2026-09-27T14:55:35.904Z",
       "geography": {
         "text": "Weston Road & Lawrence Avenue West",
         "approximate": false,
@@ -347,7 +385,7 @@
       "division": "413",
       "timestamp": "2026-09-27T14:26:04.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -11793,7 +11831,7 @@
       "respondingUnitCount": 19,
       "firstSeenAt": "2026-09-27T03:05:07.090Z",
       "lastMeaningfulUpdateAt": "2026-09-27T14:05:28.171Z",
-      "lastSeenAt": "2026-09-27T14:54:08.491Z",
+      "lastSeenAt": "2026-09-27T14:55:35.904Z",
       "geography": {
         "text": "Woodycrest Avenue between Gertrude Place & Selkirk Street",
         "approximate": false,
@@ -188304,70 +188342,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "TPS-f2de22a196a8115dbeb02a8c",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "SEE AMBULANCE",
-      "callTypeCode": "SEEAM",
-      "timestamp": "2026-09-20T14:54:53.000Z",
-      "location": "BISHOP AVE - HEPC",
-      "division": "Division 32",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "BISHOP AVE - HEPC",
-        "coordinates": [
-          43.78163299652674,
-          -79.4159903445941
-        ],
-        "division": "Division 32",
-        "approximate": true
-      }
-    },
-    {
-      "id": "F26149205",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Fire Alarm - Check Call",
-      "location": "KING ST, TT / BAY ST / YORK ST",
-      "division": "332",
-      "timestamp": "2026-09-20T14:54:34.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "332"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-20T15:11:29.603Z",
-      "lastSeenAt": "2026-09-20T15:30:10.462Z",
-      "geography": {
-        "text": "King Street between Bay Street & York Street",
-        "approximate": false,
-        "coordinates": [
-          43.64828875,
-          -79.38190595
-        ],
-        "division": "Division 52",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-20T15:11:29.603Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T14:54:08.491Z",
-      "sourceUpdatedAt": "2026-09-27T14:50:01.000Z",
+      "fetchedAt": "2026-09-27T14:55:35.904Z",
+      "sourceUpdatedAt": "2026-09-27T14:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T14:54:08.491Z",
+      "fetchedAt": "2026-09-27T14:55:35.904Z",
       "status": "ok"
     }
   },
@@ -341027,6 +341011,15 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "/": {
+      "text": "Approximate location on an unspecified street",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-27T14:16:58.496Z"
+    },
     "M5S": {
       "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
       "approximate": true,
@@ -341575,15 +341568,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-27T12:01:08.349Z"
-    },
-    "/": {
-      "text": "Approximate location on an unspecified street",
-      "approximate": true,
-      "coordinates": null,
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-27T14:16:58.496Z"
     },
     "M4J": {
       "text": "Approximate area: (M4J) East Toronto (The Danforth East)",
