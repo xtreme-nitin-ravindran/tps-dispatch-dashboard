@@ -3,9 +3,131 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T17:49:02.398Z",
-  "sourceUpdatedAt": "2026-09-27T17:45:01.000Z",
+  "fetchedAt": "2026-09-27T17:50:45.136Z",
+  "sourceUpdatedAt": "2026-09-27T17:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26153468",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Grass/Rubbish",
+      "location": "LEITH HILL RD, NY / SHAUGHNESSY BLVD / DON MILLS RD",
+      "division": "115",
+      "timestamp": "2026-09-27T17:44:00.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T17:50:45.136Z",
+      "lastSeenAt": "2026-09-27T17:50:45.136Z",
+      "geography": {
+        "text": "Leith Hill Road between Shaughnessy Boulevard & Don Mills Road",
+        "approximate": false,
+        "coordinates": [
+          43.776988349999996,
+          -79.35040855
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-27T17:50:45.136Z"
+      }
+    },
+    {
+      "id": "F26153467",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "KEELE ST / WILSON AVE",
+      "division": "144",
+      "timestamp": "2026-09-27T17:43:36.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T17:50:45.136Z",
+      "lastSeenAt": "2026-09-27T17:50:45.136Z",
+      "geography": {
+        "text": "Keele Street & Wilson Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.7266424,
+          -79.4820697
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-27T17:50:45.136Z"
+      }
+    },
+    {
+      "id": "F26153466",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4L",
+      "division": "226",
+      "timestamp": "2026-09-27T17:43:02.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T17:50:45.136Z",
+      "lastSeenAt": "2026-09-27T17:50:45.136Z",
+      "geography": {
+        "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
+        "approximate": true,
+        "coordinates": [
+          43.6693,
+          -79.3155
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-6d99d232114b522cea5e8ed4",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-27T17:41:44.000Z",
+      "location": "EAST HIGHLAND CREEK - 600 MIDDLEFIELD RD",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "EAST HIGHLAND CREEK - 600 MIDDLEFIELD RD",
+        "coordinates": [
+          43.81395288223201,
+          -79.2607597473139
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T17:50:45.136Z"
+    },
+    {
+      "id": "TPS-99ed2a5496614f3865e6457b",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-27T17:40:49.000Z",
+      "location": " - ",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": " - ",
+        "coordinates": [
+          43.67454253411263,
+          -79.56319620274073
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T17:50:45.136Z"
+    },
     {
       "id": "F26153465",
       "source": "TFS",
@@ -16,9 +138,24 @@
       "timestamp": "2026-09-27T17:40:07.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "445"
+          ]
+        },
+        {
+          "type": "Other Unit",
+          "numbers": [
+            "PL432"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T17:45:41.748Z",
-      "lastSeenAt": "2026-09-27T17:49:02.398Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T17:50:45.136Z",
+      "lastSeenAt": "2026-09-27T17:50:45.136Z",
       "geography": {
         "text": "Rathburn Road between Rathburn East 427 C South Ramp & The West Mall",
         "approximate": false,
@@ -42,9 +179,19 @@
       "timestamp": "2026-09-27T17:39:34.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "342",
+            "343"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T17:45:41.748Z",
-      "lastSeenAt": "2026-09-27T17:49:02.398Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T17:50:45.136Z",
+      "lastSeenAt": "2026-09-27T17:50:45.136Z",
       "geography": {
         "text": "Northcliffe Boulevard between Cloverlawn Avenue & Rosecliffe Avenue",
         "approximate": false,
@@ -59,6 +206,50 @@
       }
     },
     {
+      "id": "TPS-4f7d79420a816efc0c146da5",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-27T17:38:01.000Z",
+      "location": "SHUTER ST - BOND ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SHUTER ST - BOND ST",
+        "coordinates": [
+          43.65456039366406,
+          -79.37761274799806
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T17:50:45.136Z"
+    },
+    {
+      "id": "TPS-fc5c159499df9625b530683a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-27T17:37:02.000Z",
+      "location": "YONGE ST - THE ESPLANADE",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "YONGE ST - THE ESPLANADE",
+        "coordinates": [
+          43.645780884884495,
+          -79.3764926462255
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T17:50:45.136Z"
+    },
+    {
       "id": "F26153463",
       "source": "TFS",
       "eventType": "fire",
@@ -68,9 +259,18 @@
       "timestamp": "2026-09-27T17:36:55.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "312"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T17:45:41.748Z",
-      "lastSeenAt": "2026-09-27T17:49:02.398Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T17:50:45.136Z",
+      "lastSeenAt": "2026-09-27T17:50:45.136Z",
       "geography": {
         "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
         "approximate": true,
@@ -83,6 +283,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-04534027f289b78a33807c55",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-27T17:35:38.000Z",
+      "location": " - ST THOMAS ST",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": " - ST THOMAS ST",
+        "coordinates": [
+          43.66866660835873,
+          -79.39069754650929
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T17:50:45.136Z"
     },
     {
       "id": "F26153462",
@@ -105,7 +327,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T17:40:32.411Z",
       "lastMeaningfulUpdateAt": "2026-09-27T17:45:41.748Z",
-      "lastSeenAt": "2026-09-27T17:49:02.398Z",
+      "lastSeenAt": "2026-09-27T17:50:45.136Z",
       "geography": {
         "text": "Approximate area: (M2N) Willowdale South",
         "approximate": true,
@@ -140,7 +362,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T17:40:32.411Z",
       "lastMeaningfulUpdateAt": "2026-09-27T17:45:41.748Z",
-      "lastSeenAt": "2026-09-27T17:49:02.398Z",
+      "lastSeenAt": "2026-09-27T17:50:45.136Z",
       "geography": {
         "text": "Lake Shore Boulevard between Twenty Sixth Street & Twenty Seventh Street",
         "approximate": false,
@@ -153,6 +375,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-22T17:55:30.290Z"
       }
+    },
+    {
+      "id": "TPS-e98d90e3806293383461ee6f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT",
+      "callTypeCode": "THE",
+      "timestamp": "2026-09-27T17:33:50.000Z",
+      "location": "BELLEVUE CRES - HICKORY TREE RD",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BELLEVUE CRES - HICKORY TREE RD",
+        "coordinates": [
+          43.69881656775532,
+          -79.51591575572454
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T17:50:45.136Z"
     },
     {
       "id": "F26153460",
@@ -175,7 +419,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T17:40:32.411Z",
       "lastMeaningfulUpdateAt": "2026-09-27T17:45:41.748Z",
-      "lastSeenAt": "2026-09-27T17:49:02.398Z",
+      "lastSeenAt": "2026-09-27T17:50:45.136Z",
       "geography": {
         "text": "Approximate area: (M6B) North York (Glencairn)",
         "approximate": true,
@@ -190,6 +434,72 @@
       }
     },
     {
+      "id": "TPS-d73a0cac355ab6414c43247e",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-27T17:31:35.000Z",
+      "location": "STADIUM ROAD PARK TRL - LITTLE NORWAY CRES",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "STADIUM ROAD PARK TRL - LITTLE NORWAY CRES",
+        "coordinates": [
+          43.63344687255067,
+          -79.3995026334977
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T17:50:45.136Z"
+    },
+    {
+      "id": "TPS-1d82fa02164ce0fad22bf172",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-27T17:31:15.000Z",
+      "location": "STRATFORD PARK TRL - STRATFORD PARK TRL",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "STRATFORD PARK TRL - STRATFORD PARK TRL",
+        "coordinates": [
+          43.721735013315154,
+          -79.37792337253975
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T17:50:45.136Z"
+    },
+    {
+      "id": "TPS-6833e6d3f8d97dde496c0370",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "BREAK & ENTER",
+      "callTypeCode": "BREEN",
+      "timestamp": "2026-09-27T17:28:36.000Z",
+      "location": "AVENAL DR - AVA RD",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "AVENAL DR - AVA RD",
+        "coordinates": [
+          43.697269979393035,
+          -79.42404361088002
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T17:50:45.136Z"
+    },
+    {
       "id": "F26153459",
       "source": "TFS",
       "eventType": "fire",
@@ -198,7 +508,7 @@
       "division": "111",
       "timestamp": "2026-09-27T17:28:14.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -233,7 +543,7 @@
       "division": "115",
       "timestamp": "2026-09-27T17:26:53.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -280,7 +590,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T17:32:02.187Z",
       "lastMeaningfulUpdateAt": "2026-09-27T17:37:01.328Z",
-      "lastSeenAt": "2026-09-27T17:49:02.398Z",
+      "lastSeenAt": "2026-09-27T17:50:45.136Z",
       "geography": {
         "text": "Approximate location on York Mills Road",
         "approximate": true,
@@ -292,6 +602,50 @@
       }
     },
     {
+      "id": "TPS-009ed7ac4d499fedf6ca09fc",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DAMAGE",
+      "callTypeCode": "DAM",
+      "timestamp": "2026-09-27T17:23:35.000Z",
+      "location": "LN N GERRARD E REDWOOD - WALPOLE AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN N GERRARD E REDWOOD - WALPOLE AVE",
+        "coordinates": [
+          43.6743071845949,
+          -79.32820701645097
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T17:50:45.136Z"
+    },
+    {
+      "id": "TPS-885033dfd9fbcbe8e6c1da90",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-27T17:23:05.000Z",
+      "location": "SHEPPARD AVE E - SHAUGHNESSY BLVD",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SHEPPARD AVE E - SHAUGHNESSY BLVD",
+        "coordinates": [
+          43.773804609864776,
+          -79.35328364828301
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T17:50:45.136Z"
+    },
+    {
       "id": "F26153455",
       "source": "TFS",
       "eventType": "fire",
@@ -300,7 +654,7 @@
       "division": "133",
       "timestamp": "2026-09-27T17:20:25.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -432,7 +786,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T17:27:15.126Z",
       "lastMeaningfulUpdateAt": "2026-09-27T17:32:02.187Z",
-      "lastSeenAt": "2026-09-27T17:49:02.398Z",
+      "lastSeenAt": "2026-09-27T17:50:45.136Z",
       "geography": {
         "text": "Tandridge Crescent between Summerlea Park Trl & Byng Avenue",
         "approximate": false,
@@ -1328,7 +1682,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T17:07:15.494Z",
-      "lastSeenAt": "2026-09-27T17:49:02.398Z",
+      "lastSeenAt": "2026-09-27T17:50:45.136Z",
       "geography": {
         "text": "Yonge Street & The Esplanade",
         "approximate": false,
@@ -2150,7 +2504,7 @@
       "division": "345",
       "timestamp": "2026-09-27T16:15:45.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Command Unit",
@@ -189071,50 +189425,16 @@
         "division": "Division 41",
         "approximate": true
       }
-    },
-    {
-      "id": "F26149275",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M5T",
-      "division": "332",
-      "timestamp": "2026-09-20T17:49:04.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "312",
-            "332"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-20T18:06:41.705Z",
-      "lastSeenAt": "2026-09-20T18:15:01.590Z",
-      "geography": {
-        "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
-        "approximate": true,
-        "coordinates": [
-          43.6541,
-          -79.3978
-        ],
-        "division": "Division 52",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T17:49:02.398Z",
-      "sourceUpdatedAt": "2026-09-27T17:45:01.000Z",
+      "fetchedAt": "2026-09-27T17:50:45.136Z",
+      "sourceUpdatedAt": "2026-09-27T17:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T17:49:02.398Z",
+      "fetchedAt": "2026-09-27T17:50:45.136Z",
       "status": "ok"
     }
   },
@@ -337730,8 +338050,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-27T17:45:41.748Z",
-      "fetchedAt": "2026-09-27T17:45:41.748Z"
+      "checkedAt": "2026-09-27T17:50:45.136Z",
+      "fetchedAt": "2026-09-27T17:50:45.136Z"
     },
     "transit": {
       "items": [
@@ -341779,14 +342099,50 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-27T17:45:42.000Z",
+      "sourceUpdatedAt": "2026-09-27T17:50:45.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-27T17:45:41.748Z",
-      "fetchedAt": "2026-09-27T17:45:41.748Z"
+      "checkedAt": "2026-09-27T17:50:45.136Z",
+      "fetchedAt": "2026-09-27T17:50:45.136Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "LEITH HILL RD, NY / SHAUGHNESSY BLVD / DON MILLS RD": {
+      "text": "Leith Hill Road between Shaughnessy Boulevard & Don Mills Road",
+      "approximate": false,
+      "coordinates": [
+        43.776988349999996,
+        -79.35040855
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-27T17:50:45.136Z"
+    },
+    "KEELE ST / WILSON AVE": {
+      "text": "Keele Street & Wilson Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.7266424,
+        -79.4820697
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-27T17:50:45.136Z"
+    },
+    "M4L": {
+      "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
+      "approximate": true,
+      "coordinates": [
+        43.6693,
+        -79.3155
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "RATHBURN RD, ET / RATHBURN E 427 C S RAMP / THE WEST MALL": {
       "text": "Rathburn Road between Rathburn East 427 C South Ramp & The West Mall",
       "approximate": false,
@@ -342332,18 +342688,6 @@
         -79.521
       ],
       "division": "Division 31",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4L": {
-      "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
-      "approximate": true,
-      "coordinates": [
-        43.6693,
-        -79.3155
-      ],
-      "division": "Division 55",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
