@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T09:08:50.003Z",
+  "fetchedAt": "2026-09-27T09:10:04.216Z",
   "sourceUpdatedAt": "2026-09-27T09:05:02.000Z",
   "incidents": [
     {
@@ -27,7 +27,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T09:00:34.091Z",
       "lastMeaningfulUpdateAt": "2026-09-27T09:06:25.183Z",
-      "lastSeenAt": "2026-09-27T09:08:50.003Z",
+      "lastSeenAt": "2026-09-27T09:10:04.216Z",
       "geography": {
         "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
         "approximate": true,
@@ -488,7 +488,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-27T08:25:38.106Z",
       "lastMeaningfulUpdateAt": "2026-09-27T08:30:29.121Z",
-      "lastSeenAt": "2026-09-27T09:08:50.003Z",
+      "lastSeenAt": "2026-09-27T09:10:04.216Z",
       "geography": {
         "text": "O'connor Drive & Eglinton Sq",
         "approximate": false,
@@ -523,7 +523,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T08:21:02.710Z",
       "lastMeaningfulUpdateAt": "2026-09-27T08:25:38.106Z",
-      "lastSeenAt": "2026-09-27T09:08:50.003Z",
+      "lastSeenAt": "2026-09-27T09:10:04.216Z",
       "geography": {
         "text": "Approximate location on King Street",
         "approximate": true,
@@ -6609,7 +6609,7 @@
       "respondingUnitCount": 15,
       "firstSeenAt": "2026-09-27T03:05:07.090Z",
       "lastMeaningfulUpdateAt": "2026-09-27T07:10:42.702Z",
-      "lastSeenAt": "2026-09-27T09:08:50.003Z",
+      "lastSeenAt": "2026-09-27T09:10:04.216Z",
       "geography": {
         "text": "Woodycrest Avenue between Gertrude Place & Selkirk Street",
         "approximate": false,
@@ -32053,7 +32053,7 @@
       "respondingUnitCount": 28,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-27T08:50:58.870Z",
-      "lastSeenAt": "2026-09-27T09:08:50.003Z",
+      "lastSeenAt": "2026-09-27T09:10:04.216Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -187816,12 +187816,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T09:08:50.003Z",
+      "fetchedAt": "2026-09-27T09:10:04.216Z",
       "sourceUpdatedAt": "2026-09-27T09:05:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T09:08:50.003Z",
+      "fetchedAt": "2026-09-27T09:10:04.216Z",
       "status": "ok"
     }
   },
@@ -336642,8 +336642,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-27T09:04:09.814Z",
-      "fetchedAt": "2026-09-27T09:04:09.814Z"
+      "checkedAt": "2026-09-27T09:10:04.216Z",
+      "fetchedAt": "2026-09-27T09:10:04.216Z"
     },
     "transit": {
       "items": [
@@ -338068,6 +338068,66 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
+          "id": "77027",
+          "title": "29C Dufferin: Detour southbound via Manitoba Dr due to a road closure.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "29"
+          ],
+          "stopIds": [
+            "14363"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "29",
+              "stopId": "14363",
+              "coordinates": [
+                43.635575,
+                -79.409889
+              ],
+              "name": "Princes' Gates Loop at Canada Blvd - CNE East Entrance"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790500057000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "77026",
+          "title": "329 Dufferin: Detour southbound via Manitoba Dr due to a road closure.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "329"
+          ],
+          "stopIds": [
+            "14363"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "329",
+              "stopId": "14363",
+              "coordinates": [
+                43.635575,
+                -79.409889
+              ],
+              "name": "Princes' Gates Loop at Canada Blvd - CNE East Entrance"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790500057000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
           "id": "100",
           "title": "101 Downsview Park – Temporary route change due to Rogers Stadium concert road closures",
           "description": "during concert dates as shown (subject to change):\n \n\n101 Downsview Park buses will divert both ways on Sheppard Avenue West to Keele Street. Buses will stop on the street outside of Downsview Park Station.\n \nDuring this time, the 101 Downsview Park route will be extended to Sheppard West Station. \n \nStops not served: John Drury Drive, Carl Hall Road, and Service Road to Downsview Park Station.",
@@ -338938,256 +338998,6 @@
             {
               "start": 1790512200000,
               "end": 1790524800000
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "77023",
-          "title": "304 King: Detour westbound via Bathurst Station, Dundas St W and Dundas West Station due to a collision.",
-          "description": "",
-          "effect": "DETOUR",
-          "routes": [
-            "304"
-          ],
-          "stopIds": [
-            "4156",
-            "4190",
-            "4179",
-            "4188",
-            "4163",
-            "11021",
-            "4175",
-            "14400",
-            "4166",
-            "2072",
-            "13890",
-            "4169",
-            "4174",
-            "4165",
-            "4193",
-            "11596",
-            "15059",
-            "15038",
-            "4574",
-            "4571",
-            "4576",
-            "4578",
-            "4568"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": "304",
-              "stopId": "4156",
-              "coordinates": [
-                43.644142,
-                -79.40189
-              ],
-              "name": "King St West at Bathurst St"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4190",
-              "coordinates": [
-                43.643488,
-                -79.405049
-              ],
-              "name": "King St West at Tecumseth St"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4179",
-              "coordinates": [
-                43.642987,
-                -79.407539
-              ],
-              "name": "King St West at Niagara St"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4188",
-              "coordinates": [
-                43.642127,
-                -79.411783
-              ],
-              "name": "King St West at Strachan Ave"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4163",
-              "coordinates": [
-                43.641529,
-                -79.414775
-              ],
-              "name": "King St West at Shaw St"
-            },
-            {
-              "routeId": "304",
-              "stopId": "11021",
-              "coordinates": [
-                43.641064,
-                -79.417183
-              ],
-              "name": "King St West at Sudbury St"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4175",
-              "coordinates": [
-                43.640065,
-                -79.422082
-              ],
-              "name": "King St West at Jefferson Ave"
-            },
-            {
-              "routeId": "304",
-              "stopId": "14400",
-              "coordinates": [
-                43.639804,
-                -79.423411
-              ],
-              "name": "King St West at Joe Shuster Way"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4166",
-              "coordinates": [
-                43.639085,
-                -79.427001
-              ],
-              "name": "King St West at Dufferin St"
-            },
-            {
-              "routeId": "304",
-              "stopId": "2072",
-              "coordinates": [
-                43.637414,
-                -79.426893
-              ],
-              "name": "Dufferin St at Liberty St"
-            },
-            {
-              "routeId": "304",
-              "stopId": "13890",
-              "coordinates": [
-                43.63831,
-                -79.430761
-              ],
-              "name": "King St West at Spencer Ave"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4169",
-              "coordinates": [
-                43.637837,
-                -79.433063
-              ],
-              "name": "King St West at Dunn Ave"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4174",
-              "coordinates": [
-                43.637264,
-                -79.435861
-              ],
-              "name": "King St West at Jameson Ave"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4165",
-              "coordinates": [
-                43.636773,
-                -79.438379
-              ],
-              "name": "King St West at Dowling Ave"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4193",
-              "coordinates": [
-                43.637035,
-                -79.442107
-              ],
-              "name": "King St West at Wilson Park Rd West Side"
-            },
-            {
-              "routeId": "304",
-              "stopId": "11596",
-              "coordinates": [
-                43.638597,
-                -79.445863
-              ],
-              "name": "King St West at Queen St West"
-            },
-            {
-              "routeId": "304",
-              "stopId": "15059",
-              "coordinates": [
-                43.639232,
-                -79.44617
-              ],
-              "name": "Roncesvalles Ave at Queen St West North Side"
-            },
-            {
-              "routeId": "304",
-              "stopId": "15038",
-              "coordinates": [
-                43.641432,
-                -79.447086
-              ],
-              "name": "Roncesvalles Ave at Marion St North Side"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4574",
-              "coordinates": [
-                43.643538,
-                -79.447901
-              ],
-              "name": "Roncesvalles Ave at Garden Ave"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4571",
-              "coordinates": [
-                43.646167,
-                -79.448917
-              ],
-              "name": "Roncesvalles Ave at Fermanagh Ave"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4576",
-              "coordinates": [
-                43.648639,
-                -79.449872
-              ],
-              "name": "Roncesvalles Ave at Grenadier Rd"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4578",
-              "coordinates": [
-                43.651156,
-                -79.450841
-              ],
-              "name": "Roncesvalles Ave at Howard Park Ave"
-            },
-            {
-              "routeId": "304",
-              "stopId": "4568",
-              "coordinates": [
-                43.653173,
-                -79.451549
-              ],
-              "name": "Roncesvalles Ave at Dundas St West"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790498580000,
-              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -341000,10 +340810,10 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-27T09:04:10.000Z",
+      "sourceUpdatedAt": "2026-09-27T09:10:04.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-27T09:04:09.814Z",
-      "fetchedAt": "2026-09-27T09:04:09.814Z"
+      "checkedAt": "2026-09-27T09:10:04.216Z",
+      "fetchedAt": "2026-09-27T09:10:04.216Z"
     }
   },
   "updatedBy": "concourse",
