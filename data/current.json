@@ -3,9 +3,77 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T04:59:56.508Z",
-  "sourceUpdatedAt": "2026-09-27T04:55:02.000Z",
+  "fetchedAt": "2026-09-27T05:01:25.475Z",
+  "sourceUpdatedAt": "2026-09-27T05:00:01.000Z",
   "incidents": [
+    {
+      "id": "F26153231",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3L",
+      "division": "142",
+      "timestamp": "2026-09-27T04:54:57.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "142"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-27T05:01:25.475Z",
+      "lastSeenAt": "2026-09-27T05:01:25.475Z",
+      "geography": {
+        "text": "Approximate area: (M3L) Downsview West",
+        "approximate": true,
+        "coordinates": [
+          43.7334,
+          -79.5116
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26153230",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5V",
+      "division": "332",
+      "timestamp": "2026-09-27T04:53:39.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "332"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-27T05:01:25.475Z",
+      "lastSeenAt": "2026-09-27T05:01:25.475Z",
+      "geography": {
+        "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+        "approximate": true,
+        "coordinates": [
+          43.6404,
+          -79.3995
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26153229",
       "source": "TFS",
@@ -16,9 +84,25 @@
       "timestamp": "2026-09-27T04:50:05.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "426",
+            "426"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "346"
+          ]
+        }
+      ],
+      "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-27T04:55:53.884Z",
-      "lastSeenAt": "2026-09-27T04:59:56.508Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T05:01:25.475Z",
+      "lastSeenAt": "2026-09-27T05:01:25.475Z",
       "geography": {
         "text": "Approximate location near King Street & Fraser Avenue",
         "approximate": true,
@@ -96,7 +180,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T04:45:35.375Z",
-      "lastSeenAt": "2026-09-27T04:59:56.508Z",
+      "lastSeenAt": "2026-09-27T05:01:25.475Z",
       "geography": {
         "text": "Approximate area: (M1J) Scarborough (Eglinton)",
         "approximate": true,
@@ -240,7 +324,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T04:45:35.375Z",
-      "lastSeenAt": "2026-09-27T04:59:56.508Z",
+      "lastSeenAt": "2026-09-27T05:01:25.475Z",
       "geography": {
         "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
         "approximate": true,
@@ -318,7 +402,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T04:40:38.691Z",
-      "lastSeenAt": "2026-09-27T04:59:56.508Z",
+      "lastSeenAt": "2026-09-27T05:01:25.475Z",
       "geography": {
         "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
         "approximate": true,
@@ -651,7 +735,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T04:26:14.691Z",
       "lastMeaningfulUpdateAt": "2026-09-27T04:30:49.005Z",
-      "lastSeenAt": "2026-09-27T04:59:56.508Z",
+      "lastSeenAt": "2026-09-27T05:01:25.475Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -2750,6 +2834,7 @@
           "numbers": [
             "224",
             "226",
+            "321",
             "323"
           ]
         },
@@ -2767,10 +2852,10 @@
           ]
         }
       ],
-      "respondingUnitCount": 13,
+      "respondingUnitCount": 14,
       "firstSeenAt": "2026-09-27T03:05:07.090Z",
-      "lastMeaningfulUpdateAt": "2026-09-27T03:56:48.851Z",
-      "lastSeenAt": "2026-09-27T04:59:56.508Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T05:01:25.475Z",
+      "lastSeenAt": "2026-09-27T05:01:25.475Z",
       "geography": {
         "text": "Woodycrest Avenue between Gertrude Place & Selkirk Street",
         "approximate": false,
@@ -28145,6 +28230,7 @@
         {
           "type": "Aerial Truck",
           "numbers": [
+            "322",
             "322"
           ]
         },
@@ -28208,10 +28294,10 @@
           ]
         }
       ],
-      "respondingUnitCount": 25,
+      "respondingUnitCount": 26,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
-      "lastMeaningfulUpdateAt": "2026-09-27T03:00:31.599Z",
-      "lastSeenAt": "2026-09-27T04:59:56.508Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T05:01:25.475Z",
+      "lastSeenAt": "2026-09-27T05:01:25.475Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -186893,12 +186979,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T04:59:56.508Z",
-      "sourceUpdatedAt": "2026-09-27T04:55:02.000Z",
+      "fetchedAt": "2026-09-27T05:01:25.475Z",
+      "sourceUpdatedAt": "2026-09-27T05:00:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T04:59:56.508Z",
+      "fetchedAt": "2026-09-27T05:01:25.475Z",
       "status": "ok"
     }
   },
@@ -335719,8 +335805,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-27T04:55:53.884Z",
-      "fetchedAt": "2026-09-27T04:55:53.884Z"
+      "checkedAt": "2026-09-27T05:01:25.475Z",
+      "fetchedAt": "2026-09-27T05:01:25.475Z"
     },
     "transit": {
       "items": [
@@ -339781,14 +339867,38 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-27T04:55:54.000Z",
+      "sourceUpdatedAt": "2026-09-27T05:01:26.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-27T04:55:53.884Z",
-      "fetchedAt": "2026-09-27T04:55:53.884Z"
+      "checkedAt": "2026-09-27T05:01:25.475Z",
+      "fetchedAt": "2026-09-27T05:01:25.475Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3L": {
+      "text": "Approximate area: (M3L) Downsview West",
+      "approximate": true,
+      "coordinates": [
+        43.7334,
+        -79.5116
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M5V": {
+      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+      "approximate": true,
+      "coordinates": [
+        43.6404,
+        -79.3995
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "KING ST, TT / LAMPORT STADIUM PARK TRL / FRASER AVE": {
       "text": "Approximate location near King Street & Fraser Avenue",
       "approximate": true,
@@ -340274,18 +340384,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-27T02:41:33.979Z"
-    },
-    "M5V": {
-      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
-      "approximate": true,
-      "coordinates": [
-        43.6404,
-        -79.3995
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "RICHMOND ST, TT / SHERBOURNE ST / MC FARRENS LANE": {
       "text": "Richmond Street between Sherbourne Street & Mc Farrens Lane",
@@ -344768,18 +344866,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T08:01:47.444Z"
-    },
-    "M3L": {
-      "text": "Approximate area: (M3L) Downsview West",
-      "approximate": true,
-      "coordinates": [
-        43.7334,
-        -79.5116
-      ],
-      "division": "Division 31",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "HILLCREST AVE, NY / YONGE ST / DORIS AVE": {
       "text": "Hillcrest Avenue between Yonge Street & Doris Avenue",
