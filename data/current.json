@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T15:55:00.370Z",
-  "sourceUpdatedAt": "2026-09-27T15:50:01.000Z",
+  "fetchedAt": "2026-09-27T15:56:13.066Z",
+  "sourceUpdatedAt": "2026-09-27T15:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26153413",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "WILSON AVE, NY / ALLARD AVE / BATHURST ST",
+      "division": "132",
+      "timestamp": "2026-09-27T15:49:25.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T15:56:13.066Z",
+      "lastSeenAt": "2026-09-27T15:56:13.066Z",
+      "geography": {
+        "text": "Wilson Avenue between Allard Avenue & Bathurst Street",
+        "approximate": false,
+        "coordinates": [
+          43.737618,
+          -79.4317117
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-27T15:56:13.066Z"
+      }
+    },
     {
       "id": "F26153411",
       "source": "TFS",
@@ -16,9 +42,24 @@
       "timestamp": "2026-09-27T15:44:02.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "314"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "313"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T15:51:18.844Z",
-      "lastSeenAt": "2026-09-27T15:55:00.370Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T15:56:13.066Z",
+      "lastSeenAt": "2026-09-27T15:56:13.066Z",
       "geography": {
         "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
         "approximate": true,
@@ -42,9 +83,24 @@
       "timestamp": "2026-09-27T15:43:58.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "116"
+          ]
+        },
+        {
+          "type": "Tower Truck",
+          "numbers": [
+            "114"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T15:51:18.844Z",
-      "lastSeenAt": "2026-09-27T15:55:00.370Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T15:56:13.066Z",
+      "lastSeenAt": "2026-09-27T15:56:13.066Z",
       "geography": {
         "text": "Provost Drive & Esther Shiner Boulevard",
         "approximate": false,
@@ -133,7 +189,7 @@
       "division": "142",
       "timestamp": "2026-09-27T15:38:52.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -374,7 +430,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T15:31:04.227Z",
       "lastMeaningfulUpdateAt": "2026-09-27T15:35:39.674Z",
-      "lastSeenAt": "2026-09-27T15:55:00.370Z",
+      "lastSeenAt": "2026-09-27T15:56:13.066Z",
       "geography": {
         "text": "Steeles Avenue East & Bestview Drive",
         "approximate": false,
@@ -12906,7 +12962,7 @@
       "respondingUnitCount": 20,
       "firstSeenAt": "2026-09-27T03:05:07.090Z",
       "lastMeaningfulUpdateAt": "2026-09-27T15:51:18.844Z",
-      "lastSeenAt": "2026-09-27T15:55:00.370Z",
+      "lastSeenAt": "2026-09-27T15:56:13.066Z",
       "geography": {
         "text": "Woodycrest Avenue between Gertrude Place & Selkirk Street",
         "approximate": false,
@@ -188716,12 +188772,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T15:55:00.370Z",
-      "sourceUpdatedAt": "2026-09-27T15:50:01.000Z",
+      "fetchedAt": "2026-09-27T15:56:13.066Z",
+      "sourceUpdatedAt": "2026-09-27T15:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T15:55:00.370Z",
+      "fetchedAt": "2026-09-27T15:56:13.066Z",
       "status": "ok"
     }
   },
@@ -341605,6 +341661,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "WILSON AVE, NY / ALLARD AVE / BATHURST ST": {
+      "text": "Wilson Avenue between Allard Avenue & Bathurst Street",
+      "approximate": false,
+      "coordinates": [
+        43.737618,
+        -79.4317117
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-27T15:56:13.066Z"
+    },
     "M4X": {
       "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
       "approximate": true,
