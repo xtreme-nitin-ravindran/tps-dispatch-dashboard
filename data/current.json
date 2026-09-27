@@ -3,9 +3,77 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T05:39:27.490Z",
-  "sourceUpdatedAt": "2026-09-27T05:31:05.000Z",
+  "fetchedAt": "2026-09-27T05:41:06.742Z",
+  "sourceUpdatedAt": "2026-09-27T05:35:04.000Z",
   "incidents": [
+    {
+      "id": "F26153240",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5A",
+      "division": "325",
+      "timestamp": "2026-09-27T05:29:08.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "325"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-27T05:41:06.742Z",
+      "lastSeenAt": "2026-09-27T05:41:06.742Z",
+      "geography": {
+        "text": "Approximate area: (M5A) Toronto",
+        "approximate": true,
+        "coordinates": [
+          43.6555,
+          -79.3626
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26153239",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1C",
+      "division": "214",
+      "timestamp": "2026-09-27T05:21:54.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "214"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-27T05:41:06.742Z",
+      "lastSeenAt": "2026-09-27T05:41:06.742Z",
+      "geography": {
+        "text": "Approximate area: (M1C) Scarborough (Rouge Hill / Port Union / Highland Creek)",
+        "approximate": true,
+        "coordinates": [
+          43.7878,
+          -79.1564
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-e69992eb6eeb45d43ae490c6",
       "source": "TPS",
@@ -81,7 +149,7 @@
       "division": "244",
       "timestamp": "2026-09-27T05:14:47.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -138,7 +206,7 @@
       "division": "112",
       "timestamp": "2026-09-27T05:11:44.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -195,7 +263,7 @@
       "division": "324",
       "timestamp": "2026-09-27T05:01:51.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Hazmat Unit",
@@ -3237,7 +3305,7 @@
       "respondingUnitCount": 14,
       "firstSeenAt": "2026-09-27T03:05:07.090Z",
       "lastMeaningfulUpdateAt": "2026-09-27T05:01:25.475Z",
-      "lastSeenAt": "2026-09-27T05:39:27.490Z",
+      "lastSeenAt": "2026-09-27T05:41:06.742Z",
       "geography": {
         "text": "Woodycrest Avenue between Gertrude Place & Selkirk Street",
         "approximate": false,
@@ -28679,7 +28747,7 @@
       "respondingUnitCount": 26,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-27T05:01:25.475Z",
-      "lastSeenAt": "2026-09-27T05:39:27.490Z",
+      "lastSeenAt": "2026-09-27T05:41:06.742Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -186712,12 +186780,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T05:39:27.490Z",
-      "sourceUpdatedAt": "2026-09-27T05:31:05.000Z",
+      "fetchedAt": "2026-09-27T05:41:06.742Z",
+      "sourceUpdatedAt": "2026-09-27T05:35:04.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T05:39:27.490Z",
+      "fetchedAt": "2026-09-27T05:41:06.742Z",
       "status": "ok"
     }
   },
@@ -335538,8 +335606,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-27T05:34:36.971Z",
-      "fetchedAt": "2026-09-27T05:34:36.971Z"
+      "checkedAt": "2026-09-27T05:41:06.742Z",
+      "fetchedAt": "2026-09-27T05:41:06.742Z"
     },
     "transit": {
       "items": [
@@ -338218,6 +338286,222 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
+          "id": "77020",
+          "title": "Kennedy: Escalator 16D4E out of service from Line 2 platform to bus platform due to a technical problem.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "14947",
+            "16081",
+            "13865",
+            "16082",
+            "16390",
+            "16391",
+            "16392",
+            "16393",
+            "16394"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "14947",
+              "coordinates": [
+                43.732487,
+                -79.263718
+              ],
+              "name": "Kennedy Station - Subway Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "16081",
+              "coordinates": [
+                43.732791,
+                -79.26448
+              ],
+              "name": "Kennedy Station LRT Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13865",
+              "coordinates": [
+                43.732149,
+                -79.264785
+              ],
+              "name": "Kennedy Station - Westbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "16082",
+              "coordinates": [
+                43.732791,
+                -79.26448
+              ],
+              "name": "Kennedy Station LRT Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "16390",
+              "coordinates": [
+                43.731978,
+                -79.263574
+              ],
+              "name": "Kennedy Station - Platform B"
+            },
+            {
+              "routeId": null,
+              "stopId": "16391",
+              "coordinates": [
+                43.732014,
+                -79.263424
+              ],
+              "name": "Kennedy Station - Platform B"
+            },
+            {
+              "routeId": null,
+              "stopId": "16392",
+              "coordinates": [
+                43.732067,
+                -79.263249
+              ],
+              "name": "Kennedy Station - Platform B"
+            },
+            {
+              "routeId": null,
+              "stopId": "16393",
+              "coordinates": [
+                43.731995,
+                -79.262851
+              ],
+              "name": "Kennedy Station - Platform B"
+            },
+            {
+              "routeId": null,
+              "stopId": "16394",
+              "coordinates": [
+                43.731861,
+                -79.262789
+              ],
+              "name": "Kennedy Station - Platform B"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790487485000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "77019",
+          "title": "Kennedy: Elevator 16D2L out of service between concourse and Line 2 centre platform due to a technical problem.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "14947",
+            "16081",
+            "13865",
+            "16082",
+            "16390",
+            "16391",
+            "16392",
+            "16393",
+            "16394"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "14947",
+              "coordinates": [
+                43.732487,
+                -79.263718
+              ],
+              "name": "Kennedy Station - Subway Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "16081",
+              "coordinates": [
+                43.732791,
+                -79.26448
+              ],
+              "name": "Kennedy Station LRT Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13865",
+              "coordinates": [
+                43.732149,
+                -79.264785
+              ],
+              "name": "Kennedy Station - Westbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "16082",
+              "coordinates": [
+                43.732791,
+                -79.26448
+              ],
+              "name": "Kennedy Station LRT Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "16390",
+              "coordinates": [
+                43.731978,
+                -79.263574
+              ],
+              "name": "Kennedy Station - Platform B"
+            },
+            {
+              "routeId": null,
+              "stopId": "16391",
+              "coordinates": [
+                43.732014,
+                -79.263424
+              ],
+              "name": "Kennedy Station - Platform B"
+            },
+            {
+              "routeId": null,
+              "stopId": "16392",
+              "coordinates": [
+                43.732067,
+                -79.263249
+              ],
+              "name": "Kennedy Station - Platform B"
+            },
+            {
+              "routeId": null,
+              "stopId": "16393",
+              "coordinates": [
+                43.731995,
+                -79.262851
+              ],
+              "name": "Kennedy Station - Platform B"
+            },
+            {
+              "routeId": null,
+              "stopId": "16394",
+              "coordinates": [
+                43.731861,
+                -79.262789
+              ],
+              "name": "Kennedy Station - Platform B"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790487441000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
           "id": "76996",
           "title": "Bloor-Yonge: Elevator out of service between Bloor St E south side entrance and south concourse while we perform maintenance.",
           "description": "",
@@ -339542,14 +339826,38 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-27T05:34:37.000Z",
+      "sourceUpdatedAt": "2026-09-27T05:41:07.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-27T05:34:36.971Z",
-      "fetchedAt": "2026-09-27T05:34:36.971Z"
+      "checkedAt": "2026-09-27T05:41:06.742Z",
+      "fetchedAt": "2026-09-27T05:41:06.742Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5A": {
+      "text": "Approximate area: (M5A) Toronto",
+      "approximate": true,
+      "coordinates": [
+        43.6555,
+        -79.3626
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M1C": {
+      "text": "Approximate area: (M1C) Scarborough (Rouge Hill / Port Union / Highland Creek)",
+      "approximate": true,
+      "coordinates": [
+        43.7878,
+        -79.1564
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1T": {
       "text": "Approximate area: (M1T) Scarborough (Clarks Corners / Tam O'Shanter / Sullivan)",
       "approximate": true,
@@ -339862,18 +340170,6 @@
       "coordinates": [
         43.6513,
         -79.3756
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5A": {
-      "text": "Approximate area: (M5A) Toronto",
-      "approximate": true,
-      "coordinates": [
-        43.6555,
-        -79.3626
       ],
       "division": "Division 51",
       "version": 1,
@@ -341121,18 +341417,6 @@
         -79.4692
       ],
       "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1C": {
-      "text": "Approximate area: (M1C) Scarborough (Rouge Hill / Port Union / Highland Creek)",
-      "approximate": true,
-      "coordinates": [
-        43.7878,
-        -79.1564
-      ],
-      "division": "Division 43",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
