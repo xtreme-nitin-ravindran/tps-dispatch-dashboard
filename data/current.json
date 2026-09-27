@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T09:10:04.216Z",
-  "sourceUpdatedAt": "2026-09-27T09:05:02.000Z",
+  "fetchedAt": "2026-09-27T09:11:24.198Z",
+  "sourceUpdatedAt": "2026-09-27T09:10:01.000Z",
   "incidents": [
+    {
+      "id": "F26153290",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M2K",
+      "division": "111",
+      "timestamp": "2026-09-27T09:03:25.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T09:11:24.198Z",
+      "lastSeenAt": "2026-09-27T09:11:24.198Z",
+      "geography": {
+        "text": "Approximate area: (M2K) North York (Bayview Village)",
+        "approximate": true,
+        "coordinates": [
+          43.7797,
+          -79.3813
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26153291",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5P",
+      "division": "343",
+      "timestamp": "2026-09-27T09:03:06.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T09:11:24.198Z",
+      "lastSeenAt": "2026-09-27T09:11:24.198Z",
+      "geography": {
+        "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
+        "approximate": true,
+        "coordinates": [
+          43.6966,
+          -79.412
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26153289",
       "source": "TFS",
@@ -15,7 +67,7 @@
       "division": "226",
       "timestamp": "2026-09-27T08:52:12.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -458,7 +510,7 @@
       "division": "222",
       "timestamp": "2026-09-27T08:16:21.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Command Unit",
@@ -523,7 +575,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T08:21:02.710Z",
       "lastMeaningfulUpdateAt": "2026-09-27T08:25:38.106Z",
-      "lastSeenAt": "2026-09-27T09:10:04.216Z",
+      "lastSeenAt": "2026-09-27T09:11:24.198Z",
       "geography": {
         "text": "Approximate location on King Street",
         "approximate": true,
@@ -6609,7 +6661,7 @@
       "respondingUnitCount": 15,
       "firstSeenAt": "2026-09-27T03:05:07.090Z",
       "lastMeaningfulUpdateAt": "2026-09-27T07:10:42.702Z",
-      "lastSeenAt": "2026-09-27T09:10:04.216Z",
+      "lastSeenAt": "2026-09-27T09:11:24.198Z",
       "geography": {
         "text": "Woodycrest Avenue between Gertrude Place & Selkirk Street",
         "approximate": false,
@@ -32053,7 +32105,7 @@
       "respondingUnitCount": 28,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-27T08:50:58.870Z",
-      "lastSeenAt": "2026-09-27T09:10:04.216Z",
+      "lastSeenAt": "2026-09-27T09:11:24.198Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -187816,12 +187868,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T09:10:04.216Z",
-      "sourceUpdatedAt": "2026-09-27T09:05:02.000Z",
+      "fetchedAt": "2026-09-27T09:11:24.198Z",
+      "sourceUpdatedAt": "2026-09-27T09:10:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T09:10:04.216Z",
+      "fetchedAt": "2026-09-27T09:11:24.198Z",
       "status": "ok"
     }
   },
@@ -340818,6 +340870,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M2K": {
+      "text": "Approximate area: (M2K) North York (Bayview Village)",
+      "approximate": true,
+      "coordinates": [
+        43.7797,
+        -79.3813
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M5P": {
+      "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
+      "approximate": true,
+      "coordinates": [
+        43.6966,
+        -79.412
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M4L": {
       "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
       "approximate": true,
@@ -341033,18 +341109,6 @@
         -79.3094
       ],
       "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5P": {
-      "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
-      "approximate": true,
-      "coordinates": [
-        43.6966,
-        -79.412
-      ],
-      "division": "Division 53",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -342131,18 +342195,6 @@
         -79.5402
       ],
       "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M2K": {
-      "text": "Approximate area: (M2K) North York (Bayview Village)",
-      "approximate": true,
-      "coordinates": [
-        43.7797,
-        -79.3813
-      ],
-      "division": "Division 33",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
