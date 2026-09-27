@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T07:24:48.211Z",
-  "sourceUpdatedAt": "2026-09-27T07:20:02.000Z",
+  "fetchedAt": "2026-09-27T07:26:07.907Z",
+  "sourceUpdatedAt": "2026-09-27T07:25:01.000Z",
   "incidents": [
+    {
+      "id": "F26153270",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Water Problem - Level 1",
+      "location": "LAKE SHORE BLVD, ET / TWENTY SEVENTH ST / TWENTY EIGHTH ST",
+      "division": "435",
+      "timestamp": "2026-09-27T07:16:17.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "435"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-27T07:26:07.907Z",
+      "lastSeenAt": "2026-09-27T07:26:07.907Z",
+      "geography": {
+        "text": "Lake Shore Boulevard between Twenty Seventh Street & Twenty Eighth Street",
+        "approximate": false,
+        "coordinates": [
+          43.596136349999995,
+          -79.5262807
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-27T07:26:07.907Z"
+      }
+    },
     {
       "id": "F26153269",
       "source": "TFS",
@@ -27,7 +61,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T07:21:24.374Z",
-      "lastSeenAt": "2026-09-27T07:24:48.211Z",
+      "lastSeenAt": "2026-09-27T07:26:07.907Z",
       "geography": {
         "text": "La Rose Avenue between Griggsden Avenue & Royal York Road",
         "approximate": false,
@@ -74,7 +108,7 @@
       ],
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-27T07:21:24.374Z",
-      "lastSeenAt": "2026-09-27T07:24:48.211Z",
+      "lastSeenAt": "2026-09-27T07:26:07.907Z",
       "geography": {
         "text": "Carlaw Avenue between Lane 2 South Eastern West Carlaw & Lane 1 South Eastern West Carlaw",
         "approximate": false,
@@ -519,7 +553,7 @@
       "division": "116",
       "timestamp": "2026-09-27T06:44:10.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -5265,7 +5299,7 @@
       "respondingUnitCount": 15,
       "firstSeenAt": "2026-09-27T03:05:07.090Z",
       "lastMeaningfulUpdateAt": "2026-09-27T07:10:42.702Z",
-      "lastSeenAt": "2026-09-27T07:24:48.211Z",
+      "lastSeenAt": "2026-09-27T07:26:07.907Z",
       "geography": {
         "text": "Woodycrest Avenue between Gertrude Place & Selkirk Street",
         "approximate": false,
@@ -30708,7 +30742,7 @@
       "respondingUnitCount": 27,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-27T06:46:41.284Z",
-      "lastSeenAt": "2026-09-27T07:24:48.211Z",
+      "lastSeenAt": "2026-09-27T07:26:07.907Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -187530,12 +187564,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T07:24:48.211Z",
-      "sourceUpdatedAt": "2026-09-27T07:20:02.000Z",
+      "fetchedAt": "2026-09-27T07:26:07.907Z",
+      "sourceUpdatedAt": "2026-09-27T07:25:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T07:24:48.211Z",
+      "fetchedAt": "2026-09-27T07:26:07.907Z",
       "status": "ok"
     }
   },
@@ -336356,8 +336390,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-27T07:20:22.375Z",
-      "fetchedAt": "2026-09-27T07:20:22.375Z"
+      "checkedAt": "2026-09-27T07:26:07.907Z",
+      "fetchedAt": "2026-09-27T07:26:07.907Z"
     },
     "transit": {
       "items": [
@@ -340714,14 +340748,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-27T07:20:23.000Z",
+      "sourceUpdatedAt": "2026-09-27T07:26:08.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-27T07:20:22.375Z",
-      "fetchedAt": "2026-09-27T07:20:22.375Z"
+      "checkedAt": "2026-09-27T07:26:07.907Z",
+      "fetchedAt": "2026-09-27T07:26:07.907Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "LAKE SHORE BLVD, ET / TWENTY SEVENTH ST / TWENTY EIGHTH ST": {
+      "text": "Lake Shore Boulevard between Twenty Seventh Street & Twenty Eighth Street",
+      "approximate": false,
+      "coordinates": [
+        43.596136349999995,
+        -79.5262807
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-27T07:26:07.907Z"
+    },
     "LA ROSE AVE, ET / GRIGGSDEN AVE / ROYAL YORK RD": {
       "text": "La Rose Avenue between Griggsden Avenue & Royal York Road",
       "approximate": false,
