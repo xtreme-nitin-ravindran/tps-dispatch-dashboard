@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T16:30:54.985Z",
-  "sourceUpdatedAt": "2026-09-27T16:25:02.000Z",
+  "fetchedAt": "2026-09-27T16:32:14.279Z",
+  "sourceUpdatedAt": "2026-09-27T16:30:02.000Z",
   "incidents": [
+    {
+      "id": "F26153428",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4W",
+      "division": "312",
+      "timestamp": "2026-09-27T16:22:38.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T16:32:14.279Z",
+      "lastSeenAt": "2026-09-27T16:32:14.279Z",
+      "geography": {
+        "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
+        "approximate": true,
+        "coordinates": [
+          43.6827,
+          -79.373
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26153427",
       "source": "TFS",
@@ -16,9 +42,18 @@
       "timestamp": "2026-09-27T16:19:42.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "114"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T16:26:04.627Z",
-      "lastSeenAt": "2026-09-27T16:30:54.985Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T16:32:14.279Z",
+      "lastSeenAt": "2026-09-27T16:32:14.279Z",
       "geography": {
         "text": "Approximate area: (M2M) Willowdale East (Newtonbrook)",
         "approximate": true,
@@ -42,9 +77,36 @@
       "timestamp": "2026-09-27T16:15:45.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "42"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "345"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "425"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "331"
+          ]
+        }
+      ],
+      "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-27T16:26:04.627Z",
-      "lastSeenAt": "2026-09-27T16:30:54.985Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T16:32:14.279Z",
+      "lastSeenAt": "2026-09-27T16:32:14.279Z",
       "geography": {
         "text": "Lansdowne Avenue between Jenet Avenue & Paton Road",
         "approximate": false,
@@ -67,7 +129,7 @@
       "division": "331",
       "timestamp": "2026-09-27T16:15:16.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-27T16:26:04.627Z",
       "lastSeenAt": "2026-09-27T16:30:54.985Z",
@@ -111,7 +173,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T16:16:20.010Z",
       "lastMeaningfulUpdateAt": "2026-09-27T16:21:10.520Z",
-      "lastSeenAt": "2026-09-27T16:30:54.985Z",
+      "lastSeenAt": "2026-09-27T16:32:14.279Z",
       "geography": {
         "text": "Lawrence Avenue between Kingston Road & Florist Lane",
         "approximate": false,
@@ -134,7 +196,7 @@
       "division": "221",
       "timestamp": "2026-09-27T16:09:07.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -181,7 +243,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T16:16:20.010Z",
       "lastMeaningfulUpdateAt": "2026-09-27T16:21:10.520Z",
-      "lastSeenAt": "2026-09-27T16:30:54.985Z",
+      "lastSeenAt": "2026-09-27T16:32:14.279Z",
       "geography": {
         "text": "Approximate area: (M2H) North York (Hillcrest Village)",
         "approximate": true,
@@ -275,7 +337,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-27T16:11:28.203Z",
       "lastMeaningfulUpdateAt": "2026-09-27T16:21:10.520Z",
-      "lastSeenAt": "2026-09-27T16:30:54.985Z",
+      "lastSeenAt": "2026-09-27T16:32:14.279Z",
       "geography": {
         "text": "King Street between Widmer Street & Peter Street",
         "approximate": false,
@@ -298,7 +360,7 @@
       "division": "334",
       "timestamp": "2026-09-27T16:01:11.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Other Unit",
@@ -496,7 +558,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T15:51:18.844Z",
       "lastMeaningfulUpdateAt": "2026-09-27T15:56:13.066Z",
-      "lastSeenAt": "2026-09-27T16:30:54.985Z",
+      "lastSeenAt": "2026-09-27T16:32:14.279Z",
       "geography": {
         "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
         "approximate": true,
@@ -867,7 +929,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T15:31:04.227Z",
       "lastMeaningfulUpdateAt": "2026-09-27T15:35:39.674Z",
-      "lastSeenAt": "2026-09-27T16:30:54.985Z",
+      "lastSeenAt": "2026-09-27T16:32:14.279Z",
       "geography": {
         "text": "Steeles Avenue East & Bestview Drive",
         "approximate": false,
@@ -188389,37 +188451,16 @@
         "division": "Division 23",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-5cb67b3378db3425b51a718b",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "FAIL TO REMAIN PROPERTY DAMAGE COLLISION",
-      "callTypeCode": "FTRPD",
-      "timestamp": "2026-09-20T16:31:57.000Z",
-      "location": "COLLEGE ST - LN 1 N COLLEGE E MAJOR",
-      "division": "HP",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "COLLEGE ST - LN 1 N COLLEGE E MAJOR",
-        "coordinates": [
-          43.657436699118286,
-          -79.40277413488532
-        ],
-        "division": "HP",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T16:30:54.985Z",
-      "sourceUpdatedAt": "2026-09-27T16:25:02.000Z",
+      "fetchedAt": "2026-09-27T16:32:14.279Z",
+      "sourceUpdatedAt": "2026-09-27T16:30:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T16:30:54.985Z",
+      "fetchedAt": "2026-09-27T16:32:14.279Z",
       "status": "ok"
     }
   },
@@ -337071,8 +337112,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-27T16:27:14.001Z",
-      "fetchedAt": "2026-09-27T16:27:14.001Z"
+      "checkedAt": "2026-09-27T16:32:14.279Z",
+      "fetchedAt": "2026-09-27T16:32:14.279Z"
     },
     "transit": {
       "items": [
@@ -339592,6 +339633,44 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
+          "id": "77045",
+          "title": "St Andrew: Escalator 6Y2E out of service from concourse to Line 1 platform due to a technical problem.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "13817",
+            "13818"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "13817",
+              "coordinates": [
+                43.648249,
+                -79.385088
+              ],
+              "name": "St Andrew Station - Northbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13818",
+              "coordinates": [
+                43.647049,
+                -79.384488
+              ],
+              "name": "St Andrew Station - Southbound Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790526559000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
           "id": "77042",
           "title": "St George: Elevator 1Y1L out of service between bus platform, Bedford rd west side entrance, concourse, Line 1 centre platform and Line 2 centre platform due to a technical problem.",
           "description": "",
@@ -341226,14 +341305,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-27T16:27:14.000Z",
+      "sourceUpdatedAt": "2026-09-27T16:32:15.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-27T16:27:14.001Z",
-      "fetchedAt": "2026-09-27T16:27:14.001Z"
+      "checkedAt": "2026-09-27T16:32:14.279Z",
+      "fetchedAt": "2026-09-27T16:32:14.279Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4W": {
+      "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
+      "approximate": true,
+      "coordinates": [
+        43.6827,
+        -79.373
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M2M": {
       "text": "Approximate area: (M2M) Willowdale East (Newtonbrook)",
       "approximate": true,
@@ -341458,18 +341549,6 @@
         -79.3978
       ],
       "division": "Division 52",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4W": {
-      "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
-      "approximate": true,
-      "coordinates": [
-        43.6827,
-        -79.373
-      ],
-      "division": "Division 53",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
