@@ -3,9 +3,84 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T08:19:46.916Z",
-  "sourceUpdatedAt": "2026-09-27T08:15:01.000Z",
+  "fetchedAt": "2026-09-27T08:21:02.710Z",
+  "sourceUpdatedAt": "2026-09-27T08:20:02.000Z",
   "incidents": [
+    {
+      "id": "F26153280",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "KING ST, TT / BEATY BOULEVARD PARKETTE TRL / BEATY BOULEVARD PARKETTE TRL",
+      "division": "426",
+      "timestamp": "2026-09-27T08:14:44.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T08:21:02.710Z",
+      "lastSeenAt": "2026-09-27T08:21:02.710Z",
+      "geography": {
+        "text": "Approximate location on King Street",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-27T08:21:02.710Z"
+      }
+    },
+    {
+      "id": "F26153279",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4C",
+      "division": "224",
+      "timestamp": "2026-09-27T08:12:39.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T08:21:02.710Z",
+      "lastSeenAt": "2026-09-27T08:21:02.710Z",
+      "geography": {
+        "text": "Approximate area: (M4C) East York (Woodbine Heights)",
+        "approximate": true,
+        "coordinates": [
+          43.6913,
+          -79.3116
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26153278",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "OLITI CRT, NY / TORYORK DR / SAN GABRIELE PL",
+      "division": "411",
+      "timestamp": "2026-09-27T08:12:09.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T08:21:02.710Z",
+      "lastSeenAt": "2026-09-27T08:21:02.710Z",
+      "geography": {
+        "text": "Oliti Court between Toryork Drive & San Gabriele Place",
+        "approximate": false,
+        "coordinates": [
+          43.7629246,
+          -79.56524830000001
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-27T08:21:02.710Z"
+      }
+    },
     {
       "id": "TPS-bb868d6ec65e583117acbd37",
       "source": "TPS",
@@ -160,7 +235,7 @@
       "division": "412",
       "timestamp": "2026-09-27T07:48:22.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -5945,7 +6020,7 @@
       "respondingUnitCount": 15,
       "firstSeenAt": "2026-09-27T03:05:07.090Z",
       "lastMeaningfulUpdateAt": "2026-09-27T07:10:42.702Z",
-      "lastSeenAt": "2026-09-27T08:19:46.916Z",
+      "lastSeenAt": "2026-09-27T08:21:02.710Z",
       "geography": {
         "text": "Woodycrest Avenue between Gertrude Place & Selkirk Street",
         "approximate": false,
@@ -31388,7 +31463,7 @@
       "respondingUnitCount": 27,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-27T06:46:41.284Z",
-      "lastSeenAt": "2026-09-27T08:19:46.916Z",
+      "lastSeenAt": "2026-09-27T08:21:02.710Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -187690,37 +187765,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-20T08:36:17.361Z"
       }
-    },
-    {
-      "id": "TPS-78b98b9529ee377da29e0501",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "ASSAULT JUST OCCURRED",
-      "callTypeCode": "ASSJU",
-      "timestamp": "2026-09-20T08:20:19.000Z",
-      "location": "SUMACH ST - KING ST E",
-      "division": "Division 51",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "SUMACH ST - KING ST E",
-        "coordinates": [
-          43.655549394653065,
-          -79.3583905611425
-        ],
-        "division": "Division 51",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T08:19:46.916Z",
-      "sourceUpdatedAt": "2026-09-27T08:15:01.000Z",
+      "fetchedAt": "2026-09-27T08:21:02.710Z",
+      "sourceUpdatedAt": "2026-09-27T08:20:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T08:19:46.916Z",
+      "fetchedAt": "2026-09-27T08:21:02.710Z",
       "status": "ok"
     }
   },
@@ -340807,6 +340861,39 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "KING ST, TT / BEATY BOULEVARD PARKETTE TRL / BEATY BOULEVARD PARKETTE TRL": {
+      "text": "Approximate location on King Street",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-27T08:21:02.710Z"
+    },
+    "M4C": {
+      "text": "Approximate area: (M4C) East York (Woodbine Heights)",
+      "approximate": true,
+      "coordinates": [
+        43.6913,
+        -79.3116
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "OLITI CRT, NY / TORYORK DR / SAN GABRIELE PL": {
+      "text": "Oliti Court between Toryork Drive & San Gabriele Place",
+      "approximate": false,
+      "coordinates": [
+        43.7629246,
+        -79.56524830000001
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-27T08:21:02.710Z"
+    },
     "BELLEVUE AVE, TT / WALES AVE / DENISON SQ": {
       "text": "Bellevue Avenue between Wales Avenue & Denison Sq",
       "approximate": false,
@@ -340827,18 +340914,6 @@
         -79.5909
       ],
       "division": "Division 23",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4C": {
-      "text": "Approximate area: (M4C) East York (Woodbine Heights)",
-      "approximate": true,
-      "coordinates": [
-        43.6913,
-        -79.3116
-      ],
-      "division": "Division 55",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
