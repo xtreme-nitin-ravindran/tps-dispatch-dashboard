@@ -3,9 +3,149 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T19:29:33.260Z",
-  "sourceUpdatedAt": "2026-09-27T19:25:01.000Z",
+  "fetchedAt": "2026-09-27T19:30:53.386Z",
+  "sourceUpdatedAt": "2026-09-27T19:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26153515",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4Y",
+      "division": "314",
+      "timestamp": "2026-09-27T19:23:40.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T19:30:53.386Z",
+      "lastSeenAt": "2026-09-27T19:30:53.386Z",
+      "geography": {
+        "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
+        "approximate": true,
+        "coordinates": [
+          43.6656,
+          -79.383
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26153514",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4S",
+      "division": "321",
+      "timestamp": "2026-09-27T19:22:11.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T19:30:53.386Z",
+      "lastSeenAt": "2026-09-27T19:30:53.386Z",
+      "geography": {
+        "text": "Approximate area: (M4S) Central Toronto (Davisville)",
+        "approximate": true,
+        "coordinates": [
+          43.702,
+          -79.3853
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-a39f419c866822d9ade028ff",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ROBBERY",
+      "callTypeCode": "ROB",
+      "timestamp": "2026-09-27T19:20:17.000Z",
+      "location": "ROTARY PEACE PARK TRL - LAKE SHORE DR",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ROTARY PEACE PARK TRL - LAKE SHORE DR",
+        "coordinates": [
+          43.59575573647623,
+          -79.50803217445076
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T19:30:53.386Z"
+    },
+    {
+      "id": "TPS-6852ea052548012ad4ece020",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-27T19:18:08.000Z",
+      "location": "KEELE ST - PIMLICO RD",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KEELE ST - PIMLICO RD",
+        "coordinates": [
+          43.70753545106234,
+          -79.48242444232469
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T19:30:53.386Z"
+    },
+    {
+      "id": "TPS-b2fc9e952fd9b6931a250836",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HOLDING LOST ELDERLY",
+      "callTypeCode": "LOSEL",
+      "timestamp": "2026-09-27T19:18:02.000Z",
+      "location": "FINCH AVE W - WOODBINE DOWNS BLVD",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "FINCH AVE W - WOODBINE DOWNS BLVD",
+        "coordinates": [
+          43.733780758295445,
+          -79.60667567228501
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T19:30:53.386Z"
+    },
+    {
+      "id": "TPS-83e4cbc98440ebe062a043af",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-27T19:17:35.000Z",
+      "location": "ST CLAIR AVE W - BATHURST ST",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ST CLAIR AVE W - BATHURST ST",
+        "coordinates": [
+          43.68322342027825,
+          -79.41830923493404
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T19:30:53.386Z"
+    },
     {
       "id": "F26153513",
       "source": "TFS",
@@ -16,9 +156,18 @@
       "timestamp": "2026-09-27T19:17:23.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "232"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T19:25:33.255Z",
-      "lastSeenAt": "2026-09-27T19:29:33.260Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T19:30:53.386Z",
+      "lastSeenAt": "2026-09-27T19:30:53.386Z",
       "geography": {
         "text": "Approximate area: (M1P) Scarborough (Dorset Park / Wexford Heights / Scarborough Town Centre)",
         "approximate": true,
@@ -33,6 +182,28 @@
       }
     },
     {
+      "id": "TPS-8d3119a97e9a1c15a181a35d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-27T19:16:53.000Z",
+      "location": "BLOOR ST W - DURIE ST",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BLOOR ST W - DURIE ST",
+        "coordinates": [
+          43.65070035131458,
+          -79.47815261909037
+        ],
+        "division": "Division 11",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T19:30:53.386Z"
+    },
+    {
       "id": "F26153511",
       "source": "TFS",
       "eventType": "fire",
@@ -42,9 +213,18 @@
       "timestamp": "2026-09-27T19:16:09.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "326"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T19:25:33.255Z",
-      "lastSeenAt": "2026-09-27T19:29:33.260Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T19:30:53.386Z",
+      "lastSeenAt": "2026-09-27T19:30:53.386Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -54,6 +234,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-27T19:19:43.387Z"
       }
+    },
+    {
+      "id": "TPS-37edb9eb664100c20ab3c51c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-27T19:15:38.000Z",
+      "location": "MILNER AVE - MCCOWAN RD",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MILNER AVE - MCCOWAN RD",
+        "coordinates": [
+          43.785397265258645,
+          -79.25646382664974
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T19:30:53.386Z"
     },
     {
       "id": "F26153510",
@@ -76,7 +278,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T19:21:03.108Z",
       "lastMeaningfulUpdateAt": "2026-09-27T19:25:33.255Z",
-      "lastSeenAt": "2026-09-27T19:29:33.260Z",
+      "lastSeenAt": "2026-09-27T19:30:53.386Z",
       "geography": {
         "text": "Approximate area: (M6P) West Toronto (High Park / The Junction South)",
         "approximate": true,
@@ -89,6 +291,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-b40e49fbcf77f1ad011e5137",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT JUST OCCURRED",
+      "callTypeCode": "THEJU",
+      "timestamp": "2026-09-27T19:14:07.000Z",
+      "location": "LINDYLOU PARK TRL - JAYZEL DR",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LINDYLOU PARK TRL - JAYZEL DR",
+        "coordinates": [
+          43.748790081742314,
+          -79.54833219099969
+        ],
+        "division": "Division 31",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T19:30:53.386Z"
     },
     {
       "id": "F26153509",
@@ -115,6 +339,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-c5ca1bf53b06c5a852ee5ebc",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT IN PROGRESS",
+      "callTypeCode": "ASSPR",
+      "timestamp": "2026-09-27T19:12:57.000Z",
+      "location": "PETTIBONE SQ - 180 CHESTER LE BLVD",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "PETTIBONE SQ - 180 CHESTER LE BLVD",
+        "coordinates": [
+          43.7974712880144,
+          -79.33094577743309
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T19:30:53.386Z"
+    },
+    {
+      "id": "TPS-2114f4cb077320da4d93de58",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-27T19:12:19.000Z",
+      "location": "BLEECKER ST - HOWARD ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BLEECKER ST - HOWARD ST",
+        "coordinates": [
+          43.67127351037715,
+          -79.37540855657336
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T19:30:53.386Z"
     },
     {
       "id": "F26153508",
@@ -163,7 +431,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T19:21:03.108Z",
       "lastMeaningfulUpdateAt": "2026-09-27T19:25:33.255Z",
-      "lastSeenAt": "2026-09-27T19:29:33.260Z",
+      "lastSeenAt": "2026-09-27T19:30:53.386Z",
       "geography": {
         "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
         "approximate": true,
@@ -205,7 +473,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-27T19:21:03.108Z",
       "lastMeaningfulUpdateAt": "2026-09-27T19:25:33.255Z",
-      "lastSeenAt": "2026-09-27T19:29:33.260Z",
+      "lastSeenAt": "2026-09-27T19:30:53.386Z",
       "geography": {
         "text": "Church Street between Queen Street East & Shuter Street",
         "approximate": false,
@@ -218,6 +486,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-27T19:21:03.108Z"
       }
+    },
+    {
+      "id": "TPS-cb05b532ce813152840e868a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING ELDERLY",
+      "callTypeCode": "MISEL",
+      "timestamp": "2026-09-27T19:08:54.000Z",
+      "location": "QUEEN ST E - SHUTER ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "QUEEN ST E - SHUTER ST",
+        "coordinates": [
+          43.65456039366406,
+          -79.37761274799806
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T19:30:53.386Z"
     },
     {
       "id": "TPS-79a901af38de9731153baa36",
@@ -307,7 +597,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T19:10:26.884Z",
       "lastMeaningfulUpdateAt": "2026-09-27T19:16:23.617Z",
-      "lastSeenAt": "2026-09-27T19:29:33.260Z",
+      "lastSeenAt": "2026-09-27T19:30:53.386Z",
       "geography": {
         "text": "Brentcliffe Road between Vanderhoof Avenue & Eglinton Avenue East",
         "approximate": false,
@@ -537,7 +827,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T19:01:02.936Z",
       "lastMeaningfulUpdateAt": "2026-09-27T19:06:23.296Z",
-      "lastSeenAt": "2026-09-27T19:29:33.260Z",
+      "lastSeenAt": "2026-09-27T19:30:53.386Z",
       "geography": {
         "text": "Sheppard Avenue East & Markham Road",
         "approximate": false,
@@ -924,7 +1214,7 @@
       "respondingUnitCount": 11,
       "firstSeenAt": "2026-09-27T18:40:39.578Z",
       "lastMeaningfulUpdateAt": "2026-09-27T18:45:33.415Z",
-      "lastSeenAt": "2026-09-27T19:29:33.260Z",
+      "lastSeenAt": "2026-09-27T19:30:53.386Z",
       "geography": {
         "text": "Dundas Street between Dovercourt Road & Coolmine Road",
         "approximate": false,
@@ -1642,7 +1932,7 @@
       "division": "314",
       "timestamp": "2026-09-27T18:13:26.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -2330,7 +2620,7 @@
       "division": "434",
       "timestamp": "2026-09-27T17:53:33.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -189743,50 +190033,16 @@
         "division": "Division 31",
         "approximate": true
       }
-    },
-    {
-      "id": "F26149317",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M6H",
-      "division": "345",
-      "timestamp": "2026-09-20T19:30:09.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "344",
-            "345"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-20T19:36:33.124Z",
-      "lastSeenAt": "2026-09-20T19:45:12.933Z",
-      "geography": {
-        "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
-        "approximate": true,
-        "coordinates": [
-          43.6655,
-          -79.4378
-        ],
-        "division": "Division 11",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T19:29:33.260Z",
-      "sourceUpdatedAt": "2026-09-27T19:25:01.000Z",
+      "fetchedAt": "2026-09-27T19:30:53.386Z",
+      "sourceUpdatedAt": "2026-09-27T19:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T19:29:33.260Z",
+      "fetchedAt": "2026-09-27T19:30:53.386Z",
       "status": "ok"
     }
   },
@@ -338423,8 +338679,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-27T19:25:33.255Z",
-      "fetchedAt": "2026-09-27T19:25:33.255Z"
+      "checkedAt": "2026-09-27T19:30:53.386Z",
+      "fetchedAt": "2026-09-27T19:30:53.386Z"
     },
     "transit": {
       "items": [
@@ -342380,14 +342636,38 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-27T19:25:34.000Z",
+      "sourceUpdatedAt": "2026-09-27T19:30:54.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-27T19:25:33.255Z",
-      "fetchedAt": "2026-09-27T19:25:33.255Z"
+      "checkedAt": "2026-09-27T19:30:53.386Z",
+      "fetchedAt": "2026-09-27T19:30:53.386Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4Y": {
+      "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
+      "approximate": true,
+      "coordinates": [
+        43.6656,
+        -79.383
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4S": {
+      "text": "Approximate area: (M4S) Central Toronto (Davisville)",
+      "approximate": true,
+      "coordinates": [
+        43.702,
+        -79.3853
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1P": {
       "text": "Approximate area: (M1P) Scarborough (Dorset Park / Wexford Heights / Scarborough Town Centre)",
       "approximate": true,
@@ -344068,18 +344348,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
     },
-    "M4Y": {
-      "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
-      "approximate": true,
-      "coordinates": [
-        43.6656,
-        -79.383
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "YONGE ST, NY / EMPRESS AVE / KINGSDALE AVE": {
       "text": "Yonge Street between Empress Avenue & Kingsdale Avenue",
       "approximate": false,
@@ -344277,18 +344545,6 @@
         -79.4177
       ],
       "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4S": {
-      "text": "Approximate area: (M4S) Central Toronto (Davisville)",
-      "approximate": true,
-      "coordinates": [
-        43.702,
-        -79.3853
-      ],
-      "division": "Division 53",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
