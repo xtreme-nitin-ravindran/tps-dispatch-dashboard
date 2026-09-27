@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T15:29:44.247Z",
-  "sourceUpdatedAt": "2026-09-27T15:25:01.000Z",
+  "fetchedAt": "2026-09-27T15:31:04.227Z",
+  "sourceUpdatedAt": "2026-09-27T15:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26153407",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle Accident with Fire",
+      "location": "STEELES AVE E / BESTVIEW DR",
+      "division": "111",
+      "timestamp": "2026-09-27T15:25:12.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T15:31:04.227Z",
+      "lastSeenAt": "2026-09-27T15:31:04.227Z",
+      "geography": {
+        "text": "Steeles Avenue East & Bestview Drive",
+        "approximate": false,
+        "coordinates": [
+          43.8061041,
+          -79.3834014
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-27T15:31:04.227Z"
+      }
+    },
+    {
+      "id": "F26153406",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5T",
+      "division": "315",
+      "timestamp": "2026-09-27T15:23:42.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T15:31:04.227Z",
+      "lastSeenAt": "2026-09-27T15:31:04.227Z",
+      "geography": {
+        "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
+        "approximate": true,
+        "coordinates": [
+          43.6541,
+          -79.3978
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26153404",
       "source": "TFS",
@@ -26,7 +78,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T15:26:13.366Z",
-      "lastSeenAt": "2026-09-27T15:29:44.247Z",
+      "lastSeenAt": "2026-09-27T15:31:04.227Z",
       "geography": {
         "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
         "approximate": true,
@@ -66,7 +118,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T15:26:13.366Z",
-      "lastSeenAt": "2026-09-27T15:29:44.247Z",
+      "lastSeenAt": "2026-09-27T15:31:04.227Z",
       "geography": {
         "text": "Fairway Drive between Braeburn Boulevard & Cedar Brae Boulevard",
         "approximate": false,
@@ -81,6 +133,50 @@
       }
     },
     {
+      "id": "TPS-0c144a705c54af4905a12cba",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-27T15:15:41.000Z",
+      "location": "HARVIE AVE - LANSDOWNE AVE",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HARVIE AVE - LANSDOWNE AVE",
+        "coordinates": [
+          43.676354518290445,
+          -79.45058401699507
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:31:04.227Z"
+    },
+    {
+      "id": "TPS-4304c8b6bce2ca6d4363a3fb",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-27T15:13:02.000Z",
+      "location": "LINSMORE CRES - DERWYN RD",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LINSMORE CRES - DERWYN RD",
+        "coordinates": [
+          43.6927860115965,
+          -79.33428843091704
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:31:04.227Z"
+    },
+    {
       "id": "F26153402",
       "source": "TFS",
       "eventType": "fire",
@@ -89,7 +185,7 @@
       "division": "341",
       "timestamp": "2026-09-27T15:10:43.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -124,7 +220,7 @@
       "division": "225",
       "timestamp": "2026-09-27T15:09:39.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -151,6 +247,28 @@
       }
     },
     {
+      "id": "TPS-31f417a286d2434546f58cfb",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "TRESPASS",
+      "callTypeCode": "TRE",
+      "timestamp": "2026-09-27T15:09:38.000Z",
+      "location": "GARDINER XWY W - METROLINX",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GARDINER XWY W - METROLINX",
+        "coordinates": [
+          43.64317288227655,
+          -79.37791754527557
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T15:31:04.227Z"
+    },
+    {
       "id": "F26153400",
       "source": "TFS",
       "eventType": "fire",
@@ -171,7 +289,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T15:16:09.104Z",
       "lastMeaningfulUpdateAt": "2026-09-27T15:21:02.457Z",
-      "lastSeenAt": "2026-09-27T15:29:44.247Z",
+      "lastSeenAt": "2026-09-27T15:31:04.227Z",
       "geography": {
         "text": "Approximate area: (M4J) East Toronto (The Danforth East)",
         "approximate": true,
@@ -206,7 +324,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T15:16:09.104Z",
       "lastMeaningfulUpdateAt": "2026-09-27T15:21:02.457Z",
-      "lastSeenAt": "2026-09-27T15:29:44.247Z",
+      "lastSeenAt": "2026-09-27T15:31:04.227Z",
       "geography": {
         "text": "British Columbia Road & Lake Shore Boulevard West",
         "approximate": false,
@@ -339,7 +457,7 @@
       "division": "146",
       "timestamp": "2026-09-27T14:56:32.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -12387,7 +12505,7 @@
       "respondingUnitCount": 19,
       "firstSeenAt": "2026-09-27T03:05:07.090Z",
       "lastMeaningfulUpdateAt": "2026-09-27T14:05:28.171Z",
-      "lastSeenAt": "2026-09-27T15:29:44.247Z",
+      "lastSeenAt": "2026-09-27T15:31:04.227Z",
       "geography": {
         "text": "Woodycrest Avenue between Gertrude Place & Selkirk Street",
         "approximate": false,
@@ -188335,12 +188453,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T15:29:44.247Z",
-      "sourceUpdatedAt": "2026-09-27T15:25:01.000Z",
+      "fetchedAt": "2026-09-27T15:31:04.227Z",
+      "sourceUpdatedAt": "2026-09-27T15:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T15:29:44.247Z",
+      "fetchedAt": "2026-09-27T15:31:04.227Z",
       "status": "ok"
     }
   },
@@ -336992,8 +337110,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-27T15:25:02.595Z",
-      "fetchedAt": "2026-09-27T15:25:02.595Z"
+      "checkedAt": "2026-09-27T15:31:04.227Z",
+      "fetchedAt": "2026-09-27T15:31:04.227Z"
     },
     "transit": {
       "items": [
@@ -341328,14 +341446,38 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-27T15:25:03.000Z",
+      "sourceUpdatedAt": "2026-09-27T15:31:04.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-27T15:25:02.595Z",
-      "fetchedAt": "2026-09-27T15:25:02.595Z"
+      "checkedAt": "2026-09-27T15:31:04.227Z",
+      "fetchedAt": "2026-09-27T15:31:04.227Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "STEELES AVE E / BESTVIEW DR": {
+      "text": "Steeles Avenue East & Bestview Drive",
+      "approximate": false,
+      "coordinates": [
+        43.8061041,
+        -79.3834014
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-27T15:31:04.227Z"
+    },
+    "M5T": {
+      "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
+      "approximate": true,
+      "coordinates": [
+        43.6541,
+        -79.3978
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M4W": {
       "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
       "approximate": true,
@@ -341668,18 +341810,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-27T14:12:08.256Z"
-    },
-    "M5T": {
-      "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
-      "approximate": true,
-      "coordinates": [
-        43.6541,
-        -79.3978
-      ],
-      "division": "Division 52",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M5B": {
       "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
