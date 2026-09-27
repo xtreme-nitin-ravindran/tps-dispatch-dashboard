@@ -3,9 +3,58 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T04:20:25.162Z",
-  "sourceUpdatedAt": "2026-09-27T04:15:01.000Z",
+  "fetchedAt": "2026-09-27T04:21:28.573Z",
+  "sourceUpdatedAt": "2026-09-27T04:20:01.000Z",
   "incidents": [
+    {
+      "id": "F26153221",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6C",
+      "division": "341",
+      "timestamp": "2026-09-27T04:13:48.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T04:21:28.573Z",
+      "lastSeenAt": "2026-09-27T04:21:28.573Z",
+      "geography": {
+        "text": "Approximate area: (M6C) York (Cedarvale)",
+        "approximate": true,
+        "coordinates": [
+          43.6915,
+          -79.4307
+        ],
+        "division": "Division 13",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26153220",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "MILLBROOK CRES, TT / INGHAM AVE / INGHAM AVE",
+      "division": "324",
+      "timestamp": "2026-09-27T04:13:30.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T04:21:28.573Z",
+      "lastSeenAt": "2026-09-27T04:21:28.573Z",
+      "geography": {
+        "text": "Approximate location on Millbrook Crescent",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-27T04:21:28.573Z"
+      }
+    },
     {
       "id": "TPS-826a18e79af42ca9918477cc",
       "source": "TPS",
@@ -29,6 +78,32 @@
       "firstSeenAt": "2026-09-27T04:18:54.904Z"
     },
     {
+      "id": "F26153219",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5S",
+      "division": "314",
+      "timestamp": "2026-09-27T04:12:15.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T04:21:28.573Z",
+      "lastSeenAt": "2026-09-27T04:21:28.573Z",
+      "geography": {
+        "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
+        "approximate": true,
+        "coordinates": [
+          43.6629,
+          -79.3987
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
       "id": "TPS-ac936639e365641b75d94290",
       "source": "TPS",
       "eventType": "police",
@@ -49,6 +124,32 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-27T04:18:54.904Z"
+    },
+    {
+      "id": "F26153218",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6C",
+      "division": "341",
+      "timestamp": "2026-09-27T04:11:34.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T04:21:28.573Z",
+      "lastSeenAt": "2026-09-27T04:21:28.573Z",
+      "geography": {
+        "text": "Approximate area: (M6C) York (Cedarvale)",
+        "approximate": true,
+        "coordinates": [
+          43.6915,
+          -79.4307
+        ],
+        "division": "Division 13",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
     },
     {
       "id": "TPS-ebea2dcdcc0c0234551a64e3",
@@ -126,9 +227,24 @@
       "timestamp": "2026-09-27T04:09:32.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "321"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "227"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T04:15:28.597Z",
-      "lastSeenAt": "2026-09-27T04:20:25.162Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T04:21:28.573Z",
+      "lastSeenAt": "2026-09-27T04:21:28.573Z",
       "geography": {
         "text": "Approximate location near Cosburn Avenue & Derwyn Road",
         "approximate": true,
@@ -174,9 +290,18 @@
       "timestamp": "2026-09-27T04:07:32.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Hazmat Unit",
+          "numbers": [
+            "323"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T04:15:28.597Z",
-      "lastSeenAt": "2026-09-27T04:20:25.162Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T04:21:28.573Z",
+      "lastSeenAt": "2026-09-27T04:21:28.573Z",
       "geography": {
         "text": "Approximate area: (M4J) East Toronto (The Danforth East)",
         "approximate": true,
@@ -243,7 +368,7 @@
       "division": "245",
       "timestamp": "2026-09-27T04:03:50.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -300,7 +425,7 @@
       "division": "442",
       "timestamp": "2026-09-27T03:59:03.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -468,7 +593,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T04:00:39.185Z",
       "lastMeaningfulUpdateAt": "2026-09-27T04:05:49.190Z",
-      "lastSeenAt": "2026-09-27T04:20:25.162Z",
+      "lastSeenAt": "2026-09-27T04:21:28.573Z",
       "geography": {
         "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
         "approximate": true,
@@ -513,7 +638,7 @@
       "division": "311",
       "timestamp": "2026-09-27T03:52:50.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -617,7 +742,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T03:56:48.851Z",
       "lastMeaningfulUpdateAt": "2026-09-27T04:00:39.185Z",
-      "lastSeenAt": "2026-09-27T04:20:25.162Z",
+      "lastSeenAt": "2026-09-27T04:21:28.573Z",
       "geography": {
         "text": "Approximate area: (M4C) East York (Woodbine Heights)",
         "approximate": true,
@@ -1912,7 +2037,7 @@
       "respondingUnitCount": 13,
       "firstSeenAt": "2026-09-27T03:05:07.090Z",
       "lastMeaningfulUpdateAt": "2026-09-27T03:56:48.851Z",
-      "lastSeenAt": "2026-09-27T04:20:25.162Z",
+      "lastSeenAt": "2026-09-27T04:21:28.573Z",
       "geography": {
         "text": "Woodycrest Avenue between Gertrude Place & Selkirk Street",
         "approximate": false,
@@ -27353,7 +27478,7 @@
       "respondingUnitCount": 25,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-27T03:00:31.599Z",
-      "lastSeenAt": "2026-09-27T04:20:25.162Z",
+      "lastSeenAt": "2026-09-27T04:21:28.573Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -186457,71 +186582,16 @@
         "division": "Division 51",
         "approximate": true
       }
-    },
-    {
-      "id": "F26149018",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Alarm Single Source",
-      "location": "YORK MILLS RD, NY / SANDOVER DR / CLAYLAND DR",
-      "division": "123",
-      "timestamp": "2026-09-20T04:21:27.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "123",
-            "233"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-20T04:31:17.947Z",
-      "lastSeenAt": "2026-09-20T04:55:52.812Z",
-      "geography": {
-        "text": "York Mills Road between Sandover Drive & Clayland Drive",
-        "approximate": false,
-        "coordinates": [
-          43.759753700000005,
-          -79.33167245
-        ],
-        "division": "Division 33",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-20T04:31:17.947Z"
-      }
-    },
-    {
-      "id": "TPS-6ba67d0ca913c4817e1647f5",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "NOISY PARTY",
-      "callTypeCode": "NOIPA",
-      "timestamp": "2026-09-20T04:20:58.000Z",
-      "location": "ROYAL YORK RD - DWIGHT AVE",
-      "division": "Division 22",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "ROYAL YORK RD - DWIGHT AVE",
-        "coordinates": [
-          43.603979376657016,
-          -79.49862324817688
-        ],
-        "division": "Division 22",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T04:20:25.162Z",
-      "sourceUpdatedAt": "2026-09-27T04:15:01.000Z",
+      "fetchedAt": "2026-09-27T04:21:28.573Z",
+      "sourceUpdatedAt": "2026-09-27T04:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T04:20:25.162Z",
+      "fetchedAt": "2026-09-27T04:21:28.573Z",
       "status": "ok"
     }
   },
@@ -339582,6 +339652,39 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6C": {
+      "text": "Approximate area: (M6C) York (Cedarvale)",
+      "approximate": true,
+      "coordinates": [
+        43.6915,
+        -79.4307
+      ],
+      "division": "Division 13",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "MILLBROOK CRES, TT / INGHAM AVE / INGHAM AVE": {
+      "text": "Approximate location on Millbrook Crescent",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-27T04:21:28.573Z"
+    },
+    "M5S": {
+      "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
+      "approximate": true,
+      "coordinates": [
+        43.6629,
+        -79.3987
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "COSBURN AVE, EY / LINSMORE CRES / DERWYN RD": {
       "text": "Approximate location near Cosburn Avenue & Derwyn Road",
       "approximate": true,
@@ -340443,18 +340546,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
     },
-    "M6C": {
-      "text": "Approximate area: (M6C) York (Cedarvale)",
-      "approximate": true,
-      "coordinates": [
-        43.6915,
-        -79.4307
-      ],
-      "division": "Division 13",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "M1H": {
       "text": "Approximate area: (M1H) Scarborough (Cedarbrae)",
       "approximate": true,
@@ -340658,18 +340749,6 @@
         -79.5013
       ],
       "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5S": {
-      "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
-      "approximate": true,
-      "coordinates": [
-        43.6629,
-        -79.3987
-      ],
-      "division": "Division 52",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -351149,18 +351228,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-20T04:52:24.149Z"
-    },
-    "YORK MILLS RD, NY / SANDOVER DR / CLAYLAND DR": {
-      "text": "York Mills Road between Sandover Drive & Clayland Drive",
-      "approximate": false,
-      "coordinates": [
-        43.759753700000005,
-        -79.33167245
-      ],
-      "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-20T04:31:17.947Z"
     }
   }
 }
