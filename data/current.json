@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T04:54:35.506Z",
-  "sourceUpdatedAt": "2026-09-27T04:50:02.000Z",
+  "fetchedAt": "2026-09-27T04:55:53.884Z",
+  "sourceUpdatedAt": "2026-09-27T04:55:02.000Z",
   "incidents": [
+    {
+      "id": "F26153229",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "KING ST, TT / LAMPORT STADIUM PARK TRL / FRASER AVE",
+      "division": "346",
+      "timestamp": "2026-09-27T04:50:05.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T04:55:53.884Z",
+      "lastSeenAt": "2026-09-27T04:55:53.884Z",
+      "geography": {
+        "text": "Approximate location near King Street & Fraser Avenue",
+        "approximate": true,
+        "coordinates": [
+          43.6394619,
+          -79.4248139
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-25T09:11:11.548Z"
+      }
+    },
     {
       "id": "TPS-5027d661fbfaac69e9fd1125",
       "source": "TPS",
@@ -70,7 +96,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T04:45:35.375Z",
-      "lastSeenAt": "2026-09-27T04:54:35.506Z",
+      "lastSeenAt": "2026-09-27T04:55:53.884Z",
       "geography": {
         "text": "Approximate area: (M1J) Scarborough (Eglinton)",
         "approximate": true,
@@ -214,7 +240,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T04:45:35.375Z",
-      "lastSeenAt": "2026-09-27T04:54:35.506Z",
+      "lastSeenAt": "2026-09-27T04:55:53.884Z",
       "geography": {
         "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
         "approximate": true,
@@ -292,7 +318,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T04:40:38.691Z",
-      "lastSeenAt": "2026-09-27T04:54:35.506Z",
+      "lastSeenAt": "2026-09-27T04:55:53.884Z",
       "geography": {
         "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
         "approximate": true,
@@ -625,7 +651,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T04:26:14.691Z",
       "lastMeaningfulUpdateAt": "2026-09-27T04:30:49.005Z",
-      "lastSeenAt": "2026-09-27T04:54:35.506Z",
+      "lastSeenAt": "2026-09-27T04:55:53.884Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -689,7 +715,7 @@
       "division": "341",
       "timestamp": "2026-09-27T04:13:48.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -2744,7 +2770,7 @@
       "respondingUnitCount": 13,
       "firstSeenAt": "2026-09-27T03:05:07.090Z",
       "lastMeaningfulUpdateAt": "2026-09-27T03:56:48.851Z",
-      "lastSeenAt": "2026-09-27T04:54:35.506Z",
+      "lastSeenAt": "2026-09-27T04:55:53.884Z",
       "geography": {
         "text": "Woodycrest Avenue between Gertrude Place & Selkirk Street",
         "approximate": false,
@@ -28185,7 +28211,7 @@
       "respondingUnitCount": 25,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-27T03:00:31.599Z",
-      "lastSeenAt": "2026-09-27T04:54:35.506Z",
+      "lastSeenAt": "2026-09-27T04:55:53.884Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -186951,12 +186977,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T04:54:35.506Z",
-      "sourceUpdatedAt": "2026-09-27T04:50:02.000Z",
+      "fetchedAt": "2026-09-27T04:55:53.884Z",
+      "sourceUpdatedAt": "2026-09-27T04:55:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T04:54:35.506Z",
+      "fetchedAt": "2026-09-27T04:55:53.884Z",
       "status": "ok"
     }
   },
@@ -335777,8 +335803,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-27T04:49:45.828Z",
-      "fetchedAt": "2026-09-27T04:49:45.828Z"
+      "checkedAt": "2026-09-27T04:55:53.884Z",
+      "fetchedAt": "2026-09-27T04:55:53.884Z"
     },
     "transit": {
       "items": [
@@ -339839,14 +339865,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-27T04:49:46.000Z",
+      "sourceUpdatedAt": "2026-09-27T04:55:54.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-27T04:49:45.828Z",
-      "fetchedAt": "2026-09-27T04:49:45.828Z"
+      "checkedAt": "2026-09-27T04:55:53.884Z",
+      "fetchedAt": "2026-09-27T04:55:53.884Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "KING ST, TT / LAMPORT STADIUM PARK TRL / FRASER AVE": {
+      "text": "Approximate location near King Street & Fraser Avenue",
+      "approximate": true,
+      "coordinates": [
+        43.6394619,
+        -79.4248139
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-25T09:11:11.548Z"
+    },
     "M1J": {
       "text": "Approximate area: (M1J) Scarborough (Eglinton)",
       "approximate": true,
@@ -342750,18 +342788,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T09:56:29.929Z"
-    },
-    "KING ST, TT / LAMPORT STADIUM PARK TRL / FRASER AVE": {
-      "text": "Approximate location near King Street & Fraser Avenue",
-      "approximate": true,
-      "coordinates": [
-        43.6394619,
-        -79.4248139
-      ],
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-25T09:11:11.548Z"
     },
     "MARKET ST, TT / / CONGER COAL LANE": {
       "text": "Market Street & Conger Coal Lane",
