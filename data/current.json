@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T13:50:20.471Z",
-  "sourceUpdatedAt": "2026-09-27T13:45:02.000Z",
+  "fetchedAt": "2026-09-27T13:51:16.020Z",
+  "sourceUpdatedAt": "2026-09-27T13:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26153365",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3J",
+      "division": "144",
+      "timestamp": "2026-09-27T13:41:41.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T13:51:16.020Z",
+      "lastSeenAt": "2026-09-27T13:51:16.020Z",
+      "geography": {
+        "text": "Approximate area: (M3J) North York (Northwood Park / York University)",
+        "approximate": true,
+        "coordinates": [
+          43.7694,
+          -79.4921
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-21T22:01:19.951Z"
+      }
+    },
     {
       "id": "F26153364",
       "source": "TFS",
@@ -16,9 +42,18 @@
       "timestamp": "2026-09-27T13:38:29.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "343"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T13:46:15.394Z",
-      "lastSeenAt": "2026-09-27T13:50:20.471Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T13:51:16.020Z",
+      "lastSeenAt": "2026-09-27T13:51:16.020Z",
       "geography": {
         "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
         "approximate": true,
@@ -42,9 +77,24 @@
       "timestamp": "2026-09-27T13:36:10.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "226"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "227"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T13:46:15.394Z",
-      "lastSeenAt": "2026-09-27T13:50:20.471Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T13:51:16.020Z",
+      "lastSeenAt": "2026-09-27T13:51:16.020Z",
       "geography": {
         "text": "Kingston Road between Malvern Avenue & Hannaford Street",
         "approximate": false,
@@ -80,7 +130,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T13:41:37.218Z",
       "lastMeaningfulUpdateAt": "2026-09-27T13:46:15.394Z",
-      "lastSeenAt": "2026-09-27T13:50:20.471Z",
+      "lastSeenAt": "2026-09-27T13:51:16.020Z",
       "geography": {
         "text": "Approximate location on Yonge Street",
         "approximate": true,
@@ -110,6 +160,12 @@
           ]
         },
         {
+          "type": "High-Rise Unit",
+          "numbers": [
+            "332"
+          ]
+        },
+        {
           "type": "Ladder Truck",
           "numbers": [
             "325",
@@ -136,10 +192,10 @@
           ]
         }
       ],
-      "respondingUnitCount": 8,
+      "respondingUnitCount": 9,
       "firstSeenAt": "2026-09-27T13:41:37.218Z",
-      "lastMeaningfulUpdateAt": "2026-09-27T13:46:15.394Z",
-      "lastSeenAt": "2026-09-27T13:50:20.471Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T13:51:16.020Z",
+      "lastSeenAt": "2026-09-27T13:51:16.020Z",
       "geography": {
         "text": "George Street between Shuter Street & Dundas Street East",
         "approximate": false,
@@ -174,7 +230,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T13:41:37.218Z",
       "lastMeaningfulUpdateAt": "2026-09-27T13:46:15.394Z",
-      "lastSeenAt": "2026-09-27T13:50:20.471Z",
+      "lastSeenAt": "2026-09-27T13:51:16.020Z",
       "geography": {
         "text": "Cortleigh Boulevard between Mona Drive & Proudfoot Avenue",
         "approximate": false,
@@ -247,6 +303,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-295258dd98d3eaa87b76ab83",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "NOISY PARTY",
+      "callTypeCode": "NOIPA",
+      "timestamp": "2026-09-27T13:22:56.000Z",
+      "location": "TAYLOR CREEK TRL - EASTDALE AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "TAYLOR CREEK TRL - EASTDALE AVE",
+        "coordinates": [
+          43.69561141270135,
+          -79.30116885431066
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T13:51:16.020Z"
     },
     {
       "id": "TPS-e1845715a3feb24fba9974d3",
@@ -372,6 +450,28 @@
       "firstSeenAt": "2026-09-27T13:30:56.387Z"
     },
     {
+      "id": "TPS-43e08fc009c761d659aa3437",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT",
+      "callTypeCode": "ASS",
+      "timestamp": "2026-09-27T13:16:57.000Z",
+      "location": "HORTICULTURAL AVE - PEMBROKE ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HORTICULTURAL AVE - PEMBROKE ST",
+        "coordinates": [
+          43.66094740005114,
+          -79.37354045284195
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-27T13:51:16.020Z"
+    },
+    {
       "id": "TPS-27373fe7374a29792e3b9dd9",
       "source": "TPS",
       "eventType": "police",
@@ -457,7 +557,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T13:21:16.709Z",
-      "lastSeenAt": "2026-09-27T13:50:20.471Z",
+      "lastSeenAt": "2026-09-27T13:51:16.020Z",
       "geography": {
         "text": "Approximate area: (M1C) Scarborough (Rouge Hill / Port Union / Highland Creek)",
         "approximate": true,
@@ -3259,7 +3359,7 @@
       "respondingUnitCount": 5,
       "firstSeenAt": "2026-09-27T10:26:54.593Z",
       "lastMeaningfulUpdateAt": "2026-09-27T11:26:14.101Z",
-      "lastSeenAt": "2026-09-27T13:50:20.471Z",
+      "lastSeenAt": "2026-09-27T13:51:16.020Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -10395,7 +10495,7 @@
       "respondingUnitCount": 18,
       "firstSeenAt": "2026-09-27T03:05:07.090Z",
       "lastMeaningfulUpdateAt": "2026-09-27T11:16:16.018Z",
-      "lastSeenAt": "2026-09-27T13:50:20.471Z",
+      "lastSeenAt": "2026-09-27T13:51:16.020Z",
       "geography": {
         "text": "Woodycrest Avenue between Gertrude Place & Selkirk Street",
         "approximate": false,
@@ -35840,7 +35940,7 @@
       "respondingUnitCount": 29,
       "firstSeenAt": "2026-09-26T12:01:16.525Z",
       "lastMeaningfulUpdateAt": "2026-09-27T11:05:32.685Z",
-      "lastSeenAt": "2026-09-27T13:50:20.471Z",
+      "lastSeenAt": "2026-09-27T13:51:16.020Z",
       "geography": {
         "text": "Galt Avenue between Lane 1 North Gerrard West Jones & Lane 2 North Gerrard West Jones",
         "approximate": false,
@@ -188212,12 +188312,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T13:50:20.471Z",
-      "sourceUpdatedAt": "2026-09-27T13:45:02.000Z",
+      "fetchedAt": "2026-09-27T13:51:16.020Z",
+      "sourceUpdatedAt": "2026-09-27T13:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T13:50:20.471Z",
+      "fetchedAt": "2026-09-27T13:51:16.020Z",
       "status": "ok"
     }
   },
@@ -340917,6 +341017,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3J": {
+      "text": "Approximate area: (M3J) North York (Northwood Park / York University)",
+      "approximate": true,
+      "coordinates": [
+        43.7694,
+        -79.4921
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-21T22:01:19.951Z"
+    },
     "M6E": {
       "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
       "approximate": true,
@@ -341966,18 +342078,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M3J": {
-      "text": "Approximate area: (M3J) North York (Northwood Park / York University)",
-      "approximate": true,
-      "coordinates": [
-        43.7694,
-        -79.4921
-      ],
-      "division": "Division 31",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-21T22:01:19.951Z"
     },
     "M4S": {
       "text": "Approximate area: (M4S) Central Toronto (Davisville)",
