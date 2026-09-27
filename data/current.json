@@ -3,9 +3,113 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T17:25:21.030Z",
-  "sourceUpdatedAt": "2026-09-27T17:20:01.000Z",
+  "fetchedAt": "2026-09-27T17:27:15.126Z",
+  "sourceUpdatedAt": "2026-09-27T17:25:01.000Z",
   "incidents": [
+    {
+      "id": "F26153454",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6J",
+      "division": "331",
+      "timestamp": "2026-09-27T17:19:06.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T17:27:15.126Z",
+      "lastSeenAt": "2026-09-27T17:27:15.126Z",
+      "geography": {
+        "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+        "approximate": true,
+        "coordinates": [
+          43.648,
+          -79.4177
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26153452",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "TANDRIDGE CRES, ET / SUMMERLEA PARK TRL / BYNG AVE",
+      "division": "415",
+      "timestamp": "2026-09-27T17:18:37.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T17:27:15.126Z",
+      "lastSeenAt": "2026-09-27T17:27:15.126Z",
+      "geography": {
+        "text": "Tandridge Crescent between Summerlea Park Trl & Byng Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.72824795,
+          -79.5490997
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-27T17:27:15.126Z"
+      }
+    },
+    {
+      "id": "F26153453",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Residential",
+      "location": "CARROLL ST, TT / MATILDA ST / DORIS ANDERSON CRT",
+      "division": "325",
+      "timestamp": "2026-09-27T17:18:33.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T17:27:15.126Z",
+      "lastSeenAt": "2026-09-27T17:27:15.126Z",
+      "geography": {
+        "text": "Carroll Street between Matilda Street & Doris Anderson Court",
+        "approximate": false,
+        "coordinates": [
+          43.6603622,
+          -79.35334069999999
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-27T17:27:15.126Z"
+      }
+    },
+    {
+      "id": "F26153451",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1W",
+      "division": "241",
+      "timestamp": "2026-09-27T17:17:12.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T17:27:15.126Z",
+      "lastSeenAt": "2026-09-27T17:27:15.126Z",
+      "geography": {
+        "text": "Approximate area: (M1W) Scarborough (Steeles West / L'Amoreaux West)",
+        "approximate": true,
+        "coordinates": [
+          43.8016,
+          -79.3216
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26153450",
       "source": "TFS",
@@ -16,9 +120,50 @@
       "timestamp": "2026-09-27T17:13:26.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "231"
+          ]
+        },
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "21",
+            "23"
+          ]
+        },
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "231"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "212",
+            "213"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "214"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "313"
+          ]
+        }
+      ],
+      "respondingUnitCount": 8,
       "firstSeenAt": "2026-09-27T17:22:01.500Z",
-      "lastSeenAt": "2026-09-27T17:25:21.030Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T17:27:15.126Z",
+      "lastSeenAt": "2026-09-27T17:27:15.126Z",
       "geography": {
         "text": "Approximate location near Red River Crescent & Dean Park Walkway Trl",
         "approximate": true,
@@ -42,9 +187,18 @@
       "timestamp": "2026-09-27T17:12:48.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "346"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T17:22:01.500Z",
-      "lastSeenAt": "2026-09-27T17:25:21.030Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T17:27:15.126Z",
+      "lastSeenAt": "2026-09-27T17:27:15.126Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -67,7 +221,7 @@
       "division": "215",
       "timestamp": "2026-09-27T17:10:27.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-27T17:22:01.500Z",
       "lastSeenAt": "2026-09-27T17:25:21.030Z",
@@ -189,7 +343,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T17:10:31.328Z",
       "lastMeaningfulUpdateAt": "2026-09-27T17:15:34.655Z",
-      "lastSeenAt": "2026-09-27T17:25:21.030Z",
+      "lastSeenAt": "2026-09-27T17:27:15.126Z",
       "geography": {
         "text": "Lawrence Avenue between Kingston Road & Florist Lane",
         "approximate": false,
@@ -323,7 +477,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T17:07:15.494Z",
-      "lastSeenAt": "2026-09-27T17:25:21.030Z",
+      "lastSeenAt": "2026-09-27T17:27:15.126Z",
       "geography": {
         "text": "Approximate area: (M1T) Scarborough (Clarks Corners / Tam O'Shanter / Sullivan)",
         "approximate": true,
@@ -592,7 +746,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T17:07:15.494Z",
-      "lastSeenAt": "2026-09-27T17:25:21.030Z",
+      "lastSeenAt": "2026-09-27T17:27:15.126Z",
       "geography": {
         "text": "Yonge Street & The Esplanade",
         "approximate": false,
@@ -1444,7 +1598,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-27T16:26:04.627Z",
       "lastMeaningfulUpdateAt": "2026-09-27T16:32:14.279Z",
-      "lastSeenAt": "2026-09-27T17:25:21.030Z",
+      "lastSeenAt": "2026-09-27T17:27:15.126Z",
       "geography": {
         "text": "Lansdowne Avenue between Jenet Avenue & Paton Road",
         "approximate": false,
@@ -188952,124 +189106,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-20T17:35:43.276Z"
       }
-    },
-    {
-      "id": "TPS-5fc31c06000a8db7c0b27f07",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "IMPAIRED DRIVER",
-      "callTypeCode": "IMPDR",
-      "timestamp": "2026-09-20T17:26:48.000Z",
-      "location": "DERRY-MS RD E - REXDALE BLVD",
-      "division": "Division 23",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "DERRY-MS RD E - REXDALE BLVD",
-        "coordinates": [
-          43.718908894642254,
-          -79.61890279235054
-        ],
-        "division": "Division 23",
-        "approximate": true
-      }
-    },
-    {
-      "id": "F26149264",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M6N",
-      "division": "423",
-      "timestamp": "2026-09-20T17:26:42.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Aerial Truck",
-          "numbers": [
-            "423"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-20T17:35:43.276Z",
-      "lastSeenAt": "2026-09-20T17:54:24.393Z",
-      "geography": {
-        "text": "Approximate area: (M6N) York (Runnymede / The Junction North)",
-        "approximate": true,
-        "coordinates": [
-          43.6748,
-          -79.4839
-        ],
-        "division": "Division 12",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "TPS-e25b68d8ed303a69a6aa3089",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "PERSON WITH A KNIFE",
-      "callTypeCode": "PERKN",
-      "timestamp": "2026-09-20T17:26:13.000Z",
-      "location": "GWYNNE AVE - ELM GROVE AVE",
-      "division": "Division 14",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "GWYNNE AVE - ELM GROVE AVE",
-        "coordinates": [
-          43.64162498846249,
-          -79.43157842280587
-        ],
-        "division": "Division 14",
-        "approximate": true
-      }
-    },
-    {
-      "id": "F26149263",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M6N",
-      "division": "423",
-      "timestamp": "2026-09-20T17:25:58.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "423"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-20T17:35:43.276Z",
-      "lastSeenAt": "2026-09-20T17:55:43.550Z",
-      "geography": {
-        "text": "Approximate area: (M6N) York (Runnymede / The Junction North)",
-        "approximate": true,
-        "coordinates": [
-          43.6748,
-          -79.4839
-        ],
-        "division": "Division 12",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T17:25:21.030Z",
-      "sourceUpdatedAt": "2026-09-27T17:20:01.000Z",
+      "fetchedAt": "2026-09-27T17:27:15.126Z",
+      "sourceUpdatedAt": "2026-09-27T17:25:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T17:25:21.030Z",
+      "fetchedAt": "2026-09-27T17:27:15.126Z",
       "status": "ok"
     }
   },
@@ -337685,8 +337731,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-27T17:22:01.500Z",
-      "fetchedAt": "2026-09-27T17:22:01.500Z"
+      "checkedAt": "2026-09-27T17:27:15.126Z",
+      "fetchedAt": "2026-09-27T17:27:15.126Z"
     },
     "transit": {
       "items": [
@@ -341604,14 +341650,62 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-27T17:22:02.000Z",
+      "sourceUpdatedAt": "2026-09-27T17:27:15.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-27T17:22:01.500Z",
-      "fetchedAt": "2026-09-27T17:22:01.500Z"
+      "checkedAt": "2026-09-27T17:27:15.126Z",
+      "fetchedAt": "2026-09-27T17:27:15.126Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6J": {
+      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+      "approximate": true,
+      "coordinates": [
+        43.648,
+        -79.4177
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "TANDRIDGE CRES, ET / SUMMERLEA PARK TRL / BYNG AVE": {
+      "text": "Tandridge Crescent between Summerlea Park Trl & Byng Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.72824795,
+        -79.5490997
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-27T17:27:15.126Z"
+    },
+    "CARROLL ST, TT / MATILDA ST / DORIS ANDERSON CRT": {
+      "text": "Carroll Street between Matilda Street & Doris Anderson Court",
+      "approximate": false,
+      "coordinates": [
+        43.6603622,
+        -79.35334069999999
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-27T17:27:15.126Z"
+    },
+    "M1W": {
+      "text": "Approximate area: (M1W) Scarborough (Steeles West / L'Amoreaux West)",
+      "approximate": true,
+      "coordinates": [
+        43.8016,
+        -79.3216
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "RED RIVER CRES, SC / DEAN PARK WALKWAY TRL / DEAN PARK RD": {
       "text": "Approximate location near Red River Crescent & Dean Park Walkway Trl",
       "approximate": true,
@@ -341899,18 +341993,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-27T16:26:04.627Z"
-    },
-    "M6J": {
-      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
-      "approximate": true,
-      "coordinates": [
-        43.648,
-        -79.4177
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M1J": {
       "text": "Approximate area: (M1J) Scarborough (Eglinton)",
@@ -343237,18 +343319,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-27T02:46:23.264Z"
-    },
-    "M1W": {
-      "text": "Approximate area: (M1W) Scarborough (Steeles West / L'Amoreaux West)",
-      "approximate": true,
-      "coordinates": [
-        43.8016,
-        -79.3216
-      ],
-      "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "LOMBARD ST, TT / CHURCH ST / CENTRAL FIRE STATION LANE": {
       "text": "Lombard Street between Church Street & Central Fire Station Lane",
