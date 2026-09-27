@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-27T19:49:43.995Z",
-  "sourceUpdatedAt": "2026-09-27T19:45:01.000Z",
+  "fetchedAt": "2026-09-27T19:50:45.128Z",
+  "sourceUpdatedAt": "2026-09-27T19:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26153524",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4X",
+      "division": "313",
+      "timestamp": "2026-09-27T19:45:02.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T19:50:45.128Z",
+      "lastSeenAt": "2026-09-27T19:50:45.128Z",
+      "geography": {
+        "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
+        "approximate": true,
+        "coordinates": [
+          43.6684,
+          -79.3689
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26153523",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1C",
+      "division": "214",
+      "timestamp": "2026-09-27T19:41:02.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-27T19:50:45.128Z",
+      "lastSeenAt": "2026-09-27T19:50:45.128Z",
+      "geography": {
+        "text": "Approximate area: (M1C) Scarborough (Rouge Hill / Port Union / Highland Creek)",
+        "approximate": true,
+        "coordinates": [
+          43.7878,
+          -79.1564
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26153522",
       "source": "TFS",
@@ -16,9 +68,18 @@
       "timestamp": "2026-09-27T19:38:16.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "211"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T19:45:37.050Z",
-      "lastSeenAt": "2026-09-27T19:49:43.995Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T19:50:45.128Z",
+      "lastSeenAt": "2026-09-27T19:50:45.128Z",
       "geography": {
         "text": "Approximate area: (M1X) Scarborough (Upper Rouge)",
         "approximate": true,
@@ -41,7 +102,7 @@
       "division": "121",
       "timestamp": "2026-09-27T19:36:56.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-27T19:45:37.050Z",
       "lastSeenAt": "2026-09-27T19:49:43.995Z",
@@ -68,9 +129,50 @@
       "timestamp": "2026-09-27T19:36:37.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "31"
+          ]
+        },
+        {
+          "type": "High-Rise Unit",
+          "numbers": [
+            "332"
+          ]
+        },
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "312",
+            "325"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "312",
+            "313"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "325"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "313"
+          ]
+        }
+      ],
+      "respondingUnitCount": 8,
       "firstSeenAt": "2026-09-27T19:45:37.050Z",
-      "lastSeenAt": "2026-09-27T19:49:43.995Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T19:50:45.128Z",
+      "lastSeenAt": "2026-09-27T19:50:45.128Z",
       "geography": {
         "text": "Wellesley Street between Bleecker Street & Ontario Street",
         "approximate": false,
@@ -94,9 +196,24 @@
       "timestamp": "2026-09-27T19:35:24.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "322"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "322"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-27T19:45:37.050Z",
-      "lastSeenAt": "2026-09-27T19:49:43.995Z",
+      "lastMeaningfulUpdateAt": "2026-09-27T19:50:45.128Z",
+      "lastSeenAt": "2026-09-27T19:50:45.128Z",
       "geography": {
         "text": "Approximate location near Thorncliffe Park Drive & Milepost Place",
         "approximate": true,
@@ -119,7 +236,7 @@
       "division": "114",
       "timestamp": "2026-09-27T19:32:17.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -154,7 +271,7 @@
       "division": "324",
       "timestamp": "2026-09-27T19:30:19.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -200,7 +317,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T19:36:06.912Z",
-      "lastSeenAt": "2026-09-27T19:49:43.995Z",
+      "lastSeenAt": "2026-09-27T19:50:45.128Z",
       "geography": {
         "text": "Approximate area: (M9P) Etobicoke (Westmount)",
         "approximate": true,
@@ -270,7 +387,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T19:30:53.386Z",
       "lastMeaningfulUpdateAt": "2026-09-27T19:36:06.912Z",
-      "lastSeenAt": "2026-09-27T19:49:43.995Z",
+      "lastSeenAt": "2026-09-27T19:50:45.128Z",
       "geography": {
         "text": "Approximate area: (M4S) Central Toronto (Davisville)",
         "approximate": true,
@@ -393,7 +510,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T19:25:33.255Z",
       "lastMeaningfulUpdateAt": "2026-09-27T19:30:53.386Z",
-      "lastSeenAt": "2026-09-27T19:49:43.995Z",
+      "lastSeenAt": "2026-09-27T19:50:45.128Z",
       "geography": {
         "text": "Approximate area: (M1P) Scarborough (Dorset Park / Wexford Heights / Scarborough Town Centre)",
         "approximate": true,
@@ -657,7 +774,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-27T19:21:03.108Z",
       "lastMeaningfulUpdateAt": "2026-09-27T19:25:33.255Z",
-      "lastSeenAt": "2026-09-27T19:49:43.995Z",
+      "lastSeenAt": "2026-09-27T19:50:45.128Z",
       "geography": {
         "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
         "approximate": true,
@@ -1041,7 +1158,7 @@
       "division": "213",
       "timestamp": "2026-09-27T18:51:48.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -189900,12 +190017,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-27T19:49:43.995Z",
-      "sourceUpdatedAt": "2026-09-27T19:45:01.000Z",
+      "fetchedAt": "2026-09-27T19:50:45.128Z",
+      "sourceUpdatedAt": "2026-09-27T19:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-27T19:49:43.995Z",
+      "fetchedAt": "2026-09-27T19:50:45.128Z",
       "status": "ok"
     }
   },
@@ -342507,6 +342624,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4X": {
+      "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
+      "approximate": true,
+      "coordinates": [
+        43.6684,
+        -79.3689
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M1C": {
+      "text": "Approximate area: (M1C) Scarborough (Rouge Hill / Port Union / Highland Creek)",
+      "approximate": true,
+      "coordinates": [
+        43.7878,
+        -79.1564
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1X": {
       "text": "Approximate area: (M1X) Scarborough (Upper Rouge)",
       "approximate": true,
@@ -343086,18 +343227,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-27T17:45:41.748Z"
     },
-    "M4X": {
-      "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
-      "approximate": true,
-      "coordinates": [
-        43.6684,
-        -79.3689
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "LAKE SHORE BLVD, ET / TWENTY SIXTH ST / TWENTY SEVENTH ST": {
       "text": "Lake Shore Boulevard between Twenty Sixth Street & Twenty Seventh Street",
       "approximate": false,
@@ -343211,18 +343340,6 @@
         -79.4301
       ],
       "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1C": {
-      "text": "Approximate area: (M1C) Scarborough (Rouge Hill / Port Union / Highland Creek)",
-      "approximate": true,
-      "coordinates": [
-        43.7878,
-        -79.1564
-      ],
-      "division": "Division 43",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
