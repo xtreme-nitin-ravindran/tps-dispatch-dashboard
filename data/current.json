@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T21:55:17.326Z",
-  "sourceUpdatedAt": "2026-09-28T21:50:01.000Z",
+  "fetchedAt": "2026-09-28T21:58:44.722Z",
+  "sourceUpdatedAt": "2026-09-28T21:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26154172",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "BOGERT AVE, NY / YONGE ST / BEECROFT RD",
+      "division": "114",
+      "timestamp": "2026-09-28T21:49:59.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-28T21:58:44.722Z",
+      "lastSeenAt": "2026-09-28T21:58:44.722Z",
+      "geography": {
+        "text": "Bogert Avenue between Yonge Street & Beecroft Road",
+        "approximate": false,
+        "coordinates": [
+          43.76054430000001,
+          -79.4116156
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T18:56:11.493Z"
+      }
+    },
+    {
+      "id": "F26154171",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "FINCH AVE E / MIDLAND AVE",
+      "division": "242",
+      "timestamp": "2026-09-28T21:47:34.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-28T21:58:44.722Z",
+      "lastSeenAt": "2026-09-28T21:58:44.722Z",
+      "geography": {
+        "text": "Finch Avenue East & Midland Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.8037518,
+          -79.2862936
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-28T21:58:44.722Z"
+      }
+    },
+    {
+      "id": "F26154169",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9W",
+      "division": "415",
+      "timestamp": "2026-09-28T21:45:38.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-28T21:58:44.722Z",
+      "lastSeenAt": "2026-09-28T21:58:44.722Z",
+      "geography": {
+        "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
+        "approximate": true,
+        "coordinates": [
+          43.7144,
+          -79.5909
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26154168",
       "source": "TFS",
@@ -16,9 +94,18 @@
       "timestamp": "2026-09-28T21:45:10.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "341"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T21:53:47.620Z",
-      "lastSeenAt": "2026-09-28T21:55:17.326Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T21:58:44.722Z",
+      "lastSeenAt": "2026-09-28T21:58:44.722Z",
       "geography": {
         "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
         "approximate": true,
@@ -141,7 +228,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T21:46:00.695Z",
       "lastMeaningfulUpdateAt": "2026-09-28T21:53:47.620Z",
-      "lastSeenAt": "2026-09-28T21:55:17.326Z",
+      "lastSeenAt": "2026-09-28T21:58:44.722Z",
       "geography": {
         "text": "Approximate area: (M3N) North York (Jane and Finch)",
         "approximate": true,
@@ -823,7 +910,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T21:21:21.043Z",
-      "lastSeenAt": "2026-09-28T21:55:17.326Z",
+      "lastSeenAt": "2026-09-28T21:58:44.722Z",
       "geography": {
         "text": "Approximate area: (M4S) Central Toronto (Davisville)",
         "approximate": true,
@@ -970,7 +1057,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T21:10:36.555Z",
       "lastMeaningfulUpdateAt": "2026-09-28T21:16:55.263Z",
-      "lastSeenAt": "2026-09-28T21:55:17.326Z",
+      "lastSeenAt": "2026-09-28T21:58:44.722Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -3172,7 +3259,7 @@
       "division": "145",
       "timestamp": "2026-09-28T20:00:56.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Command Unit",
@@ -17670,7 +17757,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-28T20:56:11.092Z"
+        "checkedAt": "2026-09-28T21:58:44.722Z"
       }
     },
     {
@@ -200033,49 +200120,16 @@
         "division": "Division 22",
         "approximate": true
       }
-    },
-    {
-      "id": "F26149955",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Check Call",
-      "location": "MEADOWVALE DR / LOTHIAN AVE",
-      "division": "431",
-      "timestamp": "2026-09-21T21:57:14.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "431"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-21T22:06:31.026Z",
-      "lastSeenAt": "2026-09-21T22:15:41.195Z",
-      "geography": {
-        "text": "Meadowvale Drive & Lothian Avenue",
-        "approximate": false,
-        "coordinates": [
-          43.6434219,
-          -79.5204147
-        ],
-        "division": "Division 22",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-21T22:06:31.026Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T21:55:17.326Z",
-      "sourceUpdatedAt": "2026-09-28T21:50:01.000Z",
+      "fetchedAt": "2026-09-28T21:58:44.722Z",
+      "sourceUpdatedAt": "2026-09-28T21:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T21:55:17.326Z",
+      "fetchedAt": "2026-09-28T21:58:44.722Z",
       "status": "ok"
     }
   },
@@ -358756,6 +358810,42 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "BOGERT AVE, NY / YONGE ST / BEECROFT RD": {
+      "text": "Bogert Avenue between Yonge Street & Beecroft Road",
+      "approximate": false,
+      "coordinates": [
+        43.76054430000001,
+        -79.4116156
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T18:56:11.493Z"
+    },
+    "FINCH AVE E / MIDLAND AVE": {
+      "text": "Finch Avenue East & Midland Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.8037518,
+        -79.2862936
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-28T21:58:44.722Z"
+    },
+    "M9W": {
+      "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
+      "approximate": true,
+      "coordinates": [
+        43.7144,
+        -79.5909
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M6E": {
       "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
       "approximate": true,
@@ -360445,18 +360535,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-23T23:38:11.347Z"
     },
-    "M9W": {
-      "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
-      "approximate": true,
-      "coordinates": [
-        43.7144,
-        -79.5909
-      ],
-      "division": "Division 23",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "OLD MILL RD, ET / HUMBER RIVER RECREATIONAL TRL / OLD MILL TRL": {
       "text": "Old Mill Road between Humber River Recreational Trl & Old Mill Trl",
       "approximate": false,
@@ -360755,7 +360833,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-28T20:56:11.092Z"
+      "checkedAt": "2026-09-28T21:58:44.722Z"
     },
     "DUNDAS ST, TT / SHERBOURNE ST / OSKENONTON LANE": {
       "text": "Dundas Street between Sherbourne Street & Oskenonton Lane",
@@ -370057,18 +370135,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T18:56:11.493Z"
     },
-    "BOGERT AVE, NY / YONGE ST / BEECROFT RD": {
-      "text": "Bogert Avenue between Yonge Street & Beecroft Road",
-      "approximate": false,
-      "coordinates": [
-        43.76054430000001,
-        -79.4116156
-      ],
-      "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T18:56:11.493Z"
-    },
     "POYNTZ AVE / BOTHAM RD": {
       "text": "Poyntz Avenue & Botham Road",
       "approximate": false,
@@ -371139,18 +371205,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T22:11:40.330Z"
-    },
-    "MEADOWVALE DR / LOTHIAN AVE": {
-      "text": "Meadowvale Drive & Lothian Avenue",
-      "approximate": false,
-      "coordinates": [
-        43.6434219,
-        -79.5204147
-      ],
-      "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-21T22:06:31.026Z"
     }
   }
 }
