@@ -3,9 +3,49 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T12:40:25.764Z",
-  "sourceUpdatedAt": "2026-09-28T12:35:02.000Z",
+  "fetchedAt": "2026-09-28T12:41:49.985Z",
+  "sourceUpdatedAt": "2026-09-28T12:40:02.000Z",
   "incidents": [
+    {
+      "id": "F26153880",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "ALBION RD, ET / KIPLING AVE / FINCH AVE W",
+      "division": "413",
+      "timestamp": "2026-09-28T12:33:28.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "415"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "413"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-28T12:41:49.985Z",
+      "lastSeenAt": "2026-09-28T12:41:49.985Z",
+      "geography": {
+        "text": "Albion Road between Kipling Avenue & Finch Avenue West",
+        "approximate": false,
+        "coordinates": [
+          43.740404999999996,
+          -79.5847699
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-28T12:41:49.985Z"
+      }
+    },
     {
       "id": "F26153879",
       "source": "TFS",
@@ -26,7 +66,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T12:36:09.489Z",
-      "lastSeenAt": "2026-09-28T12:40:25.764Z",
+      "lastSeenAt": "2026-09-28T12:41:49.985Z",
       "geography": {
         "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
         "approximate": true,
@@ -61,7 +101,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T12:36:09.489Z",
-      "lastSeenAt": "2026-09-28T12:40:25.764Z",
+      "lastSeenAt": "2026-09-28T12:41:49.985Z",
       "geography": {
         "text": "Approximate location on Bexhill Court",
         "approximate": true,
@@ -81,7 +121,7 @@
       "division": "311",
       "timestamp": "2026-09-28T12:26:44.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -115,7 +155,7 @@
       "division": "123",
       "timestamp": "2026-09-28T12:20:05.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -174,7 +214,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T12:25:29.264Z",
       "lastMeaningfulUpdateAt": "2026-09-28T12:30:35.061Z",
-      "lastSeenAt": "2026-09-28T12:40:25.764Z",
+      "lastSeenAt": "2026-09-28T12:41:49.985Z",
       "geography": {
         "text": "Carlton Street between Reverend Porter Lane & Church Street",
         "approximate": false,
@@ -231,7 +271,7 @@
       "division": "423",
       "timestamp": "2026-09-28T12:11:49.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -265,7 +305,7 @@
       "division": "314",
       "timestamp": "2026-09-28T12:11:45.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -483,7 +523,7 @@
       "division": "231",
       "timestamp": "2026-09-28T12:01:15.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -609,7 +649,7 @@
       "division": "433",
       "timestamp": "2026-09-28T11:53:15.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -2355,7 +2395,7 @@
       "respondingUnitCount": 18,
       "firstSeenAt": "2026-09-28T10:06:13.599Z",
       "lastMeaningfulUpdateAt": "2026-09-28T10:11:52.469Z",
-      "lastSeenAt": "2026-09-28T12:40:25.764Z",
+      "lastSeenAt": "2026-09-28T12:41:49.985Z",
       "geography": {
         "text": "College Street between Augusta Avenue & Campbell Russell Lane",
         "approximate": false,
@@ -194129,12 +194169,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T12:40:25.764Z",
-      "sourceUpdatedAt": "2026-09-28T12:35:02.000Z",
+      "fetchedAt": "2026-09-28T12:41:49.985Z",
+      "sourceUpdatedAt": "2026-09-28T12:40:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T12:40:25.764Z",
+      "fetchedAt": "2026-09-28T12:41:49.985Z",
       "status": "ok"
     }
   },
@@ -347470,6 +347510,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "ALBION RD, ET / KIPLING AVE / FINCH AVE W": {
+      "text": "Albion Road between Kipling Avenue & Finch Avenue West",
+      "approximate": false,
+      "coordinates": [
+        43.740404999999996,
+        -79.5847699
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-28T12:41:49.985Z"
+    },
     "M4L": {
       "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
       "approximate": true,
