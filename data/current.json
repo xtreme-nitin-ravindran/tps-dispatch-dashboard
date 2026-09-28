@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T09:43:46.953Z",
-  "sourceUpdatedAt": "2026-09-28T09:40:01.000Z",
+  "fetchedAt": "2026-09-28T09:45:43.110Z",
+  "sourceUpdatedAt": "2026-09-28T09:45:01.000Z",
   "incidents": [
+    {
+      "id": "F26153823",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6K",
+      "division": "426",
+      "timestamp": "2026-09-28T09:37:34.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "426"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-28T09:45:43.110Z",
+      "lastSeenAt": "2026-09-28T09:45:43.110Z",
+      "geography": {
+        "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+        "approximate": true,
+        "coordinates": [
+          43.6383,
+          -79.4301
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26153822",
       "source": "TFS",
@@ -16,9 +50,18 @@
       "timestamp": "2026-09-28T09:34:29.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "224"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T09:41:01.842Z",
-      "lastSeenAt": "2026-09-28T09:43:46.953Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T09:45:43.110Z",
+      "lastSeenAt": "2026-09-28T09:45:43.110Z",
       "geography": {
         "text": "Approximate area: (M4B) East York (Parkview Hill / Woodbine Gardens)",
         "approximate": true,
@@ -42,9 +85,18 @@
       "timestamp": "2026-09-28T09:31:08.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "231"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T09:41:01.842Z",
-      "lastSeenAt": "2026-09-28T09:43:46.953Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T09:45:43.110Z",
+      "lastSeenAt": "2026-09-28T09:45:43.110Z",
       "geography": {
         "text": "Approximate area: (M1J) Scarborough (Eglinton)",
         "approximate": true,
@@ -238,7 +290,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T09:21:35.080Z",
       "lastMeaningfulUpdateAt": "2026-09-28T09:26:41.526Z",
-      "lastSeenAt": "2026-09-28T09:43:46.953Z",
+      "lastSeenAt": "2026-09-28T09:45:43.110Z",
       "geography": {
         "text": "Bathurst Street between Barton Avenue & Follis Avenue",
         "approximate": false,
@@ -581,7 +633,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T08:41:21.119Z",
       "lastMeaningfulUpdateAt": "2026-09-28T08:46:15.212Z",
-      "lastSeenAt": "2026-09-28T09:43:46.953Z",
+      "lastSeenAt": "2026-09-28T09:45:43.110Z",
       "geography": {
         "text": "Dundas Street between Lane East Sheridan North Dundas & Sheridan Avenue",
         "approximate": false,
@@ -192123,12 +192175,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T09:43:46.953Z",
-      "sourceUpdatedAt": "2026-09-28T09:40:01.000Z",
+      "fetchedAt": "2026-09-28T09:45:43.110Z",
+      "sourceUpdatedAt": "2026-09-28T09:45:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T09:43:46.953Z",
+      "fetchedAt": "2026-09-28T09:45:43.110Z",
       "status": "ok"
     }
   },
@@ -343515,6 +343567,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6K": {
+      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+      "approximate": true,
+      "coordinates": [
+        43.6383,
+        -79.4301
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M4B": {
       "text": "Approximate area: (M4B) East York (Parkview Hill / Woodbine Gardens)",
       "approximate": true,
@@ -344156,18 +344220,6 @@
         -79.3538
       ],
       "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6K": {
-      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
-      "approximate": true,
-      "coordinates": [
-        43.6383,
-        -79.4301
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
