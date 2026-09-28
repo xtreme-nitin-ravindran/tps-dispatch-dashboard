@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T08:39:35.409Z",
-  "sourceUpdatedAt": "2026-09-28T08:35:02.000Z",
+  "fetchedAt": "2026-09-28T08:41:21.119Z",
+  "sourceUpdatedAt": "2026-09-28T08:40:01.000Z",
   "incidents": [
+    {
+      "id": "F26153813",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "DUNDAS ST, TT / LN E SHERIDAN N DUNDAS / SHERIDAN AVE",
+      "division": "426",
+      "timestamp": "2026-09-28T08:33:22.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-28T08:41:21.119Z",
+      "lastSeenAt": "2026-09-28T08:41:21.119Z",
+      "geography": {
+        "text": "Dundas Street between Lane East Sheridan North Dundas & Sheridan Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.64975045,
+          -79.43339875000001
+        ],
+        "division": "Division 11",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-28T08:41:21.119Z"
+      }
+    },
     {
       "id": "F26153812",
       "source": "TFS",
@@ -16,9 +42,18 @@
       "timestamp": "2026-09-28T08:29:53.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "135"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T08:36:33.691Z",
-      "lastSeenAt": "2026-09-28T08:39:35.409Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T08:41:21.119Z",
+      "lastSeenAt": "2026-09-28T08:41:21.119Z",
       "geography": {
         "text": "Lyon Court & Roselawn Avenue",
         "approximate": false,
@@ -42,9 +77,18 @@
       "timestamp": "2026-09-28T08:25:56.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "315"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T08:36:33.691Z",
-      "lastSeenAt": "2026-09-28T08:39:35.409Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T08:41:21.119Z",
+      "lastSeenAt": "2026-09-28T08:41:21.119Z",
       "geography": {
         "text": "Bathurst Street between Nassau Street & Lane South College East Bathurst",
         "approximate": false,
@@ -68,9 +112,24 @@
       "timestamp": "2026-09-28T08:25:28.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "341"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "343"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T08:36:33.691Z",
-      "lastSeenAt": "2026-09-28T08:39:35.409Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T08:41:21.119Z",
+      "lastSeenAt": "2026-09-28T08:41:21.119Z",
       "geography": {
         "text": "Alameda Avenue between Lane North Vaughan West Alameda & Belvidere Avenue",
         "approximate": false,
@@ -93,7 +152,7 @@
       "division": "431",
       "timestamp": "2026-09-28T08:11:40.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -192017,12 +192076,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T08:39:35.409Z",
-      "sourceUpdatedAt": "2026-09-28T08:35:02.000Z",
+      "fetchedAt": "2026-09-28T08:41:21.119Z",
+      "sourceUpdatedAt": "2026-09-28T08:40:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T08:39:35.409Z",
+      "fetchedAt": "2026-09-28T08:41:21.119Z",
       "status": "ok"
     }
   },
@@ -343511,6 +343570,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "DUNDAS ST, TT / LN E SHERIDAN N DUNDAS / SHERIDAN AVE": {
+      "text": "Dundas Street between Lane East Sheridan North Dundas & Sheridan Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.64975045,
+        -79.43339875000001
+      ],
+      "division": "Division 11",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-28T08:41:21.119Z"
+    },
     "LYON CRT, YK / ROSELAWN AVE /": {
       "text": "Lyon Court & Roselawn Avenue",
       "approximate": false,
