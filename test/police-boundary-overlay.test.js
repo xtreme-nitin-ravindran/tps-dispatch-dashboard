@@ -19,6 +19,8 @@ test('validation rejects malformed nesting, open rings, invalid positions, and r
   assert.throws(() => validatePoliceBoundaryGeoJSON(collection([[[-79.4, 43.6], null, [-79.3, 43.7], [-79.4, 43.6]]])), /array|position/);
   assert.throws(() => validatePoliceBoundaryGeoJSON(collection([[[43.6, -79.4], [43.7, -79.4], [43.7, -79.3], [43.6, -79.4]]])), /longitude\/latitude/);
   assert.throws(() => validatePoliceBoundaryGeoJSON({ type: 'FeatureCollection', features: [{ geometry: { type: 'LineString', coordinates: [] } }] }), /Polygon or MultiPolygon/);
+  assert.throws(() => validatePoliceBoundaryGeoJSON(null), /GeoJSON FeatureCollection/);
+  assert.throws(() => validatePoliceBoundaryGeoJSON({ type: 'FeatureCollection', features: null }), /GeoJSON FeatureCollection/);
 });
 
 test('unfilled clipped SVG overlay preserves separate rings and does not mutate source geometry', () => {
@@ -37,6 +39,9 @@ test('unfilled clipped SVG overlay preserves separate rings and does not mutate 
   assert.equal(received.options.style.fill, false);
   assert.equal(received.options.style.className, 'police-boundary');
   assert.equal(received.options.style.color, '#123456');
+  createPoliceBoundaryLayer(leaflet, source);
+  assert.equal(received.options.style.color, '#93c5fd', 'default styling remains available');
+  assert.equal(received.options.onEachFeature, undefined);
   assert.equal(source.features[5].geometry.coordinates.length, 2, 'separate rings are not joined');
   assert.deepEqual(source, bundled);
 });

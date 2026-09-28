@@ -86,6 +86,10 @@ test('map control offset tracks actual fixed-sheet overlap instead of sheet heig
   assert.equal(mobileMapSheetOverlap(map, { top: 544 }, true), 316, 'expanded');
   assert.equal(mobileMapSheetOverlap({ top: 0, bottom: 460, height: 460 }, { top: 544 }, true), 0, 'non-overlapping scrolled map');
   assert.equal(mobileMapSheetOverlap(map, { top: 544 }, false), 0, 'desktop or Calls mode');
+  assert.equal(mobileMapSheetOverlap(null, { top: 544 }), 0, 'missing map bounds');
+  assert.equal(mobileMapSheetOverlap(map, null), 0, 'missing sheet bounds');
+  assert.equal(mobileMapSheetOverlap({ bottom: 100 }, { top: 50 }), 0, 'missing map height');
+  assert.equal(mobileMapSheetOverlap({ bottom: 'unknown', height: 460 }, { top: 50 }), 0, 'invalid bounds');
   assert.match(app, /visualViewport\?\.addEventListener\("resize", scheduleMapMaintenance\)/);
   assert.match(app, /document\.addEventListener\("scroll", scheduleMapMaintenance, \{ passive: true, capture: true \}\)/);
   assert.match(app, /document\.addEventListener\("touchmove", scheduleMapMaintenance/);
