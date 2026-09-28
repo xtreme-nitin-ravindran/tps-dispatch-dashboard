@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T13:54:10.655Z",
-  "sourceUpdatedAt": "2026-09-28T13:50:01.000Z",
+  "fetchedAt": "2026-09-28T13:55:31.463Z",
+  "sourceUpdatedAt": "2026-09-28T13:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26153902",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4P",
+      "division": "134",
+      "timestamp": "2026-09-28T13:49:14.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-28T13:55:31.463Z",
+      "lastSeenAt": "2026-09-28T13:55:31.463Z",
+      "geography": {
+        "text": "Approximate area: (M4P) Central Toronto (Davisville North)",
+        "approximate": true,
+        "coordinates": [
+          43.7135,
+          -79.3887
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-20T04:26:30.207Z"
+      }
+    },
+    {
+      "id": "F26153901",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6M",
+      "division": "442",
+      "timestamp": "2026-09-28T13:45:20.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-28T13:55:31.463Z",
+      "lastSeenAt": "2026-09-28T13:55:31.463Z",
+      "geography": {
+        "text": "Approximate area: (M6M) York (Del Ray / Keelsdale / Mount Dennis / Silverthorne)",
+        "approximate": true,
+        "coordinates": [
+          43.6934,
+          -79.4857
+        ],
+        "division": "Division 12",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26153900",
       "source": "TFS",
@@ -16,9 +68,18 @@
       "timestamp": "2026-09-28T13:41:29.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "341"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T13:51:37.769Z",
-      "lastSeenAt": "2026-09-28T13:54:10.655Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T13:55:31.463Z",
+      "lastSeenAt": "2026-09-28T13:55:31.463Z",
       "geography": {
         "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
         "approximate": true,
@@ -63,7 +124,7 @@
       "division": "433",
       "timestamp": "2026-09-28T13:36:35.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -244,7 +305,7 @@
       "division": "444",
       "timestamp": "2026-09-28T13:21:42.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -3715,7 +3776,7 @@
       "respondingUnitCount": 21,
       "firstSeenAt": "2026-09-28T10:06:13.599Z",
       "lastMeaningfulUpdateAt": "2026-09-28T13:31:07.054Z",
-      "lastSeenAt": "2026-09-28T13:54:10.655Z",
+      "lastSeenAt": "2026-09-28T13:55:31.463Z",
       "geography": {
         "text": "College Street between Augusta Avenue & Campbell Russell Lane",
         "approximate": false,
@@ -194765,12 +194826,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T13:54:10.655Z",
-      "sourceUpdatedAt": "2026-09-28T13:50:01.000Z",
+      "fetchedAt": "2026-09-28T13:55:31.463Z",
+      "sourceUpdatedAt": "2026-09-28T13:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T13:54:10.655Z",
+      "fetchedAt": "2026-09-28T13:55:31.463Z",
       "status": "ok"
     }
   },
@@ -345210,8 +345271,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-28T13:50:20.568Z",
-      "fetchedAt": "2026-09-28T13:50:20.568Z"
+      "checkedAt": "2026-09-28T13:55:31.463Z",
+      "fetchedAt": "2026-09-28T13:55:31.463Z"
     },
     "transit": {
       "items": [
@@ -347645,6 +347706,44 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
+          "id": "77084",
+          "title": "King: Escalator 8Y8E out of service from Scotia Plaza entrance to Yonge and King west entrance, northwest Corner while we perform maintenance.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "13813",
+            "13814"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "13813",
+              "coordinates": [
+                43.649649,
+                -79.378088
+              ],
+              "name": "King Station - Northbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13814",
+              "coordinates": [
+                43.648449,
+                -79.377688
+              ],
+              "name": "King Station - Southbound Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790603689000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
           "id": "77082",
           "title": "Spadina: Escalator 2B5E out of service from Spadina Rd east side entrance to south concourse while we perform maintenance. Escalator is expected to be back in service October 1, 2026.",
           "description": "",
@@ -348915,14 +349014,38 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-28T13:50:21.000Z",
+      "sourceUpdatedAt": "2026-09-28T13:55:32.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-28T13:50:20.568Z",
-      "fetchedAt": "2026-09-28T13:50:20.568Z"
+      "checkedAt": "2026-09-28T13:55:31.463Z",
+      "fetchedAt": "2026-09-28T13:55:31.463Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4P": {
+      "text": "Approximate area: (M4P) Central Toronto (Davisville North)",
+      "approximate": true,
+      "coordinates": [
+        43.7135,
+        -79.3887
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-20T04:26:30.207Z"
+    },
+    "M6M": {
+      "text": "Approximate area: (M6M) York (Del Ray / Keelsdale / Mount Dennis / Silverthorne)",
+      "approximate": true,
+      "coordinates": [
+        43.6934,
+        -79.4857
+      ],
+      "division": "Division 12",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M6E": {
       "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
       "approximate": true,
@@ -349126,18 +349249,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-28T12:51:45.685Z"
-    },
-    "M6M": {
-      "text": "Approximate area: (M6M) York (Del Ray / Keelsdale / Mount Dennis / Silverthorne)",
-      "approximate": true,
-      "coordinates": [
-        43.6934,
-        -79.4857
-      ],
-      "division": "Division 12",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "COLWOOD RD, ET / ROYAL YORK RD / EDGEVALLEY DR": {
       "text": "Colwood Road between Royal York Road & Edgevalley Drive",
@@ -350257,18 +350368,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4P": {
-      "text": "Approximate area: (M4P) Central Toronto (Davisville North)",
-      "approximate": true,
-      "coordinates": [
-        43.7135,
-        -79.3887
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-20T04:26:30.207Z"
     },
     "M2H": {
       "text": "Approximate area: (M2H) North York (Hillcrest Village)",
