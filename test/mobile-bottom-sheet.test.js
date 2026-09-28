@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { mobileSheetActionLabel, mobileSheetStateAfterDrag, nextMobileSheetState } from '../src/mobile-bottom-sheet.js';
+import { mobileMapSheetOverlap, mobileSheetActionLabel, mobileSheetStateAfterDrag, nextMobileSheetState } from '../src/mobile-bottom-sheet.js';
 
 const [html, css, app] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
@@ -24,7 +24,7 @@ test('collapsed, half, and expanded states have bounded safe-area-aware heights'
   assert.match(mobileRules, /data-mobile-sheet-state="half"[\s\S]*?min\(30dvh, calc\(var\(--mobile-map-height\) - 220px\)\)/);
   assert.match(mobileRules, /data-mobile-sheet-state="expanded"[\s\S]*?min\(50dvh, calc\(var\(--mobile-map-height\) - 160px\)\)/);
   assert.match(mobileRules, /padding-bottom: env\(safe-area-inset-bottom, 0px\)/);
-  assert.match(mobileRules, /\.map-panel \.leaflet-bottom \{ bottom: var\(--mobile-sheet-height\)/);
+  assert.match(mobileRules, /\.map-panel \.leaflet-bottom \{ bottom: var\(--mobile-map-sheet-overlap, 0px\)/);
 });
 
 test('tap and drag interactions move through the three sheet states', () => {
@@ -74,9 +74,22 @@ test('Calls mode removes the fixed sheet from layout while retaining its prior s
 test('map controls stay inside the usable map above every sheet state', () => {
   const mobileRules = css.slice(css.indexOf(mobileQuery));
   assert.match(mobileRules, /\.map-panel \.leaflet-top \{ top: 60px; \}/);
-  assert.match(mobileRules, /\.map-panel \.leaflet-bottom \{ bottom: var\(--mobile-sheet-height\)/);
+  assert.match(mobileRules, /\.map-panel \.leaflet-bottom \{ bottom: var\(--mobile-map-sheet-overlap, 0px\)/);
   assert.equal(460 - 240, 220, 'half sheet leaves at least 220px of the 460px map');
   assert.equal(460 - 300, 160, 'expanded sheet leaves room for map controls');
+});
+
+test('map control offset tracks actual fixed-sheet overlap instead of sheet height', () => {
+  const map = { top: 400, bottom: 860, height: 460 };
+  assert.equal(mobileMapSheetOverlap(map, { top: 808 }, true), 52, 'collapsed');
+  assert.equal(mobileMapSheetOverlap(map, { top: 604 }, true), 256, 'half');
+  assert.equal(mobileMapSheetOverlap(map, { top: 544 }, true), 316, 'expanded');
+  assert.equal(mobileMapSheetOverlap({ top: 0, bottom: 460, height: 460 }, { top: 544 }, true), 0, 'non-overlapping scrolled map');
+  assert.equal(mobileMapSheetOverlap(map, { top: 544 }, false), 0, 'desktop or Calls mode');
+  assert.match(app, /visualViewport\?\.addEventListener\("resize", scheduleMapSheetOverlap\)/);
+  assert.match(app, /document\.addEventListener\("scroll", scheduleMapSheetOverlap, \{ passive: true, capture: true \}\)/);
+  assert.match(app, /document\.addEventListener\("touchmove", scheduleMapSheetOverlap/);
+  assert.match(app, /ResizeObserver\(scheduleMapSheetOverlap\)/);
 });
 
 test('sheet header stays visible while incident content scrolls independently', () => {

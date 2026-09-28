@@ -17,11 +17,18 @@ test('mobile audit fixture is explicit and loopback-only', () => {
 test('fixture options expose deterministic mobile view and sheet states', () => {
   assert.equal(mobileAuditFixtureOptions(),null);
   assert.deepEqual(mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditView=calls&mobileAuditSheet=expanded'}),{
-    state:'many',view:'calls',sheet:'expanded',location:'none',filters:'none',radius:null
+    state:'many',view:'calls',sheet:'expanded',location:'none',filters:'none',radius:null,roads:true,boundaries:true
   });
   assert.deepEqual(mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditView=nope&mobileAuditSheet=nope&mobileAuditLocation=denied'}),{
-    state:'many',view:'map',sheet:'collapsed',location:'denied',filters:'none',radius:null
+    state:'many',view:'map',sheet:'collapsed',location:'denied',filters:'none',radius:null,roads:true,boundaries:true
   });
+});
+
+test('fixture independently controls road and boundary overlays only on loopback', () => {
+  const off = mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditRoads=off&mobileAuditBoundaries=off'});
+  assert.equal(off.roads, false);
+  assert.equal(off.boundaries, false);
+  assert.equal(mobileAuditFixtureOptions({hostname:'sirento.ca',search:'?mobileAuditFixture=many&mobileAuditRoads=off'}), null);
 });
 
 test('fixture exposes every radius and rejects arbitrary values', () => {

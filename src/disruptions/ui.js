@@ -160,6 +160,23 @@ function detachRoadMap() {
   }
   roadMap=null;roadMapHandler=null;
 }
+function attachRoadMap(map) {
+  if (roadMap === map) return;
+  detachRoadMap();
+  roadMap=map;
+  roadMapHandler=()=>scheduleRoadLayer(map);
+  map.on?.('zoomend moveend',roadMapHandler);
+}
+export function setRoadOverlayVisibility(map, visible) {
+  if (!visible || !map) {
+    roadLayer?.remove();
+    detachRoadMap();
+    return;
+  }
+  attachRoadMap(map);
+  roadLayer?.addTo(map);
+  scheduleRoadLayer(map);
+}
 export function disruptionPresentation(kind, feed, items, baseItems, hasOrigin, now = Date.now()) {
   const definition=definitions[kind];
   const info=sourceStatus(definition.subject,feed,now);
@@ -254,14 +271,12 @@ export function renderDisruptions(data, origin, radius, map) {
       list.append(article);
     }
   }
-  if (roadMap !== map || !showMap) {clearRoadLayer();detachRoadMap();}
+  roadItems=roads.filter(isClosure);
+  if (roadMap && roadMap !== map) {clearRoadLayer();detachRoadMap();}
+  if (!showMap) setRoadOverlayVisibility(map,false);
   if (map && showMap) {
-    roadItems=roads.filter(isClosure);
-    if (roadMap !== map) {
-      roadMap=map;
-      roadMapHandler=()=>scheduleRoadLayer(map);
-      map.on?.('zoomend moveend',roadMapHandler);
-    }
+    attachRoadMap(map);
+    roadLayer?.addTo(map);
     renderRoadLayer(map);
   }
 }

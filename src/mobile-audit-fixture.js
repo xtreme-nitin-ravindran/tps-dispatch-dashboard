@@ -24,7 +24,9 @@ export function mobileAuditFixtureOptions(locationLike = globalThis.location) {
     ? params.get('mobileAuditFilters') : 'none';
   const radius = ['0.5', '1', '2', '5', 'toronto'].includes(params.get('mobileAuditRadius'))
     ? params.get('mobileAuditRadius') : null;
-  return { state, sheet, view, location, filters, radius };
+  const roads = params.get('mobileAuditRoads') !== 'off';
+  const boundaries = params.get('mobileAuditBoundaries') !== 'off';
+  return { state, sheet, view, location, filters, radius, roads, boundaries };
 }
 
 export function mobileAuditFixtureFilters(name = 'none') {

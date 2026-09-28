@@ -2,10 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-const [css, html, serviceWorker] = await Promise.all([
+const [css, html, serviceWorker, app] = await Promise.all([
   readFile(new URL('../styles.css', import.meta.url), 'utf8'),
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
-  readFile(new URL('../service-worker.js', import.meta.url), 'utf8')
+  readFile(new URL('../service-worker.js', import.meta.url), 'utf8'),
+  readFile(new URL('../app.js', import.meta.url), 'utf8')
 ]);
 const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)';
 const mobileStart = css.indexOf(mobileQuery);
@@ -40,6 +41,11 @@ test('mobile map overlay containers avoid backdrop blur without changing alignme
   assert.match(declaration('.map-panel .leaflet-top.leaflet-right'), /left: calc\(50% \+ 4px\)/);
 });
 
+test('long mobile incident lists skip offscreen paint without dropping cards from the DOM', () => {
+  assert.match(mobileRules, /\.incident-card--list \{[\s\S]*?content-visibility: auto;[\s\S]*?contain-intrinsic-block-size: auto 190px/);
+  assert.doesNotMatch(app, /state\.filtered\.slice\(/);
+});
+
 test('mobile search controls avoid blur while desktop glass styling remains available', () => {
   assert.match(declaration('.controls-card', portraitRules), /background: var\(--panel\)/);
   assert.match(declaration('.controls-card', portraitRules), /backdrop-filter: none/);
@@ -53,6 +59,6 @@ test('opaque mobile surfaces resolve to readable light and dark theme pairs', ()
 });
 
 test('the revised mobile stylesheet replaces the cached app-shell asset', () => {
-  assert.match(html, /styles\.css\?v=mobile-pre-map-2/);
-  assert.match(serviceWorker, /CACHE_VERSION = "sirento-shell-v21"/);
+  assert.match(html, /styles\.css\?v=story-37l-2/);
+  assert.match(serviceWorker, /CACHE_VERSION = "sirento-shell-v23"/);
 });

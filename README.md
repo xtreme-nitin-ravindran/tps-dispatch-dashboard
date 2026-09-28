@@ -96,6 +96,8 @@ For repeatable mobile layout audits without live feeds, use the loopback-only
 `mobileAuditFixture` query switch. `many`, `zero`, `stale`, and `unavailable` provide deterministic
 incident/disruption shapes; `mobileAuditView=map|calls` and
 `mobileAuditSheet=collapsed|half|expanded` select presentation state. Add
+`mobileAuditRoads=on|off` and `mobileAuditBoundaries=on|off` to exercise either
+map overlay independently; both default to `on`. Add
 `mobileAuditLocation=none|current|unavailable|denied|saved|manual` to exercise the compact Quick Look location states. The `many`
 fixture enables the road overlay and police boundaries, includes long labels and a
 selected-incident target, and can be combined with `watchFixture=current`:

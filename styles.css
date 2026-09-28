@@ -1016,7 +1016,7 @@ html[data-display-mode="standalone"] .app-shell {
   opacity: var(--map-tile-opacity);
 }
 
-.police-boundary { stroke: var(--boundary-marker) !important; fill: var(--boundary-marker) !important; }
+.police-boundary { stroke: var(--boundary-marker) !important; fill: none !important; }
 .cluster-connector { stroke: var(--connector-line) !important; }
 .nearby-radius { stroke: var(--accent) !important; fill: var(--accent) !important; }
 .nearby-origin { stroke: var(--marker-selected-border) !important; fill: var(--accent) !important; }
@@ -1781,6 +1781,11 @@ footer {
   html[data-mobile-view="map"] .content-grid,
   html[data-mobile-view="map"] .disruptions-panel { display: none; }
   html[data-mobile-view="map"] .nearby-summary { display: none; }
+  .map-stage {
+    position: relative;
+    z-index: 0;
+    isolation: isolate;
+  }
   .nearby-summary {
     margin-top: 8px;
     padding: 8px 12px;
@@ -1910,8 +1915,18 @@ footer {
   .mobile-sheet-state-controls button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
   .mobile-sheet-state-controls button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
   .mobile-sheet-call-list { max-height: none; overflow: visible; border-top: 1px solid var(--line); }
+  .incident-card--list {
+    content-visibility: auto;
+    contain-intrinsic-block-size: auto 190px;
+  }
   .mobile-sheet-call-list .incident-card--list { background: var(--panel-glass); }
-  .map-panel .leaflet-bottom { bottom: var(--mobile-sheet-height); transition: bottom 180ms ease-out; }
+  .map-panel .leaflet-bottom { bottom: var(--mobile-map-sheet-overlap, 0px); }
+  .map-panel .leaflet-control-attribution {
+    max-width: min(280px, calc(100% - 64px));
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
   .map-info { margin-top: 8px; }
   .map-info > summary { min-height: 44px; padding: 0 12px; }
   .map-info .desktop-map-info-label,
@@ -1923,8 +1938,7 @@ footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mobile-bottom-sheet,
-  .map-panel .leaflet-bottom { transition: none; }
+  .mobile-bottom-sheet { transition: none; }
 }
 
 .call-explanation { color: var(--muted); font-size: 12px; line-height: 1.5; margin: 0; }
