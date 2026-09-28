@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T08:44:23.985Z",
-  "sourceUpdatedAt": "2026-09-28T08:40:01.000Z",
+  "fetchedAt": "2026-09-28T08:46:15.212Z",
+  "sourceUpdatedAt": "2026-09-28T08:45:01.000Z",
   "incidents": [
+    {
+      "id": "F26153814",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1E",
+      "division": "215",
+      "timestamp": "2026-09-28T08:36:02.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-28T08:46:15.212Z",
+      "lastSeenAt": "2026-09-28T08:46:15.212Z",
+      "geography": {
+        "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+        "approximate": true,
+        "coordinates": [
+          43.7678,
+          -79.1866
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26153813",
       "source": "TFS",
@@ -16,9 +42,24 @@
       "timestamp": "2026-09-28T08:33:22.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "426"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "426"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T08:41:21.119Z",
-      "lastSeenAt": "2026-09-28T08:44:23.985Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T08:46:15.212Z",
+      "lastSeenAt": "2026-09-28T08:46:15.212Z",
       "geography": {
         "text": "Dundas Street between Lane East Sheridan North Dundas & Sheridan Avenue",
         "approximate": false,
@@ -53,7 +94,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T08:36:33.691Z",
       "lastMeaningfulUpdateAt": "2026-09-28T08:41:21.119Z",
-      "lastSeenAt": "2026-09-28T08:44:23.985Z",
+      "lastSeenAt": "2026-09-28T08:46:15.212Z",
       "geography": {
         "text": "Lyon Court & Roselawn Avenue",
         "approximate": false,
@@ -88,7 +129,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T08:36:33.691Z",
       "lastMeaningfulUpdateAt": "2026-09-28T08:41:21.119Z",
-      "lastSeenAt": "2026-09-28T08:44:23.985Z",
+      "lastSeenAt": "2026-09-28T08:46:15.212Z",
       "geography": {
         "text": "Bathurst Street between Nassau Street & Lane South College East Bathurst",
         "approximate": false,
@@ -111,7 +152,7 @@
       "division": "341",
       "timestamp": "2026-09-28T08:25:28.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -192039,49 +192080,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26149606",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M6M",
-      "division": "421",
-      "timestamp": "2026-09-21T08:44:25.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Aerial Truck",
-          "numbers": [
-            "421"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-21T08:50:35.489Z",
-      "lastSeenAt": "2026-09-21T09:09:54.709Z",
-      "geography": {
-        "text": "Approximate area: (M6M) York (Del Ray / Keelsdale / Mount Dennis / Silverthorne)",
-        "approximate": true,
-        "coordinates": [
-          43.6934,
-          -79.4857
-        ],
-        "division": "Division 12",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T08:44:23.985Z",
-      "sourceUpdatedAt": "2026-09-28T08:40:01.000Z",
+      "fetchedAt": "2026-09-28T08:46:15.212Z",
+      "sourceUpdatedAt": "2026-09-28T08:45:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T08:44:23.985Z",
+      "fetchedAt": "2026-09-28T08:46:15.212Z",
       "status": "ok"
     }
   },
@@ -343570,6 +343578,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1E": {
+      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+      "approximate": true,
+      "coordinates": [
+        43.7678,
+        -79.1866
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "DUNDAS ST, TT / LN E SHERIDAN N DUNDAS / SHERIDAN AVE": {
       "text": "Dundas Street between Lane East Sheridan North Dundas & Sheridan Avenue",
       "approximate": false,
@@ -344070,18 +344090,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-28T03:56:30.983Z"
-    },
-    "M1E": {
-      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
-      "approximate": true,
-      "coordinates": [
-        43.7678,
-        -79.1866
-      ],
-      "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M9M": {
       "text": "Approximate area: (M9M) North York (Humberlea / Emery)",
