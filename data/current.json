@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T05:25:00.198Z",
-  "sourceUpdatedAt": "2026-09-28T05:15:02.000Z",
+  "fetchedAt": "2026-09-28T05:26:07.811Z",
+  "sourceUpdatedAt": "2026-09-28T05:25:01.000Z",
   "incidents": [
+    {
+      "id": "F26153777",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5E",
+      "division": "332",
+      "timestamp": "2026-09-28T05:15:36.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "332"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-28T05:26:07.811Z",
+      "lastSeenAt": "2026-09-28T05:26:07.811Z",
+      "geography": {
+        "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
+        "approximate": true,
+        "coordinates": [
+          43.6456,
+          -79.3754
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26153776",
       "source": "TFS",
@@ -15,7 +49,7 @@
       "division": "314",
       "timestamp": "2026-09-28T05:04:17.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -50,7 +84,7 @@
       "division": "245",
       "timestamp": "2026-09-28T05:04:03.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -97,7 +131,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T05:10:52.174Z",
       "lastMeaningfulUpdateAt": "2026-09-28T05:15:52.632Z",
-      "lastSeenAt": "2026-09-28T05:25:00.198Z",
+      "lastSeenAt": "2026-09-28T05:26:07.811Z",
       "geography": {
         "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
         "approximate": true,
@@ -269,7 +303,7 @@
       "division": "221",
       "timestamp": "2026-09-28T04:56:49.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -376,7 +410,7 @@
       "respondingUnitCount": 8,
       "firstSeenAt": "2026-09-28T05:05:36.206Z",
       "lastMeaningfulUpdateAt": "2026-09-28T05:10:52.174Z",
-      "lastSeenAt": "2026-09-28T05:25:00.198Z",
+      "lastSeenAt": "2026-09-28T05:26:07.811Z",
       "geography": {
         "text": "Approximate location near Mount Olive Drive & Kipling Avenue",
         "approximate": true,
@@ -192066,37 +192100,16 @@
         "division": "Division 51",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-37453ed66b11f234424808ba",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "ASSAULT JUST OCCURRED",
-      "callTypeCode": "ASSJU",
-      "timestamp": "2026-09-21T05:25:16.000Z",
-      "location": "GERRARD ST E - CARLTON ST",
-      "division": "Division 51",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "GERRARD ST E - CARLTON ST",
-        "coordinates": [
-          43.66319520229896,
-          -79.37304255392313
-        ],
-        "division": "Division 51",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T05:25:00.198Z",
-      "sourceUpdatedAt": "2026-09-28T05:15:02.000Z",
+      "fetchedAt": "2026-09-28T05:26:07.811Z",
+      "sourceUpdatedAt": "2026-09-28T05:25:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T05:25:00.198Z",
+      "fetchedAt": "2026-09-28T05:26:07.811Z",
       "status": "ok"
     }
   },
@@ -343774,6 +343787,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5E": {
+      "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
+      "approximate": true,
+      "coordinates": [
+        43.6456,
+        -79.3754
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M5G": {
       "text": "Approximate area: (M5G) Downtown Toronto (Central Bay Street)",
       "approximate": true,
@@ -347871,18 +347896,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T16:26:33.783Z"
-    },
-    "M5E": {
-      "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
-      "approximate": true,
-      "coordinates": [
-        43.6456,
-        -79.3754
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "WELLESLEY ST, TT / CHURCH ST / JARVIS ST": {
       "text": "Wellesley Street between Church Street & Jarvis Street",
