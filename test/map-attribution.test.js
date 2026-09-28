@@ -30,7 +30,9 @@ test('only compact linked OpenStreetMap credit remains in the map attribution co
 });
 
 test('TPS division provenance appears in normal flow inside existing Map info', () => {
-  const info = html.match(/<details class="panel map-info"[\s\S]*?<\/details>/)?.[0] || '';
+  const infoMatch = html.match(/<details class="panel map-info"[\s\S]*?<\/details>/);
+  assert.ok(infoMatch, 'expected the Map info details element');
+  const [info] = infoMatch;
   assert.match(info, /<p class="map-source-credit">Police division boundaries — Toronto Police Service<\/p>/);
   assert.match(desktopRules, /\.map-source-credit \{[\s\S]*?color: var\(--muted\);[\s\S]*?font-size: 12px/);
 });
