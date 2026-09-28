@@ -24,7 +24,7 @@ test('collapsed, half, and expanded states have bounded safe-area-aware heights'
   assert.match(mobileRules, /data-mobile-sheet-state="half"[\s\S]*?min\(30dvh, calc\(var\(--mobile-map-height\) - 220px\)\)/);
   assert.match(mobileRules, /data-mobile-sheet-state="expanded"[\s\S]*?min\(50dvh, calc\(var\(--mobile-map-height\) - 160px\)\)/);
   assert.match(mobileRules, /padding-bottom: env\(safe-area-inset-bottom, 0px\)/);
-  assert.match(mobileRules, /\.map-panel \.leaflet-bottom \{ bottom: var\(--mobile-map-sheet-overlap, 0px\)/);
+  assert.match(mobileRules, /\.map-panel \.leaflet-bottom\.leaflet-right \{ bottom: var\(--mobile-map-sheet-overlap, 0px\)/);
 });
 
 test('tap and drag interactions move through the three sheet states', () => {
@@ -74,7 +74,7 @@ test('Calls mode removes the fixed sheet from layout while retaining its prior s
 test('map controls stay inside the usable map above every sheet state', () => {
   const mobileRules = css.slice(css.indexOf(mobileQuery));
   assert.match(mobileRules, /\.map-panel \.leaflet-top \{ top: 60px; \}/);
-  assert.match(mobileRules, /\.map-panel \.leaflet-bottom \{ bottom: var\(--mobile-map-sheet-overlap, 0px\)/);
+  assert.match(mobileRules, /\.map-panel \.leaflet-bottom\.leaflet-right \{ bottom: var\(--mobile-map-sheet-overlap, 0px\)/);
   assert.equal(460 - 240, 220, 'half sheet leaves at least 220px of the 460px map');
   assert.equal(460 - 300, 160, 'expanded sheet leaves room for map controls');
 });

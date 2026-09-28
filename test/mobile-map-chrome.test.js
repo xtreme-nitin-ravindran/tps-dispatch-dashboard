@@ -24,14 +24,14 @@ test('mobile overlay controls share one compact row with full labels and 44px ta
 
 test('zoom, attribution, and overlay chrome remain inside the usable map in every sheet state', () => {
   assert.match(mobileRules, /\.map-panel \.leaflet-top \{ top: 60px; \}/);
-  assert.match(mobileRules, /\.map-panel \.leaflet-bottom \{ bottom: var\(--mobile-map-sheet-overlap, 0px\)/);
+  assert.match(mobileRules, /\.map-panel \.leaflet-bottom\.leaflet-right \{ bottom: var\(--mobile-map-sheet-overlap, 0px\)/);
   assert.match(mobileRules, /--mobile-sheet-height: calc\(52px \+ env\(safe-area-inset-bottom, 0px\)\)/);
   assert.match(mobileRules, /data-mobile-sheet-state="half"[\s\S]*?var\(--mobile-map-height\) - 220px/);
   assert.match(mobileRules, /data-mobile-sheet-state="expanded"[\s\S]*?var\(--mobile-map-height\) - 160px/);
 });
 
 test('mobile attribution remains compact while desktop attribution is unchanged', () => {
-  assert.match(mobileRules, /\.leaflet-control-attribution \{[\s\S]*?width: max-content;[\s\S]*?max-width: min\(220px, calc\(100vw - 112px\)\)[\s\S]*?overflow-wrap: anywhere/);
+  assert.match(mobileRules, /\.leaflet-control-attribution \{[\s\S]*?width: max-content;[\s\S]*?max-width: calc\(100vw - 20px\)[\s\S]*?white-space: nowrap/);
   const attributionStart = desktopRules.indexOf('.leaflet-control-attribution {');
   const desktopAttribution = desktopRules.slice(attributionStart, desktopRules.indexOf('}', attributionStart) + 1);
   assert.match(desktopAttribution, /background: var\(--map-attribution-background\)/);
