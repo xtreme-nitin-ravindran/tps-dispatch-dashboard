@@ -142,6 +142,23 @@ function renderRoadLayer(map) {
       refreshClosureSymbols(entry,map,densityTier);
     } else entry.item=item;
   }
+  map.fire?.('roadclosureredraw', { layer: roadLayer, renderedCount: renderedClosures.size });
+}
+
+export function captureRoadClosureRenderState(map) {
+  const lines=[...renderedClosures.values()].map(entry=>entry.line).filter(Boolean);
+  const renderers=[...new Set(lines.map(line=>line?._renderer).filter(Boolean))];
+  return {
+    visible: Boolean(roadLayer && map?.hasLayer?.(roadLayer)),
+    layerId: roadLayer?._leaflet_id ?? null,
+    pane: ROAD_PANE,
+    paneTransform: map?.getPane?.(ROAD_PANE)?.style?.transform || null,
+    renderedCount: renderedClosures.size,
+    lineLayerIds: lines.map(line=>line?._leaflet_id ?? null),
+    rendererIds: renderers.map(renderer=>renderer?._leaflet_id ?? null),
+    rendererKinds: renderers.map(renderer=>renderer?._container?.tagName?.toLowerCase?.() || (renderer?._ctx ? 'canvas' : 'unknown')),
+    redrawScheduled: roadRenderFrame !== undefined
+  };
 }
 function scheduleRoadLayer(map) {
   if (roadRenderFrame !== undefined) return;

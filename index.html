@@ -52,7 +52,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./styles.css?v=story-37l-4" />
+  <link rel="stylesheet" href="./styles.css?v=story-38g-4" />
 </head>
 
 <body>
@@ -96,6 +96,7 @@
         <div class="nearby-action">
           <button id="nearMe" type="button">What’s happening near me?</button>
           <button id="hearSirens" type="button" aria-label="Find nearby calls that may explain sirens">Hear sirens?</button>
+          <p id="quickLookDataStatus" class="quick-look-data-status" role="status" aria-live="polite">Loading calls… Location controls are ready.</p>
           <p id="nearStatus" role="status">Uses your location with permission. Your location stays in this browser
             session.</p>
           <div id="nearControls" hidden>
@@ -276,7 +277,7 @@
         <button class="mobile-sheet-header" id="mobileSheetToggle" type="button" aria-controls="mobileSheetBody"
           aria-expanded="false" aria-label="Expand nearby calls sheet to half height">
           <span class="mobile-sheet-handle" aria-hidden="true"></span>
-          <span class="mobile-sheet-summary" id="mobileSheetSummary" aria-live="polite">Recent calls nearby</span>
+          <span class="mobile-sheet-summary" id="mobileSheetSummary" aria-live="polite">Loading nearby calls…</span>
           <span class="mobile-sheet-state" id="mobileSheetState">Collapsed</span>
         </button>
         <div class="mobile-sheet-body" id="mobileSheetBody">
@@ -300,7 +301,11 @@
               <span aria-hidden="true" class="road-key"></span><span>Road closures</span>
               <small id="roadOverlayStatus" class="map-layer-status">Not available yet</small>
             </label>
-            <div id="dispatchMap" aria-label="Interactive map of Toronto dispatch calls"></div>
+            <div id="dispatchMap" aria-label="Interactive map of Toronto dispatch calls" aria-busy="true"></div>
+            <div id="mapLoadStatus" class="map-load-status" role="status" aria-live="polite">
+              <span class="loader loader--small" aria-hidden="true"></span>
+              <span>Loading map…</span>
+            </div>
             <div class="map-note">Locations are approximate public descriptions.</div>
           </div>
         </div>
@@ -317,10 +322,10 @@
           </div>
           <p id="callsFeedStatus" class="feed-status" role="status" aria-live="polite" hidden></p>
 
-          <div class="call-list" id="callList">
-            <div class="loading-state">
-              <div class="loader"></div>
-              <p>Loading public dispatch data…</p>
+          <div class="call-list" id="callList" aria-busy="true">
+            <div class="loading-state" role="status" aria-live="polite">
+              <div class="loader" aria-hidden="true"></div>
+              <p>Loading calls…</p>
             </div>
           </div>
         </div>
@@ -552,12 +557,26 @@
     </article>
   </template>
 
+  <script>
+    if (new URLSearchParams(location.search).get("uxAudit") === "1") performance.mark("sirento:html-parsed");
+  </script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=story-37l-4"></script>
+  <script type="module" src="./app.js?v=story-38g-4"></script>
   <script>
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js"));
+      window.addEventListener("load", async () => {
+        const audit = new URLSearchParams(location.search).get("uxAudit") === "1";
+        if (audit) performance.mark("sirento:service-worker-registration-begins");
+        try {
+          await navigator.serviceWorker.register("./service-worker.js");
+          if (audit) performance.mark("sirento:service-worker-registration-ends");
+          await navigator.serviceWorker.ready;
+          if (audit) performance.mark("sirento:cached-shell-assets-ready");
+        } catch {
+          if (audit) performance.mark("sirento:service-worker-registration-failed");
+        }
+      });
     }
   </script>
 </body>

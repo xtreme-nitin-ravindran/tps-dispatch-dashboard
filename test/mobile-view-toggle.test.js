@@ -34,13 +34,13 @@ test('view switching only updates presentation and preserves filters, radius, da
   const setter = app.slice(setterStart, app.indexOf('\nmobileViewToggles.forEach', setterStart));
   assert.match(setter, /document\.documentElement\.dataset\.mobileView = view/);
   assert.match(setter, /setAttribute\("aria-pressed", String\(active\)\)/);
-  assert.match(setter, /scheduleMapMaintenance\(\{ invalidateSize: view === "map" \}\)/);
+  assert.match(setter, /scheduleViewMaintenance\(\{ view, mobile, focusSelection, persist \}\)/);
   assert.doesNotMatch(setter, /state\.|applyFilters|renderMap|loadData|fetch|focusedCallId\s*=/);
   assert.match(setter, /mobileBottomSheet\?\.setAttribute\("aria-hidden", String\(view !== "map"\)\)/);
   assert.match(setter, /syncIncidentListSurface\(mobile\)/);
   assert.doesNotMatch(setter, /renderCalls\(\)/);
-  assert.match(setter, /selectCall\(focusedCallId, \{ panIfNeeded: true \}\)/);
-  assert.match(app, /mobileViewToggles\.forEach\(toggle => toggle\.addEventListener\("click", \(\) => \{[\s\S]*?setMobileView\(toggle\.dataset\.mobileView,/);
+  assert.match(app, /focusSelection && mobile && view === "map" && focusedCallId[\s\S]*?selectCall\(focusedCallId, \{ panIfNeeded: true \}\)/);
+  assert.match(app, /mobileViewToggles\.forEach\(toggle => toggle\.addEventListener\("click", auditInteraction\(`view:\$\{toggle\.dataset\.mobileView\}`, \(\) => \{[\s\S]*?setMobileView\(toggle\.dataset\.mobileView,/);
 });
 
 test('breakpoint changes rebuild only the active incident surface without stale ownership', () => {
@@ -66,9 +66,31 @@ test('map maintenance coalesces resize work and view changes do not rebuild laye
   assert.match(app, /if \(mapMaintenanceFrame !== null\) return;[\s\S]*?requestAnimationFrame/);
   assert.match(app, /mapSizeInvalidationPending \|\|= invalidateSize/);
   assert.match(app, /dispatchMap\?\.invalidateSize\(\{ pan: false \}\)/);
+  assert.match(app, /viewTransitionScheduler\.schedule/);
+  assert.match(app, /if \(viewTransitionScheduler\.pending\(\)\) return/);
   const setterStart = app.indexOf('function setMobileView(');
   const setter = app.slice(setterStart, app.indexOf('\nmobileViewToggles.forEach', setterStart));
   assert.doesNotMatch(setter, /initMap|renderMapMarkers|renderDisruptions|createPoliceBoundaryLayer|loadDivisionOverlay/);
+});
+
+test('visible state is committed before bounded list ownership and deferred maintenance', () => {
+  const setterStart = app.indexOf('function setMobileView(');
+  const setter = app.slice(setterStart, app.indexOf('\nmobileViewToggles.forEach', setterStart));
+  const presentation = setter.indexOf("uxAudit.mark('view-toggle:visual-state-committed'");
+  const ownership = setter.indexOf('syncIncidentListSurface(mobile)');
+  const maintenance = setter.indexOf('scheduleViewMaintenance({ view, mobile, focusSelection, persist })');
+  assert.ok(presentation >= 0 && presentation < ownership);
+  assert.ok(ownership < maintenance);
+  assert.doesNotMatch(setter, /invalidateSize/);
+});
+
+test('deferred transition work is stale-safe and invalidates only a visible map', () => {
+  const start = app.indexOf('function scheduleViewMaintenance(');
+  const scheduler = app.slice(start, app.indexOf('\nfunction syncIncidentListSurface', start));
+  assert.match(scheduler, /if \(view !== mobileView \|\| mobile !== isMobileViewLayout\(\)\) return/);
+  assert.match(scheduler, /mobile && view === "map" && mapSizeInvalidationPending/);
+  assert.match(scheduler, /mapSizeInvalidationPending = false;[\s\S]*?dispatchMap\?\.invalidateSize/);
+  assert.doesNotMatch(scheduler, /renderMapMarkers|renderDisruptions|loadDivisionOverlay|renderCalls|applyFilters/);
 });
 
 test('show-on-map keeps the selected incident and activates the map view', () => {
@@ -77,4 +99,12 @@ test('show-on-map keeps the selected incident and activates the map view', () =>
   assert.match(app, /const showOnMap = event\.target\.closest\("\.show-map-hint"\);[\s\S]*?selectCall\(row\.dataset\.callId,[\s\S]*?if \(showOnMap\)[\s\S]*?setMobileView\("map", \{ focusSelection: true \}\)/);
   assert.match(app, /let focusedCallId = null/);
   assert.doesNotMatch(setter, /focusedCallId\s*=/);
+});
+
+test('a view selected during loading is not overwritten by late startup restoration', () => {
+  assert.match(app, /let mobileViewInteracted = false/);
+  assert.match(app, /view:\$\{toggle\.dataset\.mobileView\}`,[\s\S]*?mobileViewInteracted = true;[\s\S]*?setMobileView/);
+  assert.match(app, /if \(arrival\.mobileView && !mobileViewInteracted\) setMobileView/);
+  assert.match(app, /if \(!mobileViewInteracted\) setMobileView\(saved\.mobileView/);
+  assert.match(app, /if \(!mobileViewInteracted\) setMobileView\(mobileAuditFixture\.view/);
 });

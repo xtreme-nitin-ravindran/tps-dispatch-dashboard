@@ -17,10 +17,10 @@ test('mobile audit fixture is explicit and loopback-only', () => {
 test('fixture options expose deterministic mobile view and sheet states', () => {
   assert.equal(mobileAuditFixtureOptions(),null);
   assert.deepEqual(mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditView=calls&mobileAuditSheet=expanded'}),{
-    state:'many',view:'calls',sheet:'expanded',location:'none',filters:'none',radius:null,roads:true,boundaries:true
+    state:'many',view:'calls',sheet:'expanded',location:'none',filters:'none',radius:null,roads:true,boundaries:true,boundaryRenderer:'canvas',boundaryDebug:false
   });
   assert.deepEqual(mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditView=nope&mobileAuditSheet=nope&mobileAuditLocation=denied'}),{
-    state:'many',view:'map',sheet:'collapsed',location:'denied',filters:'none',radius:null,roads:true,boundaries:true
+    state:'many',view:'map',sheet:'collapsed',location:'denied',filters:'none',radius:null,roads:true,boundaries:true,boundaryRenderer:'canvas',boundaryDebug:false
   });
 });
 
@@ -29,6 +29,13 @@ test('fixture independently controls road and boundary overlays only on loopback
   assert.equal(off.roads, false);
   assert.equal(off.boundaries, false);
   assert.equal(mobileAuditFixtureOptions({hostname:'sirento.ca',search:'?mobileAuditFixture=many&mobileAuditRoads=off'}), null);
+});
+
+test('fixture exposes a loopback-only SVG comparison and projected-geometry capture mode', () => {
+  const options = mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditBoundaryRenderer=svg&policeBoundaryDebug=1'});
+  assert.equal(options.boundaryRenderer, 'svg');
+  assert.equal(options.boundaryDebug, true);
+  assert.equal(mobileAuditFixtureOptions({hostname:'sirento.ca',search:'?mobileAuditFixture=many&mobileAuditBoundaryRenderer=svg&policeBoundaryDebug=1'}), null);
 });
 
 test('fixture exposes every radius and rejects arbitrary values', () => {
@@ -59,6 +66,29 @@ test('fixture exposes every compact Nearby location state without enabling arbit
   assert.equal(mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditLocation=other'}).location,'none');
 });
 
+test('Story 38 fixture dimensions compose without leaving the production render path', () => {
+  const options = mobileAuditFixtureOptions({
+    hostname:'127.0.0.1',
+    search:'?mobileAuditFixture=stale&mobileAuditLocation=saved&mobileAuditFilters=search&mobileAuditRadius=5&mobileAuditRoads=off&mobileAuditBoundaries=on&mobileAuditView=calls&mobileAuditSheet=expanded&policeBoundaryDebug=1'
+  });
+  assert.deepEqual(options, {
+    state:'stale',
+    sheet:'expanded',
+    view:'calls',
+    location:'saved',
+    filters:'search',
+    radius:'5',
+    roads:false,
+    boundaries:true,
+    boundaryRenderer:'canvas',
+    boundaryDebug:true
+  });
+  assert.equal(mobileAuditFixtureOptions({
+    hostname:'sirento.nitin.run',
+    search:'?mobileAuditFixture=stale&mobileAuditLocation=saved&mobileAuditFilters=search&mobileAuditRadius=5&mobileAuditRoads=off&mobileAuditBoundaries=on&mobileAuditView=calls&mobileAuditSheet=expanded&policeBoundaryDebug=1'
+  }), null);
+});
+
 test('fixture covers multiple, zero, stale, unavailable, unresolved, and long TTC states', () => {
   const now=Date.UTC(2026,8,26,12);
   assert.ok(mobileAuditFixtureSnapshot().incidents.length >= 10);
@@ -83,6 +113,9 @@ test('fixture covers multiple, zero, stale, unavailable, unresolved, and long TT
   assert.equal(stale.disruptions.transit.status,'stale');
   assert.equal(stale.disruptions.transit.items.length,2);
   const unavailable=mobileAuditFixtureSnapshot('unavailable',now);
+  assert.equal(unavailable.incidents.length,0);
+  assert.equal(unavailable.feeds.TFS.status,'unavailable');
+  assert.equal(unavailable.feeds.TPS.status,'unavailable');
   assert.equal(unavailable.disruptions.transit.status,'unavailable');
   assert.equal(unavailable.disruptions.transit.items.length,2);
 });
