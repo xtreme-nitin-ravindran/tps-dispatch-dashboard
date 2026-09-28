@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T18:09:46.616Z",
-  "sourceUpdatedAt": "2026-09-28T18:05:01.000Z",
+  "fetchedAt": "2026-09-28T18:11:03.150Z",
+  "sourceUpdatedAt": "2026-09-28T18:10:02.000Z",
   "incidents": [
+    {
+      "id": "F26154033",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "ALBANY AVE, TT / SEATON PARK TRL / BARTON AVE",
+      "division": "344",
+      "timestamp": "2026-09-28T18:02:45.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-28T18:11:03.150Z",
+      "lastSeenAt": "2026-09-28T18:11:03.150Z",
+      "geography": {
+        "text": "Approximate location near Albany Avenue & Seaton Park Trl",
+        "approximate": true,
+        "coordinates": [
+          43.666009,
+          -79.4102225
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-28T18:11:03.150Z"
+      }
+    },
+    {
+      "id": "F26154034",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M2R",
+      "division": "112",
+      "timestamp": "2026-09-28T18:02:14.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-28T18:11:03.150Z",
+      "lastSeenAt": "2026-09-28T18:11:03.150Z",
+      "geography": {
+        "text": "Approximate area: (M2R) Willowdale West",
+        "approximate": true,
+        "coordinates": [
+          43.7786,
+          -79.445
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26154031",
       "source": "TFS",
@@ -26,7 +78,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T18:05:33.531Z",
-      "lastSeenAt": "2026-09-28T18:09:46.616Z",
+      "lastSeenAt": "2026-09-28T18:11:03.150Z",
       "geography": {
         "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
         "approximate": true,
@@ -60,7 +112,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T18:05:33.531Z",
-      "lastSeenAt": "2026-09-28T18:09:46.616Z",
+      "lastSeenAt": "2026-09-28T18:11:03.150Z",
       "geography": {
         "text": "Approximate area: (M2M) Willowdale East (Newtonbrook)",
         "approximate": true,
@@ -83,7 +135,7 @@
       "division": "233",
       "timestamp": "2026-09-28T17:53:09.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -136,7 +188,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T18:01:32.343Z",
       "lastMeaningfulUpdateAt": "2026-09-28T18:05:33.531Z",
-      "lastSeenAt": "2026-09-28T18:09:46.616Z",
+      "lastSeenAt": "2026-09-28T18:11:03.150Z",
       "geography": {
         "text": "Approximate area: (M6B) North York (Glencairn)",
         "approximate": true,
@@ -197,7 +249,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T17:56:09.949Z",
       "lastMeaningfulUpdateAt": "2026-09-28T18:01:32.343Z",
-      "lastSeenAt": "2026-09-28T18:09:46.616Z",
+      "lastSeenAt": "2026-09-28T18:11:03.150Z",
       "geography": {
         "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
         "approximate": true,
@@ -238,7 +290,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T17:56:09.949Z",
       "lastMeaningfulUpdateAt": "2026-09-28T18:01:32.343Z",
-      "lastSeenAt": "2026-09-28T18:09:46.616Z",
+      "lastSeenAt": "2026-09-28T18:11:03.150Z",
       "geography": {
         "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
         "approximate": true,
@@ -197748,12 +197800,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T18:09:46.616Z",
-      "sourceUpdatedAt": "2026-09-28T18:05:01.000Z",
+      "fetchedAt": "2026-09-28T18:11:03.150Z",
+      "sourceUpdatedAt": "2026-09-28T18:10:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T18:09:46.616Z",
+      "fetchedAt": "2026-09-28T18:11:03.150Z",
       "status": "ok"
     }
   },
@@ -354717,6 +354769,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "ALBANY AVE, TT / SEATON PARK TRL / BARTON AVE": {
+      "text": "Approximate location near Albany Avenue & Seaton Park Trl",
+      "approximate": true,
+      "coordinates": [
+        43.666009,
+        -79.4102225
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-28T18:11:03.150Z"
+    },
+    "M2R": {
+      "text": "Approximate area: (M2R) Willowdale West",
+      "approximate": true,
+      "coordinates": [
+        43.7786,
+        -79.445
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M6H": {
       "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
       "approximate": true,
@@ -356750,18 +356826,6 @@
         -79.5282
       ],
       "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M2R": {
-      "text": "Approximate area: (M2R) Willowdale West",
-      "approximate": true,
-      "coordinates": [
-        43.7786,
-        -79.445
-      ],
-      "division": "Division 32",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
