@@ -24,7 +24,9 @@ export function mobileAuditFixtureOptions(locationLike = globalThis.location) {
     ? params.get('mobileAuditFilters') : 'none';
   const radius = ['0.5', '1', '2', '5', 'toronto'].includes(params.get('mobileAuditRadius'))
     ? params.get('mobileAuditRadius') : null;
-  return { state, sheet, view, location, filters, radius };
+  const roads = params.get('mobileAuditRoads') !== 'off';
+  const boundaries = params.get('mobileAuditBoundaries') !== 'off';
+  return { state, sheet, view, location, filters, radius, roads, boundaries };
 }
 
 export function mobileAuditFixtureFilters(name = 'none') {
@@ -63,7 +65,7 @@ function incident(id, source, description, location, minutes, coordinates, extra
 }
 
 export function mobileAuditFixtureSnapshot(state = 'many', now = Date.now()) {
-  const many = [
+  const representative = [
     incident('selected', 'TFS', 'Residential Fire Alarm — Long deterministic audit label', 'University Avenue between Armoury Street & Dundas Street West', 4, [43.6534, -79.3862], {eventCategory:'fire',vehicles:[{type:'Pumper',numbers:['P312']}]}, now),
     incident('medical', 'TFS', 'MEDICAL', 'Approximate area: Downtown Toronto / Harbourfront / Railway Lands / Bathurst Quay', 9, [43.6414, -79.3902], {eventCategory:'medical'}, now),
     incident('police', 'TPS', 'PERSON WITH A KNIFE', 'QUEEN ST W - SPADINA AVE', 13, [43.6489, -79.3965], {division:'Division 14'}, now),
@@ -77,7 +79,20 @@ export function mobileAuditFixtureSnapshot(state = 'many', now = Date.now()) {
     incident('water', 'TFS', 'Water Problem - Level 1', 'Davisville Avenue between Yonge Street & Pailton Crescent', 96, [43.6981, -79.3978], {}, now),
     incident('unmapped', 'TFS', 'Check Call - Non Emergency', 'An intentionally long unmapped location description used to verify wrapping without a map coordinate', 112, null, {}, now)
   ];
-  const calls = state === 'zero' ? [] : many;
+  const dense = state === 'many' ? Array.from({length: 1200}, (_, index) => {
+    const source = index % 3 === 0 ? 'TPS' : 'TFS';
+    const row = Math.floor(index / 40);
+    const column = index % 40;
+    return incident(`heavy-${index}`, source,
+      source === 'TPS' ? `DETERMINISTIC POLICE AUDIT CALL ${index + 1}` : `Deterministic Fire Audit Call ${index + 1}`,
+      `${100 + index} Fixture Street between Audit Avenue & Performance Road`,
+      index % 180, [43.59 + row * 0.006, -79.62 + column * 0.009], {
+        eventCategory: source === 'TPS' ? 'other' : index % 5 === 0 ? 'medical' : 'fire',
+        isOngoing: source === 'TFS',
+        division: `Division ${11 + index % 12}`
+      }, now);
+  }) : [];
+  const calls = state === 'zero' ? [] : state === 'many' ? [...representative, ...dense] : representative;
   const ok = { status: 'ok', fetchedAt: minutesAgo(now, 2) };
   const feeds = state === 'stale'
     ? { TFS: {status:'stale',fetchedAt:minutesAgo(now, 95)}, TPS: {status:'unavailable',fetchedAt:minutesAgo(now, 180)} }

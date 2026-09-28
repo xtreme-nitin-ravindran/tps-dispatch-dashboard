@@ -34,10 +34,11 @@ test('view switching only updates presentation and preserves filters, radius, da
   const setter = app.slice(setterStart, app.indexOf('\nmobileViewToggles.forEach', setterStart));
   assert.match(setter, /document\.documentElement\.dataset\.mobileView = view/);
   assert.match(setter, /setAttribute\("aria-pressed", String\(active\)\)/);
-  assert.match(setter, /dispatchMap\?\.invalidateSize/);
+  assert.match(setter, /scheduleMapMaintenance\(\{ invalidateSize: view === "map" \}\)/);
   assert.doesNotMatch(setter, /state\.|applyFilters|renderMap|loadData|fetch|focusedCallId\s*=/);
   assert.match(setter, /mobileBottomSheet\?\.setAttribute\("aria-hidden", String\(view !== "map"\)\)/);
-  assert.match(setter, /renderCalls\(\)/);
+  assert.match(setter, /syncIncidentListSurface\(mobile\)/);
+  assert.doesNotMatch(setter, /renderCalls\(\)/);
   assert.match(setter, /selectCall\(focusedCallId, \{ panIfNeeded: true \}\)/);
   assert.match(app, /mobileViewToggles\.forEach\(toggle => toggle\.addEventListener\("click", \(\) => \{[\s\S]*?setMobileView\(toggle\.dataset\.mobileView,/);
 });
@@ -49,13 +50,25 @@ test('breakpoint changes rebuild only the active incident surface without stale 
   assert.match(setter, /removeAttribute\("aria-hidden"\)/);
 });
 
-test('each mobile mode owns one incident surface and switching clears the inactive list', () => {
+test('each mobile mode owns one incident surface and switching moves it without rebuilding cards', () => {
+  assert.match(app, /const callsListHome = els\.callList\.parentElement/);
+  const surfaceStart = app.indexOf('function syncIncidentListSurface(');
+  const surface = app.slice(surfaceStart, app.indexOf('\nfunction setMobileView(', surfaceStart));
+  assert.match(surface, /mobile && mobileView === "map" \? mobileSheetCallList : callsListHome/);
+  assert.match(surface, /host\.append\(els\.callList\)/);
   const rendererStart = app.indexOf('function renderCalls()');
   const renderer = app.slice(rendererStart, app.indexOf('\nnearbySort.addEventListener', rendererStart));
-  assert.match(renderer, /mobile && mobileView === "map" \? mobileSheetCallList : els\.callList/);
-  assert.match(renderer, /inactiveList\?\.replaceChildren\(\)/);
-  assert.match(renderer, /renderList\(activeList\)/);
-  assert.doesNotMatch(renderer, /renderList\(els\.callList\);\s*renderList\(mobileSheetCallList\)/);
+  assert.match(renderer, /renderList\(els\.callList\)/);
+  assert.doesNotMatch(renderer, /mobileSheetCallList|inactiveList/);
+});
+
+test('map maintenance coalesces resize work and view changes do not rebuild layers', () => {
+  assert.match(app, /if \(mapMaintenanceFrame !== null\) return;[\s\S]*?requestAnimationFrame/);
+  assert.match(app, /mapSizeInvalidationPending \|\|= invalidateSize/);
+  assert.match(app, /dispatchMap\?\.invalidateSize\(\{ pan: false \}\)/);
+  const setterStart = app.indexOf('function setMobileView(');
+  const setter = app.slice(setterStart, app.indexOf('\nmobileViewToggles.forEach', setterStart));
+  assert.doesNotMatch(setter, /initMap|renderMapMarkers|renderDisruptions|createPoliceBoundaryLayer|loadDivisionOverlay/);
 });
 
 test('show-on-map keeps the selected incident and activates the map view', () => {

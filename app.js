@@ -2,7 +2,7 @@ import { sourceStatus, sourceStatusText } from "./src/source-status.js?v=source-
 import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
 import { incidentGroupKey, reconcileIncidentLayers } from "./src/incident-layer-diff.js";
 import { activeSecondaryFilterCount, filterDefaults, filterSummary, incidentDeepLink, readFilters, shareView, shareIncidentView, readSharedIncident, shareIncident, loadPreferences, savePreferences } from "./src/view-controls.js";
-import { createClosureDetail, renderDisruptions } from "./src/disruptions/ui.js?v=road-closure-interaction-1";
+import * as disruptionUi from "./src/disruptions/ui.js?v=road-closure-interaction-2";
 import { withTtcNearbyFixture } from "./src/disruptions/ttc-nearby-fixture.js";
 import { compactAge, compactReportedAge, locationConfidence, callStatus, sourceName, respondingUnitLabel } from "./src/call-presentation.js?v=responding-units-1";
 import { distanceKm, distanceLabel, withinGeographicScope } from "./src/nearby.js?v=radius-controls-1";
@@ -22,10 +22,12 @@ import { incidentMatchesSearch } from "./src/incident-search.js";
 import { DISPATCH_GLOSSARY_FOOTER, glossaryDefinition } from "./src/dispatch-glossary.js?v=glossary-1";
 import { applyTheme, normalizeThemePreference } from "./src/theme.js";
 import { createRefreshFreshnessTracker } from "./src/refresh-freshness.js";
-import { mobileSheetActionLabel, mobileSheetStateAfterDrag, nextMobileSheetState } from "./src/mobile-bottom-sheet.js";
+import { mobileMapSheetOverlap, mobileSheetActionLabel, mobileSheetStateAfterDrag, nextMobileSheetState } from "./src/mobile-bottom-sheet.js";
+import { createPoliceBoundaryLayer } from "./src/police-boundary-overlay.js";
 import { NEARBY_SORT_DEFAULT, sortNearbyCalls } from "./src/nearby-sort.js";
 import { offlineStatus } from "./src/offline-status.js";
 import { MAX_SAVED_LOCATIONS, addSavedLocation, deleteSavedLocation, loadSavedLocationState, referenceCoordinates, renameSavedLocation, savedLocationForContext, selectCurrentLocation, selectSavedLocation } from "./src/saved-locations.js";
+const { createClosureDetail, renderDisruptions, setRoadOverlayVisibility } = disruptionUi;
 import { createLocalWatch, defaultWatchRadius, loadLocalWatch, saveLocalWatch, watchFixtureState, watchLocationContext, watchSupportState } from './src/watch-config.js';
 import { clearWatchActivation, createHttpWatchSubscriptionAdapter, createPushFixtureRuntime, createPushSubscriptionController, loadWatchActivation, pushFixtureOptions, saveWatchActivation, vapidPublicKeyFrom, watchApiBaseUrlFrom } from './src/push-subscription.js';
 import { mobileAuditFixtureFilters, mobileAuditFixtureOptions, mobileAuditFixtureSnapshot } from './src/mobile-audit-fixture.js';
@@ -95,6 +97,7 @@ const mobileSheetStateLabel = document.querySelector('#mobileSheetState');
 const mobileSheetSummary = document.querySelector('#mobileSheetSummary');
 const mobileSheetStateControls = document.querySelectorAll('[data-sheet-target]');
 const mobileSheetCallList = document.querySelector('#mobileSheetCallList');
+const callsListHome = els.callList.parentElement;
 const mobileCallsFeedStatus = document.querySelector('#mobileCallsFeedStatus');
 const mobileClosureDetail = document.querySelector('#mobileClosureDetail');
 const nearbySort = document.querySelector('#nearbySort');
@@ -119,6 +122,7 @@ let choosingArea = false;
 let nearbyOriginKind = "device";
 let liveLocation = null;
 let nearbyOriginLayer = null;
+let divisionLayer = null;
 let incidentBadgeTimer = null;
 let glossaryPopoverSequence = 0;
 let themePreference = "system";
@@ -142,6 +146,8 @@ const mobileLayoutMedia = window.matchMedia(mobileViewQuery);
 const nearbyOptions = document.querySelector('.nearby-options');
 function syncTheme() {
   applyTheme(document.documentElement, themeColorMeta, themePreference, systemTheme.matches);
+  const boundaryColor = getComputedStyle(document.documentElement).getPropertyValue("--boundary-marker").trim();
+  if (boundaryColor) divisionLayer?.setStyle({ color: boundaryColor });
 }
 function rememberPreferences(stateOverrides = {}) {
   try { savePreferences(localStorage,{...state,...stateOverrides},{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible,theme:themePreference,mobileView}); } catch { /* Browsing still works when storage is blocked. */ }
@@ -151,16 +157,46 @@ function isMobileViewLayout() {
   return mobileLayoutMedia.matches;
 }
 
+let mapMaintenanceFrame = null;
+let mapSizeInvalidationPending = false;
+function syncMapSheetOverlap() {
+  if (!els.dispatchMap || !mobileBottomSheet) return;
+  const overlap = mobileMapSheetOverlap(
+    els.dispatchMap.getBoundingClientRect(),
+    mobileBottomSheet.getBoundingClientRect(),
+    isMobileViewLayout() && mobileView === "map"
+  );
+  els.dispatchMap.style.setProperty("--mobile-map-sheet-overlap", `${overlap}px`);
+}
+
+function scheduleMapMaintenance({ invalidateSize = false } = {}) {
+  mapSizeInvalidationPending ||= invalidateSize;
+  if (mapMaintenanceFrame !== null) return;
+  mapMaintenanceFrame = requestAnimationFrame(() => {
+    mapMaintenanceFrame = null;
+    syncMapSheetOverlap();
+    if (!mapSizeInvalidationPending) return;
+    mapSizeInvalidationPending = false;
+    dispatchMap?.invalidateSize({ pan: false });
+  });
+}
+
+function syncIncidentListSurface(mobile = isMobileViewLayout()) {
+  const host = mobile && mobileView === "map" ? mobileSheetCallList : callsListHome;
+  if (els.callList.parentElement !== host) host.append(els.callList);
+}
+
 function setMobileView(view, { focusSelection = false, persist = true } = {}) {
   if (view !== "map" && view !== "calls") return;
+  const mobile = isMobileViewLayout();
   mobileView = view;
+  syncIncidentListSurface(mobile);
   document.documentElement.dataset.mobileView = view;
   mobileViewToggles.forEach(toggle => {
     const active = toggle.dataset.mobileView === view;
     toggle.classList.toggle("active", active);
     toggle.setAttribute("aria-pressed", String(active));
   });
-  const mobile = isMobileViewLayout();
   const layout = mobile ? 'mobile' : 'desktop';
   if (nearbyOptions?.dataset.layout !== layout) {
     nearbyOptions.open = !mobile;
@@ -177,14 +213,14 @@ function setMobileView(view, { focusSelection = false, persist = true } = {}) {
     callsView?.removeAttribute("aria-hidden");
     mobileBottomSheet?.removeAttribute("aria-hidden");
   }
-  renderCalls();
+  scheduleMapMaintenance({ invalidateSize: view === "map" });
   if (persist) rememberPreferences();
-  if (view === "map") requestAnimationFrame(() => {
-    dispatchMap?.invalidateSize({ pan: false });
+  if (view === "map" && focusSelection) requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (mobileView !== "map") return;
     if (focusSelection && isMobileViewLayout() && focusedCallId) {
       selectCall(focusedCallId, { panIfNeeded: true });
     }
-  });
+  }));
 }
 
 mobileViewToggles.forEach(toggle => toggle.addEventListener("click", () => {
@@ -204,7 +240,7 @@ function setMobileSheetState(nextState) {
   mobileSheetStateControls.forEach(control => {
     control.setAttribute("aria-pressed", String(control.dataset.sheetTarget === nextState));
   });
-  requestAnimationFrame(() => dispatchMap?.invalidateSize({ pan: false }));
+  scheduleMapMaintenance({ invalidateSize: true });
 }
 
 mobileSheetToggle?.addEventListener("click", () => {
@@ -235,6 +271,20 @@ mobileSheetStateControls.forEach(control => control.addEventListener("click", ()
   setMobileSheetState(control.dataset.sheetTarget);
 }));
 setMobileSheetState(mobileSheetState);
+window.addEventListener("scroll", scheduleMapMaintenance, { passive: true });
+window.addEventListener("resize", scheduleMapMaintenance);
+window.visualViewport?.addEventListener("resize", scheduleMapMaintenance);
+window.visualViewport?.addEventListener("scroll", scheduleMapMaintenance);
+document.addEventListener("scroll", scheduleMapMaintenance, { passive: true, capture: true });
+document.addEventListener("touchmove", scheduleMapMaintenance, { passive: true });
+document.addEventListener("touchend", scheduleMapMaintenance, { passive: true });
+window.addEventListener("pageshow", scheduleMapMaintenance);
+if (globalThis.ResizeObserver) {
+  const mapSheetObserver = new ResizeObserver(scheduleMapMaintenance);
+  mapSheetObserver.observe(els.dispatchMap);
+  mapSheetObserver.observe(mobileBottomSheet);
+}
+scheduleMapMaintenance();
 
 function escapeText(value) {
   return String(value ?? "").replace(/\s+/g, " ").trim();
@@ -872,11 +922,7 @@ function renderCalls() {
       </div>`;
   };
 
-  const mobile = isMobileViewLayout();
-  const activeList = mobile && mobileView === "map" ? mobileSheetCallList : els.callList;
-  const inactiveList = mobile && mobileView === "map" ? els.callList : mobileSheetCallList;
-  inactiveList?.replaceChildren();
-  renderList(activeList);
+  renderList(els.callList);
   scheduleIncidentBadgeExpiry();
 }
 
@@ -981,21 +1027,21 @@ async function loadDivisionOverlay() {
       content.append(title, address);
       return content;
     };
-    const layer = L.geoJSON(boundaries, {
-      style: { className: "police-boundary", color: "#93c5fd", weight: 1.5, opacity: 0.65, fillOpacity: 0.035 },
-      attribution: "Division boundaries © Toronto Police Service",
+    const boundaryColor = getComputedStyle(document.documentElement).getPropertyValue("--boundary-marker").trim();
+    divisionLayer = createPoliceBoundaryLayer(L, boundaries, {
+      color: boundaryColor,
       onEachFeature(feature, polygon) {
         polygon.bindTooltip(details(feature.properties), { sticky: true });
         polygon.bindPopup(details(feature.properties));
       }
     });
-    if (boundaryVisible) layer.addTo(dispatchMap);
+    if (boundaryVisible) divisionLayer.addTo(dispatchMap);
     dispatchMap.on('overlayadd overlayremove', event => {
-      if (event.layer !== layer) return;
+      if (event.layer !== divisionLayer) return;
       boundaryVisible = event.type === 'overlayadd';
       rememberPreferences();
     });
-    L.control.layers(null, { "Police division boundaries": layer }, {
+    L.control.layers(null, { "Police division boundaries": divisionLayer }, {
       collapsed: false, position: "topright"
     }).addTo(dispatchMap);
   } catch (error) {
@@ -1193,8 +1239,14 @@ function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false
     const coordinates = coordinatesForCall(call);
     const located = state.filtered.map(item => ({call:item,coordinates:coordinatesForCall(item)})).filter(item=>item.coordinates);
     dispatchMap.stop();
-    expandedCluster = new Set(focusGroup(located,callId,point=>dispatchMap.project(point,zoom)).map(item=>item.call.id));
-    renderMapMarkers();
+    const focusedGroup = focusGroup(located,callId,point=>dispatchMap.project(point,zoom));
+    const nextExpandedCluster = new Set(focusedGroup.length > 1 ? focusedGroup.map(item=>item.call.id) : []);
+    const clusterChanged = expandedCluster.size !== nextExpandedCluster.size ||
+      [...expandedCluster].some(id => !nextExpandedCluster.has(id));
+    if (clusterChanged) {
+      expandedCluster = nextExpandedCluster;
+      renderMapMarkers();
+    }
     if (!panIfNeeded || !dispatchMap.getBounds().contains(coordinates)) {
       dispatchMap.panTo(coordinates, { animate: !reducedMotion, duration: .35, easeLinearity: .25 });
     }
@@ -1340,7 +1392,7 @@ function handleIncidentListKeydown(event) {
   selectCall(row.dataset.callId, { pan: !isMobileViewLayout() || mobileView === "map" });
 }
 
-[els.callList, mobileSheetCallList].filter(Boolean).forEach(list => {
+[els.callList].filter(Boolean).forEach(list => {
   list.addEventListener("click", handleIncidentListClick);
   list.addEventListener("keydown", handleIncidentListKeydown);
 });
@@ -1406,8 +1458,8 @@ try {
   }
 } catch { /* Defaults remain usable when storage is blocked. */ }
 if (mobileAuditFixture) {
-  document.querySelector('#roadOverlay').checked = true;
-  boundaryVisible = true;
+  document.querySelector('#roadOverlay').checked = mobileAuditFixture.roads;
+  boundaryVisible = mobileAuditFixture.boundaries;
   setMobileView(mobileAuditFixture.view, { persist: false });
   setMobileSheetState(mobileAuditFixture.sheet);
   Object.assign(state, mobileAuditFixtureFilters(mobileAuditFixture.filters));
@@ -2021,9 +2073,11 @@ setInterval(() => {
 }, 60000);
 
 document.querySelector('#roadOverlay').addEventListener('change', () => {
-  if (!document.querySelector('#roadOverlay').checked) clearClosureSelection();
+  const visible=document.querySelector('#roadOverlay').checked;
+  if (!visible) clearClosureSelection();
   rememberPreferences();
-  renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
+  if (setRoadOverlayVisibility) setRoadOverlayVisibility(dispatchMap,visible);
+  else renderDisruptions(state.disruptions,radiusFilterOrigin(),state.radiusKm,dispatchMap);
 });
 
 function syncSearchControl() {

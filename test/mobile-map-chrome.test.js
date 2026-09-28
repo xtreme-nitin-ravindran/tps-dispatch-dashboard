@@ -14,7 +14,7 @@ const desktopRules = css.slice(0, mobileStart);
 
 test('mobile overlay controls share one compact row with full labels and 44px targets', () => {
   assert.match(html, /class="road-overlay-toggle map-layer-toggle"[\s\S]*?<span>Road closures<\/span>/);
-  assert.match(app, /"Police division boundaries": layer/);
+  assert.match(app, /"Police division boundaries": divisionLayer/);
   assert.equal([...html.matchAll(/id="roadOverlay"/g)].length, 1);
   assert.equal([...app.matchAll(/L\.control\.layers\(/g)].length, 1);
   assert.match(mobileRules, /\.map-layer-toggle \{[\s\S]*?top: 8px;[\s\S]*?width: calc\(50% - 12px\);[\s\S]*?min-height: 48px/);
@@ -24,10 +24,18 @@ test('mobile overlay controls share one compact row with full labels and 44px ta
 
 test('zoom, attribution, and overlay chrome remain inside the usable map in every sheet state', () => {
   assert.match(mobileRules, /\.map-panel \.leaflet-top \{ top: 60px; \}/);
-  assert.match(mobileRules, /\.map-panel \.leaflet-bottom \{ bottom: var\(--mobile-sheet-height\)/);
+  assert.match(mobileRules, /\.map-panel \.leaflet-bottom \{ bottom: var\(--mobile-map-sheet-overlap, 0px\)/);
   assert.match(mobileRules, /--mobile-sheet-height: calc\(52px \+ env\(safe-area-inset-bottom, 0px\)\)/);
   assert.match(mobileRules, /data-mobile-sheet-state="half"[\s\S]*?var\(--mobile-map-height\) - 220px/);
   assert.match(mobileRules, /data-mobile-sheet-state="expanded"[\s\S]*?var\(--mobile-map-height\) - 160px/);
+});
+
+test('mobile attribution remains compact while desktop attribution is unchanged', () => {
+  assert.match(mobileRules, /\.leaflet-control-attribution \{[\s\S]*?width: max-content;[\s\S]*?max-width: min\(220px, calc\(100vw - 112px\)\)[\s\S]*?overflow-wrap: anywhere/);
+  const attributionStart = desktopRules.indexOf('.leaflet-control-attribution {');
+  const desktopAttribution = desktopRules.slice(attributionStart, desktopRules.indexOf('}', attributionStart) + 1);
+  assert.match(desktopAttribution, /background: var\(--map-attribution-background\)/);
+  assert.doesNotMatch(desktopAttribution, /width|max-width|overflow-wrap/);
 });
 
 test('collapsed sheet is compact and tappable while Calls mode owns no sheet', () => {
@@ -47,4 +55,5 @@ test('compact fixed surfaces do not introduce horizontal overflow or expensive b
   assert.match(mobileRules, /\.map-layer-toggle \{[\s\S]*?width: calc\(50% - 12px\);[\s\S]*?max-width: none/);
   assert.match(mobileRules, /\.leaflet-top\.leaflet-right \{[\s\S]*?right: 8px;[\s\S]*?left: calc\(50% \+ 4px\)/);
   assert.match(mobileRules, /\.mobile-bottom-sheet \{[\s\S]*?inset: auto 0 0;[\s\S]*?backdrop-filter: none/);
+  assert.match(mobileRules, /\.map-stage \{[\s\S]*?z-index: 0;[\s\S]*?isolation: isolate/);
 });

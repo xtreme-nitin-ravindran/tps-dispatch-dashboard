@@ -17,3 +17,9 @@ export function mobileSheetActionLabel(state) {
   if (state === "half") return "Expand nearby calls sheet to full height";
   return "Collapse nearby calls sheet";
 }
+
+export function mobileMapSheetOverlap(mapRect, sheetRect, active = true) {
+  if (!active || !mapRect || !sheetRect) return 0;
+  const overlap = Number(mapRect.bottom) - Number(sheetRect.top);
+  return Number.isFinite(overlap) ? Math.max(0, Math.min(Number(mapRect.height) || 0, overlap)) : 0;
+}

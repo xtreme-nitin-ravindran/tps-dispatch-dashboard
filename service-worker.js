@@ -1,4 +1,4 @@
-const CACHE_VERSION = "sirento-shell-v21";
+const CACHE_VERSION = "sirento-shell-v25";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -28,6 +28,7 @@ const APP_SHELL = [
   "./src/map-clusters.js",
   "./src/marker-age.js",
   "./src/mobile-bottom-sheet.js",
+  "./src/police-boundary-overlay.js",
   "./src/mobile-nearby-summary.js",
   "./src/nearby-empty-state.js",
   "./src/nearby-sort.js",

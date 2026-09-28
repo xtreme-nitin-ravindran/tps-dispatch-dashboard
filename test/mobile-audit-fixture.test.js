@@ -17,11 +17,18 @@ test('mobile audit fixture is explicit and loopback-only', () => {
 test('fixture options expose deterministic mobile view and sheet states', () => {
   assert.equal(mobileAuditFixtureOptions(),null);
   assert.deepEqual(mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditView=calls&mobileAuditSheet=expanded'}),{
-    state:'many',view:'calls',sheet:'expanded',location:'none',filters:'none',radius:null
+    state:'many',view:'calls',sheet:'expanded',location:'none',filters:'none',radius:null,roads:true,boundaries:true
   });
   assert.deepEqual(mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditView=nope&mobileAuditSheet=nope&mobileAuditLocation=denied'}),{
-    state:'many',view:'map',sheet:'collapsed',location:'denied',filters:'none',radius:null
+    state:'many',view:'map',sheet:'collapsed',location:'denied',filters:'none',radius:null,roads:true,boundaries:true
   });
+});
+
+test('fixture independently controls road and boundary overlays only on loopback', () => {
+  const off = mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditRoads=off&mobileAuditBoundaries=off'});
+  assert.equal(off.roads, false);
+  assert.equal(off.boundaries, false);
+  assert.equal(mobileAuditFixtureOptions({hostname:'sirento.ca',search:'?mobileAuditFixture=many&mobileAuditRoads=off'}), null);
 });
 
 test('fixture exposes every radius and rejects arbitrary values', () => {
@@ -56,7 +63,7 @@ test('fixture covers multiple, zero, stale, unavailable, unresolved, and long TT
   const now=Date.UTC(2026,8,26,12);
   assert.ok(mobileAuditFixtureSnapshot().incidents.length >= 10);
   const many=mobileAuditFixtureSnapshot('many',now);
-  assert.ok(many.incidents.length >= 10);
+  assert.equal(many.incidents.length,1212);
   assert.ok(many.incidents.some(item=>item.id==='mobile-audit-selected'));
   assert.equal(many.incidents.find(item=>item.id==='mobile-audit-police').isOngoing,false);
   assert.ok(many.incidents.some(item=>item.location.length > 80));

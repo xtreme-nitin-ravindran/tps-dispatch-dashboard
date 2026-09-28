@@ -50,6 +50,7 @@ test('map rendering is incremental, selection-targeted, and zoom-coalesced', () 
   assert.match(app,/if \(previouslyFocusedCallId !== callId\) updateMarkerAppearance\(previouslyFocusedCallId\);[\s\S]*?updateMarkerAppearance\(callId\)/);
   assert.match(app,/if \(scheduledMarkerRender !== null\) return;[\s\S]*?requestAnimationFrame/);
   assert.match(app,/dispatchMap\.on\("zoomend",[\s\S]*?scheduleMapMarkerRender\(\)/);
+  assert.match(app,/const clusterChanged = [\s\S]*?if \(clusterChanged\) \{[\s\S]*?renderMapMarkers\(\)/);
 });
 
 test('popup clicks and unaffected overlays retain their established paths', () => {

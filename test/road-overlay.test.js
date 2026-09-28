@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {createClosureDetail,closureSymbolPositions,renderDisruptions,roadClosureDensityTier,roadClosureSymbolSpacing} from '../src/disruptions/ui.js';
+import {createClosureDetail,closureSymbolPositions,renderDisruptions,roadClosureDensityTier,roadClosureSymbolSpacing,setRoadOverlayVisibility} from '../src/disruptions/ui.js';
 
 const originalDocument=globalThis.document;
 const originalLeaflet=globalThis.L;
@@ -100,6 +100,17 @@ test('toggle hides and restores every closure element without changing unrelated
  nodes.get('#roadOverlay').checked=true;renderDisruptions(data,null,10,map);
  assert.ok(groups.at(-1).items.length>2);
  assert.deepEqual(map.center,[43.7,-79.4]);assert.deepEqual(map.filterState,{service:'TPS'});assert.equal(map.selectedIncident,'incident-7');assert.equal(map.zoom,12);
+});
+
+test('overlay-only toggles preserve rendered layers and defer first-time creation',()=>{
+ const {groups,map,created,flush}=harness();
+ renderDisruptions(data,null,10,map);
+ const overlay=groups.at(-1);const layers=[...overlay.items];const createdCount=created.length;
+ setRoadOverlayVisibility(map,false);
+ assert.equal(overlay.removed,true);assert.deepEqual(overlay.items,layers);
+ setRoadOverlayVisibility(map,true);
+ assert.equal(overlay.removed,false);assert.deepEqual(overlay.items,layers);assert.equal(created.length,createdCount);
+ flush();assert.deepEqual(overlay.items,layers);assert.equal(created.length,createdCount);
 });
 
 test('viewport scheduling falls back safely when requestAnimationFrame is unavailable',async()=>{

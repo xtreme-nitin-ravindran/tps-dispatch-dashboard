@@ -96,6 +96,8 @@ For repeatable mobile layout audits without live feeds, use the loopback-only
 `mobileAuditFixture` query switch. `many`, `zero`, `stale`, and `unavailable` provide deterministic
 incident/disruption shapes; `mobileAuditView=map|calls` and
 `mobileAuditSheet=collapsed|half|expanded` select presentation state. Add
+`mobileAuditRoads=on|off` and `mobileAuditBoundaries=on|off` to exercise either
+map overlay independently; both default to `on`. Add
 `mobileAuditLocation=none|current|unavailable|denied|saved|manual` to exercise the compact Quick Look location states. The `many`
 fixture enables the road overlay and police boundaries, includes long labels and a
 selected-incident target, and can be combined with `watchFixture=current`:
@@ -106,7 +108,7 @@ Add `mobileAuditRadius=0.5|1|2|5|toronto` to select each production radius contr
 combine it with `mobileAuditLocation=current` for deterministic nearby results.
 Use `mobileAuditSheet=collapsed|half|expanded` with map mode to audit the compact
 48 px overlay-control row and 52 px collapsed sheet header. For example:
-`http://127.0.0.1:4173/?mobileAuditFixture=many&mobileAuditView=map&mobileAuditLocation=current&mobileAuditRadius=toronto&mobileAuditSheet=collapsed`.
+`http://127.0.0.1:4173/?mobileAuditFixture=many&mobileAuditView=map&mobileAuditLocation=current&mobileAuditRadius=toronto&mobileAuditSheet=collapsed&mobileAuditRoads=on&mobileAuditBoundaries=on&incident=mobile-audit-selected`.
 
 On mobile, Map mode uses the bottom-sheet header for the concise call count, closest-call,
 and latest-call context rather than repeating the full Toronto/Nearby summary above the map.
