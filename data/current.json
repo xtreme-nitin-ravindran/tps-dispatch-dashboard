@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T14:54:37.870Z",
-  "sourceUpdatedAt": "2026-09-28T14:50:01.000Z",
+  "fetchedAt": "2026-09-28T14:56:02.879Z",
+  "sourceUpdatedAt": "2026-09-28T14:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26153921",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6J",
+      "division": "426",
+      "timestamp": "2026-09-28T14:48:57.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "426"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-28T14:56:02.879Z",
+      "lastSeenAt": "2026-09-28T14:56:02.879Z",
+      "geography": {
+        "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+        "approximate": true,
+        "coordinates": [
+          43.648,
+          -79.4177
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-d608e932acefd396c2d91d37",
       "source": "TPS",
@@ -38,9 +72,59 @@
       "timestamp": "2026-09-28T14:43:44.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "421",
+            "423"
+          ]
+        },
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "34",
+            "42"
+          ]
+        },
+        {
+          "type": "High-Rise Unit",
+          "numbers": [
+            "332"
+          ]
+        },
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "421"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "342",
+            "421",
+            "422",
+            "423"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "133"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "445"
+          ]
+        }
+      ],
+      "respondingUnitCount": 12,
       "firstSeenAt": "2026-09-28T14:53:10.105Z",
-      "lastSeenAt": "2026-09-28T14:54:37.870Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T14:56:02.879Z",
+      "lastSeenAt": "2026-09-28T14:56:02.879Z",
       "geography": {
         "text": "Approximate location near Humber Boulevard & Hilldale Road",
         "approximate": true,
@@ -163,7 +247,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T14:41:42.131Z",
       "lastMeaningfulUpdateAt": "2026-09-28T14:45:50.811Z",
-      "lastSeenAt": "2026-09-28T14:54:37.870Z",
+      "lastSeenAt": "2026-09-28T14:56:02.879Z",
       "geography": {
         "text": "Kennedy Road between Flora Drive & Lawrence Avenue East",
         "approximate": false,
@@ -220,7 +304,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T14:41:42.131Z",
       "lastMeaningfulUpdateAt": "2026-09-28T14:45:50.811Z",
-      "lastSeenAt": "2026-09-28T14:54:37.870Z",
+      "lastSeenAt": "2026-09-28T14:56:02.879Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -381,7 +465,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T14:36:12.984Z",
-      "lastSeenAt": "2026-09-28T14:54:37.870Z",
+      "lastSeenAt": "2026-09-28T14:56:02.879Z",
       "geography": {
         "text": "Approximate area: (M1V) Scarborough (Milliken / Agincourt North / Steeles East / L'Amoreaux East)",
         "approximate": true,
@@ -605,7 +689,7 @@
       ],
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-28T14:26:11.449Z",
-      "lastSeenAt": "2026-09-28T14:54:37.870Z",
+      "lastSeenAt": "2026-09-28T14:56:02.879Z",
       "geography": {
         "text": "Approximate location on Spenvalley Drive",
         "approximate": true,
@@ -625,7 +709,7 @@
       "division": "413",
       "timestamp": "2026-09-28T14:17:48.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -195133,37 +195217,16 @@
         "division": "HP",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-b06a0fe39eebe629e53797dc",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISORDERLIES",
-      "callTypeCode": "DIS",
-      "timestamp": "2026-09-21T14:55:18.000Z",
-      "location": " - CALEDONIA RD",
-      "division": "Division 13",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": " - CALEDONIA RD",
-        "coordinates": [
-          43.710490354080704,
-          -79.46636264900347
-        ],
-        "division": "Division 13",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T14:54:37.870Z",
-      "sourceUpdatedAt": "2026-09-28T14:50:01.000Z",
+      "fetchedAt": "2026-09-28T14:56:02.879Z",
+      "sourceUpdatedAt": "2026-09-28T14:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T14:54:37.870Z",
+      "fetchedAt": "2026-09-28T14:56:02.879Z",
       "status": "ok"
     }
   },
@@ -349704,6 +349767,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6J": {
+      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+      "approximate": true,
+      "coordinates": [
+        43.648,
+        -79.4177
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "HUMBER BLVD, YK / ALLIANCE AVE / HILLDALE RD": {
       "text": "Approximate location near Humber Boulevard & Hilldale Road",
       "approximate": true,
@@ -350255,18 +350330,6 @@
         -79.2144
       ],
       "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6J": {
-      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
-      "approximate": true,
-      "coordinates": [
-        43.648,
-        -79.4177
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
