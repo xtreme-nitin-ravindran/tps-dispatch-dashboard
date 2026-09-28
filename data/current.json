@@ -3,9 +3,53 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T03:28:48.491Z",
-  "sourceUpdatedAt": "2026-09-28T03:25:01.000Z",
+  "fetchedAt": "2026-09-28T03:32:14.604Z",
+  "sourceUpdatedAt": "2026-09-28T03:30:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-87855ca8ae7d7cb2d8d055b6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HOLDING LOST ELDERLY",
+      "callTypeCode": "LOSEL",
+      "timestamp": "2026-09-28T03:22:08.000Z",
+      "location": "DON MILLS RD - PARKWAY FOREST DR",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DON MILLS RD - PARKWAY FOREST DR",
+        "coordinates": [
+          43.77588191564331,
+          -79.34374645651901
+        ],
+        "division": "Division 33",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-28T03:32:14.604Z"
+    },
+    {
+      "id": "TPS-1536d973b122b643896d7b1a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-09-28T03:20:50.000Z",
+      "location": "FINCH AVE W - HEPC",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "FINCH AVE W - HEPC",
+        "coordinates": [
+          43.75598418741566,
+          -79.52430400995499
+        ],
+        "division": "Division 31",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-28T03:32:14.604Z"
+    },
     {
       "id": "F26153746",
       "source": "TFS",
@@ -16,9 +60,18 @@
       "timestamp": "2026-09-28T03:19:11.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "426"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T03:27:25.575Z",
-      "lastSeenAt": "2026-09-28T03:28:48.491Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T03:32:14.604Z",
+      "lastSeenAt": "2026-09-28T03:32:14.604Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -31,6 +84,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-24352ad2881fc77add102679",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-28T03:17:05.000Z",
+      "location": "WILLIAM ST - JOHN ST",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WILLIAM ST - JOHN ST",
+        "coordinates": [
+          43.70664214902444,
+          -79.50482464435935
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-28T03:32:14.604Z"
+    },
+    {
+      "id": "TPS-7b403961a1814b54853fec7c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-28T03:15:53.000Z",
+      "location": "SPRUCE ST - DOCTOR O LANE",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SPRUCE ST - DOCTOR O LANE",
+        "coordinates": [
+          43.663201702305415,
+          -79.36752735760204
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-28T03:32:14.604Z"
     },
     {
       "id": "F26153745",
@@ -46,6 +143,7 @@
         {
           "type": "Fire Truck",
           "numbers": [
+            "114",
             "121"
           ]
         },
@@ -56,10 +154,10 @@
           ]
         }
       ],
-      "respondingUnitCount": 2,
+      "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-28T03:20:38.570Z",
-      "lastMeaningfulUpdateAt": "2026-09-28T03:27:25.575Z",
-      "lastSeenAt": "2026-09-28T03:28:48.491Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T03:32:14.604Z",
+      "lastSeenAt": "2026-09-28T03:32:14.604Z",
       "geography": {
         "text": "Yonge Street between Hillcrest Avenue & Empress Avenue",
         "approximate": false,
@@ -94,7 +192,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T03:20:38.570Z",
       "lastMeaningfulUpdateAt": "2026-09-28T03:27:25.575Z",
-      "lastSeenAt": "2026-09-28T03:28:48.491Z",
+      "lastSeenAt": "2026-09-28T03:32:14.604Z",
       "geography": {
         "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
         "approximate": true,
@@ -107,6 +205,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-411cd3cbece0b894481224f0",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING VULNERABLE PERSON",
+      "callTypeCode": "MISVU",
+      "timestamp": "2026-09-28T03:09:35.000Z",
+      "location": "STRATFORD PARK TRL - STRATFORD PARK TRL",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "STRATFORD PARK TRL - STRATFORD PARK TRL",
+        "coordinates": [
+          43.721735013315154,
+          -79.37792337253975
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-28T03:32:14.604Z"
+    },
+    {
+      "id": "TPS-056b82fec3ba5e32ea8a85a8",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FIRE",
+      "callTypeCode": "FIR",
+      "timestamp": "2026-09-28T03:08:50.000Z",
+      "location": "MASSEY CREEK - ROPER RD",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MASSEY CREEK - ROPER RD",
+        "coordinates": [
+          43.71447699017047,
+          -79.280882282543
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-28T03:32:14.604Z"
     },
     {
       "id": "F26153743",
@@ -165,7 +307,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T03:15:42.449Z",
       "lastMeaningfulUpdateAt": "2026-09-28T03:20:38.570Z",
-      "lastSeenAt": "2026-09-28T03:28:48.491Z",
+      "lastSeenAt": "2026-09-28T03:32:14.604Z",
       "geography": {
         "text": "Approximate area: (M3N) North York (Jane and Finch)",
         "approximate": true,
@@ -258,7 +400,7 @@
       "division": "334",
       "timestamp": "2026-09-28T03:03:46.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -311,7 +453,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T03:10:43.436Z",
       "lastMeaningfulUpdateAt": "2026-09-28T03:15:42.449Z",
-      "lastSeenAt": "2026-09-28T03:28:48.491Z",
+      "lastSeenAt": "2026-09-28T03:32:14.604Z",
       "geography": {
         "text": "Warden Avenue between Street Clair Avenue East & Roper Road",
         "approximate": false,
@@ -346,7 +488,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T03:10:43.436Z",
       "lastMeaningfulUpdateAt": "2026-09-28T03:15:42.449Z",
-      "lastSeenAt": "2026-09-28T03:28:48.491Z",
+      "lastSeenAt": "2026-09-28T03:32:14.604Z",
       "geography": {
         "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
         "approximate": true,
@@ -403,7 +545,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T03:06:26.360Z",
       "lastMeaningfulUpdateAt": "2026-09-28T03:10:43.436Z",
-      "lastSeenAt": "2026-09-28T03:28:48.491Z",
+      "lastSeenAt": "2026-09-28T03:32:14.604Z",
       "geography": {
         "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
         "approximate": true,
@@ -1310,7 +1452,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T02:31:12.449Z",
       "lastMeaningfulUpdateAt": "2026-09-28T02:36:56.963Z",
-      "lastSeenAt": "2026-09-28T03:28:48.491Z",
+      "lastSeenAt": "2026-09-28T03:32:14.604Z",
       "geography": {
         "text": "Approximate area: (M2H) North York (Hillcrest Village)",
         "approximate": true,
@@ -191315,12 +191457,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T03:28:48.491Z",
-      "sourceUpdatedAt": "2026-09-28T03:25:01.000Z",
+      "fetchedAt": "2026-09-28T03:32:14.604Z",
+      "sourceUpdatedAt": "2026-09-28T03:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T03:28:48.491Z",
+      "fetchedAt": "2026-09-28T03:32:14.604Z",
       "status": "ok"
     }
   },
