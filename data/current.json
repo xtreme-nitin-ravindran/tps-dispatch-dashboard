@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T21:44:28.010Z",
-  "sourceUpdatedAt": "2026-09-28T21:40:01.000Z",
+  "fetchedAt": "2026-09-28T21:46:00.695Z",
+  "sourceUpdatedAt": "2026-09-28T21:45:01.000Z",
   "incidents": [
+    {
+      "id": "F26154167",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3N",
+      "division": "142",
+      "timestamp": "2026-09-28T21:35:56.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-28T21:46:00.695Z",
+      "lastSeenAt": "2026-09-28T21:46:00.695Z",
+      "geography": {
+        "text": "Approximate area: (M3N) North York (Jane and Finch)",
+        "approximate": true,
+        "coordinates": [
+          43.7568,
+          -79.521
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26154165",
       "source": "TFS",
@@ -16,9 +42,18 @@
       "timestamp": "2026-09-28T21:35:10.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "312"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T21:41:36.862Z",
-      "lastSeenAt": "2026-09-28T21:44:28.010Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T21:46:00.695Z",
+      "lastSeenAt": "2026-09-28T21:46:00.695Z",
       "geography": {
         "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
         "approximate": true,
@@ -42,9 +77,18 @@
       "timestamp": "2026-09-28T21:31:09.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "331"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T21:41:36.862Z",
-      "lastSeenAt": "2026-09-28T21:44:28.010Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T21:46:00.695Z",
+      "lastSeenAt": "2026-09-28T21:46:00.695Z",
       "geography": {
         "text": "Approximate area: (M6R) West Toronto (Parkdale / Roncesvalles Village)",
         "approximate": true,
@@ -68,9 +112,18 @@
       "timestamp": "2026-09-28T21:30:47.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "142"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T21:41:36.862Z",
-      "lastSeenAt": "2026-09-28T21:44:28.010Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T21:46:00.695Z",
+      "lastSeenAt": "2026-09-28T21:46:00.695Z",
       "geography": {
         "text": "Approximate area: (M3L) Downsview West",
         "approximate": true,
@@ -93,7 +146,7 @@
       "division": "235",
       "timestamp": "2026-09-28T21:28:45.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -128,7 +181,7 @@
       "division": "426",
       "timestamp": "2026-09-28T21:25:13.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Ladder Truck",
@@ -427,7 +480,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T21:21:21.043Z",
-      "lastSeenAt": "2026-09-28T21:44:28.010Z",
+      "lastSeenAt": "2026-09-28T21:46:00.695Z",
       "geography": {
         "text": "Approximate area: (M4S) Central Toronto (Davisville)",
         "approximate": true,
@@ -574,7 +627,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T21:10:36.555Z",
       "lastMeaningfulUpdateAt": "2026-09-28T21:16:55.263Z",
-      "lastSeenAt": "2026-09-28T21:44:28.010Z",
+      "lastSeenAt": "2026-09-28T21:46:00.695Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -2800,7 +2853,7 @@
       ],
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-28T20:11:34.855Z",
-      "lastSeenAt": "2026-09-28T21:44:28.010Z",
+      "lastSeenAt": "2026-09-28T21:46:00.695Z",
       "geography": {
         "text": "Corwin Crescent between King High Avenue & Laurelcrest Avenue",
         "approximate": false,
@@ -199993,37 +200046,16 @@
         "division": "Division 55",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-0feabe90b89f58e2f22e3759",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "PERSONAL INJURY COLLISION",
-      "callTypeCode": "PIACC",
-      "timestamp": "2026-09-21T21:44:53.000Z",
-      "location": "ISLINGTON AVE - STEELES AVE W",
-      "division": "Division 31",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "ISLINGTON AVE - STEELES AVE W",
-        "coordinates": [
-          43.76429541900054,
-          -79.57472583931846
-        ],
-        "division": "Division 31",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T21:44:28.010Z",
-      "sourceUpdatedAt": "2026-09-28T21:40:01.000Z",
+      "fetchedAt": "2026-09-28T21:46:00.695Z",
+      "sourceUpdatedAt": "2026-09-28T21:45:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T21:44:28.010Z",
+      "fetchedAt": "2026-09-28T21:46:00.695Z",
       "status": "ok"
     }
   },
@@ -354933,8 +354965,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-28T21:40:07.782Z",
-      "fetchedAt": "2026-09-28T21:40:07.782Z"
+      "checkedAt": "2026-09-28T21:46:00.695Z",
+      "fetchedAt": "2026-09-28T21:46:00.695Z"
     },
     "transit": {
       "items": [
@@ -358430,14 +358462,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-28T21:40:08.000Z",
+      "sourceUpdatedAt": "2026-09-28T21:46:01.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-28T21:40:07.782Z",
-      "fetchedAt": "2026-09-28T21:40:07.782Z"
+      "checkedAt": "2026-09-28T21:46:00.695Z",
+      "fetchedAt": "2026-09-28T21:46:00.695Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3N": {
+      "text": "Approximate area: (M3N) North York (Jane and Finch)",
+      "approximate": true,
+      "coordinates": [
+        43.7568,
+        -79.521
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M4W": {
       "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
       "approximate": true,
@@ -358887,18 +358931,6 @@
         -79.1866
       ],
       "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M3N": {
-      "text": "Approximate area: (M3N) North York (Jane and Finch)",
-      "approximate": true,
-      "coordinates": [
-        43.7568,
-        -79.521
-      ],
-      "division": "Division 31",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
