@@ -157,6 +157,10 @@ function isMobileViewLayout() {
   return mobileLayoutMedia.matches;
 }
 
+function syncMapAttributionPosition() {
+  dispatchMap?.attributionControl?.setPosition(isMobileViewLayout() ? "topleft" : "bottomright");
+}
+
 let mapMaintenanceFrame = null;
 let mapSizeInvalidationPending = false;
 function syncMapSheetOverlap() {
@@ -213,6 +217,7 @@ function setMobileView(view, { focusSelection = false, persist = true } = {}) {
     callsView?.removeAttribute("aria-hidden");
     mobileBottomSheet?.removeAttribute("aria-hidden");
   }
+  syncMapAttributionPosition();
   scheduleMapMaintenance({ invalidateSize: view === "map" });
   if (persist) rememberPreferences();
   if (view === "map" && focusSelection) requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -960,9 +965,12 @@ function initMap() {
     attributionControl: true
   }).setView(TORONTO_CENTER, 10);
 
+  dispatchMap.attributionControl.setPrefix(false);
+  syncMapAttributionPosition();
+
   L.control.zoom({ position: "bottomright" }).addTo(dispatchMap);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: '&copy; OpenStreetMap contributors',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     subdomains: "abc",
     maxZoom: 19
   }).addTo(dispatchMap);

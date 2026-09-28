@@ -46,7 +46,6 @@ export function createPoliceBoundaryLayer(leaflet, boundaries, options = {}) {
       opacity: 0.65,
       fill: false
     },
-    attribution: 'Division boundaries © Toronto Police Service',
     onEachFeature: options.onEachFeature
   });
   return layer;

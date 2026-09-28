@@ -968,6 +968,12 @@ html[data-display-mode="standalone"] .app-shell {
   font-size: 20px;
 }
 
+.map-source-credit {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .map-status {
   color: var(--accent);
   font: 10px/1 "Space Mono", monospace;
@@ -1920,13 +1926,13 @@ footer {
     content-visibility: auto;
     contain-intrinsic-block-size: auto 190px;
   }
-  .map-panel .leaflet-bottom { bottom: var(--mobile-map-sheet-overlap, 0px); }
+  .map-panel .leaflet-bottom.leaflet-right { bottom: var(--mobile-map-sheet-overlap, 0px); }
   .map-panel .leaflet-control-attribution {
+    box-sizing: border-box;
     width: max-content;
-    max-width: min(220px, calc(100vw - 112px));
+    max-width: calc(100vw - 20px);
     line-height: 1.25;
-    overflow-wrap: anywhere;
-    white-space: normal;
+    white-space: nowrap;
   }
   .map-info { margin-top: 8px; }
   .map-info > summary { min-height: 44px; padding: 0 12px; }
