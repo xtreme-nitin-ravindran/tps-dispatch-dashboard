@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T09:29:15.483Z",
-  "sourceUpdatedAt": "2026-09-28T09:25:01.000Z",
+  "fetchedAt": "2026-09-28T09:30:42.579Z",
+  "sourceUpdatedAt": "2026-09-28T09:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26153820",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M8W",
+      "division": "434",
+      "timestamp": "2026-09-28T09:24:23.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-28T09:30:42.579Z",
+      "lastSeenAt": "2026-09-28T09:30:42.579Z",
+      "geography": {
+        "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
+        "approximate": true,
+        "coordinates": [
+          43.6021,
+          -79.5402
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26153819",
       "source": "TFS",
@@ -85,7 +111,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T09:21:35.080Z",
       "lastMeaningfulUpdateAt": "2026-09-28T09:26:41.526Z",
-      "lastSeenAt": "2026-09-28T09:29:15.483Z",
+      "lastSeenAt": "2026-09-28T09:30:42.579Z",
       "geography": {
         "text": "Bathurst Street between Barton Avenue & Follis Avenue",
         "approximate": false,
@@ -119,7 +145,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T09:16:45.185Z",
-      "lastSeenAt": "2026-09-28T09:29:15.483Z",
+      "lastSeenAt": "2026-09-28T09:30:42.579Z",
       "geography": {
         "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
         "approximate": true,
@@ -428,7 +454,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T08:41:21.119Z",
       "lastMeaningfulUpdateAt": "2026-09-28T08:46:15.212Z",
-      "lastSeenAt": "2026-09-28T09:29:15.483Z",
+      "lastSeenAt": "2026-09-28T09:30:42.579Z",
       "geography": {
         "text": "Dundas Street between Lane East Sheridan North Dundas & Sheridan Avenue",
         "approximate": false,
@@ -192079,12 +192105,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T09:29:15.483Z",
-      "sourceUpdatedAt": "2026-09-28T09:25:01.000Z",
+      "fetchedAt": "2026-09-28T09:30:42.579Z",
+      "sourceUpdatedAt": "2026-09-28T09:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T09:29:15.483Z",
+      "fetchedAt": "2026-09-28T09:30:42.579Z",
       "status": "ok"
     }
   },
@@ -340118,8 +340144,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-28T09:25:21.837Z",
-      "fetchedAt": "2026-09-28T09:25:21.837Z"
+      "checkedAt": "2026-09-28T09:30:42.579Z",
+      "fetchedAt": "2026-09-28T09:30:42.579Z"
     },
     "transit": {
       "items": [
@@ -343463,14 +343489,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-28T09:25:22.000Z",
+      "sourceUpdatedAt": "2026-09-28T09:30:43.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-28T09:25:21.837Z",
-      "fetchedAt": "2026-09-28T09:25:21.837Z"
+      "checkedAt": "2026-09-28T09:30:42.579Z",
+      "fetchedAt": "2026-09-28T09:30:42.579Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M8W": {
+      "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
+      "approximate": true,
+      "coordinates": [
+        43.6021,
+        -79.5402
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "BATHURST ST, TT / BARTON AVE / FOLLIS AVE": {
       "text": "Bathurst Street between Barton Avenue & Follis Avenue",
       "approximate": false,
@@ -344661,18 +344699,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-28T00:01:44.086Z"
-    },
-    "M8W": {
-      "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
-      "approximate": true,
-      "coordinates": [
-        43.6021,
-        -79.5402
-      ],
-      "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "CLINTON ST, TT / COLLEGE ST / HUGGINS FAMILY LANE": {
       "text": "Clinton Street between College Street & Huggins Family Lane",
