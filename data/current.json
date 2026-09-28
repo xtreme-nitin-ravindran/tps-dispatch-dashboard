@@ -3,9 +3,49 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T13:09:19.886Z",
-  "sourceUpdatedAt": "2026-09-28T13:05:01.000Z",
+  "fetchedAt": "2026-09-28T13:10:43.699Z",
+  "sourceUpdatedAt": "2026-09-28T13:10:01.000Z",
   "incidents": [
+    {
+      "id": "F26153888",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "OLD MILL RD, ET / HUMBER RIVER RECREATIONAL TRL / OLD MILL TRL",
+      "division": "431",
+      "timestamp": "2026-09-28T13:03:17.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "433"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "431"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-28T13:10:43.699Z",
+      "lastSeenAt": "2026-09-28T13:10:43.699Z",
+      "geography": {
+        "text": "Old Mill Road between Humber River Recreational Trl & Old Mill Trl",
+        "approximate": false,
+        "coordinates": [
+          43.65120925,
+          -79.49391215
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-28T13:10:43.699Z"
+      }
+    },
     {
       "id": "F26153887",
       "source": "TFS",
@@ -26,7 +66,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T13:01:29.787Z",
-      "lastSeenAt": "2026-09-28T13:09:19.886Z",
+      "lastSeenAt": "2026-09-28T13:10:43.699Z",
       "geography": {
         "text": "Sheppard Avenue between Don Mills Road & Parkway Forest Drive",
         "approximate": false,
@@ -60,7 +100,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T13:01:29.787Z",
-      "lastSeenAt": "2026-09-28T13:09:19.886Z",
+      "lastSeenAt": "2026-09-28T13:10:43.699Z",
       "geography": {
         "text": "Approximate area: (M6P) West Toronto (High Park / The Junction South)",
         "approximate": true,
@@ -83,7 +123,7 @@
       "division": "114",
       "timestamp": "2026-09-28T12:50:53.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -117,7 +157,7 @@
       "division": "134",
       "timestamp": "2026-09-28T12:44:30.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -2879,7 +2919,7 @@
       "respondingUnitCount": 19,
       "firstSeenAt": "2026-09-28T10:06:13.599Z",
       "lastMeaningfulUpdateAt": "2026-09-28T12:55:56.062Z",
-      "lastSeenAt": "2026-09-28T13:09:19.886Z",
+      "lastSeenAt": "2026-09-28T13:10:43.699Z",
       "geography": {
         "text": "College Street between Augusta Avenue & Campbell Russell Lane",
         "approximate": false,
@@ -194418,37 +194458,16 @@
         "division": "Division 31",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-05afe5be2d78743f8eb1c6dc",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "TRESPASS",
-      "callTypeCode": "TRE",
-      "timestamp": "2026-09-21T13:09:59.000Z",
-      "location": "BLUE JAYS WAY - CLARENCE SQ",
-      "division": "Division 52",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "BLUE JAYS WAY - CLARENCE SQ",
-        "coordinates": [
-          43.64444038354406,
-          -79.39313083638304
-        ],
-        "division": "Division 52",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T13:09:19.886Z",
-      "sourceUpdatedAt": "2026-09-28T13:05:01.000Z",
+      "fetchedAt": "2026-09-28T13:10:43.699Z",
+      "sourceUpdatedAt": "2026-09-28T13:10:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T13:09:19.886Z",
+      "fetchedAt": "2026-09-28T13:10:43.699Z",
       "status": "ok"
     }
   },
@@ -348062,6 +348081,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "OLD MILL RD, ET / HUMBER RIVER RECREATIONAL TRL / OLD MILL TRL": {
+      "text": "Old Mill Road between Humber River Recreational Trl & Old Mill Trl",
+      "approximate": false,
+      "coordinates": [
+        43.65120925,
+        -79.49391215
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-28T13:10:43.699Z"
+    },
     "SHEPPARD AVE, NY / DON MILLS RD / PARKWAY FOREST DR": {
       "text": "Sheppard Avenue between Don Mills Road & Parkway Forest Drive",
       "approximate": false,
