@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { clusterPoints, focusGroup, spreadPoint } from '../src/map-clusters.js';
+import { MAX_EXPANDED_CLUSTER_SIZE, canExpandCluster, clusterPoints, focusGroup, spreadPoint } from '../src/map-clusters.js';
 
 const app = readFileSync(new URL('../app.js', import.meta.url), 'utf8');
 const disruptions = readFileSync(new URL('../src/disruptions/ui.js', import.meta.url), 'utf8');
@@ -59,6 +59,19 @@ test('expanded clusters preserve incident identity and individual marker selecti
   assert.match(app, /\.on\("click", event => \{[\s\S]*?selectCall\(call\.id, \{ pan: false, revealRow: true \}\)/);
 });
 
+test('cluster expansion is bounded and cannot produce city-spanning connector fans', () => {
+  assert.equal(MAX_EXPANDED_CLUSTER_SIZE,12);
+  assert.equal(canExpandCluster(new Array(12).fill(null)),true);
+  assert.equal(canExpandCluster(new Array(13).fill(null)),false);
+  assert.equal(canExpandCluster([null]),false);
+  const point=spreadPoint(50,106,{x:100,y:100});
+  assert.ok(Math.hypot(point.x-100,point.y-100)<=96.000001);
+  assert.match(app,/new Set\(canExpandCluster\(focusedGroup\) \? focusedGroup\.map/);
+  assert.match(app,/largeClusterSelectionChanged[\s\S]*?clusterChanged \|\| largeClusterSelectionChanged/);
+  assert.match(app,/focusedCallId: group\.some/);
+  assert.match(app,/selectedItem && !canExpandCluster\(group\)[\s\S]*?addMarker\(selectedItem, selectedItem\.coordinates/);
+});
+
 test('incident clustering excludes road closures, user location, and unrelated overlays', () => {
   assert.match(app, /const locatedCalls = state\.filtered[\s\S]*?clusterPoints\(locatedCalls/);
   assert.match(app, /callLayer = L\.layerGroup\(\)\.addTo\(dispatchMap\);[\s\S]*?nearbyOriginLayer = L\.layerGroup\(\)\.addTo\(dispatchMap\)/);
@@ -81,6 +94,6 @@ test('cluster click zooms before expanding and redraws reconcile incident layers
   assert.match(app, /reconcileIncidentLayers\(renderedIncidentLayers, desiredKeys\)/);
   assert.match(app, /dispatchMap\.on\("zoomend",[\s\S]*?expandedCluster\.clear\(\);[\s\S]*?scheduleMapMarkerRender\(\)/);
   assert.match(app, /if \(dispatchMap\.getZoom\(\) < 18\) dispatchMap\.setView\(center,Math\.min\(18,dispatchMap\.getZoom\(\)\+2\)\)/);
-  assert.match(app, /else \{ expandedCluster = new Set\(group\.map\(item => item\.call\.id\)\); renderMapMarkers\(\); \}/);
+  assert.match(app, /else if \(canExpandCluster\(group\)\) \{ expandedCluster = new Set\(group\.map\(item => item\.call\.id\)\); renderMapMarkers\(\); \}/);
   assert.match(app, /title:clusterLabel, alt:clusterLabel/);
 });

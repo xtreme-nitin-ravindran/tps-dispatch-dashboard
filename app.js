@@ -1,8 +1,8 @@
 import { sourceStatus, sourceStatusText } from "./src/source-status.js?v=source-states-1";
-import { clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js";
+import { canExpandCluster, clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js?v=story-38g-1";
 import { incidentGroupKey, reconcileIncidentLayers } from "./src/incident-layer-diff.js";
 import { activeSecondaryFilterCount, filterDefaults, filterSummary, incidentDeepLink, readFilters, shareView, shareIncidentView, readSharedIncident, shareIncident, loadPreferences, savePreferences } from "./src/view-controls.js";
-import * as disruptionUi from "./src/disruptions/ui.js?v=road-closure-interaction-2";
+import * as disruptionUi from "./src/disruptions/ui.js?v=story-38b-1";
 import { withTtcNearbyFixture } from "./src/disruptions/ttc-nearby-fixture.js";
 import { compactAge, compactReportedAge, locationConfidence, callStatus, sourceName, respondingUnitLabel } from "./src/call-presentation.js?v=responding-units-1";
 import { distanceKm, distanceLabel, withinGeographicScope } from "./src/nearby.js?v=radius-controls-1";
@@ -23,14 +23,20 @@ import { DISPATCH_GLOSSARY_FOOTER, glossaryDefinition } from "./src/dispatch-glo
 import { applyTheme, normalizeThemePreference } from "./src/theme.js";
 import { createRefreshFreshnessTracker } from "./src/refresh-freshness.js";
 import { mobileMapSheetOverlap, mobileSheetActionLabel, mobileSheetStateAfterDrag, nextMobileSheetState } from "./src/mobile-bottom-sheet.js";
-import { createPoliceBoundaryLayer } from "./src/police-boundary-overlay.js";
+import { capturePoliceBoundaryRenderState, createPoliceBoundaryLayer, diagnosePoliceBoundaryGeometry, policeBoundaryRingCount } from "./src/police-boundary-overlay.js";
 import { NEARBY_SORT_DEFAULT, sortNearbyCalls } from "./src/nearby-sort.js";
 import { offlineStatus } from "./src/offline-status.js";
 import { MAX_SAVED_LOCATIONS, addSavedLocation, deleteSavedLocation, loadSavedLocationState, referenceCoordinates, renameSavedLocation, savedLocationForContext, selectCurrentLocation, selectSavedLocation } from "./src/saved-locations.js";
-const { createClosureDetail, renderDisruptions, setRoadOverlayVisibility } = disruptionUi;
+const { captureRoadClosureRenderState, createClosureDetail, renderDisruptions, setRoadOverlayVisibility } = disruptionUi;
 import { createLocalWatch, defaultWatchRadius, loadLocalWatch, saveLocalWatch, watchFixtureState, watchLocationContext, watchSupportState } from './src/watch-config.js';
 import { clearWatchActivation, createHttpWatchSubscriptionAdapter, createPushFixtureRuntime, createPushSubscriptionController, loadWatchActivation, pushFixtureOptions, saveWatchActivation, vapidPublicKeyFrom, watchApiBaseUrlFrom } from './src/push-subscription.js';
 import { mobileAuditFixtureFilters, mobileAuditFixtureOptions, mobileAuditFixtureSnapshot } from './src/mobile-audit-fixture.js';
+import { runSynchronousAuditWork, uxAudit, uxReliabilityFixtureOptions, waitForAuditDelay } from './src/ux-reliability-audit.js';
+import { INCIDENT_LIST_BATCH_SIZE, incidentFilterKey, incidentListKey, nextIncidentBatch } from './src/incident-list-window.js';
+import { createViewTransitionScheduler } from './src/mobile-view-transition.js';
+import { createPoliceBoundaryLifecycleScheduler } from './src/police-boundary-lifecycle.js';
+
+uxAudit.mark('app-bootstrap-begins');
 
 const CONFIG = {
   snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
@@ -74,6 +80,7 @@ const els = {
   callList: document.querySelector("#callList"),
   eventToggles: document.querySelectorAll("[data-event-filter]"),
   dispatchMap: document.querySelector("#dispatchMap"),
+  mapLoadStatus: document.querySelector("#mapLoadStatus"),
   mapStatus: document.querySelector("#mapStatus"),
   sourceUpdated: document.querySelector("#sourceUpdated"),
   callTemplate: document.querySelector("#callTemplate"),
@@ -102,6 +109,7 @@ const mobileCallsFeedStatus = document.querySelector('#mobileCallsFeedStatus');
 const mobileClosureDetail = document.querySelector('#mobileClosureDetail');
 const nearbySort = document.querySelector('#nearbySort');
 const expandNearbyRadius = document.querySelector('#expandNearbyRadius');
+const quickLookDataStatus = document.querySelector('#quickLookDataStatus');
 
 const TORONTO_CENTER = [43.7001, -79.42];
 let dispatchMap = null;
@@ -123,15 +131,116 @@ let nearbyOriginKind = "device";
 let liveLocation = null;
 let nearbyOriginLayer = null;
 let divisionLayer = null;
+let divisionGeometryLayer = null;
+let divisionRenderer = null;
+let divisionDataPromise = null;
+let boundaryRenderFrame = null;
+let boundaryRenderGeneration = 0;
+let boundaryDirty = true;
+let boundaryLifecycleEvent = 'startup';
+let boundaryDebugCapture = null;
+const boundaryDebugHistory = [];
 let incidentBadgeTimer = null;
+let incidentDatasetRevision = 0;
+let appliedIncidentFilterKey = null;
+let renderedIncidentListKey = null;
+let sortedIncidentCalls = [];
+let renderedIncidentCount = 0;
+const renderedIncidentIds = new Set();
 let glossaryPopoverSequence = 0;
 let themePreference = "system";
 let mobileView = "map";
+let mobileViewInteracted = false;
+let presentedMobileView = null;
+let presentedMobileLayout = null;
 let mobileSheetState = "collapsed";
 let mobileSheetDrag = null;
 let suppressNextMobileSheetClick = false;
 const initialParams = new URLSearchParams(location.search);
 const mobileAuditFixture = mobileAuditFixtureOptions(location);
+const boundaryDebugEnabled = initialParams.get('policeBoundaryDebug') === '1';
+const boundaryLifecycleScheduler = createPoliceBoundaryLifecycleScheduler();
+const uxReliabilityFixture = uxReliabilityFixtureOptions(location);
+let uxFixtureLazyWorkPending = Boolean(uxReliabilityFixture?.lazyWorkMs);
+let mapInitializationScheduled = false;
+const loadPhases = { shell: 'ready', incidents: 'loading', map: 'loading', secondary: 'loading' };
+document.documentElement.dataset.shellLoadState = loadPhases.shell;
+document.documentElement.dataset.incidentLoadState = loadPhases.incidents;
+document.documentElement.dataset.mapLoadState = loadPhases.map;
+document.documentElement.dataset.secondaryLoadState = loadPhases.secondary;
+
+function setIncidentLoadPhase(phase) {
+  loadPhases.incidents = phase;
+  document.documentElement.dataset.incidentLoadState = phase;
+  const loading = phase === 'loading';
+  els.callList.setAttribute('aria-busy', String(loading));
+  if (loading) els.resultCount.textContent = 'LOADING';
+  if (quickLookDataStatus) {
+    quickLookDataStatus.hidden = phase === 'ready';
+    const unavailable = ['error', 'unavailable'].includes(phase);
+    quickLookDataStatus.classList.toggle('is-error', unavailable);
+    quickLookDataStatus.textContent = unavailable
+      ? 'Call data is temporarily unavailable. Location controls are still ready.'
+      : 'Loading calls… Location controls are ready.';
+  }
+  if (!focusedClosureId && mobileSheetSummary && phase !== 'ready') {
+    mobileSheetSummary.textContent = ['error', 'unavailable'].includes(phase)
+      ? 'Calls temporarily unavailable' : 'Loading nearby calls…';
+  }
+}
+
+function setMapLoadPhase(phase, message = '') {
+  loadPhases.map = phase;
+  document.documentElement.dataset.mapLoadState = phase;
+  els.dispatchMap?.setAttribute('aria-busy', String(phase === 'loading'));
+  if (!els.mapLoadStatus) return;
+  els.mapLoadStatus.hidden = phase === 'ready';
+  els.mapLoadStatus.classList.toggle('is-error', phase === 'error');
+  const label = els.mapLoadStatus.querySelector('span:last-child');
+  if (label && message) label.textContent = message;
+  els.mapLoadStatus.querySelector('.loader')?.toggleAttribute('hidden', phase !== 'loading');
+}
+
+function setSecondaryLoadPhase(phase) {
+  loadPhases.secondary = phase;
+  document.documentElement.dataset.secondaryLoadState = phase;
+}
+
+function yieldForLoadingPaint() {
+  return new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+}
+
+setIncidentLoadPhase('loading');
+setMapLoadPhase('loading', 'Loading map…');
+let fullyRenderedMarked = false;
+const auditReadiness = { data: false, map: false, tiles: false, boundaries: false, secondary: false };
+
+function markFullyRenderedWhenReady() {
+  if (!fullyRenderedMarked && Object.values(auditReadiness).every(Boolean)) {
+    fullyRenderedMarked = true;
+    uxAudit.mark('first-fully-rendered-ui');
+  }
+}
+
+function runFirstInteractionFixtureWork() {
+  if (!uxFixtureLazyWorkPending) return;
+  uxFixtureLazyWorkPending = false;
+  runSynchronousAuditWork(uxReliabilityFixture.lazyWorkMs);
+}
+
+function auditInteraction(name, callback) {
+  return (...args) => {
+    const end = uxAudit.begin(`interaction:${name}`);
+    const endVisualResponse = uxAudit.begin(`visual-response:${name}`);
+    requestAnimationFrame(() => requestAnimationFrame(() => endVisualResponse({ view: mobileView })));
+    try {
+      runFirstInteractionFixtureWork();
+      return callback(...args);
+    } finally {
+      end({ view: mobileView, filteredCalls: state.filtered.length });
+    }
+  };
+}
 let pendingSharedIncidentId = readSharedIncident(initialParams);
 const pushFixtures = pushFixtureOptions(location);
 const loopbackFixtureHost = new Set(['localhost', '127.0.0.1', '::1']).has(location.hostname);
@@ -147,7 +256,13 @@ const nearbyOptions = document.querySelector('.nearby-options');
 function syncTheme() {
   applyTheme(document.documentElement, themeColorMeta, themePreference, systemTheme.matches);
   const boundaryColor = getComputedStyle(document.documentElement).getPropertyValue("--boundary-marker").trim();
-  if (boundaryColor) divisionLayer?.setStyle({ color: boundaryColor });
+  if (!boundaryColor || !divisionGeometryLayer) return;
+  if (!mapAllowsBoundaryWork()) {
+    boundaryDirty = true;
+    boundaryLifecycleEvent = 'theme-change-while-map-hidden';
+    return;
+  }
+  divisionGeometryLayer.setStyle({ color: boundaryColor });
 }
 function rememberPreferences(stateOverrides = {}) {
   try { savePreferences(localStorage,{...state,...stateOverrides},{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible,theme:themePreference,mobileView}); } catch { /* Browsing still works when storage is blocked. */ }
@@ -163,6 +278,7 @@ function syncMapAttributionPosition() {
 
 let mapMaintenanceFrame = null;
 let mapSizeInvalidationPending = false;
+const viewTransitionScheduler = createViewTransitionScheduler();
 function syncMapSheetOverlap() {
   if (!els.dispatchMap || !mobileBottomSheet) return;
   const overlap = mobileMapSheetOverlap(
@@ -175,14 +291,56 @@ function syncMapSheetOverlap() {
 
 function scheduleMapMaintenance({ invalidateSize = false } = {}) {
   mapSizeInvalidationPending ||= invalidateSize;
+  if (viewTransitionScheduler.pending()) return;
+  if (isMobileViewLayout() && mobileView !== "map") return;
   if (mapMaintenanceFrame !== null) return;
   mapMaintenanceFrame = requestAnimationFrame(() => {
     mapMaintenanceFrame = null;
     syncMapSheetOverlap();
     if (!mapSizeInvalidationPending) return;
     mapSizeInvalidationPending = false;
+    const finishInvalidation = uxAudit.begin('view-toggle:leaflet-invalidate-size');
+    captureBoundaryDiagnostic('invalidate-size:before');
     dispatchMap?.invalidateSize({ pan: false });
+    captureBoundaryDiagnostic('invalidate-size:after');
+    finishInvalidation();
+    queuePoliceBoundaryWork('map-size-invalidated');
   });
+}
+
+function scheduleViewMaintenance({ view, mobile, focusSelection, persist }) {
+  mapSizeInvalidationPending ||= mobile && view === "map";
+  if (mapMaintenanceFrame !== null) cancelAnimationFrame(mapMaintenanceFrame);
+  mapMaintenanceFrame = null;
+  const generation = viewTransitionScheduler.schedule(() => {
+    if (view !== mobileView || mobile !== isMobileViewLayout()) return;
+    uxAudit.mark('view-toggle:first-frame-after-switch', { view, generation });
+    const finishMaintenance = uxAudit.begin('view-toggle:deferred-maintenance', { view, generation });
+    syncMapAttributionPosition();
+    syncMapSheetOverlap();
+    if (mobile && view === "map" && mapSizeInvalidationPending) {
+      mapSizeInvalidationPending = false;
+      const finishInvalidation = uxAudit.begin('view-toggle:leaflet-invalidate-size');
+      captureBoundaryDiagnostic('map-reveal-invalidate-size:before');
+      dispatchMap?.invalidateSize({ pan: false });
+      captureBoundaryDiagnostic('map-reveal-invalidate-size:after');
+      finishInvalidation();
+      queuePoliceBoundaryWork('map-revealed-after-invalidation');
+    }
+    if (focusSelection && mobile && view === "map" && focusedCallId) {
+      const finishSelection = uxAudit.begin('view-toggle:selected-incident-sync');
+      selectCall(focusedCallId, { panIfNeeded: true });
+      finishSelection();
+    }
+    if (persist) {
+      const finishPersistence = uxAudit.begin('view-toggle:preference-persistence');
+      rememberPreferences();
+      finishPersistence();
+    }
+    finishMaintenance();
+    uxAudit.mark('view-toggle:maintenance-complete', { view, generation });
+  });
+  uxAudit.mark('view-toggle:maintenance-scheduled', { view, generation });
 }
 
 function syncIncidentListSurface(mobile = isMobileViewLayout()) {
@@ -193,8 +351,11 @@ function syncIncidentListSurface(mobile = isMobileViewLayout()) {
 function setMobileView(view, { focusSelection = false, persist = true } = {}) {
   if (view !== "map" && view !== "calls") return;
   const mobile = isMobileViewLayout();
+  if (view === mobileView && view === presentedMobileView && mobile === presentedMobileLayout) return;
+  const finishState = uxAudit.begin('view-toggle:state-update', { target: view });
   mobileView = view;
-  syncIncidentListSurface(mobile);
+  finishState({ mobile });
+  const finishPresentation = uxAudit.begin('view-toggle:presentation');
   document.documentElement.dataset.mobileView = view;
   mobileViewToggles.forEach(toggle => {
     const active = toggle.dataset.mobileView === view;
@@ -217,25 +378,35 @@ function setMobileView(view, { focusSelection = false, persist = true } = {}) {
     callsView?.removeAttribute("aria-hidden");
     mobileBottomSheet?.removeAttribute("aria-hidden");
   }
-  syncMapAttributionPosition();
-  scheduleMapMaintenance({ invalidateSize: view === "map" });
-  if (persist) rememberPreferences();
-  if (view === "map" && focusSelection) requestAnimationFrame(() => requestAnimationFrame(() => {
-    if (mobileView !== "map") return;
-    if (focusSelection && isMobileViewLayout() && focusedCallId) {
-      selectCall(focusedCallId, { panIfNeeded: true });
-    }
-  }));
+  finishPresentation();
+  uxAudit.mark('view-toggle:visual-state-committed', { view, mobile });
+  const finishOwnership = uxAudit.begin('view-toggle:list-ownership');
+  syncIncidentListSurface(mobile);
+  finishOwnership({ cards: els.callList.querySelectorAll('.incident-card').length });
+  presentedMobileView = view;
+  presentedMobileLayout = mobile;
+  if (mobile && view === 'calls' && boundaryVisible) {
+    boundaryDirty = true;
+    boundaryLifecycleEvent = 'map-hidden-by-calls-view';
+    boundaryRenderGeneration += 1;
+    if (boundaryRenderFrame !== null) cancelAnimationFrame(boundaryRenderFrame);
+    boundaryRenderFrame = null;
+  }
+  scheduleViewMaintenance({ view, mobile, focusSelection, persist });
 }
 
-mobileViewToggles.forEach(toggle => toggle.addEventListener("click", () => {
+mobileViewToggles.forEach(toggle => toggle.addEventListener("click", auditInteraction(`view:${toggle.dataset.mobileView}`, () => {
+  mobileViewInteracted = true;
   setMobileView(toggle.dataset.mobileView, { focusSelection: toggle.dataset.mobileView === "map" });
-}));
+})));
 setMobileView(mobileView, { persist: false });
 mobileLayoutMedia.addEventListener?.("change", () => setMobileView(mobileView, { persist: false }));
 
 function setMobileSheetState(nextState) {
   if (!mobileBottomSheet || !["collapsed", "half", "expanded"].includes(nextState)) return;
+  const previousState = mobileSheetState;
+  const changed = previousState !== nextState;
+  if (changed) captureBoundaryDiagnostic(`sheet:${previousState}->${nextState}:requested`);
   mobileSheetState = nextState;
   mobileBottomSheet.dataset.sheetState = nextState;
   document.documentElement.dataset.mobileSheetState = nextState;
@@ -245,17 +416,32 @@ function setMobileSheetState(nextState) {
   mobileSheetStateControls.forEach(control => {
     control.setAttribute("aria-pressed", String(control.dataset.sheetTarget === nextState));
   });
-  scheduleMapMaintenance({ invalidateSize: true });
+  if (!changed) {
+    scheduleMapMaintenance({ invalidateSize: true });
+    return;
+  }
+  boundaryDirty = true;
+  boundaryRenderGeneration += 1;
+  if (boundaryRenderFrame !== null) cancelAnimationFrame(boundaryRenderFrame);
+  boundaryRenderFrame = null;
+  boundaryLifecycleScheduler.afterLayoutTransition(() => {
+    if (mobileSheetState !== nextState || !dispatchMap || (isMobileViewLayout() && mobileView !== 'map')) return;
+    syncMapSheetOverlap();
+    captureBoundaryDiagnostic(`sheet:${nextState}:layout-settled`);
+    dispatchMap.invalidateSize({ pan: false });
+    captureBoundaryDiagnostic(`sheet:${nextState}:invalidate-size-complete`);
+    queuePoliceBoundaryWork(`sheet:${nextState}:post-invalidation`);
+  });
 }
 
-mobileSheetToggle?.addEventListener("click", () => {
+mobileSheetToggle?.addEventListener("click", auditInteraction('bottom-sheet', () => {
   if (suppressNextMobileSheetClick) {
     suppressNextMobileSheetClick = false;
     return;
   }
   const direction = mobileSheetState === "expanded" ? -2 : 1;
   setMobileSheetState(nextMobileSheetState(mobileSheetState, direction));
-});
+}));
 
 mobileSheetToggle?.addEventListener("pointerdown", event => {
   if (event.pointerType === "mouse" && event.button !== 0) return;
@@ -272,12 +458,12 @@ mobileSheetToggle?.addEventListener("pointerup", event => {
 });
 
 mobileSheetToggle?.addEventListener("pointercancel", () => { mobileSheetDrag = null; });
-mobileSheetStateControls.forEach(control => control.addEventListener("click", () => {
+mobileSheetStateControls.forEach(control => control.addEventListener("click", auditInteraction(`bottom-sheet:${control.dataset.sheetTarget}`, () => {
   setMobileSheetState(control.dataset.sheetTarget);
-}));
+})));
 setMobileSheetState(mobileSheetState);
 window.addEventListener("scroll", scheduleMapMaintenance, { passive: true });
-window.addEventListener("resize", scheduleMapMaintenance);
+window.addEventListener("resize", () => scheduleMapMaintenance({ invalidateSize: true }));
 window.visualViewport?.addEventListener("resize", scheduleMapMaintenance);
 window.visualViewport?.addEventListener("scroll", scheduleMapMaintenance);
 document.addEventListener("scroll", scheduleMapMaintenance, { passive: true, capture: true });
@@ -404,15 +590,21 @@ function parseLooseTime(value) {
 }
 
 async function fetchSnapshot() {
+  const finishFetch = uxAudit.begin('incident-snapshot-fetch');
   if (mobileAuditFixture) {
+    await waitForAuditDelay(uxReliabilityFixture?.incidentDelayMs || 0);
     const payload = mobileAuditFixtureSnapshot(mobileAuditFixture.state);
-    return {
+    finishFetch({ source: 'mobile-audit-fixture', incidents: payload.incidents.length });
+    const finishNormalization = uxAudit.begin('incident-normalization');
+    const snapshot = {
       calls: payload.incidents.map(row => normalizeCall(row)).sort((a, b) => b.timestamp - a.timestamp),
       disruptions: payload.disruptions,
       feeds: payload.feeds,
       fetchedAt: payload.fetchedAt,
       updatedAt: payload.sourceUpdatedAt
     };
+    finishNormalization({ incidents: snapshot.calls.length });
+    return snapshot;
   }
   if (notificationArrivalFixture) {
     const timestamp = new Date().toISOString();
@@ -422,19 +614,25 @@ async function fetchSnapshot() {
       lastSeenAt: timestamp, eventCategory: 'fire', isOngoing: true,
       geography: { coordinates: [43.6505, -79.386] }
     }] : [];
-    return {
+    finishFetch({ source: 'notification-arrival-fixture', incidents: incidents.length });
+    const finishNormalization = uxAudit.begin('incident-normalization');
+    const snapshot = {
       calls: incidents.map(row => normalizeCall(row)),
       disruptions: withTtcNearbyFixture({}),
       feeds: { TFS: { status: 'ok', fetchedAt: timestamp }, TPS: { status: 'ok', fetchedAt: timestamp } },
       fetchedAt: timestamp,
       updatedAt: timestamp
     };
+    finishNormalization({ incidents: snapshot.calls.length });
+    return snapshot;
   }
   const response = await fetch(`${CONFIG.snapshotUrl}?ts=${Date.now()}`, { cache: "no-store" });
   if (!response.ok) throw new Error(`Official TFS snapshot returned HTTP ${response.status}`);
   const payload = await response.json();
   const rows = Array.isArray(payload) ? payload : (payload.incidents || []);
-  return {
+  finishFetch({ source: 'production-snapshot', incidents: rows.length });
+  const finishNormalization = uxAudit.begin('incident-normalization');
+  const snapshot = {
     calls: rows.map(row => normalizeCall(row))
       .sort((a, b) => b.timestamp - a.timestamp),
     disruptions: withTtcNearbyFixture(payload.disruptions),
@@ -442,6 +640,8 @@ async function fetchSnapshot() {
     fetchedAt: payload.fetchedAt || null,
     updatedAt: payload.sourceUpdatedAt || payload.fetchedAt || null
   };
+  finishNormalization({ incidents: snapshot.calls.length });
+  return snapshot;
 }
 
 let sourceHighlightTimer;
@@ -467,7 +667,7 @@ function restorePendingIncident() {
     arrival = incidentArrivalState(requestedId, state.calls, state.filtered, { mobile: isMobileViewLayout() });
   }
   status.hidden = true;
-  if (arrival.mobileView) setMobileView(arrival.mobileView, { persist: false });
+  if (arrival.mobileView && !mobileViewInteracted) setMobileView(arrival.mobileView, { persist: false });
   if (mobileAuditFixture) setMobileSheetState(mobileAuditFixture.sheet);
   else if (arrival.mobileSheetState) setMobileSheetState(arrival.mobileSheetState);
   selectCall(arrival.id, { revealRow: true, panIfNeeded: true });
@@ -505,11 +705,14 @@ async function loadData() {
     const snapshot = await fetchSnapshot();
     const scrollTop = els.callList.scrollTop;
     const firstSnapshot = !snapshotLoaded;
+    if (firstSnapshot) await yieldForLoadingPaint();
     snapshotLoaded = true;
     const previousSourceTime = parseLooseTime(state.lastIngest)?.getTime();
     const callsChanged = JSON.stringify(state.calls) !== JSON.stringify(snapshot.calls);
-    state.disruptions = snapshot.disruptions;
+    const delayedSecondary = Boolean(uxReliabilityFixture?.secondaryDelayMs);
+    state.disruptions = delayedSecondary ? undefined : snapshot.disruptions;
     state.calls = snapshot.calls;
+    if (callsChanged || firstSnapshot) incidentDatasetRevision++;
     state.feeds = snapshot.feeds || {};
     state.lastIngest = snapshot.updatedAt;
     state.fetchedAt = snapshot.fetchedAt;
@@ -535,8 +738,26 @@ async function loadData() {
       applyFilters();
       els.callList.scrollTop = scrollTop;
     }
+    const availability = incidentAvailability();
+    setIncidentLoadPhase(!availability.hasRelevantCachedData && availability.allUnavailable ? 'unavailable' : 'ready');
+    renderNearbySummary();
+    auditReadiness.data = true;
+    markFullyRenderedWhenReady();
     restorePendingIncident();
+    const finishSecondary = uxAudit.begin('secondary-feed-preparation');
+    if (delayedSecondary) {
+      await waitForAuditDelay(uxReliabilityFixture.secondaryDelayMs);
+      state.disruptions = snapshot.disruptions;
+    }
     renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
+    finishSecondary({
+      roads: state.disruptions?.roads?.items?.length || 0,
+      transit: state.disruptions?.transit?.items?.length || 0
+    });
+    auditReadiness.secondary = true;
+    setSecondaryLoadPhase('ready');
+    uxAudit.mark('road-closure-layer-initialized');
+    markFullyRenderedWhenReady();
     updateFreshness();
     refreshFreshness.complete(true);
     setRefreshState('idle');
@@ -552,6 +773,9 @@ async function loadData() {
     refreshFreshness.complete(false);
     setRefreshState('error');
     if (!snapshotLoaded) {
+      setIncidentLoadPhase('error');
+      setSecondaryLoadPhase('error');
+      els.resultCount.textContent = 'UNAVAILABLE';
       els.callList.innerHTML = `
         <div class="error-state">
           <strong>Couldn’t load the public dispatch feed.</strong>
@@ -581,6 +805,18 @@ function populateDivisionFilter(calls) {
 }
 
 function applyFilters({ map = true } = {}) {
+  const nextFilterKey = incidentFilterKey({
+    datasetRevision: incidentDatasetRevision,
+    radiusKm: state.radiusKm,
+    nearby: state.nearby,
+    serviceFilter: state.serviceFilter,
+    eventFilter: state.eventFilter,
+    division: state.division,
+    hours: state.hours,
+    search: state.search
+  });
+  if (nextFilterKey === appliedIncidentFilterKey) return false;
+  const finishCalculation = uxAudit.begin('filter-sort-calculation', { inputCalls: state.calls.length });
   const eligibleCalls = state.calls.filter(call => {
     if (!withinGeographicScope(state.nearby, state.radiusKm, coordinatesForCall(call))) return false;
     if (state.serviceFilter !== "all" && call.source !== state.serviceFilter) return false;
@@ -596,6 +832,17 @@ function applyFilters({ map = true } = {}) {
     (state.division === "all" || call.division === state.division) &&
     incidentMatchesSearch(call, state.search, displayLocation(call).text)
   );
+  appliedIncidentFilterKey = incidentFilterKey({
+    datasetRevision: incidentDatasetRevision,
+    radiusKm: state.radiusKm,
+    nearby: state.nearby,
+    serviceFilter: state.serviceFilter,
+    eventFilter: state.eventFilter,
+    division: state.division,
+    hours: state.hours,
+    search: state.search
+  });
+  finishCalculation({ eligibleCalls: eligibleCalls.length, outputCalls: state.filtered.length });
   const previouslyFocusedCallId = focusedCallId;
   focusedCallId = reconcileIncidentSelection(focusedCallId, state.filtered);
   document.querySelector("#filterSummary").textContent = filterSummary(state);
@@ -607,6 +854,7 @@ function applyFilters({ map = true } = {}) {
     updateMarkerAppearance(focusedCallId);
   }
   rememberPreferences();
+  return true;
 }
 
 function render(map = true) {
@@ -701,6 +949,22 @@ function renderNearbySummary() {
   const summary = document.querySelector("#nearbySummary");
   summary.hidden = false;
   document.querySelector("#nearbySummaryHeading").textContent = state.radiusKm === null ? "TORONTO SUMMARY" : "NEARBY SUMMARY";
+  if (loadPhases.incidents === 'loading') {
+    document.querySelector("#nearbySummaryText").textContent = 'Loading calls…';
+    document.querySelector("#mobileNearbySummaryText").textContent = 'Loading calls…';
+    if (!focusedClosureId && mobileSheetSummary) mobileSheetSummary.textContent = 'Loading nearby calls…';
+    expandNearbyRadius.hidden = true;
+    nearbySort.querySelector('[value="nearest"]').disabled = !state.nearby;
+    return;
+  }
+  if (['error', 'unavailable'].includes(loadPhases.incidents)) {
+    document.querySelector("#nearbySummaryText").textContent = 'Public dispatch data is temporarily unavailable.';
+    document.querySelector("#mobileNearbySummaryText").textContent = 'Calls temporarily unavailable.';
+    if (!focusedClosureId && mobileSheetSummary) mobileSheetSummary.textContent = 'Calls temporarily unavailable';
+    expandNearbyRadius.hidden = true;
+    nearbySort.querySelector('[value="nearest"]').disabled = !state.nearby;
+    return;
+  }
   const empty = !state.filtered.length
     ? nearbyEmptyState({
         radiusKm: state.radiusKm,
@@ -792,6 +1056,10 @@ async function handleIncidentShare(event, call) {
 }
 
 function createIncidentCard(call, { distance = "", variant = "list" } = {}) {
+  const cardNumber = uxAudit.increment('incident-cards-created');
+  const finishFirstCard = cardNumber === 1
+    ? uxAudit.begin('first-card-container-to-meaningful-content', { variant })
+    : () => null;
   const row = els.callTemplate.content.firstElementChild.cloneNode(true);
   const selected = variant !== "popup" && call.id === focusedCallId;
   row.dataset.callId = call.id;
@@ -880,10 +1148,20 @@ function createIncidentCard(call, { distance = "", variant = "list" } = {}) {
   const shareButton = row.querySelector('.share-incident');
   shareButton.setAttribute('aria-label', `Share incident: ${call.description}`);
   shareButton.addEventListener('click', event => handleIncidentShare(event, call));
+  finishFirstCard({ connected: row.isConnected, titleLength: call.description.length });
   return row;
 }
 
 function renderCalls() {
+  const firstPass = uxAudit.increment('incident-render-passes') === 1;
+  const finishRender = firstPass ? uxAudit.begin('first-incident-render', { incidents: state.filtered.length }) : () => null;
+  if (loadPhases.incidents === 'loading' && !snapshotLoaded) {
+    els.resultCount.textContent = 'LOADING';
+    callsFeedStatus.hidden = true;
+    if (mobileCallsFeedStatus) mobileCallsFeedStatus.hidden = true;
+    finishRender({ cards: els.callList.querySelectorAll('.incident-card').length, loading: true });
+    return;
+  }
   const availability=renderIncidentFeedStatus();
   if (mobileCallsFeedStatus) {
     mobileCallsFeedStatus.textContent = callsFeedStatus.textContent;
@@ -894,18 +1172,47 @@ function renderCalls() {
   } else {
     els.resultCount.textContent = `${state.filtered.length} RESULT${state.filtered.length === 1 ? "" : "S"}`;
   }
+  const availabilityKey = relevantIncidentFeeds()
+    .map(([name, feed]) => `${name}:${feed?.status || 'not-loaded'}`)
+    .join(',');
+  const nextListKey = incidentListKey({
+    filterKey: appliedIncidentFilterKey,
+    sort: state.nearbySort,
+    online: navigator.onLine,
+    availability: availabilityKey
+  });
 
   const renderList = list => {
     if (!list) return;
     if (state.filtered.length) {
+      if (nextListKey === renderedIncidentListKey) return;
+      const finishInitialBatch = uxAudit.begin('incident-list-initial-batch', {
+        incidents: state.filtered.length,
+        batchSize: INCIDENT_LIST_BATCH_SIZE
+      });
+      sortedIncidentCalls = sortNearbyCalls(state.filtered, state.nearbySort, state.nearby, coordinatesForCall);
+      renderedIncidentCount = 0;
+      renderedIncidentIds.clear();
       const fragment = document.createDocumentFragment();
-      sortNearbyCalls(state.filtered, state.nearbySort, state.nearby, coordinatesForCall).forEach(call => {
+      const batch = nextIncidentBatch(sortedIncidentCalls, renderedIncidentCount);
+      batch.items.forEach(call => {
         const distance = distanceLabel(distanceKm(state.nearby, coordinatesForCall(call)));
         fragment.appendChild(createIncidentCard(call, { distance }));
+        renderedIncidentIds.add(call.id);
       });
+      renderedIncidentCount = batch.end;
       list.replaceChildren(fragment);
+      appendIncidentLoadMoreControl(list, batch.remaining);
+      renderedIncidentListKey = nextListKey;
+      const selectedCall = focusedCallId && sortedIncidentCalls.find(call => call.id === focusedCallId);
+      if (selectedCall) surfaceSelectedIncident(selectedCall);
+      finishInitialBatch({ cards: list.querySelectorAll('.incident-card').length, remaining: batch.remaining });
       return;
     }
+    if (nextListKey === renderedIncidentListKey) return;
+    sortedIncidentCalls = [];
+    renderedIncidentCount = 0;
+    renderedIncidentIds.clear();
     let title=state.search.trim() ? 'No calls match your search.' : 'No calls match these filters.';
     let detail=state.search.trim()
       ? 'Clear the search or try a different call type, street, intersection, or division.'
@@ -925,14 +1232,86 @@ function renderCalls() {
         <strong>${title}</strong>
         <p>${detail}</p>
       </div>`;
+    renderedIncidentListKey = nextListKey;
   };
 
   renderList(els.callList);
+  finishRender({ cards: els.callList.querySelectorAll('.incident-card').length });
   scheduleIncidentBadgeExpiry();
 }
 
+function currentIncidentListKey() {
+  const availability = relevantIncidentFeeds()
+    .map(([name, feed]) => `${name}:${feed?.status || 'not-loaded'}`)
+    .join(',');
+  return incidentListKey({
+    filterKey: appliedIncidentFilterKey,
+    sort: state.nearbySort,
+    online: navigator.onLine,
+    availability
+  });
+}
+
+function appendIncidentLoadMoreControl(list, remaining) {
+  list.querySelector('.incident-list-more')?.remove();
+  if (!remaining) return;
+  const control = document.createElement('div');
+  control.className = 'incident-list-more';
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.textContent = `Show ${Math.min(INCIDENT_LIST_BATCH_SIZE, remaining)} more calls`;
+  button.addEventListener('click', () => {
+    button.disabled = true;
+    button.textContent = 'Loading more calls…';
+    requestAnimationFrame(() => appendNextIncidentBatch(list));
+  });
+  control.append(button);
+  list.append(control);
+}
+
+function appendNextIncidentBatch(list = els.callList) {
+  if (currentIncidentListKey() !== renderedIncidentListKey) return;
+  const finishBatch = uxAudit.begin('incident-list-next-batch', { start: renderedIncidentCount });
+  const batch = nextIncidentBatch(sortedIncidentCalls, renderedIncidentCount);
+  const fragment = document.createDocumentFragment();
+  for (const call of batch.items) {
+    const surfaced = [...list.querySelectorAll('.incident-card--surfaced')]
+      .find(row => row.dataset.callId === call.id);
+    if (surfaced) {
+      surfaced.classList.remove('incident-card--surfaced');
+      fragment.append(surfaced);
+      continue;
+    }
+    const distance = distanceLabel(distanceKm(state.nearby, coordinatesForCall(call)));
+    fragment.append(createIncidentCard(call, { distance }));
+    renderedIncidentIds.add(call.id);
+  }
+  renderedIncidentCount = batch.end;
+  list.querySelector('.incident-list-more')?.remove();
+  list.append(fragment);
+  appendIncidentLoadMoreControl(list, batch.remaining);
+  finishBatch({ cards: batch.items.length, remaining: batch.remaining });
+  scheduleIncidentBadgeExpiry();
+}
+
+function surfaceSelectedIncident(call) {
+  const previous = els.callList.querySelector('.incident-card--surfaced');
+  if (previous && previous.dataset.callId !== call.id) {
+    renderedIncidentIds.delete(previous.dataset.callId);
+    previous.remove();
+  }
+  if (renderedIncidentIds.has(call.id)) return;
+  const distance = distanceLabel(distanceKm(state.nearby, coordinatesForCall(call)));
+  const row = createIncidentCard(call, { distance });
+  row.classList.add('incident-card--surfaced');
+  els.callList.prepend(row);
+  renderedIncidentIds.add(call.id);
+}
+
 nearbySort.addEventListener('change', event => {
-  state.nearbySort = event.target.value === 'nearest' && state.nearby ? 'nearest' : NEARBY_SORT_DEFAULT;
+  const nextSort = event.target.value === 'nearest' && state.nearby ? 'nearest' : NEARBY_SORT_DEFAULT;
+  if (nextSort === state.nearbySort) return;
+  state.nearbySort = nextSort;
   nearbySort.value = state.nearbySort;
   renderCalls();
 });
@@ -958,8 +1337,13 @@ function scheduleIncidentBadgeExpiry() {
 }
 
 function initMap() {
-  if (dispatchMap || !els.dispatchMap || typeof L === "undefined") return;
+  if (dispatchMap || !els.dispatchMap) return;
+  if (typeof L === "undefined") {
+    setMapLoadPhase('error', 'Map is temporarily unavailable.');
+    return;
+  }
 
+  const finishCreation = uxAudit.begin('first-map-creation');
   dispatchMap = L.map(els.dispatchMap, {
     zoomControl: false,
     attributionControl: true
@@ -969,11 +1353,19 @@ function initMap() {
   syncMapAttributionPosition();
 
   L.control.zoom({ position: "bottomright" }).addTo(dispatchMap);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  const tileLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     subdomains: "abc",
     maxZoom: 19
-  }).addTo(dispatchMap);
+  });
+  tileLayer.once('load', () => {
+    auditReadiness.tiles = true;
+    uxAudit.mark('first-leaflet-tile-ready');
+    markFullyRenderedWhenReady();
+  });
+  tileLayer.once('tileload', () => setMapLoadPhase('ready'));
+  tileLayer.once('tileerror', () => setMapLoadPhase('error', 'Map tiles are temporarily unavailable.'));
+  tileLayer.addTo(dispatchMap);
   callLayer = L.layerGroup().addTo(dispatchMap);
   nearbyOriginLayer = L.layerGroup().addTo(dispatchMap);
   dispatchMap.on('roadclosureselect', event => selectClosure(event.item,event.layer));
@@ -985,7 +1377,10 @@ function initMap() {
     if (!choosingArea) return;
     chooseManualArea([event.latlng.lat, event.latlng.lng]);
   });
-  loadDivisionOverlay();
+  setupDivisionOverlay();
+  auditReadiness.map = true;
+  finishCreation();
+  markFullyRenderedWhenReady();
 }
 
 function clearClosureSelection() {
@@ -1019,41 +1414,263 @@ function selectClosure(closure, layer) {
   layer?.bindPopup?.(detail,{minWidth:260,maxWidth:340,closeOnClick:false}).openPopup?.();
 }
 
-async function loadDivisionOverlay() {
+function mapAllowsBoundaryWork() {
+  if (!dispatchMap || !divisionLayer || !boundaryVisible || !dispatchMap.hasLayer(divisionLayer)) return false;
+  if (isMobileViewLayout() && mobileView !== 'map') return false;
+  const rect = els.dispatchMap?.getBoundingClientRect?.();
+  const size = dispatchMap.getSize?.();
+  return Boolean(rect?.width > 0 && rect?.height > 0 && size?.x > 0 && size?.y > 0);
+}
+
+function redrawPoliceBoundaries() {
+  divisionGeometryLayer?.eachLayer?.(layer => layer.redraw?.());
+}
+
+function captureBoundaryDiagnostic(reason) {
+  if (!boundaryDebugEnabled) return null;
+  const police = capturePoliceBoundaryRenderState({
+    map: dispatchMap,
+    layer: divisionGeometryLayer,
+    lifecycleEvent: reason,
+    scheduling: {
+      boundaryDirty,
+      boundaryRenderFramePending: boundaryRenderFrame !== null,
+      layoutTransitionPending: boundaryLifecycleScheduler.pending(),
+      generation: boundaryRenderGeneration
+    }
+  });
+  const roads = captureRoadClosureRenderState?.(dispatchMap);
+  boundaryDebugCapture = {
+    ...police,
+    sheetState: mobileSheetState,
+    mobileView,
+    police: {
+      layerId: divisionGeometryLayer?._leaflet_id ?? null,
+      rendererId: divisionRenderer?._leaflet_id ?? null,
+      pane: divisionRenderer?.options?.pane || 'overlayPane',
+      visible: Boolean(divisionGeometryLayer && dispatchMap?.hasLayer?.(divisionGeometryLayer))
+    },
+    roads,
+    interaction: {
+      sharedPane: Boolean(roads?.pane && roads.pane === (divisionRenderer?.options?.pane || 'overlayPane')),
+      sharedRenderer: Boolean(roads?.rendererIds?.includes(divisionRenderer?._leaflet_id)),
+      sharedCanvas: false
+    }
+  };
+  boundaryDebugHistory.push(boundaryDebugCapture);
+  if (boundaryDebugHistory.length > 80) boundaryDebugHistory.shift();
+  const debugPanel = document.querySelector('#policeBoundaryDebugPanel');
+  if (debugPanel) {
+    debugPanel.dataset.lifecycleEvent = reason;
+    debugPanel.dataset.issueCount = String(boundaryDebugCapture.issues.length);
+    debugPanel.dataset.dimensionIssueCount = String(boundaryDebugCapture.dimensionIssues.length);
+    debugPanel.dataset.rendererId = String(divisionRenderer?._leaflet_id ?? '');
+    debugPanel.dataset.layerId = String(divisionGeometryLayer?._leaflet_id ?? '');
+  }
+  return boundaryDebugCapture;
+}
+
+function boundaryDiagnosticExport() {
+  return {
+    schema: 'sirento-police-boundary-debug-v1',
+    exportedAt: new Date().toISOString(),
+    userLocationIncluded: false,
+    entries: boundaryDebugHistory
+  };
+}
+
+function installBoundaryDebugExport() {
+  if (document.querySelector('#policeBoundaryDebugPanel')) return;
+  const panel = document.createElement('div');
+  panel.id = 'policeBoundaryDebugPanel';
+  panel.className = 'police-boundary-debug-panel';
+  panel.style.position = 'fixed';
+  panel.setAttribute('role', 'group');
+  panel.setAttribute('aria-label', 'Police boundary diagnostics');
+  const status = document.createElement('span');
+  status.textContent = 'Boundary diagnostics active';
+  const copy = document.createElement('button');
+  copy.type = 'button';
+  copy.textContent = 'Copy JSON';
+  copy.addEventListener('click', async () => {
+    captureBoundaryDiagnostic('manual-copy');
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(boundaryDiagnosticExport(), null, 2));
+      status.textContent = 'Diagnostics copied';
+    } catch {
+      status.textContent = 'Copy unavailable; use Download';
+    }
+  });
+  const download = document.createElement('button');
+  download.type = 'button';
+  download.textContent = 'Download JSON';
+  download.addEventListener('click', () => {
+    captureBoundaryDiagnostic('manual-download');
+    const url = URL.createObjectURL(new Blob([JSON.stringify(boundaryDiagnosticExport(), null, 2)], {type:'application/json'}));
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = `sirento-boundary-debug-${Date.now()}.json`;
+    anchor.click();
+    setTimeout(() => URL.revokeObjectURL(url), 0);
+    status.textContent = 'Diagnostics downloaded';
+  });
+  panel.append(status, copy, download);
+  document.body.append(panel);
+}
+
+function captureBoundaryDebugAfterPaint(reason) {
+  if (!boundaryDebugEnabled) return;
+  requestAnimationFrame(() => {
+    captureBoundaryDiagnostic(reason);
+    uxAudit.record('police-boundary-render-diagnostic', {
+      reason, renderer: boundaryDebugCapture.renderer.kind, issues: boundaryDebugCapture.issues.length
+    });
+    if (boundaryDebugCapture.issues.length) {
+      console.warn('Police boundary projected-geometry diagnostic', boundaryDebugCapture);
+    }
+  });
+}
+
+function boundaryDetails(properties) {
+  const content = document.createElement("div");
+  const title = document.createElement("strong");
+  title.textContent = properties.UNIT_NAME || `Division ${properties.AREA_NAME}`;
+  const address = document.createElement("div");
+  address.textContent = properties.ADDRESS
+    ? `Station: ${properties.ADDRESS}, ${properties.CITY || "Toronto"}`
+    : "Station address unavailable";
+  content.append(title, address);
+  return content;
+}
+
+async function initializePoliceBoundaries(generation, reason) {
+  if (!mapAllowsBoundaryWork() || generation !== boundaryRenderGeneration) return;
+  if (divisionGeometryLayer) {
+    const finishRender = uxAudit.begin('police-boundary-layer-render', { reason, reused: true });
+    if (!dispatchMap.hasLayer(divisionGeometryLayer)) divisionGeometryLayer.addTo(dispatchMap);
+    if (boundaryDirty) redrawPoliceBoundaries();
+    boundaryDirty = false;
+    boundaryLifecycleEvent = reason;
+    finishRender();
+    uxAudit.mark('police-boundary-redraw-complete', { reason });
+    captureBoundaryDebugAfterPaint(reason);
+    return;
+  }
+  const finishBoundary = uxAudit.begin('police-boundary-layer-initialization', { reason });
   try {
-    const response = await fetch("./data/police-divisions.geojson?v=station-details-1");
-    if (!response.ok) throw new Error("Division boundaries unavailable");
-    const boundaries = await response.json();
-    const details = properties => {
-      const content = document.createElement("div");
-      const title = document.createElement("strong");
-      title.textContent = properties.UNIT_NAME || `Division ${properties.AREA_NAME}`;
-      const address = document.createElement("div");
-      address.textContent = properties.ADDRESS
-        ? `Station: ${properties.ADDRESS}, ${properties.CITY || "Toronto"}`
-        : "Station address unavailable";
-      content.append(title, address);
-      return content;
-    };
+    divisionDataPromise ||= fetch("./data/police-divisions.geojson?v=station-details-1").then(response => {
+      if (!response.ok) throw new Error("Division boundaries unavailable");
+      return response.json();
+    });
+    const boundaries = await divisionDataPromise;
+    if (!mapAllowsBoundaryWork() || generation !== boundaryRenderGeneration) {
+      finishBoundary({ deferred: true });
+      return;
+    }
+    const geometryBefore = diagnosePoliceBoundaryGeometry(boundaries);
+    const rendererMode = mobileAuditFixture?.boundaryRenderer || 'canvas';
+    if (!dispatchMap.getPane('policeBoundaryPane')) {
+      const pane = dispatchMap.createPane('policeBoundaryPane');
+      pane.style.zIndex = '430';
+      pane.style.pointerEvents = 'none';
+    }
+    divisionRenderer = rendererMode === 'svg'
+      ? L.svg({ padding: 0.5, pane: 'policeBoundaryPane' })
+      : L.canvas({ padding: 0.5, pane: 'policeBoundaryPane' });
     const boundaryColor = getComputedStyle(document.documentElement).getPropertyValue("--boundary-marker").trim();
-    divisionLayer = createPoliceBoundaryLayer(L, boundaries, {
+    divisionGeometryLayer = createPoliceBoundaryLayer(L, boundaries, {
       color: boundaryColor,
+      renderer: divisionRenderer,
       onEachFeature(feature, polygon) {
-        polygon.bindTooltip(details(feature.properties), { sticky: true });
-        polygon.bindPopup(details(feature.properties));
+        polygon.__policeBoundaryFeatureIndex = boundaries.features.indexOf(feature);
+        polygon.__policeBoundaryRingCount = policeBoundaryRingCount(feature);
+        polygon.bindTooltip(boundaryDetails(feature.properties), { sticky: true });
+        polygon.bindPopup(boundaryDetails(feature.properties));
       }
     });
-    if (boundaryVisible) divisionLayer.addTo(dispatchMap);
-    dispatchMap.on('overlayadd overlayremove', event => {
-      if (event.layer !== divisionLayer) return;
-      boundaryVisible = event.type === 'overlayadd';
-      rememberPreferences();
+    divisionGeometryLayer.addTo(dispatchMap);
+    const geometryAfter = diagnosePoliceBoundaryGeometry(boundaries);
+    boundaryDirty = false;
+    boundaryLifecycleEvent = reason;
+    uxAudit.record('police-boundary-geometry-diagnostic', {
+      ...geometryBefore,
+      renderer: rendererMode,
+      checksumAfterRender: geometryAfter.checksum,
+      mutatedByRender: geometryBefore.checksum !== geometryAfter.checksum
     });
-    L.control.layers(null, { "Police division boundaries": divisionLayer }, {
-      collapsed: false, position: "topright"
-    }).addTo(dispatchMap);
+    finishBoundary({ visible: boundaryVisible, renderer: rendererMode });
+    captureBoundaryDebugAfterPaint(reason);
   } catch (error) {
+    divisionDataPromise = null;
+    finishBoundary({ error: error.message });
     console.warn("Could not load the optional division overlay", error);
+  } finally {
+    auditReadiness.boundaries = true;
+    markFullyRenderedWhenReady();
+  }
+}
+
+function queuePoliceBoundaryWork(reason) {
+  boundaryDirty = true;
+  boundaryLifecycleEvent = reason;
+  captureBoundaryDiagnostic(`${reason}:requested`);
+  boundaryRenderGeneration += 1;
+  const generation = boundaryRenderGeneration;
+  if (boundaryRenderFrame !== null) cancelAnimationFrame(boundaryRenderFrame);
+  boundaryRenderFrame = null;
+  if (!mapAllowsBoundaryWork()) return;
+  boundaryRenderFrame = requestAnimationFrame(() => {
+    boundaryRenderFrame = requestAnimationFrame(() => {
+      boundaryRenderFrame = null;
+      void initializePoliceBoundaries(generation, reason);
+    });
+  });
+}
+
+function setupDivisionOverlay() {
+  divisionLayer = L.layerGroup();
+  dispatchMap.on('overlayadd overlayremove', event => {
+    if (event.layer !== divisionLayer) return;
+    const finishToggle = uxAudit.begin('interaction:police-boundaries');
+    boundaryVisible = event.type === 'overlayadd';
+    boundaryLifecycleEvent = event.type;
+    if (boundaryVisible) queuePoliceBoundaryWork('overlay-enabled');
+    else {
+      captureBoundaryDiagnostic('boundaries-off');
+      boundaryRenderGeneration += 1;
+      if (boundaryRenderFrame !== null) cancelAnimationFrame(boundaryRenderFrame);
+      boundaryRenderFrame = null;
+      if (divisionGeometryLayer && dispatchMap.hasLayer(divisionGeometryLayer)) {
+        dispatchMap.removeLayer(divisionGeometryLayer);
+      }
+    }
+    rememberPreferences();
+    finishToggle({ visible: boundaryVisible, constructionDeferred: boundaryVisible && !divisionGeometryLayer });
+  });
+  L.control.layers(null, { "Police division boundaries": divisionLayer }, {
+    collapsed: false, position: "topright"
+  }).addTo(dispatchMap);
+  if (boundaryVisible) {
+    divisionLayer.addTo(dispatchMap);
+    queuePoliceBoundaryWork('initial-visible-map');
+  }
+  auditReadiness.boundaries = true;
+  markFullyRenderedWhenReady();
+  for (const eventName of ['zoomstart', 'zoomend', 'movestart', 'moveend', 'resize']) {
+    dispatchMap.on(eventName, () => {
+      boundaryLifecycleEvent = eventName;
+      if (eventName.endsWith('end') || eventName === 'resize') captureBoundaryDebugAfterPaint(eventName);
+    });
+  }
+  dispatchMap.on('roadclosureredraw', () => captureBoundaryDebugAfterPaint('road-closure-redraw-complete'));
+  if (boundaryDebugEnabled) {
+    globalThis.__sirentoPoliceBoundaryDebug = {
+      capture: () => captureBoundaryDiagnostic(boundaryLifecycleEvent),
+      latest: () => boundaryDebugCapture,
+      history: () => structuredClone(boundaryDebugHistory),
+      renderer: () => mobileAuditFixture?.boundaryRenderer || 'canvas'
+    };
+    installBoundaryDebugExport();
   }
 }
 
@@ -1113,9 +1730,10 @@ function scheduleMapMarkerRender() {
 
 function incidentRepresentationVersion(group, expanded, sirenIds) {
   if (!expanded && group.length > 1) {
-    return JSON.stringify(group.map(({call, coordinates}) => [
-      call.id, coordinates, call.timestamp, sirenIds.has(call.id)
-    ]));
+    return JSON.stringify({
+      incidents: group.map(({call, coordinates}) => [call.id, coordinates, call.timestamp, sirenIds.has(call.id)]),
+      focusedCallId: group.some(({call}) => call.id === focusedCallId) ? focusedCallId : null
+    });
   }
   return JSON.stringify(group.map(({call, coordinates}) => [
     call, coordinates, sirenIds.has(call.id), state.nearby
@@ -1123,6 +1741,7 @@ function incidentRepresentationVersion(group, expanded, sirenIds) {
 }
 
 function renderMapMarkers() {
+  const finishMarkers = uxAudit.begin('marker-cluster-creation', { incidents: state.filtered.length });
   const sirenIds = new Set(sirenMatches.map(match => match.call.id));
 
   const locatedCalls = state.filtered
@@ -1157,7 +1776,7 @@ function renderMapMarkers() {
   };
   const groups = clusterPoints(locatedCalls, point => dispatchMap.project(point, dispatchMap.getZoom()));
   const representations = groups.map(group => {
-    const expanded = group.length > 1 && group.every(item => expandedCluster.has(item.call.id));
+    const expanded = canExpandCluster(group) && group.every(item => expandedCluster.has(item.call.id));
     const version = incidentRepresentationVersion(group, expanded, sirenIds);
     return {group, expanded, key: incidentGroupKey(group, expanded, version)};
   });
@@ -1203,9 +1822,14 @@ function renderMapMarkers() {
     const cluster = L.marker(center,{icon:L.divIcon({className:`call-cluster age-${clusterTier}${matchingCluster ? ' siren-match' : ''}`,html:String(group.length),iconSize:[40,40],iconAnchor:[20,20]}), title:clusterLabel, alt:clusterLabel})
       .on('click', () => {
         if (dispatchMap.getZoom() < 18) dispatchMap.setView(center,Math.min(18,dispatchMap.getZoom()+2));
-        else { expandedCluster = new Set(group.map(item => item.call.id)); renderMapMarkers(); }
+        else if (canExpandCluster(group)) { expandedCluster = new Set(group.map(item => item.call.id)); renderMapMarkers(); }
       }).addTo(callLayer);
     layers.push(cluster);
+    const selectedItem = group.length > 1 && group.find(item => item.call.id === focusedCallId);
+    if (selectedItem && !canExpandCluster(group)) {
+      const marker = addMarker(selectedItem, selectedItem.coordinates, layers);
+      markers.set(selectedItem.call.id, marker);
+    }
     renderedIncidentLayers.set(key, {layers, markers});
   }
 
@@ -1224,9 +1848,21 @@ function renderMapMarkers() {
     mapHasFitted = true;
     dispatchMap.fitBounds(L.latLngBounds(locatedCalls.map(item => item.coordinates)), { padding: [24, 24], maxZoom: 12 });
   }
+  finishMarkers({ locatedCalls: locatedCalls.length, representations: representations.length });
 }
 
 function renderMap() {
+  if (!dispatchMap && uxReliabilityFixture?.mapDelayMs) {
+    if (!mapInitializationScheduled) {
+      mapInitializationScheduled = true;
+      setTimeout(() => {
+        mapInitializationScheduled = false;
+        initMap();
+        if (dispatchMap) renderMapMarkers();
+      }, uxReliabilityFixture.mapDelayMs);
+    }
+    return;
+  }
   initMap();
   if (!dispatchMap) return;
 
@@ -1241,6 +1877,7 @@ function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false
 
   const previouslyFocusedCallId = focusedCallId;
   focusedCallId = callId;
+  surfaceSelectedIncident(call);
   if (pan && dispatchMap && coordinatesForCall(call)) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const zoom = dispatchMap.getZoom();
@@ -1248,10 +1885,11 @@ function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false
     const located = state.filtered.map(item => ({call:item,coordinates:coordinatesForCall(item)})).filter(item=>item.coordinates);
     dispatchMap.stop();
     const focusedGroup = focusGroup(located,callId,point=>dispatchMap.project(point,zoom));
-    const nextExpandedCluster = new Set(focusedGroup.length > 1 ? focusedGroup.map(item=>item.call.id) : []);
+    const nextExpandedCluster = new Set(canExpandCluster(focusedGroup) ? focusedGroup.map(item=>item.call.id) : []);
     const clusterChanged = expandedCluster.size !== nextExpandedCluster.size ||
       [...expandedCluster].some(id => !nextExpandedCluster.has(id));
-    if (clusterChanged) {
+    const largeClusterSelectionChanged = focusedGroup.length > 1 && !canExpandCluster(focusedGroup) && previouslyFocusedCallId !== callId;
+    if (clusterChanged || largeClusterSelectionChanged) {
       expandedCluster = nextExpandedCluster;
       renderMapMarkers();
     }
@@ -1348,21 +1986,27 @@ async function checkForChanges() {
 }
 
 document.querySelector('#historyHours').addEventListener('change', event => {
-  state.hours = Number(event.target.value);
+  const hours = Number(event.target.value);
+  if (hours === state.hours) return;
+  state.hours = hours;
   applyFilters();
 });
 
 els.divisionSelect.addEventListener("change", (e) => {
-  state.division = e.target.value === "all" ? "all" : decodeURIComponent(e.target.value);
+  const division = e.target.value === "all" ? "all" : decodeURIComponent(e.target.value);
+  if (division === state.division) return;
+  state.division = division;
   applyFilters();
 });
 
 els.searchInput.addEventListener("input", (e) => {
+  if (e.target.value === state.search) return;
   state.search = e.target.value;
   applyFilters();
 });
 
 els.clearSearch.addEventListener("click", () => {
+  if (!state.search) return;
   state.search = "";
   applyFilters();
   els.searchInput.focus();
@@ -1370,6 +2014,7 @@ els.clearSearch.addEventListener("click", () => {
 
 els.eventToggles.forEach(toggle => {
   toggle.addEventListener("click", () => {
+    if (toggle.dataset.eventFilter === state.eventFilter) return;
     state.eventFilter = toggle.dataset.eventFilter;
     applyFilters();
   });
@@ -1401,7 +2046,7 @@ function handleIncidentListKeydown(event) {
 }
 
 [els.callList].filter(Boolean).forEach(list => {
-  list.addEventListener("click", handleIncidentListClick);
+  list.addEventListener("click", auditInteraction('incident-selection', handleIncidentListClick));
   list.addEventListener("keydown", handleIncidentListKeydown);
 });
 
@@ -1461,14 +2106,14 @@ try {
     themePreference = saved.theme;
     document.querySelector('#themePreference').value = themePreference;
     syncTheme();
-    setMobileView(saved.mobileView, { persist: false });
+    if (!mobileViewInteracted) setMobileView(saved.mobileView, { persist: false });
     syncFilterControls();
   }
 } catch { /* Defaults remain usable when storage is blocked. */ }
 if (mobileAuditFixture) {
   document.querySelector('#roadOverlay').checked = mobileAuditFixture.roads;
   boundaryVisible = mobileAuditFixture.boundaries;
-  setMobileView(mobileAuditFixture.view, { persist: false });
+  if (!mobileViewInteracted) setMobileView(mobileAuditFixture.view, { persist: false });
   setMobileSheetState(mobileAuditFixture.sheet);
   Object.assign(state, mobileAuditFixtureFilters(mobileAuditFixture.filters));
   syncFilterControls();
@@ -1500,6 +2145,7 @@ window.addEventListener('online', () => {
 });
 
 document.querySelector("#serviceFilter").addEventListener("change", event => {
+  if (event.target.value === state.serviceFilter) return;
   state.serviceFilter = event.target.value;
   applyFilters();
 });
@@ -1988,6 +2634,10 @@ hearSirensButton.addEventListener('click', () => {
 });
 chooseAreaButton.addEventListener('click', beginAreaChoice);
 function selectNearbyRadius(value) {
+  if (value === state.radiusKm || value === requestedRadiusKm) {
+    syncRadiusControls();
+    return;
+  }
   sirenMode = false;
   sirenMatches = [];
   if (value === null) {
@@ -2007,9 +2657,9 @@ function selectNearbyRadius(value) {
   state.radiusKm = radiusKm;
   updateNearbyView();
 }
-radiusToggles.forEach(toggle => toggle.addEventListener('click', () => {
+radiusToggles.forEach(toggle => toggle.addEventListener('click', auditInteraction(`radius:${toggle.dataset.radiusKm}`, () => {
   selectNearbyRadius(toggle.dataset.radiusKm === 'toronto' ? null : Number(toggle.dataset.radiusKm));
-}));
+})));
 applyMobileAuditLocationFixture(mobileAuditFixture?.location);
 if (mobileAuditFixture?.radius) {
   state.radiusKm = mobileAuditFixture.radius === 'toronto' ? null : Number(mobileAuditFixture.radius);
@@ -2080,13 +2730,13 @@ setInterval(() => {
   updateMarkerAppearances();
 }, 60000);
 
-document.querySelector('#roadOverlay').addEventListener('change', () => {
+document.querySelector('#roadOverlay').addEventListener('change', auditInteraction('road-closures', () => {
   const visible=document.querySelector('#roadOverlay').checked;
   if (!visible) clearClosureSelection();
   rememberPreferences();
   if (setRoadOverlayVisibility) setRoadOverlayVisibility(dispatchMap,visible);
   else renderDisruptions(state.disruptions,radiusFilterOrigin(),state.radiusKm,dispatchMap);
-});
+}));
 
 function syncSearchControl() {
   els.searchInput.value = state.search;
@@ -2103,9 +2753,9 @@ function setMobileFiltersOpen(open) {
   document.documentElement.classList.toggle('mobile-filters-open', open);
   els.mobileFiltersToggle.setAttribute('aria-expanded', String(open));
 }
-els.mobileFiltersToggle.addEventListener('click', () => {
+els.mobileFiltersToggle.addEventListener('click', auditInteraction('filters', () => {
   setMobileFiltersOpen(els.mobileFiltersToggle.getAttribute('aria-expanded') !== 'true');
-});
+}));
 function syncFilterControls() {
   syncSearchControl();
   document.querySelector('#historyHours').value = state.hours;
@@ -2133,4 +2783,8 @@ document.querySelector('#shareView').addEventListener('click', async () => {
     output.focus(); output.select();
     status.textContent = 'Copy this link. Nearby location is not included.';
   }
+});
+
+uxAudit.mark('first-usable-ui', {
+  definition: 'structure and loading status visible; search, radius, Map/Calls, and filters accept input'
 });

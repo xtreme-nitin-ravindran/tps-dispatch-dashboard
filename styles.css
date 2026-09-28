@@ -1012,6 +1012,26 @@ html[data-display-mode="standalone"] .app-shell {
   background: var(--map-background);
 }
 
+.map-load-status {
+  position: absolute;
+  inset: 0;
+  z-index: 450;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--map-background);
+  color: var(--muted);
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.map-load-status[hidden] { display: none; }
+.map-load-status.is-error { color: var(--status-warning); }
+
+/* Keep one-version service-worker upgrades coherent if an older app module controls the first navigation. */
+html:not([data-map-load-state]) #dispatchMap.leaflet-container + .map-load-status { display: none; }
+
 .leaflet-container {
   font-family: "DM Sans", sans-serif;
   background: var(--map-background);
@@ -1023,6 +1043,25 @@ html[data-display-mode="standalone"] .app-shell {
 }
 
 .police-boundary { stroke: var(--boundary-marker) !important; fill: none !important; }
+
+.police-boundary-debug-panel {
+  z-index: 10000;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: calc(100vw - 16px);
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font: 700 11px/1.3 "DM Sans", sans-serif;
+  box-shadow: var(--shadow);
+}
+.police-boundary-debug-panel span { flex-basis: 100%; }
+.police-boundary-debug-panel button { min-height: 36px; }
 .cluster-connector { stroke: var(--connector-line) !important; }
 .nearby-radius { stroke: var(--accent) !important; fill: var(--accent) !important; }
 .nearby-origin { stroke: var(--marker-selected-border) !important; fill: var(--accent) !important; }
@@ -1281,8 +1320,39 @@ html[data-display-mode="standalone"] .app-shell {
   animation: spin .8s linear infinite;
 }
 
+.loader--small {
+  width: 18px;
+  height: 18px;
+}
+
+.quick-look-data-status {
+  margin: 0;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.quick-look-data-status.is-error { color: var(--status-warning); }
+html:not([data-incident-load-state]):has(#callList > :not(.loading-state)) .quick-look-data-status { display: none; }
+
 .error-state strong {
   color: var(--danger);
+}
+
+.incident-list-more {
+  display: flex;
+  justify-content: center;
+  padding: 18px 16px 6px;
+}
+
+.incident-list-more button {
+  min-height: 44px;
+  padding: 10px 18px;
+}
+
+.incident-card--surfaced {
+  outline: 2px solid var(--accent-line);
+  outline-offset: -2px;
 }
 
 .feed-status {

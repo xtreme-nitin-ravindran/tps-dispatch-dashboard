@@ -19,7 +19,7 @@ test('tapping a mobile marker opens the sheet and reveals its matching shared ca
 test('card selection persists into Map and highlights the same marker without changing zoom', () => {
   assert.match(app, /selectCall\(row\.dataset\.callId, \{ pan: !isMobileViewLayout\(\) \|\| mobileView === "map" \}\)/);
   assert.match(app, /setMobileView\(toggle\.dataset\.mobileView, \{ focusSelection: toggle\.dataset\.mobileView === "map" \}\)/);
-  assert.match(app, /focusSelection && isMobileViewLayout\(\) && focusedCallId[\s\S]*?selectCall\(focusedCallId, \{ panIfNeeded: true \}\)/);
+  assert.match(app, /focusSelection && mobile && view === "map" && focusedCallId[\s\S]*?selectCall\(focusedCallId, \{ panIfNeeded: true \}\)/);
   assert.match(app, /const selected = id === focusedCallId;[\s\S]*?marker\.setIcon\(markerIcon\(call, selected/);
   assert.match(app, /dispatchMap\.getBounds\(\)\.contains\(coordinates\)[\s\S]*?dispatchMap\.panTo\(coordinates/);
   assert.doesNotMatch(app, /setView\(coordinates/);
@@ -37,7 +37,7 @@ test('mobile behavior reuses the desktop selection model and leaves desktop mark
   assert.equal([...app.matchAll(/let focusedCallId = null/g)].length, 1);
   assert.doesNotMatch(app, /mobileSelected|selectedMobile|mobileSelection/);
   assert.match(app, /if \(!mobile\) setTimeout\(\(\) => event\.target\.openPopup\(\), 0\)/);
-  assert.match(app, /if \(focusSelection && isMobileViewLayout\(\) && focusedCallId\)/);
+  assert.match(app, /if \(focusSelection && mobile && view === "map" && focusedCallId\)/);
   assert.match(app, /row\.classList\.toggle\("selected", selected\)[\s\S]*?setAttribute\("aria-pressed", String\(selected\)\)/);
 });
 

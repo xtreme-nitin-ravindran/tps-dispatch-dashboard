@@ -26,7 +26,9 @@ export function mobileAuditFixtureOptions(locationLike = globalThis.location) {
     ? params.get('mobileAuditRadius') : null;
   const roads = params.get('mobileAuditRoads') !== 'off';
   const boundaries = params.get('mobileAuditBoundaries') !== 'off';
-  return { state, sheet, view, location, filters, radius, roads, boundaries };
+  const boundaryRenderer = params.get('mobileAuditBoundaryRenderer') === 'svg' ? 'svg' : 'canvas';
+  const boundaryDebug = params.get('policeBoundaryDebug') === '1';
+  return { state, sheet, view, location, filters, radius, roads, boundaries, boundaryRenderer, boundaryDebug };
 }
 
 export function mobileAuditFixtureFilters(name = 'none') {
@@ -92,10 +94,12 @@ export function mobileAuditFixtureSnapshot(state = 'many', now = Date.now()) {
         division: `Division ${11 + index % 12}`
       }, now);
   }) : [];
-  const calls = state === 'zero' ? [] : state === 'many' ? [...representative, ...dense] : representative;
+  const calls = ['zero', 'unavailable'].includes(state) ? [] : state === 'many' ? [...representative, ...dense] : representative;
   const ok = { status: 'ok', fetchedAt: minutesAgo(now, 2) };
   const feeds = state === 'stale'
     ? { TFS: {status:'stale',fetchedAt:minutesAgo(now, 95)}, TPS: {status:'unavailable',fetchedAt:minutesAgo(now, 180)} }
+    : state === 'unavailable'
+      ? { TFS: {status:'unavailable',fetchedAt:null}, TPS: {status:'unavailable',fetchedAt:null} }
     : { TFS: ok, TPS: ok };
   const roadStatus = state === 'stale' ? 'stale' : 'ok';
   const transitStatus = state === 'unavailable' ? 'unavailable' : state === 'stale' ? 'stale' : 'ok';

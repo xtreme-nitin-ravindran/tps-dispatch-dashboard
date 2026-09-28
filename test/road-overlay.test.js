@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {createClosureDetail,closureSymbolPositions,renderDisruptions,roadClosureDensityTier,roadClosureSymbolSpacing,setRoadOverlayVisibility} from '../src/disruptions/ui.js';
+import {captureRoadClosureRenderState,createClosureDetail,closureSymbolPositions,renderDisruptions,roadClosureDensityTier,roadClosureSymbolSpacing,setRoadOverlayVisibility} from '../src/disruptions/ui.js';
 
 const originalDocument=globalThis.document;
 const originalLeaflet=globalThis.L;
@@ -22,9 +22,9 @@ function harness(zoom=12) {
  const groups=[];const created=[];const frames=[];
  globalThis.requestAnimationFrame=callback=>{frames.push(callback);return frames.length;};
  globalThis.cancelAnimationFrame=id=>{frames[id-1]=null;};
- const makeLayer=(kind,coordinates,options)=>{const layer={kind,coordinates,options,events:{},listenerCount:0,addTo(group){group.items.push(this);return this;},on(name,handler){this.events[name]=handler;this.listenerCount++;return this;}};created.push(layer);return layer;};
+ const makeLayer=(kind,coordinates,options)=>{const layer={kind,coordinates,options,_leaflet_id:created.length+10,events:{},listenerCount:0,addTo(group){group.items.push(this);return this;},on(name,handler){this.events[name]=handler;this.listenerCount++;return this;}};created.push(layer);return layer;};
  globalThis.L={
-  layerGroup:()=>{const group={items:[],removed:false,addTo(map){this.map=map;this.removed=false;return this;},removeLayer(layer){this.items=this.items.filter(item=>item!==layer);},remove(){this.removed=true;}};groups.push(group);return group;},
+  layerGroup:()=>{const group={_leaflet_id:groups.length+1,items:[],removed:false,addTo(map){this.map=map;this.removed=false;return this;},removeLayer(layer){this.items=this.items.filter(item=>item!==layer);},remove(){this.removed=true;}};groups.push(group);return group;},
   polyline:(coordinates,options)=>makeLayer('line',coordinates,options),
   marker:(coordinates,options)=>makeLayer('symbol',coordinates,options),
   divIcon:options=>options,
@@ -33,7 +33,7 @@ function harness(zoom=12) {
  const handlers={}; const fired=[];
  const map={
   zoom,bounds:{contains:point=>point[0]>=40 && point[0]<=50 && point[1]>=-82 && point[1]<=-70,pad(){return this;}},panes:{},
-  getZoom(){return this.zoom;},project(point){const scale=100*2**(this.zoom-10);return {x:point[1]*scale,y:point[0]*scale};},
+  getZoom(){return this.zoom;},project(point){const scale=100*2**(this.zoom-10);return {x:point[1]*scale,y:point[0]*scale};},hasLayer(layer){return !layer.removed;},
   getBounds(){return this.bounds;},getPane(name){return this.panes[name];},createPane(name){return this.panes[name]={style:{}};},
   on(names,handler){for(const name of names.split(' ')) handlers[name]=handler;return this;},
   off(names,handler){for(const name of names.split(' ')) if(handlers[name]===handler) delete handlers[name];return this;},
@@ -51,6 +51,12 @@ const data={roads:{status:'ok',fetchedAt:new Date(now).toISOString(),items:[
  {...base,id:'none-1',geometryKind:'none',line:[],coordinates:null}
 ]},transit:{status:'ok',fetchedAt:new Date(now).toISOString(),items:[]}};
 
+test('road diagnostic is empty before the overlay is constructed',()=>{
+ const capture=captureRoadClosureRenderState(null);
+ assert.equal(capture.visible,false);assert.equal(capture.layerId,null);assert.equal(capture.paneTransform,null);
+ assert.deepEqual(capture.lineLayerIds,[]);assert.deepEqual(capture.rendererIds,[]);assert.equal(capture.redrawScheduled,false);
+});
+
 test('line closures render below incident markers with repeated identifiable symbols',()=>{
  const {groups,map,fired}=harness();
  const incidentLayer={removed:false,items:[{id:'incident'}]};
@@ -59,9 +65,9 @@ test('line closures render below incident markers with repeated identifiable sym
  const lineSymbols=overlay.items.filter(item=>item.kind==='symbol' && item.options.closureId==='line-1');
  assert.ok(line);assert.ok(lineSymbols.length>1);assert.equal(line.options.closureId,'line-1');assert.equal(line.closureId,'line-1');
  assert.equal(map.panes.roadClosurePane.style.zIndex,'450');assert.equal(incidentLayer.removed,false);assert.deepEqual(incidentLayer.items,[{id:'incident'}]);
- line.events.click({});assert.equal(fired[0].name,'roadclosureselect');assert.equal(fired[0].payload.closureId,'line-1');
+ line.events.click({});const lineSelection=fired.find(event=>event.name==='roadclosureselect');assert.equal(lineSelection.payload.closureId,'line-1');
  lineSymbols[0].events.click({});
- assert.equal(fired[1].payload.closureId,'line-1');assert.equal(fired[1].payload.item,data.roads.items[0]);
+ const selections=fired.filter(event=>event.name==='roadclosureselect');assert.equal(selections[1].payload.closureId,'line-1');assert.equal(selections[1].payload.item,data.roads.items[0]);
 });
 
 test('symbol density increases with zoom and positions remain on the authoritative segment',()=>{
@@ -85,7 +91,21 @@ test('point-only closures render one marker and select their normalized record',
  assert.equal(overlay.items.find(item=>item.options.closureId==='point-1').kind,'symbol');
  assert.equal(overlay.items.filter(item=>item.options.closureId==='none-1').length,0);
  overlay.items.find(item=>item.options.closureId==='point-1').events.click({});
- assert.equal(fired[0].payload.closureId,'point-1');assert.equal(fired[0].payload.item,data.roads.items[1]);
+ const selection=fired.find(event=>event.name==='roadclosureselect');assert.equal(selection.payload.closureId,'point-1');assert.equal(selection.payload.item,data.roads.items[1]);
+});
+
+test('road diagnostic reports layer ownership, renderer kind, and queued redraw state',()=>{
+ const {groups,map}=harness();renderDisruptions(data,null,12,map);
+ const overlay=groups.at(-1);const line=overlay.items.find(item=>item.kind==='line');
+ map.panes.roadClosurePane.style.transform='translate3d(2px, 3px, 0)';
+ line._renderer={_leaflet_id:71,_container:{tagName:'svg'}};
+ let capture=captureRoadClosureRenderState(map);
+ assert.equal(capture.visible,true);assert.equal(capture.layerId,overlay._leaflet_id);assert.equal(capture.pane,'roadClosurePane');assert.equal(capture.paneTransform,'translate3d(2px, 3px, 0)');
+ assert.deepEqual(capture.lineLayerIds,[line._leaflet_id]);assert.deepEqual(capture.rendererIds,[71]);assert.deepEqual(capture.rendererKinds,['svg']);
+ line._renderer={_leaflet_id:72,_ctx:{}};capture=captureRoadClosureRenderState(map);assert.deepEqual(capture.rendererKinds,['canvas']);
+ line._renderer={_leaflet_id:null};capture=captureRoadClosureRenderState(map);assert.deepEqual(capture.rendererKinds,['unknown']);
+ line._renderer=undefined;line._leaflet_id=null;overlay.removed=true;capture=captureRoadClosureRenderState(map);
+ assert.equal(capture.visible,false);assert.deepEqual(capture.lineLayerIds,[null]);assert.deepEqual(capture.rendererIds,[]);assert.deepEqual(capture.rendererKinds,[]);assert.equal(capture.redrawScheduled,false);
 });
 
 test('toggle hides and restores every closure element without changing unrelated map state',()=>{
