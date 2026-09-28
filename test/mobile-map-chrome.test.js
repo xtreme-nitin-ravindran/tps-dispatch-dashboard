@@ -31,8 +31,11 @@ test('zoom, attribution, and overlay chrome remain inside the usable map in ever
 });
 
 test('mobile attribution remains compact while desktop attribution is unchanged', () => {
-  assert.match(mobileRules, /\.leaflet-control-attribution \{[\s\S]*?max-width: min\(280px, calc\(100% - 64px\)\)[\s\S]*?overflow-wrap: anywhere/);
-  assert.doesNotMatch(desktopRules, /max-width: min\(280px/);
+  assert.match(mobileRules, /\.leaflet-control-attribution \{[\s\S]*?width: max-content;[\s\S]*?max-width: min\(220px, calc\(100vw - 112px\)\)[\s\S]*?overflow-wrap: anywhere/);
+  const attributionStart = desktopRules.indexOf('.leaflet-control-attribution {');
+  const desktopAttribution = desktopRules.slice(attributionStart, desktopRules.indexOf('}', attributionStart) + 1);
+  assert.match(desktopAttribution, /background: var\(--map-attribution-background\)/);
+  assert.doesNotMatch(desktopAttribution, /width|max-width|overflow-wrap/);
 });
 
 test('collapsed sheet is compact and tappable while Calls mode owns no sheet', () => {

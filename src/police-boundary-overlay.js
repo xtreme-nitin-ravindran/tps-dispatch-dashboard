@@ -39,7 +39,6 @@ export function validatePoliceBoundaryGeoJSON(collection) {
 export function createPoliceBoundaryLayer(leaflet, boundaries, options = {}) {
   validatePoliceBoundaryGeoJSON(boundaries);
   const layer = leaflet.geoJSON(boundaries, {
-    noClip: true,
     style: {
       className: 'police-boundary',
       color: options.color || '#93c5fd',

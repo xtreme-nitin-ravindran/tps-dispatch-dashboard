@@ -53,8 +53,8 @@ test('sheet remains operable without drag gestures', () => {
 test('sheet reuses nearby summary, incident cards, and existing controls', () => {
   assert.match(app, /const summaryText = empty\?\.message[\s\S]*?nearbySummary\(state\.filtered, state\.radiusKm,[^;]+\);[\s\S]*?const mobileSummaryText = mobileNearbySummary\([\s\S]*?mobileSheetSummary\.textContent = mobileSummaryText/);
   assert.match(html, /id="mobileSheetCallList"/);
-  assert.match(app, /const activeList = mobile && mobileView === "map" \? mobileSheetCallList : els\.callList/);
-  assert.match(app, /inactiveList\?\.replaceChildren\(\);\s*renderList\(activeList\)/);
+  assert.match(app, /const host = mobile && mobileView === "map" \? mobileSheetCallList : callsListHome/);
+  assert.match(app, /host\.append\(els\.callList\)/);
   assert.equal([...app.matchAll(/function createIncidentCard\(/g)].length, 1);
   assert.match(app, /fragment\.appendChild\(createIncidentCard\(call, \{ distance \}\)\)/);
   assert.equal([...html.matchAll(/data-radius-km=/g)].length, 5);
@@ -86,10 +86,10 @@ test('map control offset tracks actual fixed-sheet overlap instead of sheet heig
   assert.equal(mobileMapSheetOverlap(map, { top: 544 }, true), 316, 'expanded');
   assert.equal(mobileMapSheetOverlap({ top: 0, bottom: 460, height: 460 }, { top: 544 }, true), 0, 'non-overlapping scrolled map');
   assert.equal(mobileMapSheetOverlap(map, { top: 544 }, false), 0, 'desktop or Calls mode');
-  assert.match(app, /visualViewport\?\.addEventListener\("resize", scheduleMapSheetOverlap\)/);
-  assert.match(app, /document\.addEventListener\("scroll", scheduleMapSheetOverlap, \{ passive: true, capture: true \}\)/);
-  assert.match(app, /document\.addEventListener\("touchmove", scheduleMapSheetOverlap/);
-  assert.match(app, /ResizeObserver\(scheduleMapSheetOverlap\)/);
+  assert.match(app, /visualViewport\?\.addEventListener\("resize", scheduleMapMaintenance\)/);
+  assert.match(app, /document\.addEventListener\("scroll", scheduleMapMaintenance, \{ passive: true, capture: true \}\)/);
+  assert.match(app, /document\.addEventListener\("touchmove", scheduleMapMaintenance/);
+  assert.match(app, /ResizeObserver\(scheduleMapMaintenance\)/);
 });
 
 test('sheet header stays visible while incident content scrolls independently', () => {

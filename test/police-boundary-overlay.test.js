@@ -21,7 +21,7 @@ test('validation rejects malformed nesting, open rings, invalid positions, and r
   assert.throws(() => validatePoliceBoundaryGeoJSON({ type: 'FeatureCollection', features: [{ geometry: { type: 'LineString', coordinates: [] } }] }), /Polygon or MultiPolygon/);
 });
 
-test('unfilled unclipped SVG overlay preserves separate rings and does not mutate source geometry', () => {
+test('unfilled clipped SVG overlay preserves separate rings and does not mutate source geometry', () => {
   const source = structuredClone(bundled);
   let received;
   const leaflet = {
@@ -33,7 +33,7 @@ test('unfilled unclipped SVG overlay preserves separate rings and does not mutat
   const result = createPoliceBoundaryLayer(leaflet, source, { color: '#123456' });
   assert.deepEqual(result, { kind: 'layer' });
   assert.equal(received.boundaries, source);
-  assert.equal(received.options.noClip, true);
+  assert.equal(received.options.noClip, undefined, 'Leaflet viewport clipping remains enabled');
   assert.equal(received.options.style.fill, false);
   assert.equal(received.options.style.className, 'police-boundary');
   assert.equal(received.options.style.color, '#123456');

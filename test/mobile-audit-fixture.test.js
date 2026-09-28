@@ -63,7 +63,7 @@ test('fixture covers multiple, zero, stale, unavailable, unresolved, and long TT
   const now=Date.UTC(2026,8,26,12);
   assert.ok(mobileAuditFixtureSnapshot().incidents.length >= 10);
   const many=mobileAuditFixtureSnapshot('many',now);
-  assert.ok(many.incidents.length >= 10);
+  assert.equal(many.incidents.length,1212);
   assert.ok(many.incidents.some(item=>item.id==='mobile-audit-selected'));
   assert.equal(many.incidents.find(item=>item.id==='mobile-audit-police').isOngoing,false);
   assert.ok(many.incidents.some(item=>item.location.length > 80));

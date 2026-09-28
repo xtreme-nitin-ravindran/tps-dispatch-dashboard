@@ -97,6 +97,7 @@ const mobileSheetStateLabel = document.querySelector('#mobileSheetState');
 const mobileSheetSummary = document.querySelector('#mobileSheetSummary');
 const mobileSheetStateControls = document.querySelectorAll('[data-sheet-target]');
 const mobileSheetCallList = document.querySelector('#mobileSheetCallList');
+const callsListHome = els.callList.parentElement;
 const mobileCallsFeedStatus = document.querySelector('#mobileCallsFeedStatus');
 const mobileClosureDetail = document.querySelector('#mobileClosureDetail');
 const nearbySort = document.querySelector('#nearbySort');
@@ -156,9 +157,9 @@ function isMobileViewLayout() {
   return mobileLayoutMedia.matches;
 }
 
-let mapSheetOverlapFrame = null;
+let mapMaintenanceFrame = null;
+let mapSizeInvalidationPending = false;
 function syncMapSheetOverlap() {
-  mapSheetOverlapFrame = null;
   if (!els.dispatchMap || !mobileBottomSheet) return;
   const overlap = mobileMapSheetOverlap(
     els.dispatchMap.getBoundingClientRect(),
@@ -168,21 +169,34 @@ function syncMapSheetOverlap() {
   els.dispatchMap.style.setProperty("--mobile-map-sheet-overlap", `${overlap}px`);
 }
 
-function scheduleMapSheetOverlap() {
-  if (mapSheetOverlapFrame !== null) return;
-  mapSheetOverlapFrame = requestAnimationFrame(syncMapSheetOverlap);
+function scheduleMapMaintenance({ invalidateSize = false } = {}) {
+  mapSizeInvalidationPending ||= invalidateSize;
+  if (mapMaintenanceFrame !== null) return;
+  mapMaintenanceFrame = requestAnimationFrame(() => {
+    mapMaintenanceFrame = null;
+    syncMapSheetOverlap();
+    if (!mapSizeInvalidationPending) return;
+    mapSizeInvalidationPending = false;
+    dispatchMap?.invalidateSize({ pan: false });
+  });
+}
+
+function syncIncidentListSurface(mobile = isMobileViewLayout()) {
+  const host = mobile && mobileView === "map" ? mobileSheetCallList : callsListHome;
+  if (els.callList.parentElement !== host) host.append(els.callList);
 }
 
 function setMobileView(view, { focusSelection = false, persist = true } = {}) {
   if (view !== "map" && view !== "calls") return;
+  const mobile = isMobileViewLayout();
   mobileView = view;
+  syncIncidentListSurface(mobile);
   document.documentElement.dataset.mobileView = view;
   mobileViewToggles.forEach(toggle => {
     const active = toggle.dataset.mobileView === view;
     toggle.classList.toggle("active", active);
     toggle.setAttribute("aria-pressed", String(active));
   });
-  const mobile = isMobileViewLayout();
   const layout = mobile ? 'mobile' : 'desktop';
   if (nearbyOptions?.dataset.layout !== layout) {
     nearbyOptions.open = !mobile;
@@ -199,15 +213,14 @@ function setMobileView(view, { focusSelection = false, persist = true } = {}) {
     callsView?.removeAttribute("aria-hidden");
     mobileBottomSheet?.removeAttribute("aria-hidden");
   }
-  renderCalls();
-  scheduleMapSheetOverlap();
+  scheduleMapMaintenance({ invalidateSize: view === "map" });
   if (persist) rememberPreferences();
-  if (view === "map") requestAnimationFrame(() => {
-    dispatchMap?.invalidateSize({ pan: false });
+  if (view === "map" && focusSelection) requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (mobileView !== "map") return;
     if (focusSelection && isMobileViewLayout() && focusedCallId) {
       selectCall(focusedCallId, { panIfNeeded: true });
     }
-  });
+  }));
 }
 
 mobileViewToggles.forEach(toggle => toggle.addEventListener("click", () => {
@@ -227,8 +240,7 @@ function setMobileSheetState(nextState) {
   mobileSheetStateControls.forEach(control => {
     control.setAttribute("aria-pressed", String(control.dataset.sheetTarget === nextState));
   });
-  requestAnimationFrame(() => dispatchMap?.invalidateSize({ pan: false }));
-  scheduleMapSheetOverlap();
+  scheduleMapMaintenance({ invalidateSize: true });
 }
 
 mobileSheetToggle?.addEventListener("click", () => {
@@ -259,20 +271,20 @@ mobileSheetStateControls.forEach(control => control.addEventListener("click", ()
   setMobileSheetState(control.dataset.sheetTarget);
 }));
 setMobileSheetState(mobileSheetState);
-window.addEventListener("scroll", scheduleMapSheetOverlap, { passive: true });
-window.addEventListener("resize", scheduleMapSheetOverlap);
-window.visualViewport?.addEventListener("resize", scheduleMapSheetOverlap);
-window.visualViewport?.addEventListener("scroll", scheduleMapSheetOverlap);
-document.addEventListener("scroll", scheduleMapSheetOverlap, { passive: true, capture: true });
-document.addEventListener("touchmove", scheduleMapSheetOverlap, { passive: true });
-document.addEventListener("touchend", scheduleMapSheetOverlap, { passive: true });
-window.addEventListener("pageshow", scheduleMapSheetOverlap);
+window.addEventListener("scroll", scheduleMapMaintenance, { passive: true });
+window.addEventListener("resize", scheduleMapMaintenance);
+window.visualViewport?.addEventListener("resize", scheduleMapMaintenance);
+window.visualViewport?.addEventListener("scroll", scheduleMapMaintenance);
+document.addEventListener("scroll", scheduleMapMaintenance, { passive: true, capture: true });
+document.addEventListener("touchmove", scheduleMapMaintenance, { passive: true });
+document.addEventListener("touchend", scheduleMapMaintenance, { passive: true });
+window.addEventListener("pageshow", scheduleMapMaintenance);
 if (globalThis.ResizeObserver) {
-  const mapSheetObserver = new ResizeObserver(scheduleMapSheetOverlap);
+  const mapSheetObserver = new ResizeObserver(scheduleMapMaintenance);
   mapSheetObserver.observe(els.dispatchMap);
   mapSheetObserver.observe(mobileBottomSheet);
 }
-scheduleMapSheetOverlap();
+scheduleMapMaintenance();
 
 function escapeText(value) {
   return String(value ?? "").replace(/\s+/g, " ").trim();
@@ -910,11 +922,7 @@ function renderCalls() {
       </div>`;
   };
 
-  const mobile = isMobileViewLayout();
-  const activeList = mobile && mobileView === "map" ? mobileSheetCallList : els.callList;
-  const inactiveList = mobile && mobileView === "map" ? els.callList : mobileSheetCallList;
-  inactiveList?.replaceChildren();
-  renderList(activeList);
+  renderList(els.callList);
   scheduleIncidentBadgeExpiry();
 }
 
@@ -1231,8 +1239,14 @@ function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false
     const coordinates = coordinatesForCall(call);
     const located = state.filtered.map(item => ({call:item,coordinates:coordinatesForCall(item)})).filter(item=>item.coordinates);
     dispatchMap.stop();
-    expandedCluster = new Set(focusGroup(located,callId,point=>dispatchMap.project(point,zoom)).map(item=>item.call.id));
-    renderMapMarkers();
+    const focusedGroup = focusGroup(located,callId,point=>dispatchMap.project(point,zoom));
+    const nextExpandedCluster = new Set(focusedGroup.length > 1 ? focusedGroup.map(item=>item.call.id) : []);
+    const clusterChanged = expandedCluster.size !== nextExpandedCluster.size ||
+      [...expandedCluster].some(id => !nextExpandedCluster.has(id));
+    if (clusterChanged) {
+      expandedCluster = nextExpandedCluster;
+      renderMapMarkers();
+    }
     if (!panIfNeeded || !dispatchMap.getBounds().contains(coordinates)) {
       dispatchMap.panTo(coordinates, { animate: !reducedMotion, duration: .35, easeLinearity: .25 });
     }
@@ -1378,7 +1392,7 @@ function handleIncidentListKeydown(event) {
   selectCall(row.dataset.callId, { pan: !isMobileViewLayout() || mobileView === "map" });
 }
 
-[els.callList, mobileSheetCallList].filter(Boolean).forEach(list => {
+[els.callList].filter(Boolean).forEach(list => {
   list.addEventListener("click", handleIncidentListClick);
   list.addEventListener("keydown", handleIncidentListKeydown);
 });
