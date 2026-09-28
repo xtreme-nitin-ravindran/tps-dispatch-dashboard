@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T17:54:37.210Z",
-  "sourceUpdatedAt": "2026-09-28T17:50:01.000Z",
+  "fetchedAt": "2026-09-28T17:56:09.949Z",
+  "sourceUpdatedAt": "2026-09-28T17:55:02.000Z",
   "incidents": [
+    {
+      "id": "F26154026",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6G",
+      "division": "344",
+      "timestamp": "2026-09-28T17:49:43.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-28T17:56:09.949Z",
+      "lastSeenAt": "2026-09-28T17:56:09.949Z",
+      "geography": {
+        "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
+        "approximate": true,
+        "coordinates": [
+          43.6683,
+          -79.4205
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26154025",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5V",
+      "division": "332",
+      "timestamp": "2026-09-28T17:49:36.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-28T17:56:09.949Z",
+      "lastSeenAt": "2026-09-28T17:56:09.949Z",
+      "geography": {
+        "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+        "approximate": true,
+        "coordinates": [
+          43.6404,
+          -79.3995
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26154024",
       "source": "TFS",
@@ -16,9 +68,18 @@
       "timestamp": "2026-09-28T17:42:42.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "122"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T17:50:52.649Z",
-      "lastSeenAt": "2026-09-28T17:54:37.210Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T17:56:09.949Z",
+      "lastSeenAt": "2026-09-28T17:56:09.949Z",
       "geography": {
         "text": "Approximate area: (M2N) Willowdale South",
         "approximate": true,
@@ -41,7 +102,7 @@
       "division": "112",
       "timestamp": "2026-09-28T17:38:58.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -119,7 +180,7 @@
       "division": "313",
       "timestamp": "2026-09-28T17:35:12.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -325,7 +386,7 @@
       "division": "221",
       "timestamp": "2026-09-28T17:29:49.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -423,7 +484,7 @@
       "division": "332",
       "timestamp": "2026-09-28T17:28:07.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -1252,7 +1313,7 @@
       "division": "233",
       "timestamp": "2026-09-28T17:01:03.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -197556,18 +197617,54 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T17:54:37.210Z",
-      "sourceUpdatedAt": "2026-09-28T17:50:01.000Z",
+      "fetchedAt": "2026-09-28T17:56:09.949Z",
+      "sourceUpdatedAt": "2026-09-28T17:55:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T17:54:37.210Z",
+      "fetchedAt": "2026-09-28T17:56:09.949Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "12224541",
+          "street": "Lawrence Ave E",
+          "title": "Westbound Lawrence Ave E before Victoria Park Ave",
+          "description": "Toronto-TMC: Left westbound lane remains blocked due to the incident.",
+          "restrictionType": "HAZARD",
+          "type": "HAZARD",
+          "impact": "High",
+          "startLocation": "Victoria Park Ave",
+          "endLocation": "",
+          "start": 1790612576000,
+          "reportedAt": 1790612576000,
+          "end": null,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.741962,
+            -79.310503
+          ],
+          "line": [],
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -79.310503,
+              43.741962
+            ]
+          },
+          "geometryKind": "point",
+          "schedule": "Everyday: 00:00-23:59",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "Tor-RD52026-6120-1",
           "street": "Claremont St",
@@ -198373,34 +198470,49 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "12224541",
-          "street": "Lawrence Ave E",
-          "title": "Westbound Lawrence Ave E before Victoria Park Ave",
-          "description": "Toronto-TMC: Eastbound lanes have now reopened. All Westbound lanes remains blocked due to the incident.",
-          "restrictionType": "HAZARD",
-          "type": "HAZARD",
-          "impact": "High",
-          "startLocation": "Victoria Park Ave",
-          "endLocation": "",
-          "start": 1790612576000,
-          "reportedAt": 1790612576000,
-          "end": null,
+          "id": "Tor-RD52026-6014-2",
+          "street": "Avenue Rd",
+          "title": "Avenue Rd at Lawrence Ave W to 16 m North of Lawrence Ave W",
+          "description": "Toronto-TMC: CIPP sewer rehabilitation. This project does not contain phasing.",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "Lawrence Ave W",
+          "endLocation": "Lawrence Ave W",
+          "start": 1790636400000,
+          "reportedAt": 1790614462000,
+          "end": 1791025200000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.741962,
-            -79.310503
+            43.72226,
+            -79.41561
           ],
-          "line": [],
+          "line": [
+            [
+              43.72226,
+              -79.41561
+            ],
+            [
+              43.72239,
+              -79.41566
+            ]
+          ],
           "geometry": {
-            "type": "Point",
+            "type": "LineString",
             "coordinates": [
-              -79.310503,
-              43.741962
+              [
+                -79.41561,
+                43.72226
+              ],
+              [
+                -79.41566,
+                43.72239
+              ]
             ]
           },
-          "geometryKind": "point",
-          "schedule": "Everyday: 00:00-23:59",
+          "geometryKind": "line",
+          "schedule": "Everyday: 19:00-07:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -198463,57 +198575,6 @@
               [
                 -79.41561,
                 43.72226
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Everyday: 19:00-07:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD52026-6014-2",
-          "street": "Avenue Rd",
-          "title": "Avenue Rd at Lawrence Ave W to 16 m North of Lawrence Ave W",
-          "description": "Toronto-TMC: CIPP sewer rehabilitation. This project does not contain phasing.",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "startLocation": "Lawrence Ave W",
-          "endLocation": "Lawrence Ave W",
-          "start": 1790636400000,
-          "reportedAt": 1790614462000,
-          "end": 1791025200000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.72226,
-            -79.41561
-          ],
-          "line": [
-            [
-              43.72226,
-              -79.41561
-            ],
-            [
-              43.72239,
-              -79.41566
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.41561,
-                43.72226
-              ],
-              [
-                -79.41566,
-                43.72239
               ]
             ]
           },
@@ -351080,8 +351141,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-28T17:50:52.649Z",
-      "fetchedAt": "2026-09-28T17:50:52.649Z"
+      "checkedAt": "2026-09-28T17:56:09.949Z",
+      "fetchedAt": "2026-09-28T17:56:09.949Z"
     },
     "transit": {
       "items": [
@@ -354831,14 +354892,38 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-28T17:50:53.000Z",
+      "sourceUpdatedAt": "2026-09-28T17:56:10.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-28T17:50:52.649Z",
-      "fetchedAt": "2026-09-28T17:50:52.649Z"
+      "checkedAt": "2026-09-28T17:56:09.949Z",
+      "fetchedAt": "2026-09-28T17:56:09.949Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6G": {
+      "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
+      "approximate": true,
+      "coordinates": [
+        43.6683,
+        -79.4205
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M5V": {
+      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+      "approximate": true,
+      "coordinates": [
+        43.6404,
+        -79.3995
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M2N": {
       "text": "Approximate area: (M2N) Willowdale South",
       "approximate": true,
@@ -355985,18 +356070,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-28T12:51:45.685Z"
     },
-    "M5V": {
-      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
-      "approximate": true,
-      "coordinates": [
-        43.6404,
-        -79.3995
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "ALBION RD, ET / KIPLING AVE / FINCH AVE W": {
       "text": "Albion Road between Kipling Avenue & Finch Avenue West",
       "approximate": false,
@@ -356635,18 +356708,6 @@
         -79.2941
       ],
       "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6G": {
-      "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
-      "approximate": true,
-      "coordinates": [
-        43.6683,
-        -79.4205
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
