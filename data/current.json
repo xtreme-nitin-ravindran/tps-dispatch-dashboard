@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T12:29:15.971Z",
-  "sourceUpdatedAt": "2026-09-28T12:25:01.000Z",
+  "fetchedAt": "2026-09-28T12:30:35.061Z",
+  "sourceUpdatedAt": "2026-09-28T12:30:02.000Z",
   "incidents": [
     {
       "id": "F26153876",
@@ -16,9 +16,24 @@
       "timestamp": "2026-09-28T12:20:05.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "125"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "123"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T12:25:29.264Z",
-      "lastSeenAt": "2026-09-28T12:29:15.971Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T12:30:35.061Z",
+      "lastSeenAt": "2026-09-28T12:30:35.061Z",
       "geography": {
         "text": "Sanderling Place & The Donway West",
         "approximate": false,
@@ -42,9 +57,24 @@
       "timestamp": "2026-09-28T12:17:47.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "325"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "312"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T12:25:29.264Z",
-      "lastSeenAt": "2026-09-28T12:29:15.971Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T12:30:35.061Z",
+      "lastSeenAt": "2026-09-28T12:30:35.061Z",
       "geography": {
         "text": "Carlton Street between Reverend Porter Lane & Church Street",
         "approximate": false,
@@ -67,7 +97,7 @@
       "division": "133",
       "timestamp": "2026-09-28T12:13:57.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -112,7 +142,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T12:21:34.650Z",
-      "lastSeenAt": "2026-09-28T12:29:15.971Z",
+      "lastSeenAt": "2026-09-28T12:30:35.061Z",
       "geography": {
         "text": "Approximate area: (M6N) York (Runnymede / The Junction North)",
         "approximate": true,
@@ -146,7 +176,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T12:21:34.650Z",
-      "lastSeenAt": "2026-09-28T12:29:15.971Z",
+      "lastSeenAt": "2026-09-28T12:30:35.061Z",
       "geography": {
         "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
         "approximate": true,
@@ -169,7 +199,7 @@
       "division": "135",
       "timestamp": "2026-09-28T12:09:59.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -214,7 +244,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T12:16:08.468Z",
-      "lastSeenAt": "2026-09-28T12:29:15.971Z",
+      "lastSeenAt": "2026-09-28T12:30:35.061Z",
       "geography": {
         "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
         "approximate": true,
@@ -237,7 +267,7 @@
       "division": "143",
       "timestamp": "2026-09-28T12:05:32.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -301,6 +331,50 @@
       }
     },
     {
+      "id": "TPS-f7f9d38b25ca8afdb5087f9c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-28T12:02:42.000Z",
+      "location": "SATELLITE-MS DR - RAKELY CRT",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SATELLITE-MS DR - RAKELY CRT",
+        "coordinates": [
+          43.65156185991029,
+          -79.60308289706491
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-28T12:30:35.061Z"
+    },
+    {
+      "id": "TPS-7d2bad3591c5d5a913017419",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-28T12:01:24.000Z",
+      "location": "SCARLETT RD - EILEEN AVE",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SCARLETT RD - EILEEN AVE",
+        "coordinates": [
+          43.66801144379899,
+          -79.50043180382647
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-28T12:30:35.061Z"
+    },
+    {
       "id": "F26153867",
       "source": "TFS",
       "eventType": "fire",
@@ -320,7 +394,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T12:11:15.047Z",
-      "lastSeenAt": "2026-09-28T12:29:15.971Z",
+      "lastSeenAt": "2026-09-28T12:30:35.061Z",
       "geography": {
         "text": "Approximate area: (M1G) Scarborough (Woburn)",
         "approximate": true,
@@ -368,6 +442,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-4ac465cfc06e52c3f2bb0c3d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT OF VEHICLE",
+      "callTypeCode": "THEVE",
+      "timestamp": "2026-09-28T11:58:26.000Z",
+      "location": "ATTWELL DR - ",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ATTWELL DR - ",
+        "coordinates": [
+          43.689208643704305,
+          -79.58225330540131
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-28T12:30:35.061Z"
     },
     {
       "id": "F26153865",
@@ -425,7 +521,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T12:01:52.277Z",
       "lastMeaningfulUpdateAt": "2026-09-28T12:05:34.971Z",
-      "lastSeenAt": "2026-09-28T12:29:15.971Z",
+      "lastSeenAt": "2026-09-28T12:30:35.061Z",
       "geography": {
         "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
         "approximate": true,
@@ -509,6 +605,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-4b0cc5c7c9236759b5ccc56c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-28T11:47:33.000Z",
+      "location": "DANFORTH AVE - DAWES RD",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DANFORTH AVE - DAWES RD",
+        "coordinates": [
+          43.68929762390215,
+          -79.29676385514267
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-28T12:30:35.061Z"
     },
     {
       "id": "TPS-a47c649b8cb8e328a8385c62",
@@ -2137,7 +2255,7 @@
       "respondingUnitCount": 18,
       "firstSeenAt": "2026-09-28T10:06:13.599Z",
       "lastMeaningfulUpdateAt": "2026-09-28T10:11:52.469Z",
-      "lastSeenAt": "2026-09-28T12:29:15.971Z",
+      "lastSeenAt": "2026-09-28T12:30:35.061Z",
       "geography": {
         "text": "College Street between Augusta Avenue & Campbell Russell Lane",
         "approximate": false,
@@ -193974,12 +194092,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T12:29:15.971Z",
-      "sourceUpdatedAt": "2026-09-28T12:25:01.000Z",
+      "fetchedAt": "2026-09-28T12:30:35.061Z",
+      "sourceUpdatedAt": "2026-09-28T12:30:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T12:29:15.971Z",
+      "fetchedAt": "2026-09-28T12:30:35.061Z",
       "status": "ok"
     }
   },
