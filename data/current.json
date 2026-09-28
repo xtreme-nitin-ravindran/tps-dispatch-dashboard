@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T07:54:58.817Z",
-  "sourceUpdatedAt": "2026-09-28T07:50:01.000Z",
+  "fetchedAt": "2026-09-28T07:56:10.127Z",
+  "sourceUpdatedAt": "2026-09-28T07:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26153808",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6L",
+      "division": "133",
+      "timestamp": "2026-09-28T07:49:17.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "133"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-28T07:56:10.127Z",
+      "lastSeenAt": "2026-09-28T07:56:10.127Z",
+      "geography": {
+        "text": "Approximate area: (M6L) North York (North Park / Maple Leaf Park / Upwood Park)",
+        "approximate": true,
+        "coordinates": [
+          43.7137,
+          -79.4869
+        ],
+        "division": "Division 12",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-e521814711df2ac1c7c339af",
       "source": "TPS",
@@ -70,7 +104,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T07:51:10.547Z",
-      "lastSeenAt": "2026-09-28T07:54:58.817Z",
+      "lastSeenAt": "2026-09-28T07:56:10.127Z",
       "geography": {
         "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
         "approximate": true,
@@ -148,7 +182,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T07:46:02.691Z",
-      "lastSeenAt": "2026-09-28T07:54:58.817Z",
+      "lastSeenAt": "2026-09-28T07:56:10.127Z",
       "geography": {
         "text": "Approximate area: (M3M) Downsview Central",
         "approximate": true,
@@ -184,7 +218,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T07:36:28.323Z",
       "lastMeaningfulUpdateAt": "2026-09-28T07:41:13.111Z",
-      "lastSeenAt": "2026-09-28T07:54:58.817Z",
+      "lastSeenAt": "2026-09-28T07:56:10.127Z",
       "geography": {
         "text": "Price Street between Scrivener Sq & Lane East Yonge South Price",
         "approximate": false,
@@ -276,7 +310,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T07:36:28.323Z",
       "lastMeaningfulUpdateAt": "2026-09-28T07:41:13.111Z",
-      "lastSeenAt": "2026-09-28T07:54:58.817Z",
+      "lastSeenAt": "2026-09-28T07:56:10.127Z",
       "geography": {
         "text": "Approximate area: (M6P) West Toronto (High Park / The Junction South)",
         "approximate": true,
@@ -192035,37 +192069,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "TPS-f7673c00c22c7bd2f4110ad3",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISORDERLIES",
-      "callTypeCode": "DIS",
-      "timestamp": "2026-09-21T07:55:34.000Z",
-      "location": "BEATY BOULEVARD PARKETTE TRL - SUNNYSIDE AVE",
-      "division": "Division 11",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "BEATY BOULEVARD PARKETTE TRL - SUNNYSIDE AVE",
-        "coordinates": [
-          43.63877549027512,
-          -79.44841411719405
-        ],
-        "division": "Division 11",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T07:54:58.817Z",
-      "sourceUpdatedAt": "2026-09-28T07:50:01.000Z",
+      "fetchedAt": "2026-09-28T07:56:10.127Z",
+      "sourceUpdatedAt": "2026-09-28T07:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T07:54:58.817Z",
+      "fetchedAt": "2026-09-28T07:56:10.127Z",
       "status": "ok"
     }
   },
@@ -343613,6 +343626,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6L": {
+      "text": "Approximate area: (M6L) North York (North Park / Maple Leaf Park / Upwood Park)",
+      "approximate": true,
+      "coordinates": [
+        43.7137,
+        -79.4869
+      ],
+      "division": "Division 12",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M4L": {
       "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
       "approximate": true,
@@ -344500,18 +344525,6 @@
         -79.2639
       ],
       "division": "Division 41",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6L": {
-      "text": "Approximate area: (M6L) North York (North Park / Maple Leaf Park / Upwood Park)",
-      "approximate": true,
-      "coordinates": [
-        43.7137,
-        -79.4869
-      ],
-      "division": "Division 12",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
