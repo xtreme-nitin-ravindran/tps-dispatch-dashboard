@@ -3,9 +3,95 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T09:20:16.569Z",
-  "sourceUpdatedAt": "2026-09-28T09:15:01.000Z",
+  "fetchedAt": "2026-09-28T09:21:35.080Z",
+  "sourceUpdatedAt": "2026-09-28T09:20:01.000Z",
   "incidents": [
+    {
+      "id": "F26153819",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle Accident - Trapped",
+      "location": "BATHURST ST, TT / BARTON AVE / FOLLIS AVE",
+      "division": "344",
+      "timestamp": "2026-09-28T09:12:42.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "34"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "345"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "346"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "331"
+          ]
+        }
+      ],
+      "respondingUnitCount": 4,
+      "firstSeenAt": "2026-09-28T09:21:35.080Z",
+      "lastSeenAt": "2026-09-28T09:21:35.080Z",
+      "geography": {
+        "text": "Bathurst Street between Barton Avenue & Follis Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.66886135,
+          -79.4126741
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-28T09:21:35.080Z"
+      }
+    },
+    {
+      "id": "F26153818",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "BATHURST ST, TT / BARTON AVE / FOLLIS AVE",
+      "division": "344",
+      "timestamp": "2026-09-28T09:10:50.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "344"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-28T09:21:35.080Z",
+      "lastSeenAt": "2026-09-28T09:21:35.080Z",
+      "geography": {
+        "text": "Bathurst Street between Barton Avenue & Follis Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.66886135,
+          -79.4126741
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-28T09:21:35.080Z"
+      }
+    },
     {
       "id": "F26153817",
       "source": "TFS",
@@ -26,7 +112,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T09:16:45.185Z",
-      "lastSeenAt": "2026-09-28T09:20:16.569Z",
+      "lastSeenAt": "2026-09-28T09:21:35.080Z",
       "geography": {
         "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
         "approximate": true,
@@ -335,7 +421,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T08:41:21.119Z",
       "lastMeaningfulUpdateAt": "2026-09-28T08:46:15.212Z",
-      "lastSeenAt": "2026-09-28T09:20:16.569Z",
+      "lastSeenAt": "2026-09-28T09:21:35.080Z",
       "geography": {
         "text": "Dundas Street between Lane East Sheridan North Dundas & Sheridan Avenue",
         "approximate": false,
@@ -192049,12 +192135,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T09:20:16.569Z",
-      "sourceUpdatedAt": "2026-09-28T09:15:01.000Z",
+      "fetchedAt": "2026-09-28T09:21:35.080Z",
+      "sourceUpdatedAt": "2026-09-28T09:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T09:20:16.569Z",
+      "fetchedAt": "2026-09-28T09:21:35.080Z",
       "status": "ok"
     }
   },
@@ -343477,6 +343563,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "BATHURST ST, TT / BARTON AVE / FOLLIS AVE": {
+      "text": "Bathurst Street between Barton Avenue & Follis Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.66886135,
+        -79.4126741
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-28T09:21:35.080Z"
+    },
     "M9V": {
       "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
       "approximate": true,
