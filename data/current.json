@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T18:28:07.447Z",
+  "fetchedAt": "2026-09-28T18:29:22.838Z",
   "sourceUpdatedAt": "2026-09-28T18:25:02.000Z",
   "incidents": [
     {
@@ -18,7 +18,7 @@
       "isOngoing": true,
       "vehicles": [],
       "firstSeenAt": "2026-09-28T18:25:32.847Z",
-      "lastSeenAt": "2026-09-28T18:28:07.447Z",
+      "lastSeenAt": "2026-09-28T18:29:22.838Z",
       "geography": {
         "text": "Approximate area: (M3M) Downsview Central",
         "approximate": true,
@@ -52,7 +52,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T18:21:02.575Z",
-      "lastSeenAt": "2026-09-28T18:28:07.447Z",
+      "lastSeenAt": "2026-09-28T18:29:22.838Z",
       "geography": {
         "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
         "approximate": true,
@@ -86,7 +86,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T18:21:02.575Z",
-      "lastSeenAt": "2026-09-28T18:28:07.447Z",
+      "lastSeenAt": "2026-09-28T18:29:22.838Z",
       "geography": {
         "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
         "approximate": true,
@@ -120,7 +120,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T18:16:47.281Z",
-      "lastSeenAt": "2026-09-28T18:28:07.447Z",
+      "lastSeenAt": "2026-09-28T18:29:22.838Z",
       "geography": {
         "text": "Approximate area: (M1C) Scarborough (Rouge Hill / Port Union / Highland Creek)",
         "approximate": true,
@@ -154,7 +154,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T18:16:47.281Z",
-      "lastSeenAt": "2026-09-28T18:28:07.447Z",
+      "lastSeenAt": "2026-09-28T18:29:22.838Z",
       "geography": {
         "text": "Donlands Avenue & Danforth Avenue",
         "approximate": false,
@@ -269,7 +269,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T18:11:03.150Z",
       "lastMeaningfulUpdateAt": "2026-09-28T18:16:47.281Z",
-      "lastSeenAt": "2026-09-28T18:28:07.447Z",
+      "lastSeenAt": "2026-09-28T18:29:22.838Z",
       "geography": {
         "text": "Approximate area: (M2R) Willowdale West",
         "approximate": true,
@@ -584,7 +584,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T17:56:09.949Z",
       "lastMeaningfulUpdateAt": "2026-09-28T18:01:32.343Z",
-      "lastSeenAt": "2026-09-28T18:28:07.447Z",
+      "lastSeenAt": "2026-09-28T18:29:22.838Z",
       "geography": {
         "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
         "approximate": true,
@@ -6230,7 +6230,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-28T17:29:01.693Z"
+        "checkedAt": "2026-09-28T18:29:22.838Z"
       }
     },
     {
@@ -198024,18 +198024,54 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T18:28:07.447Z",
+      "fetchedAt": "2026-09-28T18:29:22.838Z",
       "sourceUpdatedAt": "2026-09-28T18:25:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T18:28:07.447Z",
+      "fetchedAt": "2026-09-28T18:29:22.838Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "12224902",
+          "street": "F G Gardiner Xy E",
+          "title": "EB Gardiner Expy beyond Lower Jarvis St",
+          "description": "Toronto-TMC: Right shoulder is blocked due to a stalled vehicle.",
+          "restrictionType": "HAZARD",
+          "type": "HAZARD",
+          "impact": "High",
+          "startLocation": "Lower Jarvis St",
+          "endLocation": "",
+          "start": 1790619859000,
+          "reportedAt": 1790619859000,
+          "end": null,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.646888,
+            -79.364337
+          ],
+          "line": [],
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -79.364337,
+              43.646888
+            ]
+          },
+          "geometryKind": "point",
+          "schedule": "Everyday: 00:00-23:59",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "Tor-RD012026-1415",
           "street": "Jane St",
@@ -198345,6 +198381,57 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
+          "id": "Tor-RD52026-5667",
+          "street": "Elwood Blvd",
+          "title": "Elwood Blvd 33 m West of Oriole Pkwy to 8 m West of Oriole Pkwy",
+          "description": "Toronto-TMC: Road Repair and builder files Contract for North York. Curb lane closed. Flagman at site to manage the Traffic flow.",
+          "restrictionType": "ROAD CLOSED",
+          "type": "ROAD CLOSED",
+          "impact": "None",
+          "startLocation": "Oriole Pkwy",
+          "endLocation": "Oriole Pkwy",
+          "start": 1789995600000,
+          "reportedAt": 1790012242000,
+          "end": 1791568800000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.7074,
+            -79.40758
+          ],
+          "line": [
+            [
+              43.7074,
+              -79.40758
+            ],
+            [
+              43.70746,
+              -79.40728
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.40758,
+                43.7074
+              ],
+              [
+                -79.40728,
+                43.70746
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 09:00-14:00; Tuesday: 09:00-14:00; Wednesday: 09:00-14:00; Thursday: 09:00-14:00; Friday: 09:00-14:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
           "id": "Tor-RD042026-1280",
           "street": "Overlea Blvd",
           "title": "Overlea Blvd 44 m Northeast of Millwood Rd to 85 m Northeast of Millwood Rd",
@@ -198455,57 +198542,6 @@
           },
           "geometryKind": "line",
           "schedule": "Monday: 10:00-14:00; Tuesday: 10:00-14:00; Wednesday: 10:00-14:00; Thursday: 10:00-14:00; Friday: 10:00-14:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD52026-5667",
-          "street": "Elwood Blvd",
-          "title": "Elwood Blvd 33 m West of Oriole Pkwy to 8 m West of Oriole Pkwy",
-          "description": "Toronto-TMC: Road Repair and builder files Contract for North York. Curb lane closed. Flagman at site to manage the Traffic flow.",
-          "restrictionType": "ROAD CLOSED",
-          "type": "ROAD CLOSED",
-          "impact": "None",
-          "startLocation": "Oriole Pkwy",
-          "endLocation": "Oriole Pkwy",
-          "start": 1789995600000,
-          "reportedAt": 1790012242000,
-          "end": 1791568800000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.7074,
-            -79.40758
-          ],
-          "line": [
-            [
-              43.7074,
-              -79.40758
-            ],
-            [
-              43.70746,
-              -79.40728
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.40758,
-                43.7074
-              ],
-              [
-                -79.40728,
-                43.70746
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 09:00-14:00; Tuesday: 09:00-14:00; Wednesday: 09:00-14:00; Thursday: 09:00-14:00; Friday: 09:00-14:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -204514,6 +204550,57 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
+          "id": "Tor-RD012026-1225-3",
+          "street": "Rose Ave",
+          "title": "Rose Ave 6 m North of Winchester St to 12 m South of Lancaster Ave",
+          "description": "Toronto-TMC: This will be an ongoing gas main and gas regulator station relocation project that will be affecting all noted pedestrian and vehicle traffic in the traffic impact sections, from our proposed start up date of 08/10/2026 until 10/09/2026, with the exception of demobilizing our project work areas for the city of Toronto's Cabbagetown Festival during the weekend of 09/12/2026 and resuming this project after the conclusion of this festival. We will be relocating TTC bus stop #6654 while occupying the South bound Parliament St portion of this project. We will have Paid Duty Officers on site While occupying the South bound Parliament portion of this project along with any work that is within 30.0m of the intersection of Parliament St and Winchester Ave. Third Party Traffic control persons will be on site at all times and will be present to flagging and directing detoured pedestrian traffic when required. This project is being directly coordinated with representatives of Enbridg",
+          "restrictionType": "ROAD CLOSED",
+          "type": "ROAD CLOSED",
+          "impact": "Low",
+          "startLocation": "Winchester St",
+          "endLocation": "Lancaster Ave",
+          "start": 1786366800000,
+          "reportedAt": 1789651957000,
+          "end": 1791576000000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.66563,
+            -79.36999
+          ],
+          "line": [
+            [
+              43.66563,
+              -79.36999
+            ],
+            [
+              43.66604,
+              -79.37015
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.36999,
+                43.66563
+              ],
+              [
+                -79.37015,
+                43.66604
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
           "id": "Tor-RD52026-5657-2",
           "street": "Eastdale Ave",
           "title": "Eastdale Ave 67 m North of Goodwood Park Cres to 56 m South of Lumsden Ave",
@@ -209144,57 +209231,6 @@
               [
                 -79.37014,
                 43.66602
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD012026-1225-3",
-          "street": "Rose Ave",
-          "title": "Rose Ave 6 m North of Winchester St to 12 m South of Lancaster Ave",
-          "description": "Toronto-TMC: This will be an ongoing gas main and gas regulator station relocation project that will be affecting all noted pedestrian and vehicle traffic in the traffic impact sections, from our proposed start up date of 08/10/2026 until 10/09/2026, with the exception of demobilizing our project work areas for the city of Toronto's Cabbagetown Festival during the weekend of 09/12/2026 and resuming this project after the conclusion of this festival. We will be relocating TTC bus stop #6654 while occupying the South bound Parliament St portion of this project. We will have Paid Duty Officers on site While occupying the South bound Parliament portion of this project along with any work that is within 30.0m of the intersection of Parliament St and Winchester Ave. Third Party Traffic control persons will be on site at all times and will be present to flagging and directing detoured pedestrian traffic when required. This project is being directly coordinated with representatives of Enbridg",
-          "restrictionType": "ROAD CLOSED",
-          "type": "ROAD CLOSED",
-          "impact": "Low",
-          "startLocation": "Winchester St",
-          "endLocation": "Lancaster Ave",
-          "start": 1786366800000,
-          "reportedAt": 1789651957000,
-          "end": 1791576000000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.66563,
-            -79.36999
-          ],
-          "line": [
-            [
-              43.66563,
-              -79.36999
-            ],
-            [
-              43.66604,
-              -79.37015
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.36999,
-                43.66563
-              ],
-              [
-                -79.37015,
-                43.66604
               ]
             ]
           },
@@ -351395,14 +351431,14 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-28T18:24:17.468Z",
-      "fetchedAt": "2026-09-28T18:24:17.468Z"
+      "checkedAt": "2026-09-28T18:29:22.838Z",
+      "fetchedAt": "2026-09-28T18:29:22.838Z"
     },
     "transit": {
       "items": [
         {
           "id": "77101",
-          "title": "Line 6 Finch West: No service between Rowntree Mills and Signet Arrow stations due to a security incident. Shuttle buses are on the way.",
+          "title": "Line 6 Finch West: No service between Rowntree Mills and Signet Arrow stations due to a security incident. Shuttle buses are on the way to operate between Finch West and Rowntree Mills.",
           "description": "",
           "effect": "NO SERVICE",
           "routes": [
@@ -355146,10 +355182,10 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-28T18:24:18.000Z",
+      "sourceUpdatedAt": "2026-09-28T18:29:23.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-28T18:24:17.468Z",
-      "fetchedAt": "2026-09-28T18:24:17.468Z"
+      "checkedAt": "2026-09-28T18:29:22.838Z",
+      "fetchedAt": "2026-09-28T18:29:22.838Z"
     }
   },
   "updatedBy": "concourse",
@@ -356226,7 +356262,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-28T17:29:01.693Z"
+      "checkedAt": "2026-09-28T18:29:22.838Z"
     },
     "M6N": {
       "text": "Approximate area: (M6N) York (Runnymede / The Junction North)",
