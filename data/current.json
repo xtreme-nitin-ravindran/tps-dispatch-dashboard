@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T09:55:22.801Z",
-  "sourceUpdatedAt": "2026-09-28T09:50:01.000Z",
+  "fetchedAt": "2026-09-28T09:56:49.897Z",
+  "sourceUpdatedAt": "2026-09-28T09:55:01.000Z",
   "incidents": [
     {
       "id": "TPS-cbe6dad6ae5f11170a698c3f",
@@ -29,6 +29,32 @@
       "firstSeenAt": "2026-09-28T09:54:12.139Z"
     },
     {
+      "id": "F26153826",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4T",
+      "division": "311",
+      "timestamp": "2026-09-28T09:48:45.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-28T09:56:49.897Z",
+      "lastSeenAt": "2026-09-28T09:56:49.897Z",
+      "geography": {
+        "text": "Approximate area: (M4T) Central Toronto (Moore Park / Summerhill East)",
+        "approximate": true,
+        "coordinates": [
+          43.6899,
+          -79.3853
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-20T09:27:57.209Z"
+      }
+    },
+    {
       "id": "F26153825",
       "source": "TFS",
       "eventType": "fire",
@@ -38,9 +64,18 @@
       "timestamp": "2026-09-28T09:44:12.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "114"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T09:50:32.256Z",
-      "lastSeenAt": "2026-09-28T09:55:22.801Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T09:56:49.897Z",
+      "lastSeenAt": "2026-09-28T09:56:49.897Z",
       "geography": {
         "text": "Approximate location on L3t",
         "approximate": true,
@@ -61,9 +96,24 @@
       "timestamp": "2026-09-28T09:42:20.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "325"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "325"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T09:50:32.256Z",
-      "lastSeenAt": "2026-09-28T09:55:22.801Z",
+      "lastMeaningfulUpdateAt": "2026-09-28T09:56:49.897Z",
+      "lastSeenAt": "2026-09-28T09:56:49.897Z",
       "geography": {
         "text": "Dundas Street between Sherbourne Street & Oskenonton Lane",
         "approximate": false,
@@ -119,7 +169,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T09:45:43.110Z",
-      "lastSeenAt": "2026-09-28T09:55:22.801Z",
+      "lastSeenAt": "2026-09-28T09:56:49.897Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -154,7 +204,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-28T09:41:01.842Z",
       "lastMeaningfulUpdateAt": "2026-09-28T09:45:43.110Z",
-      "lastSeenAt": "2026-09-28T09:55:22.801Z",
+      "lastSeenAt": "2026-09-28T09:56:49.897Z",
       "geography": {
         "text": "Approximate area: (M4B) East York (Parkview Hill / Woodbine Gardens)",
         "approximate": true,
@@ -427,7 +477,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T09:21:35.080Z",
       "lastMeaningfulUpdateAt": "2026-09-28T09:26:41.526Z",
-      "lastSeenAt": "2026-09-28T09:55:22.801Z",
+      "lastSeenAt": "2026-09-28T09:56:49.897Z",
       "geography": {
         "text": "Bathurst Street between Barton Avenue & Follis Avenue",
         "approximate": false,
@@ -770,7 +820,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T08:41:21.119Z",
       "lastMeaningfulUpdateAt": "2026-09-28T08:46:15.212Z",
-      "lastSeenAt": "2026-09-28T09:55:22.801Z",
+      "lastSeenAt": "2026-09-28T09:56:49.897Z",
       "geography": {
         "text": "Dundas Street between Lane East Sheridan North Dundas & Sheridan Avenue",
         "approximate": false,
@@ -192279,12 +192329,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T09:55:22.801Z",
-      "sourceUpdatedAt": "2026-09-28T09:50:01.000Z",
+      "fetchedAt": "2026-09-28T09:56:49.897Z",
+      "sourceUpdatedAt": "2026-09-28T09:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T09:55:22.801Z",
+      "fetchedAt": "2026-09-28T09:56:49.897Z",
       "status": "ok"
     }
   },
@@ -343671,6 +343721,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4T": {
+      "text": "Approximate area: (M4T) Central Toronto (Moore Park / Summerhill East)",
+      "approximate": true,
+      "coordinates": [
+        43.6899,
+        -79.3853
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-20T09:27:57.209Z"
+    },
     "L3T": {
       "text": "Approximate location on L3t",
       "approximate": true,
@@ -344288,18 +344350,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4T": {
-      "text": "Approximate area: (M4T) Central Toronto (Moore Park / Summerhill East)",
-      "approximate": true,
-      "coordinates": [
-        43.6899,
-        -79.3853
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-20T09:27:57.209Z"
     },
     "M1G": {
       "text": "Approximate area: (M1G) Scarborough (Woburn)",
