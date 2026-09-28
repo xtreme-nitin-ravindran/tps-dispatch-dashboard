@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-28T09:15:20.786Z",
-  "sourceUpdatedAt": "2026-09-28T09:10:01.000Z",
+  "fetchedAt": "2026-09-28T09:16:45.185Z",
+  "sourceUpdatedAt": "2026-09-28T09:15:01.000Z",
   "incidents": [
+    {
+      "id": "F26153817",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9V",
+      "division": "413",
+      "timestamp": "2026-09-28T09:06:25.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "413"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-28T09:16:45.185Z",
+      "lastSeenAt": "2026-09-28T09:16:45.185Z",
+      "geography": {
+        "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
+        "approximate": true,
+        "coordinates": [
+          43.7432,
+          -79.5876
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-68820aaedd7376ab0f46abf1",
       "source": "TPS",
@@ -301,7 +335,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-28T08:41:21.119Z",
       "lastMeaningfulUpdateAt": "2026-09-28T08:46:15.212Z",
-      "lastSeenAt": "2026-09-28T09:15:20.786Z",
+      "lastSeenAt": "2026-09-28T09:16:45.185Z",
       "geography": {
         "text": "Dundas Street between Lane East Sheridan North Dundas & Sheridan Avenue",
         "approximate": false,
@@ -192032,37 +192066,16 @@
         "division": "Division 41",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-0f87a7cde8b583484c0a11f4",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "ASSAULT JUST OCCURRED",
-      "callTypeCode": "ASSJU",
-      "timestamp": "2026-09-21T09:16:26.000Z",
-      "location": "BLOEM AVE - LN S EVERSFIELD W DUFFERIN",
-      "division": "Division 13",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "BLOEM AVE - LN S EVERSFIELD W DUFFERIN",
-        "coordinates": [
-          43.686250588088775,
-          -79.44639940409647
-        ],
-        "division": "Division 13",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-28T09:15:20.786Z",
-      "sourceUpdatedAt": "2026-09-28T09:10:01.000Z",
+      "fetchedAt": "2026-09-28T09:16:45.185Z",
+      "sourceUpdatedAt": "2026-09-28T09:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-28T09:15:20.786Z",
+      "fetchedAt": "2026-09-28T09:16:45.185Z",
       "status": "ok"
     }
   },
@@ -343449,6 +343462,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M9V": {
+      "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
+      "approximate": true,
+      "coordinates": [
+        43.7432,
+        -79.5876
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "DUNDAS ST, TT / SIMCOE ST / ST PATRICK ST": {
       "text": "Dundas Street between Simcoe Street & Street Patrick Street",
       "approximate": false,
@@ -343601,18 +343626,6 @@
         -79.4633
       ],
       "division": "Division 11",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M9V": {
-      "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
-      "approximate": true,
-      "coordinates": [
-        43.7432,
-        -79.5876
-      ],
-      "division": "Division 23",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
