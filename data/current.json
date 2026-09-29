@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T07:20:20.643Z",
-  "sourceUpdatedAt": "2026-09-29T07:15:01.000Z",
+  "fetchedAt": "2026-09-29T07:21:38.062Z",
+  "sourceUpdatedAt": "2026-09-29T07:20:01.000Z",
   "incidents": [
+    {
+      "id": "F26154393",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Hazmat Level 1",
+      "location": "QUEEN ST E / NORTHERN DANCER BLVD",
+      "division": "227",
+      "timestamp": "2026-09-29T07:10:55.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T07:21:38.062Z",
+      "lastSeenAt": "2026-09-29T07:21:38.062Z",
+      "geography": {
+        "text": "Queen Street East & Northern Dancer Boulevard",
+        "approximate": false,
+        "coordinates": [
+          43.6674933,
+          -79.3114403
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-29T07:21:38.062Z"
+      }
+    },
     {
       "id": "TPS-3d30a821ad7a0a77e1d0eaff",
       "source": "TPS",
@@ -48,7 +74,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T07:11:37.858Z",
-      "lastSeenAt": "2026-09-29T07:20:20.643Z",
+      "lastSeenAt": "2026-09-29T07:21:38.062Z",
       "geography": {
         "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
         "approximate": true,
@@ -71,7 +97,7 @@
       "division": "312",
       "timestamp": "2026-09-29T07:01:22.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -481,7 +507,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T06:35:34.970Z",
       "lastMeaningfulUpdateAt": "2026-09-29T06:45:35.085Z",
-      "lastSeenAt": "2026-09-29T07:20:20.643Z",
+      "lastSeenAt": "2026-09-29T07:21:38.062Z",
       "geography": {
         "text": "Approximate area: (M8Y) Etobicoke (Old Mill South / King's Mill Park / Sunnylea / Humber Bay / Mimico NE / The Queensway East / Royal York South East / Kingsway Park South East)",
         "approximate": true,
@@ -722,7 +748,7 @@
       "division": "231",
       "timestamp": "2026-09-29T06:01:53.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -200835,56 +200861,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-22T07:31:12.004Z"
       }
-    },
-    {
-      "id": "F26150158",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Alarm Single Source",
-      "location": "YUKON LANE, NY / SHEPPARD AVE W / CARL HALL RD",
-      "division": "143",
-      "timestamp": "2026-09-22T07:20:26.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Command Unit",
-          "numbers": [
-            "11"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "141",
-            "145"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-22T07:31:12.004Z",
-      "lastSeenAt": "2026-09-22T07:55:03.321Z",
-      "geography": {
-        "text": "Yukon Lane between Sheppard Avenue West & Carl Hall Road",
-        "approximate": false,
-        "coordinates": [
-          43.75136705,
-          -79.4686978
-        ],
-        "division": "Division 32",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-22T05:31:10.111Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T07:20:20.643Z",
-      "sourceUpdatedAt": "2026-09-29T07:15:01.000Z",
+      "fetchedAt": "2026-09-29T07:21:38.062Z",
+      "sourceUpdatedAt": "2026-09-29T07:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T07:20:20.643Z",
+      "fetchedAt": "2026-09-29T07:21:38.062Z",
       "status": "ok"
     }
   },
@@ -351855,8 +351841,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-29T07:15:47.897Z",
-      "fetchedAt": "2026-09-29T07:15:47.897Z"
+      "checkedAt": "2026-09-29T07:21:38.062Z",
+      "fetchedAt": "2026-09-29T07:21:38.062Z"
     },
     "transit": {
       "items": [
@@ -353985,44 +353971,6 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
-          "id": "77126",
-          "title": "Lawrence West: Escalator 6S1E out of service from Lawrence Ave W south side entrance to Line 1 platform due to a technical problem.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "stopIds": [
-            "13836",
-            "13835"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": null,
-              "stopId": "13836",
-              "coordinates": [
-                43.715784,
-                -79.444038
-              ],
-              "name": "Lawrence West Station - Northbound Platform"
-            },
-            {
-              "routeId": null,
-              "stopId": "13835",
-              "coordinates": [
-                43.714748,
-                -79.443791
-              ],
-              "name": "Lawrence West Station - Southbound Platform"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790653316000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
           "id": "77123",
           "title": "York University: Elevator 12S2L out of service between York Blvd south side entrance and concourse due to a technical problem.",
           "description": "",
@@ -354162,82 +354110,6 @@
             {
               "start": 1790681400000,
               "end": 1790881200000
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "77079",
-          "title": "Leslie: Escalator 59P3E out of service from Line 4 platform to concourse while we perform maintenance.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "stopIds": [
-            "13848",
-            "13847"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": null,
-              "stopId": "13848",
-              "coordinates": [
-                43.771348,
-                -79.36499
-              ],
-              "name": "Leslie Station - Eastbound Platform"
-            },
-            {
-              "routeId": null,
-              "stopId": "13847",
-              "coordinates": [
-                43.771248,
-                -79.36679
-              ],
-              "name": "Leslie Station - Westbound Platform"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790598937000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "77078",
-          "title": "Leslie: Escalator 59P2E out of service from bus platform to concourse while we perform maintenance.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "stopIds": [
-            "13848",
-            "13847"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": null,
-              "stopId": "13848",
-              "coordinates": [
-                43.771348,
-                -79.36499
-              ],
-              "name": "Leslie Station - Eastbound Platform"
-            },
-            {
-              "routeId": null,
-              "stopId": "13847",
-              "coordinates": [
-                43.771248,
-                -79.36679
-              ],
-              "name": "Leslie Station - Westbound Platform"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790598922000,
-              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -355071,14 +354943,26 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-29T07:15:48.000Z",
+      "sourceUpdatedAt": "2026-09-29T07:21:38.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-29T07:15:47.897Z",
-      "fetchedAt": "2026-09-29T07:15:47.897Z"
+      "checkedAt": "2026-09-29T07:21:38.062Z",
+      "fetchedAt": "2026-09-29T07:21:38.062Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "QUEEN ST E / NORTHERN DANCER BLVD": {
+      "text": "Queen Street East & Northern Dancer Boulevard",
+      "approximate": false,
+      "coordinates": [
+        43.6674933,
+        -79.3114403
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-29T07:21:38.062Z"
+    },
     "M1K": {
       "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
       "approximate": true,
@@ -367450,18 +367334,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T04:15:28.007Z"
-    },
-    "YUKON LANE, NY / SHEPPARD AVE W / CARL HALL RD": {
-      "text": "Yukon Lane between Sheppard Avenue West & Carl Hall Road",
-      "approximate": false,
-      "coordinates": [
-        43.75136705,
-        -79.4686978
-      ],
-      "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T05:31:10.111Z"
     }
   }
 }
