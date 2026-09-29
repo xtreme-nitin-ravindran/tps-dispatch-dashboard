@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T08:24:17.590Z",
-  "sourceUpdatedAt": "2026-09-29T08:20:01.000Z",
+  "fetchedAt": "2026-09-29T08:25:40.483Z",
+  "sourceUpdatedAt": "2026-09-29T08:25:01.000Z",
   "incidents": [
+    {
+      "id": "F26154408",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire Alarm - Check Call",
+      "location": "KEELE ST, NY / TORO RD / FINCH AVE W",
+      "division": "141",
+      "timestamp": "2026-09-29T08:19:59.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T08:25:40.483Z",
+      "lastSeenAt": "2026-09-29T08:25:40.483Z",
+      "geography": {
+        "text": "Keele Street between Toro Road & Finch Avenue West",
+        "approximate": false,
+        "coordinates": [
+          43.761634,
+          -79.4905272
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-29T08:25:40.483Z"
+      }
+    },
+    {
+      "id": "F26154407",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9N",
+      "division": "442",
+      "timestamp": "2026-09-29T08:18:52.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T08:25:40.483Z",
+      "lastSeenAt": "2026-09-29T08:25:40.483Z",
+      "geography": {
+        "text": "Approximate area: (M9N) Weston",
+        "approximate": true,
+        "coordinates": [
+          43.7068,
+          -79.517
+        ],
+        "division": "Division 12",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26154406",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4C",
+      "division": "226",
+      "timestamp": "2026-09-29T08:16:15.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T08:25:40.483Z",
+      "lastSeenAt": "2026-09-29T08:25:40.483Z",
+      "geography": {
+        "text": "Approximate area: (M4C) East York (Woodbine Heights)",
+        "approximate": true,
+        "coordinates": [
+          43.6913,
+          -79.3116
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26154405",
       "source": "TFS",
@@ -15,7 +93,7 @@
       "division": "426",
       "timestamp": "2026-09-29T08:09:48.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -50,7 +128,7 @@
       "division": "443",
       "timestamp": "2026-09-29T08:05:49.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -200703,12 +200781,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T08:24:17.590Z",
-      "sourceUpdatedAt": "2026-09-29T08:20:01.000Z",
+      "fetchedAt": "2026-09-29T08:25:40.483Z",
+      "sourceUpdatedAt": "2026-09-29T08:25:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T08:24:17.590Z",
+      "fetchedAt": "2026-09-29T08:25:40.483Z",
       "status": "ok"
     }
   },
@@ -351628,8 +351706,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-29T08:20:36.819Z",
-      "fetchedAt": "2026-09-29T08:20:36.819Z"
+      "checkedAt": "2026-09-29T08:25:40.483Z",
+      "fetchedAt": "2026-09-29T08:25:40.483Z"
     },
     "transit": {
       "items": [
@@ -354730,14 +354808,50 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-29T08:20:37.000Z",
+      "sourceUpdatedAt": "2026-09-29T08:25:41.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-29T08:20:36.819Z",
-      "fetchedAt": "2026-09-29T08:20:36.819Z"
+      "checkedAt": "2026-09-29T08:25:40.483Z",
+      "fetchedAt": "2026-09-29T08:25:40.483Z"
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "KEELE ST, NY / TORO RD / FINCH AVE W": {
+      "text": "Keele Street between Toro Road & Finch Avenue West",
+      "approximate": false,
+      "coordinates": [
+        43.761634,
+        -79.4905272
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-29T08:25:40.483Z"
+    },
+    "M9N": {
+      "text": "Approximate area: (M9N) Weston",
+      "approximate": true,
+      "coordinates": [
+        43.7068,
+        -79.517
+      ],
+      "division": "Division 12",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4C": {
+      "text": "Approximate area: (M4C) East York (Woodbine Heights)",
+      "approximate": true,
+      "coordinates": [
+        43.6913,
+        -79.3116
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "SHERIDAN AVE, TT / MOUTRAY ST / LN S COLLEGE E SHERIDAN": {
       "text": "Approximate location near Sheridan Avenue & Lane South College East Sheridan",
       "approximate": true,
@@ -354966,18 +355080,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
     },
-    "M4C": {
-      "text": "Approximate area: (M4C) East York (Woodbine Heights)",
-      "approximate": true,
-      "coordinates": [
-        43.6913,
-        -79.3116
-      ],
-      "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "M1G": {
       "text": "Approximate area: (M1G) Scarborough (Woburn)",
       "approximate": true,
@@ -355118,18 +355220,6 @@
         -79.1564
       ],
       "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M9N": {
-      "text": "Approximate area: (M9N) Weston",
-      "approximate": true,
-      "coordinates": [
-        43.7068,
-        -79.517
-      ],
-      "division": "Division 12",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
