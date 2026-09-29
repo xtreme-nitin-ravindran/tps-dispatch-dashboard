@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T14:29:00.678Z",
+  "fetchedAt": "2026-09-29T14:30:41.044Z",
   "sourceUpdatedAt": "2026-09-29T14:25:02.000Z",
   "incidents": [
     {
@@ -26,7 +26,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T14:27:14.334Z",
-      "lastSeenAt": "2026-09-29T14:29:00.678Z",
+      "lastSeenAt": "2026-09-29T14:30:41.044Z",
       "geography": {
         "text": "Approximate area: (M6R) West Toronto (Parkdale / Roncesvalles Village)",
         "approximate": true,
@@ -60,7 +60,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T14:21:41.080Z",
-      "lastSeenAt": "2026-09-29T14:29:00.678Z",
+      "lastSeenAt": "2026-09-29T14:30:41.044Z",
       "geography": {
         "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
         "approximate": true,
@@ -816,7 +816,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-29T13:45:53.263Z",
       "lastMeaningfulUpdateAt": "2026-09-29T13:50:50.131Z",
-      "lastSeenAt": "2026-09-29T14:29:00.678Z",
+      "lastSeenAt": "2026-09-29T14:30:41.044Z",
       "geography": {
         "text": "Cole Street between Parliament Street & Regent Street",
         "approximate": false,
@@ -864,7 +864,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-29T13:45:53.263Z",
       "lastMeaningfulUpdateAt": "2026-09-29T13:50:50.131Z",
-      "lastSeenAt": "2026-09-29T14:29:00.678Z",
+      "lastSeenAt": "2026-09-29T14:30:41.044Z",
       "geography": {
         "text": "Sydnor Road between Bestview Drive & Rockland Drive",
         "approximate": false,
@@ -1228,7 +1228,7 @@
       "respondingUnitCount": 13,
       "firstSeenAt": "2026-09-29T13:31:12.340Z",
       "lastMeaningfulUpdateAt": "2026-09-29T14:17:41.483Z",
-      "lastSeenAt": "2026-09-29T14:29:00.678Z",
+      "lastSeenAt": "2026-09-29T14:30:41.044Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -202018,18 +202018,54 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T14:29:00.678Z",
+      "fetchedAt": "2026-09-29T14:30:41.044Z",
       "sourceUpdatedAt": "2026-09-29T14:25:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T14:29:00.678Z",
+      "fetchedAt": "2026-09-29T14:30:41.044Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "12228090",
+          "street": "F G Gardiner Xy W",
+          "title": "Westbound Gardiner Xy beyond Spadina Ave",
+          "description": "Toronto-TMC: Acceleration lane blocked due to a stalled vehicle",
+          "restrictionType": "HAZARD",
+          "type": "HAZARD",
+          "impact": "High",
+          "startLocation": "Bathurst St",
+          "endLocation": "",
+          "start": 1790691893000,
+          "reportedAt": 1790691893000,
+          "end": null,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.638079,
+            -79.401347
+          ],
+          "line": [],
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -79.401347,
+              43.638079
+            ]
+          },
+          "geometryKind": "point",
+          "schedule": "Everyday: 00:00-23:59",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "Tor-RD52026-5942",
           "street": "Honeywell Pl",
@@ -202082,65 +202118,6 @@
           },
           "geometryKind": "line",
           "schedule": "Everyday: 07:00-21:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD1H2026-1603-1",
-          "street": "Military Trl",
-          "title": "Military Trl 95 m East of Hepc to 114 m East of Hepc",
-          "description": "Toronto-TMC: Cable pulling",
-          "restrictionType": "ROAD CLOSED",
-          "type": "ROAD CLOSED",
-          "impact": "Low",
-          "startLocation": "Hepc",
-          "endLocation": "Hepc",
-          "start": 1788789600000,
-          "reportedAt": 1788452885000,
-          "end": 1793386800000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.79063,
-            -79.20074
-          ],
-          "line": [
-            [
-              43.79063,
-              -79.20074
-            ],
-            [
-              43.79064,
-              -79.20052
-            ],
-            [
-              43.79065,
-              -79.2005
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.20074,
-                43.79063
-              ],
-              [
-                -79.20052,
-                43.79064
-              ],
-              [
-                -79.2005,
-                43.79065
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 10:00-15:00; Tuesday: 10:00-15:00; Wednesday: 10:00-15:00; Thursday: 10:00-15:00; Friday: 10:00-15:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -203006,6 +202983,65 @@
           },
           "geometryKind": "line",
           "schedule": "Monday: 10:00-14:00; Tuesday: 10:00-14:00; Wednesday: 10:00-14:00; Thursday: 10:00-14:00; Friday: 10:00-14:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1H2026-1603-1",
+          "street": "Military Trl",
+          "title": "Military Trl 95 m East of Hepc to 114 m East of Hepc",
+          "description": "Toronto-TMC: Cable pulling",
+          "restrictionType": "ROAD CLOSED",
+          "type": "ROAD CLOSED",
+          "impact": "Low",
+          "startLocation": "Hepc",
+          "endLocation": "Hepc",
+          "start": 1788789600000,
+          "reportedAt": 1788452885000,
+          "end": 1793386800000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.79063,
+            -79.20074
+          ],
+          "line": [
+            [
+              43.79063,
+              -79.20074
+            ],
+            [
+              43.79064,
+              -79.20052
+            ],
+            [
+              43.79065,
+              -79.2005
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.20074,
+                43.79063
+              ],
+              [
+                -79.20052,
+                43.79064
+              ],
+              [
+                -79.2005,
+                43.79065
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 10:00-15:00; Tuesday: 10:00-15:00; Wednesday: 10:00-15:00; Thursday: 10:00-15:00; Friday: 10:00-15:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -353672,8 +353708,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-29T14:25:16.046Z",
-      "fetchedAt": "2026-09-29T14:25:16.046Z"
+      "checkedAt": "2026-09-29T14:30:41.044Z",
+      "fetchedAt": "2026-09-29T14:30:41.044Z"
     },
     "transit": {
       "items": [
@@ -356832,16 +356868,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-29T14:25:16.000Z",
+      "sourceUpdatedAt": "2026-09-29T14:30:41.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-29T14:25:16.046Z",
-      "fetchedAt": "2026-09-29T14:25:16.046Z"
+      "checkedAt": "2026-09-29T14:30:41.044Z",
+      "fetchedAt": "2026-09-29T14:30:41.044Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-29T14:28:59.000Z",
+    "sourceUpdatedAt": "2026-09-29T14:30:42.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -356850,14 +356886,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-29T14:29:00.678Z",
-    "checkedAt": "2026-09-29T14:29:00.678Z",
+    "fetchedAt": "2026-09-29T14:30:41.044Z",
+    "checkedAt": "2026-09-29T14:30:41.044Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-29T14:29:00.678Z",
-      "checkedAt": "2026-09-29T14:29:00.678Z",
+      "fetchedAt": "2026-09-29T14:30:41.044Z",
+      "checkedAt": "2026-09-29T14:30:41.044Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
