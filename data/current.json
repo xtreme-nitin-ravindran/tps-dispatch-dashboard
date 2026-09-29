@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T10:53:51.167Z",
-  "sourceUpdatedAt": "2026-09-29T10:50:01.000Z",
+  "fetchedAt": "2026-09-29T10:55:36.225Z",
+  "sourceUpdatedAt": "2026-09-29T10:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26154433",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "PEMBROKE ST / GERRARD ST E",
+      "division": "325",
+      "timestamp": "2026-09-29T10:49:11.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T10:55:36.225Z",
+      "lastSeenAt": "2026-09-29T10:55:36.225Z",
+      "geography": {
+        "text": "Pembroke Street & Gerrard Street East",
+        "approximate": false,
+        "coordinates": [
+          43.660949,
+          -79.3735436
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-29T10:55:36.225Z"
+      }
+    },
     {
       "id": "TPS-be714ca5fe5ea0ae3633029c",
       "source": "TPS",
@@ -189,7 +215,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T10:36:15.545Z",
-      "lastSeenAt": "2026-09-29T10:53:51.167Z",
+      "lastSeenAt": "2026-09-29T10:55:36.225Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -253,7 +279,7 @@
       "division": "233",
       "timestamp": "2026-09-29T10:20:46.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -200626,84 +200652,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26150195",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Fire - Highrise Residential",
-      "location": "GERRARD ST, TT / YONGE ST / BAY ST",
-      "division": "314",
-      "timestamp": "2026-09-22T10:54:17.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Command Unit",
-          "numbers": [
-            "31",
-            "33"
-          ]
-        },
-        {
-          "type": "High-Rise Unit",
-          "numbers": [
-            "332"
-          ]
-        },
-        {
-          "type": "Ladder Truck",
-          "numbers": [
-            "315",
-            "325",
-            "325"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "312",
-            "314",
-            "332"
-          ]
-        },
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "325"
-          ]
-        },
-        {
-          "type": "Squad Unit",
-          "numbers": [
-            "313"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-22T11:00:57.541Z",
-      "lastSeenAt": "2026-09-22T11:35:47.401Z",
-      "geography": {
-        "text": "Gerrard Street between Yonge Street & Bay Street",
-        "approximate": false,
-        "coordinates": [
-          43.65879375,
-          -79.3834823
-        ],
-        "division": "Possible divisions 51 / 52",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-22T11:00:57.541Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T10:53:51.167Z",
-      "sourceUpdatedAt": "2026-09-29T10:50:01.000Z",
+      "fetchedAt": "2026-09-29T10:55:36.225Z",
+      "sourceUpdatedAt": "2026-09-29T10:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T10:53:51.167Z",
+      "fetchedAt": "2026-09-29T10:55:36.225Z",
       "status": "ok"
     }
   },
@@ -354491,7 +354449,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-29T10:53:18.000Z",
+    "sourceUpdatedAt": "2026-09-29T10:55:17.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -354500,14 +354458,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-29T10:53:51.167Z",
-    "checkedAt": "2026-09-29T10:53:51.167Z",
+    "fetchedAt": "2026-09-29T10:55:36.225Z",
+    "checkedAt": "2026-09-29T10:55:36.225Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-29T10:53:51.167Z",
-      "checkedAt": "2026-09-29T10:53:51.167Z",
+      "fetchedAt": "2026-09-29T10:55:36.225Z",
+      "checkedAt": "2026-09-29T10:55:36.225Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -354531,6 +354489,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "PEMBROKE ST / GERRARD ST E": {
+      "text": "Pembroke Street & Gerrard Street East",
+      "approximate": false,
+      "coordinates": [
+        43.660949,
+        -79.3735436
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-29T10:55:36.225Z"
+    },
     "M6H": {
       "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
       "approximate": true,
