@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T10:20:05.126Z",
-  "sourceUpdatedAt": "2026-09-29T10:15:02.000Z",
+  "fetchedAt": "2026-09-29T10:22:05.539Z",
+  "sourceUpdatedAt": "2026-09-29T10:20:01.000Z",
   "incidents": [
+    {
+      "id": "F26154428",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1K",
+      "division": "221",
+      "timestamp": "2026-09-29T10:11:16.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "221"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-29T10:22:05.539Z",
+      "lastSeenAt": "2026-09-29T10:22:05.539Z",
+      "geography": {
+        "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
+        "approximate": true,
+        "coordinates": [
+          43.7298,
+          -79.2639
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26154427",
       "source": "TFS",
@@ -26,7 +60,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T10:18:18.581Z",
-      "lastSeenAt": "2026-09-29T10:20:05.126Z",
+      "lastSeenAt": "2026-09-29T10:22:05.539Z",
       "geography": {
         "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
         "approximate": true,
@@ -66,7 +100,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T10:18:18.581Z",
-      "lastSeenAt": "2026-09-29T10:20:05.126Z",
+      "lastSeenAt": "2026-09-29T10:22:05.539Z",
       "geography": {
         "text": "Cumberland Street between Bay Street & Bellair Street",
         "approximate": false,
@@ -107,7 +141,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T10:12:46.821Z",
       "lastMeaningfulUpdateAt": "2026-09-29T10:18:18.581Z",
-      "lastSeenAt": "2026-09-29T10:20:05.126Z",
+      "lastSeenAt": "2026-09-29T10:22:05.539Z",
       "geography": {
         "text": "Robertson Crescent & Rees Street",
         "approximate": false,
@@ -154,7 +188,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-29T10:12:46.821Z",
       "lastMeaningfulUpdateAt": "2026-09-29T10:18:18.581Z",
-      "lastSeenAt": "2026-09-29T10:20:05.126Z",
+      "lastSeenAt": "2026-09-29T10:22:05.539Z",
       "geography": {
         "text": "Bond Street between Queen Street East & Shuter Street",
         "approximate": false,
@@ -189,7 +223,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T10:01:35.123Z",
       "lastMeaningfulUpdateAt": "2026-09-29T10:06:49.976Z",
-      "lastSeenAt": "2026-09-29T10:20:05.126Z",
+      "lastSeenAt": "2026-09-29T10:22:05.539Z",
       "geography": {
         "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
         "approximate": true,
@@ -299,7 +333,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T09:56:18.100Z",
-      "lastSeenAt": "2026-09-29T10:20:05.126Z",
+      "lastSeenAt": "2026-09-29T10:22:05.539Z",
       "geography": {
         "text": "Approximate area: (M1W) Scarborough (Steeles West / L'Amoreaux West)",
         "approximate": true,
@@ -200711,49 +200745,16 @@
         "division": "Division 52",
         "approximate": true
       }
-    },
-    {
-      "id": "F26150189",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M3H",
-      "division": "145",
-      "timestamp": "2026-09-22T10:22:03.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "145"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-22T10:30:57.116Z",
-      "lastSeenAt": "2026-09-22T10:59:37.310Z",
-      "geography": {
-        "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
-        "approximate": true,
-        "coordinates": [
-          43.7535,
-          -79.4472
-        ],
-        "division": "Division 32",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T10:20:05.126Z",
-      "sourceUpdatedAt": "2026-09-29T10:15:02.000Z",
+      "fetchedAt": "2026-09-29T10:22:05.539Z",
+      "sourceUpdatedAt": "2026-09-29T10:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T10:20:05.126Z",
+      "fetchedAt": "2026-09-29T10:22:05.539Z",
       "status": "ok"
     }
   },
@@ -354433,7 +354434,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-29T10:19:38.000Z",
+    "sourceUpdatedAt": "2026-09-29T10:21:43.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -354442,14 +354443,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-29T10:20:05.126Z",
-    "checkedAt": "2026-09-29T10:20:05.126Z",
+    "fetchedAt": "2026-09-29T10:22:05.539Z",
+    "checkedAt": "2026-09-29T10:22:05.539Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-29T10:20:05.126Z",
-      "checkedAt": "2026-09-29T10:20:05.126Z",
+      "fetchedAt": "2026-09-29T10:22:05.539Z",
+      "checkedAt": "2026-09-29T10:22:05.539Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -354473,6 +354474,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1K": {
+      "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
+      "approximate": true,
+      "coordinates": [
+        43.7298,
+        -79.2639
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1R": {
       "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
       "approximate": true,
@@ -354697,18 +354710,6 @@
         -79.4035
       ],
       "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1K": {
-      "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
-      "approximate": true,
-      "coordinates": [
-        43.7298,
-        -79.2639
-      ],
-      "division": "Division 41",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
