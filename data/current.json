@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T04:49:43.453Z",
-  "sourceUpdatedAt": "2026-09-29T04:45:02.000Z",
+  "fetchedAt": "2026-09-29T04:51:13.639Z",
+  "sourceUpdatedAt": "2026-09-29T04:50:02.000Z",
   "incidents": [
+    {
+      "id": "TPS-32c98c507cb785aeec54350c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-29T04:44:13.000Z",
+      "location": "HUMBER CREEK TRL - HUMBER CREEK TRL",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HUMBER CREEK TRL - HUMBER CREEK TRL",
+        "coordinates": [
+          43.698203383084014,
+          -79.54158166191456
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T04:51:13.639Z"
+    },
+    {
+      "id": "TPS-804132b2c9eb489a78138170",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-29T04:42:41.000Z",
+      "location": "GERTRUDE PL - SELKIRK ST",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GERTRUDE PL - SELKIRK ST",
+        "coordinates": [
+          43.680441573996,
+          -79.34543590503753
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T04:51:13.639Z"
+    },
+    {
+      "id": "F26154350",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Check Call",
+      "location": "MEADOWGLEN PL, SC / BRIMORTON DR / ROMAN ABRAHAM BLVD",
+      "division": "231",
+      "timestamp": "2026-09-29T04:42:01.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "231"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-29T04:51:13.639Z",
+      "lastSeenAt": "2026-09-29T04:51:13.639Z",
+      "geography": {
+        "text": "Meadowglen Place between Brimorton Drive & Roman Abraham Boulevard",
+        "approximate": false,
+        "coordinates": [
+          43.7746548,
+          -79.22937535
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-29T04:51:13.639Z"
+      }
+    },
     {
       "id": "F26154349",
       "source": "TFS",
@@ -16,9 +94,18 @@
       "timestamp": "2026-09-29T04:37:47.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "223"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T04:46:52.089Z",
-      "lastSeenAt": "2026-09-29T04:49:43.453Z",
+      "lastMeaningfulUpdateAt": "2026-09-29T04:51:13.639Z",
+      "lastSeenAt": "2026-09-29T04:51:13.639Z",
       "geography": {
         "text": "Approximate area: (M1J) Scarborough (Eglinton)",
         "approximate": true,
@@ -31,6 +118,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-f77cd622f65b60b74d2c8fa7",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-29T04:37:24.000Z",
+      "location": "CHURCH ST - JARVIS ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CHURCH ST - JARVIS ST",
+        "coordinates": [
+          43.66571560481933,
+          -79.3809414494974
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T04:51:13.639Z"
+    },
+    {
+      "id": "TPS-237df7769fc2579eb322dc31",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-29T04:37:24.000Z",
+      "location": "GARVIN MEWS - MAXOME AVE",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GARVIN MEWS - MAXOME AVE",
+        "coordinates": [
+          43.78333860685762,
+          -79.39930798131113
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T04:51:13.639Z"
+    },
+    {
+      "id": "TPS-0be900fe505d4b06ec532406",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "INDECENT EXPOSURE JUST OCCURRED",
+      "callTypeCode": "EXPJU",
+      "timestamp": "2026-09-29T04:36:11.000Z",
+      "location": "ST ANDREWS BLVD - FAIRHAVEN PARK TRL",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ST ANDREWS BLVD - FAIRHAVEN PARK TRL",
+        "coordinates": [
+          43.70131885527808,
+          -79.54866704066109
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T04:51:13.639Z"
     },
     {
       "id": "F26154348",
@@ -52,7 +205,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T04:40:30.026Z",
-      "lastSeenAt": "2026-09-29T04:49:43.453Z",
+      "lastSeenAt": "2026-09-29T04:51:13.639Z",
       "geography": {
         "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
         "approximate": true,
@@ -92,7 +245,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T04:40:30.026Z",
-      "lastSeenAt": "2026-09-29T04:49:43.453Z",
+      "lastSeenAt": "2026-09-29T04:51:13.639Z",
       "geography": {
         "text": "Approximate location on Purvis Crescent",
         "approximate": true,
@@ -102,6 +255,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-29T04:15:32.901Z"
       }
+    },
+    {
+      "id": "TPS-9065d500c2aa0000a3fd4099",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-29T04:33:09.000Z",
+      "location": "BATHURST ST - EGLINTON AVE W",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BATHURST ST - EGLINTON AVE W",
+        "coordinates": [
+          43.70100187141614,
+          -79.4255351054643
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T04:51:13.639Z"
     },
     {
       "id": "F26154346",
@@ -123,7 +298,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T04:40:30.026Z",
-      "lastSeenAt": "2026-09-29T04:49:43.453Z",
+      "lastSeenAt": "2026-09-29T04:51:13.639Z",
       "geography": {
         "text": "Approximate area: (M1J) Scarborough (Eglinton)",
         "approximate": true,
@@ -138,6 +313,28 @@
       }
     },
     {
+      "id": "TPS-1fd5ccd651037d9d6daf1bcc",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSON WITH A GUN",
+      "callTypeCode": "PERGU",
+      "timestamp": "2026-09-29T04:31:54.000Z",
+      "location": "JOHN ST - WINDSOR ST",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "JOHN ST - WINDSOR ST",
+        "coordinates": [
+          43.64092207990738,
+          -79.3877038387514
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T04:51:13.639Z"
+    },
+    {
       "id": "F26154345",
       "source": "TFS",
       "eventType": "fire",
@@ -146,7 +343,7 @@
       "division": "426",
       "timestamp": "2026-09-29T04:30:28.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Ladder Truck",
@@ -170,6 +367,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-94cf46eea9e5086aa21147fc",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-29T04:29:49.000Z",
+      "location": "LORETTO LANE - BATHURST ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LORETTO LANE - BATHURST ST",
+        "coordinates": [
+          43.665137009461795,
+          -79.41120693468322
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T04:51:13.639Z"
+    },
+    {
+      "id": "TPS-07e63718a2d51e5aa2bedc92",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-09-29T04:26:33.000Z",
+      "location": "ST JAMES AVE - ",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ST JAMES AVE - ",
+        "coordinates": [
+          43.66924040879271,
+          -79.37281865716889
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T04:51:13.639Z"
     },
     {
       "id": "F26154343",
@@ -203,7 +444,7 @@
       ],
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-29T04:36:25.241Z",
-      "lastSeenAt": "2026-09-29T04:49:43.453Z",
+      "lastSeenAt": "2026-09-29T04:51:13.639Z",
       "geography": {
         "text": "Bloor Street between Yonge Street & Park Road",
         "approximate": false,
@@ -216,6 +457,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-20T20:01:04.028Z"
       }
+    },
+    {
+      "id": "TPS-e84b2788458f529cb437e276",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-29T04:23:42.000Z",
+      "location": "MARTIN GOODMAN TRL - REES STREET PARKETTE TRL",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MARTIN GOODMAN TRL - REES STREET PARKETTE TRL",
+        "coordinates": [
+          43.63944907781273,
+          -79.38270094208661
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T04:51:13.639Z"
     },
     {
       "id": "TPS-bface04d32eaa6b9b483f3c9",
@@ -393,7 +656,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T04:30:50.873Z",
-      "lastSeenAt": "2026-09-29T04:49:43.453Z",
+      "lastSeenAt": "2026-09-29T04:51:13.639Z",
       "geography": {
         "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
         "approximate": true,
@@ -200349,69 +200612,16 @@
         "division": "HP",
         "approximate": true
       }
-    },
-    {
-      "id": "F26150123",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Vehicle Fire",
-      "location": "EDENBRIDGE DR, ET / EDGEHILL RD / HUMBER RIVER RECREATIONAL TRL",
-      "division": "443",
-      "timestamp": "2026-09-22T04:50:57.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Command Unit",
-          "numbers": [
-            "40",
-            "44"
-          ]
-        },
-        {
-          "type": "Other Unit",
-          "numbers": [
-            "FI27"
-          ]
-        },
-        {
-          "type": "Ladder Truck",
-          "numbers": [
-            "421"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "421",
-            "443"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-22T05:00:29.863Z",
-      "lastSeenAt": "2026-09-22T16:49:30.857Z",
-      "geography": {
-        "text": "Approximate location near Edenbridge Drive & Edgehill Road",
-        "approximate": true,
-        "coordinates": [
-          43.6712064,
-          -79.5181712
-        ],
-        "division": "Unknown",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-22T05:31:10.111Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T04:49:43.453Z",
-      "sourceUpdatedAt": "2026-09-29T04:45:02.000Z",
+      "fetchedAt": "2026-09-29T04:51:13.639Z",
+      "sourceUpdatedAt": "2026-09-29T04:50:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T04:49:43.453Z",
+      "fetchedAt": "2026-09-29T04:51:13.639Z",
       "status": "ok"
     }
   },
@@ -354910,6 +355120,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "MEADOWGLEN PL, SC / BRIMORTON DR / ROMAN ABRAHAM BLVD": {
+      "text": "Meadowglen Place between Brimorton Drive & Roman Abraham Boulevard",
+      "approximate": false,
+      "coordinates": [
+        43.7746548,
+        -79.22937535
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-29T04:51:13.639Z"
+    },
     "M1J": {
       "text": "Approximate area: (M1J) Scarborough (Eglinton)",
       "approximate": true,
@@ -367233,18 +367455,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T05:06:30.298Z"
-    },
-    "EDENBRIDGE DR, ET / EDGEHILL RD / HUMBER RIVER RECREATIONAL TRL": {
-      "text": "Approximate location near Edenbridge Drive & Edgehill Road",
-      "approximate": true,
-      "coordinates": [
-        43.6712064,
-        -79.5181712
-      ],
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T05:31:10.111Z"
     }
   }
 }
