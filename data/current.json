@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T04:45:02.218Z",
-  "sourceUpdatedAt": "2026-09-29T04:40:01.000Z",
+  "fetchedAt": "2026-09-29T04:46:52.089Z",
+  "sourceUpdatedAt": "2026-09-29T04:45:02.000Z",
   "incidents": [
+    {
+      "id": "F26154349",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1J",
+      "division": "223",
+      "timestamp": "2026-09-29T04:37:47.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T04:46:52.089Z",
+      "lastSeenAt": "2026-09-29T04:46:52.089Z",
+      "geography": {
+        "text": "Approximate area: (M1J) Scarborough (Eglinton)",
+        "approximate": true,
+        "coordinates": [
+          43.7464,
+          -79.2323
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26154348",
       "source": "TFS",
@@ -26,7 +52,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T04:40:30.026Z",
-      "lastSeenAt": "2026-09-29T04:45:02.218Z",
+      "lastSeenAt": "2026-09-29T04:46:52.089Z",
       "geography": {
         "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
         "approximate": true,
@@ -66,7 +92,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T04:40:30.026Z",
-      "lastSeenAt": "2026-09-29T04:45:02.218Z",
+      "lastSeenAt": "2026-09-29T04:46:52.089Z",
       "geography": {
         "text": "Approximate location on Purvis Crescent",
         "approximate": true,
@@ -97,7 +123,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T04:40:30.026Z",
-      "lastSeenAt": "2026-09-29T04:45:02.218Z",
+      "lastSeenAt": "2026-09-29T04:46:52.089Z",
       "geography": {
         "text": "Approximate area: (M1J) Scarborough (Eglinton)",
         "approximate": true,
@@ -131,7 +157,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T04:40:30.026Z",
-      "lastSeenAt": "2026-09-29T04:45:02.218Z",
+      "lastSeenAt": "2026-09-29T04:46:52.089Z",
       "geography": {
         "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
         "approximate": true,
@@ -177,7 +203,7 @@
       ],
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-29T04:36:25.241Z",
-      "lastSeenAt": "2026-09-29T04:45:02.218Z",
+      "lastSeenAt": "2026-09-29T04:46:52.089Z",
       "geography": {
         "text": "Bloor Street between Yonge Street & Park Road",
         "approximate": false,
@@ -367,7 +393,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T04:30:50.873Z",
-      "lastSeenAt": "2026-09-29T04:45:02.218Z",
+      "lastSeenAt": "2026-09-29T04:46:52.089Z",
       "geography": {
         "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
         "approximate": true,
@@ -200376,37 +200402,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-22T05:31:10.111Z"
       }
-    },
-    {
-      "id": "TPS-92ff0b2a1889aa99439dd287",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "IMPAIRED DRIVER",
-      "callTypeCode": "IMPDR",
-      "timestamp": "2026-09-22T04:46:51.000Z",
-      "location": "YORK MILLS RD - UPPER HIGHLAND CRES",
-      "division": "Division 32",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "YORK MILLS RD - UPPER HIGHLAND CRES",
-        "coordinates": [
-          43.745467784676194,
-          -79.39643969029616
-        ],
-        "division": "Division 32",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T04:45:02.218Z",
-      "sourceUpdatedAt": "2026-09-29T04:40:01.000Z",
+      "fetchedAt": "2026-09-29T04:46:52.089Z",
+      "sourceUpdatedAt": "2026-09-29T04:45:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T04:45:02.218Z",
+      "fetchedAt": "2026-09-29T04:46:52.089Z",
       "status": "ok"
     }
   },
@@ -354905,6 +354910,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1J": {
+      "text": "Approximate area: (M1J) Scarborough (Eglinton)",
+      "approximate": true,
+      "coordinates": [
+        43.7464,
+        -79.2323
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M1K": {
       "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
       "approximate": true,
@@ -354925,18 +354942,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-29T04:15:32.901Z"
-    },
-    "M1J": {
-      "text": "Approximate area: (M1J) Scarborough (Eglinton)",
-      "approximate": true,
-      "coordinates": [
-        43.7464,
-        -79.2323
-      ],
-      "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M6J": {
       "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
