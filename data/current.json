@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T11:27:01.581Z",
+  "fetchedAt": "2026-09-29T11:28:56.687Z",
   "sourceUpdatedAt": "2026-09-29T11:25:02.000Z",
   "incidents": [
     {
@@ -18,7 +18,7 @@
       "isOngoing": true,
       "vehicles": [],
       "firstSeenAt": "2026-09-29T11:27:01.581Z",
-      "lastSeenAt": "2026-09-29T11:27:01.581Z",
+      "lastSeenAt": "2026-09-29T11:28:56.687Z",
       "geography": {
         "text": "Approximate area: (M5G) Downtown Toronto (Central Bay Street)",
         "approximate": true,
@@ -52,7 +52,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T11:21:56.355Z",
-      "lastSeenAt": "2026-09-29T11:27:01.581Z",
+      "lastSeenAt": "2026-09-29T11:28:56.687Z",
       "geography": {
         "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
         "approximate": true,
@@ -486,7 +486,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T10:36:15.545Z",
-      "lastSeenAt": "2026-09-29T11:27:01.581Z",
+      "lastSeenAt": "2026-09-29T11:28:56.687Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -200499,18 +200499,256 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T11:27:01.581Z",
+      "fetchedAt": "2026-09-29T11:28:56.687Z",
       "sourceUpdatedAt": "2026-09-29T11:25:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T11:27:01.581Z",
+      "fetchedAt": "2026-09-29T11:28:56.687Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "Tor-RD52026-6080-2",
+          "street": "Euclid Ave",
+          "title": "Euclid Ave 21 m West of Zaph Ave to 19 m East of Zaph Ave",
+          "description": "Toronto-TMC: Green Streets, Road Rehabilitation and Laneway Reconstruction in Wards 5, 11 and 25 During all scopes of the work, we will use a road closed local traffic only strategy to do the work. We will close the road block by block. We will work with the affected residents for access in and out. Once Sanscon leaves the site access to the roadway will be maintained nightly.",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "Low",
+          "startLocation": "Zaph Ave",
+          "endLocation": "Zaph Ave",
+          "start": 1790593200000,
+          "reportedAt": 1790681087000,
+          "end": 1798761600000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.79516,
+            -79.16857
+          ],
+          "line": [
+            [
+              43.79516,
+              -79.16857
+            ],
+            [
+              43.79522,
+              -79.16833
+            ],
+            [
+              43.79522,
+              -79.16833
+            ],
+            [
+              43.79527,
+              -79.1681
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.16857,
+                43.79516
+              ],
+              [
+                -79.16833,
+                43.79522
+              ],
+              [
+                -79.16833,
+                43.79522
+              ],
+              [
+                -79.1681,
+                43.79527
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Everyday: 07:00-19:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD52026-6080-1",
+          "street": "Zaph Ave",
+          "title": "Zaph Ave at Ellesmere Rd to 44 m East of Goldene Way",
+          "description": "Toronto-TMC: Green Streets, Road Rehabilitation and Laneway Reconstruction in Wards 5, 11 and 25 During all scopes of the work, we will use a road closed local traffic only strategy to do the work. We will close the road block by block. We will work with the affected residents for access in and out. Once Sanscon leaves the site access to the roadway will be maintained nightly.",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "Low",
+          "startLocation": "Ellesmere Rd",
+          "endLocation": "Goldene Way",
+          "start": 1790593200000,
+          "reportedAt": 1790681087000,
+          "end": 1798761600000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.79174,
+            -79.16673
+          ],
+          "line": [
+            [
+              43.79174,
+              -79.16673
+            ],
+            [
+              43.79308,
+              -79.16733
+            ],
+            [
+              43.79308,
+              -79.16733
+            ],
+            [
+              43.79394,
+              -79.16774
+            ],
+            [
+              43.79413,
+              -79.16783
+            ],
+            [
+              43.79413,
+              -79.16783
+            ],
+            [
+              43.79522,
+              -79.16833
+            ],
+            [
+              43.79522,
+              -79.16833
+            ],
+            [
+              43.79618,
+              -79.16877
+            ],
+            [
+              43.79618,
+              -79.16877
+            ],
+            [
+              43.79625,
+              -79.1688
+            ],
+            [
+              43.79717,
+              -79.16922
+            ],
+            [
+              43.79856,
+              -79.16987
+            ],
+            [
+              43.79887,
+              -79.17
+            ],
+            [
+              43.79903,
+              -79.17008
+            ],
+            [
+              43.79903,
+              -79.17008
+            ],
+            [
+              43.7989,
+              -79.17062
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.16673,
+                43.79174
+              ],
+              [
+                -79.16733,
+                43.79308
+              ],
+              [
+                -79.16733,
+                43.79308
+              ],
+              [
+                -79.16774,
+                43.79394
+              ],
+              [
+                -79.16783,
+                43.79413
+              ],
+              [
+                -79.16783,
+                43.79413
+              ],
+              [
+                -79.16833,
+                43.79522
+              ],
+              [
+                -79.16833,
+                43.79522
+              ],
+              [
+                -79.16877,
+                43.79618
+              ],
+              [
+                -79.16877,
+                43.79618
+              ],
+              [
+                -79.1688,
+                43.79625
+              ],
+              [
+                -79.16922,
+                43.79717
+              ],
+              [
+                -79.16987,
+                43.79856
+              ],
+              [
+                -79.17,
+                43.79887
+              ],
+              [
+                -79.17008,
+                43.79903
+              ],
+              [
+                -79.17008,
+                43.79903
+              ],
+              [
+                -79.17062,
+                43.7989
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Everyday: 07:00-19:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "Tor-RD1H2026-1224-10",
           "street": "Gardenvale Rd",
@@ -351115,8 +351353,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-29T11:23:37.099Z",
-      "fetchedAt": "2026-09-29T11:23:37.099Z"
+      "checkedAt": "2026-09-29T11:28:56.687Z",
+      "fetchedAt": "2026-09-29T11:28:56.687Z"
     },
     "transit": {
       "items": [
@@ -354247,16 +354485,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-29T11:23:37.000Z",
+      "sourceUpdatedAt": "2026-09-29T11:28:57.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-29T11:23:37.099Z",
-      "fetchedAt": "2026-09-29T11:23:37.099Z"
+      "checkedAt": "2026-09-29T11:28:56.687Z",
+      "fetchedAt": "2026-09-29T11:28:56.687Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-29T11:26:22.000Z",
+    "sourceUpdatedAt": "2026-09-29T11:28:48.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -354265,14 +354503,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-29T11:27:01.581Z",
-    "checkedAt": "2026-09-29T11:27:01.581Z",
+    "fetchedAt": "2026-09-29T11:28:56.687Z",
+    "checkedAt": "2026-09-29T11:28:56.687Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-29T11:27:01.581Z",
-      "checkedAt": "2026-09-29T11:27:01.581Z",
+      "fetchedAt": "2026-09-29T11:28:56.687Z",
+      "checkedAt": "2026-09-29T11:28:56.687Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
