@@ -1,0 +1,24 @@
+# Separate bounded burst: build static index once; never runs the heavy incident ETL.
+platform: linux
+image_resource:
+  type: registry-image
+  source: { repository: node, tag: 22-bookworm-slim }
+inputs:
+  - name: repo
+outputs:
+  - name: ttc-vehicle-evidence
+caches:
+  - path: ttc-vehicle-cache
+params:
+  TTC_STATIC_CACHE: ttc-vehicle-cache/surface.zip
+  TTC_VEHICLE_STATE: ttc-vehicle-cache/vehicle-state.json
+  TTC_DIVERSION_STATE: ttc-vehicle-cache/diversion-state.json
+  TTC_DIVERSION_OUTPUT: ttc-vehicle-evidence/diversions.json
+  TTC_VEHICLE_OUTPUT: ttc-vehicle-evidence/deviations.json
+run:
+  path: /bin/sh
+  args:
+    - -ec
+    - |
+      npm ci --prefix repo --omit=dev
+      node repo/scripts/ttc-vehicles.js --polls 4 --interval-ms 30000

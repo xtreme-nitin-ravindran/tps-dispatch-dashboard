@@ -1,3 +1,4 @@
+import { updateTtcBackend } from '../src/ttc/backend.js';
 import { updateDisruptions } from "../src/disruptions/source.js";
 import { readFile, appendFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -18,7 +19,7 @@ export function needsUpdate(snapshot, now = new Date()) {
     return feed?.status !== 'ok' || timestampNeedsUpdate(feed.fetchedAt);
   });
 }
-export async function runFallback({ outputPath = 'data/current.json', now = new Date(), etl = options => runTfsEtl({...options, fetchPolice:fetchTpsSource, fetchTravel:updateDisruptions}) } = {}) {
+export async function runFallback({ outputPath = 'data/current.json', now = new Date(), etl = options => runTfsEtl({...options, fetchPolice:fetchTpsSource, fetchTravel:updateDisruptions, fetchTtc:updateTtcBackend}) } = {}) {
   let snapshot;
   try { snapshot = JSON.parse(await readFile(outputPath, 'utf8')); }
   catch (error) { if (error.code !== 'ENOENT') throw error; }

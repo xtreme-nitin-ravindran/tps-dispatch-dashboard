@@ -1,3 +1,6 @@
+import { loadTtcUiFixture } from './src/ttc/fixture.js';
+import { mergeTtcDisruptions } from './src/ttc/presentation.js';
+import { renderTtc, createTtcDetail, clearTtcSelection, setTtcVisibility } from './src/ttc/ui.js';
 import { sourceStatus, sourceStatusText } from "./src/source-status.js?v=source-states-1";
 import { canExpandCluster, clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js?v=story-38g-1";
 import { incidentGroupKey, reconcileIncidentLayers } from "./src/incident-layer-diff.js";
@@ -344,6 +347,9 @@ function scheduleViewMaintenance({ view, mobile, focusSelection, persist }) {
 }
 
 function syncIncidentListSurface(mobile = isMobileViewLayout()) {
+  const ttcHost=document.querySelector(mobile && mobileView === "map" ? "#mobileTtcListHome" : "#ttcListHome");
+  const ttcContent=document.querySelector("#ttcContent");
+  if(ttcHost && ttcContent && ttcContent.parentElement !== ttcHost) ttcHost.append(ttcContent);
   const host = mobile && mobileView === "map" ? mobileSheetCallList : callsListHome;
   if (els.callList.parentElement !== host) host.append(els.callList);
 }
@@ -398,6 +404,9 @@ function setMobileView(view, { focusSelection = false, persist = true } = {}) {
 mobileViewToggles.forEach(toggle => toggle.addEventListener("click", auditInteraction(`view:${toggle.dataset.mobileView}`, () => {
   mobileViewInteracted = true;
   setMobileView(toggle.dataset.mobileView, { focusSelection: toggle.dataset.mobileView === "map" });
+  // WebKit can anchor to the footer when the long list moves out of the sheet.
+  // Keep the view switch in sight after the new surface has been laid out.
+  requestAnimationFrame(() => toggle.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' }));
 })));
 setMobileView(mobileView, { persist: false });
 mobileLayoutMedia.addEventListener?.("change", () => setMobileView(mobileView, { persist: false }));
@@ -589,7 +598,16 @@ function parseLooseTime(value) {
   return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
+let ttcGeometry;
+async function fetchTtcGeometry() {
+  try {
+    const response=await fetch(CONFIG.snapshotUrl.replace('current.json','ttc-diversions.json')+`?ts=${Date.now()}`,{cache:'no-store',signal:AbortSignal.timeout(4000)});
+    return response.ok ? await response.json() : {status:'unavailable'};
+  } catch { return {status:'unavailable'}; }
+}
+
 async function fetchSnapshot() {
+  const ttcFixture=await loadTtcUiFixture();
   const finishFetch = uxAudit.begin('incident-snapshot-fetch');
   if (mobileAuditFixture) {
     await waitForAuditDelay(uxReliabilityFixture?.incidentDelayMs || 0);
@@ -598,7 +616,7 @@ async function fetchSnapshot() {
     const finishNormalization = uxAudit.begin('incident-normalization');
     const snapshot = {
       calls: payload.incidents.map(row => normalizeCall(row)).sort((a, b) => b.timestamp - a.timestamp),
-      disruptions: payload.disruptions,
+      disruptions: mergeTtcDisruptions(payload.disruptions,ttcFixture?.ttcAlerts,ttcFixture?.ttcDiversions),
       feeds: payload.feeds,
       fetchedAt: payload.fetchedAt,
       updatedAt: payload.sourceUpdatedAt
@@ -626,6 +644,10 @@ async function fetchSnapshot() {
     finishNormalization({ incidents: snapshot.calls.length });
     return snapshot;
   }
+  if(!ttcFixture) void fetchTtcGeometry().then(geometry=>{
+    ttcGeometry=geometry;
+    if(state.disruptions) {state.disruptions={...state.disruptions,ttcDiversions:geometry};renderTtc(state.disruptions,dispatchMap,{origin:radiusFilterOrigin(),radius:state.radiusKm});}
+  });
   const response = await fetch(`${CONFIG.snapshotUrl}?ts=${Date.now()}`, { cache: "no-store" });
   if (!response.ok) throw new Error(`Official TFS snapshot returned HTTP ${response.status}`);
   const payload = await response.json();
@@ -635,7 +657,7 @@ async function fetchSnapshot() {
   const snapshot = {
     calls: rows.map(row => normalizeCall(row))
       .sort((a, b) => b.timestamp - a.timestamp),
-    disruptions: withTtcNearbyFixture(payload.disruptions),
+    disruptions: mergeTtcDisruptions(withTtcNearbyFixture(payload.disruptions),ttcFixture?.ttcAlerts || payload.ttcAlerts,ttcFixture?.ttcDiversions || ttcGeometry),
     feeds: payload.feeds,
     fetchedAt: payload.fetchedAt || null,
     updatedAt: payload.sourceUpdatedAt || payload.fetchedAt || null
@@ -750,6 +772,7 @@ async function loadData() {
       state.disruptions = snapshot.disruptions;
     }
     renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
+    renderTtc(state.disruptions,dispatchMap,{origin:radiusFilterOrigin(),radius:state.radiusKm});
     finishSecondary({
       roads: state.disruptions?.roads?.items?.length || 0,
       transit: state.disruptions?.transit?.items?.length || 0
@@ -867,6 +890,7 @@ function render(map = true) {
   renderCalls();
   if (map) renderMap();
   renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
+  renderTtc(state.disruptions,dispatchMap,{origin:radiusFilterOrigin(),radius:state.radiusKm});
   els.eventToggles.forEach(toggle => {
     const active = toggle.dataset.eventFilter === state.eventFilter;
     toggle.classList.toggle("active", active);
@@ -981,7 +1005,7 @@ function renderNearbySummary() {
   );
   document.querySelector("#nearbySummaryText").textContent = summaryText;
   document.querySelector("#mobileNearbySummaryText").textContent = mobileSummaryText;
-  if (mobileSheetSummary) mobileSheetSummary.textContent = mobileSummaryText;
+  if (!focusedClosureId && mobileSheetSummary) mobileSheetSummary.textContent = mobileSummaryText;
   expandNearbyRadius.hidden = empty?.nextRadiusKm === undefined;
   if (!expandNearbyRadius.hidden) {
     expandNearbyRadius.dataset.radiusKm = empty.nextRadiusKm === null ? 'toronto' : String(empty.nextRadiusKm);
@@ -1368,7 +1392,15 @@ function initMap() {
   tileLayer.addTo(dispatchMap);
   callLayer = L.layerGroup().addTo(dispatchMap);
   nearbyOriginLayer = L.layerGroup().addTo(dispatchMap);
-  dispatchMap.on('roadclosureselect', event => selectClosure(event.item,event.layer));
+  dispatchMap.on('roadclosureselect', event => { clearTtcSelection(); selectClosure(event.item,event.layer); });
+  dispatchMap.on('ttcfocus',()=>{clearClosureSelection();clearIncidentForTtc();});
+  dispatchMap.on('ttcselect',event=>{
+    clearIncidentForTtc();
+    if(isMobileViewLayout()) setMobileView('map',{persist:false});
+    selectClosure(event.item,event.layer,true);
+  });
+  dispatchMap.on('ttcselectionexpired',()=>{if(focusedClosureId?.startsWith('ttc:')) clearClosureSelection();});
+  dispatchMap.on('ttcselectionupdated',event=>{if(focusedClosureId === `ttc:${event.item.id}`) mobileClosureDetail.querySelector('.ttc-detail')?.replaceWith(createTtcDetail(event.item));});
   dispatchMap.on("zoomend", () => {
     expandedCluster.clear();
     scheduleMapMarkerRender();
@@ -1383,7 +1415,20 @@ function initMap() {
   markFullyRenderedWhenReady();
 }
 
+function clearIncidentForTtc() {
+  const previous=focusedCallId;
+  focusedCallId=null;
+  dispatchMap?.closePopup();
+  if(previous) updateMarkerAppearance(previous);
+  for(const row of document.querySelectorAll('.incident-card.selected')) {
+    row.classList.remove('selected','pin-highlight');
+    if(row.hasAttribute('role')) row.setAttribute('aria-pressed','false');
+  }
+}
+
 function clearClosureSelection() {
+  clearTtcSelection();
+  document.querySelector('#mobileTtcListHome').hidden=false;
   const hadClosure=focusedClosureId !== null;
   focusedClosureId=null;
   if (mobileClosureDetail) {
@@ -1395,23 +1440,28 @@ function clearClosureSelection() {
   if (hadClosure) renderNearbySummary();
 }
 
-function selectClosure(closure, layer) {
+function selectClosure(closure, layer, ttc=false) {
   if (!closure) return;
-  focusedClosureId=String(closure.id ?? '');
-  const detail=createClosureDetail(closure);
+  focusedClosureId=(ttc ? 'ttc:' : '')+String(closure.id ?? '');
+  const detail=ttc ? createTtcDetail(closure) : createClosureDetail(closure);
   if (isMobileViewLayout()) {
     const back=document.createElement('button');
     back.type='button';back.className='closure-detail-back';back.textContent='← Back to incident list';
-    back.addEventListener('click',clearClosureSelection);
+    back.addEventListener('click',()=>{clearClosureSelection();if(ttc) [...document.querySelectorAll('.ttc-disruption')].find(el=>el.dataset.ttcId===closure.id)?.querySelector('summary')?.focus({preventScroll:true});});
     mobileClosureDetail.replaceChildren(back,detail);
     mobileClosureDetail.hidden=false;
     mobileSheetCallList.hidden=true;
+    document.querySelector('#mobileTtcListHome').hidden=true;
     mobileCallsFeedStatus.hidden=true;
-    mobileSheetSummary.textContent=closure.street || closure.title || 'Road closure';
+    mobileSheetSummary.textContent=ttc ? closure.routes.map(r=>r.label).join(' · ') || 'TTC disruption' : closure.street || closure.title || 'Road closure';
     setMobileSheetState(mobileSheetState === 'collapsed' ? 'half' : mobileSheetState);
+    if(ttc) {document.querySelector('#mobileSheetBody').scrollTop=0;back.focus({preventScroll:true});}
     return;
   }
-  layer?.bindPopup?.(detail,{minWidth:260,maxWidth:340,closeOnClick:false}).openPopup?.();
+  if(ttc) {
+    const host=[...document.querySelectorAll('.ttc-disruption')].find(el=>el.dataset.ttcId===closure.id);
+    if(host) {host.open=true;if(layer) {host.scrollIntoView({block:'nearest'});host.querySelector('summary').focus({preventScroll:true});}}
+  } else layer?.bindPopup?.(detail,{minWidth:260,maxWidth:340,closeOnClick:false}).openPopup?.();
 }
 
 function mapAllowsBoundaryWork() {
@@ -2788,3 +2838,5 @@ document.querySelector('#shareView').addEventListener('click', async () => {
 uxAudit.mark('first-usable-ui', {
   definition: 'structure and loading status visible; search, radius, Map/Calls, and filters accept input'
 });
+
+document.querySelector('#ttcOverlay').addEventListener('change',event=>setTtcVisibility(event.target.checked));

@@ -3,7 +3,7 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['data/**'],
+    ignores: ['data/**', '.cache/**'],
   },
   js.configs.recommended,
   {
@@ -26,7 +26,7 @@ export default [
     },
   },
   {
-    files: ['eslint.config.js', 'scripts/**/*.js', 'test/**/*.js'],
+    files: ['eslint.config.js', 'scripts/**/*.js', 'test/**/*.js', 'src/ttc/**/*.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',

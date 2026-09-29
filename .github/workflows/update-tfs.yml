@@ -25,6 +25,13 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '22'
+      - name: Restore backend TTC static cache
+        uses: actions/cache@v4
+        with:
+          path: .cache/ttc
+          key: ttc-static-v1-${{ github.run_id }}
+          restore-keys: ttc-static-v1-
+      - run: npm ci --omit=dev
       - name: Update if the snapshot or incident feeds are stale
         id: snapshot
         run: node scripts/tfs-fallback.js

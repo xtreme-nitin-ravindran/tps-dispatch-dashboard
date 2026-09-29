@@ -1,3 +1,4 @@
+import { activeTtcAlerts } from '../ttc/presentation.js';
 import { currentDisruptions, roadDistance, transitGeographicMatch } from './view.js';
 import { distanceLabel } from '../nearby.js';
 import { sourceStatus, sourceStatusText } from '../source-status.js?v=source-states-1';
@@ -231,7 +232,8 @@ export function renderDisruptions(data, origin, radius, map) {
   const allRoads=currentDisruptions(data?.roads,'roads',now);
   let roads=allRoads;
   if (origin) roads=roads.filter(r => roadDistance(r,origin) <= radius).sort((a,b)=>roadDistance(a,origin)-roadDistance(b,origin));
-  const transit=currentDisruptions(data?.transit,'transit',now);
+  const backendIds=new Set(activeTtcAlerts(data?.ttcAlerts,now).map(item=>item.id));
+  const transit=currentDisruptions(data?.transit,'transit',now).filter(item=>!backendIds.has(item.id));
   const nearbyTransit=origin && radius !== null
     ? transit.map(item => ({item,match:transitGeographicMatch(item,origin,radius)})).filter(({match}) => match.relevant)
     : [];
@@ -272,7 +274,8 @@ export function renderDisruptions(data, origin, radius, map) {
       nearbyList.append(article);
     }
   }
-  for (const [kind,items] of [['roads',roads],['transit',transit]]) {
+  const nearbyIds=new Set(nearbyTransit.map(({item})=>item.id));
+  for (const [kind,items] of [['roads',roads],['transit',transit.filter(item=>!nearbyIds.has(item.id))]]) {
     const list=document.querySelector(`#${kind}List`); list.replaceChildren();
     if (!items.length) {
       list.append(element('p',presentations[kind].empty,`disruption-note source-state source-state-${presentations[kind].status}`));

@@ -54,6 +54,7 @@ jobs:
                 fi
                 cp -a snapshots/. updated-repo/
                 cd repo
+                npm ci
                 TZ=UTC npm test
                 TZ=America/Los_Angeles npm test
                 TFS_UPDATED_BY=concourse TFS_PREVIOUS=../snapshots/data/current.json TFS_OUTPUT=../updated-repo/data/current.json node scripts/tfs-etl.js
@@ -66,3 +67,49 @@ jobs:
         timeout: 2m
         params:
           repository: updated-repo
+
+  # Independent of incident publication; a failed TTC task cannot block snapshots.
+  # Cache continuity is opportunistic. Each 90-second burst can confirm on its own.
+  - name: detect-ttc-vehicle-deviations
+    serial: true
+    build_log_retention:
+      builds: 20
+    plan:
+      - get: refresh
+        trigger: true
+      - get: repo
+      - task: observe-vehicles
+        timeout: 6m
+        file: repo/concourse/ttc-vehicles.yml
+
+      - get: snapshots
+      - task: publish-ttc-geometry
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source: { repository: node, tag: 22-bookworm }
+          inputs:
+            - name: repo
+            - name: snapshots
+            - name: ttc-vehicle-evidence
+          outputs:
+            - name: ttc-updated-repo
+          run:
+            path: sh
+            args:
+              - -ec
+              - |
+                cp -a snapshots/. ttc-updated-repo/
+                cd repo
+                npm ci --omit=dev
+                node scripts/publish-ttc-geometry.js ../ttc-vehicle-evidence/diversions.json ../ttc-updated-repo/data/ttc-diversions.json
+                cd ../ttc-updated-repo
+                git add -- data/ttc-diversions.json
+                if ! git diff --cached --quiet; then
+                  git -c user.name='SirenTO updater' -c user.email='sirento-updater@localhost' commit -m 'chore: refresh public TTC geometry'
+                fi
+      # Concurrent data updates fail safely; never force or overwrite incident history.
+      - put: snapshots
+        params:
+          repository: ttc-updated-repo

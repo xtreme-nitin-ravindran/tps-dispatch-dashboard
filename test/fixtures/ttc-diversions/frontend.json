@@ -1,0 +1,223 @@
+{
+  "ttcAlerts": {
+    "schemaVersion": 1,
+    "items": [
+      {
+        "id": "fixture-detour",
+        "cause": "CONSTRUCTION",
+        "effect": "DETOUR",
+        "activePeriods": [],
+        "routes": [
+          "0504"
+        ],
+        "stops": [
+          "A",
+          "D"
+        ],
+        "informedEntities": [
+          {
+            "routeId": "0504",
+            "trip": {
+              "tripId": "t1"
+            },
+            "stopId": "A"
+          },
+          {
+            "routeId": "0504",
+            "trip": {
+              "tripId": "t1"
+            },
+            "stopId": "D"
+          }
+        ],
+        "header": "TEST — King construction detour",
+        "description": "Deterministic local fixture; not a real service advisory.",
+        "headerTranslations": [
+          {
+            "text": "TEST — King construction detour",
+            "language": "en"
+          }
+        ],
+        "descriptionTranslations": [
+          {
+            "text": "Deterministic local fixture; not a real service advisory.",
+            "language": "en"
+          }
+        ],
+        "urlTranslations": [],
+        "source": "ttc-gtfs-rt",
+        "fetchedAt": "2026-09-28T16:00:00.000Z",
+        "contentHash": "432a06c0c63485dd9feb35073d7364400b0f848eab8cf5b83e57885ab0a21537",
+        "state": "active",
+        "firstSeenAt": "2026-09-28T16:00:00.000Z",
+        "updatedAt": "2026-09-28T16:00:00.000Z",
+        "correlation": {
+          "status": "exact",
+          "routes": [
+            {
+              "routeId": "0504",
+              "matched": true,
+              "routeShortName": "504",
+              "routeLongName": "King",
+              "routeType": 0
+            }
+          ],
+          "stops": [
+            {
+              "stopId": "A",
+              "matched": true,
+              "stopName": "Alpha",
+              "latitude": 43.65005,
+              "longitude": -79.4
+            },
+            {
+              "stopId": "D",
+              "matched": true,
+              "stopName": "Delta",
+              "latitude": 43.65,
+              "longitude": -79.397
+            }
+          ],
+          "trips": [
+            {
+              "tripId": "t1",
+              "matched": true,
+              "routeId": "0504",
+              "patternId": "cc8511bb224744452b3a69b0ae855fcb3d831c9c43a464f7f6fba75b373315f5"
+            }
+          ],
+          "routeResults": [
+            {
+              "routeId": "0504",
+              "status": "exact"
+            }
+          ],
+          "serviceDate": "20260928",
+          "candidates": [
+            {
+              "patternId": "cc8511bb224744452b3a69b0ae855fcb3d831c9c43a464f7f6fba75b373315f5",
+              "matchedStopIds": [
+                "A",
+                "D"
+              ],
+              "missingStopIds": [],
+              "serviceActive": true,
+              "affectedSegment": {
+                "firstStopId": "A",
+                "lastStopId": "D",
+                "stopIds": [
+                  "A",
+                  "B",
+                  "C",
+                  "D"
+                ],
+                "shapeId": "s1",
+                "geometryStatus": "projected",
+                "geometry": [
+                  [
+                    -79.4,
+                    43.65
+                  ],
+                  [
+                    -79.397,
+                    43.65
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "sourceUpdatedAt": "2026-09-28T16:00:00.000Z",
+    "lifecycleVersion": 1,
+    "changes": {
+      "new": [
+        "fixture-detour"
+      ],
+      "unchanged": [],
+      "updated": [],
+      "removed": []
+    },
+    "status": "ok",
+    "fetchedAt": "2026-09-28T16:00:00.000Z",
+    "checkedAt": "2026-09-28T16:00:00.000Z",
+    "staticCorrelation": {
+      "schemaVersion": 1,
+      "status": "ok",
+      "version": "fixture",
+      "counts": {
+        "routes": 2,
+        "stops": 5,
+        "trips": 4,
+        "patterns": 3,
+        "shapes": 2,
+        "tripsWithoutStops": 0
+      },
+      "patterns": {
+        "cc8511bb224744452b3a69b0ae855fcb3d831c9c43a464f7f6fba75b373315f5": {
+          "patternId": "cc8511bb224744452b3a69b0ae855fcb3d831c9c43a464f7f6fba75b373315f5",
+          "routeId": "0504",
+          "directionId": 0,
+          "shapeId": "s1",
+          "shapeAvailable": true,
+          "stopIds": [
+            "A",
+            "B",
+            "C",
+            "D"
+          ],
+          "tripCount": 2
+        }
+      },
+      "report": {
+        "alerts": 1,
+        "exact": 1,
+        "partial": 0,
+        "ambiguous": 0,
+        "unmatched": 0,
+        "unmatchedRouteIds": [],
+        "unmatchedStopIds": [],
+        "unmatchedTripIds": []
+      }
+    }
+  },
+  "ttcDiversions": {
+    "schemaVersion": 1,
+    "status": "ok",
+    "checkedAt": "2026-09-28T16:03:00.000Z",
+    "diversions": [
+      {
+        "id": "diversion-3a5868006edaada9c8b5c671",
+        "routeId": "0504",
+        "directionId": 0,
+        "status": "confirmed",
+        "geometrySource": "sirento-observed",
+        "geometry": [
+          [
+            -79.40399932861328,
+            43.65
+          ],
+          [
+            -79.40299987792969,
+            43.652000427246094
+          ],
+          [
+            -79.4000015258789,
+            43.652000427246094
+          ],
+          [
+            -79.39800262451172,
+            43.65
+          ]
+        ],
+        "relatedAlertIds": [
+          "fixture-detour"
+        ],
+        "lastObservedAt": "2026-09-28T16:01:30.000Z",
+        "expiresAt": "2026-09-28T16:31:30.000Z"
+      }
+    ]
+  },
+  "now": 1790611380000
+}

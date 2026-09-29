@@ -143,3 +143,31 @@ test('CLI entry points honor environment paths and fallback writes GitHub output
  const fallbackStdout=execFileSync(process.execPath,['--import',preload,new URL('../scripts/tfs-fallback.js',import.meta.url).pathname],{cwd:defaultDir,env:{...process.env,GITHUB_OUTPUT:''},encoding:'utf8'});
  assert.match(fallbackStdout,/Updated stale snapshot/);
 });
+
+test('TTC artifact survives optional source failure and uses the shared atomic snapshot', async t => {
+    const {updateTtcAlerts} = await import('../src/ttc/alerts.js');
+    const outputPath = join(await workspace(t), 'current.json');
+    const old = await updateTtcAlerts(null,now,async () => ({schemaVersion:1,items:[],sourceUpdatedAt:null}),() => {});
+    await runTfsEtl({outputPath,now,fetchSource:async () => source,fetchTtc:async () => old});
+    const result = await runTfsEtl({outputPath,now,fetchSource:async () => source,
+        fetchTtc:(previous,date) => updateTtcAlerts(previous,date,async () => {throw new Error('offline');},() => {})});
+    assert.equal(result.ttcAlerts.status,'unavailable');
+    assert.deepEqual(result.ttcAlerts.items,old.items);
+    assert.deepEqual(JSON.parse(await readFile(outputPath,'utf8')).ttcAlerts,result.ttcAlerts);
+});
+
+test('protobuf to lifecycle to published JSON reader; invalid TTC cannot replace output', async t => {
+    const {default:bindings} = await import('gtfs-realtime-bindings');
+    const {parseTtcAlerts,updateTtcAlerts} = await import('../src/ttc/alerts.js');
+    const outputPath = join(await workspace(t),'current.json');
+    const bytes = bindings.transit_realtime.FeedMessage.encode({header:{gtfsRealtimeVersion:'2.0'},entity:[{id:'detour',alert:{effect:4,informedEntity:[{routeId:'0501',stopId:'001'}]}}]}).finish();
+    const fetchTtc = (previous,date) => updateTtcAlerts(previous,date,async () => parseTtcAlerts(bytes,date),() => {});
+    await runTfsEtl({outputPath,now,fetchSource:async () => source,fetchTtc});
+    const saved = JSON.parse(await readFile(outputPath,'utf8'));
+    assert.equal(saved.ttcAlerts.items[0].state,'active');
+    assert.deepEqual(saved.ttcAlerts.items[0].routes,['0501']);
+    assert.deepEqual(saved.ttcAlerts.changes.new,['detour']);
+    const original = await readFile(outputPath,'utf8');
+    await assert.rejects(runTfsEtl({outputPath,now,fetchSource:async () => source,fetchTtc:async () => ({items:[]})}));
+    assert.equal(await readFile(outputPath,'utf8'),original);
+});

@@ -2094,3 +2094,24 @@ footer {
 .source-times-table th { color: var(--text); }
 .source-times-table td { color: var(--muted); }
 .source-times-table th:first-child { width: 30%; }
+
+/* TTC geometry uses shape as well as colour; no filters or theme rebuilds. */
+.ttc-line--scheduled { stroke: #a44f00; }
+.ttc-line--diversion { stroke: #007b87; }
+[data-theme="dark"] .ttc-line--scheduled { stroke: #ffc078; }
+[data-theme="dark"] .ttc-line--diversion { stroke: #61dce6; }
+.ttc-hit { cursor: pointer; }
+.ttc-legend-line { display: inline-block; width: 26px; border-top: 4px solid #007b87; }
+.ttc-legend-scheduled { border-top: 4px dashed #a44f00; }
+[data-theme="dark"] .ttc-legend-line { border-color: #61dce6; }
+[data-theme="dark"] .ttc-legend-scheduled { border-color: #ffc078; }
+.ttc-disruption { margin-block: 10px; }
+.ttc-disruption summary { min-height: 44px; padding: 10px 0; overflow-wrap: anywhere; }
+.ttc-detail { min-width: 0; overflow-wrap: anywhere; }
+.ttc-detail h5 { font-size: 1em; margin: 12px 0 4px; }
+.ttc-detail p { margin-block: 8px; }
+.ttc-show-map { min-height: 44px; padding: 8px 12px; }
+#ttcLayerControl { min-height: 44px; align-items: center; gap: 8px; }
+#ttcLayerControl:not([hidden]) { display: flex; }
+#mobileTtcListHome #ttcContent { padding: 0 16px 12px; }
+#ttcContent:has(#ttcDisruptionList:empty):has(#ttcDisruptionStatus[hidden]) { display: none; }

@@ -1,0 +1,17 @@
+# GitHub Pages builds from main. Keep developer fixtures and backend tooling out
+# of the deployed site; the browser imports remain under src/.
+exclude:
+  - test
+  - scripts
+  - concourse
+  - docs
+  - node_modules
+  - vendor
+  - .cache
+  - .wrangler
+  - AGENTS.md
+  - Dockerfile.test
+  - package.json
+  - package-lock.json
+  - eslint.config.js
+  - ruff.toml
