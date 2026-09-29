@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T02:23:55.779Z",
+  "fetchedAt": "2026-09-29T02:25:25.653Z",
   "sourceUpdatedAt": "2026-09-29T02:20:01.000Z",
   "incidents": [
     {
@@ -32,7 +32,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T02:21:02.785Z",
-      "lastSeenAt": "2026-09-29T02:23:55.779Z",
+      "lastSeenAt": "2026-09-29T02:25:25.653Z",
       "geography": {
         "text": "Wineva Avenue between Douglas Browne Lane & Isleworth Avenue",
         "approximate": false,
@@ -66,7 +66,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T02:21:02.785Z",
-      "lastSeenAt": "2026-09-29T02:23:55.779Z",
+      "lastSeenAt": "2026-09-29T02:25:25.653Z",
       "geography": {
         "text": "Approximate location on Jane Street",
         "approximate": true,
@@ -170,7 +170,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T02:11:01.888Z",
       "lastMeaningfulUpdateAt": "2026-09-29T02:15:31.693Z",
-      "lastSeenAt": "2026-09-29T02:23:55.779Z",
+      "lastSeenAt": "2026-09-29T02:25:25.653Z",
       "geography": {
         "text": "Approximate location near Glen Everest Road & Wynnview Court",
         "approximate": true,
@@ -357,7 +357,7 @@
       ],
       "respondingUnitCount": 13,
       "firstSeenAt": "2026-09-29T02:08:14.746Z",
-      "lastSeenAt": "2026-09-29T02:23:55.779Z",
+      "lastSeenAt": "2026-09-29T02:25:25.653Z",
       "geography": {
         "text": "Finch Avenue between Red Robinway & Virgilwood Drive",
         "approximate": false,
@@ -1196,7 +1196,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T01:30:39.251Z",
-      "lastSeenAt": "2026-09-29T02:23:55.779Z",
+      "lastSeenAt": "2026-09-29T02:25:25.653Z",
       "geography": {
         "text": "Kennedy Road & Passmore Avenue",
         "approximate": false,
@@ -200730,55 +200730,58 @@
         "division": "Division 32",
         "approximate": true
       }
-    },
-    {
-      "id": "F26150079",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Vehicle - Personal Injury",
-      "location": "MUNRO ST, TT / QUEEN ST E / LN N QUEEN E CARROLL",
-      "division": "325",
-      "timestamp": "2026-09-22T02:24:26.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "325"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-22T02:31:27.106Z",
-      "lastSeenAt": "2026-09-22T02:54:47.576Z",
-      "geography": {
-        "text": "Munro Street between Queen Street East & Lane North Queen East Carroll",
-        "approximate": false,
-        "coordinates": [
-          43.658683350000004,
-          -79.35162955
-        ],
-        "division": "Division 55",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-22T02:31:27.106Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T02:23:55.779Z",
+      "fetchedAt": "2026-09-29T02:25:25.653Z",
       "sourceUpdatedAt": "2026-09-29T02:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T02:23:55.779Z",
+      "fetchedAt": "2026-09-29T02:25:25.653Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "12226264",
+          "street": "Don Valley Parkway N",
+          "title": "Northbound Don Valley Parkway before Don Mills Rd",
+          "description": "Toronto-TMC: Right shoulder blocked due to a stalled vehicle.",
+          "restrictionType": "HAZARD",
+          "type": "HAZARD",
+          "impact": "High",
+          "startLocation": "Leaside Bdge",
+          "endLocation": "",
+          "start": 1790648348000,
+          "reportedAt": 1790648348000,
+          "end": null,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.694804,
+            -79.355327
+          ],
+          "line": [],
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -79.355327,
+              43.694804
+            ]
+          },
+          "geometryKind": "point",
+          "schedule": "Everyday: 00:00-23:59",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "Tor-RD1S2026-338-3",
           "street": "Strachan Ave",
@@ -201072,49 +201075,49 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD012026-1679-1",
-          "street": "Don Mills Rd",
-          "title": "Don Mills Rd 56 m North of Eglinton Ave E to 39 m North of Eglinton Ave E",
-          "description": "Toronto-TMC: Directional drill, install conduit and manhole",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
+          "id": "Tor-RD52026-5471",
+          "street": "Dixon Rd",
+          "title": "Dixon Rd 21 m East of Dixington Cres to Dixington Cres",
+          "description": "Toronto-TMC: Water and Sewer Connection",
+          "restrictionType": "ROAD CLOSED",
+          "type": "ROAD CLOSED",
           "impact": "None",
-          "startLocation": "Eglinton Ave E",
-          "endLocation": "Eglinton Ave E",
-          "start": 1790557200000,
-          "reportedAt": 1790278799000,
-          "end": 1790762400000,
+          "startLocation": "Dixington Cres",
+          "endLocation": "Dixington Cres",
+          "start": 1790038800000,
+          "reportedAt": 1789760056000,
+          "end": 1790931600000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.72099,
-            -79.33901
+            43.69827,
+            -79.54129
           ],
           "line": [
             [
-              43.72099,
-              -79.33901
+              43.69827,
+              -79.54129
             ],
             [
-              43.72084,
-              -79.33897
+              43.69822,
+              -79.54154
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.33901,
-                43.72099
+                -79.54129,
+                43.69827
               ],
               [
-                -79.33897,
-                43.72084
+                -79.54154,
+                43.69822
               ]
             ]
           },
           "geometryKind": "line",
-          "schedule": "Monday: 21:00-06:00; Tuesday: 21:00-06:00; Wednesday: 21:00-06:00; Thursday: 21:00-06:00; Friday: 21:00-06:00",
+          "schedule": "Monday: 21:00-05:00; Tuesday: 21:00-05:00; Wednesday: 21:00-05:00; Thursday: 21:00-05:00; Friday: 21:00-05:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -201257,57 +201260,6 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD52026-5471",
-          "street": "Dixon Rd",
-          "title": "Dixon Rd 21 m East of Dixington Cres to Dixington Cres",
-          "description": "Toronto-TMC: Water and Sewer Connection",
-          "restrictionType": "ROAD CLOSED",
-          "type": "ROAD CLOSED",
-          "impact": "None",
-          "startLocation": "Dixington Cres",
-          "endLocation": "Dixington Cres",
-          "start": 1790038800000,
-          "reportedAt": 1789760056000,
-          "end": 1790931600000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.69827,
-            -79.54129
-          ],
-          "line": [
-            [
-              43.69827,
-              -79.54129
-            ],
-            [
-              43.69822,
-              -79.54154
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.54129,
-                43.69827
-              ],
-              [
-                -79.54154,
-                43.69822
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 21:00-05:00; Tuesday: 21:00-05:00; Wednesday: 21:00-05:00; Thursday: 21:00-05:00; Friday: 21:00-05:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
           "id": "Tor-RD52026-5432-2",
           "street": "Harbour St",
           "title": "Harbour St 48 m East of Lake Shore Blvd W to 48 m East of Lake Shore Blvd W",
@@ -201375,65 +201327,49 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD042026-1174-2",
-          "street": "Wallace Ave",
-          "title": "Wallace Ave 33 m West of Ln 2 W Lansdowne S Wallace to Rankin Cres",
-          "description": "Toronto-TMC: - install electrical conduits, light pole base, handwell; Civil works including curb and sidewalk removal, supply and installation of asphalt, planting soil, planting, new hardscape works (concrete paving and curbs), beacon foundation and installation",
+          "id": "Tor-RD012026-1679-1",
+          "street": "Don Mills Rd",
+          "title": "Don Mills Rd 56 m North of Eglinton Ave E to 39 m North of Eglinton Ave E",
+          "description": "Toronto-TMC: Directional drill, install conduit and manhole",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
           "impact": "None",
-          "startLocation": "Ln 2 W Lansdowne S Wallace",
-          "endLocation": "Rankin Cres",
-          "start": 1788778800000,
-          "reportedAt": 1788537083000,
-          "end": 1790985600000,
+          "startLocation": "Eglinton Ave E",
+          "endLocation": "Eglinton Ave E",
+          "start": 1790557200000,
+          "reportedAt": 1790278799000,
+          "end": 1790762400000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.66193,
-            -79.44632
+            43.72099,
+            -79.33901
           ],
           "line": [
             [
-              43.66193,
-              -79.44632
+              43.72099,
+              -79.33901
             ],
             [
-              43.66183,
-              -79.44681
-            ],
-            [
-              43.66183,
-              -79.44681
-            ],
-            [
-              43.66168,
-              -79.44747
+              43.72084,
+              -79.33897
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.44632,
-                43.66193
+                -79.33901,
+                43.72099
               ],
               [
-                -79.44681,
-                43.66183
-              ],
-              [
-                -79.44681,
-                43.66183
-              ],
-              [
-                -79.44747,
-                43.66168
+                -79.33897,
+                43.72084
               ]
             ]
           },
           "geometryKind": "line",
-          "schedule": "Monday: 07:00-20:00; Tuesday: 07:00-20:00; Wednesday: 07:00-20:00; Thursday: 07:00-20:00; Friday: 07:00-20:00",
+          "schedule": "Monday: 21:00-06:00; Tuesday: 21:00-06:00; Wednesday: 21:00-06:00; Thursday: 21:00-06:00; Friday: 21:00-06:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -201544,191 +201480,6 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD1H2026-1814-2-2",
-          "street": "Wellington St E",
-          "title": "Wellington St E at Yonge St to 40 m East of Yonge St",
-          "description": "Toronto-TMC: Upgrading cable infrastructure within underground cable chambers",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "startLocation": "Yonge St",
-          "endLocation": "Yonge St",
-          "start": 1790035200000,
-          "reportedAt": 1788465482000,
-          "end": 1790758800000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.64783,
-            -79.37734
-          ],
-          "line": [
-            [
-              43.64783,
-              -79.37734
-            ],
-            [
-              43.64794,
-              -79.37686
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.37734,
-                43.64783
-              ],
-              [
-                -79.37686,
-                43.64794
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 20:00-05:00; Tuesday: 20:00-05:00; Wednesday: 20:00-05:00; Thursday: 20:00-05:00; Friday: 20:00-05:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD1H2026-1782-3",
-          "street": "Adelaide St E",
-          "title": "Adelaide St E 3 m East of Church St to 3 m West of Church St",
-          "description": "Toronto-TMC: Cable replacement project. Cable chamber work. No surface cuts required. Metrolinx permit attached. (Natasha)",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "startLocation": "Church St",
-          "endLocation": "Church St",
-          "start": 1789430400000,
-          "reportedAt": 1788282780000,
-          "end": 1792051200000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.65119,
-            -79.3749
-          ],
-          "line": [
-            [
-              43.65119,
-              -79.3749
-            ],
-            [
-              43.65118,
-              -79.37493
-            ],
-            [
-              43.65118,
-              -79.37493
-            ],
-            [
-              43.65118,
-              -79.37496
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.3749,
-                43.65119
-              ],
-              [
-                -79.37493,
-                43.65118
-              ],
-              [
-                -79.37493,
-                43.65118
-              ],
-              [
-                -79.37496,
-                43.65118
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 20:00-04:00; Tuesday: 20:00-04:00; Wednesday: 20:00-04:00; Thursday: 20:00-04:00; Friday: 20:00-04:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD042026-1174-1",
-          "street": "Wallace Ave",
-          "title": "Wallace Ave 33 m West of Ln 2 W Lansdowne S Wallace to 2 m East of Rankin Cres",
-          "description": "Toronto-TMC: - install electrical conduits, light pole base, handwell; Civil works including curb and sidewalk removal, supply and installation of asphalt, planting soil, planting, new hardscape works (concrete paving and curbs), beacon foundation and installation",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "startLocation": "Ln 2 W Lansdowne S Wallace",
-          "endLocation": "Rankin Cres",
-          "start": 1788778800000,
-          "reportedAt": 1788537083000,
-          "end": 1790985600000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.66193,
-            -79.44632
-          ],
-          "line": [
-            [
-              43.66193,
-              -79.44632
-            ],
-            [
-              43.66183,
-              -79.44681
-            ],
-            [
-              43.66183,
-              -79.44681
-            ],
-            [
-              43.66169,
-              -79.44745
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.44632,
-                43.66193
-              ],
-              [
-                -79.44681,
-                43.66183
-              ],
-              [
-                -79.44681,
-                43.66183
-              ],
-              [
-                -79.44745,
-                43.66169
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 07:00-20:00; Tuesday: 07:00-20:00; Wednesday: 07:00-20:00; Thursday: 07:00-20:00; Friday: 07:00-20:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
           "id": "Tor-RD1H2026-1782-2",
           "street": "Church St",
           "title": "Church St 31 m South of Adelaide St E to 12 m South of Adelaide St E",
@@ -201772,6 +201523,57 @@
           },
           "geometryKind": "line",
           "schedule": "Monday: 20:00-04:00; Tuesday: 20:00-04:00; Wednesday: 20:00-04:00; Thursday: 20:00-04:00; Friday: 20:00-04:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1H2026-1814-2-2",
+          "street": "Wellington St E",
+          "title": "Wellington St E at Yonge St to 40 m East of Yonge St",
+          "description": "Toronto-TMC: Upgrading cable infrastructure within underground cable chambers",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "Yonge St",
+          "endLocation": "Yonge St",
+          "start": 1790035200000,
+          "reportedAt": 1788465482000,
+          "end": 1790758800000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.64783,
+            -79.37734
+          ],
+          "line": [
+            [
+              43.64783,
+              -79.37734
+            ],
+            [
+              43.64794,
+              -79.37686
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.37734,
+                43.64783
+              ],
+              [
+                -79.37686,
+                43.64794
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 20:00-05:00; Tuesday: 20:00-05:00; Wednesday: 20:00-05:00; Thursday: 20:00-05:00; Friday: 20:00-05:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -201874,6 +201676,207 @@
           },
           "geometryKind": "line",
           "schedule": "Monday: 20:00-05:00; Tuesday: 20:00-05:00; Wednesday: 20:00-05:00; Thursday: 20:00-05:00; Friday: 20:00-05:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD042026-1174-1",
+          "street": "Wallace Ave",
+          "title": "Wallace Ave 33 m West of Ln 2 W Lansdowne S Wallace to 2 m East of Rankin Cres",
+          "description": "Toronto-TMC: - install electrical conduits, light pole base, handwell; Civil works including curb and sidewalk removal, supply and installation of asphalt, planting soil, planting, new hardscape works (concrete paving and curbs), beacon foundation and installation",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "Ln 2 W Lansdowne S Wallace",
+          "endLocation": "Rankin Cres",
+          "start": 1788778800000,
+          "reportedAt": 1788537083000,
+          "end": 1790985600000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.66193,
+            -79.44632
+          ],
+          "line": [
+            [
+              43.66193,
+              -79.44632
+            ],
+            [
+              43.66183,
+              -79.44681
+            ],
+            [
+              43.66183,
+              -79.44681
+            ],
+            [
+              43.66169,
+              -79.44745
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.44632,
+                43.66193
+              ],
+              [
+                -79.44681,
+                43.66183
+              ],
+              [
+                -79.44681,
+                43.66183
+              ],
+              [
+                -79.44745,
+                43.66169
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 07:00-20:00; Tuesday: 07:00-20:00; Wednesday: 07:00-20:00; Thursday: 07:00-20:00; Friday: 07:00-20:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1H2026-1782-3",
+          "street": "Adelaide St E",
+          "title": "Adelaide St E 3 m East of Church St to 3 m West of Church St",
+          "description": "Toronto-TMC: Cable replacement project. Cable chamber work. No surface cuts required. Metrolinx permit attached. (Natasha)",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "Church St",
+          "endLocation": "Church St",
+          "start": 1789430400000,
+          "reportedAt": 1788282780000,
+          "end": 1792051200000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.65119,
+            -79.3749
+          ],
+          "line": [
+            [
+              43.65119,
+              -79.3749
+            ],
+            [
+              43.65118,
+              -79.37493
+            ],
+            [
+              43.65118,
+              -79.37493
+            ],
+            [
+              43.65118,
+              -79.37496
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.3749,
+                43.65119
+              ],
+              [
+                -79.37493,
+                43.65118
+              ],
+              [
+                -79.37493,
+                43.65118
+              ],
+              [
+                -79.37496,
+                43.65118
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 20:00-04:00; Tuesday: 20:00-04:00; Wednesday: 20:00-04:00; Thursday: 20:00-04:00; Friday: 20:00-04:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD042026-1174-2",
+          "street": "Wallace Ave",
+          "title": "Wallace Ave 33 m West of Ln 2 W Lansdowne S Wallace to Rankin Cres",
+          "description": "Toronto-TMC: - install electrical conduits, light pole base, handwell; Civil works including curb and sidewalk removal, supply and installation of asphalt, planting soil, planting, new hardscape works (concrete paving and curbs), beacon foundation and installation",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "Ln 2 W Lansdowne S Wallace",
+          "endLocation": "Rankin Cres",
+          "start": 1788778800000,
+          "reportedAt": 1788537083000,
+          "end": 1790985600000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.66193,
+            -79.44632
+          ],
+          "line": [
+            [
+              43.66193,
+              -79.44632
+            ],
+            [
+              43.66183,
+              -79.44681
+            ],
+            [
+              43.66183,
+              -79.44681
+            ],
+            [
+              43.66168,
+              -79.44747
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.44632,
+                43.66193
+              ],
+              [
+                -79.44681,
+                43.66183
+              ],
+              [
+                -79.44681,
+                43.66183
+              ],
+              [
+                -79.44747,
+                43.66168
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 07:00-20:00; Tuesday: 07:00-20:00; Wednesday: 07:00-20:00; Thursday: 07:00-20:00; Friday: 07:00-20:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -351882,8 +351885,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-29T02:19:36.514Z",
-      "fetchedAt": "2026-09-29T02:19:36.514Z"
+      "checkedAt": "2026-09-29T02:25:25.653Z",
+      "fetchedAt": "2026-09-29T02:25:25.653Z"
     },
     "transit": {
       "items": [
@@ -355714,10 +355717,10 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-29T02:19:37.000Z",
+      "sourceUpdatedAt": "2026-09-29T02:25:26.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-29T02:19:36.514Z",
-      "fetchedAt": "2026-09-29T02:19:36.514Z"
+      "checkedAt": "2026-09-29T02:25:25.653Z",
+      "fetchedAt": "2026-09-29T02:25:25.653Z"
     }
   },
   "updatedBy": "concourse",
@@ -368099,18 +368102,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T02:41:17.362Z"
-    },
-    "MUNRO ST, TT / QUEEN ST E / LN N QUEEN E CARROLL": {
-      "text": "Munro Street between Queen Street East & Lane North Queen East Carroll",
-      "approximate": false,
-      "coordinates": [
-        43.658683350000004,
-        -79.35162955
-      ],
-      "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T02:31:27.106Z"
     }
   }
 }
