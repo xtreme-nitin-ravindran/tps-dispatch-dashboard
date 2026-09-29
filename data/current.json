@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T02:40:05.497Z",
-  "sourceUpdatedAt": "2026-09-29T02:35:02.000Z",
+  "fetchedAt": "2026-09-29T02:41:36.417Z",
+  "sourceUpdatedAt": "2026-09-29T02:40:01.000Z",
   "incidents": [
+    {
+      "id": "F26154303",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9W",
+      "division": "441",
+      "timestamp": "2026-09-29T02:33:33.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T02:41:36.417Z",
+      "lastSeenAt": "2026-09-29T02:41:36.417Z",
+      "geography": {
+        "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
+        "approximate": true,
+        "coordinates": [
+          43.7144,
+          -79.5909
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26154302",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "ORMONT DR, NY / NORELCO DR / SIGNET DR",
+      "division": "411",
+      "timestamp": "2026-09-29T02:30:42.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T02:41:36.417Z",
+      "lastSeenAt": "2026-09-29T02:41:36.417Z",
+      "geography": {
+        "text": "Ormont Drive between Norelco Drive & Signet Drive",
+        "approximate": false,
+        "coordinates": [
+          43.766487350000006,
+          -79.53777769999999
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-29T02:41:36.417Z"
+      }
+    },
     {
       "id": "F26154301",
       "source": "TFS",
@@ -27,7 +79,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T02:37:13.679Z",
-      "lastSeenAt": "2026-09-29T02:40:05.497Z",
+      "lastSeenAt": "2026-09-29T02:41:36.417Z",
       "geography": {
         "text": "Brookwell Drive & Sentinel Road",
         "approximate": false,
@@ -50,7 +102,7 @@
       "division": "433",
       "timestamp": "2026-09-29T02:19:02.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -111,7 +163,7 @@
       "division": "212",
       "timestamp": "2026-09-29T02:15:26.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -164,7 +216,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T02:29:11.655Z",
       "lastMeaningfulUpdateAt": "2026-09-29T02:30:31.644Z",
-      "lastSeenAt": "2026-09-29T02:40:05.497Z",
+      "lastSeenAt": "2026-09-29T02:41:36.417Z",
       "geography": {
         "text": "Selwood Avenue between Glen Manor Drive & Maclean Avenue",
         "approximate": false,
@@ -573,7 +625,7 @@
       ],
       "respondingUnitCount": 13,
       "firstSeenAt": "2026-09-29T02:08:14.746Z",
-      "lastSeenAt": "2026-09-29T02:40:05.497Z",
+      "lastSeenAt": "2026-09-29T02:41:36.417Z",
       "geography": {
         "text": "Finch Avenue between Red Robinway & Virgilwood Drive",
         "approximate": false,
@@ -1412,7 +1464,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T01:30:39.251Z",
-      "lastSeenAt": "2026-09-29T02:40:05.497Z",
+      "lastSeenAt": "2026-09-29T02:41:36.417Z",
       "geography": {
         "text": "Kennedy Road & Passmore Avenue",
         "approximate": false,
@@ -200525,12 +200577,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T02:40:05.497Z",
-      "sourceUpdatedAt": "2026-09-29T02:35:02.000Z",
+      "fetchedAt": "2026-09-29T02:41:36.417Z",
+      "sourceUpdatedAt": "2026-09-29T02:40:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T02:40:05.497Z",
+      "fetchedAt": "2026-09-29T02:41:36.417Z",
       "status": "ok"
     }
   },
@@ -355152,6 +355204,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M9W": {
+      "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
+      "approximate": true,
+      "coordinates": [
+        43.7144,
+        -79.5909
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "ORMONT DR, NY / NORELCO DR / SIGNET DR": {
+      "text": "Ormont Drive between Norelco Drive & Signet Drive",
+      "approximate": false,
+      "coordinates": [
+        43.766487350000006,
+        -79.53777769999999
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-29T02:41:36.417Z"
+    },
     "BROOKWELL DR, NY / SENTINEL RD /": {
       "text": "Brookwell Drive & Sentinel Road",
       "approximate": false,
@@ -356213,18 +356289,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-28T21:58:44.722Z"
-    },
-    "M9W": {
-      "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
-      "approximate": true,
-      "coordinates": [
-        43.7144,
-        -79.5909
-      ],
-      "division": "Division 23",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M6E": {
       "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
