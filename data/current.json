@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T21:45:09.995Z",
-  "sourceUpdatedAt": "2026-09-29T21:40:01.000Z",
+  "fetchedAt": "2026-09-29T21:47:00.445Z",
+  "sourceUpdatedAt": "2026-09-29T21:45:01.000Z",
   "incidents": [
+    {
+      "id": "F26154785",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Natural Gas Leak",
+      "location": "OAK ST, TT / PARLIAMENT ST / DREAMERS WAY",
+      "division": "325",
+      "timestamp": "2026-09-29T21:39:27.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T21:47:00.445Z",
+      "lastSeenAt": "2026-09-29T21:47:00.445Z",
+      "geography": {
+        "text": "Oak Street between Parliament Street & Dreamers Way",
+        "approximate": false,
+        "coordinates": [
+          43.66082465,
+          -79.366015
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-29T21:47:00.445Z"
+      }
+    },
+    {
+      "id": "F26154783",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6H",
+      "division": "345",
+      "timestamp": "2026-09-29T21:38:10.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T21:47:00.445Z",
+      "lastSeenAt": "2026-09-29T21:47:00.445Z",
+      "geography": {
+        "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
+        "approximate": true,
+        "coordinates": [
+          43.6655,
+          -79.4378
+        ],
+        "division": "Division 11",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26154782",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4A",
+      "division": "235",
+      "timestamp": "2026-09-29T21:35:48.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T21:47:00.445Z",
+      "lastSeenAt": "2026-09-29T21:47:00.445Z",
+      "geography": {
+        "text": "Approximate area: (M4A) North York (Sweeney Park / Wigmore Park)",
+        "approximate": true,
+        "coordinates": [
+          43.7276,
+          -79.3148
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-24T13:46:56.154Z"
+      }
+    },
     {
       "id": "F26154781",
       "source": "TFS",
@@ -16,9 +94,19 @@
       "timestamp": "2026-09-29T21:30:41.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "132",
+            "145"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T21:41:23.165Z",
-      "lastSeenAt": "2026-09-29T21:45:09.995Z",
+      "lastMeaningfulUpdateAt": "2026-09-29T21:47:00.445Z",
+      "lastSeenAt": "2026-09-29T21:47:00.445Z",
       "geography": {
         "text": "Palm Drive between Bonnacord Drive & Josephine Road",
         "approximate": false,
@@ -106,7 +194,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-29T21:35:40.027Z",
       "lastMeaningfulUpdateAt": "2026-09-29T21:41:23.165Z",
-      "lastSeenAt": "2026-09-29T21:45:09.995Z",
+      "lastSeenAt": "2026-09-29T21:47:00.445Z",
       "geography": {
         "text": "Good Road between Conlins Road & Ponymeadow Terrace",
         "approximate": false,
@@ -146,7 +234,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T21:35:40.027Z",
-      "lastSeenAt": "2026-09-29T21:45:09.995Z",
+      "lastSeenAt": "2026-09-29T21:47:00.445Z",
       "geography": {
         "text": "Harding Avenue between Jane Street & Tedder Street",
         "approximate": false,
@@ -181,7 +269,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T21:31:49.904Z",
       "lastMeaningfulUpdateAt": "2026-09-29T21:35:40.027Z",
-      "lastSeenAt": "2026-09-29T21:45:09.995Z",
+      "lastSeenAt": "2026-09-29T21:47:00.445Z",
       "geography": {
         "text": "Pemberton Avenue & Willowdale Avenue",
         "approximate": false,
@@ -204,7 +292,7 @@
       "division": "325",
       "timestamp": "2026-09-29T21:23:01.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Ladder Truck",
@@ -412,7 +500,7 @@
       "division": "143",
       "timestamp": "2026-09-29T21:16:26.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -465,7 +553,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T21:26:10.206Z",
       "lastMeaningfulUpdateAt": "2026-09-29T21:31:49.904Z",
-      "lastSeenAt": "2026-09-29T21:45:09.995Z",
+      "lastSeenAt": "2026-09-29T21:47:00.445Z",
       "geography": {
         "text": "Approximate area: (M9M) North York (Humberlea / Emery)",
         "approximate": true,
@@ -510,7 +598,7 @@
       "division": "441",
       "timestamp": "2026-09-29T21:15:28.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -203044,49 +203132,16 @@
         "division": "Division 32",
         "approximate": true
       }
-    },
-    {
-      "id": "F26150553",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M1B",
-      "division": "211",
-      "timestamp": "2026-09-22T21:46:17.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "211"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-22T21:56:17.329Z",
-      "lastSeenAt": "2026-09-22T22:10:00.672Z",
-      "geography": {
-        "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
-        "approximate": true,
-        "coordinates": [
-          43.8113,
-          -79.193
-        ],
-        "division": "Division 42",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T21:45:09.995Z",
-      "sourceUpdatedAt": "2026-09-29T21:40:01.000Z",
+      "fetchedAt": "2026-09-29T21:47:00.445Z",
+      "sourceUpdatedAt": "2026-09-29T21:45:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T21:45:09.995Z",
+      "fetchedAt": "2026-09-29T21:47:00.445Z",
       "status": "ok"
     }
   },
@@ -362598,7 +362653,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-29T21:44:58.000Z",
+    "sourceUpdatedAt": "2026-09-29T21:46:51.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -362607,14 +362662,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-29T21:45:09.995Z",
-    "checkedAt": "2026-09-29T21:45:09.995Z",
+    "fetchedAt": "2026-09-29T21:47:00.445Z",
+    "checkedAt": "2026-09-29T21:47:00.445Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-29T21:45:09.995Z",
-      "checkedAt": "2026-09-29T21:45:09.995Z",
+      "fetchedAt": "2026-09-29T21:47:00.445Z",
+      "checkedAt": "2026-09-29T21:47:00.445Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -362638,6 +362693,42 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "OAK ST, TT / PARLIAMENT ST / DREAMERS WAY": {
+      "text": "Oak Street between Parliament Street & Dreamers Way",
+      "approximate": false,
+      "coordinates": [
+        43.66082465,
+        -79.366015
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-29T21:47:00.445Z"
+    },
+    "M6H": {
+      "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
+      "approximate": true,
+      "coordinates": [
+        43.6655,
+        -79.4378
+      ],
+      "division": "Division 11",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4A": {
+      "text": "Approximate area: (M4A) North York (Sweeney Park / Wigmore Park)",
+      "approximate": true,
+      "coordinates": [
+        43.7276,
+        -79.3148
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-24T13:46:56.154Z"
+    },
     "PALM DR, NY / BONNACORD DR / JOSEPHINE RD": {
       "text": "Palm Drive between Bonnacord Drive & Josephine Road",
       "approximate": false,
@@ -362883,18 +362974,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-29T21:02:19.775Z"
-    },
-    "M6H": {
-      "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
-      "approximate": true,
-      "coordinates": [
-        43.6655,
-        -79.4378
-      ],
-      "division": "Division 11",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M3M": {
       "text": "Approximate area: (M3M) Downsview Central",
@@ -365130,18 +365209,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4A": {
-      "text": "Approximate area: (M4A) North York (Sweeney Park / Wigmore Park)",
-      "approximate": true,
-      "coordinates": [
-        43.7276,
-        -79.3148
-      ],
-      "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-24T13:46:56.154Z"
     },
     "KENNEDY RD / PASSMORE AVE": {
       "text": "Kennedy Road & Passmore Avenue",
