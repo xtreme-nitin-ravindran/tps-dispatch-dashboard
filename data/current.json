@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T14:25:16.046Z",
-  "sourceUpdatedAt": "2026-09-29T14:20:01.000Z",
+  "fetchedAt": "2026-09-29T14:27:14.334Z",
+  "sourceUpdatedAt": "2026-09-29T14:25:02.000Z",
   "incidents": [
+    {
+      "id": "F26154516",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6R",
+      "division": "426",
+      "timestamp": "2026-09-29T14:15:43.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "426"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-29T14:27:14.334Z",
+      "lastSeenAt": "2026-09-29T14:27:14.334Z",
+      "geography": {
+        "text": "Approximate area: (M6R) West Toronto (Parkdale / Roncesvalles Village)",
+        "approximate": true,
+        "coordinates": [
+          43.6469,
+          -79.4521
+        ],
+        "division": "Division 11",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26154515",
       "source": "TFS",
@@ -26,7 +60,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T14:21:41.080Z",
-      "lastSeenAt": "2026-09-29T14:25:16.046Z",
+      "lastSeenAt": "2026-09-29T14:27:14.334Z",
       "geography": {
         "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
         "approximate": true,
@@ -83,7 +117,7 @@
       "division": "415",
       "timestamp": "2026-09-29T14:03:51.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -782,7 +816,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-29T13:45:53.263Z",
       "lastMeaningfulUpdateAt": "2026-09-29T13:50:50.131Z",
-      "lastSeenAt": "2026-09-29T14:25:16.046Z",
+      "lastSeenAt": "2026-09-29T14:27:14.334Z",
       "geography": {
         "text": "Cole Street between Parliament Street & Regent Street",
         "approximate": false,
@@ -830,7 +864,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-29T13:45:53.263Z",
       "lastMeaningfulUpdateAt": "2026-09-29T13:50:50.131Z",
-      "lastSeenAt": "2026-09-29T14:25:16.046Z",
+      "lastSeenAt": "2026-09-29T14:27:14.334Z",
       "geography": {
         "text": "Sydnor Road between Bestview Drive & Rockland Drive",
         "approximate": false,
@@ -1194,7 +1228,7 @@
       "respondingUnitCount": 13,
       "firstSeenAt": "2026-09-29T13:31:12.340Z",
       "lastMeaningfulUpdateAt": "2026-09-29T14:17:41.483Z",
-      "lastSeenAt": "2026-09-29T14:25:16.046Z",
+      "lastSeenAt": "2026-09-29T14:27:14.334Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -201984,12 +202018,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T14:25:16.046Z",
-      "sourceUpdatedAt": "2026-09-29T14:20:01.000Z",
+      "fetchedAt": "2026-09-29T14:27:14.334Z",
+      "sourceUpdatedAt": "2026-09-29T14:25:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T14:25:16.046Z",
+      "fetchedAt": "2026-09-29T14:27:14.334Z",
       "status": "ok"
     }
   },
@@ -356807,7 +356841,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-29T14:25:01.000Z",
+    "sourceUpdatedAt": "2026-09-29T14:27:05.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -356816,14 +356850,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-29T14:25:16.046Z",
-    "checkedAt": "2026-09-29T14:25:16.046Z",
+    "fetchedAt": "2026-09-29T14:27:14.334Z",
+    "checkedAt": "2026-09-29T14:27:14.334Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-29T14:25:16.046Z",
-      "checkedAt": "2026-09-29T14:25:16.046Z",
+      "fetchedAt": "2026-09-29T14:27:14.334Z",
+      "checkedAt": "2026-09-29T14:27:14.334Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -356847,6 +356881,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6R": {
+      "text": "Approximate area: (M6R) West Toronto (Parkdale / Roncesvalles Village)",
+      "approximate": true,
+      "coordinates": [
+        43.6469,
+        -79.4521
+      ],
+      "division": "Division 11",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M5B": {
       "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
       "approximate": true,
@@ -358592,18 +358638,6 @@
         -79.3756
       ],
       "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6R": {
-      "text": "Approximate area: (M6R) West Toronto (Parkdale / Roncesvalles Village)",
-      "approximate": true,
-      "coordinates": [
-        43.6469,
-        -79.4521
-      ],
-      "division": "Division 11",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
