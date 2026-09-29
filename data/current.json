@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T10:32:45.706Z",
+  "fetchedAt": "2026-09-29T10:34:35.129Z",
   "sourceUpdatedAt": "2026-09-29T10:30:01.000Z",
   "incidents": [
     {
@@ -70,7 +70,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T10:31:06.137Z",
-      "lastSeenAt": "2026-09-29T10:32:45.706Z",
+      "lastSeenAt": "2026-09-29T10:34:35.129Z",
       "geography": {
         "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
         "approximate": true,
@@ -160,7 +160,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T10:18:18.581Z",
-      "lastSeenAt": "2026-09-29T10:32:45.706Z",
+      "lastSeenAt": "2026-09-29T10:34:35.129Z",
       "geography": {
         "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
         "approximate": true,
@@ -288,7 +288,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-29T10:12:46.821Z",
       "lastMeaningfulUpdateAt": "2026-09-29T10:18:18.581Z",
-      "lastSeenAt": "2026-09-29T10:32:45.706Z",
+      "lastSeenAt": "2026-09-29T10:34:35.129Z",
       "geography": {
         "text": "Bond Street between Queen Street East & Shuter Street",
         "approximate": false,
@@ -323,7 +323,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T10:01:35.123Z",
       "lastMeaningfulUpdateAt": "2026-09-29T10:06:49.976Z",
-      "lastSeenAt": "2026-09-29T10:32:45.706Z",
+      "lastSeenAt": "2026-09-29T10:34:35.129Z",
       "geography": {
         "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
         "approximate": true,
@@ -200795,12 +200795,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T10:32:45.706Z",
+      "fetchedAt": "2026-09-29T10:34:35.129Z",
       "sourceUpdatedAt": "2026-09-29T10:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T10:32:45.706Z",
+      "fetchedAt": "2026-09-29T10:34:35.129Z",
       "status": "ok"
     }
   },
@@ -351375,8 +351375,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-29T10:29:16.711Z",
-      "fetchedAt": "2026-09-29T10:29:16.711Z"
+      "checkedAt": "2026-09-29T10:34:35.129Z",
+      "fetchedAt": "2026-09-29T10:34:35.129Z"
     },
     "transit": {
       "items": [
@@ -352476,6 +352476,36 @@
             {
               "start": 1790366137000,
               "end": 1790999940000
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "77131",
+          "title": "89 Weston: Detour northbound via St Clair Ave W and Gunns Rd due to a collision.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "89"
+          ],
+          "stopIds": [
+            "8752"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "89",
+              "stopId": "8752",
+              "coordinates": [
+                43.674019,
+                -79.469132
+              ],
+              "name": "Weston Rd at Birdstone Cres (North)"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790678055000,
+              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -354507,16 +354537,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-29T10:29:17.000Z",
+      "sourceUpdatedAt": "2026-09-29T10:34:36.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-29T10:29:16.711Z",
-      "fetchedAt": "2026-09-29T10:29:16.711Z"
+      "checkedAt": "2026-09-29T10:34:35.129Z",
+      "fetchedAt": "2026-09-29T10:34:35.129Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-29T10:32:16.000Z",
+    "sourceUpdatedAt": "2026-09-29T10:34:16.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -354525,14 +354555,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-29T10:32:45.706Z",
-    "checkedAt": "2026-09-29T10:32:45.706Z",
+    "fetchedAt": "2026-09-29T10:34:35.129Z",
+    "checkedAt": "2026-09-29T10:34:35.129Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-29T10:32:45.706Z",
-      "checkedAt": "2026-09-29T10:32:45.706Z",
+      "fetchedAt": "2026-09-29T10:34:35.129Z",
+      "checkedAt": "2026-09-29T10:34:35.129Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
