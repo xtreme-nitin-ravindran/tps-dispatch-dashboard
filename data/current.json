@@ -3,9 +3,49 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T14:10:10.518Z",
-  "sourceUpdatedAt": "2026-09-29T14:05:01.000Z",
+  "fetchedAt": "2026-09-29T14:11:53.164Z",
+  "sourceUpdatedAt": "2026-09-29T14:10:01.000Z",
   "incidents": [
+    {
+      "id": "F26154512",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "BERGAMOT AVE, ET / REXDALE BLVD / REXLINGTON PARK TRL",
+      "division": "415",
+      "timestamp": "2026-09-29T14:03:51.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "415"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "415"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-29T14:11:53.164Z",
+      "lastSeenAt": "2026-09-29T14:11:53.164Z",
+      "geography": {
+        "text": "Bergamot Avenue between Rexdale Boulevard & Rexlington Park Trl",
+        "approximate": false,
+        "coordinates": [
+          43.714559550000004,
+          -79.5593219
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-24T10:05:13.180Z"
+      }
+    },
     {
       "id": "F26154511",
       "source": "TFS",
@@ -26,7 +66,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T14:06:33.185Z",
-      "lastSeenAt": "2026-09-29T14:10:10.518Z",
+      "lastSeenAt": "2026-09-29T14:11:53.164Z",
       "geography": {
         "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
         "approximate": true,
@@ -39,6 +79,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-d758cfeaf01d644194b7dce0",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-09-29T13:59:26.000Z",
+      "location": "JARVIS ST - WELLESLEY ST E",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "JARVIS ST - WELLESLEY ST E",
+        "coordinates": [
+          43.66628190538561,
+          -79.3783339514245
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T14:11:53.164Z"
     },
     {
       "id": "F26154510",
@@ -60,7 +122,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T14:06:33.185Z",
-      "lastSeenAt": "2026-09-29T14:10:10.518Z",
+      "lastSeenAt": "2026-09-29T14:11:53.164Z",
       "geography": {
         "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
         "approximate": true,
@@ -75,6 +137,28 @@
       }
     },
     {
+      "id": "TPS-83ee8e03abba29aaf4a53b8e",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT",
+      "callTypeCode": "ASS",
+      "timestamp": "2026-09-29T13:55:55.000Z",
+      "location": "RICHMOND ST W - JACK COOPER LANE",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "RICHMOND ST W - JACK COOPER LANE",
+        "coordinates": [
+          43.64840308750672,
+          -79.39327793738313
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T14:11:53.164Z"
+    },
+    {
       "id": "F26154509",
       "source": "TFS",
       "eventType": "fire",
@@ -83,7 +167,7 @@
       "division": "231",
       "timestamp": "2026-09-29T13:53:59.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -110,6 +194,50 @@
       }
     },
     {
+      "id": "TPS-e143beddc28338e6c62daf5e",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-29T13:52:31.000Z",
+      "location": "GLAMORGAN AVE - PROGRESS AVE",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GLAMORGAN AVE - PROGRESS AVE",
+        "coordinates": [
+          43.76942243842896,
+          -79.28227009559461
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T14:11:53.164Z"
+    },
+    {
+      "id": "TPS-6b73127dc24f635c4dc219c1",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "BREAK & ENTER",
+      "callTypeCode": "BREEN",
+      "timestamp": "2026-09-29T13:52:08.000Z",
+      "location": "WEYBOURNE CRES - POTE AVE",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WEYBOURNE CRES - POTE AVE",
+        "coordinates": [
+          43.72290298023081,
+          -79.39731104069458
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T14:11:53.164Z"
+    },
+    {
       "id": "F26154508",
       "source": "TFS",
       "eventType": "fire",
@@ -130,7 +258,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T14:01:10.830Z",
       "lastMeaningfulUpdateAt": "2026-09-29T14:06:33.185Z",
-      "lastSeenAt": "2026-09-29T14:10:10.518Z",
+      "lastSeenAt": "2026-09-29T14:11:53.164Z",
       "geography": {
         "text": "Approximate location near Parliament Street & Aberdeen Avenue",
         "approximate": true,
@@ -145,6 +273,28 @@
       }
     },
     {
+      "id": "TPS-65ee669c28f37ce0b05bf560",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-29T13:51:50.000Z",
+      "location": "BEATY BOULEVARD PARKETTE TRL - SUNNYSIDE AVE",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BEATY BOULEVARD PARKETTE TRL - SUNNYSIDE AVE",
+        "coordinates": [
+          43.63877549027512,
+          -79.44841411719405
+        ],
+        "division": "Division 11",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T14:11:53.164Z"
+    },
+    {
       "id": "F26154507",
       "source": "TFS",
       "eventType": "fire",
@@ -153,7 +303,7 @@
       "division": "445",
       "timestamp": "2026-09-29T13:50:39.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -200,7 +350,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T13:56:10.178Z",
       "lastMeaningfulUpdateAt": "2026-09-29T14:01:10.830Z",
-      "lastSeenAt": "2026-09-29T14:10:10.518Z",
+      "lastSeenAt": "2026-09-29T14:11:53.164Z",
       "geography": {
         "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
         "approximate": true,
@@ -270,7 +420,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T13:56:10.178Z",
       "lastMeaningfulUpdateAt": "2026-09-29T14:01:10.830Z",
-      "lastSeenAt": "2026-09-29T14:10:10.518Z",
+      "lastSeenAt": "2026-09-29T14:11:53.164Z",
       "geography": {
         "text": "Approximate area: (M2N) Willowdale South",
         "approximate": true,
@@ -318,6 +468,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-01fdd86b2db18329bf104314",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-29T13:45:34.000Z",
+      "location": "27 HWY S - BELFIELD RD",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "27 HWY S - BELFIELD RD",
+        "coordinates": [
+          43.699275584567346,
+          -79.58715652417891
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T14:11:53.164Z"
     },
     {
       "id": "F26154502",
@@ -477,7 +649,7 @@
       "division": "435",
       "timestamp": "2026-09-29T13:38:12.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -542,7 +714,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-29T13:45:53.263Z",
       "lastMeaningfulUpdateAt": "2026-09-29T13:50:50.131Z",
-      "lastSeenAt": "2026-09-29T14:10:10.518Z",
+      "lastSeenAt": "2026-09-29T14:11:53.164Z",
       "geography": {
         "text": "Cole Street between Parliament Street & Regent Street",
         "approximate": false,
@@ -590,7 +762,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-29T13:45:53.263Z",
       "lastMeaningfulUpdateAt": "2026-09-29T13:50:50.131Z",
-      "lastSeenAt": "2026-09-29T14:10:10.518Z",
+      "lastSeenAt": "2026-09-29T14:11:53.164Z",
       "geography": {
         "text": "Sydnor Road between Bestview Drive & Rockland Drive",
         "approximate": false,
@@ -953,7 +1125,7 @@
       "respondingUnitCount": 12,
       "firstSeenAt": "2026-09-29T13:31:12.340Z",
       "lastMeaningfulUpdateAt": "2026-09-29T13:50:50.131Z",
-      "lastSeenAt": "2026-09-29T14:10:10.518Z",
+      "lastSeenAt": "2026-09-29T14:11:53.164Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -201802,58 +201974,16 @@
         "division": "Division 55",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-61e6a0ca8ec77d1ebe03e443",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "ARREST",
-      "callTypeCode": "ARR",
-      "timestamp": "2026-09-22T14:10:28.000Z",
-      "location": "JANE ST - DALLNER RD",
-      "division": "Division 31",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "JANE ST - DALLNER RD",
-        "coordinates": [
-          43.720642146439545,
-          -79.51412794306921
-        ],
-        "division": "Division 31",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-dc88764a313c54a2cf84566c",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "THEFT",
-      "callTypeCode": "THE",
-      "timestamp": "2026-09-22T14:10:26.000Z",
-      "location": "PETROLIA RD - CANARCTIC DR",
-      "division": "Division 31",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "PETROLIA RD - CANARCTIC DR",
-        "coordinates": [
-          43.775788258323736,
-          -79.49116438828091
-        ],
-        "division": "Division 31",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T14:10:10.518Z",
-      "sourceUpdatedAt": "2026-09-29T14:05:01.000Z",
+      "fetchedAt": "2026-09-29T14:11:53.164Z",
+      "sourceUpdatedAt": "2026-09-29T14:10:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T14:10:10.518Z",
+      "fetchedAt": "2026-09-29T14:11:53.164Z",
       "status": "ok"
     }
   },
@@ -356612,7 +356742,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-29T14:09:40.000Z",
+    "sourceUpdatedAt": "2026-09-29T14:11:35.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -356621,14 +356751,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-29T14:10:10.518Z",
-    "checkedAt": "2026-09-29T14:10:10.518Z",
+    "fetchedAt": "2026-09-29T14:11:53.164Z",
+    "checkedAt": "2026-09-29T14:11:53.164Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-29T14:10:10.518Z",
-      "checkedAt": "2026-09-29T14:10:10.518Z",
+      "fetchedAt": "2026-09-29T14:11:53.164Z",
+      "checkedAt": "2026-09-29T14:11:53.164Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -356652,6 +356782,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "BERGAMOT AVE, ET / REXDALE BLVD / REXLINGTON PARK TRL": {
+      "text": "Bergamot Avenue between Rexdale Boulevard & Rexlington Park Trl",
+      "approximate": false,
+      "coordinates": [
+        43.714559550000004,
+        -79.5593219
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-24T10:05:13.180Z"
+    },
     "M4Y": {
       "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
       "approximate": true,
@@ -367367,18 +367509,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T10:11:28.566Z"
-    },
-    "BERGAMOT AVE, ET / REXDALE BLVD / REXLINGTON PARK TRL": {
-      "text": "Bergamot Avenue between Rexdale Boulevard & Rexlington Park Trl",
-      "approximate": false,
-      "coordinates": [
-        43.714559550000004,
-        -79.5593219
-      ],
-      "division": "Division 23",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-24T10:05:13.180Z"
     },
     "JUTLAND RD, ET / KIPLING AVE / GOODRICH RD": {
       "text": "Jutland Road between Kipling Avenue & Goodrich Road",
