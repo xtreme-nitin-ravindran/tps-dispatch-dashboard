@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T12:34:47.993Z",
-  "sourceUpdatedAt": "2026-09-29T12:30:02.000Z",
+  "fetchedAt": "2026-09-29T12:36:40.259Z",
+  "sourceUpdatedAt": "2026-09-29T12:35:01.000Z",
   "incidents": [
     {
       "id": "TPS-c2cd62d7610b87bd7cd48ff8",
@@ -38,9 +38,31 @@
       "timestamp": "2026-09-29T12:24:04.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "34"
+          ]
+        },
+        {
+          "type": "Hazmat Unit",
+          "numbers": [
+            "323"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "323",
+            "426"
+          ]
+        }
+      ],
+      "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-29T12:31:18.417Z",
-      "lastSeenAt": "2026-09-29T12:34:47.993Z",
+      "lastMeaningfulUpdateAt": "2026-09-29T12:36:40.259Z",
+      "lastSeenAt": "2026-09-29T12:36:40.259Z",
       "geography": {
         "text": "College Street between Brock Avenue & Orpen Lane",
         "approximate": false,
@@ -86,9 +108,18 @@
       "timestamp": "2026-09-29T12:22:45.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "314"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T12:31:18.417Z",
-      "lastSeenAt": "2026-09-29T12:34:47.993Z",
+      "lastMeaningfulUpdateAt": "2026-09-29T12:36:40.259Z",
+      "lastSeenAt": "2026-09-29T12:36:40.259Z",
       "geography": {
         "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
         "approximate": true,
@@ -188,7 +219,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T12:20:48.455Z",
-      "lastSeenAt": "2026-09-29T12:34:47.993Z",
+      "lastSeenAt": "2026-09-29T12:36:40.259Z",
       "geography": {
         "text": "Kipling Avenue between Snaresbrook Drive & Genthorn Avenue",
         "approximate": false,
@@ -211,7 +242,7 @@
       "division": "242",
       "timestamp": "2026-09-29T12:11:47.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -312,7 +343,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T12:11:53.264Z",
-      "lastSeenAt": "2026-09-29T12:34:47.993Z",
+      "lastSeenAt": "2026-09-29T12:36:40.259Z",
       "geography": {
         "text": "Approximate area: (M6C) York (Cedarvale)",
         "approximate": true,
@@ -474,7 +505,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T12:00:57.913Z",
-      "lastSeenAt": "2026-09-29T12:34:47.993Z",
+      "lastSeenAt": "2026-09-29T12:36:40.259Z",
       "geography": {
         "text": "Greenfield Avenue between Longmore Street & Wilfred Avenue",
         "approximate": false,
@@ -768,7 +799,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T11:46:58.129Z",
-      "lastSeenAt": "2026-09-29T12:34:47.993Z",
+      "lastSeenAt": "2026-09-29T12:36:40.259Z",
       "geography": {
         "text": "Market Street between Conger Coal Lane & Wilton Street",
         "approximate": false,
@@ -200257,49 +200288,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26150230",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M5S",
-      "division": "312",
-      "timestamp": "2026-09-22T12:35:38.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "312"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-22T12:45:39.174Z",
-      "lastSeenAt": "2026-09-22T12:50:50.068Z",
-      "geography": {
-        "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
-        "approximate": true,
-        "coordinates": [
-          43.6629,
-          -79.3987
-        ],
-        "division": "Division 52",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T12:34:47.993Z",
-      "sourceUpdatedAt": "2026-09-29T12:30:02.000Z",
+      "fetchedAt": "2026-09-29T12:36:40.259Z",
+      "sourceUpdatedAt": "2026-09-29T12:35:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T12:34:47.993Z",
+      "fetchedAt": "2026-09-29T12:36:40.259Z",
       "status": "ok"
     }
   },
@@ -355069,7 +355067,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-29T12:34:32.000Z",
+    "sourceUpdatedAt": "2026-09-29T12:36:28.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -355078,14 +355076,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-29T12:34:47.993Z",
-    "checkedAt": "2026-09-29T12:34:47.993Z",
+    "fetchedAt": "2026-09-29T12:36:40.259Z",
+    "checkedAt": "2026-09-29T12:36:40.259Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-29T12:34:47.993Z",
-      "checkedAt": "2026-09-29T12:34:47.993Z",
+      "fetchedAt": "2026-09-29T12:36:40.259Z",
+      "checkedAt": "2026-09-29T12:36:40.259Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
