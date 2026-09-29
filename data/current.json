@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T07:35:31.741Z",
-  "sourceUpdatedAt": "2026-09-29T07:30:01.000Z",
+  "fetchedAt": "2026-09-29T07:36:58.101Z",
+  "sourceUpdatedAt": "2026-09-29T07:35:01.000Z",
   "incidents": [
+    {
+      "id": "F26154398",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3C",
+      "division": "123",
+      "timestamp": "2026-09-29T07:25:18.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T07:36:58.101Z",
+      "lastSeenAt": "2026-09-29T07:36:58.101Z",
+      "geography": {
+        "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
+        "approximate": true,
+        "coordinates": [
+          43.7334,
+          -79.3329
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-b885bbd265a8515de0427770",
       "source": "TPS",
@@ -70,7 +96,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T07:31:01.342Z",
-      "lastSeenAt": "2026-09-29T07:35:31.741Z",
+      "lastSeenAt": "2026-09-29T07:36:58.101Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -105,7 +131,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T07:31:01.342Z",
-      "lastSeenAt": "2026-09-29T07:35:31.741Z",
+      "lastSeenAt": "2026-09-29T07:36:58.101Z",
       "geography": {
         "text": "Boon Avenue between Lane North Hope West Boon & Lane South Morrison West Boon",
         "approximate": false,
@@ -140,7 +166,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T07:26:38.457Z",
       "lastMeaningfulUpdateAt": "2026-09-29T07:31:01.342Z",
-      "lastSeenAt": "2026-09-29T07:35:31.741Z",
+      "lastSeenAt": "2026-09-29T07:36:58.101Z",
       "geography": {
         "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
         "approximate": true,
@@ -655,7 +681,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T06:35:34.970Z",
       "lastMeaningfulUpdateAt": "2026-09-29T06:45:35.085Z",
-      "lastSeenAt": "2026-09-29T07:35:31.741Z",
+      "lastSeenAt": "2026-09-29T07:36:58.101Z",
       "geography": {
         "text": "Approximate area: (M8Y) Etobicoke (Old Mill South / King's Mill Park / Sunnylea / Humber Bay / Mimico NE / The Queensway East / Royal York South East / Kingsway Park South East)",
         "approximate": true,
@@ -200812,12 +200838,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T07:35:31.741Z",
-      "sourceUpdatedAt": "2026-09-29T07:30:01.000Z",
+      "fetchedAt": "2026-09-29T07:36:58.101Z",
+      "sourceUpdatedAt": "2026-09-29T07:35:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T07:35:31.741Z",
+      "fetchedAt": "2026-09-29T07:36:58.101Z",
       "status": "ok"
     }
   },
@@ -354898,6 +354924,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3C": {
+      "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
+      "approximate": true,
+      "coordinates": [
+        43.7334,
+        -79.3329
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M5A": {
       "text": "Approximate area: (M5A) Toronto",
       "approximate": true,
@@ -355992,18 +356030,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-29T00:26:54.275Z"
-    },
-    "M3C": {
-      "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
-      "approximate": true,
-      "coordinates": [
-        43.7334,
-        -79.3329
-      ],
-      "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "LAKE SHORE BLVD, ET / TWENTY THIRD ST / TWENTY FOURTH ST": {
       "text": "Lake Shore Boulevard between Twenty Third Street & Twenty Fourth Street",
