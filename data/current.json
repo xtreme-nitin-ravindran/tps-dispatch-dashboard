@@ -3,9 +3,84 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T14:44:31.750Z",
-  "sourceUpdatedAt": "2026-09-29T14:40:01.000Z",
+  "fetchedAt": "2026-09-29T14:48:34.528Z",
+  "sourceUpdatedAt": "2026-09-29T14:45:01.000Z",
   "incidents": [
+    {
+      "id": "F26154523",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "WILLIAM KITCHEN RD / KENNEDY RD",
+      "division": "245",
+      "timestamp": "2026-09-29T14:39:33.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T14:48:34.528Z",
+      "lastSeenAt": "2026-09-29T14:48:34.528Z",
+      "geography": {
+        "text": "William Kitchen Road & Kennedy Road",
+        "approximate": false,
+        "coordinates": [
+          43.7731879,
+          -79.2838685
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-29T13:31:12.340Z"
+      }
+    },
+    {
+      "id": "F26154522",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Highrise Residential",
+      "location": "BURNHAMTHORPE RD / BROADACRES PARK TRL",
+      "division": "444",
+      "timestamp": "2026-09-29T14:37:01.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T14:48:34.528Z",
+      "lastSeenAt": "2026-09-29T14:48:34.528Z",
+      "geography": {
+        "text": "Approximate location on Burnhamthorpe Road",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-29T14:48:34.528Z"
+      }
+    },
+    {
+      "id": "F26154521",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6A",
+      "division": "132",
+      "timestamp": "2026-09-29T14:35:25.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T14:48:34.528Z",
+      "lastSeenAt": "2026-09-29T14:48:34.528Z",
+      "geography": {
+        "text": "Approximate area: (M6A) North York (Lawrence Manor / Lawrence Heights)",
+        "approximate": true,
+        "coordinates": [
+          43.7223,
+          -79.4504
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26154520",
       "source": "TFS",
@@ -16,9 +91,24 @@
       "timestamp": "2026-09-29T14:32:51.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "421"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "442"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T14:40:42.676Z",
-      "lastSeenAt": "2026-09-29T14:44:31.750Z",
+      "lastMeaningfulUpdateAt": "2026-09-29T14:48:34.528Z",
+      "lastSeenAt": "2026-09-29T14:48:34.528Z",
       "geography": {
         "text": "Bellevue Crescent between Lane South Weston West Bellevue & Hickory Tree Road",
         "approximate": false,
@@ -42,9 +132,19 @@
       "timestamp": "2026-09-29T14:30:55.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "444",
+            "445"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T14:40:42.676Z",
-      "lastSeenAt": "2026-09-29T14:44:31.750Z",
+      "lastMeaningfulUpdateAt": "2026-09-29T14:48:34.528Z",
+      "lastSeenAt": "2026-09-29T14:48:34.528Z",
       "geography": {
         "text": "Approximate location on Robinglade Drive",
         "approximate": true,
@@ -75,7 +175,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T14:36:23.769Z",
-      "lastSeenAt": "2026-09-29T14:44:31.750Z",
+      "lastSeenAt": "2026-09-29T14:48:34.528Z",
       "geography": {
         "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
         "approximate": true,
@@ -116,7 +216,7 @@
       ],
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-29T14:36:23.769Z",
-      "lastSeenAt": "2026-09-29T14:44:31.750Z",
+      "lastSeenAt": "2026-09-29T14:48:34.528Z",
       "geography": {
         "text": "Approximate area: (M4H) East York (Thorncliffe Park)",
         "approximate": true,
@@ -1271,7 +1371,7 @@
       "division": "111",
       "timestamp": "2026-09-29T13:35:20.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Command Unit",
@@ -1660,7 +1760,7 @@
       "respondingUnitCount": 13,
       "firstSeenAt": "2026-09-29T13:31:12.340Z",
       "lastMeaningfulUpdateAt": "2026-09-29T14:17:41.483Z",
-      "lastSeenAt": "2026-09-29T14:44:31.750Z",
+      "lastSeenAt": "2026-09-29T14:48:34.528Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -202320,79 +202420,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-22T15:48:51.771Z"
       }
-    },
-    {
-      "id": "TPS-0d0d7c61115ec9649c1d0dba",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DEMONSTRATION",
-      "callTypeCode": "DEMO",
-      "timestamp": "2026-09-22T14:48:30.000Z",
-      "location": "HAYTER ST - COLLEGE ST",
-      "division": "Division 52",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "HAYTER ST - COLLEGE ST",
-        "coordinates": [
-          43.66081139991516,
-          -79.3858482454299
-        ],
-        "division": "Division 52",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-58c68d32e4a504031215a917",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "TRESPASS",
-      "callTypeCode": "TRE",
-      "timestamp": "2026-09-22T14:47:58.000Z",
-      "location": "DOVEHOUSE AVE - GRANDRAVINE DR",
-      "division": "Division 31",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "DOVEHOUSE AVE - GRANDRAVINE DR",
-        "coordinates": [
-          43.752030166639194,
-          -79.48814442710805
-        ],
-        "division": "Division 31",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-ec2c1ea284440ed644513484",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DAMAGE IN PROGRESS",
-      "callTypeCode": "DAMPR",
-      "timestamp": "2026-09-22T14:47:17.000Z",
-      "location": "HILLCREST AVE - EMPRESS AVE",
-      "division": "Division 32",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "HILLCREST AVE - EMPRESS AVE",
-        "coordinates": [
-          43.76747578740376,
-          -79.41243927814328
-        ],
-        "division": "Division 32",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T14:44:31.750Z",
-      "sourceUpdatedAt": "2026-09-29T14:40:01.000Z",
+      "fetchedAt": "2026-09-29T14:48:34.528Z",
+      "sourceUpdatedAt": "2026-09-29T14:45:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T14:44:31.750Z",
+      "fetchedAt": "2026-09-29T14:48:34.528Z",
       "status": "ok"
     }
   },
@@ -354077,8 +354114,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-29T14:42:31.744Z",
-      "fetchedAt": "2026-09-29T14:42:31.744Z"
+      "checkedAt": "2026-09-29T14:48:34.528Z",
+      "fetchedAt": "2026-09-29T14:48:34.528Z"
     },
     "transit": {
       "items": [
@@ -355920,171 +355957,6 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
-          "id": "77143",
-          "title": "503 Kingston Rd: No service between King St West at University Ave East Side - St Andrew Station and King St West at Yonge St East Side - King Station due to a fire drill.",
-          "description": "",
-          "effect": "NO SERVICE",
-          "routes": [
-            "503"
-          ],
-          "stopIds": [
-            "15642",
-            "15838",
-            "15640",
-            "15638",
-            "15639",
-            "15637"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": "503",
-              "stopId": "15642",
-              "coordinates": [
-                43.647809,
-                -79.383692
-              ],
-              "name": "King St West at York St - St Andrew Station"
-            },
-            {
-              "routeId": "503",
-              "stopId": "15838"
-            },
-            {
-              "routeId": "503",
-              "stopId": "15640",
-              "coordinates": [
-                43.648724,
-                -79.379621
-              ],
-              "name": "King St West at Bay St East Side"
-            },
-            {
-              "routeId": "503",
-              "stopId": "15638",
-              "coordinates": [
-                43.649232,
-                -79.377256
-              ],
-              "name": "King St West at Yonge St East Side - King Station"
-            },
-            {
-              "routeId": "503",
-              "stopId": "15639",
-              "coordinates": [
-                43.648622,
-                -79.380619
-              ],
-              "name": "King St West at Bay St West Side"
-            },
-            {
-              "routeId": "503",
-              "stopId": "15637",
-              "coordinates": [
-                43.649058,
-                -79.378565
-              ],
-              "name": "King St West at Yonge St West Side - King Station"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790692408000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "77142",
-          "title": "504 King: Detour eastbound via Spadina Ave, Adelaide St W and Church St due to a Toronto fire investigation.",
-          "description": "",
-          "effect": "DETOUR",
-          "routes": [
-            "504"
-          ],
-          "stopIds": [
-            "15648",
-            "15646",
-            "15644",
-            "15642",
-            "15640",
-            "15638",
-            "12537"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": "504",
-              "stopId": "15648",
-              "coordinates": [
-                43.645507,
-                -79.394296
-              ],
-              "name": "King St West at Spadina Ave East Side"
-            },
-            {
-              "routeId": "504",
-              "stopId": "15646",
-              "coordinates": [
-                43.646101,
-                -79.391644
-              ],
-              "name": "King St West at Blue Jays Way East Side"
-            },
-            {
-              "routeId": "504",
-              "stopId": "15644",
-              "coordinates": [
-                43.646614,
-                -79.389267
-              ],
-              "name": "King St West at John St East Side"
-            },
-            {
-              "routeId": "504",
-              "stopId": "15642",
-              "coordinates": [
-                43.647809,
-                -79.383692
-              ],
-              "name": "King St West at York St - St Andrew Station"
-            },
-            {
-              "routeId": "504",
-              "stopId": "15640",
-              "coordinates": [
-                43.648724,
-                -79.379621
-              ],
-              "name": "King St West at Bay St East Side"
-            },
-            {
-              "routeId": "504",
-              "stopId": "15638",
-              "coordinates": [
-                43.649232,
-                -79.377256
-              ],
-              "name": "King St West at Yonge St East Side - King Station"
-            },
-            {
-              "routeId": "504",
-              "stopId": "12537",
-              "coordinates": [
-                43.649982,
-                -79.373826
-              ],
-              "name": "King St East at Church St East Side"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790692393000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
           "id": "77141",
           "title": "504 King: Detour westbound via Church St, Richmond St W, York St, Queen St W and Spadina Ave due to a Toronto fire investigation.",
           "description": "",
@@ -357492,16 +357364,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-29T14:42:32.000Z",
+      "sourceUpdatedAt": "2026-09-29T14:48:35.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-29T14:42:31.744Z",
-      "fetchedAt": "2026-09-29T14:42:31.744Z"
+      "checkedAt": "2026-09-29T14:48:34.528Z",
+      "fetchedAt": "2026-09-29T14:48:34.528Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-29T14:44:23.000Z",
+    "sourceUpdatedAt": "2026-09-29T14:48:37.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -357510,14 +357382,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-29T14:44:31.750Z",
-    "checkedAt": "2026-09-29T14:44:31.750Z",
+    "fetchedAt": "2026-09-29T14:48:34.528Z",
+    "checkedAt": "2026-09-29T14:48:34.528Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-29T14:44:31.750Z",
-      "checkedAt": "2026-09-29T14:44:31.750Z",
+      "fetchedAt": "2026-09-29T14:48:34.528Z",
+      "checkedAt": "2026-09-29T14:48:34.528Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -357541,6 +357413,39 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "WILLIAM KITCHEN RD / KENNEDY RD": {
+      "text": "William Kitchen Road & Kennedy Road",
+      "approximate": false,
+      "coordinates": [
+        43.7731879,
+        -79.2838685
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-29T13:31:12.340Z"
+    },
+    "BURNHAMTHORPE RD / BROADACRES PARK TRL": {
+      "text": "Approximate location on Burnhamthorpe Road",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-29T14:48:34.528Z"
+    },
+    "M6A": {
+      "text": "Approximate area: (M6A) North York (Lawrence Manor / Lawrence Heights)",
+      "approximate": true,
+      "coordinates": [
+        43.7223,
+        -79.4504
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "BELLEVUE CRES, YK / LN S WESTON W BELLEVUE / HICKORY TREE RD": {
       "text": "Bellevue Crescent between Lane South Weston West Bellevue & Hickory Tree Road",
       "approximate": false,
@@ -357855,18 +357760,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "WILLIAM KITCHEN RD / KENNEDY RD": {
-      "text": "William Kitchen Road & Kennedy Road",
-      "approximate": false,
-      "coordinates": [
-        43.7731879,
-        -79.2838685
-      ],
-      "division": "Division 41",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-29T13:31:12.340Z"
     },
     "M1S": {
       "text": "Approximate area: (M1S) Scarborough (Agincourt)",
@@ -358329,18 +358222,6 @@
         -79.3216
       ],
       "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6A": {
-      "text": "Approximate area: (M6A) North York (Lawrence Manor / Lawrence Heights)",
-      "approximate": true,
-      "coordinates": [
-        43.7223,
-        -79.4504
-      ],
-      "division": "Division 32",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
