@@ -3,9 +3,49 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T06:54:15.050Z",
-  "sourceUpdatedAt": "2026-09-29T06:45:01.000Z",
+  "fetchedAt": "2026-09-29T06:55:46.287Z",
+  "sourceUpdatedAt": "2026-09-29T06:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26154389",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "YONGE ST, NY / BOGERT AVE / SHEPPARD AVE W",
+      "division": "114",
+      "timestamp": "2026-09-29T06:45:50.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "114"
+          ]
+        },
+        {
+          "type": "Tower Truck",
+          "numbers": [
+            "114"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-29T06:55:46.287Z",
+      "lastSeenAt": "2026-09-29T06:55:46.287Z",
+      "geography": {
+        "text": "Yonge Street between Bogert Avenue & Sheppard Avenue West",
+        "approximate": false,
+        "coordinates": [
+          43.76112005,
+          -79.41084525
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-29T06:55:46.287Z"
+      }
+    },
     {
       "id": "TPS-abdd513f0782689db3c71622",
       "source": "TPS",
@@ -92,7 +132,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T06:45:35.085Z",
-      "lastSeenAt": "2026-09-29T06:54:15.050Z",
+      "lastSeenAt": "2026-09-29T06:55:46.287Z",
       "geography": {
         "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
         "approximate": true,
@@ -219,7 +259,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T06:35:34.970Z",
       "lastMeaningfulUpdateAt": "2026-09-29T06:45:35.085Z",
-      "lastSeenAt": "2026-09-29T06:54:15.050Z",
+      "lastSeenAt": "2026-09-29T06:55:46.287Z",
       "geography": {
         "text": "Approximate area: (M8Y) Etobicoke (Old Mill South / King's Mill Park / Sunnylea / Humber Bay / Mimico NE / The Queensway East / Royal York South East / Kingsway Park South East)",
         "approximate": true,
@@ -403,7 +443,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T06:16:44.565Z",
       "lastMeaningfulUpdateAt": "2026-09-29T06:21:15.282Z",
-      "lastSeenAt": "2026-09-29T06:54:15.050Z",
+      "lastSeenAt": "2026-09-29T06:55:46.287Z",
       "geography": {
         "text": "Approximate area: (M1N) Scarborough (Birch Cliff / Cliffside West)",
         "approximate": true,
@@ -426,7 +466,7 @@
       "division": "224",
       "timestamp": "2026-09-29T06:03:44.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -471,7 +511,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T06:11:14.627Z",
-      "lastSeenAt": "2026-09-29T06:54:15.050Z",
+      "lastSeenAt": "2026-09-29T06:55:46.287Z",
       "geography": {
         "text": "Approximate area: (M1G) Scarborough (Woburn)",
         "approximate": true,
@@ -726,7 +766,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T06:06:51.704Z",
-      "lastSeenAt": "2026-09-29T06:54:15.050Z",
+      "lastSeenAt": "2026-09-29T06:55:46.287Z",
       "geography": {
         "text": "Caledonia Park Road between Davenport Road & Street Clair Avenue West",
         "approximate": false,
@@ -1386,7 +1426,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T05:16:13.990Z",
-      "lastSeenAt": "2026-09-29T06:54:15.050Z",
+      "lastSeenAt": "2026-09-29T06:55:46.287Z",
       "geography": {
         "text": "Steeles Avenue East & Middlefield Road",
         "approximate": false,
@@ -200950,12 +200990,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T06:54:15.050Z",
-      "sourceUpdatedAt": "2026-09-29T06:45:01.000Z",
+      "fetchedAt": "2026-09-29T06:55:46.287Z",
+      "sourceUpdatedAt": "2026-09-29T06:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T06:54:15.050Z",
+      "fetchedAt": "2026-09-29T06:55:46.287Z",
       "status": "ok"
     }
   },
@@ -355186,6 +355226,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "YONGE ST, NY / BOGERT AVE / SHEPPARD AVE W": {
+      "text": "Yonge Street between Bogert Avenue & Sheppard Avenue West",
+      "approximate": false,
+      "coordinates": [
+        43.76112005,
+        -79.41084525
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-29T06:55:46.287Z"
+    },
     "M9W": {
       "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
       "approximate": true,
