@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T10:55:36.225Z",
+  "fetchedAt": "2026-09-29T10:57:30.353Z",
   "sourceUpdatedAt": "2026-09-29T10:55:01.000Z",
   "incidents": [
     {
@@ -18,7 +18,7 @@
       "isOngoing": true,
       "vehicles": [],
       "firstSeenAt": "2026-09-29T10:55:36.225Z",
-      "lastSeenAt": "2026-09-29T10:55:36.225Z",
+      "lastSeenAt": "2026-09-29T10:57:30.353Z",
       "geography": {
         "text": "Pembroke Street & Gerrard Street East",
         "approximate": false,
@@ -215,7 +215,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T10:36:15.545Z",
-      "lastSeenAt": "2026-09-29T10:55:36.225Z",
+      "lastSeenAt": "2026-09-29T10:57:30.353Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -200580,94 +200580,58 @@
         "division": "Division 52",
         "approximate": true
       }
-    },
-    {
-      "id": "F26150197",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Alarm Single Source",
-      "location": "REXDALE BLVD, ET / BERGAMOT AVE / HEPC",
-      "division": "415",
-      "timestamp": "2026-09-22T10:55:56.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Aerial Truck",
-          "numbers": [
-            "415"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "415"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-22T11:05:47.988Z",
-      "lastSeenAt": "2026-09-22T11:44:29.096Z",
-      "geography": {
-        "text": "Approximate location near Rexdale Boulevard & Bergamot Avenue",
-        "approximate": true,
-        "coordinates": [
-          43.7133181,
-          -79.5596898
-        ],
-        "division": "Unknown",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-22T11:05:47.988Z"
-      }
-    },
-    {
-      "id": "F26150196",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M8Y",
-      "division": "433",
-      "timestamp": "2026-09-22T10:55:44.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "433"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-22T11:05:47.988Z",
-      "lastSeenAt": "2026-09-22T11:30:48.309Z",
-      "geography": {
-        "text": "Approximate area: (M8Y) Etobicoke (Old Mill South / King's Mill Park / Sunnylea / Humber Bay / Mimico NE / The Queensway East / Royal York South East / Kingsway Park South East)",
-        "approximate": true,
-        "coordinates": [
-          43.6325,
-          -79.4939
-        ],
-        "division": "Division 22",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T10:55:36.225Z",
+      "fetchedAt": "2026-09-29T10:57:30.353Z",
       "sourceUpdatedAt": "2026-09-29T10:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T10:55:36.225Z",
+      "fetchedAt": "2026-09-29T10:57:30.353Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "12227399",
+          "street": "Don Valley Parkway S",
+          "title": "Southbound Don Valley Parkway Exit to Lakeshore Blvd.",
+          "description": "Toronto-TMC: Lakeshore exit is blocked due to a collision.",
+          "restrictionType": "HAZARD",
+          "type": "HAZARD",
+          "impact": "High",
+          "startLocation": "F G Gardiner Xy W",
+          "endLocation": "",
+          "start": 1790678335000,
+          "reportedAt": 1790678335000,
+          "end": null,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.653287,
+            -79.348932
+          ],
+          "line": [],
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -79.348932,
+              43.653287
+            ]
+          },
+          "geometryKind": "point",
+          "schedule": "Everyday: 00:00-23:59",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "12227421",
           "street": "St Clair Ave W",
@@ -200693,42 +200657,6 @@
             "coordinates": [
               -79.467448,
               43.67257
-            ]
-          },
-          "geometryKind": "point",
-          "schedule": "Everyday: 00:00-23:59",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "12227399",
-          "street": "Don Valley Parkway S",
-          "title": "Southbound Don Valley Parkway Exit to Lakeshore Blvd.",
-          "description": "Toronto-TMC: Left lane is blocked due to a collision.",
-          "restrictionType": "HAZARD",
-          "type": "HAZARD",
-          "impact": "High",
-          "startLocation": "F G Gardiner Xy W",
-          "endLocation": "",
-          "start": 1790678335000,
-          "reportedAt": 1790678335000,
-          "end": null,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.653287,
-            -79.348932
-          ],
-          "line": [],
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-              -79.348932,
-              43.653287
             ]
           },
           "geometryKind": "point",
@@ -351308,8 +351236,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-29T10:51:58.538Z",
-      "fetchedAt": "2026-09-29T10:51:58.538Z"
+      "checkedAt": "2026-09-29T10:57:30.353Z",
+      "fetchedAt": "2026-09-29T10:57:30.353Z"
     },
     "transit": {
       "items": [
@@ -352409,6 +352337,106 @@
             {
               "start": 1790366137000,
               "end": 1790999940000
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "77132",
+          "title": "89 Weston: Detour via St Clair Ave W and Gunns Rd due to a collision.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "89"
+          ],
+          "stopIds": [
+            "11689",
+            "8752",
+            "11068",
+            "8748",
+            "15750",
+            "14434",
+            "11069",
+            "8749"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "89",
+              "stopId": "11689",
+              "coordinates": [
+                43.672216,
+                -79.467341
+              ],
+              "name": "Keele St at St Clair Ave West"
+            },
+            {
+              "routeId": "89",
+              "stopId": "8752",
+              "coordinates": [
+                43.674019,
+                -79.469132
+              ],
+              "name": "Weston Rd at Birdstone Cres (North)"
+            },
+            {
+              "routeId": "89",
+              "stopId": "11068",
+              "coordinates": [
+                43.67581,
+                -79.47009
+              ],
+              "name": "Weston Rd at Gunns Rd"
+            },
+            {
+              "routeId": "89",
+              "stopId": "8748",
+              "coordinates": [
+                43.677134,
+                -79.471618
+              ],
+              "name": "Weston Rd at McCormack St"
+            },
+            {
+              "routeId": "89",
+              "stopId": "15750",
+              "coordinates": [
+                43.672671,
+                -79.467774
+              ],
+              "name": "Weston Rd at St Clair Ave West"
+            },
+            {
+              "routeId": "89",
+              "stopId": "14434",
+              "coordinates": [
+                43.674271,
+                -79.469585
+              ],
+              "name": "Weston Rd at Birdstone Cres (North)"
+            },
+            {
+              "routeId": "89",
+              "stopId": "11069",
+              "coordinates": [
+                43.675541,
+                -79.470205
+              ],
+              "name": "Weston Rd at Gunns Rd South Side"
+            },
+            {
+              "routeId": "89",
+              "stopId": "8749",
+              "coordinates": [
+                43.677281,
+                -79.472119
+              ],
+              "name": "Weston Rd at McCormack St"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790679204000,
+              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -354440,16 +354468,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-29T10:51:59.000Z",
+      "sourceUpdatedAt": "2026-09-29T10:57:31.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-29T10:51:58.538Z",
-      "fetchedAt": "2026-09-29T10:51:58.538Z"
+      "checkedAt": "2026-09-29T10:57:30.353Z",
+      "fetchedAt": "2026-09-29T10:57:30.353Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-29T10:55:17.000Z",
+    "sourceUpdatedAt": "2026-09-29T10:56:48.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -354458,14 +354486,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-29T10:55:36.225Z",
-    "checkedAt": "2026-09-29T10:55:36.225Z",
+    "fetchedAt": "2026-09-29T10:57:30.353Z",
+    "checkedAt": "2026-09-29T10:57:30.353Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-29T10:55:36.225Z",
-      "checkedAt": "2026-09-29T10:55:36.225Z",
+      "fetchedAt": "2026-09-29T10:57:30.353Z",
+      "checkedAt": "2026-09-29T10:57:30.353Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -366947,18 +366975,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-21T01:01:34.726Z"
-    },
-    "REXDALE BLVD, ET / BERGAMOT AVE / HEPC": {
-      "text": "Approximate location near Rexdale Boulevard & Bergamot Avenue",
-      "approximate": true,
-      "coordinates": [
-        43.7133181,
-        -79.5596898
-      ],
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T11:05:47.988Z"
     }
   }
 }
