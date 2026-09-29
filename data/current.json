@@ -3,9 +3,83 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T11:30:39.678Z",
-  "sourceUpdatedAt": "2026-09-29T11:25:02.000Z",
+  "fetchedAt": "2026-09-29T11:32:29.925Z",
+  "sourceUpdatedAt": "2026-09-29T11:30:02.000Z",
   "incidents": [
+    {
+      "id": "F26154440",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "SHEPPARD AVE, SC / LAMONT AVE / MIDLAND AVE",
+      "division": "243",
+      "timestamp": "2026-09-29T11:22:52.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T11:32:29.925Z",
+      "lastSeenAt": "2026-09-29T11:32:29.925Z",
+      "geography": {
+        "text": "Sheppard Avenue between Lamont Avenue & Midland Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.7850449,
+          -79.28004625
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-29T11:32:29.925Z"
+      }
+    },
+    {
+      "id": "F26154439",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9B",
+      "division": "445",
+      "timestamp": "2026-09-29T11:22:15.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T11:32:29.925Z",
+      "lastSeenAt": "2026-09-29T11:32:29.925Z",
+      "geography": {
+        "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
+        "approximate": true,
+        "coordinates": [
+          43.6505,
+          -79.5517
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-3fa046aae5a29ca9088b8b58",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-29T11:20:59.000Z",
+      "location": "HINTON RD - ",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HINTON RD - ",
+        "coordinates": [
+          43.724185050545735,
+          -79.56908447662803
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T11:32:29.925Z"
+    },
     {
       "id": "F26154437",
       "source": "TFS",
@@ -16,9 +90,18 @@
       "timestamp": "2026-09-29T11:19:30.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "314"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T11:27:01.581Z",
-      "lastSeenAt": "2026-09-29T11:30:39.678Z",
+      "lastMeaningfulUpdateAt": "2026-09-29T11:32:29.925Z",
+      "lastSeenAt": "2026-09-29T11:32:29.925Z",
       "geography": {
         "text": "Approximate area: (M5G) Downtown Toronto (Central Bay Street)",
         "approximate": true,
@@ -31,6 +114,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-eb93f0e8ba503b582469db17",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT IN PROGRESS",
+      "callTypeCode": "ASSPR",
+      "timestamp": "2026-09-29T11:16:43.000Z",
+      "location": "NASSAU ST - AUGUSTA AVE",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "NASSAU ST - AUGUSTA AVE",
+        "coordinates": [
+          43.65522989636559,
+          -79.40232983429784
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T11:32:29.925Z"
+    },
+    {
+      "id": "TPS-0134a1d560719cfd86adb55d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-29T11:14:44.000Z",
+      "location": "JANE ST - SPEERS AVE",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "JANE ST - SPEERS AVE",
+        "coordinates": [
+          43.70156645639091,
+          -79.50341814843503
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-29T11:32:29.925Z"
     },
     {
       "id": "F26154436",
@@ -52,7 +179,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T11:21:56.355Z",
-      "lastSeenAt": "2026-09-29T11:30:39.678Z",
+      "lastSeenAt": "2026-09-29T11:32:29.925Z",
       "geography": {
         "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
         "approximate": true,
@@ -486,7 +613,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T10:36:15.545Z",
-      "lastSeenAt": "2026-09-29T11:30:39.678Z",
+      "lastSeenAt": "2026-09-29T11:32:29.925Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -200420,70 +200547,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-22T11:41:58.481Z"
       }
-    },
-    {
-      "id": "F26150205",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M3B",
-      "division": "122",
-      "timestamp": "2026-09-22T11:31:11.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "122"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-22T11:41:58.481Z",
-      "lastSeenAt": "2026-09-22T11:54:59.115Z",
-      "geography": {
-        "text": "Approximate area: (M3B) Don Mills North",
-        "approximate": true,
-        "coordinates": [
-          43.745,
-          -79.359
-        ],
-        "division": "Division 33",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "TPS-57b987b2a14bb851e7e2bc56",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "BREAK & ENTER",
-      "callTypeCode": "BREEN",
-      "timestamp": "2026-09-22T11:30:50.000Z",
-      "location": "ST CLAIR AVE E - CURITY AVE",
-      "division": "Division 55",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "ST CLAIR AVE E - CURITY AVE",
-        "coordinates": [
-          43.70584608991702,
-          -79.31250464877454
-        ],
-        "division": "Division 55",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T11:30:39.678Z",
-      "sourceUpdatedAt": "2026-09-29T11:25:02.000Z",
+      "fetchedAt": "2026-09-29T11:32:29.925Z",
+      "sourceUpdatedAt": "2026-09-29T11:30:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T11:30:39.678Z",
+      "fetchedAt": "2026-09-29T11:32:29.925Z",
       "status": "ok"
     }
   },
@@ -354473,7 +354546,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-29T11:29:53.000Z",
+    "sourceUpdatedAt": "2026-09-29T11:32:23.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -354482,14 +354555,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-29T11:30:39.678Z",
-    "checkedAt": "2026-09-29T11:30:39.678Z",
+    "fetchedAt": "2026-09-29T11:32:29.925Z",
+    "checkedAt": "2026-09-29T11:32:29.925Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-29T11:30:39.678Z",
-      "checkedAt": "2026-09-29T11:30:39.678Z",
+      "fetchedAt": "2026-09-29T11:32:29.925Z",
+      "checkedAt": "2026-09-29T11:32:29.925Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -354513,6 +354586,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "SHEPPARD AVE, SC / LAMONT AVE / MIDLAND AVE": {
+      "text": "Sheppard Avenue between Lamont Avenue & Midland Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.7850449,
+        -79.28004625
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-29T11:32:29.925Z"
+    },
+    "M9B": {
+      "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
+      "approximate": true,
+      "coordinates": [
+        43.6505,
+        -79.5517
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M5G": {
       "text": "Approximate area: (M5G) Downtown Toronto (Central Bay Street)",
       "approximate": true,
@@ -355358,18 +355455,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-29T03:02:31.040Z"
-    },
-    "M9B": {
-      "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
-      "approximate": true,
-      "coordinates": [
-        43.6505,
-        -79.5517
-      ],
-      "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M3L": {
       "text": "Approximate area: (M3L) Downsview West",
