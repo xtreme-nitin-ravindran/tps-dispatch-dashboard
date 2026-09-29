@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-29T23:45:23.206Z",
-  "sourceUpdatedAt": "2026-09-29T23:40:01.000Z",
+  "fetchedAt": "2026-09-29T23:47:23.731Z",
+  "sourceUpdatedAt": "2026-09-29T23:45:01.000Z",
   "incidents": [
+    {
+      "id": "F26154871",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "LAWRENCE AVE, SC / 3950 LAWRENCE AVE E / 3967 LAWRENCE AVE E",
+      "division": "234",
+      "timestamp": "2026-09-29T23:38:57.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-29T23:47:23.731Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
+      "geography": {
+        "text": "Lawrence Avenue between 3950 Lawrence Avenue East & 3967 Lawrence Avenue East",
+        "approximate": false,
+        "coordinates": [
+          43.76438005,
+          -79.20420734999999
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-20T02:41:31.032Z"
+      }
+    },
     {
       "id": "F26154869",
       "source": "TFS",
@@ -16,9 +42,19 @@
       "timestamp": "2026-09-29T23:33:21.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "333",
+            "334"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T23:40:44.123Z",
-      "lastSeenAt": "2026-09-29T23:45:23.206Z",
+      "lastMeaningfulUpdateAt": "2026-09-29T23:47:23.731Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
       "geography": {
         "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
         "approximate": true,
@@ -42,9 +78,18 @@
       "timestamp": "2026-09-29T23:31:54.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "426"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T23:40:44.123Z",
-      "lastSeenAt": "2026-09-29T23:45:23.206Z",
+      "lastMeaningfulUpdateAt": "2026-09-29T23:47:23.731Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -68,9 +113,18 @@
       "timestamp": "2026-09-29T23:31:45.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "325"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T23:40:44.123Z",
-      "lastSeenAt": "2026-09-29T23:45:23.206Z",
+      "lastMeaningfulUpdateAt": "2026-09-29T23:47:23.731Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
       "geography": {
         "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
         "approximate": true,
@@ -104,7 +158,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T23:37:03.002Z",
-      "lastSeenAt": "2026-09-29T23:45:23.206Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
       "geography": {
         "text": "Approximate area: (M6L) North York (North Park / Maple Leaf Park / Upwood Park)",
         "approximate": true,
@@ -144,7 +198,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-29T23:37:03.002Z",
-      "lastSeenAt": "2026-09-29T23:45:23.206Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
       "geography": {
         "text": "Queen Street between Berkeley Street & Parliament Street",
         "approximate": false,
@@ -178,7 +232,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T23:31:07.928Z",
-      "lastSeenAt": "2026-09-29T23:45:23.206Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
       "geography": {
         "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
         "approximate": true,
@@ -262,7 +316,7 @@
       "respondingUnitCount": 20,
       "firstSeenAt": "2026-09-29T23:31:07.928Z",
       "lastMeaningfulUpdateAt": "2026-09-29T23:37:03.002Z",
-      "lastSeenAt": "2026-09-29T23:45:23.206Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
       "geography": {
         "text": "Charles Street between Al Sparrow Lane & Jarvis Street",
         "approximate": false,
@@ -319,7 +373,7 @@
       "division": "344",
       "timestamp": "2026-09-29T23:21:48.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -386,7 +440,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T23:26:55.304Z",
-      "lastSeenAt": "2026-09-29T23:45:23.206Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
       "geography": {
         "text": "Approximate area: (M4M) East Toronto (Studio District)",
         "approximate": true,
@@ -588,7 +642,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T23:21:04.500Z",
-      "lastSeenAt": "2026-09-29T23:45:23.206Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
       "geography": {
         "text": "Approximate area: (M5J) Downtown Toronto (Harbourfront East / Union Station / Toronto Island)",
         "approximate": true,
@@ -611,7 +665,7 @@
       "division": "415",
       "timestamp": "2026-09-29T23:14:30.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -656,7 +710,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T23:21:04.500Z",
-      "lastSeenAt": "2026-09-29T23:45:23.206Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
       "geography": {
         "text": "Leslie Street between Leslie North 401 C West Ramp & Oriole Go Station",
         "approximate": false,
@@ -956,7 +1010,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T23:11:32.713Z",
-      "lastSeenAt": "2026-09-29T23:45:23.206Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
       "geography": {
         "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
         "approximate": true,
@@ -1001,7 +1055,7 @@
       "division": "241",
       "timestamp": "2026-09-29T23:00:20.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -1131,7 +1185,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T23:05:51.804Z",
-      "lastSeenAt": "2026-09-29T23:45:23.206Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
       "geography": {
         "text": "Woodbine Avenue & Kingston Road",
         "approximate": false,
@@ -1942,7 +1996,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-29T22:47:21.535Z"
+        "checkedAt": "2026-09-29T23:47:23.731Z"
       }
     },
     {
@@ -2333,7 +2387,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T22:31:54.323Z",
       "lastMeaningfulUpdateAt": "2026-09-29T22:35:42.818Z",
-      "lastSeenAt": "2026-09-29T23:45:23.206Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -3592,7 +3646,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-29T21:56:24.277Z",
       "lastMeaningfulUpdateAt": "2026-09-29T22:02:10.653Z",
-      "lastSeenAt": "2026-09-29T23:45:23.206Z",
+      "lastSeenAt": "2026-09-29T23:47:23.731Z",
       "geography": {
         "text": "Approximate location on Beechgrove Drive",
         "approximate": true,
@@ -205565,12 +205619,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-29T23:45:23.206Z",
-      "sourceUpdatedAt": "2026-09-29T23:40:01.000Z",
+      "fetchedAt": "2026-09-29T23:47:23.731Z",
+      "sourceUpdatedAt": "2026-09-29T23:45:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-29T23:45:23.206Z",
+      "fetchedAt": "2026-09-29T23:47:23.731Z",
       "status": "ok"
     }
   },
@@ -363567,7 +363621,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-29T23:45:02.000Z",
+    "sourceUpdatedAt": "2026-09-29T23:47:21.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -363576,14 +363630,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-29T23:45:23.206Z",
-    "checkedAt": "2026-09-29T23:45:23.206Z",
+    "fetchedAt": "2026-09-29T23:47:23.731Z",
+    "checkedAt": "2026-09-29T23:47:23.731Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-29T23:45:23.206Z",
-      "checkedAt": "2026-09-29T23:45:23.206Z",
+      "fetchedAt": "2026-09-29T23:47:23.731Z",
+      "checkedAt": "2026-09-29T23:47:23.731Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -363607,6 +363661,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "LAWRENCE AVE, SC / 3950 LAWRENCE AVE E / 3967 LAWRENCE AVE E": {
+      "text": "Lawrence Avenue between 3950 Lawrence Avenue East & 3967 Lawrence Avenue East",
+      "approximate": false,
+      "coordinates": [
+        43.76438005,
+        -79.20420734999999
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-20T02:41:31.032Z"
+    },
     "M5E": {
       "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
       "approximate": true,
@@ -364028,7 +364094,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-29T22:47:21.535Z"
+      "checkedAt": "2026-09-29T23:47:23.731Z"
     },
     "M3H": {
       "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
@@ -368292,18 +368358,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-28T00:01:44.086Z"
-    },
-    "LAWRENCE AVE, SC / 3950 LAWRENCE AVE E / 3967 LAWRENCE AVE E": {
-      "text": "Lawrence Avenue between 3950 Lawrence Avenue East & 3967 Lawrence Avenue East",
-      "approximate": false,
-      "coordinates": [
-        43.76438005,
-        -79.20420734999999
-      ],
-      "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-20T02:41:31.032Z"
     },
     "YORK ST, TT / HEENAN PL / WELLINGTON ST W": {
       "text": "York Street between Heenan Place & Wellington Street West",
