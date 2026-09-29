@@ -10,10 +10,12 @@ outputs:
   - name: snapshot
 caches:
   - path: npm-global
+  - path: ttc-static-cache
 params:
   TFS_UPDATED_BY: concourse
   TFS_PREVIOUS: history/current.json
   TFS_OUTPUT: snapshot/current.json
+  TTC_STATIC_CACHE: ttc-static-cache/surface.zip
   NPM_VERSION: 12.1.0
 run:
   path: /bin/sh
@@ -26,4 +28,5 @@ run:
       if [ "$(npm --version 2>/dev/null || true)" != "$NPM_VERSION" ]; then
         npm install -g "npm@$NPM_VERSION"
       fi
+      npm ci --prefix repo --omit=dev
       exec node repo/scripts/tfs-etl.js

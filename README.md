@@ -83,9 +83,9 @@ git pull --ff-only origin dev
 
 ## Testing
 
-Run commands from the repository root. Use Docker for the same Node.js 20, ESLint,
+Run commands from the repository root. Use Docker for the same Node.js 22, ESLint,
 and Ruff environment as CI. For local checks, install a supported Node.js release
-(20.19+, 22.13+, or 24+), Git, the locked npm dependencies with `npm ci`, and Ruff
+(22.13+ or 24+), Git, the locked npm dependencies with `npm ci`, and Ruff
 0.16.8. Unit tests use fixtures, mocked services, bundled geographic data, and
 temporary files/repositories; they do not publish changes or require live feeds. See
 [Test coverage](#test-coverage) for how coverage is measured and published.
@@ -706,3 +706,515 @@ identified in SPDX expressions as the custom LicenseRef `LicenseRef-Spaghetti`.
 This is a custom SPDX LicenseRef, not an identifier from the official SPDX License List.
 Any user-facing application that uses this software must visibly display
 [`brand-spaghetti.jpg`](brand-spaghetti.jpg).
+
+### TTC construction/detour ingestion (Story 30A)
+
+The data pipeline fetches binary GTFS-Realtime alerts from
+`https://bustime.ttc.ca/gtfsrt/alerts` using MobilityData's pinned
+`gtfs-realtime-bindings` package. Node 22.13+ (or 24+) and `npm ci` are required;
+Dockerfile.test provides the runtime and installs the lockfile.
+
+Production output is `data/current.json` → `ttcAlerts` (schemaVersion 1), published
+atomically with the existing incident snapshot on the `data` branch. It contains
+`items`, `status`, `checkedAt`, `fetchedAt`, and `sourceUpdatedAt`. Items contain
+source alert IDs, cause/effect/severity enum names, ISO UTC active periods, exact
+unique route/stop IDs, original selectors (including trip descriptors), selected
+English/unlabeled/fallback text and all original translations. Unknown enums use
+`UNKNOWN_<number>`. No route/stop names or geometry are inferred.
+
+Selection prefers CONSTRUCTION or DETOUR; when cause/effect is missing, a narrow
+construction/detour/diversion text match is allowed. Explicit subway-only selectors
+are excluded; unspecified route types remain eligible without guessing from route
+IDs. Relevant future and expired records are retained with explicit lifecycle state;
+all original periods remain available.
+Differential, malformed, stale (over one hour), and future-dated feed headers are
+rejected. Header timestamps may be absent. Requests time out after 12 seconds;
+the next scheduled run retries, as with existing disruption feeds.
+
+Concourse installs dependencies before tests and the shared ETL; its standalone
+`concourse/tfs-etl.yml` task also installs production dependencies. The GitHub
+fallback installs the same lockfile and calls the same updater when the incident
+snapshot needs refresh. Existing publication and deployment of current.json carry
+this new section automatically. TTC failures log structured source/status/error
+JSON, retain prior items and successful fetch time, and mark status unavailable.
+A first-run failure has empty items and null fetchedAt, distinct from a successful
+empty feed. TTC failure does not abort incident ingestion. Existing UI transit
+consumption remains unchanged.
+
+```sh
+npm ci
+npm run update:tfs       # full production refresh including TTC
+npm run update:ttc       # strict standalone ingestion to data/ttc-alerts.json
+npm run test:ttc         # deterministic protobuf-builder tests (also in npm test)
+npm run test:ttc:live    # opt-in live smoke; no files written; zero alerts is valid
+```
+
+`TTC_OUTPUT` overrides the standalone artifact path. Standalone fetch/decode
+failure exits nonzero and leaves existing output untouched. This diagnostic file
+is not the production artifact and should not be committed. Docker equivalents
+use `docker run --rm toronto-dispatch-tests npm run test:ttc` (or `test:ttc:live`);
+mount the data directory as documented above for local artifact generation.
+
+### TTC lifecycle and snapshot contract (Story 30B)
+
+`ttcAlerts` keeps schemaVersion 1 and adds `lifecycleVersion: 1` on successful
+refresh. Existing fields and `status: "ok" | "unavailable"` remain compatible.
+`checkedAt` is the latest attempt; `fetchedAt` is the last successful fetch;
+`sourceUpdatedAt` is the optional upstream header time. No separate API is needed:
+consumers read this section of the same published current.json used by the app.
+
+Each item adds `contentHash` (SHA-256 of canonical normalized content, excluding ID,
+fetch time and lifecycle metadata), `firstSeenAt`, `updatedAt`, and `state`:
+`active`, `scheduled`, or `expired`, evaluated at successful fetch time. Consumers
+needing evaluation at another time can use `isAlertActive(item, referenceTime)`.
+Starts are inclusive, ends exclusive; missing bounds are unlimited. No periods
+means unrestricted. Any active period wins; a gap before a future valid period is
+scheduled. All-ended periods are expired. No arbitrary age expiry is applied.
+
+Source entity IDs are preserved exactly. Missing/blank IDs use `fallback:<hash>`;
+content changes without a source ID necessarily appear as removal plus addition.
+Identical repeated IDs collapse; conflicting content for one ID rejects the feed
+and retains prior state. Different source IDs stay distinct even with equal content.
+
+`changes` contains sorted `new`, `unchanged`, and `updated` ID arrays plus `removed`
+records (`id`, `contentHash`, `state: "removed" | "expired"`). This describes only
+the latest successful comparison, not an event history. Disappeared records leave
+`items`; tombstones survive until the next successful refresh. Reappearance is new
+once removed. No unbounded history is stored. Future/expired items still present
+upstream remain in `items`; select `state === "active"` for the active set.
+
+An empty successful feed clears items and records removals with status ok. Failure
+retains the complete known-good items, lifecycle and changes, and successful time;
+only status and checkedAt change. Retained states are observations at fetchedAt,
+not a claim of current activity. Recovery reconciles against that retained state.
+Malformed previous state or final publication state aborts publication. Logs report
+counts and retention without descriptions. Both existing pipelines use the shared
+ETL and previous current.json; no pipeline changes or new state files are needed.
+
+`npm run test:ttc` covers deterministic lifecycle and protobuf fixtures; `npm test`
+also covers protobuf → reconciliation → atomic snapshot → JSON reader, including
+publication rejection. `npm run update:ttc` performs strict standalone reconciliation
+with its prior artifact; `npm run test:ttc:live` remains an opt-in decoding smoke.
+No browser TTC fetching, UI changes, or map behavior is introduced.
+
+### Story 30C: backend static GTFS correlation
+
+The shared backend entry point is `src/ttc/backend.js`. It runs the existing
+30A parser and 30B lifecycle reconciliation, then adds static correlation; derived
+correlation is excluded from the source-content hash. Existing UI, Story 32
+geofenced alerts, and their bundled `src/disruptions/ttc-stops.js` remain unchanged.
+Inspection found that stop-only bundle had neither trip patterns nor a refresh
+mechanism. Its older GTFS identifiers must not be assumed compatible with BusTime.
+
+Use Toronto's [Surface Routes and Schedules for BusTime](https://open.toronto.ca/dataset/surface-routes-and-schedules-for-bustime/),
+resource `28514055-d011-4ed7-8bb0-97961dfe2b66`, `surfacegtfs.zip`. The City's
+metadata explicitly pairs it with enhanced NVAS/BusTime GTFS-RT; it is different
+from the legacy and merged all-mode datasets. Required files: `routes.txt`,
+`stops.txt`, `trips.txt`, `stop_times.txt`. Optional files: `shapes.txt`,
+`calendar.txt`, `calendar_dates.txt`. No schedule times are retained. All source
+IDs are exact strings (including leading zeroes), with no route-short-name,
+stop-code, or trip aliases. Missing joins retain their IDs and `matched:false`.
+Trips without stop times remain diagnosable but generate no pattern.
+
+The loader reads each necessary member once per build and indexes routes, stops,
+trips, shapes, patterns by route, and patterns by stop. ZIP entries are read in
+memory without filesystem extraction; compressed input is bounded to 128 MiB and
+individual inflated members to 768 MiB. Equivalent `(route_id, direction_id,
+shape_id, ordered stop IDs)` tuples share a deterministic SHA-256 pattern ID;
+trips with different schedule times or numeric sequence spacing collapse together.
+Duplicate sequences, invalid coordinates, and missing required internal route/stop
+references reject a replacement dataset. A missing shape preserves stop matching.
+
+Selectors scope stops to their route; trip and direction evidence narrow candidates
+only when selectors consistently supply it. Unscoped stops can search the stop
+index. Route-only alerts resolve metadata but produce no segment. Candidates with
+maximum stop coverage survive; full coverage outranks partial coverage. Among
+these, service calendars and exception dates prefer service on the Toronto date
+of the current period (or first future period for a scheduled alert). Previous-day
+service remains credible for overnight trips because arrival/departure times are
+not retained. This is a calendar preference, not proof that a vehicle is operating.
+Without a usable calendar, all otherwise credible patterns survive. Branches,
+short turns, directions 0/1, and missing directions remain distinct patterns.
+
+`informed_entity` is an unordered set, and 30A sorts its stop-ID index. Never treat
+that lexical order as traversal order. Segment order comes from static stop times.
+A caller with independent sequence evidence may supply `affectedStopOrder`; a
+conflict downgrades the match and suppresses its segment. No text-derived order
+or direction is guessed. Multiple equal full candidates are `ambiguous`; incomplete
+coverage is `partial`; one supported full candidate per route is `exact`; no
+usable joins is `unmatched`. Exact is a statement about scheduled stop/pattern
+correlation, not exact geometry or actual service. Inspect candidate geometry and
+calendar flags separately. Unknown IDs prevent an exact aggregate result.
+
+Each candidate can carry an `affectedSegment`: the first through last matched
+stop, including intermediate scheduled stops. Repeated affected stops suppress
+occurrence selection. Shape points are ordered by `shape_pt_sequence`.
+Clipping projects every segment stop onto a local equirectangular polyline, with
+a 100 m maximum distance. Distinct positions more than one shape edge apart within
+5 m of the best distance are treated as ambiguous. Projections must be monotonic
+and endpoints distinct. Successful geometry is `[longitude, latitude]`; otherwise
+only the shape reference and `geometryStatus: ambiguous|missing` are retained.
+
+**The geometry generated in Story 30C represents the affected scheduled TTC route,
+not the actual temporary detour path.**
+
+The additive contract keeps `ttcAlerts.schemaVersion:1`, adds each item's
+`correlation`, and adds `ttcAlerts.staticCorrelation` (its own schemaVersion 1).
+The latter holds dataset SHA-256 version, availability, counts, join diagnostics,
+and a shared catalog of referenced patterns. Candidates reference catalog IDs;
+full shapes, schedule times, and individual scheduled trip lists are not shipped
+to the browser. Shape IDs refer to the versioned backend GTFS cache. Only clipped
+segments are included in alert data. Validation is non-mutating and rejects invalid
+coordinates, geometry, unsupported exact claims, and missing pattern references.
+
+The default backend-only cache is `.cache/ttc/surface.zip`, configurable with
+`TTC_STATIC_CACHE`. It is ignored by Git and Docker builds, refreshed after 24 hours,
+and replaced atomically only after all indexes validate. Requests have a 60-second
+timeout and two attempts. A failed refresh uses validated previous bytes with
+`staticCorrelation.status:stale`. Without usable static data, RT lifecycle updates
+continue with `status:unavailable`; only unchanged alerts retain their previous
+correlation. Changed/new alerts do not inherit stale conclusions. Static-source
+unavailability is distinct from an empty alert feed. The cache is not published.
+
+Concourse's existing ETL task caches `ttc-static-cache` and sets `TTC_STATIC_CACHE`;
+GitHub fallback restores/saves `.cache/ttc` using Actions cache. Both invoke the same
+backend through existing ETL code, with correlation after lifecycle reconciliation
+and before snapshot validation/atomic publication to the data branch. No separate
+YAML parser, new job, new dependency, or frontend consumer is required.
+
+```bash
+npm run update:ttc         # standalone RT lifecycle + static correlation
+npm run update:tfs         # full production snapshot pipeline
+npm run test:ttc           # offline protobuf, lifecycle, static and ETL fixtures
+npm run update:ttc:static  # opt-in static refresh/validation + live join diagnostic
+```
+
+Docker supports the same commands. For a persistent local cache:
+
+```bash
+mkdir -p .cache/ttc
+docker run --rm -v "$PWD/.cache/ttc:/workspace/.cache/ttc" toronto-dispatch-tests npm run update:ttc:static
+```
+
+`test/fixtures/ttc-static` is a tiny network-free GTFS dataset. The test suite covers
+exact and missing IDs, equivalent trips, directions/branches, partial and ordered
+matches, projection/tolerance, ambiguous loops, missing shapes, calendars, multiple
+routes, cache failure/retention, malformed schema, and protobuf-to-published-snapshot
+behavior. The live diagnostic reports loaded table/pattern counts, missing-stop-time
+trips, matched/unmatched route/stop/trip references, process memory, loading runtime,
+and output bytes. Zero qualifying alerts succeeds and explicitly reports that live
+alert correlation was not exercised. Failure to fetch RT is reported separately
+from static validation. Normal tests never download GTFS.
+
+The completed implementation's [validation report](docs/story-30c-validation.md)
+records the live dataset counts, memory/runtime observations, identifier-validation
+limits, file inventory, regression results, and implications for Story 30D.
+`npm run test:ttc:live` retains its existing RT-only smoke behavior; use
+`npm run update:ttc:static` for live static correlation diagnostics.
+
+### Story 30D: backend TTC vehicle deviation evidence
+
+Story 30D detects **deviation from scheduled TTC route geometry**. It does not
+determine the actual diversion route or the cause of the deviation. No UI or map
+consumer reads these artifacts; `data/current.json` remains unchanged.
+
+The shared GTFS-RT runtime decodes `https://bustime.ttc.ca/gtfsrt/vehicles`.
+`vehicle.id` is the physical identity (preserved exactly, including leading zeroes).
+Missing identities are counted and discarded; entity IDs and coordinates never
+substitute for them. Observations require numeric valid latitude/longitude and a
+vehicle timestamp. Optional fields include trip/route/direction IDs, start date/time,
+bearing, speed, stop ID/sequence, status, and schedule relationship. Missing fields
+stay absent. Timestamp normalization and protobuf decoding are shared with alerts.
+See the [GTFS-RT reference](https://gtfs.org/documentation/realtime/reference/).
+
+Correlation first validates a static trip ID against supplied route, direction and
+stop context. A conflicting known trip is rejected, not silently remapped. An
+unknown trip can fall back to the route index, direction, and stop membership.
+Exactly one pattern with available surface-mode geometry must survive; multiple
+patterns remain ambiguous even if one is geographically closer. Coordinates cannot
+select whichever branch makes a point appear on-route. Non-scheduled trip
+relationships are excluded. Start date/time segment assignments but are not proof
+of service-calendar compatibility; stop sequence is retained but not used as an
+array offset (Story 30C groups trips with different numeric sequence spacing).
+No route-name, stop-code or numeric trip-ID aliases are introduced.
+
+**Live limitation:** the September 28 diagnostic found extensive trip-ID collisions
+between the realtime and static sources (443/444 recognized IDs had different route
+IDs). Matching ID strings alone are unsafe. The detector rejected these joins;
+most vehicles remain ambiguous or unmatched. See `docs/story-30d-validation.md`.
+
+Shape projection uses a local equirectangular metric (111,320 metres per latitude
+degree, longitude scaled by cosine of shape latitude), consistent with Story 30C.
+Segments are compiled lazily once per shape; bounding-box lower bounds prune scans
+without losing the global nearest segment. Results retain distance, segment index,
+fraction, projected lon/lat, and cumulative progress. Self-crossing/parallel
+positions within 5 m and separated by over 50 m of progress are flagged ambiguous;
+Story 30E must not treat their progress as uniquely resolved. Degenerate shapes
+cannot classify observations. No shape coordinates are duplicated in exports.
+
+Named policy (`VEHICLE_POLICY` in `src/ttc/vehicle-detector.js`):
+
+- Entry: strictly more than **100 m** from geometry; recovery: strictly under **50 m**.
+- Confirmation: **3 consecutive off-route timestamps**, spanning **60 seconds**,
+  with **100 m displacement** from the first point. Counts are observations, not polls.
+- Recovery: **3 consecutive on-route timestamps over 60 seconds**. Intermediate
+  observations mark rejoining. The 50–100 m band preserves confirmed/rejoining state
+  but breaks consecutive evidence. Unconfirmed neutral evidence returns to unknown.
+- Off-route positions within **150 m of either shape endpoint** are neutral, reducing
+  terminal, loop entrance and layover false positives. Stationary off-route vehicles
+  cannot confirm. This is general geometry, not a Toronto garage exception list.
+- Reject jumps beyond **100 m + 40 m/s × elapsed seconds**, before assignment resets.
+  Rejected positions never enter history or future path evidence.
+- Vehicle and feed times must be at most **120 seconds old**, at most **30 seconds
+  ahead**. Missing/invalid feed time is unavailable. Duplicate/out-of-order vehicle
+  times cannot advance state; conflicting same-time records are discarded together.
+- Retain at most **20 observations / 10 minutes**, whichever is smaller, per vehicle;
+  at most **3,000 vehicles**, freshest first with deterministic identity tie-breaks.
+  History expires after **180 seconds** without accepted observations. Gaps greater
+  than **90 seconds**, route/trip/direction/start-date/start-time/pattern changes,
+  and static-version changes reset evidence. History never becomes a tracking archive.
+
+The 100 m entry threshold is deliberately conservative for GPS uncertainty, road
+width, loops, and static shape approximation. Live matched-distance medians were
+about 0.13 m, with p95 below 2 m in the initial four polls; these unusually small
+values may reflect upstream snapping and do not measure GPS accuracy. The tail
+included 400 m+ observations. Those were not assumed normal to inflate a threshold,
+nor assumed genuine diversions to tune it downward. Wider calibration is still
+needed for coverage and recall; no causes are inferred.
+
+Active current alerts are supporting context only. Explicit single-route selectors
+without stop/trip ambiguity, or exact Story 30C pattern correlations with compatible
+selectors, supply `relatedAlertIds`. Unavailable, expired, scheduled or ambiguous
+scoped alert matches are excluded. Detection works with zero alerts.
+
+Backend files (all ignored locally):
+
+- `.cache/ttc/vehicle-state.json`: schema v1 bounded restart state, maximum 32 MiB.
+- `.cache/ttc/deviations.json`: schema v1 compact possible/confirmed/rejoining records,
+  references to static version/pattern/shape, current episode dates, bounded projected
+  observations, and related alert IDs. No full fleet, shapes, or cause field.
+
+Validators reject invalid coordinates/timestamps, negative distances, invalid states,
+unbounded arrays, duplicate identity, and inconsistent index references. Writes are
+atomic per file. Corrupt cache is rejected and logged, never repaired into evidence.
+Consumers must validate with the matching static index, reject incompatible static
+versions, and enforce freshness from `checkedAt`/`lastObservedAt` themselves: a file
+cannot age itself if a scheduler stops. Successful-empty polls are `ok`; unmatched
+vehicles are reported separately. Fetch, decode and stale-header failures have
+separate reasons, immediately export unavailable with **no deviations**, and age
+restart state for at most 180 seconds. Static failure clears restart evidence.
+Failures are isolated from all incident/alert publication jobs.
+
+Concourse `detect-ttc-vehicle-deviations` is a separate serial job triggered by the
+existing one-minute resource. `concourse/ttc-vehicles.yml` loads static GTFS once and
+makes **four polls 30 seconds apart** (a 90-second burst plus network/setup time).
+Actual starts are limited by serial job duration; this is not a guaranteed continuous
+30-second service. A bounded task cache carries state when available; losing it is
+safe because each burst can confirm independently. `ttc-vehicle-evidence/deviations.json`
+is a task output for subsequent backend tasks; it is not committed or published to
+the web data branch. Build logs retain 20 builds. The existing standalone incident
+ETL task requires no changes for this separate feature.
+
+GitHub `.github/workflows/ttc-vehicles.yml` runs the same four-poll code every five
+minutes when scheduled, independently of the incident fallback. It caches only the
+static ZIP, starts fresh vehicle history each run, and uploads compact evidence for
+one day. It cannot establish continuity between runs. Scheduler delays and feed
+repetition may yield no confirmed deviations; correctness is unchanged. No new
+always-on service, browser polling, dependencies, or data-branch writes are added.
+
+Local commands (no UI startup):
+
+```bash
+npm run test:ttc
+npm run update:ttc:vehicles                         # one poll, bounded local state
+npm run test:ttc:vehicles:live                      # four live polls
+npm run update:ttc:vehicles -- --polls 10 --interval-ms 30000
+npm run update:ttc:vehicles -- --fixture /path/sequence.json --static-fixture test/fixtures/ttc-static
+```
+
+Fixture JSON is an array of `{now, protobufBase64, alerts?}` records. Fixture mode
+skips waits and all live fetches when a static fixture is supplied. The test builder
+in `test/fixtures/ttc-vehicles/builders.js` creates deterministic protobuf sequences.
+Override paths with `TTC_STATIC_CACHE`, `TTC_VEHICLE_STATE`, `TTC_VEHICLE_OUTPUT`.
+Use Docker with the same cache mount shown above and `npm run test:ttc:vehicles:live`.
+Logs show counts, ID conflicts, correlation quality, states, anomalies, expiry,
+rejoins, related alerts, distance percentiles, matching/projection duration, RSS,
+and export bytes; routine logs contain no vehicle coordinate list.
+
+### TTC observed diversion inference (Story 30E, backend only)
+
+Story 30E geometry is inferred by SirenTO from observed TTC vehicle movement and is
+not TTC-published route geometry. Nothing in this story changes the map or browser.
+The existing vehicle poller now feeds accepted Story 30D history into bounded
+inference; its static matching and realtime/static trip-ID conflict rejection are
+unchanged. Scheduled geometry never consumes inference output.
+
+The poller writes `.cache/ttc/diversion-state.json` (private bounded restart evidence)
+and `.cache/ttc/diversions.json` (compact versioned geometry/metadata). Override with
+`TTC_DIVERSION_STATE` and `TTC_DIVERSION_OUTPUT`; defaults follow the directories of
+`TTC_VEHICLE_STATE` and `TTC_VEHICLE_OUTPUT`. These files are not `data/current.json`
+and are not published to the data branch. Check artifact `status`, `checkedAt` and
+`lastObservedAt` before future consumption. Unavailable feeds export zero diversions;
+static failure clears inference. A stopped scheduler cannot expire its own files.
+
+An episode belongs to one vehicle assignment and Story 30D deviation start, with
+accepted observations in time order, departure raw/projected evidence, and an
+optional recovery-confirmed rejoin. Possible episodes are retained to preserve the
+departure, but cannot vote until Story 30D confirms them. Three on-route observations
+over 60 seconds close recovery. Missing departure anchors, missing rejoins and
+ambiguous progress remain explicit uncertainty. Gaps/reassignments never join paths.
+
+Clustering partitions by route/direction/pattern/shape and 150 m departure bins,
+checks departure/rejoin within 150 m, and uses ordered Fréchet distance within 100 m
+for every member pair. Prefix matching allows incomplete observations; a prefix
+compatible with multiple completed corridors does not vote for either. Materially
+different corridors remain independent clusters. Representative geometry is an
+observed medoid, with 8 m endpoint-preserving simplification; it is not concatenated
+or averaged into unobserved turns. There is no road/track snapping or stop inference.
+
+Confidence rules are explicit:
+
+- `candidate`: confirmed 30D episode evidence, insufficient repetition.
+- `likely`: at least two vehicles or three completed episodes, without sufficient
+  anchored completed evidence for confirmation.
+- `confirmed`: at least two different vehicles with completed, departure-anchored
+  episodes, or three separate such completed episodes (including one vehicle).
+
+Duplicate polls cannot increase episode counts. Active, safely scoped detour or
+construction alerts strengthen the separate `alertSupported` flag only when exact
+30C affected segments overlap. Alerts cannot replace independent vehicle evidence.
+IDs persist through compatible geometry updates using a retained spatial anchor;
+materially different paths get different IDs. Evidence expires after 30 minutes;
+three credible scheduled traversals shorten stale support to five minutes, and an
+ended qualifying alert shortens it to ten. Fresh movement can renew support.
+
+Bounds: 500 episodes, 120 points/30 minutes per episode, 24 contributing episodes
+per cluster, 12 clusters per route, 200 total clusters, 122 geometry points, 256
+comparison vertices. Restart JSON is limited to 16 MiB, with at most 8 MiB devoted
+to episode evidence. Overlong/discontinuous episodes or oversized comparison paths
+are rejected rather than simplified across unseen blocks. Counts describe retained
+support, not total fleet activity.
+
+```sh
+npm run update:ttc:vehicles                    # shared live detection + inference
+npm run test:ttc:diversions:live                # four polls + developer GeoJSON
+npm run update:ttc:vehicles -- --infer-only --geojson .cache/ttc/diversions.geojson
+npm run fixture:ttc:diversions                 # offline protobuf → static → inference
+npm run test:ttc                              # deterministic 30A–30E tests
+```
+
+`--infer-only` reads the existing Story 30D state, uses the reference clock and static
+index, and does not fetch vehicles or alerts. Stale input exports unavailable, not
+fresh evidence. The offline fixture writes to `.cache/ttc/diversion-fixture/`, isolated
+from live evidence; its GeoJSON includes scheduled shape, affected scheduled segment,
+individual episodes, inferred path and projected endpoints. Re-running it starts fresh and deterministically reproduces
+the same episode IDs. Use `TTC_DIVERSION_FIXTURE_DIR` to choose another output directory.
+Existing `--fixture`/`--static-fixture` options also run inference on custom sequences.
+
+The existing Concourse vehicle task caches inference alongside detection and exports
+`ttc-vehicle-evidence/diversions.json`. No separate pipeline or incident-ETL dependency
+was added. The GitHub fallback uploads both compact artifacts with one-day retention;
+it still starts fresh each run and cannot assume cross-run continuity. Four polls
+usually cannot establish completed departure-to-rejoin evidence. Cold starts never
+fabricate confirmation. See [the Story 30E validation report](docs/story-30e-validation.md)
+for algorithms, diagnostics, limitations and validation results.
+
+### Story 30F — TTC disruption UI
+
+The Travel section now includes construction/detour alerts from `ttcAlerts`, with
+human-readable GTFS route names, affected stops, official alert text and active
+periods. Nearby alerts sort first when a location is selected; unmapped alerts stay
+available and are explicitly labelled citywide. Other TTC service alerts retain
+nearby support, but the same stable ID is not repeated in nearby, citywide and
+construction cards. On mobile Map mode, the TTC content moves into the existing
+bottom sheet; Calls mode and desktop use the Travel section. Selecting a path opens
+that same disruption, and selecting an emergency incident clears TTC selection.
+
+- **Dashed amber**: the affected section of the normal scheduled route. Only an
+  exact route correlation with projected Story 30C geometry is displayed.
+- **Solid teal**: a confirmed temporary path, labelled **Observed by SirenTO**.
+  Observed TTC diversion geometry is inferred by SirenTO from multiple vehicle
+  trajectories and is not TTC-published geometry.
+- One contextual checkbox controls the TTC geometry group. It is session-only,
+  defaults on, and disappears when no geometry exists. The existing legend gains
+  conditional TTC entries. No extra floating map control or stop-marker cloud is
+  introduced. Both line types have distinct dark/light styling and 24 px hit paths.
+
+`src/ttc/presentation.js` owns the browser presentation contract. Each stable alert
+has arrays of routes, stops, scheduled parts and confirmed diversion parts, plus
+alert copy, periods, geographic context and freshness. Components never join raw
+trip IDs or recalculate confidence. Multiple backend diversion identities remain
+separate even when they share a route/direction. Direction IDs are not translated
+into guessed east/west labels: current metadata does not supply those labels.
+
+`src/ttc/map-layer.js` owns a dedicated pane at z-index 440, below road closures
+(450) and emergency markers. A Map keyed by alert ID, kind and part ID retains each
+visible line and its transparent hit line. Geometry is converted only when changed;
+styles update on selection. Theme changes use CSS, toggles hide the pane, and pan,
+zoom and sheet/view changes do not rebuild TTC paths. Geometry fetches run beside
+incident loading and never hold up emergency calls. Mobile framing reserves space
+for the bottom sheet. A 30-second expiry check runs independently of fetch success;
+freshness text updates without rebuilding unchanged cards.
+
+An alert without observed geometry remains a useful official notice with stops and
+scheduled sections, plus “No observed diversion route available yet.” Candidate and
+likely paths are hidden. An unavailable/stale observed source hides only observed
+paths; official alerts and scheduled sections remain until their own validity or
+one-hour cache limit expires. Observations require a successful artifact checked
+within two minutes, a last observation within 30 minutes, and an unexpired backend
+`expiresAt`. An unavailable official source is labelled with its last successful
+update. A successful empty construction feed leaves no extra panel or zero counter.
+
+The new public `data/ttc-diversions.json` on the **data branch** is an allow-listed
+projection of the separate Story 30E output. `scripts/publish-ttc-geometry.js` drops
+all raw boundary evidence, vehicle data and confidence diagnostics. The independent
+Concourse vehicle job and GitHub fallback publish this file with normal fast-forward
+pushes; a concurrent data commit safely rejects the push and the next cycle retries.
+No polling workload was added to the incident ETL. These workflow changes require
+normal code promotion/pipeline configuration before production can serve the new
+artifact. A missing artifact is handled as unavailable, not as an incident failure.
+
+Generate the frontend fixture from the same two-vehicle protobuf trajectory used
+by Story 30E:
+
+```sh
+npm run fixture:ttc:ui
+python3 -m http.server 8765 --bind 127.0.0.1
+```
+
+Open `http://127.0.0.1:8765/?mobileAuditFixture=many&ttcFixture=confirmed`.
+`ttcFixture` also accepts `alert-only`, `multiple`, `expired`, `unavailable` and
+`empty`. These flags are inert outside loopback. The checked-in compact JSON fixture
+contains no vehicle histories; refresh timestamps are rebased at load time. Combine
+with `mobileAuditSheet=expanded`, `mobileAuditView=calls` and the existing road and
+police-boundary fixture options for regression testing.
+
+`test/ttc-ui.test.js` covers the real backend-to-frontend fixture, confidence and
+expiry policies, source failures, multi-part/multi-route identity, safe geometry,
+nearby context, updates and 100 layer-reuse cycles. The optional real-browser suite
+uses a locally installed Playwright (not a production dependency):
+
+```sh
+# Start the local server above, then use Playwright's installed Chromium:
+node scripts/ttc-ui-browser.js
+# Optional environment overrides: PLAYWRIGHT_MODULE (absolute module path),
+# CHROMIUM_EXECUTABLE, TTC_UI_URL, TTC_VISUAL_OUTPUT.
+```
+
+It checks 320/375/390/430/768/1440 px, both themes, alert-only and observed states,
+multiple disruptions, live selection/expiry, existing incidents, road/boundary
+coexistence, and repeated theme/Map/Calls/sheet/zoom/visibility transitions. Screenshots
+and results go to `.cache/ttc-ui-visual`. See `docs/story-30f-validation.md` for the
+implementation and validation report, including limits of desktop-emulated mobile QA.
+
+### Story 30G — final coverage and release validation
+
+The strict coverage gate is restored to 100% lines, branches and functions in both
+required timezones. TTC details explicitly name the observed diversion and its
+SirenTO provenance; the single conditional control reads “TTC disruptions.” Invalid
+active-period dates are omitted safely. The multiple fixture pairs 504 King with an
+alert-only 501 Queen disruption. The app-shell cache and asset versions are updated.
+See [Story 30G validation](docs/story-30g-validation.md) for exact coverage gaps,
+validation totals, production publication checks, physical-device acceptance and
+remaining release gates. A passing local suite does not mean the live feature has
+been deployed.

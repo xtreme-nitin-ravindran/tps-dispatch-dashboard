@@ -251,12 +251,16 @@ test('disruption renderer updates lists and optional map layers',()=>{
   renderDisruptions(data,[43.7,-79.4],10,null);
   assert.equal(nodes.get('#roadScope').textContent,'Road restrictions within 10 km');
   assert.equal(nodes.get('#roadsList').children.length,2);
-  assert.equal(nodes.get('#transitList').children.length,6);
+  assert.equal(nodes.get('#transitList').children.length,2);
   assert.equal(nodes.get('#nearbyTransitList').children.length,4);
   assert.equal(nodes.get('#nearbyTransitList').children[0].children[1].textContent,'Wellesley Station');
   assert.match(nodes.get('#nearbyTransitList').children[0].children[2].textContent,/0\.1 km away/);
   assert.equal(nodes.get('#nearbyTransitCount').textContent,'4');
   assert.equal(nodes.get('#nearbyTransitFreshness').textContent,'Last successfully updated just now.');
+  data.ttcAlerts={status:'ok',fetchedAt:new Date(timestamp).toISOString(),items:[{id:'near',activePeriods:[]}]};
+  renderDisruptions(data,[43.7,-79.4],10,null);
+  assert.equal(nodes.get('#nearbyTransitList').children.length,3);
+  delete data.ttcAlerts;
   renderDisruptions(data,[43.7,-79.4],0.05,null);
   assert.equal(nodes.get('#nearbyTransitList').children[0].textContent,'No TTC disruptions found in this area.');
   renderDisruptions(data,[43.8,-79.4],0.5,null);

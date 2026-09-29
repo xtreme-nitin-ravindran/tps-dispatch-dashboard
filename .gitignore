@@ -10,3 +10,13 @@ wrangler.toml
 .wrangler/
 .dev.vars*
 .env*
+
+# Installed packages and standalone TTC diagnostic output.
+node_modules/
+data/ttc-alerts.json
+data/ttc-alerts.json.tmp
+
+.cache/ttc/
+
+# Browser evidence, coverage reports and isolated physical-device previews.
+.cache/
