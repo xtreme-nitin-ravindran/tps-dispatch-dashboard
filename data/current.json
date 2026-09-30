@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T05:58:31.427Z",
+  "fetchedAt": "2026-09-30T06:00:22.195Z",
   "sourceUpdatedAt": "2026-09-30T05:45:01.000Z",
   "incidents": [
     {
@@ -70,7 +70,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T05:41:53.069Z",
-      "lastSeenAt": "2026-09-30T05:58:31.427Z",
+      "lastSeenAt": "2026-09-30T06:00:22.195Z",
       "geography": {
         "text": "Approximate area: (M9P) Etobicoke (Westmount)",
         "approximate": true,
@@ -126,7 +126,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T05:41:53.069Z",
-      "lastSeenAt": "2026-09-30T05:58:31.427Z",
+      "lastSeenAt": "2026-09-30T06:00:22.195Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -161,7 +161,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T05:41:53.069Z",
-      "lastSeenAt": "2026-09-30T05:58:31.427Z",
+      "lastSeenAt": "2026-09-30T06:00:22.195Z",
       "geography": {
         "text": "Homewood Avenue between Carlton Street & Montague Parkette Trl",
         "approximate": false,
@@ -217,7 +217,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T05:41:53.069Z",
-      "lastSeenAt": "2026-09-30T05:58:31.427Z",
+      "lastSeenAt": "2026-09-30T06:00:22.195Z",
       "geography": {
         "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
         "approximate": true,
@@ -207456,12 +207456,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T05:58:31.427Z",
+      "fetchedAt": "2026-09-30T06:00:22.195Z",
       "sourceUpdatedAt": "2026-09-30T05:45:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T05:58:31.427Z",
+      "fetchedAt": "2026-09-30T06:00:22.195Z",
       "status": "ok"
     }
   },
@@ -207469,33 +207469,88 @@
     "roads": {
       "items": [
         {
-          "id": "12230646",
-          "street": "Don Valley Parkway N",
-          "title": "Don Valley Parkway N 561 m north of Eglinton Ave E",
-          "description": "Toronto-TMC: Right lane blocked due to a stopped vehicle.",
-          "restrictionType": "HAZARD",
-          "type": "HAZARD",
-          "impact": "High",
-          "startLocation": "Eglinton Ave E",
-          "endLocation": "",
-          "start": 1790747091000,
-          "reportedAt": 1790747091000,
-          "end": null,
+          "id": "Tor-RD52026-4672",
+          "street": "Warden Ave",
+          "title": "Warden Ave 46 m South of Bridletowne Crcl to 15 m South of West Highland Creek Trl",
+          "description": "Toronto-TMC: Replacement of Culvert at Warden Avenue over West Highland Creek",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "Medium",
+          "startLocation": "Bridletowne Crcl",
+          "endLocation": "West Highland Creek Trl",
+          "start": 1786680000000,
+          "reportedAt": 1787941475000,
+          "end": 1794632340000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.728203,
-            -79.330375
+            43.79179,
+            -79.31372
           ],
-          "line": [],
+          "line": [
+            [
+              43.79179,
+              -79.31372
+            ],
+            [
+              43.79171,
+              -79.31368
+            ],
+            [
+              43.79103,
+              -79.31339
+            ],
+            [
+              43.79103,
+              -79.31339
+            ],
+            [
+              43.79079,
+              -79.31328
+            ],
+            [
+              43.79079,
+              -79.31328
+            ],
+            [
+              43.79066,
+              -79.31322
+            ]
+          ],
           "geometry": {
-            "type": "Point",
+            "type": "LineString",
             "coordinates": [
-              -79.330375,
-              43.728203
+              [
+                -79.31372,
+                43.79179
+              ],
+              [
+                -79.31368,
+                43.79171
+              ],
+              [
+                -79.31339,
+                43.79103
+              ],
+              [
+                -79.31339,
+                43.79103
+              ],
+              [
+                -79.31328,
+                43.79079
+              ],
+              [
+                -79.31328,
+                43.79079
+              ],
+              [
+                -79.31322,
+                43.79066
+              ]
             ]
           },
-          "geometryKind": "point",
+          "geometryKind": "line",
           "schedule": "Everyday: 00:00-23:59",
           "source": {
             "name": "City of Toronto Road Restrictions",
@@ -208984,6 +209039,164 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
+          "id": "Tor-RD042026-1300",
+          "street": "Don Mills Rd",
+          "title": "Don Mills Rd 26 m South of Eglinton Ave E to 74 m North of Rochefort Dr",
+          "description": "Toronto-TMC: Ontario Line Elevated Guideway and Stations: The scope of work for the contract includes: three kilometres of an elevated guideway; five elevated stations (Riverside-Leslieville, Gerrard, Thorncliffe Park, Flemington Park, Science Centre); and two emergency egress buildings. Additionally, there are interfaces with the Maintenance and Storage Facility; Eglinton Crosstown LRT Line 5; and other sections/contracts of the Ontario Line project.",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "High",
+          "startLocation": "Eglinton Ave E",
+          "endLocation": "Rochefort Dr",
+          "start": 1790740800000,
+          "reportedAt": 1790355849000,
+          "end": 1793419140000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.72027,
+            -79.33882
+          ],
+          "line": [
+            [
+              43.72027,
+              -79.33882
+            ],
+            [
+              43.71984,
+              -79.33872
+            ],
+            [
+              43.71939,
+              -79.33856
+            ],
+            [
+              43.71865,
+              -79.33822
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.33882,
+                43.72027
+              ],
+              [
+                -79.33872,
+                43.71984
+              ],
+              [
+                -79.33856,
+                43.71939
+              ],
+              [
+                -79.33822,
+                43.71865
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Everyday: 00:00-23:59",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD042026-885-2",
+          "street": "Pape Ave",
+          "title": "Pape Ave from Danforth Ave to Gertrude Pl",
+          "description": "Toronto-TMC: This is a very short duration closure for taking reading of instruments at the road.",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "Low",
+          "startLocation": "Danforth Ave",
+          "endLocation": "Gertrude Pl",
+          "start": 1782878400000,
+          "reportedAt": 1782758089000,
+          "end": 1798779540000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.67895,
+            -79.34484
+          ],
+          "line": [
+            [
+              43.67895,
+              -79.34484
+            ],
+            [
+              43.67937,
+              -79.34502
+            ],
+            [
+              43.67938,
+              -79.34503
+            ],
+            [
+              43.67938,
+              -79.34503
+            ],
+            [
+              43.67968,
+              -79.34516
+            ],
+            [
+              43.67968,
+              -79.34516
+            ],
+            [
+              43.68044,
+              -79.34543
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.34484,
+                43.67895
+              ],
+              [
+                -79.34502,
+                43.67937
+              ],
+              [
+                -79.34503,
+                43.67938
+              ],
+              [
+                -79.34503,
+                43.67938
+              ],
+              [
+                -79.34516,
+                43.67968
+              ],
+              [
+                -79.34516,
+                43.67968
+              ],
+              [
+                -79.34543,
+                43.68044
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Everyday: 00:00-23:59",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
           "id": "Tor-RD042026-885-1",
           "street": "Danforth Ave",
           "title": "Danforth Ave 34 m East of Ln E Pape S Danforth to Pape Ave",
@@ -209153,306 +209366,6 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD52026-4672",
-          "street": "Warden Ave",
-          "title": "Warden Ave 46 m South of Bridletowne Crcl to 15 m South of West Highland Creek Trl",
-          "description": "Toronto-TMC: Replacement of Culvert at Warden Avenue over West Highland Creek",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "Medium",
-          "startLocation": "Bridletowne Crcl",
-          "endLocation": "West Highland Creek Trl",
-          "start": 1786680000000,
-          "reportedAt": 1787941475000,
-          "end": 1794632340000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.79179,
-            -79.31372
-          ],
-          "line": [
-            [
-              43.79179,
-              -79.31372
-            ],
-            [
-              43.79171,
-              -79.31368
-            ],
-            [
-              43.79103,
-              -79.31339
-            ],
-            [
-              43.79103,
-              -79.31339
-            ],
-            [
-              43.79079,
-              -79.31328
-            ],
-            [
-              43.79079,
-              -79.31328
-            ],
-            [
-              43.79066,
-              -79.31322
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.31372,
-                43.79179
-              ],
-              [
-                -79.31368,
-                43.79171
-              ],
-              [
-                -79.31339,
-                43.79103
-              ],
-              [
-                -79.31339,
-                43.79103
-              ],
-              [
-                -79.31328,
-                43.79079
-              ],
-              [
-                -79.31328,
-                43.79079
-              ],
-              [
-                -79.31322,
-                43.79066
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Everyday: 00:00-23:59",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD042026-1300",
-          "street": "Don Mills Rd",
-          "title": "Don Mills Rd 26 m South of Eglinton Ave E to 74 m North of Rochefort Dr",
-          "description": "Toronto-TMC: Ontario Line Elevated Guideway and Stations: The scope of work for the contract includes: three kilometres of an elevated guideway; five elevated stations (Riverside-Leslieville, Gerrard, Thorncliffe Park, Flemington Park, Science Centre); and two emergency egress buildings. Additionally, there are interfaces with the Maintenance and Storage Facility; Eglinton Crosstown LRT Line 5; and other sections/contracts of the Ontario Line project.",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "High",
-          "startLocation": "Eglinton Ave E",
-          "endLocation": "Rochefort Dr",
-          "start": 1790740800000,
-          "reportedAt": 1790355849000,
-          "end": 1793419140000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.72027,
-            -79.33882
-          ],
-          "line": [
-            [
-              43.72027,
-              -79.33882
-            ],
-            [
-              43.71984,
-              -79.33872
-            ],
-            [
-              43.71939,
-              -79.33856
-            ],
-            [
-              43.71865,
-              -79.33822
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.33882,
-                43.72027
-              ],
-              [
-                -79.33872,
-                43.71984
-              ],
-              [
-                -79.33856,
-                43.71939
-              ],
-              [
-                -79.33822,
-                43.71865
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Everyday: 00:00-23:59",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD042026-885-2",
-          "street": "Pape Ave",
-          "title": "Pape Ave from Danforth Ave to Gertrude Pl",
-          "description": "Toronto-TMC: This is a very short duration closure for taking reading of instruments at the road.",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "Low",
-          "startLocation": "Danforth Ave",
-          "endLocation": "Gertrude Pl",
-          "start": 1782878400000,
-          "reportedAt": 1782758089000,
-          "end": 1798779540000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.67895,
-            -79.34484
-          ],
-          "line": [
-            [
-              43.67895,
-              -79.34484
-            ],
-            [
-              43.67937,
-              -79.34502
-            ],
-            [
-              43.67938,
-              -79.34503
-            ],
-            [
-              43.67938,
-              -79.34503
-            ],
-            [
-              43.67968,
-              -79.34516
-            ],
-            [
-              43.67968,
-              -79.34516
-            ],
-            [
-              43.68044,
-              -79.34543
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.34484,
-                43.67895
-              ],
-              [
-                -79.34502,
-                43.67937
-              ],
-              [
-                -79.34503,
-                43.67938
-              ],
-              [
-                -79.34503,
-                43.67938
-              ],
-              [
-                -79.34516,
-                43.67968
-              ],
-              [
-                -79.34516,
-                43.67968
-              ],
-              [
-                -79.34543,
-                43.68044
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Everyday: 00:00-23:59",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD52026-5464-2",
-          "street": "York St",
-          "title": "York St at King St W to 22 m North of King St W",
-          "description": "Toronto-TMC: Sewer Repair",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "startLocation": "King St W",
-          "endLocation": "King St W",
-          "start": 1788865200000,
-          "reportedAt": 1788547205000,
-          "end": 1791604740000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.64793,
-            -79.38355
-          ],
-          "line": [
-            [
-              43.64793,
-              -79.38355
-            ],
-            [
-              43.64812,
-              -79.38363
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.38355,
-                43.64793
-              ],
-              [
-                -79.38363,
-                43.64812
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Everyday: 07:00-23:59",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
           "id": "Tor-RD52026-5464-1",
           "street": "King St W",
           "title": "King St W 18 m East of York St to York St",
@@ -209499,6 +209412,57 @@
               [
                 -79.38355,
                 43.64793
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Everyday: 07:00-23:59",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD52026-5464-2",
+          "street": "York St",
+          "title": "York St at King St W to 22 m North of King St W",
+          "description": "Toronto-TMC: Sewer Repair",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "King St W",
+          "endLocation": "King St W",
+          "start": 1788865200000,
+          "reportedAt": 1788547205000,
+          "end": 1791604740000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.64793,
+            -79.38355
+          ],
+          "line": [
+            [
+              43.64793,
+              -79.38355
+            ],
+            [
+              43.64812,
+              -79.38363
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.38355,
+                43.64793
+              ],
+              [
+                -79.38363,
+                43.64812
               ]
             ]
           },
@@ -361904,8 +361868,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-30T05:54:53.957Z",
-      "fetchedAt": "2026-09-30T05:54:53.957Z"
+      "checkedAt": "2026-09-30T06:00:22.195Z",
+      "fetchedAt": "2026-09-30T06:00:22.195Z"
     },
     "transit": {
       "items": [
@@ -362105,106 +362069,6 @@
             {
               "start": 1790823600000,
               "end": 1790834400000
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "76936",
-          "title": "Line 1 Yonge-University: There is limited subway service between Vaughan and Finch West stations due to planned track work.",
-          "description": "",
-          "effect": "REDUCED SERVICE",
-          "routes": [
-            "1"
-          ],
-          "stopIds": [
-            "15661",
-            "15660",
-            "15656",
-            "15657",
-            "15666",
-            "15667",
-            "15659",
-            "15658"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": "1",
-              "stopId": "15661",
-              "coordinates": [
-                43.783359,
-                -79.523454
-              ],
-              "name": "Highway 407 Station - Northbound Platform"
-            },
-            {
-              "routeId": "1",
-              "stopId": "15660",
-              "coordinates": [
-                43.783359,
-                -79.523454
-              ],
-              "name": "Highway 407 Station - Southbound Platform"
-            },
-            {
-              "routeId": "1",
-              "stopId": "15656",
-              "coordinates": [
-                43.776741,
-                -79.509334
-              ],
-              "name": "Pioneer Village Station - Northbound Platform"
-            },
-            {
-              "routeId": "1",
-              "stopId": "15657",
-              "coordinates": [
-                43.77675,
-                -79.509372
-              ],
-              "name": "Pioneer Village Station - Southbound Platform"
-            },
-            {
-              "routeId": "1",
-              "stopId": "15666",
-              "coordinates": [
-                43.774097,
-                -79.499888
-              ],
-              "name": "York University - Northbound Platform"
-            },
-            {
-              "routeId": "1",
-              "stopId": "15667",
-              "coordinates": [
-                43.774097,
-                -79.499888
-              ],
-              "name": "York University - Southbound Platform"
-            },
-            {
-              "routeId": "1",
-              "stopId": "15659",
-              "coordinates": [
-                43.764855,
-                -79.491118
-              ],
-              "name": "Finch West Station - Northbound Platform"
-            },
-            {
-              "routeId": "1",
-              "stopId": "15658",
-              "coordinates": [
-                43.764855,
-                -79.491118
-              ],
-              "name": "Finch West Station - Southbound Platform"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790737200000,
-              "end": 1790748000000
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -365723,16 +365587,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-30T05:54:54.000Z",
+      "sourceUpdatedAt": "2026-09-30T06:00:23.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-30T05:54:53.957Z",
-      "fetchedAt": "2026-09-30T05:54:53.957Z"
+      "checkedAt": "2026-09-30T06:00:22.195Z",
+      "fetchedAt": "2026-09-30T06:00:22.195Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T05:58:25.000Z",
+    "sourceUpdatedAt": "2026-09-30T06:00:19.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -365741,14 +365605,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T05:58:31.427Z",
-    "checkedAt": "2026-09-30T05:58:31.427Z",
+    "fetchedAt": "2026-09-30T06:00:22.195Z",
+    "checkedAt": "2026-09-30T06:00:22.195Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T05:58:31.427Z",
-      "checkedAt": "2026-09-30T05:58:31.427Z",
+      "fetchedAt": "2026-09-30T06:00:22.195Z",
+      "checkedAt": "2026-09-30T06:00:22.195Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
