@@ -3,9 +3,101 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T11:50:16.128Z",
-  "sourceUpdatedAt": "2026-09-30T11:45:02.000Z",
+  "fetchedAt": "2026-09-30T11:52:12.973Z",
+  "sourceUpdatedAt": "2026-09-30T11:50:02.000Z",
   "incidents": [
+    {
+      "id": "TPS-b58c844e5d0ec65fbe3f8010",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "BREAK & ENTER",
+      "callTypeCode": "BREEN",
+      "timestamp": "2026-09-30T11:41:06.000Z",
+      "location": "WHITE ABBEY PK - MASSEY CREEK",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WHITE ABBEY PK - MASSEY CREEK",
+        "coordinates": [
+          43.75990462294818,
+          -79.30642617372946
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T11:52:12.973Z"
+    },
+    {
+      "id": "TPS-d7c0ae76053be4b2ec6d2170",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-30T11:40:25.000Z",
+      "location": "STEELES AVE W - NORFINCH DR",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "STEELES AVE W - NORFINCH DR",
+        "coordinates": [
+          43.772480765319365,
+          -79.52860590163233
+        ],
+        "division": "Division 31",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T11:52:12.973Z"
+    },
+    {
+      "id": "TPS-0aa192f08f12bec81c773c6d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-30T11:40:24.000Z",
+      "location": "INDIAN GRV - INDIAN GRV",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "INDIAN GRV - INDIAN GRV",
+        "coordinates": [
+          43.65500191314976,
+          -79.45863761400967
+        ],
+        "division": "Division 11",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T11:52:12.973Z"
+    },
+    {
+      "id": "F26155124",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Grass/Rubbish",
+      "location": "KEELE ST / ROTHERHAM AVE",
+      "division": "421",
+      "timestamp": "2026-09-30T11:40:19.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T11:52:12.973Z",
+      "lastSeenAt": "2026-09-30T11:52:12.973Z",
+      "geography": {
+        "text": "Keele Street & Rotherham Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.6858353,
+          -79.4731889
+        ],
+        "division": "Division 12",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T11:52:12.973Z"
+      }
+    },
     {
       "id": "F26155123",
       "source": "TFS",
@@ -16,9 +108,18 @@
       "timestamp": "2026-09-30T11:36:49.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "423"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T11:46:22.378Z",
-      "lastSeenAt": "2026-09-30T11:50:16.128Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T11:52:12.973Z",
+      "lastSeenAt": "2026-09-30T11:52:12.973Z",
       "geography": {
         "text": "Approximate area: (M6R) West Toronto (Parkdale / Roncesvalles Village)",
         "approximate": true,
@@ -41,7 +142,7 @@
       "division": "426",
       "timestamp": "2026-09-30T11:36:31.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-30T11:46:22.378Z",
       "lastSeenAt": "2026-09-30T11:50:16.128Z",
@@ -59,6 +160,28 @@
       }
     },
     {
+      "id": "TPS-42a55fa870710e4535069fb6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "BREAK & ENTER",
+      "callTypeCode": "BREEN",
+      "timestamp": "2026-09-30T11:35:58.000Z",
+      "location": "GOLDCREST BLVD - BLACK CREEK DR",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GOLDCREST BLVD - BLACK CREEK DR",
+        "coordinates": [
+          43.70545445393235,
+          -79.49186004742309
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T11:52:12.973Z"
+    },
+    {
       "id": "F26155121",
       "source": "TFS",
       "eventType": "fire",
@@ -68,9 +191,24 @@
       "timestamp": "2026-09-30T11:35:51.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "415"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "415"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T11:46:22.378Z",
-      "lastSeenAt": "2026-09-30T11:50:16.128Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T11:52:12.973Z",
+      "lastSeenAt": "2026-09-30T11:52:12.973Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -90,7 +228,7 @@
       "division": "333",
       "timestamp": "2026-09-30T11:32:35.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -115,6 +253,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-d14b79d0c0091dbe808e7183",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-30T11:30:54.000Z",
+      "location": "HORNER AVE - KIPLING AVE",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HORNER AVE - KIPLING AVE",
+        "coordinates": [
+          43.60719729698625,
+          -79.5207393594055
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T11:52:12.973Z"
+    },
+    {
+      "id": "TPS-078c41c30427d01ed494bb14",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT IN PROGRESS",
+      "callTypeCode": "ASSPR",
+      "timestamp": "2026-09-30T11:29:06.000Z",
+      "location": "SPADINA AVE - COLLEGE ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SPADINA AVE - COLLEGE ST",
+        "coordinates": [
+          43.65794169966713,
+          -79.39992183603036
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T11:52:12.973Z"
     },
     {
       "id": "F26155119",
@@ -282,7 +464,7 @@
       "division": "442",
       "timestamp": "2026-09-30T11:19:43.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -351,7 +533,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T11:21:35.028Z",
       "lastMeaningfulUpdateAt": "2026-09-30T11:27:24.203Z",
-      "lastSeenAt": "2026-09-30T11:50:16.128Z",
+      "lastSeenAt": "2026-09-30T11:52:12.973Z",
       "geography": {
         "text": "Riverwood Parkway between Glenaden Avenue East & Humber River Recreational Trl",
         "approximate": false,
@@ -427,7 +609,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T11:21:35.028Z",
       "lastMeaningfulUpdateAt": "2026-09-30T11:27:24.203Z",
-      "lastSeenAt": "2026-09-30T11:50:16.128Z",
+      "lastSeenAt": "2026-09-30T11:52:12.973Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -642,7 +824,7 @@
       "division": "315",
       "timestamp": "2026-09-30T10:53:39.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -209117,79 +209299,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-23T12:38:13.813Z"
       }
-    },
-    {
-      "id": "TPS-5e25dfc43694a15778c75b75",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "PROPERTY DAMAGE COLLISION",
-      "callTypeCode": "PDACC",
-      "timestamp": "2026-09-23T11:51:22.000Z",
-      "location": "LN 2 S EASTERN W CARLAW - LN 1 S EASTERN W CARLAW",
-      "division": "HP",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "LN 2 S EASTERN W CARLAW - LN 1 S EASTERN W CARLAW",
-        "coordinates": [
-          43.65514220981571,
-          -79.33756478159198
-        ],
-        "division": "HP",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-d8b0a1bd5044fc2d06dbe768",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISORDERLIES",
-      "callTypeCode": "DIS",
-      "timestamp": "2026-09-23T11:51:01.000Z",
-      "location": "MERCHANTS' WHARF - EDGEWATER DR",
-      "division": "Division 51",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "MERCHANTS' WHARF - EDGEWATER DR",
-        "coordinates": [
-          43.645539484643066,
-          -79.36130385735129
-        ],
-        "division": "Division 51",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-c2e57d639bdc540c54f254cc",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "SEE AMBULANCE",
-      "callTypeCode": "SEEAM",
-      "timestamp": "2026-09-23T11:50:59.000Z",
-      "location": "JANE ST - SEDAN AVE",
-      "division": "Division 12",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "JANE ST - SEDAN AVE",
-        "coordinates": [
-          43.69262027285517,
-          -79.49854457065464
-        ],
-        "division": "Division 12",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T11:50:16.128Z",
-      "sourceUpdatedAt": "2026-09-30T11:45:02.000Z",
+      "fetchedAt": "2026-09-30T11:52:12.973Z",
+      "sourceUpdatedAt": "2026-09-30T11:50:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T11:50:16.128Z",
+      "fetchedAt": "2026-09-30T11:52:12.973Z",
       "status": "ok"
     }
   },
@@ -367225,7 +367344,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T11:49:39.000Z",
+    "sourceUpdatedAt": "2026-09-30T11:51:37.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -367234,14 +367353,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T11:50:16.128Z",
-    "checkedAt": "2026-09-30T11:50:16.128Z",
+    "fetchedAt": "2026-09-30T11:52:12.973Z",
+    "checkedAt": "2026-09-30T11:52:12.973Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T11:50:16.128Z",
-      "checkedAt": "2026-09-30T11:50:16.128Z",
+      "fetchedAt": "2026-09-30T11:52:12.973Z",
+      "checkedAt": "2026-09-30T11:52:12.973Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -367265,6 +367384,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "KEELE ST / ROTHERHAM AVE": {
+      "text": "Keele Street & Rotherham Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.6858353,
+        -79.4731889
+      ],
+      "division": "Division 12",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T11:52:12.973Z"
+    },
     "M6R": {
       "text": "Approximate area: (M6R) West Toronto (Parkdale / Roncesvalles Village)",
       "approximate": true,
