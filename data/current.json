@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T11:35:14.605Z",
-  "sourceUpdatedAt": "2026-09-30T11:30:01.000Z",
+  "fetchedAt": "2026-09-30T11:37:02.192Z",
+  "sourceUpdatedAt": "2026-09-30T11:35:01.000Z",
   "incidents": [
+    {
+      "id": "F26155119",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5E",
+      "division": "332",
+      "timestamp": "2026-09-30T11:27:59.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "High-Rise Unit",
+          "numbers": [
+            "332"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-30T11:37:02.192Z",
+      "lastSeenAt": "2026-09-30T11:37:02.192Z",
+      "geography": {
+        "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
+        "approximate": true,
+        "coordinates": [
+          43.6456,
+          -79.3754
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-ebfcdf6d9807a72c91f12e7a",
       "source": "TPS",
@@ -104,9 +138,18 @@
       "timestamp": "2026-09-30T11:21:55.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "332"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T11:31:22.866Z",
-      "lastSeenAt": "2026-09-30T11:35:14.605Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T11:37:02.192Z",
+      "lastSeenAt": "2026-09-30T11:37:02.192Z",
       "geography": {
         "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
         "approximate": true,
@@ -140,7 +183,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T11:27:24.203Z",
-      "lastSeenAt": "2026-09-30T11:35:14.605Z",
+      "lastSeenAt": "2026-09-30T11:37:02.192Z",
       "geography": {
         "text": "Approximate area: (M9P) Etobicoke (Westmount)",
         "approximate": true,
@@ -198,7 +241,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T11:21:35.028Z",
       "lastMeaningfulUpdateAt": "2026-09-30T11:27:24.203Z",
-      "lastSeenAt": "2026-09-30T11:35:14.605Z",
+      "lastSeenAt": "2026-09-30T11:37:02.192Z",
       "geography": {
         "text": "Riverwood Parkway between Glenaden Avenue East & Humber River Recreational Trl",
         "approximate": false,
@@ -221,7 +264,7 @@
       "division": "346",
       "timestamp": "2026-09-30T11:11:37.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -274,7 +317,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T11:21:35.028Z",
       "lastMeaningfulUpdateAt": "2026-09-30T11:27:24.203Z",
-      "lastSeenAt": "2026-09-30T11:35:14.605Z",
+      "lastSeenAt": "2026-09-30T11:37:02.192Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -501,7 +544,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T11:01:56.316Z",
       "lastMeaningfulUpdateAt": "2026-09-30T11:05:44.187Z",
-      "lastSeenAt": "2026-09-30T11:35:14.605Z",
+      "lastSeenAt": "2026-09-30T11:37:02.192Z",
       "geography": {
         "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
         "approximate": true,
@@ -209052,12 +209095,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T11:35:14.605Z",
-      "sourceUpdatedAt": "2026-09-30T11:30:01.000Z",
+      "fetchedAt": "2026-09-30T11:37:02.192Z",
+      "sourceUpdatedAt": "2026-09-30T11:35:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T11:35:14.605Z",
+      "fetchedAt": "2026-09-30T11:37:02.192Z",
       "status": "ok"
     }
   },
@@ -366445,7 +366488,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T11:34:02.000Z",
+    "sourceUpdatedAt": "2026-09-30T11:35:37.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -366454,14 +366497,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T11:35:14.605Z",
-    "checkedAt": "2026-09-30T11:35:14.605Z",
+    "fetchedAt": "2026-09-30T11:37:02.192Z",
+    "checkedAt": "2026-09-30T11:37:02.192Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T11:35:14.605Z",
-      "checkedAt": "2026-09-30T11:35:14.605Z",
+      "fetchedAt": "2026-09-30T11:37:02.192Z",
+      "checkedAt": "2026-09-30T11:37:02.192Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -366485,6 +366528,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5E": {
+      "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
+      "approximate": true,
+      "coordinates": [
+        43.6456,
+        -79.3754
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M5T": {
       "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
       "approximate": true,
@@ -367495,18 +367550,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-30T03:11:58.672Z"
-    },
-    "M5E": {
-      "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
-      "approximate": true,
-      "coordinates": [
-        43.6456,
-        -79.3754
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M1N": {
       "text": "Approximate area: (M1N) Scarborough (Birch Cliff / Cliffside West)",
