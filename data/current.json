@@ -3,9 +3,583 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T06:21:41.665Z",
-  "sourceUpdatedAt": "2026-09-30T06:15:02.000Z",
+  "fetchedAt": "2026-09-30T07:13:44.957Z",
+  "sourceUpdatedAt": "2026-09-30T07:10:01.000Z",
   "incidents": [
+    {
+      "id": "F26155056",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "HOWARD ST, TT / ONTARIO ST / EDGEDALE RD",
+      "division": "313",
+      "timestamp": "2026-09-30T07:02:47.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "313"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "325"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-30T07:13:44.957Z",
+      "lastSeenAt": "2026-09-30T07:13:44.957Z",
+      "geography": {
+        "text": "Howard Street between Ontario Street & Edgedale Road",
+        "approximate": false,
+        "coordinates": [
+          43.6713311,
+          -79.37349935
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T07:13:44.957Z"
+      }
+    },
+    {
+      "id": "F26155055",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Hazmat Level 1",
+      "location": "LASCELLES BLVD, TT / WILBERTON RD / KILBARRY RD",
+      "division": "311",
+      "timestamp": "2026-09-30T06:59:48.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "311"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-30T07:13:44.957Z",
+      "lastSeenAt": "2026-09-30T07:13:44.957Z",
+      "geography": {
+        "text": "Lascelles Boulevard between Wilberton Road & Kilbarry Road",
+        "approximate": false,
+        "coordinates": [
+          43.69552965,
+          -79.39970925
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T07:13:44.957Z"
+      }
+    },
+    {
+      "id": "F26155054",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "KING ST W / UNIVERSITY AVE",
+      "division": "332",
+      "timestamp": "2026-09-30T06:56:22.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "332"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-30T07:13:44.957Z",
+      "lastSeenAt": "2026-09-30T07:13:44.957Z",
+      "geography": {
+        "text": "King Street West & University Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.6476621,
+          -79.3848069
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T07:13:44.957Z"
+      }
+    },
+    {
+      "id": "TPS-98b89f19b591ef29fd592be4",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FIRE",
+      "callTypeCode": "FIR",
+      "timestamp": "2026-09-30T06:55:12.000Z",
+      "location": "MEADOWVALE RD - C N R",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MEADOWVALE RD - C N R",
+        "coordinates": [
+          43.83580647191946,
+          -79.18297053813808
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "TPS-ac2503b88a95957b0213a142",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-30T06:55:11.000Z",
+      "location": "REVEREND PORTER LANE - CHURCH ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "REVEREND PORTER LANE - CHURCH ST",
+        "coordinates": [
+          43.661875500979264,
+          -79.37935794927299
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "TPS-b1f2abb361ba6ebb5c74c6be",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "NOISE COMPLAINT",
+      "callTypeCode": "NOICO",
+      "timestamp": "2026-09-30T06:51:54.000Z",
+      "location": "SPADINA AVE - BRUNEL CRT",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SPADINA AVE - BRUNEL CRT",
+        "coordinates": [
+          43.64014057924428,
+          -79.3944049351969
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "TPS-77c6026dca21fa2817646997",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-30T06:49:51.000Z",
+      "location": "BOLER ST - SHIPMAN ST",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BOLER ST - SHIPMAN ST",
+        "coordinates": [
+          43.66633376030839,
+          -79.47556682207427
+        ],
+        "division": "Division 11",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "TPS-d30cfb750dc26692c24559be",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-30T06:47:53.000Z",
+      "location": "FERN AVE - CHURCH ST",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "FERN AVE - CHURCH ST",
+        "coordinates": [
+          43.70237796225946,
+          -79.5237688498353
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "TPS-eafbac0990012b200d12ec66",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-30T06:46:18.000Z",
+      "location": "VAUGHAN RD - KENWOOD AVE",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "VAUGHAN RD - KENWOOD AVE",
+        "coordinates": [
+          43.68247951606518,
+          -79.42199443037066
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "TPS-cb62c851a375724a74a4a2c3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-30T06:44:11.000Z",
+      "location": "CHERRY ST - FRONT ST E",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CHERRY ST - FRONT ST E",
+        "coordinates": [
+          43.65263859174219,
+          -79.358082560461
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "F26155051",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire Alarm - Check Call",
+      "location": "WINDERMERE AVE, TT / LAKE SHORE BLVD W / THE QUEENSWAY",
+      "division": "425",
+      "timestamp": "2026-09-30T06:43:04.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "425"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-30T07:13:44.957Z",
+      "lastSeenAt": "2026-09-30T07:13:44.957Z",
+      "geography": {
+        "text": "Approximate location near Windermere Avenue & The Queensway",
+        "approximate": true,
+        "coordinates": [
+          43.6372199,
+          -79.4699248
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T04:26:41.712Z"
+      }
+    },
+    {
+      "id": "F26155050",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Rescue - Elevator",
+      "location": "MAIN ST, TT / / STEPHENSON AVE",
+      "division": "226",
+      "timestamp": "2026-09-30T06:39:32.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "226"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "313"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-30T07:13:44.957Z",
+      "lastSeenAt": "2026-09-30T07:13:44.957Z",
+      "geography": {
+        "text": "Main Street & Stephenson Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.6876754,
+          -79.301599
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T07:13:44.957Z"
+      }
+    },
+    {
+      "id": "TPS-a3ed5e746e22dff2d8f1b489",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-30T06:38:58.000Z",
+      "location": "MOUNT PLEASANT RD - SHERBOURNE ST N",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MOUNT PLEASANT RD - SHERBOURNE ST N",
+        "coordinates": [
+          43.67455811366177,
+          -79.38016865558973
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "F26155049",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle Fire",
+      "location": "PLUG HAT RD, SC / MEADOWVALE RD / BEARE RD",
+      "division": "212",
+      "timestamp": "2026-09-30T06:38:54.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Mini Pumper",
+          "numbers": [
+            "212"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "212"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-30T07:13:44.957Z",
+      "lastSeenAt": "2026-09-30T07:13:44.957Z",
+      "geography": {
+        "text": "Plug Hat Road between Meadowvale Road & Beare Road",
+        "approximate": false,
+        "coordinates": [
+          43.837042350000004,
+          -79.17813699999999
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T07:13:44.957Z"
+      }
+    },
+    {
+      "id": "TPS-b87d6d92e7b7ddcc0ad06749",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-30T06:33:41.000Z",
+      "location": "MATTICE RD - BURNHAMTHORPE PARK BLVD",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MATTICE RD - BURNHAMTHORPE PARK BLVD",
+        "coordinates": [
+          43.65034619069373,
+          -79.5337256942035
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "TPS-edca700b78b72a55a84cd6a1",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SHOOTING",
+      "callTypeCode": "SHO",
+      "timestamp": "2026-09-30T06:26:34.000Z",
+      "location": "MARKHAM RD - TAPSCOTT RD",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MARKHAM RD - TAPSCOTT RD",
+        "coordinates": [
+          43.8372369342981,
+          -79.24847747822174
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "TPS-0fd87cd9504bfb8a33a478f3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-09-30T06:25:29.000Z",
+      "location": "BEATY BOULEVARD PARKETTE TRL - SUNNYSIDE AVE",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BEATY BOULEVARD PARKETTE TRL - SUNNYSIDE AVE",
+        "coordinates": [
+          43.6387094894521,
+          -79.44620901792912
+        ],
+        "division": "Division 11",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "TPS-f1044f845d344d36d2b7fbf3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-30T06:23:33.000Z",
+      "location": "QUEEN ST W - BATHURST ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "QUEEN ST W - BATHURST ST",
+        "coordinates": [
+          43.6471940876252,
+          -79.40398193200464
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "TPS-eacbeb65899488ee4cee975f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "BREAK & ENTER JUST OCCURRED",
+      "callTypeCode": "BREJU",
+      "timestamp": "2026-09-30T06:21:00.000Z",
+      "location": "MCCOWAN RD - TORRANCE RD",
+      "division": "Division 43",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MCCOWAN RD - TORRANCE RD",
+        "coordinates": [
+          43.73885608095165,
+          -79.23842145676421
+        ],
+        "division": "Division 43",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "TPS-4ce51998c234922a2ef33704",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-30T06:15:38.000Z",
+      "location": "BISHOP AVE - HEPC",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BISHOP AVE - HEPC",
+        "coordinates": [
+          43.78163299652674,
+          -79.4159903445941
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "TPS-e9bb4969a6978648cea2e3fb",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-30T06:14:49.000Z",
+      "location": "FINCH AVE W - ISLINGTON AVE",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "FINCH AVE W - ISLINGTON AVE",
+        "coordinates": [
+          43.74624328073534,
+          -79.56861058007279
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
+      "id": "TPS-84a46142398a9e205e817fd6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-30T06:12:50.000Z",
+      "location": "NORTHERN LINEAR PARK TRL - FORT YORK BLVD",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "NORTHERN LINEAR PARK TRL - FORT YORK BLVD",
+        "coordinates": [
+          43.64024487934854,
+          -79.3944449351836
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
     {
       "id": "F26155041",
       "source": "TFS",
@@ -15,7 +589,7 @@
       "division": "131",
       "timestamp": "2026-09-30T06:07:03.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-30T06:16:04.077Z",
       "lastSeenAt": "2026-09-30T06:21:41.665Z",
@@ -55,6 +629,28 @@
       "firstSeenAt": "2026-09-30T06:12:01.304Z"
     },
     {
+      "id": "TPS-53785ed44a48894330eadc3f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-30T06:05:52.000Z",
+      "location": "ALLEN S 401 RAMP - TRANSIT RD",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ALLEN S 401 RAMP - TRANSIT RD",
+        "coordinates": [
+          43.73397804732846,
+          -79.45010506899399
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:13:44.957Z"
+    },
+    {
       "id": "F26155040",
       "source": "TFS",
       "eventType": "fire",
@@ -63,7 +659,7 @@
       "division": "221",
       "timestamp": "2026-09-30T06:02:31.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -97,7 +693,7 @@
       "division": "333",
       "timestamp": "2026-09-30T06:00:51.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -131,7 +727,7 @@
       "division": "133",
       "timestamp": "2026-09-30T05:59:02.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -277,7 +873,7 @@
       "division": "345",
       "timestamp": "2026-09-30T05:50:00.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -311,7 +907,7 @@
       "division": "325",
       "timestamp": "2026-09-30T05:44:50.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -4551,7 +5147,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -6372,7 +6968,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T05:26:22.633Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -6404,7 +7000,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -7933,7 +8529,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -9474,7 +10070,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -9821,7 +10417,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T05:28:20.497Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -10953,7 +11549,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T05:54:53.957Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -11925,7 +12521,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T05:58:31.427Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -12611,7 +13207,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:06:01.333Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -12946,7 +13542,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -13516,7 +14112,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T05:32:13.242Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -13766,7 +14362,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -14953,7 +15549,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -15956,7 +16552,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -16459,7 +17055,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T05:54:53.957Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -18022,7 +18618,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T05:58:31.427Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -18739,7 +19335,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T05:41:53.069Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -20104,7 +20700,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -21231,7 +21827,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T05:26:22.633Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -21794,7 +22390,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:02:14.147Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -25026,7 +25622,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -25236,7 +25832,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -26288,7 +26884,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -26896,7 +27492,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -27227,7 +27823,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -27662,7 +28258,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -27800,7 +28396,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -28287,7 +28883,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -29977,7 +30573,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -33983,7 +34579,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -36137,7 +36733,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -36612,7 +37208,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -45194,7 +45790,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -45645,7 +46241,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -46889,7 +47485,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -47856,7 +48452,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -48518,7 +49114,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -49007,7 +49603,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -49444,7 +50040,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -53003,7 +53599,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -53333,7 +53929,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -54253,7 +54849,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -54678,7 +55274,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -55187,7 +55783,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -56364,7 +56960,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -58360,7 +58956,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -58766,7 +59362,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -59208,7 +59804,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -60159,7 +60755,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -60959,7 +61555,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -63795,7 +64391,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -65883,7 +66479,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -65916,7 +66512,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -70636,7 +71232,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -70886,7 +71482,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -70940,7 +71536,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -71584,7 +72180,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -73225,7 +73821,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -73791,7 +74387,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -77998,7 +78594,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -78569,7 +79165,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -79574,7 +80170,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -80052,7 +80648,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -81224,7 +81820,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -84988,7 +85584,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -86458,7 +87054,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -88292,7 +88888,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -89155,7 +89751,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -89693,7 +90289,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -89801,7 +90397,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -90380,7 +90976,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -90740,7 +91336,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -91311,7 +91907,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -93093,7 +93689,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -94705,7 +95301,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -94822,7 +95418,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -100443,7 +101039,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -102999,7 +103595,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -103585,7 +104181,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -103639,7 +104235,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -106544,7 +107140,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -107281,7 +107877,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -107528,7 +108124,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -108580,7 +109176,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -109626,7 +110222,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -110875,7 +111471,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -112914,7 +113510,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -113383,7 +113979,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -114566,7 +115162,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -115492,7 +116088,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -116409,7 +117005,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -116582,7 +117178,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -117893,7 +118489,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -118505,7 +119101,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -118677,7 +119273,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -120968,7 +121564,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -121438,7 +122034,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -122391,7 +122987,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -126054,7 +126650,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -129334,7 +129930,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -129657,7 +130253,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -129711,7 +130307,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -129878,7 +130474,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -133617,7 +134213,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -136601,7 +137197,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -136827,7 +137423,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -137466,7 +138062,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -137681,7 +138277,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -139747,7 +140343,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -141157,7 +141753,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -147927,7 +148523,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -148706,7 +149302,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -149854,7 +150450,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -150430,7 +151026,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -151748,7 +152344,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -152429,7 +153025,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -153249,7 +153845,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -154702,7 +155298,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -156573,7 +157169,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -164569,7 +165165,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -164632,7 +165228,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -165005,7 +165601,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -167637,7 +168233,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -169489,7 +170085,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -169837,7 +170433,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -169875,7 +170471,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -169971,7 +170567,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -171862,7 +172458,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -172174,7 +172770,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -172797,7 +173393,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -174208,7 +174804,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -175843,7 +176439,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -178098,7 +178694,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -178129,7 +178725,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -179239,7 +179835,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -180654,7 +181250,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -180782,7 +181378,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -180981,7 +181577,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -181102,7 +181698,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -183044,7 +183640,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -184240,7 +184836,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -186062,7 +186658,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -186585,7 +187181,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -186895,7 +187491,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -188467,7 +189063,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -194489,7 +195085,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -194592,7 +195188,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -195627,7 +196223,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -196409,7 +197005,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -199451,7 +200047,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -199487,7 +200083,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -200920,7 +201516,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -201096,7 +201692,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -201593,7 +202189,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -203387,7 +203983,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -204545,7 +205141,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -204950,7 +205546,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -205184,7 +205780,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T06:08:12.112Z"
+        "checkedAt": "2026-09-30T07:13:44.957Z"
       }
     },
     {
@@ -207264,396 +207860,16 @@
         "division": "Division 23",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-a4b52de0bd9aa1cdd57671f7",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "MISSING VULNERABLE PERSON",
-      "callTypeCode": "MISVU",
-      "timestamp": "2026-09-23T07:13:03.000Z",
-      "location": "LUCIFER DR - CHEROKEE BLVD",
-      "division": "Division 33",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "LUCIFER DR - CHEROKEE BLVD",
-        "coordinates": [
-          43.78970174701006,
-          -79.3358970569695
-        ],
-        "division": "Division 33",
-        "approximate": true
-      }
-    },
-    {
-      "id": "F26150765",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M4L",
-      "division": "326",
-      "timestamp": "2026-09-23T07:12:44.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [],
-      "firstSeenAt": "2026-09-23T07:21:25.955Z",
-      "lastSeenAt": "2026-09-23T07:24:45.743Z",
-      "geography": {
-        "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
-        "approximate": true,
-        "coordinates": [
-          43.6693,
-          -79.3155
-        ],
-        "division": "Division 55",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "F26150764",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Alarm Single Source",
-      "location": "PARLIAMENT ST, TT / ST JAMES AVE / HOWARD ST",
-      "division": "313",
-      "timestamp": "2026-09-23T07:06:27.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "313"
-          ]
-        },
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "325"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-23T07:21:25.955Z",
-      "lastSeenAt": "2026-09-23T07:29:36.398Z",
-      "geography": {
-        "text": "Parliament Street between Street James Avenue & Howard Street",
-        "approximate": false,
-        "coordinates": [
-          43.67082685,
-          -79.37061865
-        ],
-        "division": "Division 51",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-23T07:21:25.955Z"
-      }
-    },
-    {
-      "id": "TPS-a821da5b3f01ab8fad47b6c5",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "UNKNOWN TROUBLE",
-      "callTypeCode": "UNKTR",
-      "timestamp": "2026-09-23T07:06:13.000Z",
-      "location": "MOSSBANK DR - SUSAN ST",
-      "division": "Division 43",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "MOSSBANK DR - SUSAN ST",
-        "coordinates": [
-          43.76289989874722,
-          -79.21106853836375
-        ],
-        "division": "Division 43",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-a255438271fb7efa62cb6cb2",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "ARREST",
-      "callTypeCode": "ARR",
-      "timestamp": "2026-09-23T07:06:10.000Z",
-      "location": "GARDINER XWY W - METROLINX",
-      "division": "Division 52",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "GARDINER XWY W - METROLINX",
-        "coordinates": [
-          43.64317288227655,
-          -79.37791754527557
-        ],
-        "division": "Division 52",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-63b16f8f563d3e0fcec093de",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "PERSON WITH A KNIFE",
-      "callTypeCode": "PERKN",
-      "timestamp": "2026-09-23T07:00:43.000Z",
-      "location": "OASIS BLVD - SEASONS PARK TRL",
-      "division": "Division 42",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "OASIS BLVD - SEASONS PARK TRL",
-        "coordinates": [
-          43.829902598416716,
-          -79.2302727114953
-        ],
-        "division": "Division 42",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-087dea46c66357a0d35272b9",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "MISSING VULNERABLE PERSON",
-      "callTypeCode": "MISVU",
-      "timestamp": "2026-09-23T06:55:32.000Z",
-      "location": "LAKESHORE W GARDINER - GRAND TRUNK CRES",
-      "division": "Division 52",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "LAKESHORE W GARDINER - GRAND TRUNK CRES",
-        "coordinates": [
-          43.641588980667045,
-          -79.38366404144458
-        ],
-        "division": "Division 52",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-0b7662e879dbdc9f6d4e245d",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "UNKNOWN TROUBLE",
-      "callTypeCode": "UNKTR",
-      "timestamp": "2026-09-23T06:52:41.000Z",
-      "location": "GAINSBOROUGH RD - ",
-      "division": "Division 55",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "GAINSBOROUGH RD - ",
-        "coordinates": [
-          43.67466510186723,
-          -79.3169991306648
-        ],
-        "division": "Division 55",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-7ea6c4b2601f5d1fc93e2a01",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISORDERLIES",
-      "callTypeCode": "DIS",
-      "timestamp": "2026-09-23T06:44:56.000Z",
-      "location": "QUEEN ST W - RONCESVALLES AVE",
-      "division": "Division 14",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "QUEEN ST W - RONCESVALLES AVE",
-        "coordinates": [
-          43.6387094894521,
-          -79.44620901792912
-        ],
-        "division": "Division 14",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-353026e233c51e8faec507d0",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "UNKNOWN TROUBLE",
-      "callTypeCode": "UNKTR",
-      "timestamp": "2026-09-23T06:40:22.000Z",
-      "location": "ETTA WYLIE RD - COIN ST",
-      "division": "Division 22",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "ETTA WYLIE RD - COIN ST",
-        "coordinates": [
-          43.6015295271124,
-          -79.50889296999746
-        ],
-        "division": "Division 22",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-b26bcc855da3074d7d1431c5",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "FOUND PROPERTY",
-      "callTypeCode": "FOUPR",
-      "timestamp": "2026-09-23T06:39:29.000Z",
-      "location": "SIMCOE ST - ST PATRICK ST",
-      "division": "Division 52",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "SIMCOE ST - ST PATRICK ST",
-        "coordinates": [
-          43.65448999359373,
-          -79.39032524083046
-        ],
-        "division": "Division 52",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-a7044c75a6af6e5871fb3b55",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "SEE AMBULANCE",
-      "callTypeCode": "SEEAM",
-      "timestamp": "2026-09-23T06:36:16.000Z",
-      "location": "ALLEN S 401 RAMP - TRANSIT RD",
-      "division": "Division 32",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "ALLEN S 401 RAMP - TRANSIT RD",
-        "coordinates": [
-          43.73397804732846,
-          -79.45010506899399
-        ],
-        "division": "Division 32",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-0547a15fb86b608472c2a236",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "THEFT",
-      "callTypeCode": "THE",
-      "timestamp": "2026-09-23T06:36:03.000Z",
-      "location": "MULVEY AVE - TASKER RD",
-      "division": "Division 22",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "MULVEY AVE - TASKER RD",
-        "coordinates": [
-          43.65657179153139,
-          -79.54177139167872
-        ],
-        "division": "Division 22",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-232cb3764329999416ebfdee",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "ASSAULT JUST OCCURRED",
-      "callTypeCode": "ASSJU",
-      "timestamp": "2026-09-23T06:32:11.000Z",
-      "location": "DUFFERIN ST - LN E SHERIDAN N DUNDAS",
-      "division": "Division 11",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "DUFFERIN ST - LN E SHERIDAN N DUNDAS",
-        "coordinates": [
-          43.648587795966776,
-          -79.43315842227923
-        ],
-        "division": "Division 11",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-92b85018636e17376da02911",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "ATTEMPT BREAK & ENTER",
-      "callTypeCode": "ATTBR",
-      "timestamp": "2026-09-23T06:28:29.000Z",
-      "location": "ROSEMOUNT AVE - MACKAY AVE",
-      "division": "Division 13",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "ROSEMOUNT AVE - MACKAY AVE",
-        "coordinates": [
-          43.67602511976716,
-          -79.44778941856597
-        ],
-        "division": "Division 13",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-ffd82a381c716336af727b6b",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISPUTE",
-      "callTypeCode": "DISPU",
-      "timestamp": "2026-09-23T06:26:23.000Z",
-      "location": "WHITBURN CRES - DENBIGH CRES",
-      "division": "Division 31",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "WHITBURN CRES - DENBIGH CRES",
-        "coordinates": [
-          43.73816687648995,
-          -79.48584826578345
-        ],
-        "division": "Division 31",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-43b103b4a1814719ed480281",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISPUTE",
-      "callTypeCode": "DISPU",
-      "timestamp": "2026-09-23T06:23:37.000Z",
-      "location": "BLOOR ST W - BROCK AVE",
-      "division": "Division 11",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "BLOOR ST W - BROCK AVE",
-        "coordinates": [
-          43.659097311254534,
-          -79.43915992053263
-        ],
-        "division": "Division 11",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T06:21:41.665Z",
-      "sourceUpdatedAt": "2026-09-30T06:15:02.000Z",
+      "fetchedAt": "2026-09-30T07:13:44.957Z",
+      "sourceUpdatedAt": "2026-09-30T07:10:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T06:21:41.665Z",
+      "fetchedAt": "2026-09-30T07:13:44.957Z",
       "status": "ok"
     }
   },
@@ -362060,8 +362276,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-30T06:17:54.300Z",
-      "fetchedAt": "2026-09-30T06:17:54.300Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z",
+      "fetchedAt": "2026-09-30T07:13:44.957Z"
     },
     "transit": {
       "items": [
@@ -362921,56 +363137,6 @@
             {
               "start": 1790366137000,
               "end": 1790999940000
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "77147",
-          "title": "43 Kennedy: Detour southbound via Passmore Ave, Milliken Blvd and Mcnicoll Ave due to a watermain break.",
-          "description": "",
-          "effect": "DETOUR",
-          "routes": [
-            "43"
-          ],
-          "stopIds": [
-            "11254",
-            "12197",
-            "11558"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": "43",
-              "stopId": "11254",
-              "coordinates": [
-                43.818764,
-                -79.303701
-              ],
-              "name": "Passmore Ave at Kennedy Rd"
-            },
-            {
-              "routeId": "43",
-              "stopId": "12197",
-              "coordinates": [
-                43.817073,
-                -79.304258
-              ],
-              "name": "Kennedy Rd at Purcell Sq South Side"
-            },
-            {
-              "routeId": "43",
-              "stopId": "11558",
-              "coordinates": [
-                43.812989,
-                -79.30244
-              ],
-              "name": "Kennedy Rd at McNicoll Ave"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790695468000,
-              "end": 1790750700000
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -363868,360 +364034,90 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
-          "id": "77180",
-          "title": "501 Queen: Detour via King St W and Spadina Ave due to a blocked track.",
+          "id": "77182",
+          "title": "304 King: Detour eastbound via Spadina Ave, Adelaide St E and Church St due to a collision.",
           "description": "",
           "effect": "DETOUR",
           "routes": [
-            "501"
+            "304"
           ],
           "stopIds": [
-            "3088",
-            "3080",
-            "3081",
-            "6848",
-            "6830",
-            "6855",
-            "6851",
-            "6847",
-            "6832",
-            "6838",
-            "16849",
-            "6839",
-            "6845",
-            "6842",
-            "6852",
-            "6857",
-            "6849",
-            "6853",
-            "6826",
-            "6827",
-            "6856",
-            "6844",
-            "6854",
-            "6850",
-            "6846",
-            "6831",
-            "15348",
-            "6834",
-            "6836",
-            "6835",
-            "6840",
-            "10152",
-            "15341",
-            "16429"
+            "15648",
+            "15646",
+            "15644",
+            "15642",
+            "15640",
+            "15638",
+            "12537"
           ],
           "affectedEntities": [
             {
-              "routeId": "501",
-              "stopId": "3088",
+              "routeId": "304",
+              "stopId": "15648",
               "coordinates": [
-                43.648886,
-                -79.396062
+                43.645507,
+                -79.394296
               ],
-              "name": "Queen St West at Spadina Ave"
+              "name": "King St West at Spadina Ave East Side"
             },
             {
-              "routeId": "501",
-              "stopId": "3080",
+              "routeId": "304",
+              "stopId": "15646",
               "coordinates": [
-                43.648153,
-                -79.399534
+                43.646101,
+                -79.391644
               ],
-              "name": "Queen St West at Augusta Ave"
+              "name": "King St West at Blue Jays Way East Side"
             },
             {
-              "routeId": "501",
-              "stopId": "3081",
+              "routeId": "304",
+              "stopId": "15644",
               "coordinates": [
-                43.647313,
-                -79.4037
+                43.646614,
+                -79.389267
               ],
-              "name": "Queen St West at Bathurst St"
+              "name": "King St West at John St East Side"
             },
             {
-              "routeId": "501",
-              "stopId": "6848",
+              "routeId": "304",
+              "stopId": "15642",
               "coordinates": [
-                43.646763,
-                -79.406434
+                43.647809,
+                -79.383692
               ],
-              "name": "Queen St West at Palmerston Ave"
+              "name": "King St West at York St - St Andrew Station"
             },
             {
-              "routeId": "501",
-              "stopId": "6830",
+              "routeId": "304",
+              "stopId": "15640",
               "coordinates": [
-                43.646157,
-                -79.409404
+                43.648724,
+                -79.379621
               ],
-              "name": "Queen St West at Claremont St"
+              "name": "King St West at Bay St East Side"
             },
             {
-              "routeId": "501",
-              "stopId": "6855",
+              "routeId": "304",
+              "stopId": "15638",
               "coordinates": [
-                43.645421,
-                -79.413052
+                43.649232,
+                -79.377256
               ],
-              "name": "Queen St West at Strachan Ave"
+              "name": "King St West at Yonge St East Side - King Station"
             },
             {
-              "routeId": "501",
-              "stopId": "6851",
+              "routeId": "304",
+              "stopId": "12537",
               "coordinates": [
-                43.64479,
-                -79.416155
+                43.649982,
+                -79.373826
               ],
-              "name": "Queen St West at Shaw St"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6847",
-              "coordinates": [
-                43.644283,
-                -79.41869
-              ],
-              "name": "Queen St West at Ossington Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6832",
-              "coordinates": [
-                43.643567,
-                -79.422228
-              ],
-              "name": "Queen St West at Dovercourt Rd"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6838",
-              "coordinates": [
-                43.642608,
-                -79.427
-              ],
-              "name": "Queen St West at Gladstone Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "16849",
-              "coordinates": [
-                43.642369,
-                -79.42834
-              ],
-              "name": "Queen St West at Dufferin St"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6839",
-              "coordinates": [
-                43.641545,
-                -79.432245
-              ],
-              "name": "Queen St West at Brock Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6845",
-              "coordinates": [
-                43.641174,
-                -79.434064
-              ],
-              "name": "Queen St West at O'Hara Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6842",
-              "coordinates": [
-                43.640685,
-                -79.436463
-              ],
-              "name": "Queen St West at Lansdowne Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6852",
-              "coordinates": [
-                43.639824,
-                -79.440785
-              ],
-              "name": "Queen St West at Sorauren Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6857",
-              "coordinates": [
-                43.639319,
-                -79.44338
-              ],
-              "name": "Queen St West at Triller Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6849",
-              "coordinates": [
-                43.638864,
-                -79.445773
-              ],
-              "name": "Queen St West at Roncesvalles Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6853",
-              "coordinates": [
-                43.648381,
-                -79.397609
-              ],
-              "name": "Queen St West at Spadina Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6826",
-              "coordinates": [
-                43.647951,
-                -79.399869
-              ],
-              "name": "Queen St West at Augusta Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6827",
-              "coordinates": [
-                43.647084,
-                -79.40418
-              ],
-              "name": "Queen St West at Bathurst St"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6856",
-              "coordinates": [
-                43.646569,
-                -79.406716
-              ],
-              "name": "Queen St West at Tecumseth St"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6844",
-              "coordinates": [
-                43.645898,
-                -79.410006
-              ],
-              "name": "Queen St West at Niagara St"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6854",
-              "coordinates": [
-                43.645241,
-                -79.413308
-              ],
-              "name": "Queen St West at Strachan Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6850",
-              "coordinates": [
-                43.64456,
-                -79.416511
-              ],
-              "name": "Queen St West at Shaw St"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6846",
-              "coordinates": [
-                43.64406,
-                -79.418976
-              ],
-              "name": "Queen St West at Ossington Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6831",
-              "coordinates": [
-                43.643394,
-                -79.422528
-              ],
-              "name": "Queen St West at Dovercourt Rd"
-            },
-            {
-              "routeId": "501",
-              "stopId": "15348",
-              "coordinates": [
-                43.642398,
-                -79.427345
-              ],
-              "name": "Queen St West at Sudbury St"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6834",
-              "coordinates": [
-                43.642115,
-                -79.428787
-              ],
-              "name": "Queen St West at Dufferin St"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6836",
-              "coordinates": [
-                43.641387,
-                -79.432411
-              ],
-              "name": "Queen St West at Brock Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6835",
-              "coordinates": [
-                43.640919,
-                -79.434664
-              ],
-              "name": "Queen St West at Dunn Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "6840",
-              "coordinates": [
-                43.64039,
-                -79.437517
-              ],
-              "name": "Queen St West at Jameson Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "10152",
-              "coordinates": [
-                43.639599,
-                -79.441272
-              ],
-              "name": "Queen St West at Beaty Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "15341",
-              "coordinates": [
-                43.639092,
-                -79.443874
-              ],
-              "name": "Queen St West at Triller Ave"
-            },
-            {
-              "routeId": "501",
-              "stopId": "16429",
-              "coordinates": [
-                43.638812,
-                -79.445427
-              ],
-              "name": "Queen St West at Roncesvalles Ave East Side"
+              "name": "King St East at Church St East Side"
             }
           ],
           "periods": [
             {
-              "start": 1790743228000,
+              "start": 1790751902000,
               "end": null
             }
           ],
@@ -364452,6 +364348,44 @@
             {
               "start": 1790650800000,
               "end": 1791014400000
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "77181",
+          "title": "Queen's Park: Escalator 3Y2E out of service from Line 1 platform to concourse while we perform maintenance.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "13824",
+            "13823"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "13824",
+              "coordinates": [
+                43.660549,
+                -79.390689
+              ],
+              "name": "Queen's Park Station - Northbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13823",
+              "coordinates": [
+                43.659249,
+                -79.390289
+              ],
+              "name": "Queen's Park Station - Southbound Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790750880000,
+              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -365639,16 +365573,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-30T06:17:55.000Z",
+      "sourceUpdatedAt": "2026-09-30T07:13:45.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-30T06:17:54.300Z",
-      "fetchedAt": "2026-09-30T06:17:54.300Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z",
+      "fetchedAt": "2026-09-30T07:13:44.957Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T06:21:24.000Z",
+    "sourceUpdatedAt": "2026-09-30T07:13:45.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -365657,14 +365591,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T06:21:41.665Z",
-    "checkedAt": "2026-09-30T06:21:41.665Z",
+    "fetchedAt": "2026-09-30T07:13:44.957Z",
+    "checkedAt": "2026-09-30T07:13:44.957Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T06:21:41.665Z",
-      "checkedAt": "2026-09-30T06:21:41.665Z",
+      "fetchedAt": "2026-09-30T07:13:44.957Z",
+      "checkedAt": "2026-09-30T07:13:44.957Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -365688,6 +365622,78 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "HOWARD ST, TT / ONTARIO ST / EDGEDALE RD": {
+      "text": "Howard Street between Ontario Street & Edgedale Road",
+      "approximate": false,
+      "coordinates": [
+        43.6713311,
+        -79.37349935
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T07:13:44.957Z"
+    },
+    "LASCELLES BLVD, TT / WILBERTON RD / KILBARRY RD": {
+      "text": "Lascelles Boulevard between Wilberton Road & Kilbarry Road",
+      "approximate": false,
+      "coordinates": [
+        43.69552965,
+        -79.39970925
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T07:13:44.957Z"
+    },
+    "KING ST W / UNIVERSITY AVE": {
+      "text": "King Street West & University Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.6476621,
+        -79.3848069
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T07:13:44.957Z"
+    },
+    "WINDERMERE AVE, TT / LAKE SHORE BLVD W / THE QUEENSWAY": {
+      "text": "Approximate location near Windermere Avenue & The Queensway",
+      "approximate": true,
+      "coordinates": [
+        43.6372199,
+        -79.4699248
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T04:26:41.712Z"
+    },
+    "MAIN ST, TT / / STEPHENSON AVE": {
+      "text": "Main Street & Stephenson Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.6876754,
+        -79.301599
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T07:13:44.957Z"
+    },
+    "PLUG HAT RD, SC / MEADOWVALE RD / BEARE RD": {
+      "text": "Plug Hat Road between Meadowvale Road & Beare Road",
+      "approximate": false,
+      "coordinates": [
+        43.837042350000004,
+        -79.17813699999999
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T07:13:44.957Z"
+    },
     "M4G": {
       "text": "Approximate area: (M4G) East York (Leaside)",
       "approximate": true,
@@ -365996,18 +366002,6 @@
         -79.4498953
       ],
       "division": "Division 13",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T04:26:41.712Z"
-    },
-    "WINDERMERE AVE, TT / LAKE SHORE BLVD W / THE QUEENSWAY": {
-      "text": "Approximate location near Windermere Avenue & The Queensway",
-      "approximate": true,
-      "coordinates": [
-        43.6372199,
-        -79.4699248
-      ],
-      "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-30T04:26:41.712Z"
@@ -366391,7 +366385,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "YONGE ST, NY / WILSON AVE / WILLIAM CARSON CRES": {
       "text": "Yonge Street between Wilson Avenue & William Carson Crescent",
@@ -366568,7 +366562,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T05:26:22.633Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "M3H": {
       "text": "Approximate area: (M3H) North York (Armour Heights / Wilson Heights / Downsview North)",
@@ -366901,7 +366895,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T05:28:20.497Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "FINCH AVE, NY / ROBERT HICKS PARK TRL / WILMINGTON AVE": {
       "text": "Approximate location near Finch Avenue & Wilmington Avenue",
@@ -367006,7 +367000,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T05:54:53.957Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "WESTERN BATTERY RD, TT / KING-LIBERTY PEDESTRIAN CYCLE / LYNN WILLIAMS ST": {
       "text": "Approximate location near Western Battery Road & Lynn Williams Street",
@@ -367099,7 +367093,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T05:58:31.427Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "M5M": {
       "text": "Approximate area: (M5M) North York (Bedford Park / Lawrence Park West / Lawrence Manor East)",
@@ -367132,7 +367126,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:06:01.333Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "SHEPPARD AVE E / BIRCHMOUNT RD": {
       "text": "Sheppard Avenue East & Birchmount Road",
@@ -367225,7 +367219,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T05:32:13.242Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "RICHMOND ST, TT / AUGUSTA AVE / WW W AUGUSTA N RICHMOND": {
       "text": "Richmond Street between Augusta Avenue & Ww West Augusta North Richmond",
@@ -367486,7 +367480,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T05:54:53.957Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "FINCH AVE W / JAYZEL DR": {
       "text": "Finch Avenue West & Jayzel Drive",
@@ -367675,7 +367669,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T05:41:53.069Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "M5G": {
       "text": "Approximate area: (M5G) Downtown Toronto (Central Bay Street)",
@@ -367912,7 +367906,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T05:26:22.633Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "HAZELTON AVE, TT / WEBSTER AVE / DAVENPORT RD": {
       "text": "Hazelton Avenue between Webster Avenue & Davenport Road",
@@ -367969,7 +367963,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:02:14.147Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "GORDONRIDGE PL, SC / DANFORTH RD /": {
       "text": "Gordonridge Place & Danforth Road",
@@ -368218,7 +368212,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "BELLEVUE CRES, YK / LN S WESTON W BELLEVUE / HICKORY TREE RD": {
       "text": "Bellevue Crescent between Lane South Weston West Bellevue & Hickory Tree Road",
@@ -368239,7 +368233,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "M6R": {
       "text": "Approximate area: (M6R) West Toronto (Parkdale / Roncesvalles Village)",
@@ -368272,7 +368266,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "BARRINGTON AVE / LUMSDEN AVE": {
       "text": "Barrington Avenue & Lumsden Avenue",
@@ -368389,7 +368383,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "DUFFERIN ST, NY / STANSTEAD DR / FINCH AVE W": {
       "text": "Dufferin Street between Stanstead Drive & Finch Avenue West",
@@ -368818,7 +368812,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "BLOOR ST, TT / YONGE ST / PARK RD": {
       "text": "Bloor Street between Yonge Street & Park Road",
@@ -368971,7 +368965,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "FINCH AVE, NY / RED ROBINWAY / VIRGILWOOD DR": {
       "text": "Finch Avenue between Red Robinway & Virgilwood Drive",
@@ -369616,7 +369610,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "M4R": {
       "text": "Approximate area: (M4R) Central Toronto (North Toronto West)",
@@ -369685,7 +369679,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "ST GEORGE ST, TT / GALBRAITH RD / URSULA FRANKLIN ST": {
       "text": "Street George Street between Galbraith Road & Ursula Franklin Street",
@@ -369958,7 +369952,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "YONGE ST, NY / HILLCREST AVE / EMPRESS AVE": {
       "text": "Yonge Street between Hillcrest Avenue & Empress Avenue",
@@ -369991,7 +369985,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "CRAVEN RD / GERRARD ST E": {
       "text": "Craven Road & Gerrard Street East",
@@ -370084,7 +370078,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "TISDALE AVE, NY / BARTLEY DR / JONESVILLE CRES": {
       "text": "Tisdale Avenue between Bartley Drive & Jonesville Crescent",
@@ -370141,7 +370135,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "YONGE ST, NY / EMPRESS AVE / KINGSDALE AVE": {
       "text": "Yonge Street between Empress Avenue & Kingsdale Avenue",
@@ -370174,7 +370168,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "LAWRENCE AVE, SC / CANLISH RD / KENNEDY RD": {
       "text": "Lawrence Avenue between Canlish Road & Kennedy Road",
@@ -370255,7 +370249,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "DRUMMOND ST, ET / ROYAL YORK RD / HAROLD ST": {
       "text": "Drummond Street between Royal York Road & Harold Street",
@@ -370348,7 +370342,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "SANDERLING PL, NY / THE DONWAY W /": {
       "text": "Sanderling Place & The Donway West",
@@ -370381,7 +370375,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "DUNDAS ST, TT / INDIAN GRV / HEINTZMAN ST": {
       "text": "Dundas Street between Indian Grv & Heintzman Street",
@@ -370450,7 +370444,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "KEELE ST / LAWRENCE AVE W": {
       "text": "Keele Street & Lawrence Avenue West",
@@ -370519,7 +370513,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "DUNDAS ST, TT / SHERBOURNE ST / OSKENONTON LANE": {
       "text": "Dundas Street between Sherbourne Street & Oskenonton Lane",
@@ -370684,7 +370678,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "BIRCHMOUNT RD, SC / ZENITH DR / ST CLAIR AVE E": {
       "text": "Birchmount Road between Zenith Drive & Street Clair Avenue East",
@@ -370777,7 +370771,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "AGATE RD, NY / WILSON AVE / VICTORY DR": {
       "text": "Agate Road between Wilson Avenue & Victory Drive",
@@ -371014,7 +371008,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "REXLEIGH DR, EY / FERRIS RD / GLENWOOD CRES": {
       "text": "Approximate location near Rexleigh Drive & Glenwood Crescent",
@@ -371131,7 +371125,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "YONGE ST, TT / CHURCH ST / FRICHOT AVE": {
       "text": "Yonge Street between Church Street & Frichot Avenue",
@@ -371164,7 +371158,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "DIXON RD, ET / ATTWELL DR / CARLINGVIEW DR": {
       "text": "Dixon Road between Attwell Drive & Carlingview Drive",
@@ -371377,7 +371371,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "SHEPPARD AVE E / MARKHAM RD": {
       "text": "Sheppard Avenue East & Markham Road",
@@ -371482,7 +371476,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "EGLINTON AVE, SC / LEBOVIC AVE / WARDEN AVE": {
       "text": "Eglinton Avenue between Lebovic Avenue & Warden Avenue",
@@ -371587,7 +371581,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "TANDRIDGE CRES, ET / SUMMERLEA PARK TRL / BYNG AVE": {
       "text": "Tandridge Crescent between Summerlea Park Trl & Byng Avenue",
@@ -371920,7 +371914,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "GEORGE ST, TT / SHUTER ST / DUNDAS ST E": {
       "text": "George Street between Shuter Street & Dundas Street East",
@@ -372037,7 +372031,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "SHAUGHNESSY BLVD / SHEPPARD AVE E": {
       "text": "Shaughnessy Boulevard & Sheppard Avenue East",
@@ -372166,7 +372160,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "OLITI CRT, NY / TORYORK DR / SAN GABRIELE PL": {
       "text": "Oliti Court between Toryork Drive & San Gabriele Place",
@@ -372211,7 +372205,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "RICHVIEW RD, ET / SCARLETT RD /": {
       "text": "Richview Road & Scarlett Road",
@@ -372316,7 +372310,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "COSBURN AVE, EY / LINSMORE CRES / DERWYN RD": {
       "text": "Approximate location near Cosburn Avenue & Derwyn Road",
@@ -372529,7 +372523,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "QUEBEC AVE / BLOOR ST W": {
       "text": "Quebec Avenue & Bloor Street West",
@@ -372694,7 +372688,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "DAYSTROM DR, NY / LINDYLOU RD / LINDYLOU RD": {
       "text": "Approximate location on Daystrom Drive",
@@ -372703,7 +372697,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "DALE AVE, TT / POWELL AVE / MAPLE AVE": {
       "text": "Dale Avenue between Powell Avenue & Maple Avenue",
@@ -372916,7 +372910,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "ISLINGTON AVE / CORDOVA AVE": {
       "text": "Approximate location on Islington Avenue",
@@ -372925,7 +372919,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "YONGE ST, TT / MONTGOMERY AVE / ROSELAWN AVE": {
       "text": "Yonge Street between Montgomery Avenue & Roselawn Avenue",
@@ -373162,7 +373156,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "HILLSBORO AVE, TT / RAMSDEN PARK TRL / NORTH VIEW TER": {
       "text": "Hillsboro Avenue between Ramsden Park Trl & North View Terrace",
@@ -373255,7 +373249,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "REDPATH AVE / EGLINTON AVE E": {
       "text": "Redpath Avenue & Eglinton Avenue East",
@@ -373312,7 +373306,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "BOROUGH DR, SC / PROGRESS AVE / TRITON RD": {
       "text": "Borough Drive between Progress Avenue & Triton Road",
@@ -373477,7 +373471,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "RIDELLE AVE, TT / LAWNHURST BLVD / BURMONT RD": {
       "text": "Ridelle Avenue between Lawnhurst Boulevard & Burmont Road",
@@ -373582,7 +373576,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "ROBINWOOD AVE, TT / SPADINA RD / VESTA DR": {
       "text": "Robinwood Avenue between Spadina Road & Vesta Drive",
@@ -373627,7 +373621,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "HURON ST, TT / SUSSEX AVE / WASHINGTON AVE": {
       "text": "Huron Street between Sussex Avenue & Washington Avenue",
@@ -373816,7 +373810,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "AUSTIN TER, TT / LN E BATHURST S AUSTIN TER / BATHURST ST": {
       "text": "Austin Terrace between Lane East Bathurst South Austin Terrace & Bathurst Street",
@@ -373837,7 +373831,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "GERRARD ST, TT / YONGE ST / BAY ST": {
       "text": "Gerrard Street between Yonge Street & Bay Street",
@@ -373918,7 +373912,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "NORTH DR, ET / EDENBRIDGE DR / WOODCREST DR": {
       "text": "North Drive between Edenbridge Drive & Woodcrest Drive",
@@ -374299,7 +374293,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "WEST LODGE AVE, TT / SEAFORTH AVE / WEST LODGE PARK TRL": {
       "text": "West Lodge Avenue between Seaforth Avenue & West Lodge Park Trl",
@@ -374656,7 +374650,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "DUNDAS ST, TT / YONGE ST / BAY ST": {
       "text": "Dundas Street between Yonge Street & Bay Street",
@@ -374845,7 +374839,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "PARKWAY FOREST DR, NY / CORVUS STARWAY / FOREST MANOR RD": {
       "text": "Approximate location near Parkway Forest Drive & Corvus Starway",
@@ -375346,7 +375340,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "THE QUEENSWAY / NORTH QUEEN ST": {
       "text": "The Queensway & North Queen Street",
@@ -375403,7 +375397,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "RALEIGH AVE, SC / NORTH WOODROW BLVD / NORTH BONNINGTON AVE": {
       "text": "Raleigh Avenue between North Woodrow Boulevard & North Bonnington Avenue",
@@ -375448,7 +375442,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "JOHN GARLAND BLVD, ET / MOSQUE CRES / HUMBER COLLEGE BLVD": {
       "text": "Approximate location near John Garland Boulevard & Humber College Boulevard",
@@ -375589,7 +375583,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "SCHOLARS WALK, NY / THE POND RD / LIBRARY LANE": {
       "text": "Scholars Walk between The Pond Road & Library Lane",
@@ -376222,7 +376216,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "BRIARSCROSS BLVD, SC / HORNSHILL DR / HORNSHILL DR": {
       "text": "Approximate location on Briarscross Boulevard",
@@ -376231,7 +376225,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "MORNINGSIDE AVE / LAWRENCE AVE E": {
       "text": "Morningside Avenue & Lawrence Avenue East",
@@ -376252,7 +376246,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "EXBURY RD, NY / MONCLOVA RD / JANE ST": {
       "text": "Exbury Road between Monclova Road & Jane Street",
@@ -376585,7 +376579,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "MORNINGSIDE AVE, SC / LING RD / LAWRENCE AVE E": {
       "text": "Morningside Avenue between Ling Road & Lawrence Avenue East",
@@ -376618,7 +376612,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "L3R": {
       "text": "Approximate location on L3r",
@@ -376627,7 +376621,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "BROOKHAVEN DR, NY / NORDALE CRES / FOX POINT": {
       "text": "Approximate location near Brookhaven Drive & Fox Point",
@@ -376936,7 +376930,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "KILBARRY RD, TT / DUNVEGAN RD / WARREN RD": {
       "text": "Kilbarry Road between Dunvegan Road & Warren Road",
@@ -377077,7 +377071,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "WILDWOOD CRES, TT / WILDWOOD CRESCENT PLAYGROUND TRL / WILDWOOD CRESCENT PLAYGROUND TRL": {
       "text": "Approximate location on Wildwood Crescent",
@@ -377086,7 +377080,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "NASSAU ST / SPADINA AVE": {
       "text": "Nassau Street & Spadina Avenue",
@@ -377143,7 +377137,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "DUNDAS ST W / THE EAST MALL": {
       "text": "Dundas Street West & The East Mall",
@@ -377212,7 +377206,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "CLUB GOLFWAY /": {
       "text": "Approximate location on Club Golfway",
@@ -377221,7 +377215,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "HANNA RD, EY / FIELD AVE / CRANDALL RD": {
       "text": "Hanna Road between Field Avenue & Crandall Road",
@@ -377242,7 +377236,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "FORT YORK BLVD, TT / CANOE LANDING PARK TRL / CANOE LANDING PARK TRL": {
       "text": "Approximate location on Fort York Boulevard",
@@ -377251,7 +377245,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "EGLINTON AVE W / HIGHWAY 427 S": {
       "text": "Eglinton Avenue West & Highway 427 South",
@@ -377428,7 +377422,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "QUEEN ST W / GLADSTONE AVE": {
       "text": "Queen Street West & Gladstone Avenue",
@@ -377629,7 +377623,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "WESTERN BATTERY RD / LYNN WILLIAMS ST": {
       "text": "Western Battery Road & Lynn Williams Street",
@@ -378046,7 +378040,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "HIGHWAY 401 X E / MEADOWVALE RD": {
       "text": "Highway 401 X East & Meadowvale Road",
@@ -378295,7 +378289,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "DUNDAS ST W / UNIVERSITY AVE": {
       "text": "Dundas Street West & University Avenue",
@@ -378340,7 +378334,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "STEVENSON RD, ET / KIPLING AVE BICYCLE TRL / SILVERSTONE DR": {
       "text": "Stevenson Road between Kipling Avenue Bicycle Trl & Silverstone Drive",
@@ -378445,7 +378439,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T06:08:12.112Z"
+      "checkedAt": "2026-09-30T07:13:44.957Z"
     },
     "BATHURST ST / VESTA DR": {
       "text": "Bathurst Street & Vesta Drive",
@@ -378530,18 +378524,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-22T07:12:31.822Z"
-    },
-    "PARLIAMENT ST, TT / ST JAMES AVE / HOWARD ST": {
-      "text": "Parliament Street between Street James Avenue & Howard Street",
-      "approximate": false,
-      "coordinates": [
-        43.67082685,
-        -79.37061865
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-23T07:21:25.955Z"
     }
   }
 }
