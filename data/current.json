@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T11:25:23.667Z",
-  "sourceUpdatedAt": "2026-09-30T11:20:01.000Z",
+  "fetchedAt": "2026-09-30T11:27:24.203Z",
+  "sourceUpdatedAt": "2026-09-30T11:25:01.000Z",
   "incidents": [
+    {
+      "id": "F26155117",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9P",
+      "division": "442",
+      "timestamp": "2026-09-30T11:19:43.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "443"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-30T11:27:24.203Z",
+      "lastSeenAt": "2026-09-30T11:27:24.203Z",
+      "geography": {
+        "text": "Approximate area: (M9P) Etobicoke (Westmount)",
+        "approximate": true,
+        "coordinates": [
+          43.6949,
+          -79.5323
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26155116",
       "source": "TFS",
@@ -16,9 +50,19 @@
       "timestamp": "2026-09-30T11:13:40.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "422",
+            "431"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T11:21:35.028Z",
-      "lastSeenAt": "2026-09-30T11:25:23.667Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T11:27:24.203Z",
+      "lastSeenAt": "2026-09-30T11:27:24.203Z",
       "geography": {
         "text": "Riverwood Parkway between Glenaden Avenue East & Humber River Recreational Trl",
         "approximate": false,
@@ -42,9 +86,18 @@
       "timestamp": "2026-09-30T11:11:37.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "346"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T11:21:35.028Z",
-      "lastSeenAt": "2026-09-30T11:25:23.667Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T11:27:24.203Z",
+      "lastSeenAt": "2026-09-30T11:27:24.203Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -68,9 +121,24 @@
       "timestamp": "2026-09-30T11:10:52.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "411"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "411"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T11:21:35.028Z",
-      "lastSeenAt": "2026-09-30T11:25:23.667Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T11:27:24.203Z",
+      "lastSeenAt": "2026-09-30T11:27:24.203Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -134,7 +202,7 @@
       "division": "146",
       "timestamp": "2026-09-30T11:03:01.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -184,7 +252,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T11:11:34.397Z",
       "lastMeaningfulUpdateAt": "2026-09-30T11:17:35.093Z",
-      "lastSeenAt": "2026-09-30T11:25:23.667Z",
+      "lastSeenAt": "2026-09-30T11:27:24.203Z",
       "geography": {
         "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
         "approximate": true,
@@ -297,7 +365,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T11:01:56.316Z",
       "lastMeaningfulUpdateAt": "2026-09-30T11:05:44.187Z",
-      "lastSeenAt": "2026-09-30T11:25:23.667Z",
+      "lastSeenAt": "2026-09-30T11:27:24.203Z",
       "geography": {
         "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
         "approximate": true,
@@ -585,7 +653,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T10:41:51.782Z",
       "lastMeaningfulUpdateAt": "2026-09-30T10:46:01.914Z",
-      "lastSeenAt": "2026-09-30T11:25:23.667Z",
+      "lastSeenAt": "2026-09-30T11:27:24.203Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -208869,12 +208937,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T11:25:23.667Z",
-      "sourceUpdatedAt": "2026-09-30T11:20:01.000Z",
+      "fetchedAt": "2026-09-30T11:27:24.203Z",
+      "sourceUpdatedAt": "2026-09-30T11:25:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T11:25:23.667Z",
+      "fetchedAt": "2026-09-30T11:27:24.203Z",
       "status": "ok"
     }
   },
@@ -362704,8 +362772,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-30T11:21:35.028Z",
-      "fetchedAt": "2026-09-30T11:21:35.028Z"
+      "checkedAt": "2026-09-30T11:27:24.203Z",
+      "fetchedAt": "2026-09-30T11:27:24.203Z"
     },
     "transit": {
       "items": [
@@ -364771,6 +364839,122 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
+          "id": "77191",
+          "title": "Eglinton: Escalator 18Y4E out of service from Line 1 Centre platform to concourse while we perform an inspection. Escalator is expected to be back in service September 30, 2026.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "16073",
+            "13796",
+            "13795",
+            "16074"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "16073",
+              "coordinates": [
+                43.70638,
+                -79.398765
+              ],
+              "name": "Eglinton Station Eastbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13796",
+              "coordinates": [
+                43.706548,
+                -79.39839
+              ],
+              "name": "Eglinton Station - Northbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13795",
+              "coordinates": [
+                43.704648,
+                -79.39889
+              ],
+              "name": "Eglinton Station - Southbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "16074",
+              "coordinates": [
+                43.70649,
+                -79.399186
+              ],
+              "name": "Eglinton Station Westbound Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790778600000,
+              "end": 1790787600000
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "77190",
+          "title": "Eglinton: Escalator 18Y3E out of service from concourse to Line 1 platform while we perform an inspection. Escalator is expected to be back in service September 30, 2026.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "16073",
+            "13796",
+            "13795",
+            "16074"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "16073",
+              "coordinates": [
+                43.70638,
+                -79.398765
+              ],
+              "name": "Eglinton Station Eastbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13796",
+              "coordinates": [
+                43.706548,
+                -79.39839
+              ],
+              "name": "Eglinton Station - Northbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13795",
+              "coordinates": [
+                43.704648,
+                -79.39889
+              ],
+              "name": "Eglinton Station - Southbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "16074",
+              "coordinates": [
+                43.70649,
+                -79.399186
+              ],
+              "name": "Eglinton Station Westbound Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790771400000,
+              "end": 1790784000000
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
           "id": "77188",
           "title": "Kennedy: Escalator 4 out of service between concourse and grade (main entrance) while we perform maintenance.",
           "description": "",
@@ -366137,16 +366321,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-30T11:21:35.000Z",
+      "sourceUpdatedAt": "2026-09-30T11:27:24.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-30T11:21:35.028Z",
-      "fetchedAt": "2026-09-30T11:21:35.028Z"
+      "checkedAt": "2026-09-30T11:27:24.203Z",
+      "fetchedAt": "2026-09-30T11:27:24.203Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T11:25:01.000Z",
+    "sourceUpdatedAt": "2026-09-30T11:26:57.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -366155,14 +366339,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T11:25:23.667Z",
-    "checkedAt": "2026-09-30T11:25:23.667Z",
+    "fetchedAt": "2026-09-30T11:27:24.203Z",
+    "checkedAt": "2026-09-30T11:27:24.203Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T11:25:23.667Z",
-      "checkedAt": "2026-09-30T11:25:23.667Z",
+      "fetchedAt": "2026-09-30T11:27:24.203Z",
+      "checkedAt": "2026-09-30T11:27:24.203Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -366186,6 +366370,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M9P": {
+      "text": "Approximate area: (M9P) Etobicoke (Westmount)",
+      "approximate": true,
+      "coordinates": [
+        43.6949,
+        -79.5323
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "RIVERWOOD PKWY, ET / GLENADEN AVE E / HUMBER RIVER RECREATIONAL TRL": {
       "text": "Riverwood Parkway between Glenaden Avenue East & Humber River Recreational Trl",
       "approximate": false,
@@ -366881,18 +367077,6 @@
         -79.3813
       ],
       "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M9P": {
-      "text": "Approximate area: (M9P) Etobicoke (Westmount)",
-      "approximate": true,
-      "coordinates": [
-        43.6949,
-        -79.5323
-      ],
-      "division": "Division 23",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
