@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T09:26:21.007Z",
+  "fetchedAt": "2026-09-30T09:28:09.675Z",
   "sourceUpdatedAt": "2026-09-30T09:25:01.000Z",
   "incidents": [
     {
@@ -26,7 +26,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T09:20:29.943Z",
-      "lastSeenAt": "2026-09-30T09:26:21.007Z",
+      "lastSeenAt": "2026-09-30T09:28:09.675Z",
       "geography": {
         "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
         "approximate": true,
@@ -134,7 +134,7 @@
       ],
       "respondingUnitCount": 11,
       "firstSeenAt": "2026-09-30T09:16:21.106Z",
-      "lastSeenAt": "2026-09-30T09:26:21.007Z",
+      "lastSeenAt": "2026-09-30T09:28:09.675Z",
       "geography": {
         "text": "High Park Avenue between Bloor Street West & Glenlake Avenue",
         "approximate": false,
@@ -386,7 +386,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T08:51:51.175Z",
-      "lastSeenAt": "2026-09-30T09:26:21.007Z",
+      "lastSeenAt": "2026-09-30T09:28:09.675Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -208593,18 +208593,168 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T09:26:21.007Z",
+      "fetchedAt": "2026-09-30T09:28:09.675Z",
       "sourceUpdatedAt": "2026-09-30T09:25:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T09:26:21.007Z",
+      "fetchedAt": "2026-09-30T09:28:09.675Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "Tor-RD042026-1157",
+          "street": "Jane St",
+          "title": "Jane St 8 m North of Eglinton Ave West Trl to 14 m North of Eglinton Ave West Trl",
+          "description": "Toronto-TMC: This work is for the installation of falsework spanning across Jane Street, north of Eglinton Avenue - at the intersection of Jane and Eglinton. At the centreline of Jane Street a shoring tower will be installed. The traffic mitigation will be covered with a PDO and will sequentially close the northbound and southbound lanes separately.",
+          "restrictionType": "ROAD CLOSED",
+          "type": "ROAD CLOSED",
+          "impact": "None",
+          "startLocation": "Eglinton Ave West Trl",
+          "endLocation": "Eglinton Ave West Trl",
+          "start": 1787619600000,
+          "reportedAt": 1787631888000,
+          "end": 1796032800000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.68438,
+            -79.49879
+          ],
+          "line": [
+            [
+              43.68438,
+              -79.49879
+            ],
+            [
+              43.68448,
+              -79.49882
+            ],
+            [
+              43.68448,
+              -79.49882
+            ],
+            [
+              43.68466,
+              -79.49888
+            ],
+            [
+              43.68466,
+              -79.49888
+            ],
+            [
+              43.68478,
+              -79.49892
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.49879,
+                43.68438
+              ],
+              [
+                -79.49882,
+                43.68448
+              ],
+              [
+                -79.49882,
+                43.68448
+              ],
+              [
+                -79.49888,
+                43.68466
+              ],
+              [
+                -79.49888,
+                43.68466
+              ],
+              [
+                -79.49892,
+                43.68478
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Everyday: 21:00-05:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD52026-5773-8",
+          "street": "Rees St",
+          "title": "Rees St at F G Gardiner Xy E to 4 m South of Lake Shore Rees S Ramp",
+          "description": "Toronto-TMC: Hammer Sounding of underside of F G Gardiner Expressway.",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "F G Gardiner Xy E",
+          "endLocation": "Lake Shore Rees S Ramp",
+          "start": 1790737200000,
+          "reportedAt": 1789669729000,
+          "end": 1790845200000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.63958,
+            -79.38688
+          ],
+          "line": [
+            [
+              43.63958,
+              -79.38688
+            ],
+            [
+              43.6397,
+              -79.38694
+            ],
+            [
+              43.6397,
+              -79.38694
+            ],
+            [
+              43.63975,
+              -79.38696
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.38688,
+                43.63958
+              ],
+              [
+                -79.38694,
+                43.6397
+              ],
+              [
+                -79.38694,
+                43.6397
+              ],
+              [
+                -79.38696,
+                43.63975
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Everyday: 23:00-05:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "Tor-RD1M2026-09-1",
           "street": "Leslie St",
@@ -209137,57 +209287,185 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD52026-5983",
-          "street": "Lakeshore W Gardiner",
-          "title": "Lakeshore W Gardiner 27 m West of F G Gardiner Xy W to 143 m West of F G Gardiner Xy W",
-          "description": "Toronto-TMC: Bridge chipping contract - Chipping lose concrete and bridge Patch repairs at Fredrick G Gardiner Expressway. The Chipping work will take place on lakeshore Blvd W where the pillars of Gardiner Expressway will be chipped.",
+          "id": "Tor-RD1M2026-08-2",
+          "street": "Bayview Ave",
+          "title": "Bayview Ave 39 m North of Fifeshire Rd to 13 m South of 401 C W Bayview Ramp",
+          "description": "Toronto-TMC: Hwy 401 EBC Rehabilitation - Avenue Road to Warden Avenue Contract MTO 2022-2013",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
           "impact": "None",
-          "startLocation": "F G Gardiner Xy W",
-          "endLocation": "F G Gardiner Xy W",
-          "start": 1790564400000,
-          "reportedAt": 1790190718000,
-          "end": 1791622800000,
+          "startLocation": "Fifeshire Rd",
+          "endLocation": "401 C W Bayview Ramp",
+          "start": 1776052800000,
+          "reportedAt": 1775656369000,
+          "end": 1793350800000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.64573,
-            -79.37088
+            43.76093,
+            -79.3867
           ],
           "line": [
             [
-              43.64573,
-              -79.37088
+              43.76093,
+              -79.3867
             ],
             [
-              43.64572,
-              -79.37093
+              43.76184,
+              -79.38684
             ],
             [
-              43.64544,
-              -79.37228
+              43.76184,
+              -79.38684
+            ],
+            [
+              43.76237,
+              -79.38693
+            ],
+            [
+              43.76296,
+              -79.38706
+            ],
+            [
+              43.76296,
+              -79.38706
+            ],
+            [
+              43.76313,
+              -79.3871
+            ],
+            [
+              43.76313,
+              -79.3871
+            ],
+            [
+              43.76331,
+              -79.38715
+            ],
+            [
+              43.76331,
+              -79.38715
+            ],
+            [
+              43.76347,
+              -79.38719
+            ],
+            [
+              43.76347,
+              -79.38719
+            ],
+            [
+              43.76373,
+              -79.38726
+            ],
+            [
+              43.76386,
+              -79.38729
+            ],
+            [
+              43.76399,
+              -79.38733
+            ],
+            [
+              43.76412,
+              -79.38737
+            ],
+            [
+              43.76426,
+              -79.38741
+            ],
+            [
+              43.76438,
+              -79.38745
+            ],
+            [
+              43.76451,
+              -79.38749
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.37088,
-                43.64573
+                -79.3867,
+                43.76093
               ],
               [
-                -79.37093,
-                43.64572
+                -79.38684,
+                43.76184
               ],
               [
-                -79.37228,
-                43.64544
+                -79.38684,
+                43.76184
+              ],
+              [
+                -79.38693,
+                43.76237
+              ],
+              [
+                -79.38706,
+                43.76296
+              ],
+              [
+                -79.38706,
+                43.76296
+              ],
+              [
+                -79.3871,
+                43.76313
+              ],
+              [
+                -79.3871,
+                43.76313
+              ],
+              [
+                -79.38715,
+                43.76331
+              ],
+              [
+                -79.38715,
+                43.76331
+              ],
+              [
+                -79.38719,
+                43.76347
+              ],
+              [
+                -79.38719,
+                43.76347
+              ],
+              [
+                -79.38726,
+                43.76373
+              ],
+              [
+                -79.38729,
+                43.76386
+              ],
+              [
+                -79.38733,
+                43.76399
+              ],
+              [
+                -79.38737,
+                43.76412
+              ],
+              [
+                -79.38741,
+                43.76426
+              ],
+              [
+                -79.38745,
+                43.76438
+              ],
+              [
+                -79.38749,
+                43.76451
               ]
             ]
           },
           "geometryKind": "line",
-          "schedule": "Everyday: 23:00-05:00",
+          "schedule": "Monday: 00:00-05:00; Tuesday: 00:00-05:00; Wednesday: 00:00-05:00; Thursday: 00:00-05:00; Friday: 00:00-05:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -209898,276 +210176,6 @@
           },
           "geometryKind": "line",
           "schedule": "Monday: 00:00-05:00; Tuesday: 00:00-05:00; Wednesday: 00:00-05:00; Thursday: 00:00-05:00; Friday: 00:00-05:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD1M2026-08-2",
-          "street": "Bayview Ave",
-          "title": "Bayview Ave 39 m North of Fifeshire Rd to 13 m South of 401 C W Bayview Ramp",
-          "description": "Toronto-TMC: Hwy 401 EBC Rehabilitation - Avenue Road to Warden Avenue Contract MTO 2022-2013",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "startLocation": "Fifeshire Rd",
-          "endLocation": "401 C W Bayview Ramp",
-          "start": 1776052800000,
-          "reportedAt": 1775656369000,
-          "end": 1793350800000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.76093,
-            -79.3867
-          ],
-          "line": [
-            [
-              43.76093,
-              -79.3867
-            ],
-            [
-              43.76184,
-              -79.38684
-            ],
-            [
-              43.76184,
-              -79.38684
-            ],
-            [
-              43.76237,
-              -79.38693
-            ],
-            [
-              43.76296,
-              -79.38706
-            ],
-            [
-              43.76296,
-              -79.38706
-            ],
-            [
-              43.76313,
-              -79.3871
-            ],
-            [
-              43.76313,
-              -79.3871
-            ],
-            [
-              43.76331,
-              -79.38715
-            ],
-            [
-              43.76331,
-              -79.38715
-            ],
-            [
-              43.76347,
-              -79.38719
-            ],
-            [
-              43.76347,
-              -79.38719
-            ],
-            [
-              43.76373,
-              -79.38726
-            ],
-            [
-              43.76386,
-              -79.38729
-            ],
-            [
-              43.76399,
-              -79.38733
-            ],
-            [
-              43.76412,
-              -79.38737
-            ],
-            [
-              43.76426,
-              -79.38741
-            ],
-            [
-              43.76438,
-              -79.38745
-            ],
-            [
-              43.76451,
-              -79.38749
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.3867,
-                43.76093
-              ],
-              [
-                -79.38684,
-                43.76184
-              ],
-              [
-                -79.38684,
-                43.76184
-              ],
-              [
-                -79.38693,
-                43.76237
-              ],
-              [
-                -79.38706,
-                43.76296
-              ],
-              [
-                -79.38706,
-                43.76296
-              ],
-              [
-                -79.3871,
-                43.76313
-              ],
-              [
-                -79.3871,
-                43.76313
-              ],
-              [
-                -79.38715,
-                43.76331
-              ],
-              [
-                -79.38715,
-                43.76331
-              ],
-              [
-                -79.38719,
-                43.76347
-              ],
-              [
-                -79.38719,
-                43.76347
-              ],
-              [
-                -79.38726,
-                43.76373
-              ],
-              [
-                -79.38729,
-                43.76386
-              ],
-              [
-                -79.38733,
-                43.76399
-              ],
-              [
-                -79.38737,
-                43.76412
-              ],
-              [
-                -79.38741,
-                43.76426
-              ],
-              [
-                -79.38745,
-                43.76438
-              ],
-              [
-                -79.38749,
-                43.76451
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 00:00-05:00; Tuesday: 00:00-05:00; Wednesday: 00:00-05:00; Thursday: 00:00-05:00; Friday: 00:00-05:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD042026-1157",
-          "street": "Jane St",
-          "title": "Jane St 8 m North of Eglinton Ave West Trl to 14 m North of Eglinton Ave West Trl",
-          "description": "Toronto-TMC: This work is for the installation of falsework spanning across Jane Street, north of Eglinton Avenue - at the intersection of Jane and Eglinton. At the centreline of Jane Street a shoring tower will be installed. The traffic mitigation will be covered with a PDO and will sequentially close the northbound and southbound lanes separately.",
-          "restrictionType": "ROAD CLOSED",
-          "type": "ROAD CLOSED",
-          "impact": "None",
-          "startLocation": "Eglinton Ave West Trl",
-          "endLocation": "Eglinton Ave West Trl",
-          "start": 1787619600000,
-          "reportedAt": 1787631888000,
-          "end": 1796032800000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.68438,
-            -79.49879
-          ],
-          "line": [
-            [
-              43.68438,
-              -79.49879
-            ],
-            [
-              43.68448,
-              -79.49882
-            ],
-            [
-              43.68448,
-              -79.49882
-            ],
-            [
-              43.68466,
-              -79.49888
-            ],
-            [
-              43.68466,
-              -79.49888
-            ],
-            [
-              43.68478,
-              -79.49892
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.49879,
-                43.68438
-              ],
-              [
-                -79.49882,
-                43.68448
-              ],
-              [
-                -79.49882,
-                43.68448
-              ],
-              [
-                -79.49888,
-                43.68466
-              ],
-              [
-                -79.49888,
-                43.68466
-              ],
-              [
-                -79.49892,
-                43.68478
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Everyday: 21:00-05:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -211078,60 +211086,52 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD52026-5773-8",
-          "street": "Rees St",
-          "title": "Rees St at F G Gardiner Xy E to 4 m South of Lake Shore Rees S Ramp",
-          "description": "Toronto-TMC: Hammer Sounding of underside of F G Gardiner Expressway.",
+          "id": "Tor-RD52026-5983",
+          "street": "Lakeshore W Gardiner",
+          "title": "Lakeshore W Gardiner 27 m West of F G Gardiner Xy W to 143 m West of F G Gardiner Xy W",
+          "description": "Toronto-TMC: Bridge chipping contract - Chipping lose concrete and bridge Patch repairs at Fredrick G Gardiner Expressway. The Chipping work will take place on lakeshore Blvd W where the pillars of Gardiner Expressway will be chipped.",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
           "impact": "None",
-          "startLocation": "F G Gardiner Xy E",
-          "endLocation": "Lake Shore Rees S Ramp",
-          "start": 1790737200000,
-          "reportedAt": 1789669729000,
-          "end": 1790845200000,
+          "startLocation": "F G Gardiner Xy W",
+          "endLocation": "F G Gardiner Xy W",
+          "start": 1790564400000,
+          "reportedAt": 1790190718000,
+          "end": 1791622800000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.63958,
-            -79.38688
+            43.64573,
+            -79.37088
           ],
           "line": [
             [
-              43.63958,
-              -79.38688
+              43.64573,
+              -79.37088
             ],
             [
-              43.6397,
-              -79.38694
+              43.64572,
+              -79.37093
             ],
             [
-              43.6397,
-              -79.38694
-            ],
-            [
-              43.63975,
-              -79.38696
+              43.64544,
+              -79.37228
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.38688,
-                43.63958
+                -79.37088,
+                43.64573
               ],
               [
-                -79.38694,
-                43.6397
+                -79.37093,
+                43.64572
               ],
               [
-                -79.38694,
-                43.6397
-              ],
-              [
-                -79.38696,
-                43.63975
+                -79.37228,
+                43.64544
               ]
             ]
           },
@@ -212241,6 +212241,148 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
+          "id": "Tor-RD1H2026-1831-2",
+          "street": "Burton Rd",
+          "title": "Burton Rd 9 m West of Vesta Dr to 90 m West of Glenayr Rd",
+          "description": "Toronto-TMC: Electrical overhead work",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "Vesta Dr",
+          "endLocation": "Glenayr Rd",
+          "start": 1788865200000,
+          "reportedAt": 1788539649000,
+          "end": 1793347200000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.69297,
+            -79.41713
+          ],
+          "line": [
+            [
+              43.69297,
+              -79.41713
+            ],
+            [
+              43.69275,
+              -79.41822
+            ],
+            [
+              43.69275,
+              -79.41822
+            ],
+            [
+              43.69254,
+              -79.41927
+            ],
+            [
+              43.69253,
+              -79.4193
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.41713,
+                43.69297
+              ],
+              [
+                -79.41822,
+                43.69275
+              ],
+              [
+                -79.41822,
+                43.69275
+              ],
+              [
+                -79.41927,
+                43.69254
+              ],
+              [
+                -79.4193,
+                43.69253
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 07:00-04:00; Tuesday: 07:00-04:00; Wednesday: 07:00-04:00; Thursday: 07:00-04:00; Friday: 07:00-04:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1H2026-1831-1",
+          "street": "Vesta Dr",
+          "title": "Vesta Dr 26 m North of Burton Rd to 40 m South of Silverwood Ave",
+          "description": "Toronto-TMC: Electrical overhead work",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "Burton Rd",
+          "endLocation": "Silverwood Ave",
+          "start": 1788865200000,
+          "reportedAt": 1788539649000,
+          "end": 1793347200000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.69321,
+            -79.41711
+          ],
+          "line": [
+            [
+              43.69321,
+              -79.41711
+            ],
+            [
+              43.69471,
+              -79.41775
+            ],
+            [
+              43.69471,
+              -79.41775
+            ],
+            [
+              43.69511,
+              -79.41792
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.41711,
+                43.69321
+              ],
+              [
+                -79.41775,
+                43.69471
+              ],
+              [
+                -79.41775,
+                43.69471
+              ],
+              [
+                -79.41792,
+                43.69511
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 07:00-04:00; Tuesday: 07:00-04:00; Wednesday: 07:00-04:00; Thursday: 07:00-04:00; Friday: 07:00-04:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
           "id": "Tor-RD1H2026-1831-4",
           "street": "Richview Ave",
           "title": "Richview Ave 12 m South of Ardmore Rd to 27 m North of Burton Rd",
@@ -212560,184 +212702,6 @@
           },
           "geometryKind": "line",
           "schedule": "Monday: 20:00-04:00; Tuesday: 20:00-04:00; Wednesday: 20:00-04:00; Thursday: 20:00-04:00; Friday: 20:00-04:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD1H2026-1831-1",
-          "street": "Vesta Dr",
-          "title": "Vesta Dr 26 m North of Burton Rd to 40 m South of Silverwood Ave",
-          "description": "Toronto-TMC: Electrical overhead work",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "startLocation": "Burton Rd",
-          "endLocation": "Silverwood Ave",
-          "start": 1788865200000,
-          "reportedAt": 1788539649000,
-          "end": 1793347200000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.69321,
-            -79.41711
-          ],
-          "line": [
-            [
-              43.69321,
-              -79.41711
-            ],
-            [
-              43.69471,
-              -79.41775
-            ],
-            [
-              43.69471,
-              -79.41775
-            ],
-            [
-              43.69511,
-              -79.41792
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.41711,
-                43.69321
-              ],
-              [
-                -79.41775,
-                43.69471
-              ],
-              [
-                -79.41775,
-                43.69471
-              ],
-              [
-                -79.41792,
-                43.69511
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 07:00-04:00; Tuesday: 07:00-04:00; Wednesday: 07:00-04:00; Thursday: 07:00-04:00; Friday: 07:00-04:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD1H2026-1831-2",
-          "street": "Burton Rd",
-          "title": "Burton Rd 9 m West of Vesta Dr to 90 m West of Glenayr Rd",
-          "description": "Toronto-TMC: Electrical overhead work",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "startLocation": "Vesta Dr",
-          "endLocation": "Glenayr Rd",
-          "start": 1788865200000,
-          "reportedAt": 1788539649000,
-          "end": 1793347200000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.69297,
-            -79.41713
-          ],
-          "line": [
-            [
-              43.69297,
-              -79.41713
-            ],
-            [
-              43.69275,
-              -79.41822
-            ],
-            [
-              43.69275,
-              -79.41822
-            ],
-            [
-              43.69254,
-              -79.41927
-            ],
-            [
-              43.69253,
-              -79.4193
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.41713,
-                43.69297
-              ],
-              [
-                -79.41822,
-                43.69275
-              ],
-              [
-                -79.41822,
-                43.69275
-              ],
-              [
-                -79.41927,
-                43.69254
-              ],
-              [
-                -79.4193,
-                43.69253
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 07:00-04:00; Tuesday: 07:00-04:00; Wednesday: 07:00-04:00; Thursday: 07:00-04:00; Friday: 07:00-04:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "12230863",
-          "street": "King St W",
-          "title": "King St W 1 m east of University Ave",
-          "description": "Toronto-TMC: Right lane blocked due to a collision.",
-          "restrictionType": "HAZARD",
-          "type": "HAZARD",
-          "impact": "High",
-          "startLocation": "University Ave",
-          "endLocation": "",
-          "start": 1790753158000,
-          "reportedAt": 1790753158000,
-          "end": null,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.647666,
-            -79.38479
-          ],
-          "line": [],
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-              -79.38479,
-              43.647666
-            ]
-          },
-          "geometryKind": "point",
-          "schedule": "Everyday: 00:00-23:59",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -362566,8 +362530,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-30T09:22:31.826Z",
-      "fetchedAt": "2026-09-30T09:22:31.826Z"
+      "checkedAt": "2026-09-30T09:28:09.675Z",
+      "fetchedAt": "2026-09-30T09:28:09.675Z"
     },
     "transit": {
       "items": [
@@ -365773,16 +365737,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-30T09:22:32.000Z",
+      "sourceUpdatedAt": "2026-09-30T09:28:10.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-30T09:22:31.826Z",
-      "fetchedAt": "2026-09-30T09:22:31.826Z"
+      "checkedAt": "2026-09-30T09:28:09.675Z",
+      "fetchedAt": "2026-09-30T09:28:09.675Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T09:26:03.000Z",
+    "sourceUpdatedAt": "2026-09-30T09:27:44.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -365791,14 +365755,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T09:26:21.007Z",
-    "checkedAt": "2026-09-30T09:26:21.007Z",
+    "fetchedAt": "2026-09-30T09:28:09.675Z",
+    "checkedAt": "2026-09-30T09:28:09.675Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T09:26:21.007Z",
-      "checkedAt": "2026-09-30T09:26:21.007Z",
+      "fetchedAt": "2026-09-30T09:28:09.675Z",
+      "checkedAt": "2026-09-30T09:28:09.675Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
