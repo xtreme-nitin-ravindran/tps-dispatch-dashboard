@@ -3,9 +3,53 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T10:50:04.993Z",
-  "sourceUpdatedAt": "2026-09-30T10:45:02.000Z",
+  "fetchedAt": "2026-09-30T10:52:12.207Z",
+  "sourceUpdatedAt": "2026-09-30T10:50:02.000Z",
   "incidents": [
+    {
+      "id": "TPS-53c2f5e8b6ac0493bc976361",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-09-30T10:42:38.000Z",
+      "location": "DYAS RD - ",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DYAS RD - ",
+        "coordinates": [
+          43.751793007230766,
+          -79.34955554268718
+        ],
+        "division": "Division 33",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T10:52:12.207Z"
+    },
+    {
+      "id": "TPS-c498569f58c4dcc7b23a448a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-30T10:41:58.000Z",
+      "location": "PROGRESS AVE - WILLIAM KITCHEN RD",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "PROGRESS AVE - WILLIAM KITCHEN RD",
+        "coordinates": [
+          43.77017884229359,
+          -79.27877690190728
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T10:52:12.207Z"
+    },
     {
       "id": "F26155108",
       "source": "TFS",
@@ -16,9 +60,18 @@
       "timestamp": "2026-09-30T10:38:24.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "115"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T10:46:01.914Z",
-      "lastSeenAt": "2026-09-30T10:50:04.993Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T10:52:12.207Z",
+      "lastSeenAt": "2026-09-30T10:52:12.207Z",
       "geography": {
         "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
         "approximate": true,
@@ -31,6 +84,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-f83efeb92344134994d6d8c7",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-30T10:33:58.000Z",
+      "location": "GARDINER XWY W - CHERRY ST",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GARDINER XWY W - CHERRY ST",
+        "coordinates": [
+          43.649091588195176,
+          -79.35597976159933
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T10:52:12.207Z"
     },
     {
       "id": "F26155106",
@@ -54,7 +129,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T10:41:51.782Z",
       "lastMeaningfulUpdateAt": "2026-09-30T10:46:01.914Z",
-      "lastSeenAt": "2026-09-30T10:50:04.993Z",
+      "lastSeenAt": "2026-09-30T10:52:12.207Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -100,7 +175,7 @@
       "division": "313",
       "timestamp": "2026-09-30T10:25:13.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Command Unit",
@@ -277,7 +352,7 @@
       "division": "132",
       "timestamp": "2026-09-30T10:09:17.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -208575,37 +208650,16 @@
         "division": "Division 12",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-7a2dfde02f2f90b6ebe51c2f",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "IMPAIRED DRIVER",
-      "callTypeCode": "IMPDR",
-      "timestamp": "2026-09-23T10:52:08.000Z",
-      "location": "STEELES AVE E - KENNEDY RD",
-      "division": "Division 42",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "STEELES AVE E - KENNEDY RD",
-        "coordinates": [
-          43.82369433259566,
-          -79.30707660139987
-        ],
-        "division": "Division 42",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T10:50:04.993Z",
-      "sourceUpdatedAt": "2026-09-30T10:45:02.000Z",
+      "fetchedAt": "2026-09-30T10:52:12.207Z",
+      "sourceUpdatedAt": "2026-09-30T10:50:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T10:50:04.993Z",
+      "fetchedAt": "2026-09-30T10:52:12.207Z",
       "status": "ok"
     }
   },
@@ -365913,7 +365967,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T10:49:57.000Z",
+    "sourceUpdatedAt": "2026-09-30T10:51:10.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -365922,14 +365976,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T10:50:04.993Z",
-    "checkedAt": "2026-09-30T10:50:04.993Z",
+    "fetchedAt": "2026-09-30T10:52:12.207Z",
+    "checkedAt": "2026-09-30T10:52:12.207Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T10:50:04.993Z",
-      "checkedAt": "2026-09-30T10:50:04.993Z",
+      "fetchedAt": "2026-09-30T10:52:12.207Z",
+      "checkedAt": "2026-09-30T10:52:12.207Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
