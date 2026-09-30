@@ -3,9 +3,161 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T07:25:43.039Z",
-  "sourceUpdatedAt": "2026-09-30T07:25:02.000Z",
+  "fetchedAt": "2026-09-30T07:32:38.207Z",
+  "sourceUpdatedAt": "2026-09-30T07:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26155063",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3L",
+      "division": "142",
+      "timestamp": "2026-09-30T07:23:40.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "142"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-30T07:32:38.207Z",
+      "lastSeenAt": "2026-09-30T07:32:38.207Z",
+      "geography": {
+        "text": "Approximate area: (M3L) Downsview West",
+        "approximate": true,
+        "coordinates": [
+          43.7334,
+          -79.5116
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26155062",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4P",
+      "division": "134",
+      "timestamp": "2026-09-30T07:22:49.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "134"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-30T07:32:38.207Z",
+      "lastSeenAt": "2026-09-30T07:32:38.207Z",
+      "geography": {
+        "text": "Approximate area: (M4P) Central Toronto (Davisville North)",
+        "approximate": true,
+        "coordinates": [
+          43.7135,
+          -79.3887
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-20T04:26:30.207Z"
+      }
+    },
+    {
+      "id": "TPS-eacd525826568ac1f5094601",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-30T07:22:29.000Z",
+      "location": "DIXON RD - ELMLEA RD",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DIXON RD - ELMLEA RD",
+        "coordinates": [
+          43.701632066276844,
+          -79.53089985136748
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:32:38.207Z"
+    },
+    {
+      "id": "TPS-645174506cf7af64561aea8b",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-30T07:21:31.000Z",
+      "location": "REGAL RD - SPRINGMOUNT AVE",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "REGAL RD - SPRINGMOUNT AVE",
+        "coordinates": [
+          43.675305924282945,
+          -79.43530032606036
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T07:32:38.207Z"
+    },
+    {
+      "id": "F26155060",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "DUNDAS ST, ET / JOPLING AVE S / AUKLAND RD",
+      "division": "445",
+      "timestamp": "2026-09-30T07:21:30.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "445"
+          ]
+        },
+        {
+          "type": "Other Unit",
+          "numbers": [
+            "PL432"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-30T07:32:38.207Z",
+      "lastSeenAt": "2026-09-30T07:32:38.207Z",
+      "geography": {
+        "text": "Dundas Street between Jopling Avenue South & Aukland Road",
+        "approximate": false,
+        "coordinates": [
+          43.638760500000004,
+          -79.53778750000001
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T07:32:38.207Z"
+      }
+    },
     {
       "id": "F26155059",
       "source": "TFS",
@@ -15,7 +167,7 @@
       "division": "312",
       "timestamp": "2026-09-30T07:14:59.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -169,7 +321,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T07:13:44.957Z",
-      "lastSeenAt": "2026-09-30T07:25:43.039Z",
+      "lastSeenAt": "2026-09-30T07:32:38.207Z",
       "geography": {
         "text": "King Street West & University Avenue",
         "approximate": false,
@@ -459,7 +611,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T07:13:44.957Z",
-      "lastSeenAt": "2026-09-30T07:25:43.039Z",
+      "lastSeenAt": "2026-09-30T07:32:38.207Z",
       "geography": {
         "text": "Plug Hat Road between Meadowvale Road & Beare Road",
         "approximate": false,
@@ -207821,88 +207973,58 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26150767",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M1G",
-      "division": "231",
-      "timestamp": "2026-09-23T07:32:20.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "231"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-23T07:41:37.818Z",
-      "lastSeenAt": "2026-09-23T07:54:46.356Z",
-      "geography": {
-        "text": "Approximate area: (M1G) Scarborough (Woburn)",
-        "approximate": true,
-        "coordinates": [
-          43.7712,
-          -79.2144
-        ],
-        "division": "Division 43",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "F26150766",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M2J",
-      "division": "115",
-      "timestamp": "2026-09-23T07:26:42.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "115"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-23T07:35:37.414Z",
-      "lastSeenAt": "2026-09-23T07:59:56.570Z",
-      "geography": {
-        "text": "Approximate area: (M2J) North York (Fairview / Henry Farm / Oriole)",
-        "approximate": true,
-        "coordinates": [
-          43.7801,
-          -79.3479
-        ],
-        "division": "Division 33",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T07:25:43.039Z",
-      "sourceUpdatedAt": "2026-09-30T07:25:02.000Z",
+      "fetchedAt": "2026-09-30T07:32:38.207Z",
+      "sourceUpdatedAt": "2026-09-30T07:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T07:25:43.039Z",
+      "fetchedAt": "2026-09-30T07:32:38.207Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "12230863",
+          "street": "King St W",
+          "title": "King St W 1 m east of University Ave",
+          "description": "Toronto-TMC: Right lane blocked due to a collision.",
+          "restrictionType": "HAZARD",
+          "type": "HAZARD",
+          "impact": "High",
+          "startLocation": "University Ave",
+          "endLocation": "",
+          "start": 1790753158000,
+          "reportedAt": 1790753158000,
+          "end": null,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.647666,
+            -79.38479
+          ],
+          "line": [],
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -79.38479,
+              43.647666
+            ]
+          },
+          "geometryKind": "point",
+          "schedule": "Everyday: 00:00-23:59",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "Tor-RD52026-4672",
           "street": "Warden Ave",
@@ -362303,8 +362425,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-30T07:25:43.039Z",
-      "fetchedAt": "2026-09-30T07:25:43.039Z"
+      "checkedAt": "2026-09-30T07:32:38.207Z",
+      "fetchedAt": "2026-09-30T07:32:38.207Z"
     },
     "transit": {
       "items": [
@@ -365600,16 +365722,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-30T07:25:43.000Z",
+      "sourceUpdatedAt": "2026-09-30T07:32:39.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-30T07:25:43.039Z",
-      "fetchedAt": "2026-09-30T07:25:43.039Z"
+      "checkedAt": "2026-09-30T07:32:38.207Z",
+      "fetchedAt": "2026-09-30T07:32:38.207Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T07:25:28.000Z",
+    "sourceUpdatedAt": "2026-09-30T07:32:27.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -365618,14 +365740,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T07:25:43.039Z",
-    "checkedAt": "2026-09-30T07:25:43.039Z",
+    "fetchedAt": "2026-09-30T07:32:38.207Z",
+    "checkedAt": "2026-09-30T07:32:38.207Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T07:25:43.039Z",
-      "checkedAt": "2026-09-30T07:25:43.039Z",
+      "fetchedAt": "2026-09-30T07:32:38.207Z",
+      "checkedAt": "2026-09-30T07:32:38.207Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -365649,6 +365771,42 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3L": {
+      "text": "Approximate area: (M3L) Downsview West",
+      "approximate": true,
+      "coordinates": [
+        43.7334,
+        -79.5116
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4P": {
+      "text": "Approximate area: (M4P) Central Toronto (Davisville North)",
+      "approximate": true,
+      "coordinates": [
+        43.7135,
+        -79.3887
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-20T04:26:30.207Z"
+    },
+    "DUNDAS ST, ET / JOPLING AVE S / AUKLAND RD": {
+      "text": "Dundas Street between Jopling Avenue South & Aukland Road",
+      "approximate": false,
+      "coordinates": [
+        43.638760500000004,
+        -79.53778750000001
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T07:32:38.207Z"
+    },
     "M4Y": {
       "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
       "approximate": true,
@@ -366248,18 +366406,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4P": {
-      "text": "Approximate area: (M4P) Central Toronto (Davisville North)",
-      "approximate": true,
-      "coordinates": [
-        43.7135,
-        -79.3887
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-20T04:26:30.207Z"
     },
     "LAWRENCE AVE, NY / CULFORD RD / DE MARCO BLVD": {
       "text": "Lawrence Avenue between Culford Road & De Marco Boulevard",
@@ -368924,18 +369070,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-29T03:02:31.040Z"
-    },
-    "M3L": {
-      "text": "Approximate area: (M3L) Downsview West",
-      "approximate": true,
-      "coordinates": [
-        43.7334,
-        -79.5116
-      ],
-      "division": "Division 31",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "ORMONT DR, NY / NORELCO DR / SIGNET DR": {
       "text": "Ormont Drive between Norelco Drive & Signet Drive",
