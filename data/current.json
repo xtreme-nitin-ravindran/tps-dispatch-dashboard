@@ -3,9 +3,80 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T15:47:59.387Z",
-  "sourceUpdatedAt": "2026-09-30T15:45:01.000Z",
+  "fetchedAt": "2026-09-30T15:52:10.111Z",
+  "sourceUpdatedAt": "2026-09-30T15:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26155249",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury Highway",
+      "location": "/",
+      "division": "115",
+      "timestamp": "2026-09-30T15:43:16.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T15:52:10.111Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
+      "geography": {
+        "text": "Approximate location on an unspecified street",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T15:27:11.453Z"
+      }
+    },
+    {
+      "id": "F26155246",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "BLUE JAYS WAY, TT / NORTHERN LINEAR PARK TRL / FRONT ST W",
+      "division": "334",
+      "timestamp": "2026-09-30T15:42:06.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T15:52:10.111Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
+      "geography": {
+        "text": "Approximate location near Blue Jays Way & Front Street West",
+        "approximate": true,
+        "coordinates": [
+          43.6434212,
+          -79.3912857
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T15:52:10.111Z"
+      }
+    },
+    {
+      "id": "TPS-c49f3f172f8c5a9bfa7f24df",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-30T15:40:45.000Z",
+      "location": "ANDREW AVE - BRIMLEY RD",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ANDREW AVE - BRIMLEY RD",
+        "coordinates": [
+          43.72087669467613,
+          -79.24145832907259
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T15:52:10.111Z"
+    },
     {
       "id": "F26155245",
       "source": "TFS",
@@ -16,9 +87,24 @@
       "timestamp": "2026-09-30T15:40:07.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "333"
+          ]
+        },
+        {
+          "type": "Tower Truck",
+          "numbers": [
+            "333"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T15:47:59.387Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T15:52:10.111Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "Sherbourne Street between Lane North Dundas West Sherbourne & Glenholme Place",
         "approximate": false,
@@ -41,7 +127,7 @@
       "division": "343",
       "timestamp": "2026-09-30T15:39:23.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-30T15:47:59.387Z",
       "lastSeenAt": "2026-09-30T15:47:59.387Z",
@@ -68,9 +154,18 @@
       "timestamp": "2026-09-30T15:39:06.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "142"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T15:47:59.387Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T15:52:10.111Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "Approximate area: (M3N) North York (Jane and Finch)",
         "approximate": true,
@@ -94,9 +189,36 @@
       "timestamp": "2026-09-30T15:39:03.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "433"
+          ]
+        },
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "44"
+          ]
+        },
+        {
+          "type": "Hazmat Unit",
+          "numbers": [
+            "145"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "432"
+          ]
+        }
+      ],
+      "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-30T15:47:59.387Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T15:52:10.111Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "North Queen Street between Medulla Avenue & The East Mall",
         "approximate": false,
@@ -120,9 +242,18 @@
       "timestamp": "2026-09-30T15:38:57.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "345"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T15:47:59.387Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T15:52:10.111Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "Symington Avenue between Wallace Avenue & Antler Street",
         "approximate": false,
@@ -146,9 +277,18 @@
       "timestamp": "2026-09-30T15:38:50.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "323"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T15:47:59.387Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T15:52:10.111Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "Approximate area: (M4J) East Toronto (The Danforth East)",
         "approximate": true,
@@ -172,9 +312,18 @@
       "timestamp": "2026-09-30T15:37:07.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "135"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T15:47:59.387Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T15:52:10.111Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "Approximate area: (M4N) Central Toronto (Lawrence Park East)",
         "approximate": true,
@@ -187,6 +336,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-d3265816f76c81c1b57e55f5",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-30T15:36:32.000Z",
+      "location": "DUFFERIN ST - TYCOS DR",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DUFFERIN ST - TYCOS DR",
+        "coordinates": [
+          43.70578065647612,
+          -79.45290665865204
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T15:52:10.111Z"
+    },
+    {
+      "id": "TPS-21f5d97c7151e7dbf961c6a5",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT JUST OCCURRED",
+      "callTypeCode": "THEJU",
+      "timestamp": "2026-09-30T15:33:39.000Z",
+      "location": "OLDHAM RD - BEMERSYDE DR",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "OLDHAM RD - BEMERSYDE DR",
+        "coordinates": [
+          43.676211269002685,
+          -79.54333028626206
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T15:52:10.111Z"
     },
     {
       "id": "F26155238",
@@ -209,7 +402,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T15:40:28.150Z",
       "lastMeaningfulUpdateAt": "2026-09-30T15:47:59.387Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "Oak Street & River Street",
         "approximate": false,
@@ -250,6 +443,28 @@
       }
     },
     {
+      "id": "TPS-f31d56be5899f258ff1f2fc2",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-30T15:31:53.000Z",
+      "location": "KING DAVID DR - LISSOM CRES",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KING DAVID DR - LISSOM CRES",
+        "coordinates": [
+          43.78560407788088,
+          -79.4433651035738
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T15:52:10.111Z"
+    },
+    {
       "id": "F26155236",
       "source": "TFS",
       "eventType": "fire",
@@ -270,7 +485,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T15:40:28.150Z",
       "lastMeaningfulUpdateAt": "2026-09-30T15:47:59.387Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
         "approximate": true,
@@ -305,7 +520,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T15:36:28.181Z",
       "lastMeaningfulUpdateAt": "2026-09-30T15:40:28.150Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "Approximate area: (M4S) Central Toronto (Davisville)",
         "approximate": true,
@@ -340,7 +555,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T15:36:28.181Z",
       "lastMeaningfulUpdateAt": "2026-09-30T15:40:28.150Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "Approximate area: (M4K) East Toronto (The Danforth West / Riverdale)",
         "approximate": true,
@@ -476,7 +691,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T15:27:11.453Z",
       "lastMeaningfulUpdateAt": "2026-09-30T15:30:49.719Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "Street Clair Avenue between Andrew Avenue & Brimley Road",
         "approximate": false,
@@ -736,7 +951,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T15:17:20.384Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "Empress Avenue between Lane East Yonge South Kingsdale & Doris Avenue",
         "approximate": false,
@@ -883,7 +1098,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T15:11:37.985Z",
       "lastMeaningfulUpdateAt": "2026-09-30T15:17:20.384Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "Approximate area: (M6R) West Toronto (Parkdale / Roncesvalles Village)",
         "approximate": true,
@@ -1171,7 +1386,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T15:02:09.788Z",
       "lastMeaningfulUpdateAt": "2026-09-30T15:06:09.344Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "Approximate area: (M9N) Weston",
         "approximate": true,
@@ -1648,7 +1863,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T14:46:37.080Z",
       "lastMeaningfulUpdateAt": "2026-09-30T14:50:27.504Z",
-      "lastSeenAt": "2026-09-30T15:47:59.387Z",
+      "lastSeenAt": "2026-09-30T15:52:10.111Z",
       "geography": {
         "text": "Mill Road & Burnhamthorpe Road",
         "approximate": false,
@@ -212661,12 +212876,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T15:47:59.387Z",
-      "sourceUpdatedAt": "2026-09-30T15:45:01.000Z",
+      "fetchedAt": "2026-09-30T15:52:10.111Z",
+      "sourceUpdatedAt": "2026-09-30T15:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T15:47:59.387Z",
+      "fetchedAt": "2026-09-30T15:52:10.111Z",
       "status": "ok"
     }
   },
@@ -377554,7 +377769,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T15:48:02.000Z",
+    "sourceUpdatedAt": "2026-09-30T15:51:45.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -377563,14 +377778,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T15:47:59.387Z",
-    "checkedAt": "2026-09-30T15:47:59.387Z",
+    "fetchedAt": "2026-09-30T15:52:10.111Z",
+    "checkedAt": "2026-09-30T15:52:10.111Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T15:47:59.387Z",
-      "checkedAt": "2026-09-30T15:47:59.387Z",
+      "fetchedAt": "2026-09-30T15:52:10.111Z",
+      "checkedAt": "2026-09-30T15:52:10.111Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -377594,6 +377809,27 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "/": {
+      "text": "Approximate location on an unspecified street",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T15:27:11.453Z"
+    },
+    "BLUE JAYS WAY, TT / NORTHERN LINEAR PARK TRL / FRONT ST W": {
+      "text": "Approximate location near Blue Jays Way & Front Street West",
+      "approximate": true,
+      "coordinates": [
+        43.6434212,
+        -79.3912857
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T15:52:10.111Z"
+    },
     "SHERBOURNE ST, TT / LN N DUNDAS W SHERBOURNE / GLENHOLME PL": {
       "text": "Sherbourne Street between Lane North Dundas West Sherbourne & Glenholme Place",
       "approximate": false,
@@ -378382,15 +378618,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "/": {
-      "text": "Approximate location on an unspecified street",
-      "approximate": true,
-      "coordinates": null,
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T15:27:11.453Z"
     },
     "ADELAIDE ST, TT / SHEPPARD ST / YORK ST": {
       "text": "Adelaide Street between Sheppard Street & York Street",
