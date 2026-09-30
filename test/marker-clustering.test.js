@@ -70,6 +70,8 @@ test('cluster expansion is bounded and cannot produce city-spanning connector fa
   assert.equal(fan.length,12);
   assert.ok(fan.every(({center,endpoint})=>Math.hypot(endpoint.x-center.x,endpoint.y-center.y)<=96.000001));
   assert.throws(()=>connectorFan(new Array(13).fill(null),{x:100,y:100}),RangeError);
+  assert.throws(()=>connectorFan(group,{x:Number.NaN,y:100}),TypeError);
+  assert.throws(()=>spreadPoint(0,1,{x:100,y:100}),RangeError);
   assert.throws(()=>spreadPoint(12,12,{x:100,y:100}),RangeError);
   assert.match(app,/new Set\(canExpandCluster\(focusedGroup\) \? focusedGroup\.map/);
   assert.match(app,/largeClusterSelectionChanged[\s\S]*?clusterChanged \|\| largeClusterSelectionChanged/);

@@ -31,12 +31,7 @@ export function connectorFan(group, center) {
   if (!Number.isFinite(center?.x) || !Number.isFinite(center?.y)) {
     throw new TypeError('connector fan requires a finite cluster center');
   }
-  const fan = group.map((item, index) => ({ item, center, endpoint: spreadPoint(index, group.length, center) }));
-  if (fan.length > MAX_EXPANDED_CLUSTER_SIZE || fan.some(({endpoint}) =>
-    Math.hypot(endpoint.x - center.x, endpoint.y - center.y) > MAX_FAN_OUT_RADIUS_PX + Number.EPSILON * 16)) {
-    throw new RangeError('connector fan exceeded its hard rendering bounds');
-  }
-  return fan;
+  return group.map((item, index) => ({ item, center, endpoint: spreadPoint(index, group.length, center) }));
 }
 
 export function canExpandCluster(group, maximum = MAX_EXPANDED_CLUSTER_SIZE) {
