@@ -85,10 +85,14 @@ export function mobileAuditFixtureSnapshot(state = 'many', now = Date.now()) {
     const source = index % 3 === 0 ? 'TPS' : 'TFS';
     const row = Math.floor(index / 40);
     const column = index % 40;
+    const coordinates = index < 120
+      ? [43.6534, -79.3862]
+      : index < 123 ? [43.84, -79.15]
+        : [43.59 + row * 0.006, -79.62 + column * 0.009];
     return incident(`heavy-${index}`, source,
       source === 'TPS' ? `DETERMINISTIC POLICE AUDIT CALL ${index + 1}` : `Deterministic Fire Audit Call ${index + 1}`,
       `${100 + index} Fixture Street between Audit Avenue & Performance Road`,
-      index % 180, [43.59 + row * 0.006, -79.62 + column * 0.009], {
+      index % 180, coordinates, {
         eventCategory: source === 'TPS' ? 'other' : index % 5 === 0 ? 'medical' : 'fire',
         isOngoing: source === 'TFS',
         division: `Division ${11 + index % 12}`

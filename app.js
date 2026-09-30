@@ -2,7 +2,7 @@ import { loadTtcUiFixture } from './src/ttc/fixture.js';
 import { mergeTtcDisruptions } from './src/ttc/presentation.js';
 import { renderTtc, createTtcDetail, clearTtcSelection, setTtcVisibility } from './src/ttc/ui.js';
 import { sourceStatus, sourceStatusText } from "./src/source-status.js?v=source-states-1";
-import { canExpandCluster, clusterPoints, spreadPoint, focusGroup } from "./src/map-clusters.js?v=story-38g-1";
+import { MAX_EXPANDED_CLUSTER_SIZE, connectorFan, canExpandCluster, clusterPoints, focusGroup } from "./src/map-clusters.js?v=story-39a-1";
 import { incidentGroupKey, reconcileIncidentLayers } from "./src/incident-layer-diff.js";
 import { activeSecondaryFilterCount, filterDefaults, filterSummary, incidentDeepLink, readFilters, shareView, shareIncidentView, readSharedIncident, shareIncident, loadPreferences, savePreferences } from "./src/view-controls.js";
 import * as disruptionUi from "./src/disruptions/ui.js?v=story-38b-1";
@@ -360,6 +360,10 @@ function setMobileView(view, { focusSelection = false, persist = true } = {}) {
   if (view === mobileView && view === presentedMobileView && mobile === presentedMobileLayout) return;
   const finishState = uxAudit.begin('view-toggle:state-update', { target: view });
   mobileView = view;
+  if (mobile && view === 'calls' && expandedCluster.size) {
+    expandedCluster.clear();
+    if (dispatchMap) renderMapMarkers();
+  }
   finishState({ mobile });
   const finishPresentation = uxAudit.begin('view-toggle:presentation');
   document.documentElement.dataset.mobileView = view;
@@ -868,6 +872,7 @@ function applyFilters({ map = true } = {}) {
   finishCalculation({ eligibleCalls: eligibleCalls.length, outputCalls: state.filtered.length });
   const previouslyFocusedCallId = focusedCallId;
   focusedCallId = reconcileIncidentSelection(focusedCallId, state.filtered);
+  expandedCluster.clear();
   document.querySelector("#filterSummary").textContent = filterSummary(state);
   syncMobileFilterIndicator();
   syncSearchControl();
@@ -1418,6 +1423,10 @@ function initMap() {
 function clearIncidentForTtc() {
   const previous=focusedCallId;
   focusedCallId=null;
+  if (expandedCluster.size || previous) {
+    expandedCluster.clear();
+    if (dispatchMap) renderMapMarkers();
+  }
   dispatchMap?.closePopup();
   if(previous) updateMarkerAppearance(previous);
   for(const row of document.querySelectorAll('.incident-card.selected')) {
@@ -1778,6 +1787,19 @@ function scheduleMapMarkerRender() {
   });
 }
 
+function assertConnectorLayerInvariants() {
+  let connectors = 0;
+  callLayer.eachLayer(layer => {
+    if (layer.options?.className === 'cluster-connector') connectors += 1;
+  });
+  if (connectors > MAX_EXPANDED_CLUSTER_SIZE) {
+    throw new RangeError(`rendered connector count ${connectors} exceeded ${MAX_EXPANDED_CLUSTER_SIZE}`);
+  }
+  if (!expandedCluster.size && connectors) {
+    throw new Error('stale cluster connectors remained after cluster collapse');
+  }
+}
+
 function incidentRepresentationVersion(group, expanded, sirenIds) {
   if (!expanded && group.length > 1) {
     return JSON.stringify({
@@ -1854,10 +1876,11 @@ function renderMapMarkers() {
     const center = L.latLngBounds(group.map(item => item.coordinates)).getCenter();
     if (expanded) {
       const pixel = dispatchMap.latLngToLayerPoint(center);
-      group.forEach((item,index) => {
-        const spread = spreadPoint(index,group.length,pixel);
-        const position = dispatchMap.layerPointToLatLng(L.point(spread.x,spread.y));
-        const connector = L.polyline([item.coordinates,position],{className:'cluster-connector',color:'#b7c8d9',weight:1,interactive:false}).addTo(callLayer);
+      const fan = connectorFan(group, pixel);
+      if (fan.length > MAX_EXPANDED_CLUSTER_SIZE) throw new RangeError('connector count exceeded expansion limit');
+      fan.forEach(({item, endpoint}) => {
+        const position = dispatchMap.layerPointToLatLng(L.point(endpoint.x,endpoint.y));
+        const connector = L.polyline([center,position],{className:'cluster-connector',color:'#b7c8d9',weight:1,interactive:false}).addTo(callLayer);
         layers.push(connector);
         const marker = addMarker(item,position,layers);
         markers.set(item.call.id, marker);
@@ -1898,6 +1921,7 @@ function renderMapMarkers() {
     mapHasFitted = true;
     dispatchMap.fitBounds(L.latLngBounds(locatedCalls.map(item => item.coordinates)), { padding: [24, 24], maxZoom: 12 });
   }
+  assertConnectorLayerInvariants();
   finishMarkers({ locatedCalls: locatedCalls.length, representations: representations.length });
 }
 

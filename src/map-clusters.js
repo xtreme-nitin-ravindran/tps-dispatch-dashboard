@@ -1,4 +1,5 @@
 export const MAX_EXPANDED_CLUSTER_SIZE = 12;
+export const MAX_FAN_OUT_RADIUS_PX = 96;
 
 // Fixed screen-space cells keep grouping predictable as the map zoom changes.
 export function clusterPoints(items, project, cellSize = 64) {
@@ -12,9 +13,30 @@ export function clusterPoints(items, project, cellSize = 64) {
   return [...cells.values()];
 }
 export function spreadPoint(index, count, center) {
+  if (!Number.isInteger(count) || count < 2 || count > MAX_EXPANDED_CLUSTER_SIZE) {
+    throw new RangeError(`connector fan count must be between 2 and ${MAX_EXPANDED_CLUSTER_SIZE}`);
+  }
+  if (!Number.isInteger(index) || index < 0 || index >= count) {
+    throw new RangeError('connector fan index must identify an expanded incident');
+  }
   const angle = index * 2 * Math.PI / count;
-  const radius = Math.min(96, Math.max(35, count * 7));
+  const radius = Math.min(MAX_FAN_OUT_RADIUS_PX, Math.max(35, count * 7));
   return { x:center.x + Math.cos(angle) * radius, y:center.y + Math.sin(angle) * radius };
+}
+
+export function connectorFan(group, center) {
+  if (!canExpandCluster(group)) {
+    throw new RangeError(`connector fan requires 2-${MAX_EXPANDED_CLUSTER_SIZE} incidents`);
+  }
+  if (!Number.isFinite(center?.x) || !Number.isFinite(center?.y)) {
+    throw new TypeError('connector fan requires a finite cluster center');
+  }
+  const fan = group.map((item, index) => ({ item, center, endpoint: spreadPoint(index, group.length, center) }));
+  if (fan.length > MAX_EXPANDED_CLUSTER_SIZE || fan.some(({endpoint}) =>
+    Math.hypot(endpoint.x - center.x, endpoint.y - center.y) > MAX_FAN_OUT_RADIUS_PX + Number.EPSILON * 16)) {
+    throw new RangeError('connector fan exceeded its hard rendering bounds');
+  }
+  return fan;
 }
 
 export function canExpandCluster(group, maximum = MAX_EXPANDED_CLUSTER_SIZE) {

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { MAX_EXPANDED_CLUSTER_SIZE, canExpandCluster, clusterPoints, focusGroup, spreadPoint } from '../src/map-clusters.js';
+import { MAX_EXPANDED_CLUSTER_SIZE, MAX_FAN_OUT_RADIUS_PX, connectorFan, canExpandCluster, clusterPoints, focusGroup, spreadPoint } from '../src/map-clusters.js';
 
 const app = readFileSync(new URL('../app.js', import.meta.url), 'utf8');
 const disruptions = readFileSync(new URL('../src/disruptions/ui.js', import.meta.url), 'utf8');
@@ -61,15 +61,30 @@ test('expanded clusters preserve incident identity and individual marker selecti
 
 test('cluster expansion is bounded and cannot produce city-spanning connector fans', () => {
   assert.equal(MAX_EXPANDED_CLUSTER_SIZE,12);
+  assert.equal(MAX_FAN_OUT_RADIUS_PX,96);
   assert.equal(canExpandCluster(new Array(12).fill(null)),true);
   assert.equal(canExpandCluster(new Array(13).fill(null)),false);
   assert.equal(canExpandCluster([null]),false);
-  const point=spreadPoint(50,106,{x:100,y:100});
-  assert.ok(Math.hypot(point.x-100,point.y-100)<=96.000001);
+  const group=Array.from({length:12},(_,index)=>item(String(index),[1,1]));
+  const fan=connectorFan(group,{x:100,y:100});
+  assert.equal(fan.length,12);
+  assert.ok(fan.every(({center,endpoint})=>Math.hypot(endpoint.x-center.x,endpoint.y-center.y)<=96.000001));
+  assert.throws(()=>connectorFan(new Array(13).fill(null),{x:100,y:100}),RangeError);
+  assert.throws(()=>spreadPoint(12,12,{x:100,y:100}),RangeError);
   assert.match(app,/new Set\(canExpandCluster\(focusedGroup\) \? focusedGroup\.map/);
   assert.match(app,/largeClusterSelectionChanged[\s\S]*?clusterChanged \|\| largeClusterSelectionChanged/);
   assert.match(app,/focusedCallId: group\.some/);
   assert.match(app,/selectedItem && !canExpandCluster\(group\)[\s\S]*?addMarker\(selectedItem, selectedItem\.coordinates/);
+  assert.match(app,/const fan = connectorFan\(group, pixel\)/);
+  assert.match(app,/L\.polyline\(\[center,position\]/);
+  assert.doesNotMatch(app,/L\.polyline\(\[item\.coordinates,position\]/);
+});
+
+test('connector cleanup is coupled to every state transition that can invalidate a fan', () => {
+  assert.match(app,/view === 'calls' && expandedCluster\.size[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?renderMapMarkers\(\)/);
+  assert.match(app,/function clearIncidentForTtc[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?renderMapMarkers\(\)/);
+  assert.match(app,/focusedCallId = reconcileIncidentSelection[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?render\(map\)/);
+  assert.match(app,/dispatchMap\.on\("zoomend", \(\) => \{[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?scheduleMapMarkerRender\(\)/);
 });
 
 test('incident clustering excludes road closures, user location, and unrelated overlays', () => {
