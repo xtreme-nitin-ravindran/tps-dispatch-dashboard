@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T08:55:38.695Z",
+  "fetchedAt": "2026-09-30T08:59:37.791Z",
   "sourceUpdatedAt": "2026-09-30T08:55:01.000Z",
   "incidents": [
     {
@@ -18,7 +18,7 @@
       "isOngoing": true,
       "vehicles": [],
       "firstSeenAt": "2026-09-30T08:55:38.695Z",
-      "lastSeenAt": "2026-09-30T08:55:38.695Z",
+      "lastSeenAt": "2026-09-30T08:59:37.791Z",
       "geography": {
         "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
         "approximate": true,
@@ -44,7 +44,7 @@
       "isOngoing": true,
       "vehicles": [],
       "firstSeenAt": "2026-09-30T08:55:38.695Z",
-      "lastSeenAt": "2026-09-30T08:55:38.695Z",
+      "lastSeenAt": "2026-09-30T08:59:37.791Z",
       "geography": {
         "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
         "approximate": true,
@@ -78,7 +78,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T08:51:51.175Z",
-      "lastSeenAt": "2026-09-30T08:55:38.695Z",
+      "lastSeenAt": "2026-09-30T08:59:37.791Z",
       "geography": {
         "text": "Approximate area: (M6M) York (Del Ray / Keelsdale / Mount Dennis / Silverthorne)",
         "approximate": true,
@@ -112,7 +112,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T08:51:51.175Z",
-      "lastSeenAt": "2026-09-30T08:55:38.695Z",
+      "lastSeenAt": "2026-09-30T08:59:37.791Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -208498,58 +208498,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-23T09:39:22.035Z"
       }
-    },
-    {
-      "id": "TPS-398726e480db33d7cd990ac8",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISORDERLIES",
-      "callTypeCode": "DIS",
-      "timestamp": "2026-09-23T08:59:26.000Z",
-      "location": "ST LUKE LANE - ST VINCENT LANE",
-      "division": "Division 52",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "ST LUKE LANE - ST VINCENT LANE",
-        "coordinates": [
-          43.66213090123467,
-          -79.38340674668358
-        ],
-        "division": "Division 52",
-        "approximate": true
-      }
-    },
-    {
-      "id": "TPS-9a4218da820affb6f121f248",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "ARREST",
-      "callTypeCode": "ARR",
-      "timestamp": "2026-09-23T08:56:35.000Z",
-      "location": "CHURCHILL AVE - ST ANNES RD",
-      "division": "Division 14",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "CHURCHILL AVE - ST ANNES RD",
-        "coordinates": [
-          43.65144329676334,
-          -79.42554102481836
-        ],
-        "division": "Division 14",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T08:55:38.695Z",
+      "fetchedAt": "2026-09-30T08:59:37.791Z",
       "sourceUpdatedAt": "2026-09-30T08:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T08:55:38.695Z",
+      "fetchedAt": "2026-09-30T08:59:37.791Z",
       "status": "ok"
     }
   },
@@ -362941,8 +362899,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-30T08:53:48.387Z",
-      "fetchedAt": "2026-09-30T08:53:48.387Z"
+      "checkedAt": "2026-09-30T08:59:37.791Z",
+      "fetchedAt": "2026-09-30T08:59:37.791Z"
     },
     "transit": {
       "items": [
@@ -364699,6 +364657,66 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
+          "id": "77183",
+          "title": "505 Dundas: Detour westbound via Spadina Ave, College St and Bathurst St while we respond to a medical emergency.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "505"
+          ],
+          "stopIds": [
+            "2190",
+            "2157",
+            "2141",
+            "15355"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "505",
+              "stopId": "2190",
+              "coordinates": [
+                43.653064,
+                -79.397708
+              ],
+              "name": "Dundas St West at Spadina Ave"
+            },
+            {
+              "routeId": "505",
+              "stopId": "2157",
+              "coordinates": [
+                43.652113,
+                -79.402165
+              ],
+              "name": "Dundas St West at Denison Ave"
+            },
+            {
+              "routeId": "505",
+              "stopId": "2141",
+              "coordinates": [
+                43.652424,
+                -79.405874
+              ],
+              "name": "Dundas St West at Bathurst St - Toronto Western Hospital"
+            },
+            {
+              "routeId": "505",
+              "stopId": "15355",
+              "coordinates": [
+                43.651375,
+                -79.410818
+              ],
+              "name": "Dundas St West at Manning Ave"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790758583000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
           "id": "200",
           "title": "– Long Branch Loop Streetcar Track Renewal Work",
           "description": "With the start of the TTC construction at Long Branch Loop service will be adjusted on the following routes: \n \n501 Queen: 501A Queen streetcar will be extended to operate in the late evening period between Neville Park Loop and Humber Loop. Streetcars will continue to arrive every 10 minutes. \n \nService on the 501C Queen will be suspended during this construction period. \n \n301 Queen: Overnight service on the 301 Queen streetcar will be shortened to operate between Neville Park Loop and Humber Loop. \n \n301L Queen bus replacement service will be introduced between Long Branch Loop and Dufferin Gate Loop via The Queensway, Park Lawn Road and Lake Shore Boulevard West. Buses will arrive every 30 minutes. \n \n507 Long Branch: Service on the 507 Long Branch streetcar will be suspended and replaced by 507 Long Branch bus replacement service. \n \n507 Long Branch bus replacement service will operate between Humber Loop and Long Branch Loop via Lake Shore Boulevard West, Park Lawn Road and The Queensway. \n \nBuses will arrive every 10 minutes and be extended into the late evening period to replace suspended 501C Queen streetcar service. \n \n507M Long Branch bus replacement shuttle service will begin operating between Humber Loop and Humber Bay Shores (Marine Parade Drive and Silver Moon Drive) via The Queensway, Park Lawn Road, Lake Shore Boulevard West and Marine Parade Drive.\n \nBuses will arrive 15 minutes during the weekday peak periods and between 20 and 30 minutes in off peak periods. \n \nService on the 508 Lake Shore streetcar will be suspended for the summer.",
@@ -366148,16 +366166,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-30T08:53:48.000Z",
+      "sourceUpdatedAt": "2026-09-30T08:59:38.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-30T08:53:48.387Z",
-      "fetchedAt": "2026-09-30T08:53:48.387Z"
+      "checkedAt": "2026-09-30T08:59:37.791Z",
+      "fetchedAt": "2026-09-30T08:59:37.791Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T08:55:30.000Z",
+    "sourceUpdatedAt": "2026-09-30T08:59:29.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -366166,14 +366184,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T08:55:38.695Z",
-    "checkedAt": "2026-09-30T08:55:38.695Z",
+    "fetchedAt": "2026-09-30T08:59:37.791Z",
+    "checkedAt": "2026-09-30T08:59:37.791Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T08:55:38.695Z",
-      "checkedAt": "2026-09-30T08:55:38.695Z",
+      "fetchedAt": "2026-09-30T08:59:37.791Z",
+      "checkedAt": "2026-09-30T08:59:37.791Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
