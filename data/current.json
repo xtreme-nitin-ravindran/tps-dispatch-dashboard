@@ -3,9 +3,153 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T13:10:09.417Z",
-  "sourceUpdatedAt": "2026-09-30T13:05:01.000Z",
+  "fetchedAt": "2026-09-30T13:12:04.280Z",
+  "sourceUpdatedAt": "2026-09-30T13:10:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-3b50a7509aa2c5f3ebd7d731",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-30T13:03:51.000Z",
+      "location": "TAYLOR CREEK TRL - EASTDALE AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "TAYLOR CREEK TRL - EASTDALE AVE",
+        "coordinates": [
+          43.69561141270135,
+          -79.30116885431066
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T13:12:04.280Z"
+    },
+    {
+      "id": "F26155154",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4Y",
+      "division": "314",
+      "timestamp": "2026-09-30T13:02:34.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "312"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-30T13:12:04.280Z",
+      "lastSeenAt": "2026-09-30T13:12:04.280Z",
+      "geography": {
+        "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
+        "approximate": true,
+        "coordinates": [
+          43.6656,
+          -79.383
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-876bbb488bedc58709a55ef2",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-30T13:02:13.000Z",
+      "location": "TRENT AVE - KELVIN AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "TRENT AVE - KELVIN AVE",
+        "coordinates": [
+          43.68947012390586,
+          -79.29606255566777
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T13:12:04.280Z"
+    },
+    {
+      "id": "TPS-229df483792893963bfcbe3d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-30T13:01:23.000Z",
+      "location": "DWIGHT AVE - LN E SIXTH N BIRMINGHAM",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DWIGHT AVE - LN E SIXTH N BIRMINGHAM",
+        "coordinates": [
+          43.60677464108313,
+          -79.50649585599767
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T13:12:04.280Z"
+    },
+    {
+      "id": "TPS-b674210479fcfcd8e0f00556",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "NATURAL GAS LEAK",
+      "callTypeCode": "GASLE",
+      "timestamp": "2026-09-30T13:01:11.000Z",
+      "location": "JAMES ST - LAKE SHORE BLVD W",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "JAMES ST - LAKE SHORE BLVD W",
+        "coordinates": [
+          43.589294258760376,
+          -79.54312967474621
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T13:12:04.280Z"
+    },
+    {
+      "id": "TPS-f21d3ea88689c9e3ae3f6075",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-30T12:58:32.000Z",
+      "location": "LN N PINE GLEN E PINE CRES - BALSAM AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN N PINE GLEN E PINE CRES - BALSAM AVE",
+        "coordinates": [
+          43.67488363687576,
+          -79.29321454991906
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T13:12:04.280Z"
+    },
     {
       "id": "F26155153",
       "source": "TFS",
@@ -15,7 +159,7 @@
       "division": "113",
       "timestamp": "2026-09-30T12:56:11.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -38,6 +182,50 @@
       }
     },
     {
+      "id": "TPS-993f07cc65767ee8c6f76dd0",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-30T12:52:58.000Z",
+      "location": "MELBOURNE AVE - COWAN AVE",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MELBOURNE AVE - COWAN AVE",
+        "coordinates": [
+          43.63967428614775,
+          -79.43243682251976
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T13:12:04.280Z"
+    },
+    {
+      "id": "TPS-06dbef0e767780fd37299e93",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-30T12:47:57.000Z",
+      "location": "MELBOURNE AVE - COWAN AVE",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MELBOURNE AVE - COWAN AVE",
+        "coordinates": [
+          43.63967428614775,
+          -79.43243682251976
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T13:12:04.280Z"
+    },
+    {
       "id": "F26155152",
       "source": "TFS",
       "eventType": "fire",
@@ -46,7 +234,7 @@
       "division": "313",
       "timestamp": "2026-09-30T12:47:29.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Squad Unit",
@@ -107,6 +295,28 @@
       }
     },
     {
+      "id": "TPS-5d206bb18d515876dc7d5a3c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-30T12:46:59.000Z",
+      "location": "GARDINER XWY W - THE EAST MALL",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GARDINER XWY W - THE EAST MALL",
+        "coordinates": [
+          43.6146342038063,
+          -79.54521068432427
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T13:12:04.280Z"
+    },
+    {
       "id": "F26155151",
       "source": "TFS",
       "eventType": "fire",
@@ -126,7 +336,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T12:56:54.297Z",
-      "lastSeenAt": "2026-09-30T13:10:09.417Z",
+      "lastSeenAt": "2026-09-30T13:12:04.280Z",
       "geography": {
         "text": "Pine Crescent between Lane North Pine Glen East Pine Crescent & Balsam Avenue",
         "approximate": false,
@@ -171,7 +381,7 @@
       "division": "334",
       "timestamp": "2026-09-30T12:45:32.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -216,7 +426,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T12:51:06.887Z",
-      "lastSeenAt": "2026-09-30T13:10:09.417Z",
+      "lastSeenAt": "2026-09-30T13:12:04.280Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -285,7 +495,7 @@
       ],
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-30T12:45:33.900Z",
-      "lastSeenAt": "2026-09-30T13:10:09.417Z",
+      "lastSeenAt": "2026-09-30T13:12:04.280Z",
       "geography": {
         "text": "Forty First Street between James Street & Lake Shore Boulevard West",
         "approximate": false,
@@ -341,7 +551,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T12:45:33.900Z",
-      "lastSeenAt": "2026-09-30T13:10:09.417Z",
+      "lastSeenAt": "2026-09-30T13:12:04.280Z",
       "geography": {
         "text": "Approximate area: (M2N) Willowdale South",
         "approximate": true,
@@ -528,7 +738,7 @@
       "division": "413",
       "timestamp": "2026-09-30T12:29:38.000Z",
       "alarmLevel": 1,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -639,7 +849,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T12:32:26.190Z",
       "lastMeaningfulUpdateAt": "2026-09-30T12:36:04.064Z",
-      "lastSeenAt": "2026-09-30T13:10:09.417Z",
+      "lastSeenAt": "2026-09-30T13:12:04.280Z",
       "geography": {
         "text": "Riverwood Parkway & Glenaden Avenue East",
         "approximate": false,
@@ -209471,37 +209681,16 @@
         "division": "Division 14",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-c8cf8d1820682f35b14b44b0",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "ASSAULT",
-      "callTypeCode": "ASS",
-      "timestamp": "2026-09-23T13:11:59.000Z",
-      "location": "ALDERBRAE AVE - HALLMARK AVE",
-      "division": "Division 22",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "ALDERBRAE AVE - HALLMARK AVE",
-        "coordinates": [
-          43.6090918013429,
-          -79.54464988592984
-        ],
-        "division": "Division 22",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T13:10:09.417Z",
-      "sourceUpdatedAt": "2026-09-30T13:05:01.000Z",
+      "fetchedAt": "2026-09-30T13:12:04.280Z",
+      "sourceUpdatedAt": "2026-09-30T13:10:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T13:10:09.417Z",
+      "fetchedAt": "2026-09-30T13:12:04.280Z",
       "status": "ok"
     }
   },
@@ -369074,7 +369263,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T13:09:27.000Z",
+    "sourceUpdatedAt": "2026-09-30T13:11:47.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -369083,14 +369272,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T13:10:09.417Z",
-    "checkedAt": "2026-09-30T13:10:09.417Z",
+    "fetchedAt": "2026-09-30T13:12:04.280Z",
+    "checkedAt": "2026-09-30T13:12:04.280Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T13:10:09.417Z",
-      "checkedAt": "2026-09-30T13:10:09.417Z",
+      "fetchedAt": "2026-09-30T13:12:04.280Z",
+      "checkedAt": "2026-09-30T13:12:04.280Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -369114,6 +369303,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4Y": {
+      "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
+      "approximate": true,
+      "coordinates": [
+        43.6656,
+        -79.383
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "A0K": {
       "text": "Approximate location on A0k",
       "approximate": true,
@@ -369803,18 +370004,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-30T12:39:46.260Z"
-    },
-    "M4Y": {
-      "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
-      "approximate": true,
-      "coordinates": [
-        43.6656,
-        -79.383
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "GEORGE ST, TT / DUNDAS ST E / LN N DUNDAS E GEORGE": {
       "text": "George Street between Dundas Street East & Lane North Dundas East George",
