@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T02:25:18.023Z",
-  "sourceUpdatedAt": "2026-09-30T02:20:02.000Z",
+  "fetchedAt": "2026-09-30T02:27:07.220Z",
+  "sourceUpdatedAt": "2026-09-30T02:25:01.000Z",
   "incidents": [
+    {
+      "id": "F26154942",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "HILLCREST AVE, NY / YONGE ST / DORIS AVE",
+      "division": "114",
+      "timestamp": "2026-09-30T02:18:55.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T02:27:07.220Z",
+      "lastSeenAt": "2026-09-30T02:27:07.220Z",
+      "geography": {
+        "text": "Hillcrest Avenue between Yonge Street & Doris Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.767740599999996,
+          -79.41126145
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-20T22:50:31.785Z"
+      }
+    },
+    {
+      "id": "F26154941",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9W",
+      "division": "412",
+      "timestamp": "2026-09-30T02:17:25.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T02:27:07.220Z",
+      "lastSeenAt": "2026-09-30T02:27:07.220Z",
+      "geography": {
+        "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
+        "approximate": true,
+        "coordinates": [
+          43.7144,
+          -79.5909
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26154939",
       "source": "TFS",
@@ -16,9 +68,24 @@
       "timestamp": "2026-09-30T02:14:09.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "245"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "243"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T02:21:29.589Z",
-      "lastSeenAt": "2026-09-30T02:25:18.023Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T02:27:07.220Z",
+      "lastSeenAt": "2026-09-30T02:27:07.220Z",
       "geography": {
         "text": "Bay Mills Boulevard between Eaglestone Road & Birchmount Road",
         "approximate": false,
@@ -41,7 +108,7 @@
       "division": "112",
       "timestamp": "2026-09-30T02:07:26.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -88,7 +155,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T02:11:56.841Z",
       "lastMeaningfulUpdateAt": "2026-09-30T02:15:50.126Z",
-      "lastSeenAt": "2026-09-30T02:25:18.023Z",
+      "lastSeenAt": "2026-09-30T02:27:07.220Z",
       "geography": {
         "text": "Approximate area: (M4G) East York (Leaside)",
         "approximate": true,
@@ -123,7 +190,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T02:06:10.388Z",
       "lastMeaningfulUpdateAt": "2026-09-30T02:11:56.841Z",
-      "lastSeenAt": "2026-09-30T02:25:18.023Z",
+      "lastSeenAt": "2026-09-30T02:27:07.220Z",
       "geography": {
         "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
         "approximate": true,
@@ -294,7 +361,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T02:02:28.498Z",
       "lastMeaningfulUpdateAt": "2026-09-30T02:06:10.388Z",
-      "lastSeenAt": "2026-09-30T02:25:18.023Z",
+      "lastSeenAt": "2026-09-30T02:27:07.220Z",
       "geography": {
         "text": "King Street between Waterloo Terrace & Bathurst Street",
         "approximate": false,
@@ -361,7 +428,7 @@
       "division": "245",
       "timestamp": "2026-09-30T01:50:07.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -776,7 +843,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T01:47:27.973Z",
       "lastMeaningfulUpdateAt": "2026-09-30T01:51:19.616Z",
-      "lastSeenAt": "2026-09-30T02:25:18.023Z",
+      "lastSeenAt": "2026-09-30T02:27:07.220Z",
       "geography": {
         "text": "Jackman Avenue between Butternut Street & Browning Avenue",
         "approximate": false,
@@ -868,7 +935,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T01:47:27.973Z",
       "lastMeaningfulUpdateAt": "2026-09-30T01:51:19.616Z",
-      "lastSeenAt": "2026-09-30T02:25:18.023Z",
+      "lastSeenAt": "2026-09-30T02:27:07.220Z",
       "geography": {
         "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
         "approximate": true,
@@ -1942,7 +2009,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T00:56:16.002Z",
-      "lastSeenAt": "2026-09-30T02:25:18.023Z",
+      "lastSeenAt": "2026-09-30T02:27:07.220Z",
       "geography": {
         "text": "Grosvenor Street between Street Luke Lane & Street Vincent Lane",
         "approximate": false,
@@ -205823,49 +205890,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26150694",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M5A",
-      "division": "333",
-      "timestamp": "2026-09-23T02:27:04.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "333"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-23T02:35:30.288Z",
-      "lastSeenAt": "2026-09-23T02:53:49.883Z",
-      "geography": {
-        "text": "Approximate area: (M5A) Toronto",
-        "approximate": true,
-        "coordinates": [
-          43.6555,
-          -79.3626
-        ],
-        "division": "Division 51",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T02:25:18.023Z",
-      "sourceUpdatedAt": "2026-09-30T02:20:02.000Z",
+      "fetchedAt": "2026-09-30T02:27:07.220Z",
+      "sourceUpdatedAt": "2026-09-30T02:25:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T02:25:18.023Z",
+      "fetchedAt": "2026-09-30T02:27:07.220Z",
       "status": "ok"
     }
   },
@@ -363878,7 +363912,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T02:25:09.000Z",
+    "sourceUpdatedAt": "2026-09-30T02:26:39.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -363887,14 +363921,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T02:25:18.023Z",
-    "checkedAt": "2026-09-30T02:25:18.023Z",
+    "fetchedAt": "2026-09-30T02:27:07.220Z",
+    "checkedAt": "2026-09-30T02:27:07.220Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T02:25:18.023Z",
-      "checkedAt": "2026-09-30T02:25:18.023Z",
+      "fetchedAt": "2026-09-30T02:27:07.220Z",
+      "checkedAt": "2026-09-30T02:27:07.220Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -363918,6 +363952,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "HILLCREST AVE, NY / YONGE ST / DORIS AVE": {
+      "text": "Hillcrest Avenue between Yonge Street & Doris Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.767740599999996,
+        -79.41126145
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-20T22:50:31.785Z"
+    },
+    "M9W": {
+      "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
+      "approximate": true,
+      "coordinates": [
+        43.7144,
+        -79.5909
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "BAY MILLS BLVD, SC / EAGLESTONE RD / BIRCHMOUNT RD": {
       "text": "Bay Mills Boulevard between Eaglestone Road & Birchmount Road",
       "approximate": false,
@@ -365555,18 +365613,6 @@
         -79.386
       ],
       "division": "Division 52",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M9W": {
-      "text": "Approximate area: (M9W) Etobicoke Northwest (Clairville / Humberwood / Woodbine Downs / West Humber / Kipling Heights / Rexdale / Elms / Tandridge / Old Rexdale)",
-      "approximate": true,
-      "coordinates": [
-        43.7144,
-        -79.5909
-      ],
-      "division": "Division 23",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -367868,18 +367914,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-28T17:16:25.451Z"
-    },
-    "HILLCREST AVE, NY / YONGE ST / DORIS AVE": {
-      "text": "Hillcrest Avenue between Yonge Street & Doris Avenue",
-      "approximate": false,
-      "coordinates": [
-        43.767740599999996,
-        -79.41126145
-      ],
-      "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-20T22:50:31.785Z"
     },
     "BROADWAY AVE, TT / YONGE ST / REDPATH AVE": {
       "text": "Broadway Avenue between Yonge Street & Redpath Avenue",
