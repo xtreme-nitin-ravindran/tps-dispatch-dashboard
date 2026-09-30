@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T04:30:20.451Z",
-  "sourceUpdatedAt": "2026-09-30T04:25:02.000Z",
+  "fetchedAt": "2026-09-30T04:32:12.825Z",
+  "sourceUpdatedAt": "2026-09-30T04:30:02.000Z",
   "incidents": [
+    {
+      "id": "F26155010",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1B",
+      "division": "213",
+      "timestamp": "2026-09-30T04:24:45.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T04:32:12.825Z",
+      "lastSeenAt": "2026-09-30T04:32:12.825Z",
+      "geography": {
+        "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
+        "approximate": true,
+        "coordinates": [
+          43.8113,
+          -79.193
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26155009",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4M",
+      "division": "324",
+      "timestamp": "2026-09-30T04:24:29.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T04:32:12.825Z",
+      "lastSeenAt": "2026-09-30T04:32:12.825Z",
+      "geography": {
+        "text": "Approximate area: (M4M) East Toronto (Studio District)",
+        "approximate": true,
+        "coordinates": [
+          43.6561,
+          -79.3406
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26155008",
       "source": "TFS",
@@ -16,9 +68,24 @@
       "timestamp": "2026-09-30T04:19:58.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "341"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "341"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T04:26:41.712Z",
-      "lastSeenAt": "2026-09-30T04:30:20.451Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T04:32:12.825Z",
+      "lastSeenAt": "2026-09-30T04:32:12.825Z",
       "geography": {
         "text": "Dufferin Street between Hunter Avenue & Lane South Eglinton West Dufferin",
         "approximate": false,
@@ -33,6 +100,28 @@
       }
     },
     {
+      "id": "TPS-86d0cc6b2a64a88f953f64b7",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-30T04:19:07.000Z",
+      "location": "CULFORD RD - DE MARCO BLVD",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CULFORD RD - DE MARCO BLVD",
+        "coordinates": [
+          43.70637125280654,
+          -79.48765434554822
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T04:32:12.825Z"
+    },
+    {
       "id": "F26155007",
       "source": "TFS",
       "eventType": "fire",
@@ -42,9 +131,24 @@
       "timestamp": "2026-09-30T04:15:42.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "426"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "425"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T04:26:41.712Z",
-      "lastSeenAt": "2026-09-30T04:30:20.451Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T04:32:12.825Z",
+      "lastSeenAt": "2026-09-30T04:32:12.825Z",
       "geography": {
         "text": "Approximate location near Windermere Avenue & The Queensway",
         "approximate": true,
@@ -57,6 +161,94 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-30T04:26:41.712Z"
       }
+    },
+    {
+      "id": "TPS-2c56fb4860aeaa59af083b5c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-30T04:14:38.000Z",
+      "location": "HARNESS RD - 27 HWY N",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HARNESS RD - 27 HWY N",
+        "coordinates": [
+          43.72051007309702,
+          -79.5944397874052
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T04:32:12.825Z"
+    },
+    {
+      "id": "TPS-c82421a95f92f964e20d7007",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT JUST OCCURRED",
+      "callTypeCode": "THEJU",
+      "timestamp": "2026-09-30T04:14:09.000Z",
+      "location": "SARATOGA DR - MCCOWAN RD",
+      "division": "Division 43",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SARATOGA DR - MCCOWAN RD",
+        "coordinates": [
+          43.7721101741036,
+          -79.25144716627295
+        ],
+        "division": "Division 43",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T04:32:12.825Z"
+    },
+    {
+      "id": "TPS-ce88e512570bc24025534e31",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-30T04:13:47.000Z",
+      "location": " - LAMB AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": " - LAMB AVE",
+        "coordinates": [
+          43.678623895917546,
+          -79.3279016223694
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T04:32:12.825Z"
+    },
+    {
+      "id": "TPS-bf7b353452d20b734de1f6a6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "NOISE COMPLAINT",
+      "callTypeCode": "NOICO",
+      "timestamp": "2026-09-30T04:12:47.000Z",
+      "location": "FREELAND ST - LAKE SHORE BLVD E",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "FREELAND ST - LAKE SHORE BLVD E",
+        "coordinates": [
+          43.64458158368521,
+          -79.3740555478502
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T04:32:12.825Z"
     },
     {
       "id": "F26155006",
@@ -79,7 +271,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T04:16:51.365Z",
       "lastMeaningfulUpdateAt": "2026-09-30T04:20:41.902Z",
-      "lastSeenAt": "2026-09-30T04:30:20.451Z",
+      "lastSeenAt": "2026-09-30T04:32:12.825Z",
       "geography": {
         "text": "Approximate area: (M9P) Etobicoke (Westmount)",
         "approximate": true,
@@ -162,7 +354,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T04:16:51.365Z",
       "lastMeaningfulUpdateAt": "2026-09-30T04:20:41.902Z",
-      "lastSeenAt": "2026-09-30T04:30:20.451Z",
+      "lastSeenAt": "2026-09-30T04:32:12.825Z",
       "geography": {
         "text": "Approximate area: (M4A) North York (Sweeney Park / Wigmore Park)",
         "approximate": true,
@@ -185,7 +377,7 @@
       "division": "325",
       "timestamp": "2026-09-30T04:06:46.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Ladder Truck",
@@ -911,7 +1103,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T03:50:30.456Z",
       "lastMeaningfulUpdateAt": "2026-09-30T03:56:10.842Z",
-      "lastSeenAt": "2026-09-30T04:30:20.451Z",
+      "lastSeenAt": "2026-09-30T04:32:12.825Z",
       "geography": {
         "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
         "approximate": true,
@@ -1004,7 +1196,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T03:46:29.129Z",
       "lastMeaningfulUpdateAt": "2026-09-30T03:50:30.456Z",
-      "lastSeenAt": "2026-09-30T04:30:20.451Z",
+      "lastSeenAt": "2026-09-30T04:32:12.825Z",
       "geography": {
         "text": "Avonhurst Road between Dundas Street West & Burnhamthorpe Crescent",
         "approximate": false,
@@ -11846,7 +12038,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T03:30:28.124Z"
+        "checkedAt": "2026-09-30T04:32:12.825Z"
       }
     },
     {
@@ -206928,102 +207120,16 @@
         "division": "Division 51",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-29e0dca59fc749df503b6721",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "ATTEMPT BREAK & ENTER",
-      "callTypeCode": "ATTBR",
-      "timestamp": "2026-09-23T04:31:40.000Z",
-      "location": "WW E MCCOWAN S PERIVALE - DANFORTH RD",
-      "division": "Division 43",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "WW E MCCOWAN S PERIVALE - DANFORTH RD",
-        "coordinates": [
-          43.7534247794989,
-          -79.24294668005041
-        ],
-        "division": "Division 43",
-        "approximate": true
-      }
-    },
-    {
-      "id": "F26150733",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Fire - Residential",
-      "location": "EGLINTON AVE, TT / ORIOLE PKWY / HIGHBOURNE RD",
-      "division": "135",
-      "timestamp": "2026-09-23T04:31:35.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Aerial Truck",
-          "numbers": [
-            "135"
-          ]
-        },
-        {
-          "type": "Command Unit",
-          "numbers": [
-            "13",
-            "34"
-          ]
-        },
-        {
-          "type": "Ladder Truck",
-          "numbers": [
-            "421"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "131",
-            "311"
-          ]
-        },
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "341"
-          ]
-        },
-        {
-          "type": "Squad Unit",
-          "numbers": [
-            "331"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-23T04:42:07.533Z",
-      "lastSeenAt": "2026-09-23T04:55:29.100Z",
-      "geography": {
-        "text": "Approximate location near Eglinton Avenue & Highbourne Road",
-        "approximate": true,
-        "coordinates": [
-          43.7048225,
-          -79.4073668
-        ],
-        "division": "Unknown",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-23T04:42:07.533Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T04:30:20.451Z",
-      "sourceUpdatedAt": "2026-09-30T04:25:02.000Z",
+      "fetchedAt": "2026-09-30T04:32:12.825Z",
+      "sourceUpdatedAt": "2026-09-30T04:30:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T04:30:20.451Z",
+      "fetchedAt": "2026-09-30T04:32:12.825Z",
       "status": "ok"
     }
   },
@@ -364878,7 +364984,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T04:30:17.000Z",
+    "sourceUpdatedAt": "2026-09-30T04:31:38.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -364887,14 +364993,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T04:30:20.451Z",
-    "checkedAt": "2026-09-30T04:30:20.451Z",
+    "fetchedAt": "2026-09-30T04:32:12.825Z",
+    "checkedAt": "2026-09-30T04:32:12.825Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T04:30:20.451Z",
-      "checkedAt": "2026-09-30T04:30:20.451Z",
+      "fetchedAt": "2026-09-30T04:32:12.825Z",
+      "checkedAt": "2026-09-30T04:32:12.825Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -364918,6 +365024,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1B": {
+      "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
+      "approximate": true,
+      "coordinates": [
+        43.8113,
+        -79.193
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4M": {
+      "text": "Approximate area: (M4M) East Toronto (Studio District)",
+      "approximate": true,
+      "coordinates": [
+        43.6561,
+        -79.3406
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "DUFFERIN ST, YK / HUNTER AVE / LN S EGLINTON W DUFFERIN": {
       "text": "Dufferin Street between Hunter Avenue & Lane South Eglinton West Dufferin",
       "approximate": false,
@@ -365229,18 +365359,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-20T04:26:30.207Z"
-    },
-    "M1B": {
-      "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
-      "approximate": true,
-      "coordinates": [
-        43.8113,
-        -79.193
-      ],
-      "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "LAWRENCE AVE, NY / CULFORD RD / DE MARCO BLVD": {
       "text": "Lawrence Avenue between Culford Road & De Marco Boulevard",
@@ -365932,18 +366050,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-29T23:31:07.928Z"
     },
-    "M4M": {
-      "text": "Approximate area: (M4M) East Toronto (Studio District)",
-      "approximate": true,
-      "coordinates": [
-        43.6561,
-        -79.3406
-      ],
-      "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
     "M5J": {
       "text": "Approximate area: (M5J) Downtown Toronto (Harbourfront East / Union Station / Toronto Island)",
       "approximate": true,
@@ -366347,7 +366453,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T03:30:28.124Z"
+      "checkedAt": "2026-09-30T04:32:12.825Z"
     },
     "RICHMOND ST, TT / AUGUSTA AVE / WW W AUGUSTA N RICHMOND": {
       "text": "Richmond Street between Augusta Avenue & Ww West Augusta North Richmond",
@@ -377736,18 +377842,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-23T07:21:25.955Z"
-    },
-    "EGLINTON AVE, TT / ORIOLE PKWY / HIGHBOURNE RD": {
-      "text": "Approximate location near Eglinton Avenue & Highbourne Road",
-      "approximate": true,
-      "coordinates": [
-        43.7048225,
-        -79.4073668
-      ],
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-23T04:42:07.533Z"
     }
   }
 }
