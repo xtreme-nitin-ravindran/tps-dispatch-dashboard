@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T07:54:08.840Z",
-  "sourceUpdatedAt": "2026-09-30T07:50:02.000Z",
+  "fetchedAt": "2026-09-30T07:55:57.034Z",
+  "sourceUpdatedAt": "2026-09-30T07:55:01.000Z",
   "incidents": [
     {
       "id": "TPS-8a9f098abea9755d1845b62d",
@@ -54,35 +54,67 @@
       "id": "F26155068",
       "source": "TFS",
       "eventType": "fire",
-      "description": "Fire - Grass/Rubbish",
-      "location": "MORNINGVIEW TRL, SC / WHITEWAY CRT / OLD FINCH AVE",
+      "description": "Vehicle Fire",
+      "location": "OLD FINCH AVE / MORNINGVIEW TRL",
       "division": "212",
       "timestamp": "2026-09-30T07:37:54.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
       "vehicles": [
         {
+          "type": "Aerial Truck",
+          "numbers": [
+            "213"
+          ]
+        },
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "21",
+            "23"
+          ]
+        },
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "231"
+          ]
+        },
+        {
           "type": "Fire Truck",
           "numbers": [
             "213"
           ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "214",
+            "243"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "232"
+          ]
         }
       ],
-      "respondingUnitCount": 1,
+      "respondingUnitCount": 8,
       "firstSeenAt": "2026-09-30T07:45:59.059Z",
-      "lastMeaningfulUpdateAt": "2026-09-30T07:52:16.907Z",
-      "lastSeenAt": "2026-09-30T07:54:08.840Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T07:55:57.034Z",
+      "lastSeenAt": "2026-09-30T07:55:57.034Z",
       "geography": {
-        "text": "Morningview Trl between Whiteway Court & Old Finch Avenue",
+        "text": "Old Finch Avenue & Morningview Trl",
         "approximate": false,
         "coordinates": [
-          43.821245950000005,
-          -79.20161045
+          43.822071,
+          -79.2019483
         ],
         "division": "Division 42",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-30T07:45:59.059Z"
+        "checkedAt": "2026-09-30T07:55:57.034Z"
       }
     },
     {
@@ -112,7 +144,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T07:45:59.059Z",
       "lastMeaningfulUpdateAt": "2026-09-30T07:52:16.907Z",
-      "lastSeenAt": "2026-09-30T07:54:08.840Z",
+      "lastSeenAt": "2026-09-30T07:55:57.034Z",
       "geography": {
         "text": "Danforth Avenue between Barrington Avenue & Guest Avenue",
         "approximate": false,
@@ -412,7 +444,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T07:32:38.207Z",
-      "lastSeenAt": "2026-09-30T07:54:08.840Z",
+      "lastSeenAt": "2026-09-30T07:55:57.034Z",
       "geography": {
         "text": "Dundas Street between Jopling Avenue South & Aukland Road",
         "approximate": false,
@@ -589,7 +621,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T07:13:44.957Z",
-      "lastSeenAt": "2026-09-30T07:54:08.840Z",
+      "lastSeenAt": "2026-09-30T07:55:57.034Z",
       "geography": {
         "text": "King Street West & University Avenue",
         "approximate": false,
@@ -208050,71 +208082,16 @@
         "division": "Division 23",
         "approximate": true
       }
-    },
-    {
-      "id": "F26150771",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Fire - Residential",
-      "location": "SECORD AVE, EY / NEWMAN AVE / DAWES RD",
-      "division": "224",
-      "timestamp": "2026-09-23T07:55:22.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Command Unit",
-          "numbers": [
-            "22",
-            "32"
-          ]
-        },
-        {
-          "type": "Ladder Truck",
-          "numbers": [
-            "226",
-            "325"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "224",
-            "225",
-            "226"
-          ]
-        },
-        {
-          "type": "Squad Unit",
-          "numbers": [
-            "313"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-23T08:05:36.659Z",
-      "lastSeenAt": "2026-09-23T08:08:36.337Z",
-      "geography": {
-        "text": "Approximate location near Secord Avenue & Dawes Road",
-        "approximate": true,
-        "coordinates": [
-          43.6935421,
-          -79.2972281
-        ],
-        "division": "Unknown",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-23T08:05:36.659Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T07:54:08.840Z",
-      "sourceUpdatedAt": "2026-09-30T07:50:02.000Z",
+      "fetchedAt": "2026-09-30T07:55:57.034Z",
+      "sourceUpdatedAt": "2026-09-30T07:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T07:54:08.840Z",
+      "fetchedAt": "2026-09-30T07:55:57.034Z",
       "status": "ok"
     }
   },
@@ -362557,8 +362534,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-30T07:50:17.344Z",
-      "fetchedAt": "2026-09-30T07:50:17.344Z"
+      "checkedAt": "2026-09-30T07:55:57.034Z",
+      "fetchedAt": "2026-09-30T07:55:57.034Z"
     },
     "transit": {
       "items": [
@@ -365764,16 +365741,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-30T07:50:17.000Z",
+      "sourceUpdatedAt": "2026-09-30T07:55:57.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-30T07:50:17.344Z",
-      "fetchedAt": "2026-09-30T07:50:17.344Z"
+      "checkedAt": "2026-09-30T07:55:57.034Z",
+      "fetchedAt": "2026-09-30T07:55:57.034Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T07:53:49.000Z",
+    "sourceUpdatedAt": "2026-09-30T07:55:56.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -365782,14 +365759,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T07:54:08.840Z",
-    "checkedAt": "2026-09-30T07:54:08.840Z",
+    "fetchedAt": "2026-09-30T07:55:57.034Z",
+    "checkedAt": "2026-09-30T07:55:57.034Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T07:54:08.840Z",
-      "checkedAt": "2026-09-30T07:54:08.840Z",
+      "fetchedAt": "2026-09-30T07:55:57.034Z",
+      "checkedAt": "2026-09-30T07:55:57.034Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -365813,17 +365790,17 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
-    "MORNINGVIEW TRL, SC / WHITEWAY CRT / OLD FINCH AVE": {
-      "text": "Morningview Trl between Whiteway Court & Old Finch Avenue",
+    "OLD FINCH AVE / MORNINGVIEW TRL": {
+      "text": "Old Finch Avenue & Morningview Trl",
       "approximate": false,
       "coordinates": [
-        43.821245950000005,
-        -79.20161045
+        43.822071,
+        -79.2019483
       ],
       "division": "Division 42",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T07:45:59.059Z"
+      "checkedAt": "2026-09-30T07:55:57.034Z"
     },
     "DANFORTH AVE, TT / BARRINGTON AVE / GUEST AVE": {
       "text": "Danforth Avenue between Barrington Avenue & Guest Avenue",
@@ -378739,18 +378716,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-23T09:39:22.035Z"
-    },
-    "SECORD AVE, EY / NEWMAN AVE / DAWES RD": {
-      "text": "Approximate location near Secord Avenue & Dawes Road",
-      "approximate": true,
-      "coordinates": [
-        43.6935421,
-        -79.2972281
-      ],
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-23T08:05:36.659Z"
     }
   }
 }
