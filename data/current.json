@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T08:19:08.506Z",
-  "sourceUpdatedAt": "2026-09-30T08:15:02.000Z",
+  "fetchedAt": "2026-09-30T08:20:58.126Z",
+  "sourceUpdatedAt": "2026-09-30T08:20:01.000Z",
   "incidents": [
+    {
+      "id": "F26155073",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9N",
+      "division": "442",
+      "timestamp": "2026-09-30T08:13:41.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "442"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-30T08:20:58.126Z",
+      "lastSeenAt": "2026-09-30T08:20:58.126Z",
+      "geography": {
+        "text": "Approximate area: (M9N) Weston",
+        "approximate": true,
+        "coordinates": [
+          43.7068,
+          -79.517
+        ],
+        "division": "Division 12",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-ad666b1f6fced8b6a91fcec5",
       "source": "TPS",
@@ -48,7 +82,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T08:05:37.453Z",
-      "lastSeenAt": "2026-09-30T08:19:08.506Z",
+      "lastSeenAt": "2026-09-30T08:20:58.126Z",
       "geography": {
         "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
         "approximate": true,
@@ -93,7 +127,7 @@
       "division": "314",
       "timestamp": "2026-09-30T07:56:17.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -184,7 +218,7 @@
       "division": "421",
       "timestamp": "2026-09-30T07:50:33.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -307,7 +341,7 @@
       "respondingUnitCount": 8,
       "firstSeenAt": "2026-09-30T07:45:59.059Z",
       "lastMeaningfulUpdateAt": "2026-09-30T07:55:57.034Z",
-      "lastSeenAt": "2026-09-30T08:19:08.506Z",
+      "lastSeenAt": "2026-09-30T08:20:58.126Z",
       "geography": {
         "text": "Old Finch Avenue & Morningview Trl",
         "approximate": false,
@@ -348,7 +382,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T07:45:59.059Z",
       "lastMeaningfulUpdateAt": "2026-09-30T07:52:16.907Z",
-      "lastSeenAt": "2026-09-30T08:19:08.506Z",
+      "lastSeenAt": "2026-09-30T08:20:58.126Z",
       "geography": {
         "text": "Danforth Avenue between Barrington Avenue & Guest Avenue",
         "approximate": false,
@@ -648,7 +682,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T07:32:38.207Z",
-      "lastSeenAt": "2026-09-30T08:19:08.506Z",
+      "lastSeenAt": "2026-09-30T08:20:58.126Z",
       "geography": {
         "text": "Dundas Street between Jopling Avenue South & Aukland Road",
         "approximate": false,
@@ -825,7 +859,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T07:13:44.957Z",
-      "lastSeenAt": "2026-09-30T08:19:08.506Z",
+      "lastSeenAt": "2026-09-30T08:20:58.126Z",
       "geography": {
         "text": "King Street West & University Avenue",
         "approximate": false,
@@ -208194,12 +208228,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T08:19:08.506Z",
-      "sourceUpdatedAt": "2026-09-30T08:15:02.000Z",
+      "fetchedAt": "2026-09-30T08:20:58.126Z",
+      "sourceUpdatedAt": "2026-09-30T08:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T08:19:08.506Z",
+      "fetchedAt": "2026-09-30T08:20:58.126Z",
       "status": "ok"
     }
   },
@@ -365807,7 +365841,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T08:18:51.000Z",
+    "sourceUpdatedAt": "2026-09-30T08:20:30.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -365816,14 +365850,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T08:19:08.506Z",
-    "checkedAt": "2026-09-30T08:19:08.506Z",
+    "fetchedAt": "2026-09-30T08:20:58.126Z",
+    "checkedAt": "2026-09-30T08:20:58.126Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T08:19:08.506Z",
-      "checkedAt": "2026-09-30T08:19:08.506Z",
+      "fetchedAt": "2026-09-30T08:20:58.126Z",
+      "checkedAt": "2026-09-30T08:20:58.126Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -365847,6 +365881,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M9N": {
+      "text": "Approximate area: (M9N) Weston",
+      "approximate": true,
+      "coordinates": [
+        43.7068,
+        -79.517
+      ],
+      "division": "Division 12",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M6H": {
       "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
       "approximate": true,
@@ -366446,18 +366492,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-30T03:56:10.842Z"
-    },
-    "M9N": {
-      "text": "Approximate area: (M9N) Weston",
-      "approximate": true,
-      "coordinates": [
-        43.7068,
-        -79.517
-      ],
-      "division": "Division 12",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M6K": {
       "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
