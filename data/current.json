@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T08:28:42.163Z",
-  "sourceUpdatedAt": "2026-09-30T08:25:01.000Z",
+  "fetchedAt": "2026-09-30T08:30:40.030Z",
+  "sourceUpdatedAt": "2026-09-30T08:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26155076",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "GEORGE ST, TT / DUNDAS ST E / LN N DUNDAS E GEORGE",
+      "division": "325",
+      "timestamp": "2026-09-30T08:23:32.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T08:30:40.030Z",
+      "lastSeenAt": "2026-09-30T08:30:40.030Z",
+      "geography": {
+        "text": "George Street between Dundas Street East & Lane North Dundas East George",
+        "approximate": false,
+        "coordinates": [
+          43.657904200000004,
+          -79.37371005
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T08:30:40.030Z"
+      }
+    },
+    {
+      "id": "F26155075",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5V",
+      "division": "331",
+      "timestamp": "2026-09-30T08:23:09.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T08:30:40.030Z",
+      "lastSeenAt": "2026-09-30T08:30:40.030Z",
+      "geography": {
+        "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+        "approximate": true,
+        "coordinates": [
+          43.6404,
+          -79.3995
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26155074",
       "source": "TFS",
@@ -15,7 +67,7 @@
       "division": "445",
       "timestamp": "2026-09-30T08:20:07.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-30T08:26:48.091Z",
       "lastSeenAt": "2026-09-30T08:28:42.163Z",
@@ -52,7 +104,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T08:20:58.126Z",
-      "lastSeenAt": "2026-09-30T08:28:42.163Z",
+      "lastSeenAt": "2026-09-30T08:30:40.030Z",
       "geography": {
         "text": "Approximate area: (M9N) Weston",
         "approximate": true,
@@ -367,7 +419,7 @@
       "respondingUnitCount": 8,
       "firstSeenAt": "2026-09-30T07:45:59.059Z",
       "lastMeaningfulUpdateAt": "2026-09-30T07:55:57.034Z",
-      "lastSeenAt": "2026-09-30T08:28:42.163Z",
+      "lastSeenAt": "2026-09-30T08:30:40.030Z",
       "geography": {
         "text": "Old Finch Avenue & Morningview Trl",
         "approximate": false,
@@ -408,7 +460,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T07:45:59.059Z",
       "lastMeaningfulUpdateAt": "2026-09-30T07:52:16.907Z",
-      "lastSeenAt": "2026-09-30T08:28:42.163Z",
+      "lastSeenAt": "2026-09-30T08:30:40.030Z",
       "geography": {
         "text": "Danforth Avenue between Barrington Avenue & Guest Avenue",
         "approximate": false,
@@ -885,7 +937,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T07:13:44.957Z",
-      "lastSeenAt": "2026-09-30T08:28:42.163Z",
+      "lastSeenAt": "2026-09-30T08:30:40.030Z",
       "geography": {
         "text": "King Street West & University Avenue",
         "approximate": false,
@@ -208181,12 +208233,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T08:28:42.163Z",
-      "sourceUpdatedAt": "2026-09-30T08:25:01.000Z",
+      "fetchedAt": "2026-09-30T08:30:40.030Z",
+      "sourceUpdatedAt": "2026-09-30T08:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T08:28:42.163Z",
+      "fetchedAt": "2026-09-30T08:30:40.030Z",
       "status": "ok"
     }
   },
@@ -362578,8 +362630,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-30T08:24:40.002Z",
-      "fetchedAt": "2026-09-30T08:24:40.002Z"
+      "checkedAt": "2026-09-30T08:30:40.030Z",
+      "fetchedAt": "2026-09-30T08:30:40.030Z"
     },
     "transit": {
       "items": [
@@ -365785,16 +365837,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-30T08:24:40.000Z",
+      "sourceUpdatedAt": "2026-09-30T08:30:40.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-30T08:24:40.002Z",
-      "fetchedAt": "2026-09-30T08:24:40.002Z"
+      "checkedAt": "2026-09-30T08:30:40.030Z",
+      "fetchedAt": "2026-09-30T08:30:40.030Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T08:28:32.000Z",
+    "sourceUpdatedAt": "2026-09-30T08:30:19.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -365803,14 +365855,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T08:28:42.163Z",
-    "checkedAt": "2026-09-30T08:28:42.163Z",
+    "fetchedAt": "2026-09-30T08:30:40.030Z",
+    "checkedAt": "2026-09-30T08:30:40.030Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T08:28:42.163Z",
-      "checkedAt": "2026-09-30T08:28:42.163Z",
+      "fetchedAt": "2026-09-30T08:30:40.030Z",
+      "checkedAt": "2026-09-30T08:30:40.030Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -365834,6 +365886,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "GEORGE ST, TT / DUNDAS ST E / LN N DUNDAS E GEORGE": {
+      "text": "George Street between Dundas Street East & Lane North Dundas East George",
+      "approximate": false,
+      "coordinates": [
+        43.657904200000004,
+        -79.37371005
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T08:30:40.030Z"
+    },
+    "M5V": {
+      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+      "approximate": true,
+      "coordinates": [
+        43.6404,
+        -79.3995
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M9B": {
       "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
       "approximate": true,
@@ -367321,18 +367397,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-29T22:31:54.323Z"
-    },
-    "M5V": {
-      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
-      "approximate": true,
-      "coordinates": [
-        43.6404,
-        -79.3995
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "JERSEY AVE / CLINTON ST": {
       "text": "Jersey Avenue & Clinton Street",
