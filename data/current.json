@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T07:19:47.865Z",
-  "sourceUpdatedAt": "2026-09-30T07:15:02.000Z",
+  "fetchedAt": "2026-09-30T07:22:00.062Z",
+  "sourceUpdatedAt": "2026-09-30T07:20:02.000Z",
   "incidents": [
+    {
+      "id": "F26155059",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4Y",
+      "division": "312",
+      "timestamp": "2026-09-30T07:14:59.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "312"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-30T07:22:00.062Z",
+      "lastSeenAt": "2026-09-30T07:22:00.062Z",
+      "geography": {
+        "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
+        "approximate": true,
+        "coordinates": [
+          43.6656,
+          -79.383
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26155058",
       "source": "TFS",
@@ -27,7 +61,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T07:15:32.761Z",
-      "lastSeenAt": "2026-09-30T07:19:47.865Z",
+      "lastSeenAt": "2026-09-30T07:22:00.062Z",
       "geography": {
         "text": "Chatsworth Drive between Duplex Parkette Trl & Duplex Avenue",
         "approximate": false,
@@ -50,7 +84,7 @@
       "division": "313",
       "timestamp": "2026-09-30T07:02:47.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -90,7 +124,7 @@
       "division": "311",
       "timestamp": "2026-09-30T06:59:48.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -135,7 +169,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T07:13:44.957Z",
-      "lastSeenAt": "2026-09-30T07:19:47.865Z",
+      "lastSeenAt": "2026-09-30T07:22:00.062Z",
       "geography": {
         "text": "King Street West & University Avenue",
         "approximate": false,
@@ -425,7 +459,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T07:13:44.957Z",
-      "lastSeenAt": "2026-09-30T07:19:47.865Z",
+      "lastSeenAt": "2026-09-30T07:22:00.062Z",
       "geography": {
         "text": "Plug Hat Road between Meadowvale Road & Beare Road",
         "approximate": false,
@@ -207857,12 +207891,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T07:19:47.865Z",
-      "sourceUpdatedAt": "2026-09-30T07:15:02.000Z",
+      "fetchedAt": "2026-09-30T07:22:00.062Z",
+      "sourceUpdatedAt": "2026-09-30T07:20:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T07:19:47.865Z",
+      "fetchedAt": "2026-09-30T07:22:00.062Z",
       "status": "ok"
     }
   },
@@ -365575,7 +365609,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T07:19:47.000Z",
+    "sourceUpdatedAt": "2026-09-30T07:21:27.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -365584,14 +365618,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T07:19:47.865Z",
-    "checkedAt": "2026-09-30T07:19:47.865Z",
+    "fetchedAt": "2026-09-30T07:22:00.062Z",
+    "checkedAt": "2026-09-30T07:22:00.062Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T07:19:47.865Z",
-      "checkedAt": "2026-09-30T07:19:47.865Z",
+      "fetchedAt": "2026-09-30T07:22:00.062Z",
+      "checkedAt": "2026-09-30T07:22:00.062Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -365615,6 +365649,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4Y": {
+      "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
+      "approximate": true,
+      "coordinates": [
+        43.6656,
+        -79.383
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "CHATSWORTH DR, TT / DUPLEX PARKETTE TRL / DUPLEX AVE": {
       "text": "Chatsworth Drive between Duplex Parkette Trl & Duplex Avenue",
       "approximate": false,
@@ -365863,18 +365909,6 @@
         -79.4939
       ],
       "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M4Y": {
-      "text": "Approximate area: (M4Y) Downtown Toronto (Church and Wellesley)",
-      "approximate": true,
-      "coordinates": [
-        43.6656,
-        -79.383
-      ],
-      "division": "Division 51",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
