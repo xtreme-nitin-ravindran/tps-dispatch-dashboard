@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T17:03:04.713Z",
+  "fetchedAt": "2026-09-30T17:05:01.051Z",
   "sourceUpdatedAt": "2026-09-30T17:00:01.000Z",
   "incidents": [
     {
@@ -204,7 +204,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T16:57:03.603Z",
-      "lastSeenAt": "2026-09-30T17:03:04.713Z",
+      "lastSeenAt": "2026-09-30T17:05:01.051Z",
       "geography": {
         "text": "Approximate area: (M9P) Etobicoke (Westmount)",
         "approximate": true,
@@ -458,7 +458,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T16:47:01.706Z",
       "lastMeaningfulUpdateAt": "2026-09-30T16:51:00.553Z",
-      "lastSeenAt": "2026-09-30T17:03:04.713Z",
+      "lastSeenAt": "2026-09-30T17:05:01.051Z",
       "geography": {
         "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
         "approximate": true,
@@ -565,7 +565,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T16:41:02.580Z",
       "lastMeaningfulUpdateAt": "2026-09-30T16:47:01.706Z",
-      "lastSeenAt": "2026-09-30T17:03:04.713Z",
+      "lastSeenAt": "2026-09-30T17:05:01.051Z",
       "geography": {
         "text": "Approximate area: (M2M) Willowdale East (Newtonbrook)",
         "approximate": true,
@@ -630,7 +630,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-30T16:37:09.681Z",
       "lastMeaningfulUpdateAt": "2026-09-30T16:51:00.553Z",
-      "lastSeenAt": "2026-09-30T17:03:04.713Z",
+      "lastSeenAt": "2026-09-30T17:05:01.051Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -741,7 +741,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T16:37:09.681Z",
       "lastMeaningfulUpdateAt": "2026-09-30T16:41:02.580Z",
-      "lastSeenAt": "2026-09-30T17:03:04.713Z",
+      "lastSeenAt": "2026-09-30T17:05:01.051Z",
       "geography": {
         "text": "Lawrence Avenue East & Karl Fraser Road",
         "approximate": false,
@@ -920,7 +920,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-09-30T16:31:00.622Z",
       "lastMeaningfulUpdateAt": "2026-09-30T16:57:03.603Z",
-      "lastSeenAt": "2026-09-30T17:03:04.713Z",
+      "lastSeenAt": "2026-09-30T17:05:01.051Z",
       "geography": {
         "text": "Yonge Street between Connaught Avenue & Patricia Avenue",
         "approximate": false,
@@ -987,7 +987,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T16:31:00.622Z",
       "lastMeaningfulUpdateAt": "2026-09-30T16:37:09.681Z",
-      "lastSeenAt": "2026-09-30T17:03:04.713Z",
+      "lastSeenAt": "2026-09-30T17:05:01.051Z",
       "geography": {
         "text": "Cummer Avenue between Willowdale Avenue & Becky Cheung Court",
         "approximate": false,
@@ -1967,7 +1967,7 @@
       "respondingUnitCount": 9,
       "firstSeenAt": "2026-09-30T15:47:59.387Z",
       "lastMeaningfulUpdateAt": "2026-09-30T16:57:03.603Z",
-      "lastSeenAt": "2026-09-30T17:03:04.713Z",
+      "lastSeenAt": "2026-09-30T17:05:01.051Z",
       "geography": {
         "text": "North Queen Street between Medulla Avenue & The East Mall",
         "approximate": false,
@@ -214123,43 +214123,58 @@
         "division": "Division 41",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-b2cf27637578ac992acc129d",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "SEE AMBULANCE",
-      "callTypeCode": "SEEAM",
-      "timestamp": "2026-09-23T17:03:38.000Z",
-      "location": "MORNINGSIDE AVE - WARNSWORTH ST",
-      "division": "Division 43",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "MORNINGSIDE AVE - WARNSWORTH ST",
-        "coordinates": [
-          43.77419319246891,
-          -79.18841500987519
-        ],
-        "division": "Division 43",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T17:03:04.713Z",
+      "fetchedAt": "2026-09-30T17:05:01.051Z",
       "sourceUpdatedAt": "2026-09-30T17:00:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T17:03:04.713Z",
+      "fetchedAt": "2026-09-30T17:05:01.051Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "12232345",
+          "street": "Don Valley Parkway N",
+          "title": "Northbound Don Valley Parkway at Bayview / Bloor. Ramp",
+          "description": "Toronto-TMC: 2 right lanes are blocked due to Fire Accident.",
+          "restrictionType": "HAZARD",
+          "type": "HAZARD",
+          "impact": "High",
+          "startLocation": "Prince Edward Viaduct",
+          "endLocation": "",
+          "start": 1790787479000,
+          "reportedAt": 1790787479000,
+          "end": null,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.6832,
+            -79.361882
+          ],
+          "line": [],
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -79.361882,
+              43.6832
+            ]
+          },
+          "geometryKind": "point",
+          "schedule": "Everyday: 00:00-23:59",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "Tor-RD1H2026-1997",
           "street": "Tilbury Dr",
@@ -214244,9 +214259,9 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD1H2026-1616-2",
+          "id": "Tor-RD1H2026-1616-1",
           "street": "Lowther Ave",
-          "title": "Lowther Ave 19 m West of Spadina Rd to 22 m West of Spadina Rd",
+          "title": "Lowther Ave 17 m East of Spadina Rd to 20 m East of Spadina Rd",
           "description": "Toronto-TMC: Pole work & OH Conductors. Working 1 location at a time, returning to each work zone, as needed, over time period. Will close Rodar once complete. Phasing is necessary for this work - over charge is accepted. (Nairy Daghelian)",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
@@ -214254,34 +214269,34 @@
           "startLocation": "Spadina Rd",
           "endLocation": "Spadina Rd",
           "start": 1788872400000,
-          "reportedAt": 1790608741000,
+          "reportedAt": 1790608739000,
           "end": 1790956800000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.66892,
-            -79.405
+            43.66901,
+            -79.40457
           ],
           "line": [
             [
-              43.66892,
-              -79.405
+              43.66901,
+              -79.40457
             ],
             [
-              43.66891,
-              -79.40503
+              43.66902,
+              -79.40453
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.405,
-                43.66892
+                -79.40457,
+                43.66901
               ],
               [
-                -79.40503,
-                43.66891
+                -79.40453,
+                43.66902
               ]
             ]
           },
@@ -214346,9 +214361,9 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD1H2026-1616-1",
+          "id": "Tor-RD1H2026-1616-2",
           "street": "Lowther Ave",
-          "title": "Lowther Ave 17 m East of Spadina Rd to 20 m East of Spadina Rd",
+          "title": "Lowther Ave 19 m West of Spadina Rd to 22 m West of Spadina Rd",
           "description": "Toronto-TMC: Pole work & OH Conductors. Working 1 location at a time, returning to each work zone, as needed, over time period. Will close Rodar once complete. Phasing is necessary for this work - over charge is accepted. (Nairy Daghelian)",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
@@ -214356,34 +214371,34 @@
           "startLocation": "Spadina Rd",
           "endLocation": "Spadina Rd",
           "start": 1788872400000,
-          "reportedAt": 1790608739000,
+          "reportedAt": 1790608741000,
           "end": 1790956800000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.66901,
-            -79.40457
+            43.66892,
+            -79.405
           ],
           "line": [
             [
-              43.66901,
-              -79.40457
+              43.66892,
+              -79.405
             ],
             [
-              43.66902,
-              -79.40453
+              43.66891,
+              -79.40503
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.40457,
-                43.66901
+                -79.405,
+                43.66892
               ],
               [
-                -79.40453,
-                43.66902
+                -79.40503,
+                43.66891
               ]
             ]
           },
@@ -214649,162 +214664,44 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD012026-1721-1",
-          "street": "Woodsworth Rd",
-          "title": "Woodsworth Rd 25 m North of Davean Dr to 3 m North of Davean Dr",
+          "id": "Tor-RD012026-1721-5",
+          "street": "Truman Rd",
+          "title": "Truman Rd 141 m East of Gerald St to 149 m West of Harrison Park Trl",
           "description": "Toronto-TMC: Utility cut restoration on behalf of Enbridge.",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
           "impact": "Low",
-          "startLocation": "Davean Dr",
-          "endLocation": "Davean Dr",
+          "startLocation": "Gerald St",
+          "endLocation": "Harrison Park Trl",
           "start": 1790773200000,
           "reportedAt": 1790781337000,
           "end": 1792011600000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.7629,
-            -79.36419
+            43.76139,
+            -79.38173
           ],
           "line": [
             [
-              43.7629,
-              -79.36419
+              43.76139,
+              -79.38173
             ],
             [
-              43.76281,
-              -79.36416
-            ],
-            [
-              43.76271,
-              -79.36417
+              43.76144,
+              -79.38148
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.36419,
-                43.7629
+                -79.38173,
+                43.76139
               ],
               [
-                -79.36416,
-                43.76281
-              ],
-              [
-                -79.36417,
-                43.76271
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 09:00-17:00; Tuesday: 09:00-17:00; Wednesday: 09:00-17:00; Thursday: 09:00-17:00; Friday: 09:00-17:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD012026-1721-2",
-          "street": "Woodsworth Rd",
-          "title": "Woodsworth Rd 109 m North of Davean Dr to 89 m North of Davean Dr",
-          "description": "Toronto-TMC: Utility cut restoration on behalf of Enbridge.",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "Low",
-          "startLocation": "Davean Dr",
-          "endLocation": "Davean Dr",
-          "start": 1790773200000,
-          "reportedAt": 1790781337000,
-          "end": 1792011600000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.76362,
-            -79.36455
-          ],
-          "line": [
-            [
-              43.76362,
-              -79.36455
-            ],
-            [
-              43.76345,
-              -79.36446
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.36455,
-                43.76362
-              ],
-              [
-                -79.36446,
-                43.76345
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 09:00-17:00; Tuesday: 09:00-17:00; Wednesday: 09:00-17:00; Thursday: 09:00-17:00; Friday: 09:00-17:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD012026-1721-3",
-          "street": "Swansdown Dr",
-          "title": "Swansdown Dr 135 m East of end of road to 124 m Southwest of Bannatyne Dr",
-          "description": "Toronto-TMC: Utility cut restoration on behalf of Enbridge.",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "Low",
-          "startLocation": "road",
-          "endLocation": "Bannatyne Dr",
-          "start": 1790773200000,
-          "reportedAt": 1790781337000,
-          "end": 1792011600000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.75976,
-            -79.3709
-          ],
-          "line": [
-            [
-              43.75976,
-              -79.3709
-            ],
-            [
-              43.75977,
-              -79.37078
-            ],
-            [
-              43.75979,
-              -79.37065
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.3709,
-                43.75976
-              ],
-              [
-                -79.37078,
-                43.75977
-              ],
-              [
-                -79.37065,
-                43.75979
+                -79.38148,
+                43.76144
               ]
             ]
           },
@@ -214885,44 +214782,162 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD012026-1721-5",
-          "street": "Truman Rd",
-          "title": "Truman Rd 141 m East of Gerald St to 149 m West of Harrison Park Trl",
+          "id": "Tor-RD012026-1721-3",
+          "street": "Swansdown Dr",
+          "title": "Swansdown Dr 135 m East of end of road to 124 m Southwest of Bannatyne Dr",
           "description": "Toronto-TMC: Utility cut restoration on behalf of Enbridge.",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
           "impact": "Low",
-          "startLocation": "Gerald St",
-          "endLocation": "Harrison Park Trl",
+          "startLocation": "road",
+          "endLocation": "Bannatyne Dr",
           "start": 1790773200000,
           "reportedAt": 1790781337000,
           "end": 1792011600000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.76139,
-            -79.38173
+            43.75976,
+            -79.3709
           ],
           "line": [
             [
-              43.76139,
-              -79.38173
+              43.75976,
+              -79.3709
             ],
             [
-              43.76144,
-              -79.38148
+              43.75977,
+              -79.37078
+            ],
+            [
+              43.75979,
+              -79.37065
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.38173,
-                43.76139
+                -79.3709,
+                43.75976
               ],
               [
-                -79.38148,
-                43.76144
+                -79.37078,
+                43.75977
+              ],
+              [
+                -79.37065,
+                43.75979
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 09:00-17:00; Tuesday: 09:00-17:00; Wednesday: 09:00-17:00; Thursday: 09:00-17:00; Friday: 09:00-17:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD012026-1721-2",
+          "street": "Woodsworth Rd",
+          "title": "Woodsworth Rd 109 m North of Davean Dr to 89 m North of Davean Dr",
+          "description": "Toronto-TMC: Utility cut restoration on behalf of Enbridge.",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "Low",
+          "startLocation": "Davean Dr",
+          "endLocation": "Davean Dr",
+          "start": 1790773200000,
+          "reportedAt": 1790781337000,
+          "end": 1792011600000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.76362,
+            -79.36455
+          ],
+          "line": [
+            [
+              43.76362,
+              -79.36455
+            ],
+            [
+              43.76345,
+              -79.36446
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.36455,
+                43.76362
+              ],
+              [
+                -79.36446,
+                43.76345
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 09:00-17:00; Tuesday: 09:00-17:00; Wednesday: 09:00-17:00; Thursday: 09:00-17:00; Friday: 09:00-17:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD012026-1721-1",
+          "street": "Woodsworth Rd",
+          "title": "Woodsworth Rd 25 m North of Davean Dr to 3 m North of Davean Dr",
+          "description": "Toronto-TMC: Utility cut restoration on behalf of Enbridge.",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "Low",
+          "startLocation": "Davean Dr",
+          "endLocation": "Davean Dr",
+          "start": 1790773200000,
+          "reportedAt": 1790781337000,
+          "end": 1792011600000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.7629,
+            -79.36419
+          ],
+          "line": [
+            [
+              43.7629,
+              -79.36419
+            ],
+            [
+              43.76281,
+              -79.36416
+            ],
+            [
+              43.76271,
+              -79.36417
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.36419,
+                43.7629
+              ],
+              [
+                -79.36416,
+                43.76281
+              ],
+              [
+                -79.36417,
+                43.76271
               ]
             ]
           },
@@ -217691,113 +217706,6 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD52026-5941-2",
-          "street": "F G Gardiner C W",
-          "title": "F G Gardiner C W 148 m East of Gardiner X W Gardiner C W to 146 m West of Kipling Ave",
-          "description": "Toronto-TMC: Bridge work.",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "startLocation": "Gardiner X W Gardiner C W",
-          "endLocation": "Kipling Ave",
-          "start": 1791169200000,
-          "reportedAt": 1790702561000,
-          "end": 1791972000000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.6195,
-            -79.51942
-          ],
-          "line": [
-            [
-              43.6195,
-              -79.51942
-            ],
-            [
-              43.61934,
-              -79.52018
-            ],
-            [
-              43.61908,
-              -79.52116
-            ],
-            [
-              43.61908,
-              -79.52116
-            ],
-            [
-              43.61892,
-              -79.522
-            ],
-            [
-              43.61892,
-              -79.522
-            ],
-            [
-              43.61818,
-              -79.52583
-            ],
-            [
-              43.61818,
-              -79.52583
-            ],
-            [
-              43.61782,
-              -79.52757
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.51942,
-                43.6195
-              ],
-              [
-                -79.52018,
-                43.61934
-              ],
-              [
-                -79.52116,
-                43.61908
-              ],
-              [
-                -79.52116,
-                43.61908
-              ],
-              [
-                -79.522,
-                43.61892
-              ],
-              [
-                -79.522,
-                43.61892
-              ],
-              [
-                -79.52583,
-                43.61818
-              ],
-              [
-                -79.52583,
-                43.61818
-              ],
-              [
-                -79.52757,
-                43.61782
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Everyday: 23:00-06:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
           "id": "Tor-RD52026-5941-4",
           "street": "Islington S Gardiner C W Ramp",
           "title": "Islington S Gardiner C W Ramp 94 m South of Islington Ave to 116 m East of F G Gardiner C W",
@@ -217924,6 +217832,113 @@
               [
                 -79.51458,
                 43.62052
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Everyday: 23:00-06:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD52026-5941-2",
+          "street": "F G Gardiner C W",
+          "title": "F G Gardiner C W 148 m East of Gardiner X W Gardiner C W to 146 m West of Kipling Ave",
+          "description": "Toronto-TMC: Bridge work.",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "Gardiner X W Gardiner C W",
+          "endLocation": "Kipling Ave",
+          "start": 1791169200000,
+          "reportedAt": 1790702561000,
+          "end": 1791972000000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.6195,
+            -79.51942
+          ],
+          "line": [
+            [
+              43.6195,
+              -79.51942
+            ],
+            [
+              43.61934,
+              -79.52018
+            ],
+            [
+              43.61908,
+              -79.52116
+            ],
+            [
+              43.61908,
+              -79.52116
+            ],
+            [
+              43.61892,
+              -79.522
+            ],
+            [
+              43.61892,
+              -79.522
+            ],
+            [
+              43.61818,
+              -79.52583
+            ],
+            [
+              43.61818,
+              -79.52583
+            ],
+            [
+              43.61782,
+              -79.52757
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.51942,
+                43.6195
+              ],
+              [
+                -79.52018,
+                43.61934
+              ],
+              [
+                -79.52116,
+                43.61908
+              ],
+              [
+                -79.52116,
+                43.61908
+              ],
+              [
+                -79.522,
+                43.61892
+              ],
+              [
+                -79.522,
+                43.61892
+              ],
+              [
+                -79.52583,
+                43.61818
+              ],
+              [
+                -79.52583,
+                43.61818
+              ],
+              [
+                -79.52757,
+                43.61782
               ]
             ]
           },
@@ -219322,6 +219337,57 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
+          "id": "Tor-RD1H2026-2042-5",
+          "street": "Bathgate Dr",
+          "title": "Bathgate Dr 16 m West of Invermarge Dr to 12 m West of Invermarge Dr",
+          "description": "Toronto-TMC: ACHESON BLVD Ph 1E - SIDEWALK & ROAD REPAIRS ON BATHGATE, INVERMARGE DR & ACHESON BLVD",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "Invermarge Dr",
+          "endLocation": "Invermarge Dr",
+          "start": 1792753200000,
+          "reportedAt": 1790778803000,
+          "end": 1792789200000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.7826,
+            -79.15359
+          ],
+          "line": [
+            [
+              43.7826,
+              -79.15359
+            ],
+            [
+              43.78259,
+              -79.15354
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.15359,
+                43.7826
+              ],
+              [
+                -79.15354,
+                43.78259
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 07:00-17:00; Tuesday: 07:00-17:00; Wednesday: 07:00-17:00; Thursday: 07:00-17:00; Friday: 07:00-17:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
           "id": "Tor-RD1H2026-2042-6",
           "street": "Bathgate Dr",
           "title": "Bathgate Dr 12 m West of Invermarge Dr to 8 m West of Invermarge Dr",
@@ -219367,57 +219433,6 @@
               ],
               [
                 -79.15349,
-                43.78259
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 07:00-17:00; Tuesday: 07:00-17:00; Wednesday: 07:00-17:00; Thursday: 07:00-17:00; Friday: 07:00-17:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD1H2026-2042-5",
-          "street": "Bathgate Dr",
-          "title": "Bathgate Dr 16 m West of Invermarge Dr to 12 m West of Invermarge Dr",
-          "description": "Toronto-TMC: ACHESON BLVD Ph 1E - SIDEWALK & ROAD REPAIRS ON BATHGATE, INVERMARGE DR & ACHESON BLVD",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "startLocation": "Invermarge Dr",
-          "endLocation": "Invermarge Dr",
-          "start": 1792753200000,
-          "reportedAt": 1790778803000,
-          "end": 1792789200000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.7826,
-            -79.15359
-          ],
-          "line": [
-            [
-              43.7826,
-              -79.15359
-            ],
-            [
-              43.78259,
-              -79.15354
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.15359,
-                43.7826
-              ],
-              [
-                -79.15354,
                 43.78259
               ]
             ]
@@ -221867,108 +221882,6 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD1H2026-1949",
-          "street": "Dundas St W",
-          "title": "Dundas St W 92 m South of Bloor St W to 71 m South of Bloor St W",
-          "description": "Toronto-TMC: Duct Bank Install",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "Low",
-          "startLocation": "Bloor St W",
-          "endLocation": "Bloor St W",
-          "start": 1790600400000,
-          "reportedAt": 1789734261000,
-          "end": 1791835200000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.65551,
-            -79.45226
-          ],
-          "line": [
-            [
-              43.65551,
-              -79.45226
-            ],
-            [
-              43.65569,
-              -79.45231
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.45226,
-                43.65551
-              ],
-              [
-                -79.45231,
-                43.65569
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD52026-1844-2",
-          "street": "Jane St",
-          "title": "Jane St 95 m South of 400 S Jane St Ramp to 95 m South of 400 S Jane St Ramp",
-          "description": "Toronto-TMC: CIPP Watermain Rehabilitation of Woodward Ave.",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "High",
-          "startLocation": "400 S Jane St Ramp",
-          "endLocation": "400 S Jane St Ramp",
-          "start": 1781182800000,
-          "reportedAt": 1781187166000,
-          "end": 1793566800000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.71047,
-            -79.50585
-          ],
-          "line": [
-            [
-              43.71047,
-              -79.50585
-            ],
-            [
-              43.7102,
-              -79.50579
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.50585,
-                43.71047
-              ],
-              [
-                -79.50579,
-                43.7102
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Everyday: 09:00-16:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
           "id": "Tor-RD1H2026-1995-2",
           "street": "Bathurst St",
           "title": "Bathurst St 64 m North of Ulster St to 46 m North of Ulster St",
@@ -223267,116 +223180,6 @@
           },
           "geometryKind": "line",
           "schedule": "Monday: 09:00-19:00; Tuesday: 09:00-19:00; Wednesday: 09:00-19:00; Thursday: 09:00-19:00; Friday: 09:00-19:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD1H2026-1731-3",
-          "street": "Leslie St",
-          "title": "Leslie St 22 m North of East Don River Trl to 10 m North of East Don River Trl",
-          "description": "Toronto-TMC: Installing new toronto hydro padmounts",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "High",
-          "startLocation": "East Don River Trl",
-          "endLocation": "East Don River Trl",
-          "start": 1788181200000,
-          "reportedAt": 1787761320000,
-          "end": 1791576000000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.77577,
-            -79.36479
-          ],
-          "line": [
-            [
-              43.77577,
-              -79.36479
-            ],
-            [
-              43.77573,
-              -79.36478
-            ],
-            [
-              43.77566,
-              -79.36477
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.36479,
-                43.77577
-              ],
-              [
-                -79.36478,
-                43.77573
-              ],
-              [
-                -79.36477,
-                43.77566
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD1H2026-1754-3",
-          "street": "Ringley Ave",
-          "title": "Ringley Ave at Guthrie Ave to 2 m East of Guthrie Ave",
-          "description": "Toronto-TMC: upgrading poles for Toronto Hydro.",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "Low",
-          "startLocation": "Guthrie Ave",
-          "endLocation": "Guthrie Ave",
-          "start": 1787749200000,
-          "reportedAt": 1787853525000,
-          "end": 1790884800000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.63059,
-            -79.48824
-          ],
-          "line": [
-            [
-              43.63059,
-              -79.48824
-            ],
-            [
-              43.63059,
-              -79.48822
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.48824,
-                43.63059
-              ],
-              [
-                -79.48822,
-                43.63059
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -226683,6 +226486,108 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
+          "id": "Tor-RD1H2026-1949",
+          "street": "Dundas St W",
+          "title": "Dundas St W 92 m South of Bloor St W to 71 m South of Bloor St W",
+          "description": "Toronto-TMC: Duct Bank Install",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "Low",
+          "startLocation": "Bloor St W",
+          "endLocation": "Bloor St W",
+          "start": 1790600400000,
+          "reportedAt": 1789734261000,
+          "end": 1791835200000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.65551,
+            -79.45226
+          ],
+          "line": [
+            [
+              43.65551,
+              -79.45226
+            ],
+            [
+              43.65569,
+              -79.45231
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.45226,
+                43.65551
+              ],
+              [
+                -79.45231,
+                43.65569
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD52026-1844-2",
+          "street": "Jane St",
+          "title": "Jane St 95 m South of 400 S Jane St Ramp to 95 m South of 400 S Jane St Ramp",
+          "description": "Toronto-TMC: CIPP Watermain Rehabilitation of Woodward Ave.",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "High",
+          "startLocation": "400 S Jane St Ramp",
+          "endLocation": "400 S Jane St Ramp",
+          "start": 1781182800000,
+          "reportedAt": 1781187166000,
+          "end": 1793566800000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.71047,
+            -79.50585
+          ],
+          "line": [
+            [
+              43.71047,
+              -79.50585
+            ],
+            [
+              43.7102,
+              -79.50579
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.50585,
+                43.71047
+              ],
+              [
+                -79.50579,
+                43.7102
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Everyday: 09:00-16:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
           "id": "Tor-RD52026-5632-1",
           "street": "Orphanage Mews",
           "title": "Orphanage Mews 1 m East of Huron St to 15 m East of Huron St",
@@ -229730,60 +229635,52 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD1H2026-1245-3",
-          "street": "Mitchell Ave",
-          "title": "Mitchell Ave 4 m West of Tecumseth St to 8 m West of Ln W Tecumseth N Mitchell",
-          "description": "Toronto-TMC: Upgrading Toronto System. This is not phase work this is roll over work. each day crews will be going back and forth to the different streets.",
+          "id": "Tor-RD1H2026-1731-3",
+          "street": "Leslie St",
+          "title": "Leslie St 22 m North of East Don River Trl to 10 m North of East Don River Trl",
+          "description": "Toronto-TMC: Installing new toronto hydro padmounts",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
-          "impact": "Low",
-          "startLocation": "Tecumseth St",
-          "endLocation": "Ln W Tecumseth N Mitchell",
-          "start": 1784725200000,
-          "reportedAt": 1784751526000,
-          "end": 1793476800000,
+          "impact": "High",
+          "startLocation": "East Don River Trl",
+          "endLocation": "East Don River Trl",
+          "start": 1788181200000,
+          "reportedAt": 1787761320000,
+          "end": 1791576000000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.6453,
-            -79.4061
+            43.77577,
+            -79.36479
           ],
           "line": [
             [
-              43.6453,
-              -79.4061
+              43.77577,
+              -79.36479
             ],
             [
-              43.64522,
-              -79.40651
+              43.77573,
+              -79.36478
             ],
             [
-              43.64522,
-              -79.40651
-            ],
-            [
-              43.6452,
-              -79.40661
+              43.77566,
+              -79.36477
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.4061,
-                43.6453
+                -79.36479,
+                43.77577
               ],
               [
-                -79.40651,
-                43.64522
+                -79.36478,
+                43.77573
               ],
               [
-                -79.40651,
-                43.64522
-              ],
-              [
-                -79.40661,
-                43.6452
+                -79.36477,
+                43.77566
               ]
             ]
           },
@@ -229797,76 +229694,44 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD1H2026-1245-4",
-          "street": "Richmond St W",
-          "title": "Richmond St W 5 m East of Ln W Tecumseth S Queen to 23 m East of Gershon Iskowitz Lane",
-          "description": "Toronto-TMC: Upgrading Toronto System. This is not phase work this is roll over work. each day crews will be going back and forth to the different streets.",
+          "id": "Tor-RD1H2026-1754-3",
+          "street": "Ringley Ave",
+          "title": "Ringley Ave at Guthrie Ave to 2 m East of Guthrie Ave",
+          "description": "Toronto-TMC: upgrading poles for Toronto Hydro.",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
           "impact": "Low",
-          "startLocation": "Ln W Tecumseth S Queen",
-          "endLocation": "Gershon Iskowitz Lane",
-          "start": 1784725200000,
-          "reportedAt": 1784751526000,
-          "end": 1793476800000,
+          "startLocation": "Guthrie Ave",
+          "endLocation": "Guthrie Ave",
+          "start": 1787749200000,
+          "reportedAt": 1787853525000,
+          "end": 1790884800000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.64583,
-            -79.40696
+            43.63059,
+            -79.48824
           ],
           "line": [
             [
-              43.64583,
-              -79.40696
+              43.63059,
+              -79.48824
             ],
             [
-              43.64596,
-              -79.40631
-            ],
-            [
-              43.64596,
-              -79.40631
-            ],
-            [
-              43.6461,
-              -79.40563
-            ],
-            [
-              43.6461,
-              -79.40563
-            ],
-            [
-              43.64615,
-              -79.40536
+              43.63059,
+              -79.48822
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.40696,
-                43.64583
+                -79.48824,
+                43.63059
               ],
               [
-                -79.40631,
-                43.64596
-              ],
-              [
-                -79.40631,
-                43.64596
-              ],
-              [
-                -79.40563,
-                43.6461
-              ],
-              [
-                -79.40563,
-                43.6461
-              ],
-              [
-                -79.40536,
-                43.64615
+                -79.48822,
+                43.63059
               ]
             ]
           },
@@ -232501,124 +232366,6 @@
           },
           "geometryKind": "line",
           "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD012026-1687-1",
-          "street": "Evans Ave",
-          "title": "Evans Ave 47 m West of Sherway Gt to 53 m Northeast of The West Mall",
-          "description": "Toronto-TMC: drill in road way for fiber",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "High",
-          "startLocation": "Sherway Gt",
-          "endLocation": "The West Mall",
-          "start": 1790773200000,
-          "reportedAt": 1790771165000,
-          "end": 1793390400000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.60888,
-            -79.55698
-          ],
-          "line": [
-            [
-              43.60888,
-              -79.55698
-            ],
-            [
-              43.60883,
-              -79.55724
-            ],
-            [
-              43.60871,
-              -79.55776
-            ],
-            [
-              43.60859,
-              -79.55809
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.55698,
-                43.60888
-              ],
-              [
-                -79.55724,
-                43.60883
-              ],
-              [
-                -79.55776,
-                43.60871
-              ],
-              [
-                -79.55809,
-                43.60859
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD012026-1656",
-          "street": "Sunnycrest Rd",
-          "title": "Sunnycrest Rd 123 m Southwest of Rockford Rd to 128 m Southwest of Rockford Rd",
-          "description": "Toronto-TMC: Utility cut restoration on behalf of Enbridge.",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "Low",
-          "startLocation": "Rockford Rd",
-          "endLocation": "Rockford Rd",
-          "start": 1790082000000,
-          "reportedAt": 1790016054000,
-          "end": 1791406800000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.78426,
-            -79.45431
-          ],
-          "line": [
-            [
-              43.78426,
-              -79.45431
-            ],
-            [
-              43.78434,
-              -79.45455
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.45431,
-                43.78426
-              ],
-              [
-                -79.45455,
-                43.78434
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 09:00-17:00; Tuesday: 09:00-17:00; Wednesday: 09:00-17:00; Thursday: 09:00-17:00; Friday: 09:00-17:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -235873,65 +235620,65 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD52026-4553-2",
-          "street": "Lake Shore Blvd W",
-          "title": "Lake Shore Blvd W at Yonge St to 14 m Northeast of Bay St",
-          "description": "Toronto-TMC: Repair of F.G. Gardiner Expressway: Bents Structure ID’s 436-194, 436-195, 436-197, and 436-198 within proximity of Bay Street and 436-234, east of Yonge Street",
+          "id": "Tor-RD1H2026-1245-3",
+          "street": "Mitchell Ave",
+          "title": "Mitchell Ave 4 m West of Tecumseth St to 8 m West of Ln W Tecumseth N Mitchell",
+          "description": "Toronto-TMC: Upgrading Toronto System. This is not phase work this is roll over work. each day crews will be going back and forth to the different streets.",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
-          "impact": "High",
-          "startLocation": "Yonge St",
-          "endLocation": "Bay St",
-          "start": 1786107600000,
-          "reportedAt": 1786025292000,
+          "impact": "Low",
+          "startLocation": "Tecumseth St",
+          "endLocation": "Ln W Tecumseth N Mitchell",
+          "start": 1784725200000,
+          "reportedAt": 1784751526000,
           "end": 1793476800000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.64406,
-            -79.37577
+            43.6453,
+            -79.4061
           ],
           "line": [
             [
-              43.64406,
-              -79.37577
+              43.6453,
+              -79.4061
             ],
             [
-              43.6438,
-              -79.37628
+              43.64522,
+              -79.40651
             ],
             [
-              43.64326,
-              -79.37734
+              43.64522,
+              -79.40651
             ],
             [
-              43.64308,
-              -79.37769
+              43.6452,
+              -79.40661
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.37577,
-                43.64406
+                -79.4061,
+                43.6453
               ],
               [
-                -79.37628,
-                43.6438
+                -79.40651,
+                43.64522
               ],
               [
-                -79.37734,
-                43.64326
+                -79.40651,
+                43.64522
               ],
               [
-                -79.37769,
-                43.64308
+                -79.40661,
+                43.6452
               ]
             ]
           },
           "geometryKind": "line",
-          "schedule": "Everyday: 09:00-16:00",
+          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -235940,44 +235687,76 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD52026-1578-1-1",
-          "street": "Kingston Rd",
-          "title": "Kingston Rd 5 m Northeast of Parkcrest Dr to Parkcrest Dr",
-          "description": "Toronto-TMC: City of Toronto Contract 25ECS-RD-15SP From Hill Cres to Kingston Rd (Eastbound curb lane) - Road reconstruction, sidewalk and curb repairs, Watermain replacement, water services replacement",
+          "id": "Tor-RD1H2026-1245-4",
+          "street": "Richmond St W",
+          "title": "Richmond St W 5 m East of Ln W Tecumseth S Queen to 23 m East of Gershon Iskowitz Lane",
+          "description": "Toronto-TMC: Upgrading Toronto System. This is not phase work this is roll over work. each day crews will be going back and forth to the different streets.",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
-          "impact": "High",
-          "startLocation": "Parkcrest Dr",
-          "endLocation": "Parkcrest Dr",
-          "start": 1778504400000,
-          "reportedAt": 1778418962000,
-          "end": 1793826000000,
+          "impact": "Low",
+          "startLocation": "Ln W Tecumseth S Queen",
+          "endLocation": "Gershon Iskowitz Lane",
+          "start": 1784725200000,
+          "reportedAt": 1784751526000,
+          "end": 1793476800000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.73595,
-            -79.2202
+            43.64583,
+            -79.40696
           ],
           "line": [
             [
-              43.73595,
-              -79.2202
+              43.64583,
+              -79.40696
             ],
             [
-              43.73592,
-              -79.22024
+              43.64596,
+              -79.40631
+            ],
+            [
+              43.64596,
+              -79.40631
+            ],
+            [
+              43.6461,
+              -79.40563
+            ],
+            [
+              43.6461,
+              -79.40563
+            ],
+            [
+              43.64615,
+              -79.40536
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.2202,
-                43.73595
+                -79.40696,
+                43.64583
               ],
               [
-                -79.22024,
-                43.73592
+                -79.40631,
+                43.64596
+              ],
+              [
+                -79.40631,
+                43.64596
+              ],
+              [
+                -79.40563,
+                43.6461
+              ],
+              [
+                -79.40563,
+                43.6461
+              ],
+              [
+                -79.40536,
+                43.64615
               ]
             ]
           },
@@ -240377,89 +240156,65 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD1H2026-1593-36",
-          "street": "Purley Cres",
-          "title": "Purley Cres 105 m West of Cathedral Bluffs Dr to 57 m West of Cathedral Bluffs Dr",
-          "description": "Toronto-TMC: UG electrical / Metering",
-          "restrictionType": "ROAD CLOSED",
-          "type": "ROAD CLOSED",
-          "impact": "Low",
-          "startLocation": "Cathedral Bluffs Dr",
-          "endLocation": "Cathedral Bluffs Dr",
-          "start": 1790168400000,
-          "reportedAt": 1789756883000,
-          "end": 1793300400000,
+          "id": "Tor-RD012026-1687-1",
+          "street": "Evans Ave",
+          "title": "Evans Ave 47 m West of Sherway Gt to 53 m Northeast of The West Mall",
+          "description": "Toronto-TMC: drill in road way for fiber",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "High",
+          "startLocation": "Sherway Gt",
+          "endLocation": "The West Mall",
+          "start": 1790773200000,
+          "reportedAt": 1790771165000,
+          "end": 1793390400000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.72127,
-            -79.23001
+            43.60888,
+            -79.55698
           ],
           "line": [
             [
-              43.72127,
-              -79.23001
+              43.60888,
+              -79.55698
             ],
             [
-              43.72127,
-              -79.22994
+              43.60883,
+              -79.55724
             ],
             [
-              43.72127,
-              -79.22982
+              43.60871,
+              -79.55776
             ],
             [
-              43.72127,
-              -79.22968
-            ],
-            [
-              43.72128,
-              -79.22955
-            ],
-            [
-              43.72129,
-              -79.22944
-            ],
-            [
-              43.72129,
-              -79.22941
+              43.60859,
+              -79.55809
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.23001,
-                43.72127
+                -79.55698,
+                43.60888
               ],
               [
-                -79.22994,
-                43.72127
+                -79.55724,
+                43.60883
               ],
               [
-                -79.22982,
-                43.72127
+                -79.55776,
+                43.60871
               ],
               [
-                -79.22968,
-                43.72127
-              ],
-              [
-                -79.22955,
-                43.72128
-              ],
-              [
-                -79.22944,
-                43.72129
-              ],
-              [
-                -79.22941,
-                43.72129
+                -79.55809,
+                43.60859
               ]
             ]
           },
           "geometryKind": "line",
-          "schedule": "Monday: 09:00-15:00; Tuesday: 09:00-15:00; Wednesday: 09:00-15:00; Thursday: 09:00-15:00; Friday: 09:00-15:00",
+          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -240468,73 +240223,49 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD1H2026-2030",
-          "street": "Indian Road Cres",
-          "title": "Indian Road Cres 22 m Northwest of Glen Gordon Rd to 42 m Northwest of Glen Gordon Rd",
-          "description": "Toronto-TMC: Duct Bank Install",
+          "id": "Tor-RD012026-1656",
+          "street": "Sunnycrest Rd",
+          "title": "Sunnycrest Rd 123 m Southwest of Rockford Rd to 128 m Southwest of Rockford Rd",
+          "description": "Toronto-TMC: Utility cut restoration on behalf of Enbridge.",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
           "impact": "Low",
-          "startLocation": "Glen Gordon Rd",
-          "endLocation": "Glen Gordon Rd",
-          "start": 1790341200000,
-          "reportedAt": 1790274398000,
-          "end": 1790971200000,
+          "startLocation": "Rockford Rd",
+          "endLocation": "Rockford Rd",
+          "start": 1790082000000,
+          "reportedAt": 1790016054000,
+          "end": 1791406800000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.65675,
-            -79.45818
+            43.78426,
+            -79.45431
           ],
           "line": [
             [
-              43.65675,
-              -79.45818
+              43.78426,
+              -79.45431
             ],
             [
-              43.65675,
-              -79.45818
-            ],
-            [
-              43.6568,
-              -79.45824
-            ],
-            [
-              43.65685,
-              -79.45828
-            ],
-            [
-              43.65691,
-              -79.45832
+              43.78434,
+              -79.45455
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.45818,
-                43.65675
+                -79.45431,
+                43.78426
               ],
               [
-                -79.45818,
-                43.65675
-              ],
-              [
-                -79.45824,
-                43.6568
-              ],
-              [
-                -79.45828,
-                43.65685
-              ],
-              [
-                -79.45832,
-                43.65691
+                -79.45455,
+                43.78434
               ]
             ]
           },
           "geometryKind": "line",
-          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
+          "schedule": "Monday: 09:00-17:00; Tuesday: 09:00-17:00; Wednesday: 09:00-17:00; Thursday: 09:00-17:00; Friday: 09:00-17:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -243770,49 +243501,65 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD52026-5812",
-          "street": "Danforth Ave",
-          "title": "Danforth Ave 14 m East of Woodmount Ave to 24 m East of Woodmount Ave",
-          "description": "Toronto-TMC: City Contract -- CONTRACT 26TR-OM-111-TEY-GM - GENERAL MAINTENANCE TO ROAD, SIDEWALK WITHIN THE TORONTO EAST YORK DISTRICT",
+          "id": "Tor-RD52026-4553-2",
+          "street": "Lake Shore Blvd W",
+          "title": "Lake Shore Blvd W at Yonge St to 14 m Northeast of Bay St",
+          "description": "Toronto-TMC: Repair of F.G. Gardiner Expressway: Bents Structure ID’s 436-194, 436-195, 436-197, and 436-198 within proximity of Bay Street and 436-234, east of Yonge Street",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
           "impact": "High",
-          "startLocation": "Woodmount Ave",
-          "endLocation": "Woodmount Ave",
-          "start": 1790600400000,
-          "reportedAt": 1789732961000,
-          "end": 1791576000000,
+          "startLocation": "Yonge St",
+          "endLocation": "Bay St",
+          "start": 1786107600000,
+          "reportedAt": 1786025292000,
+          "end": 1793476800000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.68519,
-            -79.3151
+            43.64406,
+            -79.37577
           ],
           "line": [
             [
-              43.68519,
-              -79.3151
+              43.64406,
+              -79.37577
             ],
             [
-              43.68521,
-              -79.31498
+              43.6438,
+              -79.37628
+            ],
+            [
+              43.64326,
+              -79.37734
+            ],
+            [
+              43.64308,
+              -79.37769
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.3151,
-                43.68519
+                -79.37577,
+                43.64406
               ],
               [
-                -79.31498,
-                43.68521
+                -79.37628,
+                43.6438
+              ],
+              [
+                -79.37734,
+                43.64326
+              ],
+              [
+                -79.37769,
+                43.64308
               ]
             ]
           },
           "geometryKind": "line",
-          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
+          "schedule": "Everyday: 09:00-16:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -243821,49 +243568,49 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD012026-1598-18",
-          "street": "Church Ave",
-          "title": "Church Ave 103 m West of Longmore St to 82 m West of Longmore St",
-          "description": "Toronto-TMC: Utility cut restoration on behalf of Enbridge.",
+          "id": "Tor-RD52026-1578-1-1",
+          "street": "Kingston Rd",
+          "title": "Kingston Rd 5 m Northeast of Parkcrest Dr to Parkcrest Dr",
+          "description": "Toronto-TMC: City of Toronto Contract 25ECS-RD-15SP From Hill Cres to Kingston Rd (Eastbound curb lane) - Road reconstruction, sidewalk and curb repairs, Watermain replacement, water services replacement",
           "restrictionType": "CONSTRUCTION",
           "type": "CONSTRUCTION",
-          "impact": "Low",
-          "startLocation": "Longmore St",
-          "endLocation": "Longmore St",
-          "start": 1789477200000,
-          "reportedAt": 1790011164000,
-          "end": 1790802000000,
+          "impact": "High",
+          "startLocation": "Parkcrest Dr",
+          "endLocation": "Parkcrest Dr",
+          "start": 1778504400000,
+          "reportedAt": 1778418962000,
+          "end": 1793826000000,
           "status": null,
           "expired": false,
           "coordinates": [
-            43.77615,
-            -79.40328
+            43.73595,
+            -79.2202
           ],
           "line": [
             [
-              43.77615,
-              -79.40328
+              43.73595,
+              -79.2202
             ],
             [
-              43.77621,
-              -79.40303
+              43.73592,
+              -79.22024
             ]
           ],
           "geometry": {
             "type": "LineString",
             "coordinates": [
               [
-                -79.40328,
-                43.77615
+                -79.2202,
+                43.73595
               ],
               [
-                -79.40303,
-                43.77621
+                -79.22024,
+                43.73592
               ]
             ]
           },
           "geometryKind": "line",
-          "schedule": "Monday: 09:00-17:00; Tuesday: 09:00-17:00; Wednesday: 09:00-17:00; Thursday: 09:00-17:00; Friday: 09:00-17:00",
+          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -247112,6 +246859,172 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
+          "id": "Tor-RD1H2026-1593-36",
+          "street": "Purley Cres",
+          "title": "Purley Cres 105 m West of Cathedral Bluffs Dr to 57 m West of Cathedral Bluffs Dr",
+          "description": "Toronto-TMC: UG electrical / Metering",
+          "restrictionType": "ROAD CLOSED",
+          "type": "ROAD CLOSED",
+          "impact": "Low",
+          "startLocation": "Cathedral Bluffs Dr",
+          "endLocation": "Cathedral Bluffs Dr",
+          "start": 1790168400000,
+          "reportedAt": 1789756883000,
+          "end": 1793300400000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.72127,
+            -79.23001
+          ],
+          "line": [
+            [
+              43.72127,
+              -79.23001
+            ],
+            [
+              43.72127,
+              -79.22994
+            ],
+            [
+              43.72127,
+              -79.22982
+            ],
+            [
+              43.72127,
+              -79.22968
+            ],
+            [
+              43.72128,
+              -79.22955
+            ],
+            [
+              43.72129,
+              -79.22944
+            ],
+            [
+              43.72129,
+              -79.22941
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.23001,
+                43.72127
+              ],
+              [
+                -79.22994,
+                43.72127
+              ],
+              [
+                -79.22982,
+                43.72127
+              ],
+              [
+                -79.22968,
+                43.72127
+              ],
+              [
+                -79.22955,
+                43.72128
+              ],
+              [
+                -79.22944,
+                43.72129
+              ],
+              [
+                -79.22941,
+                43.72129
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 09:00-15:00; Tuesday: 09:00-15:00; Wednesday: 09:00-15:00; Thursday: 09:00-15:00; Friday: 09:00-15:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1H2026-2030",
+          "street": "Indian Road Cres",
+          "title": "Indian Road Cres 22 m Northwest of Glen Gordon Rd to 42 m Northwest of Glen Gordon Rd",
+          "description": "Toronto-TMC: Duct Bank Install",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "Low",
+          "startLocation": "Glen Gordon Rd",
+          "endLocation": "Glen Gordon Rd",
+          "start": 1790341200000,
+          "reportedAt": 1790274398000,
+          "end": 1790971200000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.65675,
+            -79.45818
+          ],
+          "line": [
+            [
+              43.65675,
+              -79.45818
+            ],
+            [
+              43.65675,
+              -79.45818
+            ],
+            [
+              43.6568,
+              -79.45824
+            ],
+            [
+              43.65685,
+              -79.45828
+            ],
+            [
+              43.65691,
+              -79.45832
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.45818,
+                43.65675
+              ],
+              [
+                -79.45818,
+                43.65675
+              ],
+              [
+                -79.45824,
+                43.6568
+              ],
+              [
+                -79.45828,
+                43.65685
+              ],
+              [
+                -79.45832,
+                43.65691
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
           "id": "Tor-RD52026-5556-1",
           "street": "Jane St",
           "title": "Jane St 13 m South of Ardagh St to 1 m North of Ardagh St",
@@ -249029,108 +248942,6 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD52026-5537-1",
-          "street": "Royal York Rd",
-          "title": "Royal York Rd 6 m South of Algoma St to Algoma St",
-          "description": "Toronto-TMC: Sewer Rehabilitation",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "Low",
-          "startLocation": "Algoma St",
-          "endLocation": "Algoma St",
-          "start": 1789045200000,
-          "reportedAt": 1788882137000,
-          "end": 1790798400000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.6207,
-            -79.50026
-          ],
-          "line": [
-            [
-              43.6207,
-              -79.50026
-            ],
-            [
-              43.62075,
-              -79.50029
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.50026,
-                43.6207
-              ],
-              [
-                -79.50029,
-                43.62075
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "Tor-RD52026-5537-2",
-          "street": "Algoma St",
-          "title": "Algoma St at Royal York Rd to 16 m East of Royal York Rd",
-          "description": "Toronto-TMC: Sewer Rehabilitation",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "Low",
-          "startLocation": "Royal York Rd",
-          "endLocation": "Royal York Rd",
-          "start": 1789045200000,
-          "reportedAt": 1788882137000,
-          "end": 1790798400000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.62075,
-            -79.50029
-          ],
-          "line": [
-            [
-              43.62075,
-              -79.50029
-            ],
-            [
-              43.62079,
-              -79.5001
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.50029,
-                43.62075
-              ],
-              [
-                -79.5001,
-                43.62079
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
           "id": "Tor-RD012026-1598-11",
           "street": "Craigmore Cres",
           "title": "Craigmore Cres 4 m Northeast of Dudley Ave to 21 m Northeast of Dudley Ave",
@@ -251016,6 +250827,108 @@
           },
           "geometryKind": "line",
           "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD52026-5812",
+          "street": "Danforth Ave",
+          "title": "Danforth Ave 14 m East of Woodmount Ave to 24 m East of Woodmount Ave",
+          "description": "Toronto-TMC: City Contract -- CONTRACT 26TR-OM-111-TEY-GM - GENERAL MAINTENANCE TO ROAD, SIDEWALK WITHIN THE TORONTO EAST YORK DISTRICT",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "High",
+          "startLocation": "Woodmount Ave",
+          "endLocation": "Woodmount Ave",
+          "start": 1790600400000,
+          "reportedAt": 1789732961000,
+          "end": 1791576000000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.68519,
+            -79.3151
+          ],
+          "line": [
+            [
+              43.68519,
+              -79.3151
+            ],
+            [
+              43.68521,
+              -79.31498
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.3151,
+                43.68519
+              ],
+              [
+                -79.31498,
+                43.68521
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD012026-1598-18",
+          "street": "Church Ave",
+          "title": "Church Ave 103 m West of Longmore St to 82 m West of Longmore St",
+          "description": "Toronto-TMC: Utility cut restoration on behalf of Enbridge.",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "Low",
+          "startLocation": "Longmore St",
+          "endLocation": "Longmore St",
+          "start": 1789477200000,
+          "reportedAt": 1790011164000,
+          "end": 1790802000000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.77615,
+            -79.40328
+          ],
+          "line": [
+            [
+              43.77615,
+              -79.40328
+            ],
+            [
+              43.77621,
+              -79.40303
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.40328,
+                43.77615
+              ],
+              [
+                -79.40303,
+                43.77621
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 09:00-17:00; Tuesday: 09:00-17:00; Wednesday: 09:00-17:00; Thursday: 09:00-17:00; Friday: 09:00-17:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -374428,51 +374341,11 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-30T16:59:02.343Z",
-      "fetchedAt": "2026-09-30T16:59:02.343Z"
+      "checkedAt": "2026-09-30T17:05:01.051Z",
+      "fetchedAt": "2026-09-30T17:05:01.051Z"
     },
     "transit": {
       "items": [
-        {
-          "id": "77208",
-          "title": "Line 2 Bloor-Danforth: Delays westbound at Main Street station while we respond to a medical emergency.",
-          "description": "",
-          "effect": "SIGNIFICANT DELAYS",
-          "routes": [
-            "2"
-          ],
-          "stopIds": [
-            "13735",
-            "13736"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": "2",
-              "stopId": "13735",
-              "coordinates": [
-                43.689249,
-                -79.300686
-              ],
-              "name": "Main Street Station - Eastbound Platform"
-            },
-            {
-              "routeId": "2",
-              "stopId": "13736",
-              "coordinates": [
-                43.688949,
-                -79.302386
-              ],
-              "name": "Main Street Station - Westbound Platform"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790787375000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
         {
           "id": "76938",
           "title": "Line 1 Yonge-University: There is limited subway service between Vaughan and Finch West stations due to planned track work.",
@@ -377154,64 +377027,6 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
-          "id": "77191",
-          "title": "Eglinton: Escalator 18Y4E out of service from Line 1 Centre platform to concourse while we perform an inspection. Escalator is expected to be back in service September 30, 2026.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "stopIds": [
-            "16073",
-            "13796",
-            "13795",
-            "16074"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": null,
-              "stopId": "16073",
-              "coordinates": [
-                43.70638,
-                -79.398765
-              ],
-              "name": "Eglinton Station Eastbound Platform"
-            },
-            {
-              "routeId": null,
-              "stopId": "13796",
-              "coordinates": [
-                43.706548,
-                -79.39839
-              ],
-              "name": "Eglinton Station - Northbound Platform"
-            },
-            {
-              "routeId": null,
-              "stopId": "13795",
-              "coordinates": [
-                43.704648,
-                -79.39889
-              ],
-              "name": "Eglinton Station - Southbound Platform"
-            },
-            {
-              "routeId": null,
-              "stopId": "16074",
-              "coordinates": [
-                43.70649,
-                -79.399186
-              ],
-              "name": "Eglinton Station Westbound Platform"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790778600000,
-              "end": 1790787600000
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
           "id": "77181",
           "title": "Queen's Park: Escalator 3Y2E out of service from Line 1 platform to concourse while we perform maintenance.",
           "description": "",
@@ -378356,16 +378171,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-30T16:59:03.000Z",
+      "sourceUpdatedAt": "2026-09-30T17:05:01.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-30T16:59:02.343Z",
-      "fetchedAt": "2026-09-30T16:59:02.343Z"
+      "checkedAt": "2026-09-30T17:05:01.051Z",
+      "fetchedAt": "2026-09-30T17:05:01.051Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T17:03:04.000Z",
+    "sourceUpdatedAt": "2026-09-30T17:04:38.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -378374,14 +378189,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T17:03:04.713Z",
-    "checkedAt": "2026-09-30T17:03:04.713Z",
+    "fetchedAt": "2026-09-30T17:05:01.051Z",
+    "checkedAt": "2026-09-30T17:05:01.051Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T17:03:04.713Z",
-      "checkedAt": "2026-09-30T17:03:04.713Z",
+      "fetchedAt": "2026-09-30T17:05:01.051Z",
+      "checkedAt": "2026-09-30T17:05:01.051Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
