@@ -3,9 +3,44 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T07:13:44.957Z",
-  "sourceUpdatedAt": "2026-09-30T07:10:01.000Z",
+  "fetchedAt": "2026-09-30T07:15:32.761Z",
+  "sourceUpdatedAt": "2026-09-30T07:15:02.000Z",
   "incidents": [
+    {
+      "id": "F26155058",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "CHATSWORTH DR, TT / DUPLEX PARKETTE TRL / DUPLEX AVE",
+      "division": "131",
+      "timestamp": "2026-09-30T07:06:38.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "131",
+            "134"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-30T07:15:32.761Z",
+      "lastSeenAt": "2026-09-30T07:15:32.761Z",
+      "geography": {
+        "text": "Chatsworth Drive between Duplex Parkette Trl & Duplex Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.72194535,
+          -79.40341495
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T07:15:32.761Z"
+      }
+    },
     {
       "id": "F26155056",
       "source": "TFS",
@@ -32,7 +67,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T07:13:44.957Z",
-      "lastSeenAt": "2026-09-30T07:13:44.957Z",
+      "lastSeenAt": "2026-09-30T07:15:32.761Z",
       "geography": {
         "text": "Howard Street between Ontario Street & Edgedale Road",
         "approximate": false,
@@ -66,7 +101,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T07:13:44.957Z",
-      "lastSeenAt": "2026-09-30T07:13:44.957Z",
+      "lastSeenAt": "2026-09-30T07:15:32.761Z",
       "geography": {
         "text": "Lascelles Boulevard between Wilberton Road & Kilbarry Road",
         "approximate": false,
@@ -100,7 +135,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T07:13:44.957Z",
-      "lastSeenAt": "2026-09-30T07:13:44.957Z",
+      "lastSeenAt": "2026-09-30T07:15:32.761Z",
       "geography": {
         "text": "King Street West & University Avenue",
         "approximate": false,
@@ -277,7 +312,7 @@
       "division": "425",
       "timestamp": "2026-09-30T06:43:04.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -311,7 +346,7 @@
       "division": "226",
       "timestamp": "2026-09-30T06:39:32.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -390,7 +425,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T07:13:44.957Z",
-      "lastSeenAt": "2026-09-30T07:13:44.957Z",
+      "lastSeenAt": "2026-09-30T07:15:32.761Z",
       "geography": {
         "text": "Plug Hat Road between Meadowvale Road & Beare Road",
         "approximate": false,
@@ -207864,12 +207899,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T07:13:44.957Z",
-      "sourceUpdatedAt": "2026-09-30T07:10:01.000Z",
+      "fetchedAt": "2026-09-30T07:15:32.761Z",
+      "sourceUpdatedAt": "2026-09-30T07:15:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T07:13:44.957Z",
+      "fetchedAt": "2026-09-30T07:15:32.761Z",
       "status": "ok"
     }
   },
@@ -365582,7 +365617,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T07:13:45.000Z",
+    "sourceUpdatedAt": "2026-09-30T07:15:15.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -365591,14 +365626,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T07:13:44.957Z",
-    "checkedAt": "2026-09-30T07:13:44.957Z",
+    "fetchedAt": "2026-09-30T07:15:32.761Z",
+    "checkedAt": "2026-09-30T07:15:32.761Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T07:13:44.957Z",
-      "checkedAt": "2026-09-30T07:13:44.957Z",
+      "fetchedAt": "2026-09-30T07:15:32.761Z",
+      "checkedAt": "2026-09-30T07:15:32.761Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -365622,6 +365657,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "CHATSWORTH DR, TT / DUPLEX PARKETTE TRL / DUPLEX AVE": {
+      "text": "Chatsworth Drive between Duplex Parkette Trl & Duplex Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.72194535,
+        -79.40341495
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T07:15:32.761Z"
+    },
     "HOWARD ST, TT / ONTARIO ST / EDGEDALE RD": {
       "text": "Howard Street between Ontario Street & Edgedale Road",
       "approximate": false,
