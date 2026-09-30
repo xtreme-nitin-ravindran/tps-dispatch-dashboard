@@ -3,9 +3,135 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T22:49:42.782Z",
-  "sourceUpdatedAt": "2026-09-30T22:45:01.000Z",
+  "fetchedAt": "2026-09-30T22:51:38.645Z",
+  "sourceUpdatedAt": "2026-09-30T22:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26155512",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1E",
+      "division": "234",
+      "timestamp": "2026-09-30T22:43:50.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T22:51:38.645Z",
+      "lastSeenAt": "2026-09-30T22:51:38.645Z",
+      "geography": {
+        "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+        "approximate": true,
+        "coordinates": [
+          43.7678,
+          -79.1866
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26155511",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4A",
+      "division": "233",
+      "timestamp": "2026-09-30T22:43:15.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T22:51:38.645Z",
+      "lastSeenAt": "2026-09-30T22:51:38.645Z",
+      "geography": {
+        "text": "Approximate area: (M4A) North York (Sweeney Park / Wigmore Park)",
+        "approximate": true,
+        "coordinates": [
+          43.7276,
+          -79.3148
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-24T13:46:56.154Z"
+      }
+    },
+    {
+      "id": "F26155510",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "CALAMINT LANE, SC / / HUNTINGDALE BLVD",
+      "division": "241",
+      "timestamp": "2026-09-30T22:42:49.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T22:51:38.645Z",
+      "lastSeenAt": "2026-09-30T22:51:38.645Z",
+      "geography": {
+        "text": "Calamint Lane & Huntingdale Boulevard",
+        "approximate": false,
+        "coordinates": [
+          43.7965269,
+          -79.3263579
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T22:51:38.645Z"
+      }
+    },
+    {
+      "id": "F26155509",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire Alarm - Check Call",
+      "location": "PHARMACY AVE, SC / FINCH AVE E / CHESTER LE BLVD",
+      "division": "241",
+      "timestamp": "2026-09-30T22:42:24.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T22:51:38.645Z",
+      "lastSeenAt": "2026-09-30T22:51:38.645Z",
+      "geography": {
+        "text": "Approximate location near Pharmacy Avenue & Finch Avenue East",
+        "approximate": true,
+        "coordinates": [
+          43.7943314,
+          -79.3259694
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-27T12:20:14.513Z"
+      }
+    },
+    {
+      "id": "TPS-0a657644a8ed8deb48916e12",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-09-30T22:41:55.000Z",
+      "location": "DREWRY AVE - BATHURST ST",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DREWRY AVE - BATHURST ST",
+        "coordinates": [
+          43.78103719457743,
+          -79.44480641583858
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T22:51:38.645Z"
+    },
     {
       "id": "F26155508",
       "source": "TFS",
@@ -16,9 +142,18 @@
       "timestamp": "2026-09-30T22:39:38.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "345"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T22:45:37.010Z",
-      "lastSeenAt": "2026-09-30T22:49:42.782Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T22:51:38.645Z",
+      "lastSeenAt": "2026-09-30T22:51:38.645Z",
       "geography": {
         "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
         "approximate": true,
@@ -42,9 +177,24 @@
       "timestamp": "2026-09-30T22:38:44.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "113"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "111"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T22:45:37.010Z",
-      "lastSeenAt": "2026-09-30T22:49:42.782Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T22:51:38.645Z",
+      "lastSeenAt": "2026-09-30T22:51:38.645Z",
       "geography": {
         "text": "Approximate location near Aspenwood Drive & Duncan Creek Trl",
         "approximate": true,
@@ -59,6 +209,50 @@
       }
     },
     {
+      "id": "TPS-0449b55b6446abe857e34931",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-30T22:38:36.000Z",
+      "location": "YONGE ST - DORIS AVE",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "YONGE ST - DORIS AVE",
+        "coordinates": [
+          43.76497778802427,
+          -79.4086406943267
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T22:51:38.645Z"
+    },
+    {
+      "id": "TPS-91a017c293a55ec5bdd6895c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-09-30T22:38:20.000Z",
+      "location": " - HOWARD ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": " - HOWARD ST",
+        "coordinates": [
+          43.671321510901315,
+          -79.37372025796904
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T22:51:38.645Z"
+    },
+    {
       "id": "F26155506",
       "source": "TFS",
       "eventType": "fire",
@@ -68,9 +262,19 @@
       "timestamp": "2026-09-30T22:37:46.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "332",
+            "334"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T22:45:37.010Z",
-      "lastSeenAt": "2026-09-30T22:49:42.782Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T22:51:38.645Z",
+      "lastSeenAt": "2026-09-30T22:51:38.645Z",
       "geography": {
         "text": "Duncan Street between Pearl Street & Adelaide Street West",
         "approximate": false,
@@ -105,7 +309,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T22:41:39.301Z",
       "lastMeaningfulUpdateAt": "2026-09-30T22:45:37.010Z",
-      "lastSeenAt": "2026-09-30T22:49:42.782Z",
+      "lastSeenAt": "2026-09-30T22:51:38.645Z",
       "geography": {
         "text": "Approximate location on L4j",
         "approximate": true,
@@ -163,7 +367,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T22:41:39.301Z",
       "lastMeaningfulUpdateAt": "2026-09-30T22:45:37.010Z",
-      "lastSeenAt": "2026-09-30T22:49:42.782Z",
+      "lastSeenAt": "2026-09-30T22:51:38.645Z",
       "geography": {
         "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
         "approximate": true,
@@ -178,6 +382,28 @@
       }
     },
     {
+      "id": "TPS-eb72e0ae6848232c83586b0d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-09-30T22:31:59.000Z",
+      "location": "ERINDALE AVE - PRETORIA AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ERINDALE AVE - PRETORIA AVE",
+        "coordinates": [
+          43.67840624704042,
+          -79.35842278546417
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T22:51:38.645Z"
+    },
+    {
       "id": "F26155501",
       "source": "TFS",
       "eventType": "fire",
@@ -186,7 +412,7 @@
       "division": "221",
       "timestamp": "2026-09-30T22:31:57.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -227,7 +453,7 @@
       "division": "133",
       "timestamp": "2026-09-30T22:29:21.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -253,6 +479,50 @@
       }
     },
     {
+      "id": "TPS-2ad79c17df1bec18fb72a3aa",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HOLDING LOST ELDERLY",
+      "callTypeCode": "LOSEL",
+      "timestamp": "2026-09-30T22:29:15.000Z",
+      "location": "ESTHER SHINER BLVD - OLD LESLIE NY HOSPITAL RAMP",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ESTHER SHINER BLVD - OLD LESLIE NY HOSPITAL RAMP",
+        "coordinates": [
+          43.76940940056831,
+          -79.36417813169977
+        ],
+        "division": "Division 33",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T22:51:38.645Z"
+    },
+    {
+      "id": "TPS-1e9b49d5e26cee392df61057",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-30T22:28:10.000Z",
+      "location": "ALBION RD - WESTMORE DR",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ALBION RD - WESTMORE DR",
+        "coordinates": [
+          43.74363175999314,
+          -79.60390506513085
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T22:51:38.645Z"
+    },
+    {
       "id": "F26155499",
       "source": "TFS",
       "eventType": "fire",
@@ -272,7 +542,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T22:35:41.488Z",
-      "lastSeenAt": "2026-09-30T22:49:42.782Z",
+      "lastSeenAt": "2026-09-30T22:51:38.645Z",
       "geography": {
         "text": "Approximate area: (M2R) Willowdale West",
         "approximate": true,
@@ -321,6 +591,50 @@
       }
     },
     {
+      "id": "TPS-255a3188f454ef5084052e34",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING ELDERLY",
+      "callTypeCode": "MISEL",
+      "timestamp": "2026-09-30T22:26:38.000Z",
+      "location": "WOODMOUNT AVE - WOODBINE AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WOODMOUNT AVE - WOODBINE AVE",
+        "coordinates": [
+          43.692803914651435,
+          -79.31584854324728
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T22:51:38.645Z"
+    },
+    {
+      "id": "TPS-a5dd81f432ff1658ce04fe7d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-09-30T22:26:17.000Z",
+      "location": "KIMROY GRV - TINETA CRES",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KIMROY GRV - TINETA CRES",
+        "coordinates": [
+          43.78814777078283,
+          -79.25369024007837
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T22:51:38.645Z"
+    },
+    {
       "id": "F26155496",
       "source": "TFS",
       "eventType": "fire",
@@ -329,7 +643,7 @@
       "division": "442",
       "timestamp": "2026-09-30T22:22:33.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -910,7 +1224,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T22:21:16.833Z",
       "lastMeaningfulUpdateAt": "2026-09-30T22:25:30.518Z",
-      "lastSeenAt": "2026-09-30T22:49:42.782Z",
+      "lastSeenAt": "2026-09-30T22:51:38.645Z",
       "geography": {
         "text": "Approximate area: (M6N) York (Runnymede / The Junction North)",
         "approximate": true,
@@ -1011,7 +1325,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T22:11:27.611Z",
       "lastMeaningfulUpdateAt": "2026-09-30T22:17:29.025Z",
-      "lastSeenAt": "2026-09-30T22:49:42.782Z",
+      "lastSeenAt": "2026-09-30T22:51:38.645Z",
       "geography": {
         "text": "Murray Street between Elm Street & Orde Street",
         "approximate": false,
@@ -6785,6 +7099,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-30T19:01:45.217Z"
       }
+    },
+    {
+      "id": "TPS-f0853cabfe5cf8fc4d0bfdd3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-09-30T18:51:02.000Z",
+      "location": "BROOKBANKS DR - BROOKBANKS PARK TRL",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BROOKBANKS DR - BROOKBANKS PARK TRL",
+        "coordinates": [
+          43.75225261573004,
+          -79.3318173572692
+        ],
+        "division": "Division 33",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T22:51:38.645Z"
     },
     {
       "id": "F26155362",
@@ -219421,12 +219757,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T22:49:42.782Z",
-      "sourceUpdatedAt": "2026-09-30T22:45:01.000Z",
+      "fetchedAt": "2026-09-30T22:51:38.645Z",
+      "sourceUpdatedAt": "2026-09-30T22:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T22:49:42.782Z",
+      "fetchedAt": "2026-09-30T22:51:38.645Z",
       "status": "ok"
     }
   },
@@ -362331,8 +362667,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-30T22:45:37.010Z",
-      "fetchedAt": "2026-09-30T22:45:37.010Z"
+      "checkedAt": "2026-09-30T22:51:38.645Z",
+      "fetchedAt": "2026-09-30T22:51:38.645Z"
     },
     "transit": {
       "items": [
@@ -363271,7 +363607,7 @@
           "periods": [
             {
               "start": 1790763863000,
-              "end": null
+              "end": 1790837220000
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -366453,16 +366789,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-30T22:45:37.000Z",
+      "sourceUpdatedAt": "2026-09-30T22:51:39.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-30T22:45:37.010Z",
-      "fetchedAt": "2026-09-30T22:45:37.010Z"
+      "checkedAt": "2026-09-30T22:51:38.645Z",
+      "fetchedAt": "2026-09-30T22:51:38.645Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T22:49:30.000Z",
+    "sourceUpdatedAt": "2026-09-30T22:51:32.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -366471,14 +366807,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T22:49:42.782Z",
-    "checkedAt": "2026-09-30T22:49:42.782Z",
+    "fetchedAt": "2026-09-30T22:51:38.645Z",
+    "checkedAt": "2026-09-30T22:51:38.645Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T22:49:42.782Z",
-      "checkedAt": "2026-09-30T22:49:42.782Z",
+      "fetchedAt": "2026-09-30T22:51:38.645Z",
+      "checkedAt": "2026-09-30T22:51:38.645Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -366502,6 +366838,54 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1E": {
+      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+      "approximate": true,
+      "coordinates": [
+        43.7678,
+        -79.1866
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M4A": {
+      "text": "Approximate area: (M4A) North York (Sweeney Park / Wigmore Park)",
+      "approximate": true,
+      "coordinates": [
+        43.7276,
+        -79.3148
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-24T13:46:56.154Z"
+    },
+    "CALAMINT LANE, SC / / HUNTINGDALE BLVD": {
+      "text": "Calamint Lane & Huntingdale Boulevard",
+      "approximate": false,
+      "coordinates": [
+        43.7965269,
+        -79.3263579
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T22:51:38.645Z"
+    },
+    "PHARMACY AVE, SC / FINCH AVE E / CHESTER LE BLVD": {
+      "text": "Approximate location near Pharmacy Avenue & Finch Avenue East",
+      "approximate": true,
+      "coordinates": [
+        43.7943314,
+        -79.3259694
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-27T12:20:14.513Z"
+    },
     "M6H": {
       "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
       "approximate": true,
@@ -366987,18 +367371,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-30T21:26:28.765Z"
-    },
-    "M1E": {
-      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
-      "approximate": true,
-      "coordinates": [
-        43.7678,
-        -79.1866
-      ],
-      "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M1B": {
       "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
@@ -369225,18 +369597,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-30T04:26:41.712Z"
-    },
-    "M4A": {
-      "text": "Approximate area: (M4A) North York (Sweeney Park / Wigmore Park)",
-      "approximate": true,
-      "coordinates": [
-        43.7276,
-        -79.3148
-      ],
-      "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-24T13:46:56.154Z"
     },
     "LOMBARD ST, TT / SPICE MILL LANE / BARBED WIRE LANE": {
       "text": "Lombard Street between Spice Mill Lane & Barbed Wire Lane",
@@ -374244,18 +374604,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T12:20:41.989Z"
-    },
-    "PHARMACY AVE, SC / FINCH AVE E / CHESTER LE BLVD": {
-      "text": "Approximate location near Pharmacy Avenue & Finch Avenue East",
-      "approximate": true,
-      "coordinates": [
-        43.7943314,
-        -79.3259694
-      ],
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-27T12:20:14.513Z"
     },
     "NORTH QUEEN ST / KIPLING AVE": {
       "text": "North Queen Street & Kipling Avenue",
