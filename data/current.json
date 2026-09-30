@@ -3,9 +3,83 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T09:34:03.055Z",
-  "sourceUpdatedAt": "2026-09-30T09:30:01.000Z",
+  "fetchedAt": "2026-09-30T09:36:00.614Z",
+  "sourceUpdatedAt": "2026-09-30T09:35:02.000Z",
   "incidents": [
+    {
+      "id": "F26155092",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Hazmat Level 1",
+      "location": "MABELLE AVE, ET / CORDOVA AVE / DUNDAS ST W",
+      "division": "445",
+      "timestamp": "2026-09-30T09:26:59.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "445"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-30T09:36:00.614Z",
+      "lastSeenAt": "2026-09-30T09:36:00.614Z",
+      "geography": {
+        "text": "Mabelle Avenue between Cordova Avenue & Dundas Street West",
+        "approximate": false,
+        "coordinates": [
+          43.64698865,
+          -79.52803135
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-29T15:59:35.118Z"
+      }
+    },
+    {
+      "id": "F26155091",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "SHERBOURNE ST, TT / SHUTER ST / DUNDAS ST E",
+      "division": "325",
+      "timestamp": "2026-09-30T09:26:00.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "325"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "325"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-30T09:36:00.614Z",
+      "lastSeenAt": "2026-09-30T09:36:00.614Z",
+      "geography": {
+        "text": "Sherbourne Street between Shuter Street & Dundas Street East",
+        "approximate": false,
+        "coordinates": [
+          43.657228700000005,
+          -79.37057734999999
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T20:22:34.494Z"
+      }
+    },
     {
       "id": "F26155090",
       "source": "TFS",
@@ -16,9 +90,18 @@
       "timestamp": "2026-09-30T09:20:57.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "244"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T09:31:58.891Z",
-      "lastSeenAt": "2026-09-30T09:34:03.055Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T09:36:00.614Z",
+      "lastSeenAt": "2026-09-30T09:36:00.614Z",
       "geography": {
         "text": "Approximate area: (M1T) Scarborough (Clarks Corners / Tam O'Shanter / Sullivan)",
         "approximate": true,
@@ -74,7 +157,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T09:20:29.943Z",
-      "lastSeenAt": "2026-09-30T09:34:03.055Z",
+      "lastSeenAt": "2026-09-30T09:36:00.614Z",
       "geography": {
         "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
         "approximate": true,
@@ -182,7 +265,7 @@
       ],
       "respondingUnitCount": 11,
       "firstSeenAt": "2026-09-30T09:16:21.106Z",
-      "lastSeenAt": "2026-09-30T09:34:03.055Z",
+      "lastSeenAt": "2026-09-30T09:36:00.614Z",
       "geography": {
         "text": "High Park Avenue between Bloor Street West & Glenlake Avenue",
         "approximate": false,
@@ -434,7 +517,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T08:51:51.175Z",
-      "lastSeenAt": "2026-09-30T09:34:03.055Z",
+      "lastSeenAt": "2026-09-30T09:36:00.614Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -208620,12 +208703,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T09:34:03.055Z",
-      "sourceUpdatedAt": "2026-09-30T09:30:01.000Z",
+      "fetchedAt": "2026-09-30T09:36:00.614Z",
+      "sourceUpdatedAt": "2026-09-30T09:35:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T09:34:03.055Z",
+      "fetchedAt": "2026-09-30T09:36:00.614Z",
       "status": "ok"
     }
   },
@@ -365735,7 +365818,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T09:33:30.000Z",
+    "sourceUpdatedAt": "2026-09-30T09:35:18.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -365744,14 +365827,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T09:34:03.055Z",
-    "checkedAt": "2026-09-30T09:34:03.055Z",
+    "fetchedAt": "2026-09-30T09:36:00.614Z",
+    "checkedAt": "2026-09-30T09:36:00.614Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T09:34:03.055Z",
-      "checkedAt": "2026-09-30T09:34:03.055Z",
+      "fetchedAt": "2026-09-30T09:36:00.614Z",
+      "checkedAt": "2026-09-30T09:36:00.614Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -365775,6 +365858,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "MABELLE AVE, ET / CORDOVA AVE / DUNDAS ST W": {
+      "text": "Mabelle Avenue between Cordova Avenue & Dundas Street West",
+      "approximate": false,
+      "coordinates": [
+        43.64698865,
+        -79.52803135
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-29T15:59:35.118Z"
+    },
+    "SHERBOURNE ST, TT / SHUTER ST / DUNDAS ST E": {
+      "text": "Sherbourne Street between Shuter Street & Dundas Street East",
+      "approximate": false,
+      "coordinates": [
+        43.657228700000005,
+        -79.37057734999999
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T20:22:34.494Z"
+    },
     "M1T": {
       "text": "Approximate area: (M1T) Scarborough (Clarks Corners / Tam O'Shanter / Sullivan)",
       "approximate": true,
@@ -368363,18 +368470,6 @@
         -79.23801895
       ],
       "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-29T15:59:35.118Z"
-    },
-    "MABELLE AVE, ET / CORDOVA AVE / DUNDAS ST W": {
-      "text": "Mabelle Avenue between Cordova Avenue & Dundas Street West",
-      "approximate": false,
-      "coordinates": [
-        43.64698865,
-        -79.52803135
-      ],
-      "division": "Division 22",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-29T15:59:35.118Z"
@@ -373439,18 +373534,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T18:36:11.624Z"
-    },
-    "SHERBOURNE ST, TT / SHUTER ST / DUNDAS ST E": {
-      "text": "Sherbourne Street between Shuter Street & Dundas Street East",
-      "approximate": false,
-      "coordinates": [
-        43.657228700000005,
-        -79.37057734999999
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T20:22:34.494Z"
     },
     "HARRISON GARDEN BLVD, NY / HUMBERSTONE DR / AVONDALE PARK TRL": {
       "text": "Approximate location near Harrison Garden Boulevard & Humberstone Drive",
