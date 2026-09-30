@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T03:13:57.460Z",
-  "sourceUpdatedAt": "2026-09-30T03:10:01.000Z",
+  "fetchedAt": "2026-09-30T03:15:49.663Z",
+  "sourceUpdatedAt": "2026-09-30T03:15:01.000Z",
   "incidents": [
+    {
+      "id": "F26154973",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6H",
+      "division": "345",
+      "timestamp": "2026-09-30T03:05:33.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "345"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-30T03:15:49.663Z",
+      "lastSeenAt": "2026-09-30T03:15:49.663Z",
+      "geography": {
+        "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
+        "approximate": true,
+        "coordinates": [
+          43.6655,
+          -79.4378
+        ],
+        "division": "Division 11",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26154972",
       "source": "TFS",
@@ -15,7 +49,7 @@
       "division": "325",
       "timestamp": "2026-09-30T03:03:34.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-30T03:11:58.672Z",
       "lastSeenAt": "2026-09-30T03:13:57.460Z",
@@ -42,9 +76,58 @@
       "timestamp": "2026-09-30T03:00:33.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "133",
+            "421"
+          ]
+        },
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "13",
+            "14"
+          ]
+        },
+        {
+          "type": "High-Rise Unit",
+          "numbers": [
+            "114"
+          ]
+        },
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "421"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "146",
+            "421",
+            "442"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "133"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "143"
+          ]
+        }
+      ],
+      "respondingUnitCount": 11,
       "firstSeenAt": "2026-09-30T03:11:58.672Z",
-      "lastSeenAt": "2026-09-30T03:13:57.460Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T03:15:49.663Z",
+      "lastSeenAt": "2026-09-30T03:15:49.663Z",
       "geography": {
         "text": "Lawrence Avenue between Culford Road & De Marco Boulevard",
         "approximate": false,
@@ -78,7 +161,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T03:06:18.358Z",
-      "lastSeenAt": "2026-09-30T03:13:57.460Z",
+      "lastSeenAt": "2026-09-30T03:15:49.663Z",
       "geography": {
         "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
         "approximate": true,
@@ -101,7 +184,7 @@
       "division": "312",
       "timestamp": "2026-09-30T02:56:13.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -208,7 +291,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T03:00:29.397Z",
       "lastMeaningfulUpdateAt": "2026-09-30T03:06:18.358Z",
-      "lastSeenAt": "2026-09-30T03:13:57.460Z",
+      "lastSeenAt": "2026-09-30T03:15:49.663Z",
       "geography": {
         "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
         "approximate": true,
@@ -278,7 +361,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T02:56:19.516Z",
       "lastMeaningfulUpdateAt": "2026-09-30T03:00:29.397Z",
-      "lastSeenAt": "2026-09-30T03:13:57.460Z",
+      "lastSeenAt": "2026-09-30T03:15:49.663Z",
       "geography": {
         "text": "Approximate area: (M1N) Scarborough (Birch Cliff / Cliffside West)",
         "approximate": true,
@@ -319,7 +402,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T02:56:19.516Z",
       "lastMeaningfulUpdateAt": "2026-09-30T03:00:29.397Z",
-      "lastSeenAt": "2026-09-30T03:13:57.460Z",
+      "lastSeenAt": "2026-09-30T03:15:49.663Z",
       "geography": {
         "text": "Queen Street between Lisgar Street & Abell Street",
         "approximate": false,
@@ -389,7 +472,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T02:50:39.519Z",
       "lastMeaningfulUpdateAt": "2026-09-30T02:56:19.516Z",
-      "lastSeenAt": "2026-09-30T03:13:57.460Z",
+      "lastSeenAt": "2026-09-30T03:15:49.663Z",
       "geography": {
         "text": "Regal Road & Springmount Avenue",
         "approximate": false,
@@ -539,7 +622,7 @@
       "division": "311",
       "timestamp": "2026-09-30T02:33:59.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -771,7 +854,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T02:46:58.414Z",
-      "lastSeenAt": "2026-09-30T03:13:57.460Z",
+      "lastSeenAt": "2026-09-30T03:15:49.663Z",
       "geography": {
         "text": "Laver Road & Mill Road",
         "approximate": false,
@@ -2184,7 +2267,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T01:47:27.973Z",
       "lastMeaningfulUpdateAt": "2026-09-30T01:51:19.616Z",
-      "lastSeenAt": "2026-09-30T03:13:57.460Z",
+      "lastSeenAt": "2026-09-30T03:15:49.663Z",
       "geography": {
         "text": "Jackman Avenue between Butternut Street & Browning Avenue",
         "approximate": false,
@@ -206453,37 +206536,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "TPS-0b49bc3075aab55e9526918c",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "MISSING VULNERABLE PERSON",
-      "callTypeCode": "MISVU",
-      "timestamp": "2026-09-23T03:14:09.000Z",
-      "location": "REDWOOD AVE - GLENSIDE AVE",
-      "division": "Division 55",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "REDWOOD AVE - GLENSIDE AVE",
-        "coordinates": [
-          43.67116217816358,
-          -79.32691111439745
-        ],
-        "division": "Division 55",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T03:13:57.460Z",
-      "sourceUpdatedAt": "2026-09-30T03:10:01.000Z",
+      "fetchedAt": "2026-09-30T03:15:49.663Z",
+      "sourceUpdatedAt": "2026-09-30T03:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T03:13:57.460Z",
+      "fetchedAt": "2026-09-30T03:15:49.663Z",
       "status": "ok"
     }
   },
@@ -360889,9 +360951,10 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         }
       ],
-      "status": "ok",
-      "checkedAt": "2026-09-30T03:09:57.765Z",
-      "fetchedAt": "2026-09-30T03:09:57.765Z"
+      "sourceUpdatedAt": null,
+      "fetchedAt": "2026-09-30T03:09:57.765Z",
+      "checkedAt": "2026-09-30T03:15:49.663Z",
+      "status": "unavailable"
     },
     "transit": {
       "items": [
@@ -364291,16 +364354,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-30T03:09:58.000Z",
+      "sourceUpdatedAt": "2026-09-30T03:15:50.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-30T03:09:57.765Z",
-      "fetchedAt": "2026-09-30T03:09:57.765Z"
+      "checkedAt": "2026-09-30T03:15:49.663Z",
+      "fetchedAt": "2026-09-30T03:15:49.663Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T03:13:48.000Z",
+    "sourceUpdatedAt": "2026-09-30T03:15:31.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -364309,14 +364372,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T03:13:57.460Z",
-    "checkedAt": "2026-09-30T03:13:57.460Z",
+    "fetchedAt": "2026-09-30T03:15:49.663Z",
+    "checkedAt": "2026-09-30T03:15:49.663Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T03:13:57.460Z",
-      "checkedAt": "2026-09-30T03:13:57.460Z",
+      "fetchedAt": "2026-09-30T03:15:49.663Z",
+      "checkedAt": "2026-09-30T03:15:49.663Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -364340,6 +364403,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6H": {
+      "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
+      "approximate": true,
+      "coordinates": [
+        43.6655,
+        -79.4378
+      ],
+      "division": "Division 11",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M5B": {
       "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
       "approximate": true,
@@ -364981,18 +365056,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-30T00:50:04.084Z"
-    },
-    "M6H": {
-      "text": "Approximate area: (M6H) West Toronto (Dufferin / Dovercourt Village)",
-      "approximate": true,
-      "coordinates": [
-        43.6655,
-        -79.4378
-      ],
-      "division": "Division 11",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M1J": {
       "text": "Approximate area: (M1J) Scarborough (Eglinton)",
