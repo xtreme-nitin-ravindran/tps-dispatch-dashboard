@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T21:50:26.544Z",
-  "sourceUpdatedAt": "2026-09-30T21:45:01.000Z",
+  "fetchedAt": "2026-09-30T21:52:39.500Z",
+  "sourceUpdatedAt": "2026-09-30T21:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26155471",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M8V",
+      "division": "433",
+      "timestamp": "2026-09-30T21:44:48.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T21:52:39.500Z",
+      "lastSeenAt": "2026-09-30T21:52:39.500Z",
+      "geography": {
+        "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
+        "approximate": true,
+        "coordinates": [
+          43.6075,
+          -79.5013
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26155469",
       "source": "TFS",
@@ -16,9 +42,24 @@
       "timestamp": "2026-09-30T21:38:04.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "415"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "413"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T21:46:35.704Z",
-      "lastSeenAt": "2026-09-30T21:50:26.544Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T21:52:39.500Z",
+      "lastSeenAt": "2026-09-30T21:52:39.500Z",
       "geography": {
         "text": "Approximate location near Kendleton Drive & Warrendale Court",
         "approximate": true,
@@ -33,6 +74,50 @@
       }
     },
     {
+      "id": "TPS-a06a2695be53eb7016a93c08",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-30T21:37:50.000Z",
+      "location": "WYNFORD HEIGHTS CRES - WYNFORD HEIGHTS CRES",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WYNFORD HEIGHTS CRES - WYNFORD HEIGHTS CRES",
+        "coordinates": [
+          43.72734273534887,
+          -79.3277810325898
+        ],
+        "division": "Division 33",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T21:52:39.500Z"
+    },
+    {
+      "id": "TPS-c7a7c767b41e872dfa524591",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSON WITH A GUN",
+      "callTypeCode": "PERGU",
+      "timestamp": "2026-09-30T21:37:49.000Z",
+      "location": "HUMBERWOOD BLVD - REXDALE W 427 N RAMP",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HUMBERWOOD BLVD - REXDALE W 427 N RAMP",
+        "coordinates": [
+          43.706026538413205,
+          -79.60420741329722
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T21:52:39.500Z"
+    },
+    {
       "id": "F26155468",
       "source": "TFS",
       "eventType": "fire",
@@ -41,7 +126,7 @@
       "division": "314",
       "timestamp": "2026-09-30T21:36:19.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-30T21:46:35.704Z",
       "lastSeenAt": "2026-09-30T21:50:26.544Z",
@@ -67,7 +152,7 @@
       "division": "445",
       "timestamp": "2026-09-30T21:33:46.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -114,7 +199,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T21:40:37.039Z",
       "lastMeaningfulUpdateAt": "2026-09-30T21:46:35.704Z",
-      "lastSeenAt": "2026-09-30T21:50:26.544Z",
+      "lastSeenAt": "2026-09-30T21:52:39.500Z",
       "geography": {
         "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
         "approximate": true,
@@ -127,6 +212,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-d425a0e7549638ff9ea35b4a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-09-30T21:31:26.000Z",
+      "location": "MIDLAND AVE - GREAT WEST DR",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MIDLAND AVE - GREAT WEST DR",
+        "coordinates": [
+          43.75797416355459,
+          -79.26745884100536
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T21:52:39.500Z"
+    },
+    {
+      "id": "TPS-4d293a1538ecfc7dd5c76ecb",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-09-30T21:29:47.000Z",
+      "location": "EGLINTON AVE E - DUNFIELD AVE",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "EGLINTON AVE E - DUNFIELD AVE",
+        "coordinates": [
+          43.70735320893923,
+          -79.39547074974986
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T21:52:39.500Z"
+    },
+    {
+      "id": "TPS-c22980fc635e478f3a2ddbe9",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-09-30T21:29:00.000Z",
+      "location": "SHEPPARD AVE E - MORNINGSIDE AVE",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SHEPPARD AVE E - MORNINGSIDE AVE",
+        "coordinates": [
+          43.80196899194465,
+          -79.19975946977212
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-09-30T21:52:39.500Z"
     },
     {
       "id": "F26155464",
@@ -148,7 +299,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T21:36:36.375Z",
-      "lastSeenAt": "2026-09-30T21:50:26.544Z",
+      "lastSeenAt": "2026-09-30T21:52:39.500Z",
       "geography": {
         "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
         "approximate": true,
@@ -182,7 +333,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T21:36:36.375Z",
-      "lastSeenAt": "2026-09-30T21:50:26.544Z",
+      "lastSeenAt": "2026-09-30T21:52:39.500Z",
       "geography": {
         "text": "Sheppard Avenue East & Morningside Avenue",
         "approximate": false,
@@ -205,7 +356,7 @@
       "division": "442",
       "timestamp": "2026-09-30T21:27:41.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -273,7 +424,7 @@
       "division": "426",
       "timestamp": "2026-09-30T21:25:57.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Ladder Truck",
@@ -335,7 +486,7 @@
       "division": "443",
       "timestamp": "2026-09-30T21:24:00.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -602,7 +753,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T21:22:16.470Z",
       "lastMeaningfulUpdateAt": "2026-09-30T21:26:28.765Z",
-      "lastSeenAt": "2026-09-30T21:50:26.544Z",
+      "lastSeenAt": "2026-09-30T21:52:39.500Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -1804,7 +1955,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-09-30T20:42:15.250Z",
       "lastMeaningfulUpdateAt": "2026-09-30T21:22:16.470Z",
-      "lastSeenAt": "2026-09-30T21:50:26.544Z",
+      "lastSeenAt": "2026-09-30T21:52:39.500Z",
       "geography": {
         "text": "Approximate area: (M8X) Etobicoke (The Kingsway / Montgomery Road / Old Mill North)",
         "approximate": true,
@@ -218462,62 +218613,16 @@
         "division": "Division 41",
         "approximate": true
       }
-    },
-    {
-      "id": "F26151124",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Rescue - Elevator",
-      "location": "QUEEN ST, TT / MUTUAL ST / JARVIS ST",
-      "division": "325",
-      "timestamp": "2026-09-23T21:52:16.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Command Unit",
-          "numbers": [
-            "32"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "313",
-            "313"
-          ]
-        },
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "325"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-23T22:27:54.190Z",
-      "lastSeenAt": "2026-09-23T22:29:29.193Z",
-      "geography": {
-        "text": "Queen Street between Mutual Street & Jarvis Street",
-        "approximate": false,
-        "coordinates": [
-          43.653600049999994,
-          -79.37374935
-        ],
-        "division": "Division 51",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-23T22:27:54.190Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T21:50:26.544Z",
-      "sourceUpdatedAt": "2026-09-30T21:45:01.000Z",
+      "fetchedAt": "2026-09-30T21:52:39.500Z",
+      "sourceUpdatedAt": "2026-09-30T21:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T21:50:26.544Z",
+      "fetchedAt": "2026-09-30T21:52:39.500Z",
       "status": "ok"
     }
   },
@@ -366193,7 +366298,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T21:50:04.000Z",
+    "sourceUpdatedAt": "2026-09-30T21:52:34.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -366202,14 +366307,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T21:50:26.544Z",
-    "checkedAt": "2026-09-30T21:50:26.544Z",
+    "fetchedAt": "2026-09-30T21:52:39.500Z",
+    "checkedAt": "2026-09-30T21:52:39.500Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T21:50:26.544Z",
-      "checkedAt": "2026-09-30T21:50:26.544Z",
+      "fetchedAt": "2026-09-30T21:52:39.500Z",
+      "checkedAt": "2026-09-30T21:52:39.500Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -366233,6 +366338,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M8V": {
+      "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
+      "approximate": true,
+      "coordinates": [
+        43.6075,
+        -79.5013
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "KENDLETON DR, ET / ORPINGTON CRES / WARRENDALE CRT": {
       "text": "Approximate location near Kendleton Drive & Warrendale Court",
       "approximate": true,
@@ -367786,18 +367903,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-27T02:01:21.822Z"
-    },
-    "M8V": {
-      "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
-      "approximate": true,
-      "coordinates": [
-        43.6075,
-        -79.5013
-      ],
-      "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M4S": {
       "text": "Approximate area: (M4S) Central Toronto (Davisville)",
