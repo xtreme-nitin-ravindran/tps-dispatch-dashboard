@@ -3,9 +3,46 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T11:54:11.895Z",
-  "sourceUpdatedAt": "2026-09-30T11:50:02.000Z",
+  "fetchedAt": "2026-09-30T11:56:03.049Z",
+  "sourceUpdatedAt": "2026-09-30T11:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26155125",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Rescue - Elevator",
+      "location": "GATEWAY BLVD, NY / DON MILLS RD / SUNNY GLENWAY",
+      "division": "125",
+      "timestamp": "2026-09-30T11:49:23.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "125"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "313"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-30T11:56:03.049Z",
+      "lastSeenAt": "2026-09-30T11:56:03.049Z",
+      "geography": {
+        "text": "Approximate location on Gateway Boulevard between Don Mills Road & Sunny Glenway",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T11:56:03.049Z"
+      }
+    },
     {
       "id": "TPS-b58c844e5d0ec65fbe3f8010",
       "source": "TPS",
@@ -81,7 +118,7 @@
       "division": "421",
       "timestamp": "2026-09-30T11:40:19.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-09-30T11:52:12.973Z",
       "lastSeenAt": "2026-09-30T11:54:11.895Z",
@@ -107,7 +144,7 @@
       "division": "423",
       "timestamp": "2026-09-30T11:36:49.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -208,7 +245,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T11:46:22.378Z",
       "lastMeaningfulUpdateAt": "2026-09-30T11:52:12.973Z",
-      "lastSeenAt": "2026-09-30T11:54:11.895Z",
+      "lastSeenAt": "2026-09-30T11:56:03.049Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -533,7 +570,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T11:21:35.028Z",
       "lastMeaningfulUpdateAt": "2026-09-30T11:27:24.203Z",
-      "lastSeenAt": "2026-09-30T11:54:11.895Z",
+      "lastSeenAt": "2026-09-30T11:56:03.049Z",
       "geography": {
         "text": "Riverwood Parkway between Glenaden Avenue East & Humber River Recreational Trl",
         "approximate": false,
@@ -609,7 +646,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T11:21:35.028Z",
       "lastMeaningfulUpdateAt": "2026-09-30T11:27:24.203Z",
-      "lastSeenAt": "2026-09-30T11:54:11.895Z",
+      "lastSeenAt": "2026-09-30T11:56:03.049Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -209303,12 +209340,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T11:54:11.895Z",
-      "sourceUpdatedAt": "2026-09-30T11:50:02.000Z",
+      "fetchedAt": "2026-09-30T11:56:03.049Z",
+      "sourceUpdatedAt": "2026-09-30T11:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T11:54:11.895Z",
+      "fetchedAt": "2026-09-30T11:56:03.049Z",
       "status": "ok"
     }
   },
@@ -363174,8 +363211,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-30T11:50:16.128Z",
-      "fetchedAt": "2026-09-30T11:50:16.128Z"
+      "checkedAt": "2026-09-30T11:56:03.049Z",
+      "fetchedAt": "2026-09-30T11:56:03.049Z"
     },
     "transit": {
       "items": [
@@ -364674,86 +364711,6 @@
           "periods": [
             {
               "start": 1790768670000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "77194",
-          "title": "166 Toryork: Detour via Jane St, Finch Ave W and Norfinch Dr due to a collision.",
-          "description": "",
-          "effect": "DETOUR",
-          "routes": [
-            "166"
-          ],
-          "stopIds": [
-            "8294",
-            "8295"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": "166",
-              "stopId": "8294",
-              "coordinates": [
-                43.773147,
-                -79.531973
-              ],
-              "name": "Steeles Ave West at Norfinch Dr"
-            },
-            {
-              "routeId": "166",
-              "stopId": "8295",
-              "coordinates": [
-                43.773471,
-                -79.531611
-              ],
-              "name": "Steeles Ave West at Norfinch Dr"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790768601000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "77193",
-          "title": "960 Steeles West Express: Detour via Norfinch Dr, Finch Ave W and Jane St due to a collision.",
-          "description": "",
-          "effect": "DETOUR",
-          "routes": [
-            "960"
-          ],
-          "stopIds": [
-            "8294",
-            "8295"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": "960",
-              "stopId": "8294",
-              "coordinates": [
-                43.773147,
-                -79.531973
-              ],
-              "name": "Steeles Ave West at Norfinch Dr"
-            },
-            {
-              "routeId": "960",
-              "stopId": "8295",
-              "coordinates": [
-                43.773471,
-                -79.531611
-              ],
-              "name": "Steeles Ave West at Norfinch Dr"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790768510000,
               "end": null
             }
           ],
@@ -367335,16 +367292,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-30T11:50:16.000Z",
+      "sourceUpdatedAt": "2026-09-30T11:56:03.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-30T11:50:16.128Z",
-      "fetchedAt": "2026-09-30T11:50:16.128Z"
+      "checkedAt": "2026-09-30T11:56:03.049Z",
+      "fetchedAt": "2026-09-30T11:56:03.049Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T11:53:39.000Z",
+    "sourceUpdatedAt": "2026-09-30T11:55:40.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -367353,14 +367310,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T11:54:11.895Z",
-    "checkedAt": "2026-09-30T11:54:11.895Z",
+    "fetchedAt": "2026-09-30T11:56:03.049Z",
+    "checkedAt": "2026-09-30T11:56:03.049Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T11:54:11.895Z",
-      "checkedAt": "2026-09-30T11:54:11.895Z",
+      "fetchedAt": "2026-09-30T11:56:03.049Z",
+      "checkedAt": "2026-09-30T11:56:03.049Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -367384,6 +367341,15 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "GATEWAY BLVD, NY / DON MILLS RD / SUNNY GLENWAY": {
+      "text": "Approximate location on Gateway Boulevard between Don Mills Road & Sunny Glenway",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T11:56:03.049Z"
+    },
     "KEELE ST / ROTHERHAM AVE": {
       "text": "Keele Street & Rotherham Avenue",
       "approximate": false,
