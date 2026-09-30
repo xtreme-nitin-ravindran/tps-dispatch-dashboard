@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T10:28:40.845Z",
-  "sourceUpdatedAt": "2026-09-30T10:25:01.000Z",
+  "fetchedAt": "2026-09-30T10:30:30.969Z",
+  "sourceUpdatedAt": "2026-09-30T10:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26155105",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Highrise Residential",
+      "location": "WELLESLEY ST, TT / BLEECKER ST / ONTARIO ST",
+      "division": "313",
+      "timestamp": "2026-09-30T10:25:13.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T10:30:30.969Z",
+      "lastSeenAt": "2026-09-30T10:30:30.969Z",
+      "geography": {
+        "text": "Wellesley Street between Bleecker Street & Ontario Street",
+        "approximate": false,
+        "coordinates": [
+          43.667446850000005,
+          -79.37296015
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26155104",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "COSBURN AVE, EY / PAPE AVE / TODMORDEN LANE",
+      "division": "322",
+      "timestamp": "2026-09-30T10:23:07.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-09-30T10:30:30.969Z",
+      "lastSeenAt": "2026-09-30T10:30:30.969Z",
+      "geography": {
+        "text": "Cosburn Avenue between Pape Avenue & Todmorden Lane",
+        "approximate": false,
+        "coordinates": [
+          43.6897627,
+          -79.34709219999999
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T10:30:30.969Z"
+      }
+    },
     {
       "id": "F26155103",
       "source": "TFS",
@@ -16,9 +68,18 @@
       "timestamp": "2026-09-30T10:19:05.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "226"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T10:26:39.846Z",
-      "lastSeenAt": "2026-09-30T10:28:40.845Z",
+      "lastMeaningfulUpdateAt": "2026-09-30T10:30:30.969Z",
+      "lastSeenAt": "2026-09-30T10:30:30.969Z",
       "geography": {
         "text": "Approximate area: (M4C) East York (Woodbine Heights)",
         "approximate": true,
@@ -52,7 +113,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T10:20:54.221Z",
-      "lastSeenAt": "2026-09-30T10:28:40.845Z",
+      "lastSeenAt": "2026-09-30T10:30:30.969Z",
       "geography": {
         "text": "Lawrence Avenue between Mossbank Drive & Susan Street",
         "approximate": false,
@@ -86,7 +147,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T10:20:54.221Z",
-      "lastSeenAt": "2026-09-30T10:28:40.845Z",
+      "lastSeenAt": "2026-09-30T10:30:30.969Z",
       "geography": {
         "text": "Approximate area: (M6A) North York (Lawrence Manor / Lawrence Heights)",
         "approximate": true,
@@ -120,7 +181,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T10:20:54.221Z",
-      "lastSeenAt": "2026-09-30T10:28:40.845Z",
+      "lastSeenAt": "2026-09-30T10:30:30.969Z",
       "geography": {
         "text": "Dundas Street between Lane 2 East Alton South Dundas & Hiltz Avenue",
         "approximate": false,
@@ -176,7 +237,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-09-30T10:20:54.221Z",
-      "lastSeenAt": "2026-09-30T10:28:40.845Z",
+      "lastSeenAt": "2026-09-30T10:30:30.969Z",
       "geography": {
         "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
         "approximate": true,
@@ -299,7 +360,7 @@
       ],
       "respondingUnitCount": 8,
       "firstSeenAt": "2026-09-30T10:20:54.221Z",
-      "lastSeenAt": "2026-09-30T10:28:40.845Z",
+      "lastSeenAt": "2026-09-30T10:30:30.969Z",
       "geography": {
         "text": "Kelsonia Avenue between Scarboro Crescent & Chine Drive",
         "approximate": false,
@@ -208587,12 +208648,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T10:28:40.845Z",
-      "sourceUpdatedAt": "2026-09-30T10:25:01.000Z",
+      "fetchedAt": "2026-09-30T10:30:30.969Z",
+      "sourceUpdatedAt": "2026-09-30T10:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T10:28:40.845Z",
+      "fetchedAt": "2026-09-30T10:30:30.969Z",
       "status": "ok"
     }
   },
@@ -365718,7 +365779,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T10:27:38.000Z",
+    "sourceUpdatedAt": "2026-09-30T10:30:23.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -365727,14 +365788,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T10:28:40.845Z",
-    "checkedAt": "2026-09-30T10:28:40.845Z",
+    "fetchedAt": "2026-09-30T10:30:30.969Z",
+    "checkedAt": "2026-09-30T10:30:30.969Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T10:28:40.845Z",
-      "checkedAt": "2026-09-30T10:28:40.845Z",
+      "fetchedAt": "2026-09-30T10:30:30.969Z",
+      "checkedAt": "2026-09-30T10:30:30.969Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -365758,6 +365819,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "WELLESLEY ST, TT / BLEECKER ST / ONTARIO ST": {
+      "text": "Wellesley Street between Bleecker Street & Ontario Street",
+      "approximate": false,
+      "coordinates": [
+        43.667446850000005,
+        -79.37296015
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "COSBURN AVE, EY / PAPE AVE / TODMORDEN LANE": {
+      "text": "Cosburn Avenue between Pape Avenue & Todmorden Lane",
+      "approximate": false,
+      "coordinates": [
+        43.6897627,
+        -79.34709219999999
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T10:30:30.969Z"
+    },
     "M4C": {
       "text": "Approximate area: (M4C) East York (Woodbine Heights)",
       "approximate": true,
@@ -371592,18 +371677,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-27T19:56:51.791Z"
-    },
-    "WELLESLEY ST, TT / BLEECKER ST / ONTARIO ST": {
-      "text": "Wellesley Street between Bleecker Street & Ontario Street",
-      "approximate": false,
-      "coordinates": [
-        43.667446850000005,
-        -79.37296015
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "THORNCLIFFE PARK DR, EY / MILEPOST PL / R. V. BURGESS PARK TRL": {
       "text": "Approximate location near Thorncliffe Park Drive & Milepost Place",
