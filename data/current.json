@@ -3,9 +3,80 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-09-30T12:05:13.720Z",
-  "sourceUpdatedAt": "2026-09-30T12:00:01.000Z",
+  "fetchedAt": "2026-09-30T12:07:05.417Z",
+  "sourceUpdatedAt": "2026-09-30T12:05:01.000Z",
   "incidents": [
+    {
+      "id": "F26155127",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9P",
+      "division": "443",
+      "timestamp": "2026-09-30T12:00:13.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "443"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-09-30T12:07:05.417Z",
+      "lastSeenAt": "2026-09-30T12:07:05.417Z",
+      "geography": {
+        "text": "Approximate area: (M9P) Etobicoke (Westmount)",
+        "approximate": true,
+        "coordinates": [
+          43.6949,
+          -79.5323
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26155126",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury Highway",
+      "location": "/",
+      "division": "235",
+      "timestamp": "2026-09-30T11:59:50.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "125"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "235"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-09-30T12:07:05.417Z",
+      "lastSeenAt": "2026-09-30T12:07:05.417Z",
+      "geography": {
+        "text": "Approximate location on an unspecified street",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-30T11:21:35.028Z"
+      }
+    },
     {
       "id": "F26155125",
       "source": "TFS",
@@ -32,7 +103,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T11:56:03.049Z",
-      "lastSeenAt": "2026-09-30T12:05:13.720Z",
+      "lastSeenAt": "2026-09-30T12:07:05.417Z",
       "geography": {
         "text": "Approximate location on Gateway Boulevard between Don Mills Road & Sunny Glenway",
         "approximate": true,
@@ -245,7 +316,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T11:46:22.378Z",
       "lastMeaningfulUpdateAt": "2026-09-30T11:52:12.973Z",
-      "lastSeenAt": "2026-09-30T12:05:13.720Z",
+      "lastSeenAt": "2026-09-30T12:07:05.417Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -570,7 +641,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-09-30T11:21:35.028Z",
       "lastMeaningfulUpdateAt": "2026-09-30T11:27:24.203Z",
-      "lastSeenAt": "2026-09-30T12:05:13.720Z",
+      "lastSeenAt": "2026-09-30T12:07:05.417Z",
       "geography": {
         "text": "Riverwood Parkway between Glenaden Avenue East & Humber River Recreational Trl",
         "approximate": false,
@@ -628,7 +699,7 @@
       "division": "411",
       "timestamp": "2026-09-30T11:10:52.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -209223,12 +209294,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-09-30T12:05:13.720Z",
-      "sourceUpdatedAt": "2026-09-30T12:00:01.000Z",
+      "fetchedAt": "2026-09-30T12:07:05.417Z",
+      "sourceUpdatedAt": "2026-09-30T12:05:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-09-30T12:05:13.720Z",
+      "fetchedAt": "2026-09-30T12:07:05.417Z",
       "status": "ok"
     }
   },
@@ -363094,8 +363165,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-09-30T12:01:33.037Z",
-      "fetchedAt": "2026-09-30T12:01:33.037Z"
+      "checkedAt": "2026-09-30T12:07:05.417Z",
+      "fetchedAt": "2026-09-30T12:07:05.417Z"
     },
     "transit": {
       "items": [
@@ -363955,646 +364026,6 @@
             {
               "start": 1790366137000,
               "end": 1790999940000
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "77195",
-          "title": "84 Sheppard West: Detour via Jane St and Finch Ave W due to a collision.",
-          "description": "",
-          "effect": "DETOUR",
-          "routes": [
-            "84"
-          ],
-          "stopIds": [
-            "1593",
-            "8102",
-            "8076",
-            "8075",
-            "7770",
-            "7771",
-            "7996",
-            "9505",
-            "9676",
-            "7995",
-            "7752",
-            "7751",
-            "14520",
-            "7498",
-            "13458",
-            "7494",
-            "7496",
-            "12926",
-            "7501",
-            "7499",
-            "11955",
-            "8286",
-            "8253",
-            "9184",
-            "5856",
-            "5855",
-            "5869",
-            "5863",
-            "5862",
-            "5851",
-            "5850",
-            "5865",
-            "9180",
-            "9182",
-            "1592",
-            "8099",
-            "8101",
-            "15953",
-            "8098",
-            "14519",
-            "9668",
-            "7497",
-            "13457",
-            "7502",
-            "7495",
-            "10470",
-            "7500",
-            "7513",
-            "11858",
-            "12088",
-            "6144",
-            "5867",
-            "5857",
-            "5854",
-            "5868",
-            "5853",
-            "5852",
-            "5861",
-            "5858",
-            "5864",
-            "9181",
-            "9183"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": "84",
-              "stopId": "1593",
-              "coordinates": [
-                43.776613,
-                -79.516784
-              ],
-              "name": "Steeles Ave West at Murray Ross Pkwy"
-            },
-            {
-              "routeId": "84",
-              "stopId": "8102",
-              "coordinates": [
-                43.770606,
-                -79.543123
-              ],
-              "name": "Signet Dr at Steeles Ave West"
-            },
-            {
-              "routeId": "84",
-              "stopId": "8076",
-              "coordinates": [
-                43.771026,
-                -79.540507
-              ],
-              "name": "Rossdean Dr at Steeles Ave West South Side"
-            },
-            {
-              "routeId": "84",
-              "stopId": "8075",
-              "coordinates": [
-                43.76913,
-                -79.539739
-              ],
-              "name": "Rossdean Dr at Garyray Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7770",
-              "coordinates": [
-                43.769409,
-                -79.537476
-              ],
-              "name": "201 Garyray Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7771",
-              "coordinates": [
-                43.769757,
-                -79.535855
-              ],
-              "name": "Garyray Dr at Norelco Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7996",
-              "coordinates": [
-                43.767357,
-                -79.534477
-              ],
-              "name": "Norelco Dr at Ormont Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "9505",
-              "coordinates": [
-                43.765844,
-                -79.534096
-              ],
-              "name": "46 Norelco Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "9676",
-              "coordinates": [
-                43.762402,
-                -79.533297
-              ],
-              "name": "20 Norelco Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7995",
-              "coordinates": [
-                43.760173,
-                -79.532773
-              ],
-              "name": "Norelco Dr at Fenmar Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7752",
-              "coordinates": [
-                43.759283,
-                -79.535507
-              ],
-              "name": "Opposite 15 Fenmar Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7751",
-              "coordinates": [
-                43.758823,
-                -79.537655
-              ],
-              "name": "24 Fenmar Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "14520",
-              "coordinates": [
-                43.755927,
-                -79.537834
-              ],
-              "name": "Signet Dr at High Meadow Pl"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7498",
-              "coordinates": [
-                43.752754,
-                -79.536043
-              ],
-              "name": "Arrow Rd at Finch Ave West South Side"
-            },
-            {
-              "routeId": "84",
-              "stopId": "13458",
-              "coordinates": [
-                43.751047,
-                -79.534451
-              ],
-              "name": "Opposite 1111 Arrow Rd"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7494",
-              "coordinates": [
-                43.749539,
-                -79.53298
-              ],
-              "name": "Arrow Rd at Deerhide Cres (North)"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7496",
-              "coordinates": [
-                43.74799,
-                -79.530999
-              ],
-              "name": "Arrow Rd at Deerhide Cres (South)"
-            },
-            {
-              "routeId": "84",
-              "stopId": "12926",
-              "coordinates": [
-                43.745714,
-                -79.529601
-              ],
-              "name": "700 Arrow Rd"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7501",
-              "coordinates": [
-                43.74154,
-                -79.530848
-              ],
-              "name": "Arrow Rd at Lido Rd South Side"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7499",
-              "coordinates": [
-                43.737782,
-                -79.529927
-              ],
-              "name": "Arrow Rd at Gail Grove South Side"
-            },
-            {
-              "routeId": "84",
-              "stopId": "11955",
-              "coordinates": [
-                43.736314,
-                -79.529568
-              ],
-              "name": "Arrow Rd at Sheppard Ave West"
-            },
-            {
-              "routeId": "84",
-              "stopId": "8286",
-              "coordinates": [
-                43.775471,
-                -79.522085
-              ],
-              "name": "Steeles Ave West at Jane St West Side"
-            },
-            {
-              "routeId": "84",
-              "stopId": "8253",
-              "coordinates": [
-                43.77444,
-                -79.526647
-              ],
-              "name": "Steeles Ave West at Adesso Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "9184",
-              "coordinates": [
-                43.772811,
-                -79.531686
-              ],
-              "name": "Norfinch Dr at Steeles Ave West South Side"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5856",
-              "coordinates": [
-                43.770049,
-                -79.531849
-              ],
-              "name": "370 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5855",
-              "coordinates": [
-                43.768306,
-                -79.531472
-              ],
-              "name": "250 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5869",
-              "coordinates": [
-                43.766382,
-                -79.530575
-              ],
-              "name": "166 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5863",
-              "coordinates": [
-                43.764664,
-                -79.530085
-              ],
-              "name": "154 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5862",
-              "coordinates": [
-                43.763255,
-                -79.529752
-              ],
-              "name": "Opposite 125 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5851",
-              "coordinates": [
-                43.761448,
-                -79.529297
-              ],
-              "name": "120 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5850",
-              "coordinates": [
-                43.759548,
-                -79.529001
-              ],
-              "name": "100 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5865",
-              "coordinates": [
-                43.757065,
-                -79.526962
-              ],
-              "name": "40 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "9180",
-              "coordinates": [
-                43.756148,
-                -79.52451
-              ],
-              "name": "Norfinch Dr at Finch Ave West"
-            },
-            {
-              "routeId": "84",
-              "stopId": "9182",
-              "coordinates": [
-                43.755152,
-                -79.524025
-              ],
-              "name": "Oakdale Rd at Finch Ave West South Side - Humber Reactivation Care"
-            },
-            {
-              "routeId": "84",
-              "stopId": "1592",
-              "coordinates": [
-                43.776344,
-                -79.516416
-              ],
-              "name": "Steeles Ave West at Murray Ross Pkwy East Side"
-            },
-            {
-              "routeId": "84",
-              "stopId": "8099",
-              "coordinates": [
-                43.768228,
-                -79.542067
-              ],
-              "name": "Signet Dr at Garyray Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "8101",
-              "coordinates": [
-                43.765443,
-                -79.540895
-              ],
-              "name": "Signet Dr at Ormont Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "15953",
-              "coordinates": [
-                43.762948,
-                -79.54012
-              ],
-              "name": "Signet Dr at Kenhar Dr North Side"
-            },
-            {
-              "routeId": "84",
-              "stopId": "8098",
-              "coordinates": [
-                43.758347,
-                -79.538735
-              ],
-              "name": "Signet Dr at Fenmar Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "14519",
-              "coordinates": [
-                43.755553,
-                -79.537291
-              ],
-              "name": "Signet Dr at High Meadow Pl"
-            },
-            {
-              "routeId": "84",
-              "stopId": "9668",
-              "coordinates": [
-                43.754061,
-                -79.536541
-              ],
-              "name": "Signet Dr at Finch Ave West North Side"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7497",
-              "coordinates": [
-                43.753006,
-                -79.535911
-              ],
-              "name": "Arrow Rd at Finch Ave West"
-            },
-            {
-              "routeId": "84",
-              "stopId": "13457",
-              "coordinates": [
-                43.751265,
-                -79.534408
-              ],
-              "name": "1111 Arrow Rd"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7502",
-              "coordinates": [
-                43.749441,
-                -79.532558
-              ],
-              "name": "Arrow Rd at Pemican Crt North Side"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7495",
-              "coordinates": [
-                43.747641,
-                -79.530249
-              ],
-              "name": "Arrow Rd at Deerhide Cres (South)"
-            },
-            {
-              "routeId": "84",
-              "stopId": "10470",
-              "coordinates": [
-                43.745407,
-                -79.529314
-              ],
-              "name": "Opposite 700 Arrow Rd"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7500",
-              "coordinates": [
-                43.741466,
-                -79.530633
-              ],
-              "name": "Arrow Rd at Lido Rd"
-            },
-            {
-              "routeId": "84",
-              "stopId": "7513",
-              "coordinates": [
-                43.737823,
-                -79.529694
-              ],
-              "name": "Arrow Rd at Bartor Rd North Side"
-            },
-            {
-              "routeId": "84",
-              "stopId": "11858",
-              "coordinates": [
-                43.736355,
-                -79.529315
-              ],
-              "name": "Arrow Rd at Sheppard Ave West North Side"
-            },
-            {
-              "routeId": "84",
-              "stopId": "12088",
-              "coordinates": [
-                43.775231,
-                -79.52209
-              ],
-              "name": "Steeles Ave West at Jane St"
-            },
-            {
-              "routeId": "84",
-              "stopId": "6144",
-              "coordinates": [
-                43.774182,
-                -79.527044
-              ],
-              "name": "Steeles Ave West at Peter Kaiser Gate"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5867",
-              "coordinates": [
-                43.772864,
-                -79.531451
-              ],
-              "name": "Norfinch Dr at Steeles Ave West"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5857",
-              "coordinates": [
-                43.770165,
-                -79.531686
-              ],
-              "name": "375 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5854",
-              "coordinates": [
-                43.768397,
-                -79.531258
-              ],
-              "name": "299 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5868",
-              "coordinates": [
-                43.766445,
-                -79.530388
-              ],
-              "name": "Norfinch Dr at Walkway to Shoreham Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5853",
-              "coordinates": [
-                43.764794,
-                -79.529897
-              ],
-              "name": "151 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5852",
-              "coordinates": [
-                43.763273,
-                -79.529539
-              ],
-              "name": "125 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5861",
-              "coordinates": [
-                43.761455,
-                -79.529072
-              ],
-              "name": "115 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5858",
-              "coordinates": [
-                43.759874,
-                -79.528818
-              ],
-              "name": "75 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "5864",
-              "coordinates": [
-                43.757191,
-                -79.526818
-              ],
-              "name": "45 Norfinch Dr"
-            },
-            {
-              "routeId": "84",
-              "stopId": "9181",
-              "coordinates": [
-                43.756568,
-                -79.524486
-              ],
-              "name": "Norfinch Dr at Finch Ave West North Side"
-            },
-            {
-              "routeId": "84",
-              "stopId": "9183",
-              "coordinates": [
-                43.755656,
-                -79.523986
-              ],
-              "name": "Oakdale Rd at Finch Ave West - Humber Reactivation Care"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790768670000,
-              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -367175,16 +366606,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-09-30T12:01:33.000Z",
+      "sourceUpdatedAt": "2026-09-30T12:07:06.000Z",
       "status": "ok",
-      "checkedAt": "2026-09-30T12:01:33.037Z",
-      "fetchedAt": "2026-09-30T12:01:33.037Z"
+      "checkedAt": "2026-09-30T12:07:05.417Z",
+      "fetchedAt": "2026-09-30T12:07:05.417Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-09-30T12:04:10.000Z",
+    "sourceUpdatedAt": "2026-09-30T12:06:52.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -367193,14 +366624,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-09-30T12:05:13.720Z",
-    "checkedAt": "2026-09-30T12:05:13.720Z",
+    "fetchedAt": "2026-09-30T12:07:05.417Z",
+    "checkedAt": "2026-09-30T12:07:05.417Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-09-30T12:05:13.720Z",
-      "checkedAt": "2026-09-30T12:05:13.720Z",
+      "fetchedAt": "2026-09-30T12:07:05.417Z",
+      "checkedAt": "2026-09-30T12:07:05.417Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -367224,6 +366655,27 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M9P": {
+      "text": "Approximate area: (M9P) Etobicoke (Westmount)",
+      "approximate": true,
+      "coordinates": [
+        43.6949,
+        -79.5323
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "/": {
+      "text": "Approximate location on an unspecified street",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-30T11:21:35.028Z"
+    },
     "GATEWAY BLVD, NY / DON MILLS RD / SUNNY GLENWAY": {
       "text": "Approximate location on Gateway Boulevard between Don Mills Road & Sunny Glenway",
       "approximate": true,
@@ -367257,15 +366709,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
     },
-    "/": {
-      "text": "Approximate location on an unspecified street",
-      "approximate": true,
-      "coordinates": null,
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-30T11:21:35.028Z"
-    },
     "M5C": {
       "text": "Approximate area: (M5C) Downtown Toronto (St. James Park)",
       "approximate": true,
@@ -367298,18 +366741,6 @@
         -79.3978
       ],
       "division": "Division 52",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M9P": {
-      "text": "Approximate area: (M9P) Etobicoke (Westmount)",
-      "approximate": true,
-      "coordinates": [
-        43.6949,
-        -79.5323
-      ],
-      "division": "Division 23",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
