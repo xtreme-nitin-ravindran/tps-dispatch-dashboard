@@ -101,6 +101,7 @@ const refreshFreshness = createRefreshFreshnessTracker({
 const callsFeedStatus = document.querySelector('#callsFeedStatus');
 const radiusToggles = document.querySelectorAll('[data-radius-km]');
 const mobileViewToggles = document.querySelectorAll('[data-mobile-view]');
+const mobileDisruptionsControl = document.querySelector('#mobileDisruptionsControl');
 const mobileBottomSheet = document.querySelector('#mobileBottomSheet');
 const mobileSheetToggle = document.querySelector('#mobileSheetToggle');
 const mobileSheetStateLabel = document.querySelector('#mobileSheetState');
@@ -412,6 +413,21 @@ mobileViewToggles.forEach(toggle => toggle.addEventListener("click", auditIntera
   // Keep the view switch in sight after the new surface has been laid out.
   requestAnimationFrame(() => toggle.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' }));
 })));
+mobileDisruptionsControl?.addEventListener('click', auditInteraction('mobile:disruptions', () => {
+  if (!isMobileViewLayout()) return;
+  if (mobileView === 'map') {
+    mobileViewInteracted = true;
+    setMobileView('calls');
+  }
+  requestAnimationFrame(() => {
+    const disruptions = document.querySelector('#disruptions');
+    disruptions?.scrollIntoView({
+      block: 'start',
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+    });
+    disruptions?.focus({ preventScroll: true });
+  });
+}));
 setMobileView(mobileView, { persist: false });
 mobileLayoutMedia.addEventListener?.("change", () => setMobileView(mobileView, { persist: false }));
 

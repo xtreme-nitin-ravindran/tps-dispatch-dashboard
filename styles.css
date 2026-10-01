@@ -1844,7 +1844,7 @@ footer {
   .radius-controls > .section-kicker { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .radius-toggle-group { display: flex; flex-wrap: nowrap; gap: 4px; width: 100%; max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; }
   .radius-toggle-group button { flex: 0 0 auto; min-width: 58px; min-height: 44px; padding: 4px 12px; font-size: 12px; line-height: 1.05; white-space: nowrap; }
-  .mobile-view-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; width: 100%; }
+  .mobile-view-toggle { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; width: 100%; max-width: 100%; }
   .mobile-view-toggle button { min-height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: 700 12px/1 "DM Sans", sans-serif; cursor: pointer; }
   .mobile-view-toggle button.active { border-color: var(--accent); background: var(--accent); color: var(--on-accent); box-shadow: 0 0 0 2px var(--accent-ring); }
   .mobile-view-toggle button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 1px; }
