@@ -3,9 +3,49 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-01T05:05:36.163Z",
-  "sourceUpdatedAt": "2026-10-01T05:00:02.000Z",
+  "fetchedAt": "2026-10-01T05:07:44.234Z",
+  "sourceUpdatedAt": "2026-10-01T05:05:01.000Z",
   "incidents": [
+    {
+      "id": "F26155684",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "WELLESLEY ST, TT / DARLING LANE / PARLIAMENT ST",
+      "division": "313",
+      "timestamp": "2026-10-01T04:56:51.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "325"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "325"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-10-01T05:07:44.234Z",
+      "lastSeenAt": "2026-10-01T05:07:44.234Z",
+      "geography": {
+        "text": "Wellesley Street between Darling Lane & Parliament Street",
+        "approximate": false,
+        "coordinates": [
+          43.66812505,
+          -79.36982015
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-25T03:57:11.821Z"
+      }
+    },
     {
       "id": "F26155683",
       "source": "TFS",
@@ -32,7 +72,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-01T05:01:34.836Z",
-      "lastSeenAt": "2026-10-01T05:05:36.163Z",
+      "lastSeenAt": "2026-10-01T05:07:44.234Z",
       "geography": {
         "text": "Berryman Street between Lane West Davenport South Berryman & Hazelton Avenue",
         "approximate": false,
@@ -58,16 +98,22 @@
       "isOngoing": true,
       "vehicles": [
         {
+          "type": "Command Unit",
+          "numbers": [
+            "31"
+          ]
+        },
+        {
           "type": "Fire Truck",
           "numbers": [
             "313"
           ]
         }
       ],
-      "respondingUnitCount": 1,
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-01T04:56:58.031Z",
-      "lastMeaningfulUpdateAt": "2026-10-01T05:01:34.836Z",
-      "lastSeenAt": "2026-10-01T05:05:36.163Z",
+      "lastMeaningfulUpdateAt": "2026-10-01T05:07:44.234Z",
+      "lastSeenAt": "2026-10-01T05:07:44.234Z",
       "geography": {
         "text": "Wellesley Street between Darling Lane & Parliament Street",
         "approximate": false,
@@ -102,7 +148,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T04:50:50.637Z",
       "lastMeaningfulUpdateAt": "2026-10-01T04:56:58.031Z",
-      "lastSeenAt": "2026-10-01T05:05:36.163Z",
+      "lastSeenAt": "2026-10-01T05:07:44.234Z",
       "geography": {
         "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
         "approximate": true,
@@ -169,7 +215,7 @@
       "division": "235",
       "timestamp": "2026-10-01T04:35:38.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -237,7 +283,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T04:36:21.554Z",
-      "lastSeenAt": "2026-10-01T05:05:36.163Z",
+      "lastSeenAt": "2026-10-01T05:07:44.234Z",
       "geography": {
         "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
         "approximate": true,
@@ -735,7 +781,7 @@
       "division": "141",
       "timestamp": "2026-10-01T04:02:53.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -1164,7 +1210,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-01T03:53:32.130Z",
       "lastMeaningfulUpdateAt": "2026-10-01T04:05:39.445Z",
-      "lastSeenAt": "2026-10-01T05:05:36.163Z",
+      "lastSeenAt": "2026-10-01T05:07:44.234Z",
       "geography": {
         "text": "Fort York Boulevard between Gzowski Boulevard & Angelique Street",
         "approximate": false,
@@ -7024,7 +7070,7 @@
       "respondingUnitCount": 10,
       "firstSeenAt": "2026-10-01T00:26:40.452Z",
       "lastMeaningfulUpdateAt": "2026-10-01T04:46:52.739Z",
-      "lastSeenAt": "2026-10-01T05:05:36.163Z",
+      "lastSeenAt": "2026-10-01T05:07:44.234Z",
       "geography": {
         "text": "Approximate location near Seminoff Street & Nixon Hts",
         "approximate": true,
@@ -222459,38 +222505,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-24T05:08:45.000Z"
-    },
-    {
-      "id": "TPS-4aee511e960bac96f907d840",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "BREAK & ENTER IN PROGRESS",
-      "callTypeCode": "BREPR",
-      "timestamp": "2026-09-24T05:05:44.000Z",
-      "location": "SHEPPARD AVE W - SPENVALLEY DR",
-      "division": "Division 31",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "SHEPPARD AVE W - SPENVALLEY DR",
-        "coordinates": [
-          43.739384543601766,
-          -79.51320988965858
-        ],
-        "division": "Division 31",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-24T05:05:44.000Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-01T05:05:36.163Z",
-      "sourceUpdatedAt": "2026-10-01T05:00:02.000Z",
+      "fetchedAt": "2026-10-01T05:07:44.234Z",
+      "sourceUpdatedAt": "2026-10-01T05:05:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-01T05:05:36.163Z",
+      "fetchedAt": "2026-10-01T05:07:44.234Z",
       "status": "ok"
     }
   },
@@ -361311,7 +361335,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-01T05:05:15.000Z",
+    "sourceUpdatedAt": "2026-10-01T05:07:14.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -361320,14 +361344,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-01T05:05:36.163Z",
-    "checkedAt": "2026-10-01T05:05:36.163Z",
+    "fetchedAt": "2026-10-01T05:07:44.234Z",
+    "checkedAt": "2026-10-01T05:07:44.234Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-01T05:05:36.163Z",
-      "checkedAt": "2026-10-01T05:05:36.163Z",
+      "fetchedAt": "2026-10-01T05:07:44.234Z",
+      "checkedAt": "2026-10-01T05:07:44.234Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -361351,18 +361375,6 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
-    "BERRYMAN ST, TT / LN W DAVENPORT S BERRYMAN / HAZELTON AVE": {
-      "text": "Berryman Street between Lane West Davenport South Berryman & Hazelton Avenue",
-      "approximate": false,
-      "coordinates": [
-        43.6734372,
-        -79.39293409999999
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-10-01T05:01:34.836Z"
-    },
     "WELLESLEY ST, TT / DARLING LANE / PARLIAMENT ST": {
       "text": "Wellesley Street between Darling Lane & Parliament Street",
       "approximate": false,
@@ -361374,6 +361386,18 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T03:57:11.821Z"
+    },
+    "BERRYMAN ST, TT / LN W DAVENPORT S BERRYMAN / HAZELTON AVE": {
+      "text": "Berryman Street between Lane West Davenport South Berryman & Hazelton Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.6734372,
+        -79.39293409999999
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-01T05:01:34.836Z"
     },
     "M9B": {
       "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
