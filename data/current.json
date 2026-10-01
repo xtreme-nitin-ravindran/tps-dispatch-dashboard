@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-01T05:40:54.412Z",
-  "sourceUpdatedAt": "2026-10-01T05:40:01.000Z",
+  "fetchedAt": "2026-10-01T05:45:59.236Z",
+  "sourceUpdatedAt": "2026-10-01T05:45:02.000Z",
   "incidents": [
+    {
+      "id": "F26155694",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4W",
+      "division": "312",
+      "timestamp": "2026-10-01T05:37:31.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "312"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-01T05:45:59.236Z",
+      "lastSeenAt": "2026-10-01T05:45:59.236Z",
+      "geography": {
+        "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
+        "approximate": true,
+        "coordinates": [
+          43.6827,
+          -79.373
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-a7100754a65272f284fb7fbe",
       "source": "TPS",
@@ -37,7 +71,7 @@
       "division": "442",
       "timestamp": "2026-10-01T05:20:29.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -166,7 +200,7 @@
       ],
       "respondingUnitCount": 11,
       "firstSeenAt": "2026-10-01T05:36:54.905Z",
-      "lastSeenAt": "2026-10-01T05:40:54.412Z",
+      "lastSeenAt": "2026-10-01T05:45:59.236Z",
       "geography": {
         "text": "Approximate location near Kendleton Drive & Warrendale Court",
         "approximate": true,
@@ -222,7 +256,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T05:36:54.905Z",
-      "lastSeenAt": "2026-10-01T05:40:54.412Z",
+      "lastSeenAt": "2026-10-01T05:45:59.236Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -1901,7 +1935,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-01T03:53:32.130Z",
       "lastMeaningfulUpdateAt": "2026-10-01T04:05:39.445Z",
-      "lastSeenAt": "2026-10-01T05:40:54.412Z",
+      "lastSeenAt": "2026-10-01T05:45:59.236Z",
       "geography": {
         "text": "Fort York Boulevard between Gzowski Boulevard & Angelique Street",
         "approximate": false,
@@ -7761,7 +7795,7 @@
       "respondingUnitCount": 10,
       "firstSeenAt": "2026-10-01T00:26:40.452Z",
       "lastMeaningfulUpdateAt": "2026-10-01T04:46:52.739Z",
-      "lastSeenAt": "2026-10-01T05:40:54.412Z",
+      "lastSeenAt": "2026-10-01T05:45:59.236Z",
       "geography": {
         "text": "Approximate location near Seminoff Street & Nixon Hts",
         "approximate": true,
@@ -222952,12 +222986,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-01T05:40:54.412Z",
-      "sourceUpdatedAt": "2026-10-01T05:40:01.000Z",
+      "fetchedAt": "2026-10-01T05:45:59.236Z",
+      "sourceUpdatedAt": "2026-10-01T05:45:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-01T05:40:54.412Z",
+      "fetchedAt": "2026-10-01T05:45:59.236Z",
       "status": "ok"
     }
   },
@@ -358510,8 +358544,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-01T05:40:54.412Z",
-      "fetchedAt": "2026-10-01T05:40:54.412Z"
+      "checkedAt": "2026-10-01T05:45:59.236Z",
+      "fetchedAt": "2026-10-01T05:45:59.236Z"
     },
     "transit": {
       "items": [
@@ -361759,16 +361793,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-01T05:40:55.000Z",
+      "sourceUpdatedAt": "2026-10-01T05:46:00.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-01T05:40:54.412Z",
-      "fetchedAt": "2026-10-01T05:40:54.412Z"
+      "checkedAt": "2026-10-01T05:45:59.236Z",
+      "fetchedAt": "2026-10-01T05:45:59.236Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-01T05:40:46.000Z",
+    "sourceUpdatedAt": "2026-10-01T05:45:44.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -361777,14 +361811,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-01T05:40:54.412Z",
-    "checkedAt": "2026-10-01T05:40:54.412Z",
+    "fetchedAt": "2026-10-01T05:45:59.236Z",
+    "checkedAt": "2026-10-01T05:45:59.236Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-01T05:40:54.412Z",
-      "checkedAt": "2026-10-01T05:40:54.412Z",
+      "fetchedAt": "2026-10-01T05:45:59.236Z",
+      "checkedAt": "2026-10-01T05:45:59.236Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -361808,6 +361842,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4W": {
+      "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
+      "approximate": true,
+      "coordinates": [
+        43.6827,
+        -79.373
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M9N": {
       "text": "Approximate area: (M9N) Weston",
       "approximate": true,
@@ -362215,18 +362261,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T18:21:15.849Z"
-    },
-    "M4W": {
-      "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
-      "approximate": true,
-      "coordinates": [
-        43.6827,
-        -79.373
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "EDGECROFT RD, ET / LOMA RD / CHARTWELL RD": {
       "text": "Edgecroft Road between Loma Road & Chartwell Road",
