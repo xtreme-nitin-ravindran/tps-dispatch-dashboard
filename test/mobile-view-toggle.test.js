@@ -35,7 +35,8 @@ test('view switching only updates presentation and preserves filters, radius, da
   assert.match(setter, /document\.documentElement\.dataset\.mobileView = view/);
   assert.match(setter, /setAttribute\("aria-pressed", String\(active\)\)/);
   assert.match(setter, /scheduleViewMaintenance\(\{ view, mobile, focusSelection, persist \}\)/);
-  assert.doesNotMatch(setter, /state\.|applyFilters|renderMap|loadData|fetch|focusedCallId\s*=/);
+  assert.doesNotMatch(setter, /state\.|applyFilters|loadData|fetch|focusedCallId\s*=/);
+  assert.match(setter, /mobile && view === 'calls' && expandedCluster\.size[\s\S]*?expandedCluster\.clear\(\);[\s\S]*?if \(dispatchMap\) renderMapMarkers\(\)/);
   assert.match(setter, /mobileBottomSheet\?\.setAttribute\("aria-hidden", String\(view !== "map"\)\)/);
   assert.match(setter, /syncIncidentListSurface\(mobile\)/);
   assert.doesNotMatch(setter, /renderCalls\(\)/);
@@ -70,7 +71,8 @@ test('map maintenance coalesces resize work and view changes do not rebuild laye
   assert.match(app, /if \(viewTransitionScheduler\.pending\(\)\) return/);
   const setterStart = app.indexOf('function setMobileView(');
   const setter = app.slice(setterStart, app.indexOf('\nmobileViewToggles.forEach', setterStart));
-  assert.doesNotMatch(setter, /initMap|renderMapMarkers|renderDisruptions|createPoliceBoundaryLayer|loadDivisionOverlay/);
+  assert.doesNotMatch(setter, /initMap|renderDisruptions|createPoliceBoundaryLayer|loadDivisionOverlay/);
+  assert.match(setter, /if \(dispatchMap\) renderMapMarkers\(\)/);
 });
 
 test('visible state is committed before bounded list ownership and deferred maintenance', () => {
