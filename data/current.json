@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-01T04:34:19.608Z",
-  "sourceUpdatedAt": "2026-10-01T04:30:01.000Z",
+  "fetchedAt": "2026-10-01T04:36:21.554Z",
+  "sourceUpdatedAt": "2026-10-01T04:35:01.000Z",
   "incidents": [
+    {
+      "id": "F26155679",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6S",
+      "division": "425",
+      "timestamp": "2026-10-01T04:28:51.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "425"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-01T04:36:21.554Z",
+      "lastSeenAt": "2026-10-01T04:36:21.554Z",
+      "geography": {
+        "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
+        "approximate": true,
+        "coordinates": [
+          43.6512,
+          -79.4828
+        ],
+        "division": "Division 11",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-aa28dabcf2ec1c43f47ec39a",
       "source": "TPS",
@@ -60,9 +94,18 @@
       "timestamp": "2026-10-01T04:22:49.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "331"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T04:32:10.661Z",
-      "lastSeenAt": "2026-10-01T04:34:19.608Z",
+      "lastMeaningfulUpdateAt": "2026-10-01T04:36:21.554Z",
+      "lastSeenAt": "2026-10-01T04:36:21.554Z",
       "geography": {
         "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
         "approximate": true,
@@ -195,7 +238,7 @@
       "division": "223",
       "timestamp": "2026-10-01T04:18:32.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -302,7 +345,7 @@
       "division": "332",
       "timestamp": "2026-10-01T04:14:24.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -492,7 +535,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T04:11:50.161Z",
-      "lastSeenAt": "2026-10-01T04:34:19.608Z",
+      "lastSeenAt": "2026-10-01T04:36:21.554Z",
       "geography": {
         "text": "Approximate area: (M3J) North York (Northwood Park / York University)",
         "approximate": true,
@@ -910,7 +953,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-01T03:53:32.130Z",
       "lastMeaningfulUpdateAt": "2026-10-01T04:05:39.445Z",
-      "lastSeenAt": "2026-10-01T04:34:19.608Z",
+      "lastSeenAt": "2026-10-01T04:36:21.554Z",
       "geography": {
         "text": "Fort York Boulevard between Gzowski Boulevard & Angelique Street",
         "approximate": false,
@@ -6695,7 +6738,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-10-01T03:34:23.957Z"
+        "checkedAt": "2026-10-01T04:36:21.554Z"
       }
     },
     {
@@ -6769,7 +6812,7 @@
       "respondingUnitCount": 9,
       "firstSeenAt": "2026-10-01T00:26:40.452Z",
       "lastMeaningfulUpdateAt": "2026-10-01T01:57:03.990Z",
-      "lastSeenAt": "2026-10-01T04:34:19.608Z",
+      "lastSeenAt": "2026-10-01T04:36:21.554Z",
       "geography": {
         "text": "Approximate location near Seminoff Street & Nixon Hts",
         "approximate": true,
@@ -222630,12 +222673,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-01T04:34:19.608Z",
-      "sourceUpdatedAt": "2026-10-01T04:30:01.000Z",
+      "fetchedAt": "2026-10-01T04:36:21.554Z",
+      "sourceUpdatedAt": "2026-10-01T04:35:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-01T04:34:19.608Z",
+      "fetchedAt": "2026-10-01T04:36:21.554Z",
       "status": "ok"
     }
   },
@@ -358188,8 +358231,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-01T04:29:58.337Z",
-      "fetchedAt": "2026-10-01T04:29:58.337Z"
+      "checkedAt": "2026-10-01T04:36:21.554Z",
+      "fetchedAt": "2026-10-01T04:36:21.554Z"
     },
     "transit": {
       "items": [
@@ -361515,16 +361558,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-01T04:29:59.000Z",
+      "sourceUpdatedAt": "2026-10-01T04:36:22.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-01T04:29:58.337Z",
-      "fetchedAt": "2026-10-01T04:29:58.337Z"
+      "checkedAt": "2026-10-01T04:36:21.554Z",
+      "fetchedAt": "2026-10-01T04:36:21.554Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-01T04:34:19.000Z",
+    "sourceUpdatedAt": "2026-10-01T04:36:12.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -361533,14 +361576,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-01T04:34:19.608Z",
-    "checkedAt": "2026-10-01T04:34:19.608Z",
+    "fetchedAt": "2026-10-01T04:36:21.554Z",
+    "checkedAt": "2026-10-01T04:36:21.554Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-01T04:34:19.608Z",
-      "checkedAt": "2026-10-01T04:34:19.608Z",
+      "fetchedAt": "2026-10-01T04:36:21.554Z",
+      "checkedAt": "2026-10-01T04:36:21.554Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -361564,6 +361607,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6S": {
+      "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
+      "approximate": true,
+      "coordinates": [
+        43.6512,
+        -79.4828
+      ],
+      "division": "Division 11",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M5V": {
       "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
       "approximate": true,
@@ -361824,18 +361879,6 @@
         -79.3368
       ],
       "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6S": {
-      "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
-      "approximate": true,
-      "coordinates": [
-        43.6512,
-        -79.4828
-      ],
-      "division": "Division 11",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -362552,7 +362595,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-10-01T03:34:23.957Z"
+      "checkedAt": "2026-10-01T04:36:21.554Z"
     },
     "SEMINOFF ST, SC / WILKES CRES / NIXON HTS": {
       "text": "Approximate location near Seminoff Street & Nixon Hts",
