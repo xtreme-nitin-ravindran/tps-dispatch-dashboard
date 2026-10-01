@@ -3,9 +3,32 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-01T07:44:07.691Z",
-  "sourceUpdatedAt": "2026-10-01T07:40:01.000Z",
+  "fetchedAt": "2026-10-01T07:46:12.642Z",
+  "sourceUpdatedAt": "2026-10-01T07:45:02.000Z",
   "incidents": [
+    {
+      "id": "F26155720",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "FIRE STATION 334 DRIVEWAY LANE / LOWER SPADINA AVE",
+      "division": "334",
+      "timestamp": "2026-10-01T07:37:55.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-01T07:46:12.642Z",
+      "lastSeenAt": "2026-10-01T07:46:12.642Z",
+      "geography": {
+        "text": "Approximate location on Fire Station 334 Driveway Lane",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-01T07:44:07.691Z"
+      }
+    },
     {
       "id": "F26155719",
       "source": "TFS",
@@ -15,7 +38,7 @@
       "division": "331",
       "timestamp": "2026-10-01T07:29:40.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -62,7 +85,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T07:37:51.016Z",
       "lastMeaningfulUpdateAt": "2026-10-01T07:42:07.729Z",
-      "lastSeenAt": "2026-10-01T07:44:07.691Z",
+      "lastSeenAt": "2026-10-01T07:46:12.642Z",
       "geography": {
         "text": "Approximate area: (M6N) York (Runnymede / The Junction North)",
         "approximate": true,
@@ -97,7 +120,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T07:31:27.982Z",
       "lastMeaningfulUpdateAt": "2026-10-01T07:37:51.016Z",
-      "lastSeenAt": "2026-10-01T07:44:07.691Z",
+      "lastSeenAt": "2026-10-01T07:46:12.642Z",
       "geography": {
         "text": "Approximate area: (M6M) York (Del Ray / Keelsdale / Mount Dennis / Silverthorne)",
         "approximate": true,
@@ -253,7 +276,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T07:16:37.414Z",
-      "lastSeenAt": "2026-10-01T07:44:07.691Z",
+      "lastSeenAt": "2026-10-01T07:46:12.642Z",
       "geography": {
         "text": "Approximate area: (M6P) West Toronto (High Park / The Junction South)",
         "approximate": true,
@@ -9450,7 +9473,7 @@
       "respondingUnitCount": 11,
       "firstSeenAt": "2026-10-01T00:26:40.452Z",
       "lastMeaningfulUpdateAt": "2026-10-01T06:50:57.090Z",
-      "lastSeenAt": "2026-10-01T07:44:07.691Z",
+      "lastSeenAt": "2026-10-01T07:46:12.642Z",
       "geography": {
         "text": "Approximate location near Seminoff Street & Nixon Hts",
         "approximate": true,
@@ -223298,38 +223321,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-24T08:17:59.860Z"
-    },
-    {
-      "id": "TPS-36d420801feb727bcc649286",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "SEE AMBULANCE",
-      "callTypeCode": "SEEAM",
-      "timestamp": "2026-09-24T07:44:43.000Z",
-      "location": "BISCAYNE BLVD - ELVASTON DR",
-      "division": "Division 41",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "BISCAYNE BLVD - ELVASTON DR",
-        "coordinates": [
-          43.73038724525627,
-          -79.3050045645817
-        ],
-        "division": "Division 41",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-24T07:51:55.292Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-01T07:44:07.691Z",
-      "sourceUpdatedAt": "2026-10-01T07:40:01.000Z",
+      "fetchedAt": "2026-10-01T07:46:12.642Z",
+      "sourceUpdatedAt": "2026-10-01T07:45:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-01T07:44:07.691Z",
+      "fetchedAt": "2026-10-01T07:46:12.642Z",
       "status": "ok"
     }
   },
@@ -361732,7 +361733,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-01T07:43:50.000Z",
+    "sourceUpdatedAt": "2026-10-01T07:45:55.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -361741,14 +361742,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-01T07:44:07.691Z",
-    "checkedAt": "2026-10-01T07:44:07.691Z",
+    "fetchedAt": "2026-10-01T07:46:12.642Z",
+    "checkedAt": "2026-10-01T07:46:12.642Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-01T07:44:07.691Z",
-      "checkedAt": "2026-10-01T07:44:07.691Z",
+      "fetchedAt": "2026-10-01T07:46:12.642Z",
+      "checkedAt": "2026-10-01T07:46:12.642Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -361772,6 +361773,15 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "FIRE STATION 334 DRIVEWAY LANE / LOWER SPADINA AVE": {
+      "text": "Approximate location on Fire Station 334 Driveway Lane",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-01T07:44:07.691Z"
+    },
     "M6J": {
       "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
       "approximate": true,
@@ -369544,15 +369554,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-27T19:10:26.884Z"
-    },
-    "FIRE STATION 334 DRIVEWAY LANE / LOWER SPADINA AVE": {
-      "text": "Approximate location on Fire Station 334 Driveway Lane",
-      "approximate": true,
-      "coordinates": null,
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-10-01T07:44:07.691Z"
     },
     "SHEPPARD AVE E / MARKHAM RD": {
       "text": "Sheppard Avenue East & Markham Road",
