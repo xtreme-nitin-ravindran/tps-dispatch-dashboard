@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-01T01:44:14.977Z",
-  "sourceUpdatedAt": "2026-10-01T01:40:02.000Z",
+  "fetchedAt": "2026-10-01T01:46:42.499Z",
+  "sourceUpdatedAt": "2026-10-01T01:45:02.000Z",
   "incidents": [
+    {
+      "id": "F26155609",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "COLLEGE ST, TT / ST LUKE LANE / BAY ST",
+      "division": "314",
+      "timestamp": "2026-10-01T01:38:30.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-01T01:46:42.499Z",
+      "lastSeenAt": "2026-10-01T01:46:42.499Z",
+      "geography": {
+        "text": "College Street between Street Luke Lane & Bay Street",
+        "approximate": false,
+        "coordinates": [
+          43.661033950000004,
+          -79.38478045
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-01T01:46:42.499Z"
+      }
+    },
+    {
+      "id": "F26155608",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M8V",
+      "division": "435",
+      "timestamp": "2026-10-01T01:36:23.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-01T01:46:42.499Z",
+      "lastSeenAt": "2026-10-01T01:46:42.499Z",
+      "geography": {
+        "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
+        "approximate": true,
+        "coordinates": [
+          43.6075,
+          -79.5013
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26155607",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Residential",
+      "location": "NORTH EDGELY AVE, SC / KENMORE AVE / DANFORTH RD",
+      "division": "225",
+      "timestamp": "2026-10-01T01:35:33.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-01T01:46:42.499Z",
+      "lastSeenAt": "2026-10-01T01:46:42.499Z",
+      "geography": {
+        "text": "North Edgely Avenue between Kenmore Avenue & Danforth Road",
+        "approximate": false,
+        "coordinates": [
+          43.708654249999995,
+          -79.26531475
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-01T01:46:42.499Z"
+      }
+    },
     {
       "id": "F26155606",
       "source": "TFS",
@@ -16,9 +94,24 @@
       "timestamp": "2026-10-01T01:34:20.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "221"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "235"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-01T01:42:04.274Z",
-      "lastSeenAt": "2026-10-01T01:44:14.977Z",
+      "lastMeaningfulUpdateAt": "2026-10-01T01:46:42.499Z",
+      "lastSeenAt": "2026-10-01T01:46:42.499Z",
       "geography": {
         "text": "Wakunda Place & O'connor Drive",
         "approximate": false,
@@ -42,9 +135,18 @@
       "timestamp": "2026-10-01T01:32:35.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "221"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T01:42:04.274Z",
-      "lastSeenAt": "2026-10-01T01:44:14.977Z",
+      "lastMeaningfulUpdateAt": "2026-10-01T01:46:42.499Z",
+      "lastSeenAt": "2026-10-01T01:46:42.499Z",
       "geography": {
         "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
         "approximate": true,
@@ -79,7 +181,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T01:35:43.326Z",
       "lastMeaningfulUpdateAt": "2026-10-01T01:42:04.274Z",
-      "lastSeenAt": "2026-10-01T01:44:14.977Z",
+      "lastSeenAt": "2026-10-01T01:46:42.499Z",
       "geography": {
         "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
         "approximate": true,
@@ -128,7 +230,7 @@
       "division": "222",
       "timestamp": "2026-10-01T01:27:28.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -296,7 +398,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T01:26:43.022Z",
-      "lastSeenAt": "2026-10-01T01:44:14.977Z",
+      "lastSeenAt": "2026-10-01T01:46:42.499Z",
       "geography": {
         "text": "Finch Avenue between Topcliff Avenue & Driftwood Avenue",
         "approximate": false,
@@ -540,7 +642,7 @@
       ],
       "respondingUnitCount": 8,
       "firstSeenAt": "2026-10-01T01:22:25.600Z",
-      "lastSeenAt": "2026-10-01T01:44:14.977Z",
+      "lastSeenAt": "2026-10-01T01:46:42.499Z",
       "geography": {
         "text": "Varna Drive between Tundra Lane & Flemington Road",
         "approximate": false,
@@ -1034,7 +1136,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T01:07:03.641Z",
-      "lastSeenAt": "2026-10-01T01:44:14.977Z",
+      "lastSeenAt": "2026-10-01T01:46:42.499Z",
       "geography": {
         "text": "Approximate area: (M6M) York (Del Ray / Keelsdale / Mount Dennis / Silverthorne)",
         "approximate": true,
@@ -1248,7 +1350,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-01T01:02:45.798Z",
-      "lastSeenAt": "2026-10-01T01:44:14.977Z",
+      "lastSeenAt": "2026-10-01T01:46:42.499Z",
       "geography": {
         "text": "Approximate location near Islington Avenue & Aviemore Drive",
         "approximate": true,
@@ -2050,7 +2152,7 @@
       "respondingUnitCount": 5,
       "firstSeenAt": "2026-10-01T00:30:55.210Z",
       "lastMeaningfulUpdateAt": "2026-10-01T01:15:46.181Z",
-      "lastSeenAt": "2026-10-01T01:44:14.977Z",
+      "lastSeenAt": "2026-10-01T01:46:42.499Z",
       "geography": {
         "text": "Approximate location on Saulter Street",
         "approximate": true,
@@ -2130,7 +2232,7 @@
       ],
       "respondingUnitCount": 8,
       "firstSeenAt": "2026-10-01T00:26:40.452Z",
-      "lastSeenAt": "2026-10-01T01:44:14.977Z",
+      "lastSeenAt": "2026-10-01T01:46:42.499Z",
       "geography": {
         "text": "Approximate location near Seminoff Street & Nixon Hts",
         "approximate": true,
@@ -2198,7 +2300,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T00:26:40.452Z",
-      "lastSeenAt": "2026-10-01T01:44:14.977Z",
+      "lastSeenAt": "2026-10-01T01:46:42.499Z",
       "geography": {
         "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
         "approximate": true,
@@ -2592,7 +2694,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T00:07:40.689Z",
-      "lastSeenAt": "2026-10-01T01:44:14.977Z",
+      "lastSeenAt": "2026-10-01T01:46:42.499Z",
       "geography": {
         "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
         "approximate": true,
@@ -219828,37 +219930,16 @@
         "division": "Division 22",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-e151f735e32aeb262dd73a49",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISORDERLIES",
-      "callTypeCode": "DIS",
-      "timestamp": "2026-09-24T01:46:38.000Z",
-      "location": "LN S KINGSTON W SOUTHWOOD - KINGSTON RD",
-      "division": "Division 55",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "LN S KINGSTON W SOUTHWOOD - KINGSTON RD",
-        "coordinates": [
-          43.67890233101804,
-          -79.29800824937016
-        ],
-        "division": "Division 55",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-01T01:44:14.977Z",
-      "sourceUpdatedAt": "2026-10-01T01:40:02.000Z",
+      "fetchedAt": "2026-10-01T01:46:42.499Z",
+      "sourceUpdatedAt": "2026-10-01T01:45:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-01T01:44:14.977Z",
+      "fetchedAt": "2026-10-01T01:46:42.499Z",
       "status": "ok"
     }
   },
@@ -360152,7 +360233,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-01T01:44:02.000Z",
+    "sourceUpdatedAt": "2026-10-01T01:46:36.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -360161,14 +360242,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-01T01:44:14.977Z",
-    "checkedAt": "2026-10-01T01:44:14.977Z",
+    "fetchedAt": "2026-10-01T01:46:42.499Z",
+    "checkedAt": "2026-10-01T01:46:42.499Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-01T01:44:14.977Z",
-      "checkedAt": "2026-10-01T01:44:14.977Z",
+      "fetchedAt": "2026-10-01T01:46:42.499Z",
+      "checkedAt": "2026-10-01T01:46:42.499Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -360192,6 +360273,42 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "COLLEGE ST, TT / ST LUKE LANE / BAY ST": {
+      "text": "College Street between Street Luke Lane & Bay Street",
+      "approximate": false,
+      "coordinates": [
+        43.661033950000004,
+        -79.38478045
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-01T01:46:42.499Z"
+    },
+    "M8V": {
+      "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
+      "approximate": true,
+      "coordinates": [
+        43.6075,
+        -79.5013
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "NORTH EDGELY AVE, SC / KENMORE AVE / DANFORTH RD": {
+      "text": "North Edgely Avenue between Kenmore Avenue & Danforth Road",
+      "approximate": false,
+      "coordinates": [
+        43.708654249999995,
+        -79.26531475
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-01T01:46:42.499Z"
+    },
     "WAKUNDA PL, NY / O'CONNOR DR /": {
       "text": "Wakunda Place & O'connor Drive",
       "approximate": false,
@@ -361238,18 +361355,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-30T21:56:47.454Z"
-    },
-    "M8V": {
-      "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
-      "approximate": true,
-      "coordinates": [
-        43.6075,
-        -79.5013
-      ],
-      "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "KENDLETON DR, ET / ORPINGTON CRES / WARRENDALE CRT": {
       "text": "Approximate location near Kendleton Drive & Warrendale Court",
