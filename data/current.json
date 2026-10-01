@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-01T02:57:38.817Z",
-  "sourceUpdatedAt": "2026-10-01T02:55:01.000Z",
+  "fetchedAt": "2026-10-01T03:00:52.035Z",
+  "sourceUpdatedAt": "2026-10-01T03:00:01.000Z",
   "incidents": [
+    {
+      "id": "F26155641",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6A",
+      "division": "132",
+      "timestamp": "2026-10-01T02:50:56.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-01T03:00:52.035Z",
+      "lastSeenAt": "2026-10-01T03:00:52.035Z",
+      "geography": {
+        "text": "Approximate area: (M6A) North York (Lawrence Manor / Lawrence Heights)",
+        "approximate": true,
+        "coordinates": [
+          43.7223,
+          -79.4504
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26155640",
       "source": "TFS",
@@ -15,7 +41,7 @@
       "division": "332",
       "timestamp": "2026-10-01T02:49:37.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-10-01T02:55:37.883Z",
       "lastSeenAt": "2026-10-01T02:57:38.817Z",
@@ -42,9 +68,18 @@
       "timestamp": "2026-10-01T02:49:08.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "444"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T02:55:37.883Z",
-      "lastSeenAt": "2026-10-01T02:57:38.817Z",
+      "lastMeaningfulUpdateAt": "2026-10-01T03:00:52.035Z",
+      "lastSeenAt": "2026-10-01T03:00:52.035Z",
       "geography": {
         "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
         "approximate": true,
@@ -68,9 +103,18 @@
       "timestamp": "2026-10-01T02:47:34.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "314"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T02:55:37.883Z",
-      "lastSeenAt": "2026-10-01T02:57:38.817Z",
+      "lastMeaningfulUpdateAt": "2026-10-01T03:00:52.035Z",
+      "lastSeenAt": "2026-10-01T03:00:52.035Z",
       "geography": {
         "text": "Approximate area: (M5G) Downtown Toronto (Central Bay Street)",
         "approximate": true,
@@ -94,9 +138,18 @@
       "timestamp": "2026-10-01T02:46:48.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "426"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T02:55:37.883Z",
-      "lastSeenAt": "2026-10-01T02:57:38.817Z",
+      "lastMeaningfulUpdateAt": "2026-10-01T03:00:52.035Z",
+      "lastSeenAt": "2026-10-01T03:00:52.035Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -120,9 +173,18 @@
       "timestamp": "2026-10-01T02:45:23.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "123"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T02:55:37.883Z",
-      "lastSeenAt": "2026-10-01T02:57:38.817Z",
+      "lastMeaningfulUpdateAt": "2026-10-01T03:00:52.035Z",
+      "lastSeenAt": "2026-10-01T03:00:52.035Z",
       "geography": {
         "text": "Approximate area: (M3B) Don Mills North",
         "approximate": true,
@@ -3978,7 +4040,7 @@
       "respondingUnitCount": 9,
       "firstSeenAt": "2026-10-01T00:26:40.452Z",
       "lastMeaningfulUpdateAt": "2026-10-01T01:57:03.990Z",
-      "lastSeenAt": "2026-10-01T02:57:38.817Z",
+      "lastSeenAt": "2026-10-01T03:00:52.035Z",
       "geography": {
         "text": "Approximate location near Seminoff Street & Nixon Hts",
         "approximate": true,
@@ -221310,37 +221372,16 @@
         "division": "Division 33",
         "approximate": true
       }
-    },
-    {
-      "id": "TPS-eecd79bb91e8b0e5335eb0ec",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISPUTE",
-      "callTypeCode": "DISPU",
-      "timestamp": "2026-09-24T02:59:29.000Z",
-      "location": "WONDERLAND DR - SPRAYWOOD GT",
-      "division": "Division 43",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "WONDERLAND DR - SPRAYWOOD GT",
-        "coordinates": [
-          43.7725025059901,
-          -79.21391005892005
-        ],
-        "division": "Division 43",
-        "approximate": true
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-01T02:57:38.817Z",
-      "sourceUpdatedAt": "2026-10-01T02:55:01.000Z",
+      "fetchedAt": "2026-10-01T03:00:52.035Z",
+      "sourceUpdatedAt": "2026-10-01T03:00:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-01T02:57:38.817Z",
+      "fetchedAt": "2026-10-01T03:00:52.035Z",
       "status": "ok"
     }
   },
@@ -361458,7 +361499,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-01T02:57:35.000Z",
+    "sourceUpdatedAt": "2026-10-01T03:00:36.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -361467,14 +361508,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-01T02:57:38.817Z",
-    "checkedAt": "2026-10-01T02:57:38.817Z",
+    "fetchedAt": "2026-10-01T03:00:52.035Z",
+    "checkedAt": "2026-10-01T03:00:52.035Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-01T02:57:38.817Z",
-      "checkedAt": "2026-10-01T02:57:38.817Z",
+      "fetchedAt": "2026-10-01T03:00:52.035Z",
+      "checkedAt": "2026-10-01T03:00:52.035Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -361498,6 +361539,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6A": {
+      "text": "Approximate area: (M6A) North York (Lawrence Manor / Lawrence Heights)",
+      "approximate": true,
+      "coordinates": [
+        43.7223,
+        -79.4504
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M5E": {
       "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
       "approximate": true,
@@ -364374,18 +364427,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-30T10:20:54.221Z"
-    },
-    "M6A": {
-      "text": "Approximate area: (M6A) North York (Lawrence Manor / Lawrence Heights)",
-      "approximate": true,
-      "coordinates": [
-        43.7223,
-        -79.4504
-      ],
-      "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "DUNDAS ST, TT / LN 2 E ALTON S DUNDAS / HILTZ AVE": {
       "text": "Dundas Street between Lane 2 East Alton South Dundas & Hiltz Avenue",
