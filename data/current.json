@@ -3,9 +3,111 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-01T09:18:32.629Z",
-  "sourceUpdatedAt": "2026-10-01T09:15:02.000Z",
+  "fetchedAt": "2026-10-01T09:21:11.818Z",
+  "sourceUpdatedAt": "2026-10-01T09:20:01.000Z",
   "incidents": [
+    {
+      "id": "F26155736",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "BAYVIEW AVE, NY / TEAGARDEN CRT / SPRING GARDEN AVE",
+      "division": "116",
+      "timestamp": "2026-10-01T09:13:00.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "116"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "122"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-10-01T09:21:11.818Z",
+      "lastSeenAt": "2026-10-01T09:21:11.818Z",
+      "geography": {
+        "text": "Bayview Avenue between Teagarden Court & Spring Garden Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.7686236,
+          -79.3884966
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-01T09:21:11.818Z"
+      }
+    },
+    {
+      "id": "F26155735",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "MILL ST, TT / COOPERAGE ST / ROLLING MILLS RD",
+      "division": "333",
+      "timestamp": "2026-10-01T09:12:08.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "333"
+          ]
+        },
+        {
+          "type": "Tower Truck",
+          "numbers": [
+            "333"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-10-01T09:21:11.818Z",
+      "lastSeenAt": "2026-10-01T09:21:11.818Z",
+      "geography": {
+        "text": "Mill Street between Cooperage Street & Rolling Mills Road",
+        "approximate": false,
+        "coordinates": [
+          43.6517148,
+          -79.35574955
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-01T09:21:11.818Z"
+      }
+    },
+    {
+      "id": "TPS-db3ce06a01b4ce49481f1582",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-10-01T09:09:50.000Z",
+      "location": "EGLINTON AVE E - ROEHAMPTON AVE",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "EGLINTON AVE E - ROEHAMPTON AVE",
+        "coordinates": [
+          43.70976292694972,
+          -79.3835794686051
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-01T09:21:11.818Z"
+    },
     {
       "id": "F26155734",
       "source": "TFS",
@@ -16,9 +118,18 @@
       "timestamp": "2026-10-01T09:05:20.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "123"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T09:16:14.497Z",
-      "lastSeenAt": "2026-10-01T09:18:32.629Z",
+      "lastMeaningfulUpdateAt": "2026-10-01T09:21:11.818Z",
+      "lastSeenAt": "2026-10-01T09:21:11.818Z",
       "geography": {
         "text": "Approximate area: (M3B) Don Mills North",
         "approximate": true,
@@ -41,7 +152,7 @@
       "division": "313",
       "timestamp": "2026-10-01T08:58:27.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -66,6 +177,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-10-01T09:07:21.458Z"
       }
+    },
+    {
+      "id": "TPS-70fe18fab0be30364badefcc",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-10-01T08:55:07.000Z",
+      "location": "KEELE ST - CANON JACKSON DR",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KEELE ST - CANON JACKSON DR",
+        "coordinates": [
+          43.697232269719805,
+          -79.47544957212479
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-01T09:21:11.818Z"
     },
     {
       "id": "F26155732",
@@ -104,6 +237,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-10-01T08:44:12.464Z"
       }
+    },
+    {
+      "id": "TPS-e8c9c2c8b6eaced9dfa41f4d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-10-01T08:47:37.000Z",
+      "location": "LIBERTY ST - KING ST W",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LIBERTY ST - KING ST W",
+        "coordinates": [
+          43.63760988076467,
+          -79.42411402529397
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-01T09:21:11.818Z"
     },
     {
       "id": "TPS-d51c0459eec8b333c6b55b9b",
@@ -170,6 +325,28 @@
         "approximate": true
       },
       "firstSeenAt": "2026-10-01T08:52:30.612Z"
+    },
+    {
+      "id": "TPS-4747af54e0fec0a327cc09a3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SHOOTING",
+      "callTypeCode": "SHO",
+      "timestamp": "2026-10-01T08:43:36.000Z",
+      "location": "CARLINGVIEW DR - INTERNATIONAL BLVD",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CARLINGVIEW DR - INTERNATIONAL BLVD",
+        "coordinates": [
+          43.67684474639294,
+          -79.5910331588835
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-01T09:21:11.818Z"
     },
     {
       "id": "F26155731",
@@ -10347,7 +10524,7 @@
       "respondingUnitCount": 12,
       "firstSeenAt": "2026-10-01T00:26:40.452Z",
       "lastMeaningfulUpdateAt": "2026-10-01T09:01:00.746Z",
-      "lastSeenAt": "2026-10-01T09:18:32.629Z",
+      "lastSeenAt": "2026-10-01T09:21:11.818Z",
       "geography": {
         "text": "Approximate location near Seminoff Street & Nixon Hts",
         "approximate": true,
@@ -223386,12 +223563,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-01T09:18:32.629Z",
-      "sourceUpdatedAt": "2026-10-01T09:15:02.000Z",
+      "fetchedAt": "2026-10-01T09:21:11.818Z",
+      "sourceUpdatedAt": "2026-10-01T09:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-01T09:18:32.629Z",
+      "fetchedAt": "2026-10-01T09:21:11.818Z",
       "status": "ok"
     }
   },
@@ -357887,8 +358064,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-01T09:13:53.730Z",
-      "fetchedAt": "2026-10-01T09:13:53.730Z"
+      "checkedAt": "2026-10-01T09:21:11.818Z",
+      "fetchedAt": "2026-10-01T09:21:11.818Z"
     },
     "transit": {
       "items": [
@@ -360652,16 +360829,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-01T09:13:54.000Z",
+      "sourceUpdatedAt": "2026-10-01T09:21:12.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-01T09:13:53.730Z",
-      "fetchedAt": "2026-10-01T09:13:53.730Z"
+      "checkedAt": "2026-10-01T09:21:11.818Z",
+      "fetchedAt": "2026-10-01T09:21:11.818Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-01T09:18:27.000Z",
+    "sourceUpdatedAt": "2026-10-01T09:20:57.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -360670,14 +360847,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-01T09:18:32.629Z",
-    "checkedAt": "2026-10-01T09:18:32.629Z",
+    "fetchedAt": "2026-10-01T09:21:11.818Z",
+    "checkedAt": "2026-10-01T09:21:11.818Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-01T09:18:32.629Z",
-      "checkedAt": "2026-10-01T09:18:32.629Z",
+      "fetchedAt": "2026-10-01T09:21:11.818Z",
+      "checkedAt": "2026-10-01T09:21:11.818Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -360701,6 +360878,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "BAYVIEW AVE, NY / TEAGARDEN CRT / SPRING GARDEN AVE": {
+      "text": "Bayview Avenue between Teagarden Court & Spring Garden Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.7686236,
+        -79.3884966
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-01T09:21:11.818Z"
+    },
+    "MILL ST, TT / COOPERAGE ST / ROLLING MILLS RD": {
+      "text": "Mill Street between Cooperage Street & Rolling Mills Road",
+      "approximate": false,
+      "coordinates": [
+        43.6517148,
+        -79.35574955
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-01T09:21:11.818Z"
+    },
     "M3B": {
       "text": "Approximate area: (M3B) Don Mills North",
       "approximate": true,
