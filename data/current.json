@@ -3,15 +3,15 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-01T08:20:00.533Z",
-  "sourceUpdatedAt": "2026-10-01T08:15:01.000Z",
+  "fetchedAt": "2026-10-01T08:22:09.373Z",
+  "sourceUpdatedAt": "2026-10-01T08:20:01.000Z",
   "incidents": [
     {
       "id": "F26155725",
       "source": "TFS",
       "eventType": "fire",
       "description": "Vehicle Accident - Trapped",
-      "location": "MACKAY AVE, TT / DUFFERIN ST / LN W DUFFERIN N MACKAY",
+      "location": "MACKAY AVE / ST CLAIR AVE W",
       "division": "342",
       "timestamp": "2026-10-01T08:07:01.000Z",
       "alarmLevel": 0,
@@ -44,18 +44,16 @@
       ],
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-10-01T08:17:39.798Z",
-      "lastSeenAt": "2026-10-01T08:20:00.533Z",
+      "lastMeaningfulUpdateAt": "2026-10-01T08:22:09.373Z",
+      "lastSeenAt": "2026-10-01T08:22:09.373Z",
       "geography": {
-        "text": "Mackay Avenue between Dufferin Street & Lane West Dufferin North Mackay",
-        "approximate": false,
-        "coordinates": [
-          43.67705035,
-          -79.44313055
-        ],
-        "division": "Division 13",
+        "text": "Approximate location on Mackay Avenue",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-10-01T08:17:39.798Z"
+        "checkedAt": "2026-10-01T08:22:09.373Z"
       }
     },
     {
@@ -139,7 +137,7 @@
       ],
       "respondingUnitCount": 11,
       "firstSeenAt": "2026-10-01T08:05:29.516Z",
-      "lastSeenAt": "2026-10-01T08:20:00.533Z",
+      "lastSeenAt": "2026-10-01T08:22:09.373Z",
       "geography": {
         "text": "Cosburn Avenue between Pape Avenue & Todmorden Lane",
         "approximate": false,
@@ -162,7 +160,7 @@
       "division": "223",
       "timestamp": "2026-10-01T07:56:44.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -556,7 +554,7 @@
       "division": "423",
       "timestamp": "2026-10-01T07:06:46.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -9764,7 +9762,7 @@
       "respondingUnitCount": 11,
       "firstSeenAt": "2026-10-01T00:26:40.452Z",
       "lastMeaningfulUpdateAt": "2026-10-01T06:50:57.090Z",
-      "lastSeenAt": "2026-10-01T08:20:00.533Z",
+      "lastSeenAt": "2026-10-01T08:22:09.373Z",
       "geography": {
         "text": "Approximate location near Seminoff Street & Nixon Hts",
         "approximate": true,
@@ -223358,82 +223356,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26151337",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Fire - Residential",
-      "location": "CHARTERHOUSE RD, SC / KEYWORTH TRL / LAWNMERE CRES",
-      "division": "243",
-      "timestamp": "2026-09-24T08:21:28.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Aerial Truck",
-          "numbers": [
-            "242"
-          ]
-        },
-        {
-          "type": "Command Unit",
-          "numbers": [
-            "23",
-            "24"
-          ]
-        },
-        {
-          "type": "Ladder Truck",
-          "numbers": [
-            "231"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "213",
-            "242"
-          ]
-        },
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "243"
-          ]
-        },
-        {
-          "type": "Squad Unit",
-          "numbers": [
-            "232"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-24T08:31:51.870Z",
-      "lastMeaningfulUpdateAt": "2026-09-24T08:35:31.692Z",
-      "lastSeenAt": "2026-09-24T09:39:25.697Z",
-      "geography": {
-        "text": "Approximate location near Charterhouse Road & Keyworth Trl",
-        "approximate": true,
-        "coordinates": [
-          43.7851746,
-          -79.2600476
-        ],
-        "division": "Unknown",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-24T08:31:51.870Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-01T08:20:00.533Z",
-      "sourceUpdatedAt": "2026-10-01T08:15:01.000Z",
+      "fetchedAt": "2026-10-01T08:22:09.373Z",
+      "sourceUpdatedAt": "2026-10-01T08:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-01T08:20:00.533Z",
+      "fetchedAt": "2026-10-01T08:22:09.373Z",
       "status": "ok"
     }
   },
@@ -358986,8 +358918,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-01T08:15:20.481Z",
-      "fetchedAt": "2026-10-01T08:15:20.481Z"
+      "checkedAt": "2026-10-01T08:22:09.373Z",
+      "fetchedAt": "2026-10-01T08:22:09.373Z"
     },
     "transit": {
       "items": [
@@ -361789,16 +361721,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-01T08:15:21.000Z",
+      "sourceUpdatedAt": "2026-10-01T08:22:10.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-01T08:15:20.481Z",
-      "fetchedAt": "2026-10-01T08:15:20.481Z"
+      "checkedAt": "2026-10-01T08:22:09.373Z",
+      "fetchedAt": "2026-10-01T08:22:09.373Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-01T08:19:52.000Z",
+    "sourceUpdatedAt": "2026-10-01T08:21:54.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -361807,14 +361739,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-01T08:20:00.533Z",
-    "checkedAt": "2026-10-01T08:20:00.533Z",
+    "fetchedAt": "2026-10-01T08:22:09.373Z",
+    "checkedAt": "2026-10-01T08:22:09.373Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-01T08:20:00.533Z",
-      "checkedAt": "2026-10-01T08:20:00.533Z",
+      "fetchedAt": "2026-10-01T08:22:09.373Z",
+      "checkedAt": "2026-10-01T08:22:09.373Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -361838,17 +361770,14 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
-    "MACKAY AVE, TT / DUFFERIN ST / LN W DUFFERIN N MACKAY": {
-      "text": "Mackay Avenue between Dufferin Street & Lane West Dufferin North Mackay",
-      "approximate": false,
-      "coordinates": [
-        43.67705035,
-        -79.44313055
-      ],
-      "division": "Division 13",
+    "MACKAY AVE / ST CLAIR AVE W": {
+      "text": "Approximate location on Mackay Avenue",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-10-01T08:17:39.798Z"
+      "checkedAt": "2026-10-01T08:22:09.373Z"
     },
     "M5B": {
       "text": "Approximate area: (M5B) Downtown Toronto (Ryerson)",
@@ -375826,18 +375755,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T09:07:03.134Z"
-    },
-    "CHARTERHOUSE RD, SC / KEYWORTH TRL / LAWNMERE CRES": {
-      "text": "Approximate location near Charterhouse Road & Keyworth Trl",
-      "approximate": true,
-      "coordinates": [
-        43.7851746,
-        -79.2600476
-      ],
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-24T08:31:51.870Z"
     }
   }
 }
