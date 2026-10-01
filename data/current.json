@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-01T04:48:49.000Z",
-  "sourceUpdatedAt": "2026-10-01T04:45:02.000Z",
+  "fetchedAt": "2026-10-01T04:50:50.637Z",
+  "sourceUpdatedAt": "2026-10-01T04:50:02.000Z",
   "incidents": [
+    {
+      "id": "F26155681",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9B",
+      "division": "445",
+      "timestamp": "2026-10-01T04:44:22.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-01T04:50:50.637Z",
+      "lastSeenAt": "2026-10-01T04:50:50.637Z",
+      "geography": {
+        "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
+        "approximate": true,
+        "coordinates": [
+          43.6505,
+          -79.5517
+        ],
+        "division": "Division 22",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26155680",
       "source": "TFS",
@@ -16,9 +42,18 @@
       "timestamp": "2026-10-01T04:35:38.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "235"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T04:46:52.739Z",
-      "lastSeenAt": "2026-10-01T04:48:49.000Z",
+      "lastMeaningfulUpdateAt": "2026-10-01T04:50:50.637Z",
+      "lastSeenAt": "2026-10-01T04:50:50.637Z",
       "geography": {
         "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
         "approximate": true,
@@ -52,7 +87,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T04:36:21.554Z",
-      "lastSeenAt": "2026-10-01T04:48:49.000Z",
+      "lastSeenAt": "2026-10-01T04:50:50.637Z",
       "geography": {
         "text": "Approximate area: (M6S) West Toronto (Bloor West Village / Swansea)",
         "approximate": true,
@@ -561,7 +596,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T04:11:50.161Z",
-      "lastSeenAt": "2026-10-01T04:48:49.000Z",
+      "lastSeenAt": "2026-10-01T04:50:50.637Z",
       "geography": {
         "text": "Approximate area: (M3J) North York (Northwood Park / York University)",
         "approximate": true,
@@ -979,7 +1014,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-01T03:53:32.130Z",
       "lastMeaningfulUpdateAt": "2026-10-01T04:05:39.445Z",
-      "lastSeenAt": "2026-10-01T04:48:49.000Z",
+      "lastSeenAt": "2026-10-01T04:50:50.637Z",
       "geography": {
         "text": "Fort York Boulevard between Gzowski Boulevard & Angelique Street",
         "approximate": false,
@@ -6839,7 +6874,7 @@
       "respondingUnitCount": 10,
       "firstSeenAt": "2026-10-01T00:26:40.452Z",
       "lastMeaningfulUpdateAt": "2026-10-01T04:46:52.739Z",
-      "lastSeenAt": "2026-10-01T04:48:49.000Z",
+      "lastSeenAt": "2026-10-01T04:50:50.637Z",
       "geography": {
         "text": "Approximate location near Seminoff Street & Nixon Hts",
         "approximate": true,
@@ -222502,93 +222537,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-24T04:52:46.000Z"
-    },
-    {
-      "id": "TPS-20dda04b43edd04d7fe53a55",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISORDERLIES",
-      "callTypeCode": "DIS",
-      "timestamp": "2026-09-24T04:50:43.000Z",
-      "location": "LAKESHORE W YORK ST RAMP - BREMNER BLVD",
-      "division": "Division 52",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "LAKESHORE W YORK ST RAMP - BREMNER BLVD",
-        "coordinates": [
-          43.64290718201088,
-          -79.38146754290888
-        ],
-        "division": "Division 52",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-24T04:50:43.000Z"
-    },
-    {
-      "id": "TPS-2a9f8ebd75be860b2f02abe3",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "ASSAULT IN PROGRESS",
-      "callTypeCode": "ASSPR",
-      "timestamp": "2026-09-24T04:50:31.000Z",
-      "location": "AVENUE RD - LN W AVENUE S DAVENPORT",
-      "division": "Division 53",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "AVENUE RD - LN W AVENUE S DAVENPORT",
-        "coordinates": [
-          43.675543918327726,
-          -79.39691514719333
-        ],
-        "division": "Division 53",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-24T04:50:31.000Z"
-    },
-    {
-      "id": "F26151295",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M5E",
-      "division": "333",
-      "timestamp": "2026-09-24T04:49:55.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "333"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-24T04:55:50.308Z",
-      "lastSeenAt": "2026-09-24T05:06:33.048Z",
-      "geography": {
-        "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
-        "approximate": true,
-        "coordinates": [
-          43.6456,
-          -79.3754
-        ],
-        "division": "Division 51",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-01T04:48:49.000Z",
-      "sourceUpdatedAt": "2026-10-01T04:45:02.000Z",
+      "fetchedAt": "2026-10-01T04:50:50.637Z",
+      "sourceUpdatedAt": "2026-10-01T04:50:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-01T04:48:49.000Z",
+      "fetchedAt": "2026-10-01T04:50:50.637Z",
       "status": "ok"
     }
   },
@@ -358141,8 +358099,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-01T04:44:34.963Z",
-      "fetchedAt": "2026-10-01T04:44:34.963Z"
+      "checkedAt": "2026-10-01T04:50:50.637Z",
+      "fetchedAt": "2026-10-01T04:50:50.637Z"
     },
     "transit": {
       "items": [
@@ -360075,6 +360033,36 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
+          "id": "77241",
+          "title": "511 Bathurst: No service near Bathurst Station at Bay 6 while we respond to a medical emergency.",
+          "description": "Streetcars redirected to Spadina Station.",
+          "effect": "NO SERVICE",
+          "routes": [
+            "511"
+          ],
+          "stopIds": [
+            "14619"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "511",
+              "stopId": "14619",
+              "coordinates": [
+                43.666532,
+                -79.411286
+              ],
+              "name": "Bathurst Station"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790830149000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
           "id": "200",
           "title": "– Long Branch Loop Streetcar Track Renewal Work",
           "description": "With the start of the TTC construction at Long Branch Loop service will be adjusted on the following routes: \n \n501 Queen: 501A Queen streetcar will be extended to operate in the late evening period between Neville Park Loop and Humber Loop. Streetcars will continue to arrive every 10 minutes. \n \nService on the 501C Queen will be suspended during this construction period. \n \n301 Queen: Overnight service on the 301 Queen streetcar will be shortened to operate between Neville Park Loop and Humber Loop. \n \n301L Queen bus replacement service will be introduced between Long Branch Loop and Dufferin Gate Loop via The Queensway, Park Lawn Road and Lake Shore Boulevard West. Buses will arrive every 30 minutes. \n \n507 Long Branch: Service on the 507 Long Branch streetcar will be suspended and replaced by 507 Long Branch bus replacement service. \n \n507 Long Branch bus replacement service will operate between Humber Loop and Long Branch Loop via Lake Shore Boulevard West, Park Lawn Road and The Queensway. \n \nBuses will arrive every 10 minutes and be extended into the late evening period to replace suspended 501C Queen streetcar service. \n \n507M Long Branch bus replacement shuttle service will begin operating between Humber Loop and Humber Bay Shores (Marine Parade Drive and Silver Moon Drive) via The Queensway, Park Lawn Road, Lake Shore Boulevard West and Marine Parade Drive.\n \nBuses will arrive 15 minutes during the weekday peak periods and between 20 and 30 minutes in off peak periods. \n \nService on the 508 Lake Shore streetcar will be suspended for the summer.",
@@ -361370,16 +361358,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-01T04:44:35.000Z",
+      "sourceUpdatedAt": "2026-10-01T04:50:51.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-01T04:44:34.963Z",
-      "fetchedAt": "2026-10-01T04:44:34.963Z"
+      "checkedAt": "2026-10-01T04:50:50.637Z",
+      "fetchedAt": "2026-10-01T04:50:50.637Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-01T04:48:42.000Z",
+    "sourceUpdatedAt": "2026-10-01T04:50:41.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -361388,14 +361376,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-01T04:48:49.000Z",
-    "checkedAt": "2026-10-01T04:48:49.000Z",
+    "fetchedAt": "2026-10-01T04:50:50.637Z",
+    "checkedAt": "2026-10-01T04:50:50.637Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-01T04:48:49.000Z",
-      "checkedAt": "2026-10-01T04:48:49.000Z",
+      "fetchedAt": "2026-10-01T04:50:50.637Z",
+      "checkedAt": "2026-10-01T04:50:50.637Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -361419,6 +361407,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M9B": {
+      "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
+      "approximate": true,
+      "coordinates": [
+        43.6505,
+        -79.5517
+      ],
+      "division": "Division 22",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M3C": {
       "text": "Approximate area: (M3C) Don Mills South (Flemingdon Park)",
       "approximate": true,
@@ -362930,18 +362930,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-30T21:56:47.454Z"
-    },
-    "M9B": {
-      "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
-      "approximate": true,
-      "coordinates": [
-        43.6505,
-        -79.5517
-      ],
-      "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "SHEPPARD AVE E / MORNINGSIDE AVE": {
       "text": "Sheppard Avenue East & Morningside Avenue",
