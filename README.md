@@ -525,16 +525,19 @@ all files | 99.98 | 99.96 | 100.00
 This means the tests may have passed, but the coverage gate still fails and promotion
 is blocked.
 
-To diagnose a failure, inspect the coverage table for a file below 100%, then use its
-uncovered line and branch details to locate the gap. Add meaningful tests for reachable
-code, or remove code only when it is genuinely dead. Do not add fake coverage-only
-execution. Rerun the coverage command until lines, branches, and functions are all 100.00%.
+To diagnose a failure:
+
+- Find the non-100% file in the coverage table.
+- Inspect its uncovered lines and branches.
+- Add meaningful tests for reachable behavior.
+- Remove code only when it is genuinely dead.
+- Rerun the coverage command until lines, branches, and functions are all 100.00%.
 
 #### Pre-push checklist
 
 Before pushing:
 
-- [ ] Relevant targeted tests pass.
+- [ ] All required tests pass.
 - [ ] The coverage command reports 100.00% lines.
 - [ ] The coverage command reports 100.00% branches.
 - [ ] The coverage command reports 100.00% functions.
