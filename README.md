@@ -84,9 +84,8 @@ git pull --ff-only origin dev
 ## Testing
 
 Run commands from the repository root. Use Docker for the same Node.js 22, ESLint,
-and Ruff environment as CI. For local checks, install a supported Node.js release
-(22.13+ or 24+), Git, the locked npm dependencies with `npm ci`, and Ruff
-0.16.8. Unit tests use fixtures, mocked services, bundled geographic data, and
+and Ruff environment as CI; the host does not need Node.js, npm, ESLint, Ruff, or
+Python installed. Unit tests use fixtures, mocked services, bundled geographic data, and
 temporary files/repositories; they do not publish changes or require live feeds. See
 [Test coverage](#test-coverage) for how coverage is measured and published.
 
@@ -501,16 +500,47 @@ simplest way to reproduce CI without installing Ruff on the host.
 
 The badges show Node’s measured line, branch, and function coverage after successful CI checks on `dev`. They include test files and exclude unloaded code, browser UI interactions, and Python code; they are not whole-repository coverage. The generated badges and [full report](https://github.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/blob/coverage/coverage-report.txt) live on the `coverage` branch and appear after the first successful publishing run. Python tests run separately and include checks for badge generation.
 
-To generate the same report and badges locally after building the Docker image:
+After building the Docker image, run the same coverage command used by CI:
 
 ```bash
-bash -o pipefail -c 'docker run --rm toronto-dispatch-tests npm run test:coverage | tee /tmp/sirento-coverage.txt'
-python3 scripts/coverage-badges.py /tmp/sirento-coverage.txt /tmp/sirento-coverage-badges
+docker run --rm \
+  -e NODE_V8_COVERAGE=/tmp/coverage \
+  toronto-dispatch-tests \
+  npm run test:coverage
 ```
 
-This combined run includes the live-source integration tests and requires internet access.
-It fails unless measured JavaScript line, branch, and function coverage are all 100%.
-Badge generation requires Python 3 and writes three SVG files to the output directory.
+Use Docker; the host does not need Node installed. The coverage command can fail even
+when every test passes because the coverage gate requires these minimums:
+
+- Lines: 100.00%
+- Branches: 100.00%
+- Functions: 100.00%
+
+CI fails if any category in the final `all files` row is below 100.00%. For example:
+
+```text
+all files | 99.98 | 99.96 | 100.00
+```
+
+This means the tests may have passed, but the coverage gate still fails and promotion
+is blocked.
+
+To diagnose a failure, inspect the coverage table for a file below 100%, then use its
+uncovered line and branch details to locate the gap. Add meaningful tests for reachable
+code, or remove code only when it is genuinely dead. Do not add fake coverage-only
+execution. Rerun the coverage command until lines, branches, and functions are all 100.00%.
+
+#### Pre-push checklist
+
+Before pushing:
+
+- [ ] Relevant targeted tests pass.
+- [ ] The coverage command reports 100.00% lines.
+- [ ] The coverage command reports 100.00% branches.
+- [ ] The coverage command reports 100.00% functions.
+- [ ] Lint and syntax checks pass as applicable.
+- [ ] `git diff --check` passes.
+- [ ] `data/current.json` is unchanged unless intentionally modified.
 
 `npm test` runs all 25 JavaScript unit test files below:
 
@@ -568,21 +598,7 @@ visually as well.
 
 ### Run individual suites
 
-With a supported Node.js release and Git installed:
-
-```bash
-npm ci                                # Install the locked ESLint dependencies
-npm run lint                          # JavaScript and Python linters (Ruff required)
-npm run lint:js                       # ESLint only
-npm run lint:python                   # Ruff only
-npm test                              # JavaScript unit tests
-npm run test:python                   # Python location-index tests (requires Python 3)
-npm run test:integration               # All live-source integration tests
-node --test test/disruptions.test.js   # One file; substitute any file listed above
-node --test --watch test/disruptions.test.js # Re-run one file as it changes
-```
-
-For Docker, build the image once after changing code or tests:
+Build the Docker image once after changing code or tests:
 
 ```bash
 docker build -f Dockerfile.test -t toronto-dispatch-tests .
