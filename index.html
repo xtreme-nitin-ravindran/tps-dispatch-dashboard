@@ -253,6 +253,7 @@
             aria-controls="mapView">Map</button>
           <button type="button" data-mobile-view="calls" aria-pressed="false"
             aria-controls="callsView">Calls</button>
+          <button type="button" id="mobileDisruptionsControl" aria-controls="disruptions">Disruptions</button>
         </div>
       </nav>
 
@@ -459,7 +460,7 @@
         </div>
       </details>
 
-      <section class="panel disruptions-panel" id="disruptions" aria-labelledby="disruptionHeading">
+      <section class="panel disruptions-panel" id="disruptions" aria-labelledby="disruptionHeading" tabindex="-1">
         <div class="panel-head">
           <div><span class="section-kicker">TRAVEL</span>
             <h3 id="disruptionHeading">Road &amp; transit disruptions</h3>
@@ -570,7 +571,7 @@
   </script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=story-30g-1"></script>
+  <script type="module" src="./app.js?v=story-39a-1"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", async () => {

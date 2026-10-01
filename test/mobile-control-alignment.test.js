@@ -21,10 +21,10 @@ test('mobile filters and actions use aligned grids with usable touch targets', (
   assert.match(finalMobileRules, /\.view-actions button\s*{ width: 100%; min-height: 44px; \}/);
 });
 
-test('radius choices stay on one bounded row above Map and Calls', () => {
+test('radius choices stay on one bounded row above the mobile navigation controls', () => {
   assert.match(sharedMobileRules, /\.radius-toggle-group\s*{[\s\S]*?flex-wrap: nowrap;[\s\S]*?gap: 4px;[\s\S]*?max-width: 100%;[\s\S]*?overflow-x: auto;/);
   assert.match(sharedMobileRules, /\.radius-toggle-group button\s*{[\s\S]*?flex: 0 0 auto;[\s\S]*?white-space: nowrap;/);
-  assert.match(sharedMobileRules, /\.mobile-view-toggle\s*{ display: grid; grid-template-columns: 1fr 1fr; gap: 4px; width: 100%; \}/);
+  assert.match(sharedMobileRules, /\.mobile-view-toggle\s*{ display: grid; grid-template-columns: repeat\(3, minmax\(0, 1fr\)\); gap: 4px; width: 100%; max-width: 100%; \}/);
   assert.match(sharedMobileRules, /\.radius-toggle-group button\s*{[\s\S]*?min-height: 44px;/);
   assert.match(sharedMobileRules, /\.mobile-view-toggle button\s*{ min-height: 44px;/);
 });
