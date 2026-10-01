@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-01T15:52:01.625Z",
-  "sourceUpdatedAt": "2026-10-01T15:50:01.000Z",
+  "fetchedAt": "2026-10-01T15:56:43.999Z",
+  "sourceUpdatedAt": "2026-10-01T15:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26155918",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "SHEPPARD AVE E / LESLIE ST",
+      "division": "116",
+      "timestamp": "2026-10-01T15:47:45.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-01T15:56:43.999Z",
+      "lastSeenAt": "2026-10-01T15:56:43.999Z",
+      "geography": {
+        "text": "Sheppard Avenue East & Leslie Street",
+        "approximate": false,
+        "coordinates": [
+          43.7716519,
+          -79.3641783
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-01T15:56:43.999Z"
+      }
+    },
     {
       "id": "TPS-21c643c7084d2df590cf6de8",
       "source": "TPS",
@@ -82,9 +108,18 @@
       "timestamp": "2026-10-01T15:40:30.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "346"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T15:52:01.625Z",
-      "lastSeenAt": "2026-10-01T15:52:01.625Z",
+      "lastMeaningfulUpdateAt": "2026-10-01T15:56:43.999Z",
+      "lastSeenAt": "2026-10-01T15:56:43.999Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -107,7 +142,7 @@
       "division": "134",
       "timestamp": "2026-10-01T15:37:15.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -175,7 +210,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-01T15:47:03.867Z",
-      "lastSeenAt": "2026-10-01T15:52:01.625Z",
+      "lastSeenAt": "2026-10-01T15:56:43.999Z",
       "geography": {
         "text": "Edith Drive between Eglinton Avenue West & Orchard View Boulevard",
         "approximate": false,
@@ -231,7 +266,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T15:47:03.867Z",
-      "lastSeenAt": "2026-10-01T15:52:01.625Z",
+      "lastSeenAt": "2026-10-01T15:56:43.999Z",
       "geography": {
         "text": "Approximate area: (M1P) Scarborough (Dorset Park / Wexford Heights / Scarborough Town Centre)",
         "approximate": true,
@@ -266,7 +301,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T15:41:44.744Z",
       "lastMeaningfulUpdateAt": "2026-10-01T15:47:03.867Z",
-      "lastSeenAt": "2026-10-01T15:52:01.625Z",
+      "lastSeenAt": "2026-10-01T15:56:43.999Z",
       "geography": {
         "text": "Approximate area: (M4S) Central Toronto (Davisville)",
         "approximate": true,
@@ -349,7 +384,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T15:41:44.744Z",
       "lastMeaningfulUpdateAt": "2026-10-01T15:47:03.867Z",
-      "lastSeenAt": "2026-10-01T15:52:01.625Z",
+      "lastSeenAt": "2026-10-01T15:56:43.999Z",
       "geography": {
         "text": "Approximate area: (M2H) North York (Hillcrest Village)",
         "approximate": true,
@@ -384,7 +419,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-01T15:41:44.744Z",
       "lastMeaningfulUpdateAt": "2026-10-01T15:47:03.867Z",
-      "lastSeenAt": "2026-10-01T15:52:01.625Z",
+      "lastSeenAt": "2026-10-01T15:56:43.999Z",
       "geography": {
         "text": "Approximate area: (M1P) Scarborough (Dorset Park / Wexford Heights / Scarborough Town Centre)",
         "approximate": true,
@@ -221378,184 +221413,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-24T16:55:16.492Z"
-    },
-    {
-      "id": "TPS-c5cb33371f40a92b6223b2bf",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "FOUND PROPERTY",
-      "callTypeCode": "FOUPR",
-      "timestamp": "2026-09-24T15:55:43.000Z",
-      "location": "TICHESTER RD - BATHURST ST",
-      "division": "Division 13",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "TICHESTER RD - BATHURST ST",
-        "coordinates": [
-          43.685398713547144,
-          -79.41920953144604
-        ],
-        "division": "Division 13",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-24T16:55:16.492Z"
-    },
-    {
-      "id": "TPS-431b2cbf33bfc27c847ca014",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "TRESPASS",
-      "callTypeCode": "TRE",
-      "timestamp": "2026-09-24T15:55:32.000Z",
-      "location": "SPADINA AVE - BRUNEL CRT",
-      "division": "Division 14",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "SPADINA AVE - BRUNEL CRT",
-        "coordinates": [
-          43.64024487934854,
-          -79.3944449351836
-        ],
-        "division": "Division 14",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-24T16:55:16.492Z"
-    },
-    {
-      "id": "F26151520",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M4A",
-      "division": "235",
-      "timestamp": "2026-09-24T15:54:07.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "235"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-24T16:01:09.773Z",
-      "lastMeaningfulUpdateAt": "2026-09-24T16:06:06.402Z",
-      "lastSeenAt": "2026-09-24T16:19:49.337Z",
-      "geography": {
-        "text": "Approximate area: (M4A) North York (Sweeney Park / Wigmore Park)",
-        "approximate": true,
-        "coordinates": [
-          43.7276,
-          -79.3148
-        ],
-        "division": "Division 33",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-24T13:46:56.154Z"
-      }
-    },
-    {
-      "id": "TPS-879c45fd4e95beba3997bb9a",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "BREAK & ENTER",
-      "callTypeCode": "BREEN",
-      "timestamp": "2026-09-24T15:53:47.000Z",
-      "location": "CARSON ST - ",
-      "division": "Division 22",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "CARSON ST - ",
-        "coordinates": [
-          43.59983447970007,
-          -79.53306999541157
-        ],
-        "division": "Division 22",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-24T16:55:16.492Z"
-    },
-    {
-      "id": "F26151519",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M1K",
-      "division": "221",
-      "timestamp": "2026-09-24T15:53:33.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Aerial Truck",
-          "numbers": [
-            "221"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-24T16:01:09.773Z",
-      "lastMeaningfulUpdateAt": "2026-09-24T16:06:06.402Z",
-      "lastSeenAt": "2026-09-24T16:30:35.051Z",
-      "geography": {
-        "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
-        "approximate": true,
-        "coordinates": [
-          43.7298,
-          -79.2639
-        ],
-        "division": "Division 41",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "F26151518",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M8W",
-      "division": "434",
-      "timestamp": "2026-09-24T15:53:00.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "434"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-24T16:01:09.773Z",
-      "lastMeaningfulUpdateAt": "2026-09-24T16:06:06.402Z",
-      "lastSeenAt": "2026-09-24T16:09:39.709Z",
-      "geography": {
-        "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
-        "approximate": true,
-        "coordinates": [
-          43.6021,
-          -79.5402
-        ],
-        "division": "Division 22",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-01T15:52:01.625Z",
-      "sourceUpdatedAt": "2026-10-01T15:50:01.000Z",
+      "fetchedAt": "2026-10-01T15:56:43.999Z",
+      "sourceUpdatedAt": "2026-10-01T15:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-01T15:52:01.625Z",
+      "fetchedAt": "2026-10-01T15:56:43.999Z",
       "status": "ok"
     }
   },
@@ -359401,8 +359268,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-01T15:47:03.867Z",
-      "fetchedAt": "2026-10-01T15:47:03.867Z"
+      "checkedAt": "2026-10-01T15:56:43.999Z",
+      "fetchedAt": "2026-10-01T15:56:43.999Z"
     },
     "transit": {
       "items": [
@@ -360022,6 +359889,181 @@
             {
               "start": 1790366137000,
               "end": 1790999940000
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "77283",
+          "title": "903 Kennedy Stn-Scarborough Express: Detour northbound via Kennedy Rd due to a blocked road.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "903"
+          ],
+          "stopIds": [
+            "16914",
+            "16374"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "903",
+              "stopId": "16914",
+              "coordinates": [
+                43.74964,
+                -79.269965
+              ],
+              "name": "Lawrence East"
+            },
+            {
+              "routeId": "903",
+              "stopId": "16374",
+              "coordinates": [
+                43.767989,
+                -79.270397
+              ],
+              "name": "Ellesmere Rd at Midland Ave East Side"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790870081000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "77282",
+          "title": "129 Mccowan North: Detour southbound via Ellesmere Rd, Midland Ave and Eglinton Ave E while we respond to a medical emergency.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "129"
+          ],
+          "stopIds": [
+            "7697",
+            "16375",
+            "16917",
+            "16376",
+            "16915",
+            "16913"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "129",
+              "stopId": "7697",
+              "coordinates": [
+                43.768149,
+                -79.270795
+              ],
+              "name": "Ellesmere Rd at Midland Ave"
+            },
+            {
+              "routeId": "129",
+              "stopId": "16375"
+            },
+            {
+              "routeId": "129",
+              "stopId": "16917",
+              "coordinates": [
+                43.76647,
+                -79.276535
+              ],
+              "name": "Ellesmere"
+            },
+            {
+              "routeId": "129",
+              "stopId": "16376"
+            },
+            {
+              "routeId": "129",
+              "stopId": "16915",
+              "coordinates": [
+                43.749381,
+                -79.270003
+              ],
+              "name": "Lawrence East"
+            },
+            {
+              "routeId": "129",
+              "stopId": "16913",
+              "coordinates": [
+                43.742028,
+                -79.266923
+              ],
+              "name": "Tara Avenue"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790869747000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "77281",
+          "title": "129 Mccowan North: Detour northbound via Eglinton Ave E, Kennedy Ave and Ellesmere Rd while we respond to a medical emergency.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "129"
+          ],
+          "stopIds": [
+            "16912",
+            "16914",
+            "16373",
+            "16916",
+            "16374"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "129",
+              "stopId": "16912",
+              "coordinates": [
+                43.742683,
+                -79.267034
+              ],
+              "name": "Tara Avenue"
+            },
+            {
+              "routeId": "129",
+              "stopId": "16914",
+              "coordinates": [
+                43.74964,
+                -79.269965
+              ],
+              "name": "Lawrence East"
+            },
+            {
+              "routeId": "129",
+              "stopId": "16373"
+            },
+            {
+              "routeId": "129",
+              "stopId": "16916",
+              "coordinates": [
+                43.766819,
+                -79.27646
+              ],
+              "name": "Ellesmere"
+            },
+            {
+              "routeId": "129",
+              "stopId": "16374",
+              "coordinates": [
+                43.767989,
+                -79.270397
+              ],
+              "name": "Ellesmere Rd at Midland Ave East Side"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790869684000,
+              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -362767,16 +362809,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-01T15:47:04.000Z",
+      "sourceUpdatedAt": "2026-10-01T15:56:44.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-01T15:47:03.867Z",
-      "fetchedAt": "2026-10-01T15:47:03.867Z"
+      "checkedAt": "2026-10-01T15:56:43.999Z",
+      "fetchedAt": "2026-10-01T15:56:43.999Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-01T15:51:30.000Z",
+    "sourceUpdatedAt": "2026-10-01T15:56:31.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -362785,14 +362827,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-01T15:52:01.625Z",
-    "checkedAt": "2026-10-01T15:52:01.625Z",
+    "fetchedAt": "2026-10-01T15:56:43.999Z",
+    "checkedAt": "2026-10-01T15:56:43.999Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-01T15:52:01.625Z",
-      "checkedAt": "2026-10-01T15:52:01.625Z",
+      "fetchedAt": "2026-10-01T15:56:43.999Z",
+      "checkedAt": "2026-10-01T15:56:43.999Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -362816,6 +362858,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "SHEPPARD AVE E / LESLIE ST": {
+      "text": "Sheppard Avenue East & Leslie Street",
+      "approximate": false,
+      "coordinates": [
+        43.7716519,
+        -79.3641783
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-01T15:56:43.999Z"
+    },
     "M6K": {
       "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
       "approximate": true,
