@@ -14,8 +14,8 @@ const portraitRules = css.slice(portraitStart);
 test('mobile header keeps branding and theme access in one compact row', () => {
   assert.match(html, /class="brand"[\s\S]*?<h1>SirenTO<\/h1>/);
   assert.match(html, /id="themePreference" aria-label="Theme preference"/);
-  assert.match(portraitRules, /\.topbar \{[\s\S]*?min-height: 60px;/);
-  assert.match(portraitRules, /\.topbar \{[\s\S]*?flex-wrap: nowrap;[\s\S]*?padding: 8px 0;/);
+  assert.match(portraitRules, /\.topbar \{[\s\S]*?min-height: 56px;/);
+  assert.match(portraitRules, /\.topbar \{[\s\S]*?flex-wrap: nowrap;[\s\S]*?padding: 6px 0;/);
   assert.match(portraitRules, /\.topbar-photo,[\s\S]*?\.topbar-tools > \.refresh-info \{ display: none; \}/);
   assert.match(portraitRules, /\.theme-control select \{ min-height: 44px; \}/);
 });
@@ -23,7 +23,7 @@ test('mobile header keeps branding and theme access in one compact row', () => {
 test('Search and collapsed Filters share one mobile row without hiding either control', () => {
   const controls = html.match(/<section class="controls-card">[\s\S]*?<\/section>/)[0];
   assert.ok(controls.indexOf('id="searchInput"') < controls.indexOf('id="mobileFiltersToggle"'));
-  assert.match(portraitRules, /\.controls-card \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\) auto;[\s\S]*?gap: 6px;[\s\S]*?padding: 8px;/);
+  assert.match(portraitRules, /\.controls-card \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\) auto;[\s\S]*?gap: 6px;[\s\S]*?padding: 6px;/);
   assert.match(portraitRules, /\.mobile-filters-toggle \{[\s\S]*?min-width: 82px;[\s\S]*?min-height: 44px;/);
   assert.match(portraitRules, /\.secondary-filter-control \{ display: none; \}/);
 });
@@ -45,6 +45,13 @@ test('mobile compaction stays in normal flow and desktop layout remains unchange
   assert.match(desktopControls, /grid-template-columns: 1fr auto auto;/);
   assert.match(desktopControls, /padding: 14px;/);
   assert.match(css, /\.nearby-feature \{ margin: 20px 0; padding: 24px;/);
+});
+
+test('Quick Look hides its redundant kicker and tightens the disclosure chrome on mobile', () => {
+  assert.match(portraitRules, /\.nearby-feature \.section-kicker \{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset\(50%\); white-space: nowrap; \}/);
+  assert.match(portraitRules, /\.nearby-options \{ display: block; margin-top: 4px; padding-top: 4px; border-top: 1px solid var\(--line\); \}/);
+  assert.match(portraitRules, /\.nearby-options summary \{ min-height: 44px;/);
+  assert.match(css, /\.nearby-feature \.section-kicker \{ display: block; margin-bottom: 7px; color: var\(--accent\); \}/);
 });
 
 test('mobile widths are constrained and hidden controls cannot reserve space', () => {
