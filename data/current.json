@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T15:53:46.625Z",
-  "sourceUpdatedAt": "2026-10-02T15:50:01.000Z",
+  "fetchedAt": "2026-10-02T15:56:26.879Z",
+  "sourceUpdatedAt": "2026-10-02T15:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26156646",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3A",
+      "division": "233",
+      "timestamp": "2026-10-02T15:46:14.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T15:56:26.879Z",
+      "lastSeenAt": "2026-10-02T15:56:26.879Z",
+      "geography": {
+        "text": "Approximate area: (M3A) North York (York Heights / Victoria Village / Parkway East)",
+        "approximate": true,
+        "coordinates": [
+          43.7545,
+          -79.33
+        ],
+        "division": "Division 33",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26156645",
       "source": "TFS",
@@ -16,9 +42,24 @@
       "timestamp": "2026-10-02T15:44:51.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "226"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "224"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T15:50:58.300Z",
-      "lastSeenAt": "2026-10-02T15:53:46.625Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T15:56:26.879Z",
+      "lastSeenAt": "2026-10-02T15:56:26.879Z",
       "geography": {
         "text": "Approximate location on Massey Sq",
         "approximate": true,
@@ -39,9 +80,19 @@
       "timestamp": "2026-10-02T15:43:40.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "131",
+            "135"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T15:50:58.300Z",
-      "lastSeenAt": "2026-10-02T15:53:46.625Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T15:56:26.879Z",
+      "lastSeenAt": "2026-10-02T15:56:26.879Z",
       "geography": {
         "text": "Alexandra Boulevard between Yonge Street & Duplex Avenue",
         "approximate": false,
@@ -65,9 +116,18 @@
       "timestamp": "2026-10-02T15:42:46.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "114"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T15:50:58.300Z",
-      "lastSeenAt": "2026-10-02T15:53:46.625Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T15:56:26.879Z",
+      "lastSeenAt": "2026-10-02T15:56:26.879Z",
       "geography": {
         "text": "Approximate area: (M2N) Willowdale South",
         "approximate": true,
@@ -91,9 +151,18 @@
       "timestamp": "2026-10-02T15:42:06.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "442"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T15:50:58.300Z",
-      "lastSeenAt": "2026-10-02T15:53:46.625Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T15:56:26.879Z",
+      "lastSeenAt": "2026-10-02T15:56:26.879Z",
       "geography": {
         "text": "Weston Road between Wilby Crescent & Bellevue Crescent",
         "approximate": false,
@@ -160,7 +229,7 @@
       "division": "212",
       "timestamp": "2026-10-02T15:36:32.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -542,7 +611,7 @@
       "division": "225",
       "timestamp": "2026-10-02T15:17:35.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -695,7 +764,7 @@
       "division": "141",
       "timestamp": "2026-10-02T15:08:09.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Command Unit",
@@ -1420,7 +1489,7 @@
       "division": "134",
       "timestamp": "2026-10-02T14:45:44.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -221203,77 +221272,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-25T16:05:31.705Z"
       }
-    },
-    {
-      "id": "F26152173",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Vehicle - Personal Injury",
-      "location": "GLOUCESTER ST, TT / YONGE ST / GLOUCESTER LANE",
-      "division": "314",
-      "timestamp": "2026-09-25T15:54:20.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [],
-      "firstSeenAt": "2026-09-25T16:00:52.713Z",
-      "lastSeenAt": "2026-09-25T16:04:25.410Z",
-      "geography": {
-        "text": "Gloucester Street between Yonge Street & Gloucester Lane",
-        "approximate": false,
-        "coordinates": [
-          43.6666465,
-          -79.3849011
-        ],
-        "division": "Division 51",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-25T16:00:52.713Z"
-      }
-    },
-    {
-      "id": "F26152172",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M1K",
-      "division": "221",
-      "timestamp": "2026-09-25T15:53:53.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "221"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-25T16:00:52.713Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T16:05:31.705Z",
-      "lastSeenAt": "2026-09-25T16:15:15.899Z",
-      "geography": {
-        "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
-        "approximate": true,
-        "coordinates": [
-          43.7298,
-          -79.2639
-        ],
-        "division": "Division 41",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T15:53:46.625Z",
-      "sourceUpdatedAt": "2026-10-02T15:50:01.000Z",
+      "fetchedAt": "2026-10-02T15:56:26.879Z",
+      "sourceUpdatedAt": "2026-10-02T15:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T15:53:46.625Z",
+      "fetchedAt": "2026-10-02T15:56:26.879Z",
       "status": "ok"
     }
   },
@@ -364084,7 +364092,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T15:53:27.000Z",
+    "sourceUpdatedAt": "2026-10-02T15:56:01.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -364093,14 +364101,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T15:53:46.625Z",
-    "checkedAt": "2026-10-02T15:53:46.625Z",
+    "fetchedAt": "2026-10-02T15:56:26.879Z",
+    "checkedAt": "2026-10-02T15:56:26.879Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T15:53:46.625Z",
-      "checkedAt": "2026-10-02T15:53:46.625Z",
+      "fetchedAt": "2026-10-02T15:56:26.879Z",
+      "checkedAt": "2026-10-02T15:56:26.879Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -364124,6 +364132,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3A": {
+      "text": "Approximate area: (M3A) North York (York Heights / Victoria Village / Parkway East)",
+      "approximate": true,
+      "coordinates": [
+        43.7545,
+        -79.33
+      ],
+      "division": "Division 33",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "MASSEY SQ, EY / CRESCENT TOWN RD / CRESCENT TOWN RD": {
       "text": "Approximate location on Massey Sq",
       "approximate": true,
@@ -365854,18 +365874,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-10-02T03:35:50.440Z"
-    },
-    "M3A": {
-      "text": "Approximate area: (M3A) North York (York Heights / Victoria Village / Parkway East)",
-      "approximate": true,
-      "coordinates": [
-        43.7545,
-        -79.33
-      ],
-      "division": "Division 33",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "BLOOR ST, TT / HURON ST / MADISON AVE": {
       "text": "Bloor Street between Huron Street & Madison Avenue",
@@ -378028,18 +378036,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T16:05:31.705Z"
-    },
-    "GLOUCESTER ST, TT / YONGE ST / GLOUCESTER LANE": {
-      "text": "Gloucester Street between Yonge Street & Gloucester Lane",
-      "approximate": false,
-      "coordinates": [
-        43.6666465,
-        -79.3849011
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-25T16:00:52.713Z"
     }
   }
 }
