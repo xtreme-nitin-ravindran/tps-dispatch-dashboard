@@ -3,7 +3,7 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T09:56:42.775Z",
+  "fetchedAt": "2026-10-02T09:58:50.716Z",
   "sourceUpdatedAt": "2026-10-02T09:55:01.000Z",
   "incidents": [
     {
@@ -100,7 +100,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-02T09:51:59.993Z",
       "lastMeaningfulUpdateAt": "2026-10-02T09:56:42.775Z",
-      "lastSeenAt": "2026-10-02T09:56:42.775Z",
+      "lastSeenAt": "2026-10-02T09:58:50.716Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -189,7 +189,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T09:47:30.470Z",
       "lastMeaningfulUpdateAt": "2026-10-02T09:51:59.993Z",
-      "lastSeenAt": "2026-10-02T09:56:42.775Z",
+      "lastSeenAt": "2026-10-02T09:58:50.716Z",
       "geography": {
         "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
         "approximate": true,
@@ -230,7 +230,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T09:42:51.821Z",
       "lastMeaningfulUpdateAt": "2026-10-02T09:47:30.470Z",
-      "lastSeenAt": "2026-10-02T09:56:42.775Z",
+      "lastSeenAt": "2026-10-02T09:58:50.716Z",
       "geography": {
         "text": "Lawrence Avenue between Morningside Avenue & Collinsgrove Road",
         "approximate": false,
@@ -220602,71 +220602,58 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26152021",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Vehicle Accident - Trapped",
-      "location": "/",
-      "division": "433",
-      "timestamp": "2026-09-25T09:58:22.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Command Unit",
-          "numbers": [
-            "43"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "433"
-          ]
-        },
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "425"
-          ]
-        },
-        {
-          "type": "Squad Unit",
-          "numbers": [
-            "445"
-          ]
-        }
-      ],
-      "respondingUnitCount": 4,
-      "firstSeenAt": "2026-09-25T10:06:20.629Z",
-      "lastSeenAt": "2026-09-25T12:20:20.188Z",
-      "geography": {
-        "text": "Approximate location on an unspecified street",
-        "approximate": true,
-        "coordinates": null,
-        "division": "Unknown",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-10-02T09:12:30.837Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T09:56:42.775Z",
+      "fetchedAt": "2026-10-02T09:58:50.716Z",
       "sourceUpdatedAt": "2026-10-02T09:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T09:56:42.775Z",
+      "fetchedAt": "2026-10-02T09:58:50.716Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "12239575",
+          "street": "F G Gardiner Xy W",
+          "title": "F G Gardiner Xy W 815 m west of Kipling Ave",
+          "description": "Toronto-TMC: Right lane blocked due to a collision.",
+          "restrictionType": "HAZARD",
+          "type": "HAZARD",
+          "impact": "High",
+          "startLocation": "Kipling Ave",
+          "endLocation": "",
+          "start": 1790934953000,
+          "reportedAt": 1790934953000,
+          "end": null,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.616209,
+            -79.535576
+          ],
+          "line": [],
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -79.535576,
+              43.616209
+            ]
+          },
+          "geometryKind": "point",
+          "schedule": "Everyday: 00:00-23:59",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "Tor-RD52026-5977",
           "street": "Westmore Dr",
@@ -225843,57 +225830,6 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD1S2026-338-3",
-          "street": "Strachan Ave",
-          "title": "Strachan Ave at King St W to 35 m North of King St W",
-          "description": "Toronto-TMC: Form 1SOP - Application for work requiring a SOP (Street occupation permit) Permit Status: Approved",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "startLocation": "King St W",
-          "endLocation": "King St W",
-          "start": 1774260000000,
-          "reportedAt": 1774302056000,
-          "end": 1798772400000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.64204,
-            -79.41197
-          ],
-          "line": [
-            [
-              43.64204,
-              -79.41197
-            ],
-            [
-              43.64235,
-              -79.41208
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.41197,
-                43.64204
-              ],
-              [
-                -79.41208,
-                43.64235
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Everyday: 06:00-22:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
           "id": "Tor-RD1S2026-338-1",
           "street": "Ln E Strachan N King",
           "title": "Ln E Strachan N King 29 m North of King St W to King St W",
@@ -225932,6 +225868,57 @@
               [
                 -79.41131,
                 43.64218
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Everyday: 06:00-22:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1S2026-338-3",
+          "street": "Strachan Ave",
+          "title": "Strachan Ave at King St W to 35 m North of King St W",
+          "description": "Toronto-TMC: Form 1SOP - Application for work requiring a SOP (Street occupation permit) Permit Status: Approved",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "King St W",
+          "endLocation": "King St W",
+          "start": 1774260000000,
+          "reportedAt": 1774302056000,
+          "end": 1798772400000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.64204,
+            -79.41197
+          ],
+          "line": [
+            [
+              43.64204,
+              -79.41197
+            ],
+            [
+              43.64235,
+              -79.41208
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.41197,
+                43.64204
+              ],
+              [
+                -79.41208,
+                43.64235
               ]
             ]
           },
@@ -355823,11 +355810,531 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-02T09:51:59.993Z",
-      "fetchedAt": "2026-10-02T09:51:59.993Z"
+      "checkedAt": "2026-10-02T09:58:50.716Z",
+      "fetchedAt": "2026-10-02T09:58:50.716Z"
     },
     "transit": {
       "items": [
+        {
+          "id": "77334",
+          "title": "Line 5 Eglinton: No service between Mount Dennis and Kennedy stations due to communication issues. Shuttle buses are on the way.",
+          "description": "",
+          "effect": "NO SERVICE",
+          "routes": [
+            "5"
+          ],
+          "stopIds": [
+            "16067",
+            "16068",
+            "16202",
+            "16203",
+            "16083",
+            "16084",
+            "16204",
+            "16205",
+            "16206",
+            "16207",
+            "16069",
+            "13832",
+            "16208",
+            "16209",
+            "16210",
+            "16211",
+            "16071",
+            "16072",
+            "16073",
+            "13796",
+            "16212",
+            "16213",
+            "16214",
+            "16215",
+            "16075",
+            "16076",
+            "16216",
+            "16217",
+            "16077",
+            "16078",
+            "16218",
+            "16219",
+            "16220",
+            "16221",
+            "16079",
+            "16080",
+            "16222",
+            "16223",
+            "16224",
+            "16225",
+            "16226",
+            "16227",
+            "16085",
+            "16086",
+            "16228",
+            "16229",
+            "16230",
+            "16231",
+            "16081",
+            "14947"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "5",
+              "stopId": "16067",
+              "coordinates": [
+                43.688025,
+                -79.485789
+              ],
+              "name": "Mount Dennis Station LRT Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16068",
+              "coordinates": [
+                43.688025,
+                -79.485789
+              ],
+              "name": "Mount Dennis Station LRT Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16202",
+              "coordinates": [
+                43.690413,
+                -79.474533
+              ],
+              "name": "Keelesdale Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16203",
+              "coordinates": [
+                43.690613,
+                -79.474819
+              ],
+              "name": "Keelesdale Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16083",
+              "coordinates": [
+                43.692324,
+                -79.465079
+              ],
+              "name": "Caledonia Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16084",
+              "coordinates": [
+                43.692372,
+                -79.465699
+              ],
+              "name": "Caledonia Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16204",
+              "coordinates": [
+                43.695744,
+                -79.44926
+              ],
+              "name": "Fairbank Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16205",
+              "coordinates": [
+                43.69579,
+                -79.449625
+              ],
+              "name": "Fairbank Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16206",
+              "coordinates": [
+                43.697429,
+                -79.442726
+              ],
+              "name": "Oakwood Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16207",
+              "coordinates": [
+                43.697542,
+                -79.44319
+              ],
+              "name": "Oakwood Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16069",
+              "coordinates": [
+                43.69893,
+                -79.435639
+              ],
+              "name": "Cedarvale Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "13832",
+              "coordinates": [
+                43.700648,
+                -79.436691
+              ],
+              "name": "Cedarvale Station - Northbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16208",
+              "coordinates": [
+                43.701136,
+                -79.425086
+              ],
+              "name": "Forest Hill Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16209",
+              "coordinates": [
+                43.701262,
+                -79.425518
+              ],
+              "name": "Forest Hill Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16210",
+              "coordinates": [
+                43.702913,
+                -79.417098
+              ],
+              "name": "Chaplin Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16211",
+              "coordinates": [
+                43.703009,
+                -79.417709
+              ],
+              "name": "Chaplin Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16071",
+              "coordinates": [
+                43.704723,
+                -79.408728
+              ],
+              "name": "Avenue Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16072",
+              "coordinates": [
+                43.704902,
+                -79.409062
+              ],
+              "name": "Avenue Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16073",
+              "coordinates": [
+                43.70638,
+                -79.398765
+              ],
+              "name": "Eglinton Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "13796",
+              "coordinates": [
+                43.706548,
+                -79.39839
+              ],
+              "name": "Eglinton Station - Northbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16212",
+              "coordinates": [
+                43.708503,
+                -79.390329
+              ],
+              "name": "Mount Pleasant Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16213",
+              "coordinates": [
+                43.708666,
+                -79.390542
+              ],
+              "name": "Mount Pleasant Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16214",
+              "coordinates": [
+                43.710767,
+                -79.376475
+              ],
+              "name": "Leaside Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16215",
+              "coordinates": [
+                43.710986,
+                -79.376902
+              ],
+              "name": "Leaside Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16075",
+              "coordinates": [
+                43.713199,
+                -79.364733
+              ],
+              "name": "Laird Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16076",
+              "coordinates": [
+                43.713339,
+                -79.365328
+              ],
+              "name": "Laird Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16216",
+              "coordinates": [
+                43.717392,
+                -79.34872
+              ],
+              "name": "Sunnybrook Park Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16217",
+              "coordinates": [
+                43.717225,
+                -79.349549
+              ],
+              "name": "Sunnybrook Park Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16077",
+              "coordinates": [
+                43.719956,
+                -79.338946
+              ],
+              "name": "Don Valley Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16078",
+              "coordinates": [
+                43.720068,
+                -79.33941
+              ],
+              "name": "Don Valley Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16218",
+              "coordinates": [
+                43.722496,
+                -79.332284
+              ],
+              "name": "Aga Khan Park & Museum Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16219",
+              "coordinates": [
+                43.722342,
+                -79.3331
+              ],
+              "name": "Aga Khan Park & Museum Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16220",
+              "coordinates": [
+                43.724139,
+                -79.326236
+              ],
+              "name": "Wynford Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16221",
+              "coordinates": [
+                43.724027,
+                -79.327084
+              ],
+              "name": "Wynford Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16079",
+              "coordinates": [
+                43.725837,
+                -79.312252
+              ],
+              "name": "Sloane Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16080",
+              "coordinates": [
+                43.726003,
+                -79.313108
+              ],
+              "name": "Sloane Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16222",
+              "coordinates": [
+                43.72482,
+                -79.301367
+              ],
+              "name": "O'Connor Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16223",
+              "coordinates": [
+                43.724831,
+                -79.302203
+              ],
+              "name": "O'Connor Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16224",
+              "coordinates": [
+                43.725881,
+                -79.296325
+              ],
+              "name": "Pharmacy Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16225",
+              "coordinates": [
+                43.7258,
+                -79.297159
+              ],
+              "name": "Pharmacy Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16226",
+              "coordinates": [
+                43.727226,
+                -79.290298
+              ],
+              "name": "Hakimi Lebovic Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16227",
+              "coordinates": [
+                43.726768,
+                -79.292811
+              ],
+              "name": "Hakimi Lebovic Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16085",
+              "coordinates": [
+                43.7281,
+                -79.286352
+              ],
+              "name": "Golden Mile Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16086",
+              "coordinates": [
+                43.727631,
+                -79.288901
+              ],
+              "name": "Golden Mile Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16228",
+              "coordinates": [
+                43.730223,
+                -79.276636
+              ],
+              "name": "Birchmount Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16229",
+              "coordinates": [
+                43.730139,
+                -79.277472
+              ],
+              "name": "Birchmount Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16230",
+              "coordinates": [
+                43.731366,
+                -79.271673
+              ],
+              "name": "Ionview Station Eastbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16231",
+              "coordinates": [
+                43.731257,
+                -79.272512
+              ],
+              "name": "Ionview Station Westbound Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "16081",
+              "coordinates": [
+                43.732791,
+                -79.26448
+              ],
+              "name": "Kennedy Station LRT Platform"
+            },
+            {
+              "routeId": "5",
+              "stopId": "14947",
+              "coordinates": [
+                43.732487,
+                -79.263718
+              ],
+              "name": "Kennedy Station - Subway Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790934713000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
         {
           "id": "76933",
           "title": "Line 1 Yonge-University: There is no subway service between St Clair and College stations due to planned track work. Shuttle buses are running.",
@@ -357486,6 +357993,44 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
+          "id": "77335",
+          "title": "Oakwood: Escalator 3 out of service between concourse and mid-level due to a technical problem.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "16206",
+            "16207"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "16206",
+              "coordinates": [
+                43.697429,
+                -79.442726
+              ],
+              "name": "Oakwood Station Eastbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "16207",
+              "coordinates": [
+                43.697542,
+                -79.44319
+              ],
+              "name": "Oakwood Station Westbound Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790935115000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
           "id": "77332",
           "title": "Downsview Park: Escalator 10S4E out of service from Vitti St east side entrance to concourse while we perform maintenance.",
           "description": "",
@@ -358594,16 +359139,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-02T09:52:01.000Z",
+      "sourceUpdatedAt": "2026-10-02T09:58:51.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-02T09:51:59.993Z",
-      "fetchedAt": "2026-10-02T09:51:59.993Z"
+      "checkedAt": "2026-10-02T09:58:50.716Z",
+      "fetchedAt": "2026-10-02T09:58:50.716Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T09:56:27.000Z",
+    "sourceUpdatedAt": "2026-10-02T09:58:34.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -358612,14 +359157,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T09:56:42.775Z",
-    "checkedAt": "2026-10-02T09:56:42.775Z",
+    "fetchedAt": "2026-10-02T09:58:50.716Z",
+    "checkedAt": "2026-10-02T09:58:50.716Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T09:56:42.775Z",
-      "checkedAt": "2026-10-02T09:56:42.775Z",
+      "fetchedAt": "2026-10-02T09:58:50.716Z",
+      "checkedAt": "2026-10-02T09:58:50.716Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
