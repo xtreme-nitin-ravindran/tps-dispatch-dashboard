@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T13:59:24.573Z",
-  "sourceUpdatedAt": "2026-10-02T13:55:01.000Z",
+  "fetchedAt": "2026-10-02T14:01:43.737Z",
+  "sourceUpdatedAt": "2026-10-02T14:00:01.000Z",
   "incidents": [
+    {
+      "id": "F26156587",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Hazmat Level 1",
+      "location": "SHEPPARD AVE, SC / MIDLAND AVE / GLEN WATFORD DR",
+      "division": "243",
+      "timestamp": "2026-10-02T13:54:08.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T14:01:43.737Z",
+      "lastSeenAt": "2026-10-02T14:01:43.737Z",
+      "geography": {
+        "text": "Sheppard Avenue between Midland Avenue & Glen Watford Drive",
+        "approximate": false,
+        "coordinates": [
+          43.78563815,
+          -79.27731025
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-02T14:01:43.737Z"
+      }
+    },
+    {
+      "id": "F26156586",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6J",
+      "division": "331",
+      "timestamp": "2026-10-02T13:53:50.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T14:01:43.737Z",
+      "lastSeenAt": "2026-10-02T14:01:43.737Z",
+      "geography": {
+        "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+        "approximate": true,
+        "coordinates": [
+          43.648,
+          -79.4177
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26156585",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3J",
+      "division": "141",
+      "timestamp": "2026-10-02T13:52:36.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T14:01:43.737Z",
+      "lastSeenAt": "2026-10-02T14:01:43.737Z",
+      "geography": {
+        "text": "Approximate area: (M3J) North York (Northwood Park / York University)",
+        "approximate": true,
+        "coordinates": [
+          43.7694,
+          -79.4921
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-21T22:01:19.951Z"
+      }
+    },
     {
       "id": "F26156584",
       "source": "TFS",
@@ -16,9 +94,24 @@
       "timestamp": "2026-10-02T13:45:53.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "441"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "441"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T13:57:16.603Z",
-      "lastSeenAt": "2026-10-02T13:59:24.573Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T14:01:43.737Z",
+      "lastSeenAt": "2026-10-02T14:01:43.737Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -60,7 +153,7 @@
       "division": "142",
       "timestamp": "2026-10-02T13:42:37.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -105,7 +198,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T13:52:55.727Z",
-      "lastSeenAt": "2026-10-02T13:59:24.573Z",
+      "lastSeenAt": "2026-10-02T14:01:43.737Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -128,7 +221,7 @@
       "division": "234",
       "timestamp": "2026-10-02T13:40:34.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -232,7 +325,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T13:40:45.254Z",
       "lastMeaningfulUpdateAt": "2026-10-02T13:46:05.843Z",
-      "lastSeenAt": "2026-10-02T13:59:24.573Z",
+      "lastSeenAt": "2026-10-02T14:01:43.737Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -366,7 +459,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T13:40:45.254Z",
       "lastMeaningfulUpdateAt": "2026-10-02T13:46:05.843Z",
-      "lastSeenAt": "2026-10-02T13:59:24.573Z",
+      "lastSeenAt": "2026-10-02T14:01:43.737Z",
       "geography": {
         "text": "Pitfield Road between Keyworth Trl & Mccowan Road",
         "approximate": false,
@@ -389,7 +482,7 @@
       "division": "411",
       "timestamp": "2026-10-02T13:30:37.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -489,7 +582,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T13:37:52.978Z",
-      "lastSeenAt": "2026-10-02T13:59:24.573Z",
+      "lastSeenAt": "2026-10-02T14:01:43.737Z",
       "geography": {
         "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
         "approximate": true,
@@ -1107,7 +1200,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-10-02T13:16:26.092Z",
       "lastMeaningfulUpdateAt": "2026-10-02T13:21:05.514Z",
-      "lastSeenAt": "2026-10-02T13:59:24.573Z",
+      "lastSeenAt": "2026-10-02T14:01:43.737Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -1527,7 +1620,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T13:02:24.494Z",
       "lastMeaningfulUpdateAt": "2026-10-02T13:52:55.727Z",
-      "lastSeenAt": "2026-10-02T13:59:24.573Z",
+      "lastSeenAt": "2026-10-02T14:01:43.737Z",
       "geography": {
         "text": "Gerry Fitzgerald Drive & Dufferin Street",
         "approximate": false,
@@ -220729,153 +220822,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26152128",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M9N",
-      "division": "442",
-      "timestamp": "2026-09-25T14:01:32.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "442"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-25T14:11:38.398Z",
-      "lastSeenAt": "2026-09-25T14:29:40.318Z",
-      "geography": {
-        "text": "Approximate area: (M9N) Weston",
-        "approximate": true,
-        "coordinates": [
-          43.7068,
-          -79.517
-        ],
-        "division": "Division 12",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "F26152127",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M3N",
-      "division": "142",
-      "timestamp": "2026-09-25T14:01:03.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Aerial Truck",
-          "numbers": [
-            "142"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-25T14:11:38.398Z",
-      "lastSeenAt": "2026-09-25T14:24:40.066Z",
-      "geography": {
-        "text": "Approximate area: (M3N) North York (Jane and Finch)",
-        "approximate": true,
-        "coordinates": [
-          43.7568,
-          -79.521
-        ],
-        "division": "Division 31",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "TPS-fd978927b9c3c1b17069c85f",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "HAZARD",
-      "callTypeCode": "HAZ",
-      "timestamp": "2026-09-25T14:00:40.000Z",
-      "location": "DON VALLEY PARKWAY S - YORK MILLS RD",
-      "division": "HP",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "DON VALLEY PARKWAY S - YORK MILLS RD",
-        "coordinates": [
-          43.75776741515415,
-          -79.33795325846107
-        ],
-        "division": "HP",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T14:11:38.398Z"
-    },
-    {
-      "id": "F26152126",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Vehicle Accident with Fire",
-      "location": "WARDEN AVE / KINGSTON RD",
-      "division": "225",
-      "timestamp": "2026-09-25T13:59:57.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Aerial Truck",
-          "numbers": [
-            "221"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "225"
-          ]
-        },
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "223"
-          ]
-        }
-      ],
-      "respondingUnitCount": 3,
-      "firstSeenAt": "2026-09-25T14:06:38.191Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T14:15:48.629Z",
-      "lastSeenAt": "2026-09-25T14:54:32.661Z",
-      "geography": {
-        "text": "Warden Avenue & Kingston Road",
-        "approximate": false,
-        "coordinates": [
-          43.687759,
-          -79.2709181
-        ],
-        "division": "Division 41",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-25T14:15:48.629Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T13:59:24.573Z",
-      "sourceUpdatedAt": "2026-10-02T13:55:01.000Z",
+      "fetchedAt": "2026-10-02T14:01:43.737Z",
+      "sourceUpdatedAt": "2026-10-02T14:00:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T13:59:24.573Z",
+      "fetchedAt": "2026-10-02T14:01:43.737Z",
       "status": "ok"
     }
   },
@@ -362443,7 +362399,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T13:59:22.000Z",
+    "sourceUpdatedAt": "2026-10-02T14:01:24.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -362452,14 +362408,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T13:59:24.573Z",
-    "checkedAt": "2026-10-02T13:59:24.573Z",
+    "fetchedAt": "2026-10-02T14:01:43.737Z",
+    "checkedAt": "2026-10-02T14:01:43.737Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T13:59:24.573Z",
-      "checkedAt": "2026-10-02T13:59:24.573Z",
+      "fetchedAt": "2026-10-02T14:01:43.737Z",
+      "checkedAt": "2026-10-02T14:01:43.737Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -362483,6 +362439,42 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "SHEPPARD AVE, SC / MIDLAND AVE / GLEN WATFORD DR": {
+      "text": "Sheppard Avenue between Midland Avenue & Glen Watford Drive",
+      "approximate": false,
+      "coordinates": [
+        43.78563815,
+        -79.27731025
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-02T14:01:43.737Z"
+    },
+    "M6J": {
+      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+      "approximate": true,
+      "coordinates": [
+        43.648,
+        -79.4177
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M3J": {
+      "text": "Approximate area: (M3J) North York (Northwood Park / York University)",
+      "approximate": true,
+      "coordinates": [
+        43.7694,
+        -79.4921
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-21T22:01:19.951Z"
+    },
     "/": {
       "text": "Approximate location on an unspecified street",
       "approximate": true,
@@ -362767,18 +362759,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-10-02T12:56:02.659Z"
-    },
-    "M6J": {
-      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
-      "approximate": true,
-      "coordinates": [
-        43.648,
-        -79.4177
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M5M": {
       "text": "Approximate area: (M5M) North York (Bedford Park / Lawrence Park West / Lawrence Manor East)",
@@ -363691,18 +363671,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-10-02T06:06:32.107Z"
-    },
-    "M3J": {
-      "text": "Approximate area: (M3J) North York (Northwood Park / York University)",
-      "approximate": true,
-      "coordinates": [
-        43.7694,
-        -79.4921
-      ],
-      "division": "Division 31",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-21T22:01:19.951Z"
     },
     "ST GEORGE ST, TT / LOWTHER AVE / BERNARD AVE": {
       "text": "Street George Street between Lowther Avenue & Bernard Avenue",
@@ -376318,18 +376286,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T14:25:49.345Z"
-    },
-    "WARDEN AVE / KINGSTON RD": {
-      "text": "Warden Avenue & Kingston Road",
-      "approximate": false,
-      "coordinates": [
-        43.687759,
-        -79.2709181
-      ],
-      "division": "Division 41",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-25T14:15:48.629Z"
     }
   }
 }
