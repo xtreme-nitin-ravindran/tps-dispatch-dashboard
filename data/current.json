@@ -3,9 +3,44 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T05:49:41.547Z",
-  "sourceUpdatedAt": "2026-10-02T05:45:01.000Z",
+  "fetchedAt": "2026-10-02T05:51:42.030Z",
+  "sourceUpdatedAt": "2026-10-02T05:50:02.000Z",
   "incidents": [
+    {
+      "id": "F26156418",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "ST GEORGE ST, TT / LOWTHER AVE / BERNARD AVE",
+      "division": "344",
+      "timestamp": "2026-10-02T05:42:39.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "312",
+            "344"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-10-02T05:51:42.030Z",
+      "lastSeenAt": "2026-10-02T05:51:42.030Z",
+      "geography": {
+        "text": "Street George Street between Lowther Avenue & Bernard Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.6713956,
+          -79.4014439
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-02T05:51:42.030Z"
+      }
+    },
     {
       "id": "F26156416",
       "source": "TFS",
@@ -15,7 +50,7 @@
       "division": "413",
       "timestamp": "2026-10-02T05:37:55.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -49,7 +84,7 @@
       "division": "312",
       "timestamp": "2026-10-02T05:36:51.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -74,6 +109,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-cb0928e0234d0a258f543ee8",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "BREAK & ENTER JUST OCCURRED",
+      "callTypeCode": "BREJU",
+      "timestamp": "2026-10-02T05:31:45.000Z",
+      "location": "EMPRESS AVE - KINGSDALE AVE",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "EMPRESS AVE - KINGSDALE AVE",
+        "coordinates": [
+          43.77380239264284,
+          -79.39243289404189
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T05:51:42.030Z"
     },
     {
       "id": "TPS-3effb6090fdfe9934b1fcaa9",
@@ -118,6 +175,28 @@
         "approximate": true
       },
       "firstSeenAt": "2026-10-02T05:31:11.360Z"
+    },
+    {
+      "id": "TPS-86c967e6d37edfbc39fe6dd6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSON WITH A GUN",
+      "callTypeCode": "PERGU",
+      "timestamp": "2026-10-02T05:24:59.000Z",
+      "location": "ALEXANDER ST - MAITLAND ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ALEXANDER ST - MAITLAND ST",
+        "coordinates": [
+          43.6646441037478,
+          -79.38049344943889
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T05:51:42.030Z"
     },
     {
       "id": "TPS-aa79e2748cbfe609fe2a4621",
@@ -795,7 +874,7 @@
       ],
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-10-02T04:35:40.024Z",
-      "lastSeenAt": "2026-10-02T05:49:41.547Z",
+      "lastSeenAt": "2026-10-02T05:51:42.030Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -221082,72 +221161,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-25T06:13:56.976Z"
-    },
-    {
-      "id": "TPS-c6beb9ca24240c6f84e76bd3",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "UNKNOWN TROUBLE",
-      "callTypeCode": "UNKTR",
-      "timestamp": "2026-09-25T05:50:48.000Z",
-      "location": "LN 1 E YONGE S PLEASANT - DAVID A BALFOUR PARK TRL",
-      "division": "Division 53",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "LN 1 E YONGE S PLEASANT - DAVID A BALFOUR PARK TRL",
-        "coordinates": [
-          43.686222842775386,
-          -79.39331516187013
-        ],
-        "division": "Division 53",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T06:13:56.976Z"
-    },
-    {
-      "id": "F26151957",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M6R",
-      "division": "426",
-      "timestamp": "2026-09-25T05:49:53.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "423"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-25T06:00:33.124Z",
-      "lastSeenAt": "2026-09-25T06:19:43.182Z",
-      "geography": {
-        "text": "Approximate area: (M6R) West Toronto (Parkdale / Roncesvalles Village)",
-        "approximate": true,
-        "coordinates": [
-          43.6469,
-          -79.4521
-        ],
-        "division": "Division 11",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T05:49:41.547Z",
-      "sourceUpdatedAt": "2026-10-02T05:45:01.000Z",
+      "fetchedAt": "2026-10-02T05:51:42.030Z",
+      "sourceUpdatedAt": "2026-10-02T05:50:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T05:49:41.547Z",
+      "fetchedAt": "2026-10-02T05:51:42.030Z",
       "status": "ok"
     }
   },
@@ -358006,8 +358029,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-02T05:45:32.350Z",
-      "fetchedAt": "2026-10-02T05:45:32.350Z"
+      "checkedAt": "2026-10-02T05:51:42.030Z",
+      "fetchedAt": "2026-10-02T05:51:42.030Z"
     },
     "transit": {
       "items": [
@@ -358527,76 +358550,6 @@
             {
               "start": 1790366137000,
               "end": 1790999940000
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "77280",
-          "title": "7 Bathurst: Detour via Steeles Ave W and Bathurst St due to construction.",
-          "description": "",
-          "effect": "DETOUR",
-          "routes": [
-            "7"
-          ],
-          "stopIds": [
-            "1585",
-            "1617",
-            "1138",
-            "1139",
-            "1136"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": "7",
-              "stopId": "1585",
-              "coordinates": [
-                43.792559,
-                -79.444561
-              ],
-              "name": "Steeles Ave West at Bathurst St East Side"
-            },
-            {
-              "routeId": "7",
-              "stopId": "1617",
-              "coordinates": [
-                43.792558,
-                -79.440731
-              ],
-              "name": "Village Gate at Steeles Ave West"
-            },
-            {
-              "routeId": "7",
-              "stopId": "1138",
-              "coordinates": [
-                43.791763,
-                -79.442132
-              ],
-              "name": "Greenwin Village Rd at Elise Ter (West)"
-            },
-            {
-              "routeId": "7",
-              "stopId": "1139",
-              "coordinates": [
-                43.791195,
-                -79.442929
-              ],
-              "name": "Greenwin Village Rd at Regatta Cres"
-            },
-            {
-              "routeId": "7",
-              "stopId": "1136",
-              "coordinates": [
-                43.790855,
-                -79.444642
-              ],
-              "name": "Greenwin Village Rd at Bathurst St"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790869193000,
-              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -361009,16 +360962,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-02T05:45:33.000Z",
+      "sourceUpdatedAt": "2026-10-02T05:51:42.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-02T05:45:32.350Z",
-      "fetchedAt": "2026-10-02T05:45:32.350Z"
+      "checkedAt": "2026-10-02T05:51:42.030Z",
+      "fetchedAt": "2026-10-02T05:51:42.030Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T05:49:13.000Z",
+    "sourceUpdatedAt": "2026-10-02T05:51:43.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -361027,14 +360980,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T05:49:41.547Z",
-    "checkedAt": "2026-10-02T05:49:41.547Z",
+    "fetchedAt": "2026-10-02T05:51:42.030Z",
+    "checkedAt": "2026-10-02T05:51:42.030Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T05:49:41.547Z",
-      "checkedAt": "2026-10-02T05:49:41.547Z",
+      "fetchedAt": "2026-10-02T05:51:42.030Z",
+      "checkedAt": "2026-10-02T05:51:42.030Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -361058,6 +361011,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "ST GEORGE ST, TT / LOWTHER AVE / BERNARD AVE": {
+      "text": "Street George Street between Lowther Avenue & Bernard Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.6713956,
+        -79.4014439
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-02T05:51:42.030Z"
+    },
     "M9V": {
       "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
       "approximate": true,
