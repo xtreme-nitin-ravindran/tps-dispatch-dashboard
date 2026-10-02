@@ -3,9 +3,57 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T03:27:58.398Z",
-  "sourceUpdatedAt": "2026-10-02T03:25:01.000Z",
+  "fetchedAt": "2026-10-02T03:31:19.629Z",
+  "sourceUpdatedAt": "2026-10-02T03:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26156372",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "BLOOR ST, TT / HURON ST / MADISON AVE",
+      "division": "344",
+      "timestamp": "2026-10-02T03:22:41.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T03:31:19.629Z",
+      "lastSeenAt": "2026-10-02T03:31:19.629Z",
+      "geography": {
+        "text": "Bloor Street between Huron Street & Madison Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.6670398,
+          -79.40210125
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-22T19:21:43.595Z"
+      }
+    },
+    {
+      "id": "TPS-25864b6d40123eb495c79ac5",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-10-02T03:21:06.000Z",
+      "location": "DANFORTH AVE - DONLANDS AVE",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DANFORTH AVE - DONLANDS AVE",
+        "coordinates": [
+          43.680429186256305,
+          -79.33729871491835
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T03:31:19.629Z"
+    },
     {
       "id": "F26156371",
       "source": "TFS",
@@ -15,7 +63,7 @@
       "division": "225",
       "timestamp": "2026-10-02T03:19:22.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-10-02T03:26:17.974Z",
       "lastSeenAt": "2026-10-02T03:27:58.398Z",
@@ -42,9 +90,18 @@
       "timestamp": "2026-10-02T03:18:14.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "226"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:26:17.974Z",
-      "lastSeenAt": "2026-10-02T03:27:58.398Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T03:31:19.629Z",
+      "lastSeenAt": "2026-10-02T03:31:19.629Z",
       "geography": {
         "text": "Approximate area: (M4C) East York (Woodbine Heights)",
         "approximate": true,
@@ -68,9 +125,24 @@
       "timestamp": "2026-10-02T03:16:36.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "High-Rise Unit",
+          "numbers": [
+            "332"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "333"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T03:26:17.974Z",
-      "lastSeenAt": "2026-10-02T03:27:58.398Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T03:31:19.629Z",
+      "lastSeenAt": "2026-10-02T03:31:19.629Z",
       "geography": {
         "text": "Lower Sherbourne Street between The Esplanade & Front Street East",
         "approximate": false,
@@ -85,6 +157,28 @@
       }
     },
     {
+      "id": "TPS-448c4647f74a798868890eb3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-10-02T03:15:47.000Z",
+      "location": "LN N DANFORTH W MAIN ST - STANLEY G. GRIZZLE PARK TRL",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN N DANFORTH W MAIN ST - STANLEY G. GRIZZLE PARK TRL",
+        "coordinates": [
+          43.689436122397865,
+          -79.30098755237307
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T03:31:19.629Z"
+    },
+    {
       "id": "F26156368",
       "source": "TFS",
       "eventType": "fire",
@@ -94,9 +188,18 @@
       "timestamp": "2026-10-02T03:15:21.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "231"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:26:17.974Z",
-      "lastSeenAt": "2026-10-02T03:27:58.398Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T03:31:19.629Z",
+      "lastSeenAt": "2026-10-02T03:31:19.629Z",
       "geography": {
         "text": "Approximate area: (M1G) Scarborough (Woburn)",
         "approximate": true,
@@ -131,7 +234,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:16:11.260Z",
       "lastMeaningfulUpdateAt": "2026-10-02T03:20:40.442Z",
-      "lastSeenAt": "2026-10-02T03:27:58.398Z",
+      "lastSeenAt": "2026-10-02T03:31:19.629Z",
       "geography": {
         "text": "Neilson Road & Mclevin Avenue",
         "approximate": false,
@@ -207,7 +310,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T03:16:11.260Z",
       "lastMeaningfulUpdateAt": "2026-10-02T03:20:40.442Z",
-      "lastSeenAt": "2026-10-02T03:27:58.398Z",
+      "lastSeenAt": "2026-10-02T03:31:19.629Z",
       "geography": {
         "text": "Brimley Road between Bernadine Street & Ellesmere Road",
         "approximate": false,
@@ -220,6 +323,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-10-02T03:16:11.260Z"
       }
+    },
+    {
+      "id": "TPS-c94e6e4b55724e76c7fd27fd",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ROBBERY",
+      "callTypeCode": "ROB",
+      "timestamp": "2026-10-02T03:07:55.000Z",
+      "location": "BATHURST ST - BLOOR ST W",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BATHURST ST - BLOOR ST W",
+        "coordinates": [
+          43.665137009461795,
+          -79.41120693468322
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T03:31:19.629Z"
     },
     {
       "id": "F26156364",
@@ -255,6 +380,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-2f181c9b685a7ce95a8af015",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "TRESPASS",
+      "callTypeCode": "TRE",
+      "timestamp": "2026-10-02T03:05:15.000Z",
+      "location": " - ",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": " - ",
+        "coordinates": [
+          43.64114868007887,
+          -79.37682824600172
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T03:31:19.629Z"
     },
     {
       "id": "F26156363",
@@ -357,7 +504,7 @@
       "division": "442",
       "timestamp": "2026-10-02T02:59:56.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -392,7 +539,7 @@
       "division": "241",
       "timestamp": "2026-10-02T02:59:46.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -601,7 +748,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:06:10.734Z",
       "lastMeaningfulUpdateAt": "2026-10-02T03:11:20.316Z",
-      "lastSeenAt": "2026-10-02T03:27:58.398Z",
+      "lastSeenAt": "2026-10-02T03:31:19.629Z",
       "geography": {
         "text": "Approximate area: (M4C) East York (Woodbine Heights)",
         "approximate": true,
@@ -1141,7 +1288,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:06:10.734Z",
-      "lastSeenAt": "2026-10-02T03:27:58.398Z",
+      "lastSeenAt": "2026-10-02T03:31:19.629Z",
       "geography": {
         "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
         "approximate": true,
@@ -220798,111 +220945,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-25T03:51:19.105Z"
-    },
-    {
-      "id": "F26151915",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Fire - Residential",
-      "location": "THELMA AVE, TT / SPADINA RD /",
-      "division": "311",
-      "timestamp": "2026-09-25T03:31:14.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Aerial Truck",
-          "numbers": [
-            "135"
-          ]
-        },
-        {
-          "type": "Command Unit",
-          "numbers": [
-            "31",
-            "34"
-          ]
-        },
-        {
-          "type": "Ladder Truck",
-          "numbers": [
-            "325"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "134",
-            "135",
-            "311"
-          ]
-        },
-        {
-          "type": "Squad Unit",
-          "numbers": [
-            "313"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-25T03:41:10.001Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T03:45:59.443Z",
-      "lastSeenAt": "2026-09-25T04:00:54.733Z",
-      "geography": {
-        "text": "Thelma Avenue & Spadina Road",
-        "approximate": false,
-        "coordinates": [
-          43.6894311,
-          -79.4130086
-        ],
-        "division": "Division 13",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-25T03:41:10.001Z"
-      }
-    },
-    {
-      "id": "F26151914",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M4K",
-      "division": "324",
-      "timestamp": "2026-09-25T03:28:52.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "313"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-25T03:36:26.877Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T03:41:10.001Z",
-      "lastSeenAt": "2026-09-25T03:45:00.371Z",
-      "geography": {
-        "text": "Approximate area: (M4K) East Toronto (The Danforth West / Riverdale)",
-        "approximate": true,
-        "coordinates": [
-          43.6803,
-          -79.3538
-        ],
-        "division": "Division 55",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T03:27:58.398Z",
-      "sourceUpdatedAt": "2026-10-02T03:25:01.000Z",
+      "fetchedAt": "2026-10-02T03:31:19.629Z",
+      "sourceUpdatedAt": "2026-10-02T03:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T03:27:58.398Z",
+      "fetchedAt": "2026-10-02T03:31:19.629Z",
       "status": "ok"
     }
   },
@@ -357820,8 +357872,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-02T03:24:31.014Z",
-      "fetchedAt": "2026-10-02T03:24:31.014Z"
+      "checkedAt": "2026-10-02T03:31:19.629Z",
+      "fetchedAt": "2026-10-02T03:31:19.629Z"
     },
     "transit": {
       "items": [
@@ -359843,6 +359895,44 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
+          "id": "77322",
+          "title": "Mount Dennis: Elevator ELV05-E out of service between GO concourse and Line 5 concourse while we perform maintenance.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "16067",
+            "16068"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "16067",
+              "coordinates": [
+                43.688025,
+                -79.485789
+              ],
+              "name": "Mount Dennis Station LRT Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "16068",
+              "coordinates": [
+                43.688025,
+                -79.485789
+              ],
+              "name": "Mount Dennis Station LRT Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790911860000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
           "id": "77318",
           "title": "York University: Escalator 12S4E out of service from concourse to Line 1 platform due to a technical problem.",
           "description": "",
@@ -360712,16 +360802,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-02T03:24:31.000Z",
+      "sourceUpdatedAt": "2026-10-02T03:31:20.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-02T03:24:31.014Z",
-      "fetchedAt": "2026-10-02T03:24:31.014Z"
+      "checkedAt": "2026-10-02T03:31:19.629Z",
+      "fetchedAt": "2026-10-02T03:31:19.629Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T03:27:35.000Z",
+    "sourceUpdatedAt": "2026-10-02T03:31:04.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -360730,14 +360820,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T03:27:58.398Z",
-    "checkedAt": "2026-10-02T03:27:58.398Z",
+    "fetchedAt": "2026-10-02T03:31:19.629Z",
+    "checkedAt": "2026-10-02T03:31:19.629Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T03:27:58.398Z",
-      "checkedAt": "2026-10-02T03:27:58.398Z",
+      "fetchedAt": "2026-10-02T03:31:19.629Z",
+      "checkedAt": "2026-10-02T03:31:19.629Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -360761,6 +360851,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "BLOOR ST, TT / HURON ST / MADISON AVE": {
+      "text": "Bloor Street between Huron Street & Madison Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.6670398,
+        -79.40210125
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-22T19:21:43.595Z"
+    },
     "CRAIGLEE DR, SC / CLAREMORE AVE / VANBRUGH AVE": {
       "text": "Craiglee Drive between Claremore Avenue & Vanbrugh Avenue",
       "approximate": false,
@@ -368483,18 +368585,6 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-10-02T03:06:10.734Z"
     },
-    "BLOOR ST, TT / HURON ST / MADISON AVE": {
-      "text": "Bloor Street between Huron Street & Madison Avenue",
-      "approximate": false,
-      "coordinates": [
-        43.6670398,
-        -79.40210125
-      ],
-      "division": "Division 52",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-22T19:21:43.595Z"
-    },
     "KEELE ST, TT / ANNETTE ST / LN S DUNDAS W KEELE": {
       "text": "Keele Street between Annette Street & Lane South Dundas West Keele",
       "approximate": false,
@@ -374623,18 +374713,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T03:51:19.105Z"
-    },
-    "THELMA AVE, TT / SPADINA RD /": {
-      "text": "Thelma Avenue & Spadina Road",
-      "approximate": false,
-      "coordinates": [
-        43.6894311,
-        -79.4130086
-      ],
-      "division": "Division 13",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-25T03:41:10.001Z"
     }
   }
 }
