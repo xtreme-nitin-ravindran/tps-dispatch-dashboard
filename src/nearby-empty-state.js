@@ -1,4 +1,5 @@
 import { distanceKm, distanceLabel } from "./nearby.js";
+import { historyWindowLabel } from "./history-window.js";
 
 const RADIUS_STEPS = new Map([
   [0.5, 1],
@@ -21,16 +22,18 @@ export function nearbyEmptyState({
   origin,
   matchingCalls = [],
   datasetIsEmpty = false,
-  coordinatesForCall = call => call?.geography?.coordinates
+  coordinatesForCall = call => call?.geography?.coordinates,
+  hours = 24
 }) {
+  const window = historyWindowLabel(hours);
   if (datasetIsEmpty) {
-    return { message: "No recent calls are currently available.", nextRadiusKm: undefined };
+    return { message: `No recent calls are currently available · ${window}.`, nextRadiusKm: undefined };
   }
 
   const nextRadiusKm = nextNearbyRadius(radiusKm);
   const message = radiusKm === null
-    ? "No recent calls match the current filters across Toronto."
-    : `No recent calls within ${radiusLabel(radiusKm)}.`;
+    ? `No recent calls match the current filters across Toronto · ${window}.`
+    : `No recent calls within ${radiusLabel(radiusKm)} · ${window}.`;
 
   if (!origin || radiusKm === null) return { message, nextRadiusKm };
 

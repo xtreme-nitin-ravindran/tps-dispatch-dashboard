@@ -1,4 +1,5 @@
 import { distanceKm, distanceLabel } from "./nearby.js";
+import { historyWindowLabel } from "./history-window.js";
 
 const CATEGORY_ORDER = ["Fire", "Medical", "Police", "Other"];
 
@@ -23,12 +24,6 @@ function closestDistance(calls, origin, coordinatesForCall) {
   if (!origin || !calls.length) return "";
   const distance = Math.min(...calls.map(call => distanceKm(origin, coordinatesForCall(call))));
   return distanceLabel(distance).replace(/ away$/, "");
-}
-
-function historyWindowLabel(hours) {
-  if (hours === 168) return "Last 7 days";
-  if (hours === 72) return "Last 3 days";
-  return `Last ${hours}h`;
 }
 
 export function nearbySummary(

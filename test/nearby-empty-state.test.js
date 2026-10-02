@@ -9,7 +9,7 @@ const locatedCall = coordinates => ({ geography: { coordinates } });
 test("empty state appears when no incidents are inside the selected radius", () => {
   assert.equal(
     nearbyEmptyState({ radiusKm: 2, origin }).message,
-    "No recent calls within 2 km."
+    "No recent calls within 2 km · Last 24h."
   );
 });
 
@@ -19,17 +19,17 @@ test("empty radius state includes the selected radius and closest loaded outside
     origin,
     matchingCalls: [locatedCall([43.66, -79.38]), locatedCall([43.6574, -79.38])]
   });
-  assert.equal(result.message, "No recent calls within 500 m. Closest recent call is 0.8 km away.");
+  assert.equal(result.message, "No recent calls within 500 m · Last 24h. Closest recent call is 0.8 km away.");
 });
 
 test("fallback is omitted if the supplied matching calls already include one inside the radius", () => {
   const result = nearbyEmptyState({ radiusKm: 2, origin, matchingCalls: [locatedCall([43.651, -79.38])] });
-  assert.equal(result.message, "No recent calls within 2 km.");
+  assert.equal(result.message, "No recent calls within 2 km · Last 24h.");
 });
 
 test("fallback ignores matching calls without usable coordinates", () => {
   const result = nearbyEmptyState({ radiusKm: 2, origin, matchingCalls: [{}, null] });
-  assert.equal(result.message, "No recent calls within 2 km.");
+  assert.equal(result.message, "No recent calls within 2 km · Last 24h.");
 });
 
 test("fallback accepts the application's coordinate resolver", () => {
@@ -39,18 +39,29 @@ test("fallback accepts the application's coordinate resolver", () => {
     matchingCalls: [{ coordinates: [43.66, -79.38] }],
     coordinatesForCall: call => call.coordinates
   });
-  assert.equal(result.message, "No recent calls within 500 m. Closest recent call is 1.1 km away.");
+  assert.equal(result.message, "No recent calls within 500 m · Last 24h. Closest recent call is 1.1 km away.");
 });
 
 test("closest distance is omitted when user location is unavailable", () => {
   const result = nearbyEmptyState({ radiusKm: 1, origin: null, matchingCalls: [locatedCall([43.66, -79.38])] });
-  assert.equal(result.message, "No recent calls within 1 km.");
+  assert.equal(result.message, "No recent calls within 1 km · Last 24h.");
 });
 
 test("Toronto-wide empty state describes filtered results without a fallback or expansion", () => {
   assert.deepEqual(
     nearbyEmptyState({ radiusKm: null, origin, matchingCalls: [locatedCall([43.66, -79.38])] }),
-    { message: "No recent calls match the current filters across Toronto.", nextRadiusKm: undefined }
+    { message: "No recent calls match the current filters across Toronto · Last 24h.", nextRadiusKm: undefined }
+  );
+});
+
+test("empty state reflects the active history window", () => {
+  assert.equal(nearbyEmptyState({ radiusKm: 2, origin, hours: 1 }).message, "No recent calls within 2 km · Last 1h.");
+  assert.equal(nearbyEmptyState({ radiusKm: 2, origin, hours: 6 }).message, "No recent calls within 2 km · Last 6h.");
+  assert.equal(nearbyEmptyState({ radiusKm: 2, origin, hours: 72 }).message, "No recent calls within 2 km · Last 3 days.");
+  assert.equal(nearbyEmptyState({ radiusKm: 2, origin, hours: 168 }).message, "No recent calls within 2 km · Last 7 days.");
+  assert.equal(
+    nearbyEmptyState({ radiusKm: null, origin, hours: 168 }).message,
+    "No recent calls match the current filters across Toronto · Last 7 days."
   );
 });
 
@@ -62,7 +73,7 @@ test("expand action chooses each next sensible radius", () => {
 test("global empty dataset has a clean message and no expand action", () => {
   assert.deepEqual(
     nearbyEmptyState({ radiusKm: 0.5, origin, datasetIsEmpty: true }),
-    { message: "No recent calls are currently available.", nextRadiusKm: undefined }
+    { message: "No recent calls are currently available · Last 24h.", nextRadiusKm: undefined }
   );
 });
 
