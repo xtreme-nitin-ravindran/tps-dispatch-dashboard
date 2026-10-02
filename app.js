@@ -1020,9 +1020,9 @@ function renderNearbySummary() {
       })
     : null;
   const summaryText = empty?.message
-    || nearbySummary(state.filtered, state.radiusKm, Date.now(), state.nearby, coordinatesForCall);
+    || nearbySummary(state.filtered, state.radiusKm, Date.now(), state.nearby, coordinatesForCall, state.hours);
   const mobileSummaryText = mobileNearbySummary(
-    state.filtered, state.radiusKm, Date.now(), state.nearby, coordinatesForCall
+    state.filtered, state.radiusKm, Date.now(), state.nearby, coordinatesForCall, state.hours
   );
   document.querySelector("#nearbySummaryText").textContent = summaryText;
   document.querySelector("#mobileNearbySummaryText").textContent = mobileSummaryText;

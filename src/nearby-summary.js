@@ -25,18 +25,26 @@ function closestDistance(calls, origin, coordinatesForCall) {
   return distanceLabel(distance).replace(/ away$/, "");
 }
 
+function historyWindowLabel(hours) {
+  if (hours === 168) return "Last 7 days";
+  if (hours === 72) return "Last 3 days";
+  return `Last ${hours}h`;
+}
+
 export function nearbySummary(
   calls,
   radiusKm,
   now = Date.now(),
   origin = null,
-  coordinatesForCall = call => call?.geography?.coordinates
+  coordinatesForCall = call => call?.geography?.coordinates,
+  hours = 24
 ) {
+  const window = historyWindowLabel(hours);
   const noun = calls.length === 1 ? "call" : "calls";
   const opening = radiusKm === null
     ? `${calls.length} recent ${noun} across Toronto`
     : `${calls.length} recent ${noun} within ${radiusKm} km`;
-  if (!calls.length) return `${opening}.`;
+  if (!calls.length) return `${opening} · ${window}.`;
 
   const counts = new Map();
   for (const call of calls) {
@@ -49,5 +57,5 @@ export function nearbySummary(
     .join(" · ");
   const newest = Math.max(...calls.map(call => new Date(call.timestamp).getTime()));
   const closest = closestDistance(calls, origin, coordinatesForCall);
-  return `${opening} · ${breakdown}${closest ? ` · Closest ${closest}` : ""} · Latest ${compactAge(newest, now)}.`;
+  return `${opening} · ${breakdown}${closest ? ` · Closest ${closest}` : ""} · Latest ${compactAge(newest, now)} · ${window}.`;
 }
