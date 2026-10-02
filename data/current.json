@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T11:09:29.793Z",
-  "sourceUpdatedAt": "2026-10-02T11:05:02.000Z",
+  "fetchedAt": "2026-10-02T11:11:42.086Z",
+  "sourceUpdatedAt": "2026-10-02T11:10:02.000Z",
   "incidents": [
+    {
+      "id": "F26156516",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "BROADVIEW AVE / DUNDAS ST E",
+      "division": "324",
+      "timestamp": "2026-10-02T11:04:11.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "324"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-02T11:11:42.086Z",
+      "lastSeenAt": "2026-10-02T11:11:42.086Z",
+      "geography": {
+        "text": "Broadview Avenue & Dundas Street East",
+        "approximate": false,
+        "coordinates": [
+          43.6624484,
+          -79.3513526
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-02T11:11:42.086Z"
+      }
+    },
     {
       "id": "F26156515",
       "source": "TFS",
@@ -26,7 +60,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T11:07:29.879Z",
-      "lastSeenAt": "2026-10-02T11:09:29.793Z",
+      "lastSeenAt": "2026-10-02T11:11:42.086Z",
       "geography": {
         "text": "Approximate area: (M2N) Willowdale South",
         "approximate": true,
@@ -49,7 +83,7 @@
       "division": "311",
       "timestamp": "2026-10-02T10:49:32.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -254,7 +288,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T10:41:47.417Z",
       "lastMeaningfulUpdateAt": "2026-10-02T10:45:53.384Z",
-      "lastSeenAt": "2026-10-02T11:09:29.793Z",
+      "lastSeenAt": "2026-10-02T11:11:42.086Z",
       "geography": {
         "text": "Bayview Avenue & Sheppard Avenue East",
         "approximate": false,
@@ -277,7 +311,7 @@
       "division": "231",
       "timestamp": "2026-10-02T10:31:22.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -1377,7 +1411,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-02T09:51:59.993Z",
       "lastMeaningfulUpdateAt": "2026-10-02T09:56:42.775Z",
-      "lastSeenAt": "2026-10-02T11:09:29.793Z",
+      "lastSeenAt": "2026-10-02T11:11:42.086Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -220907,38 +220941,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-22T04:26:18.398Z"
       }
-    },
-    {
-      "id": "TPS-463a726ab6e55350295138c3",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "PERSONAL INJURY COLLISION",
-      "callTypeCode": "PIACC",
-      "timestamp": "2026-09-25T11:10:09.000Z",
-      "location": "MIDLAND AVE - DANFORTH RD",
-      "division": "Division 41",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "MIDLAND AVE - DANFORTH RD",
-        "coordinates": [
-          43.72488149059374,
-          -79.25397971911923
-        ],
-        "division": "Division 41",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T11:31:24.578Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T11:09:29.793Z",
-      "sourceUpdatedAt": "2026-10-02T11:05:02.000Z",
+      "fetchedAt": "2026-10-02T11:11:42.086Z",
+      "sourceUpdatedAt": "2026-10-02T11:10:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T11:09:29.793Z",
+      "fetchedAt": "2026-10-02T11:11:42.086Z",
       "status": "ok"
     }
   },
@@ -356019,8 +356031,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-02T11:05:09.814Z",
-      "fetchedAt": "2026-10-02T11:05:09.814Z"
+      "checkedAt": "2026-10-02T11:11:42.086Z",
+      "fetchedAt": "2026-10-02T11:11:42.086Z"
     },
     "transit": {
       "items": [
@@ -356419,86 +356431,6 @@
           "periods": [
             {
               "start": 1790936700000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "77330",
-          "title": "57 Midland: Detour via Mcnicoll Ave, Kennedy Ave and Finch Ave E due to police activity.",
-          "description": "",
-          "effect": "DETOUR",
-          "routes": [
-            "57"
-          ],
-          "stopIds": [
-            "5744",
-            "5711",
-            "16288",
-            "5743",
-            "5710",
-            "16287"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": "57",
-              "stopId": "5744",
-              "coordinates": [
-                43.806921,
-                -79.288598
-              ],
-              "name": "Midland Ave at South Shields Ave"
-            },
-            {
-              "routeId": "57",
-              "stopId": "5711",
-              "coordinates": [
-                43.809931,
-                -79.289989
-              ],
-              "name": "Midland Ave at Kilcullen Castle Gate North Side"
-            },
-            {
-              "routeId": "57",
-              "stopId": "16288",
-              "coordinates": [
-                43.812554,
-                -79.291229
-              ],
-              "name": "Midland Ave at Finch Corridor Trail"
-            },
-            {
-              "routeId": "57",
-              "stopId": "5743",
-              "coordinates": [
-                43.807163,
-                -79.288962
-              ],
-              "name": "Midland Ave at Silver Star Blvd"
-            },
-            {
-              "routeId": "57",
-              "stopId": "5710",
-              "coordinates": [
-                43.80947,
-                -79.290016
-              ],
-              "name": "Midland Ave at Kilcullen Castle Gate South Side"
-            },
-            {
-              "routeId": "57",
-              "stopId": "16287",
-              "coordinates": [
-                43.812339,
-                -79.291329
-              ],
-              "name": "Midland Ave at Finch Corridor Trail South Side"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790930515000,
               "end": null
             }
           ],
@@ -357484,6 +357416,86 @@
             {
               "start": 1790982000000,
               "end": 1791172200000
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "77339",
+          "title": "505 Dundas: Detour westbound via Broadview Ave, Gerrard St E and Parliament St due to a collision.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "505"
+          ],
+          "stopIds": [
+            "1758",
+            "9318",
+            "1756",
+            "2127",
+            "15873",
+            "2125"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "505",
+              "stopId": "1758",
+              "coordinates": [
+                43.665663,
+                -79.352794
+              ],
+              "name": "Broadview Ave at Gerrard St East"
+            },
+            {
+              "routeId": "505",
+              "stopId": "9318",
+              "coordinates": [
+                43.664096,
+                -79.35214
+              ],
+              "name": "Broadview Ave at Mountstephen St"
+            },
+            {
+              "routeId": "505",
+              "stopId": "1756",
+              "coordinates": [
+                43.6626,
+                -79.351506
+              ],
+              "name": "Broadview Ave at Dundas St East"
+            },
+            {
+              "routeId": "505",
+              "stopId": "2127",
+              "coordinates": [
+                43.661284,
+                -79.358
+              ],
+              "name": "Dundas St East at River St"
+            },
+            {
+              "routeId": "505",
+              "stopId": "15873",
+              "coordinates": [
+                43.660471,
+                -79.361655
+              ],
+              "name": "Dundas St East at Regent Park Blvd"
+            },
+            {
+              "routeId": "505",
+              "stopId": "2125",
+              "coordinates": [
+                43.65951,
+                -79.365882
+              ],
+              "name": "Dundas St East at Parliament St"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790939447000,
+              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -358802,16 +358814,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-02T11:05:10.000Z",
+      "sourceUpdatedAt": "2026-10-02T11:11:42.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-02T11:05:09.814Z",
-      "fetchedAt": "2026-10-02T11:05:09.814Z"
+      "checkedAt": "2026-10-02T11:11:42.086Z",
+      "fetchedAt": "2026-10-02T11:11:42.086Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T11:09:23.000Z",
+    "sourceUpdatedAt": "2026-10-02T11:10:50.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -358820,14 +358832,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T11:09:29.793Z",
-    "checkedAt": "2026-10-02T11:09:29.793Z",
+    "fetchedAt": "2026-10-02T11:11:42.086Z",
+    "checkedAt": "2026-10-02T11:11:42.086Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T11:09:29.793Z",
-      "checkedAt": "2026-10-02T11:09:29.793Z",
+      "fetchedAt": "2026-10-02T11:11:42.086Z",
+      "checkedAt": "2026-10-02T11:11:42.086Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -358851,6 +358863,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "BROADVIEW AVE / DUNDAS ST E": {
+      "text": "Broadview Avenue & Dundas Street East",
+      "approximate": false,
+      "coordinates": [
+        43.6624484,
+        -79.3513526
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-02T11:11:42.086Z"
+    },
     "M2N": {
       "text": "Approximate area: (M2N) Willowdale South",
       "approximate": true,
