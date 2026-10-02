@@ -84,10 +84,9 @@ git pull --ff-only origin dev
 ## Testing
 
 Run commands from the repository root. Use Docker for the same Node.js 22, ESLint,
-and Ruff environment as CI; the host does not need Node.js, npm, ESLint, Ruff, or
-Python installed. Unit tests use fixtures, mocked services, bundled geographic data, and
-temporary files/repositories; they do not publish changes or require live feeds. See
-[Test coverage](#test-coverage) for how coverage is measured and published.
+and Ruff environment as CI. Unit tests use fixtures, mocked services, bundled geographic
+data, and temporary files/repositories; they do not publish changes or require live feeds.
+See [Test coverage](#test-coverage) for how coverage is measured and published.
 
 ### Local watch and push fixtures
 
@@ -509,8 +508,8 @@ docker run --rm \
   npm run test:coverage
 ```
 
-Use Docker; the host does not need Node installed. The coverage command can fail even
-when every test passes because the coverage gate requires these minimums:
+The coverage command can fail even when every test passes because the coverage gate
+requires these minimums:
 
 - Lines: 100.00%
 - Branches: 100.00%
@@ -533,6 +532,10 @@ To diagnose a failure:
 - Remove code only when it is genuinely dead.
 - Rerun the coverage command until lines, branches, and functions are all 100.00%.
 
+100% line, branch, and function coverage does not replace regression-contract testing.
+Critical product invariants must have explicit assertions even when ordinary coverage is
+already 100%.
+
 #### Pre-push checklist
 
 Before pushing:
@@ -541,9 +544,106 @@ Before pushing:
 - [ ] The coverage command reports 100.00% lines.
 - [ ] The coverage command reports 100.00% branches.
 - [ ] The coverage command reports 100.00% functions.
+- [ ] Regression-contract tests relevant to the changed code pass.
 - [ ] Lint and syntax checks pass as applicable.
 - [ ] `git diff --check` passes.
 - [ ] `data/current.json` is unchanged unless intentionally modified.
+
+### Regression contracts and feature invariants
+
+Important production fixes must be protected by permanent regression tests.
+
+When fixing a defect or introducing a safety, correctness, or performance bound:
+
+- Add a regression test that would have failed before the fix.
+- Test the actual invariant, not only the helper function that implements it.
+- Reproduce the real user interaction sequence when the sequence is relevant to the failure.
+- Prefer assertions against rendered DOM, map geometry, application state, serialized output, or other observable production behavior.
+- Use deterministic fixtures for large, rare, timing-sensitive, browser-specific, or external-data states.
+- Keep test-only fixtures clearly separated from production behavior and guard them so they cannot activate on production hosts.
+- Do not weaken or remove an existing regression invariant merely to make a new implementation pass.
+- If an invariant intentionally changes, update the implementation, tests, and relevant documentation together and explain the reason.
+- Regression-contract tests are part of the product contract and must pass before push or promotion.
+
+#### Map cluster expansion
+
+Marker-clustering regression tests must enforce:
+
+- no more than 12 incidents are expanded from a single cluster
+- no more than 12 `.cluster-connector` paths are rendered
+- cluster fan-out radius never exceeds 96 px
+- connector endpoints remain within 96 px of the cluster center
+- large clusters remain clustered instead of expanding every incident
+- a selected incident from a large cluster may be surfaced separately
+- stale connectors are removed after:
+  - deselection
+  - selection replacement
+  - cluster collapse
+  - filter changes
+  - radius changes
+  - zoom changes
+  - Map → Calls
+  - Calls → Map
+- repeated interactions do not accumulate duplicate connector paths
+
+The deterministic large-cluster browser regression should use a 100+ incident cluster and
+assert against the actual rendered SVG/DOM, not only clustering helper output.
+
+#### Mobile map regression sequence
+
+Maintain regression coverage for the production sequence that previously caused
+viewport-spanning radiating connector lines:
+
+1. Enter Map mode.
+2. Enable Road closures.
+3. Enable Police boundaries.
+4. Select an incident in a dense cluster.
+5. Exercise collapsed, half, and expanded bottom-sheet states.
+6. Return to collapsed.
+7. Switch Map → Calls → Map.
+8. Pan and/or zoom.
+
+At relevant stages verify:
+
+- connector count remains bounded
+- no viewport-spanning connector fan appears
+- no stale or duplicate connectors remain
+- selected-incident state remains valid
+- large clusters remain bounded
+
+#### Service-worker and frontend asset consistency
+
+Tests must prevent cached frontend assets from silently reintroducing older application behavior.
+
+When cached frontend assets or modules change, verify:
+
+- `index.html` references the current application asset version
+- dynamically referenced module versions are current
+- service-worker cache versions are consistent with deployed assets
+- obsolete SirenTO caches are removed as intended
+- query-string and cache-key behavior cannot serve an older implementation unexpectedly
+
+#### Data-state semantics
+
+Regression tests must preserve distinct states for:
+
+- valid zero results
+- source unavailable
+- stale or retained data
+- current successful data
+
+UI tests must not collapse these states into the same user-facing meaning.
+
+#### TTC geography and provenance
+
+Regression tests must ensure:
+
+- structured TTC geography can produce mapped affected-route geometry
+- unresolved or free-form TTC alerts remain visible as alerts
+- unresolved alert text does not produce invented map geometry
+- affected scheduled-route geometry is not presented as the actual temporary diversion route
+- SirenTO-observed diversion geometry remains visibly distinguishable from official TTC data
+- zero TTC results remain distinct from TTC source unavailability
 
 `npm test` runs all 25 JavaScript unit test files below:
 
@@ -619,11 +719,10 @@ which can include the live integration test; use an explicit file as above for o
 ### Run all required checks
 
 Copy this complete command block into a shell from the repository root. It builds
-the Docker image, runs both linters, both timezone unit suites, the Python tests, and
-the live integration suite, checks browser JavaScript syntax and whitespace, and
-verifies that generated snapshot changes are not included in the code branch. It
-stops at the first failure. Docker and Git are required; Node.js, Python, ESLint, and
-Ruff are not required on the host.
+the Docker image, runs both linters, both timezone unit suites, the Python tests, the
+live integration suite, the CI-equivalent 100/100/100 coverage gate, browser JavaScript
+syntax checks, and whitespace checks, and verifies that generated snapshot changes are
+not included in the code branch. It stops at the first failure.
 
 ```bash
 (
@@ -634,6 +733,10 @@ Ruff are not required on the host.
   docker run --rm -e TZ=America/Los_Angeles toronto-dispatch-tests
   docker run --rm toronto-dispatch-tests npm run test:python
   docker run --rm toronto-dispatch-tests npm run test:integration
+  docker run --rm \
+    -e NODE_V8_COVERAGE=/tmp/coverage \
+    toronto-dispatch-tests \
+    npm run test:coverage
   docker run --rm -i toronto-dispatch-tests node --input-type=module --check < app.js
   docker run --rm toronto-dispatch-tests sh -c 'find src scripts -name "*.js" -exec node --check {} +'
   git diff --check
@@ -646,8 +749,10 @@ Ruff are not required on the host.
 The snapshot checks use the locally fetched `origin/main` reference. Synchronize
 remote references before validating a branch for publication. ESLint and Ruff catch
 static correctness problems; the explicit syntax checks parse browser JavaScript
-without executing it, and whitespace checks flag issues such as trailing spaces. None
-replaces the behavioral tests above.
+without executing it, and whitespace checks flag issues such as trailing spaces. The
+coverage command is also mandatory: a passing test suite with less than 100.00% line,
+branch, or function coverage is not ready for promotion. None of these checks replaces
+feature-specific regression contracts or required physical-device validation.
 
 ### Generate a development snapshot (not a test)
 
