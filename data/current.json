@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T09:54:30.909Z",
-  "sourceUpdatedAt": "2026-10-02T09:50:01.000Z",
+  "fetchedAt": "2026-10-02T09:56:42.775Z",
+  "sourceUpdatedAt": "2026-10-02T09:55:01.000Z",
   "incidents": [
     {
       "id": "TPS-018600a916a61b01dd4b595c",
@@ -82,9 +82,25 @@
       "timestamp": "2026-10-02T09:40:19.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "444",
+            "445"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "445"
+          ]
+        }
+      ],
+      "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-02T09:51:59.993Z",
-      "lastSeenAt": "2026-10-02T09:54:30.909Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T09:56:42.775Z",
+      "lastSeenAt": "2026-10-02T09:56:42.775Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -126,7 +142,7 @@
       "division": "222",
       "timestamp": "2026-10-02T09:36:37.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -173,7 +189,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T09:47:30.470Z",
       "lastMeaningfulUpdateAt": "2026-10-02T09:51:59.993Z",
-      "lastSeenAt": "2026-10-02T09:54:30.909Z",
+      "lastSeenAt": "2026-10-02T09:56:42.775Z",
       "geography": {
         "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
         "approximate": true,
@@ -214,7 +230,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T09:42:51.821Z",
       "lastMeaningfulUpdateAt": "2026-10-02T09:47:30.470Z",
-      "lastSeenAt": "2026-10-02T09:54:30.909Z",
+      "lastSeenAt": "2026-10-02T09:56:42.775Z",
       "geography": {
         "text": "Lawrence Avenue between Morningside Avenue & Collinsgrove Road",
         "approximate": false,
@@ -220635,51 +220651,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-10-02T09:12:30.837Z"
       }
-    },
-    {
-      "id": "F26152020",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M8W",
-      "division": "435",
-      "timestamp": "2026-09-25T09:54:58.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "435"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-25T10:00:27.385Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T10:06:20.629Z",
-      "lastSeenAt": "2026-09-25T10:15:24.422Z",
-      "geography": {
-        "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
-        "approximate": true,
-        "coordinates": [
-          43.6021,
-          -79.5402
-        ],
-        "division": "Division 22",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T09:54:30.909Z",
-      "sourceUpdatedAt": "2026-10-02T09:50:01.000Z",
+      "fetchedAt": "2026-10-02T09:56:42.775Z",
+      "sourceUpdatedAt": "2026-10-02T09:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T09:54:30.909Z",
+      "fetchedAt": "2026-10-02T09:56:42.775Z",
       "status": "ok"
     }
   },
@@ -358622,7 +358603,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T09:54:28.000Z",
+    "sourceUpdatedAt": "2026-10-02T09:56:27.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -358631,14 +358612,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T09:54:30.909Z",
-    "checkedAt": "2026-10-02T09:54:30.909Z",
+    "fetchedAt": "2026-10-02T09:56:42.775Z",
+    "checkedAt": "2026-10-02T09:56:42.775Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T09:54:30.909Z",
-      "checkedAt": "2026-10-02T09:54:30.909Z",
+      "fetchedAt": "2026-10-02T09:56:42.775Z",
+      "checkedAt": "2026-10-02T09:56:42.775Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
