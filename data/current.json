@@ -3,9 +3,84 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T01:24:36.976Z",
-  "sourceUpdatedAt": "2026-10-02T01:20:01.000Z",
+  "fetchedAt": "2026-10-02T01:26:45.710Z",
+  "sourceUpdatedAt": "2026-10-02T01:25:02.000Z",
   "incidents": [
+    {
+      "id": "F26156306",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4N",
+      "division": "131",
+      "timestamp": "2026-10-02T01:18:04.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T01:26:45.710Z",
+      "lastSeenAt": "2026-10-02T01:26:45.710Z",
+      "geography": {
+        "text": "Approximate area: (M4N) Central Toronto (Lawrence Park East)",
+        "approximate": true,
+        "coordinates": [
+          43.7301,
+          -79.3935
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26156305",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5E",
+      "division": "333",
+      "timestamp": "2026-10-02T01:17:52.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T01:26:45.710Z",
+      "lastSeenAt": "2026-10-02T01:26:45.710Z",
+      "geography": {
+        "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
+        "approximate": true,
+        "coordinates": [
+          43.6456,
+          -79.3754
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26156304",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Wires Down - Hydro",
+      "location": "SCARLETT RD, YK / CLAIRTON CRES / CLAIRTON CRES",
+      "division": "421",
+      "timestamp": "2026-10-02T01:15:26.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T01:26:45.710Z",
+      "lastSeenAt": "2026-10-02T01:26:45.710Z",
+      "geography": {
+        "text": "Approximate location on Scarlett Road",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-02T01:26:45.710Z"
+      }
+    },
     {
       "id": "F26156303",
       "source": "TFS",
@@ -16,9 +91,18 @@
       "timestamp": "2026-10-02T01:13:41.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "434"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T01:22:18.325Z",
-      "lastSeenAt": "2026-10-02T01:24:36.976Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T01:26:45.710Z",
+      "lastSeenAt": "2026-10-02T01:26:45.710Z",
       "geography": {
         "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
         "approximate": true,
@@ -41,7 +125,7 @@
       "division": "245",
       "timestamp": "2026-10-02T01:13:26.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-10-02T01:22:18.325Z",
       "lastSeenAt": "2026-10-02T01:24:36.976Z",
@@ -68,9 +152,18 @@
       "timestamp": "2026-10-02T01:12:52.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "134"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T01:22:18.325Z",
-      "lastSeenAt": "2026-10-02T01:24:36.976Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T01:26:45.710Z",
+      "lastSeenAt": "2026-10-02T01:26:45.710Z",
       "geography": {
         "text": "Approximate area: (M4S) Central Toronto (Davisville)",
         "approximate": true,
@@ -105,7 +198,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T01:15:44.429Z",
       "lastMeaningfulUpdateAt": "2026-10-02T01:22:18.325Z",
-      "lastSeenAt": "2026-10-02T01:24:36.976Z",
+      "lastSeenAt": "2026-10-02T01:26:45.710Z",
       "geography": {
         "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
         "approximate": true,
@@ -140,7 +233,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T01:15:44.429Z",
       "lastMeaningfulUpdateAt": "2026-10-02T01:22:18.325Z",
-      "lastSeenAt": "2026-10-02T01:24:36.976Z",
+      "lastSeenAt": "2026-10-02T01:26:45.710Z",
       "geography": {
         "text": "Marlee Avenue & Lawrence Avenue West",
         "approximate": false,
@@ -175,7 +268,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T01:11:16.557Z",
       "lastMeaningfulUpdateAt": "2026-10-02T01:15:44.429Z",
-      "lastSeenAt": "2026-10-02T01:24:36.976Z",
+      "lastSeenAt": "2026-10-02T01:26:45.710Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -216,7 +309,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T01:11:16.557Z",
       "lastMeaningfulUpdateAt": "2026-10-02T01:22:18.325Z",
-      "lastSeenAt": "2026-10-02T01:24:36.976Z",
+      "lastSeenAt": "2026-10-02T01:26:45.710Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -333,7 +426,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T01:11:16.557Z",
       "lastMeaningfulUpdateAt": "2026-10-02T01:15:44.429Z",
-      "lastSeenAt": "2026-10-02T01:24:36.976Z",
+      "lastSeenAt": "2026-10-02T01:26:45.710Z",
       "geography": {
         "text": "Approximate location near Yellowstone Street & Demaris Avenue",
         "approximate": true,
@@ -356,7 +449,7 @@
       "division": "223",
       "timestamp": "2026-10-02T00:58:08.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -473,7 +566,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T01:06:57.167Z",
-      "lastSeenAt": "2026-10-02T01:24:36.976Z",
+      "lastSeenAt": "2026-10-02T01:26:45.710Z",
       "geography": {
         "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
         "approximate": true,
@@ -1177,7 +1270,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-10-02T00:42:28.338Z",
       "lastMeaningfulUpdateAt": "2026-10-02T01:11:16.557Z",
-      "lastSeenAt": "2026-10-02T01:24:36.976Z",
+      "lastSeenAt": "2026-10-02T01:26:45.710Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -221083,12 +221176,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T01:24:36.976Z",
-      "sourceUpdatedAt": "2026-10-02T01:20:01.000Z",
+      "fetchedAt": "2026-10-02T01:26:45.710Z",
+      "sourceUpdatedAt": "2026-10-02T01:25:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T01:24:36.976Z",
+      "fetchedAt": "2026-10-02T01:26:45.710Z",
       "status": "ok"
     }
   },
@@ -358006,8 +358099,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-02T01:20:00.251Z",
-      "fetchedAt": "2026-10-02T01:20:00.251Z"
+      "checkedAt": "2026-10-02T01:26:45.710Z",
+      "fetchedAt": "2026-10-02T01:26:45.710Z"
     },
     "transit": {
       "items": [
@@ -361344,16 +361437,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-02T01:20:00.000Z",
+      "sourceUpdatedAt": "2026-10-02T01:26:46.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-02T01:20:00.251Z",
-      "fetchedAt": "2026-10-02T01:20:00.251Z"
+      "checkedAt": "2026-10-02T01:26:45.710Z",
+      "fetchedAt": "2026-10-02T01:26:45.710Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T01:24:30.000Z",
+    "sourceUpdatedAt": "2026-10-02T01:26:38.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -361362,14 +361455,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T01:24:36.976Z",
-    "checkedAt": "2026-10-02T01:24:36.976Z",
+    "fetchedAt": "2026-10-02T01:26:45.710Z",
+    "checkedAt": "2026-10-02T01:26:45.710Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T01:24:36.976Z",
-      "checkedAt": "2026-10-02T01:24:36.976Z",
+      "fetchedAt": "2026-10-02T01:26:45.710Z",
+      "checkedAt": "2026-10-02T01:26:45.710Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -361393,6 +361486,39 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M4N": {
+      "text": "Approximate area: (M4N) Central Toronto (Lawrence Park East)",
+      "approximate": true,
+      "coordinates": [
+        43.7301,
+        -79.3935
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M5E": {
+      "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
+      "approximate": true,
+      "coordinates": [
+        43.6456,
+        -79.3754
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "SCARLETT RD, YK / CLAIRTON CRES / CLAIRTON CRES": {
+      "text": "Approximate location on Scarlett Road",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-02T01:26:45.710Z"
+    },
     "M8W": {
       "text": "Approximate area: (M8W) Etobicoke (Alderwood / Long Branch)",
       "approximate": true,
@@ -362640,18 +362766,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-30T18:27:33.800Z"
-    },
-    "M5E": {
-      "text": "Approximate area: (M5E) Downtown Toronto (Berczy Park)",
-      "approximate": true,
-      "coordinates": [
-        43.6456,
-        -79.3754
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "KINGSTON RD / CHINE DR": {
       "text": "Kingston Road & Chine Drive",
@@ -364512,18 +364626,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-10-01T01:22:25.600Z"
-    },
-    "M4N": {
-      "text": "Approximate area: (M4N) Central Toronto (Lawrence Park East)",
-      "approximate": true,
-      "coordinates": [
-        43.7301,
-        -79.3935
-      ],
-      "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "ROGERS RD, YK / BICKNELL AVE / FORBES AVE": {
       "text": "Rogers Road between Bicknell Avenue & Forbes Avenue",
