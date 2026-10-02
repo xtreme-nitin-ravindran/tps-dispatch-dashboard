@@ -3,9 +3,57 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T09:14:39.068Z",
-  "sourceUpdatedAt": "2026-10-02T09:10:01.000Z",
+  "fetchedAt": "2026-10-02T09:16:38.881Z",
+  "sourceUpdatedAt": "2026-10-02T09:15:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-587c2d1359285f1e1aeabdef",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-10-02T09:12:38.000Z",
+      "location": "SOLIDARITY WAY - GATEWAY PARK TRL",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SOLIDARITY WAY - GATEWAY PARK TRL",
+        "coordinates": [
+          43.63917708053595,
+          -79.41142392952399
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T09:16:38.881Z"
+    },
+    {
+      "id": "F26156477",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "BURNHAMTHORPE CRES, ET / DUNDAS ST W / BURNHAMTHORPE RD",
+      "division": "445",
+      "timestamp": "2026-10-02T09:09:31.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T09:16:38.881Z",
+      "lastSeenAt": "2026-10-02T09:16:38.881Z",
+      "geography": {
+        "text": "Approximate location near Burnhamthorpe Crescent & Dundas Street West",
+        "approximate": true,
+        "coordinates": [
+          43.6503911,
+          -79.5272754
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-02T09:16:38.881Z"
+      }
+    },
     {
       "id": "F26156476",
       "source": "TFS",
@@ -16,9 +64,19 @@
       "timestamp": "2026-10-02T09:04:54.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "431",
+            "433"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T09:12:30.837Z",
-      "lastSeenAt": "2026-10-02T09:14:39.068Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T09:16:38.881Z",
+      "lastSeenAt": "2026-10-02T09:16:38.881Z",
       "geography": {
         "text": "Edwalter Avenue between Prince Edward Drive South & Ballacaine Drive",
         "approximate": false,
@@ -42,9 +100,18 @@
       "timestamp": "2026-10-02T09:03:10.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "411"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T09:12:30.837Z",
-      "lastSeenAt": "2026-10-02T09:14:39.068Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T09:16:38.881Z",
+      "lastSeenAt": "2026-10-02T09:16:38.881Z",
       "geography": {
         "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
         "approximate": true,
@@ -57,6 +124,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-d043e061a57ba92f78c4637c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FAIL TO REMAIN PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "FTRPD",
+      "timestamp": "2026-10-02T09:02:27.000Z",
+      "location": "MORNINGSIDE AVE - WINDERMERE AVE",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MORNINGSIDE AVE - WINDERMERE AVE",
+        "coordinates": [
+          43.6449245384686,
+          -79.47830791664805
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T09:16:38.881Z"
+    },
+    {
+      "id": "TPS-b4e69d8e7ff5c5eef71ddc7e",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-10-02T09:01:42.000Z",
+      "location": "WESTMOUNT AVE - ROSECLIFFE AVE",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WESTMOUNT AVE - ROSECLIFFE AVE",
+        "coordinates": [
+          43.68366449574542,
+          -79.44411850992721
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T09:16:38.881Z"
+    },
+    {
+      "id": "TPS-c78a80fb6ce0474f04fc6a37",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-10-02T08:55:54.000Z",
+      "location": "GARDINER XWY E - 427 X S GARDINER X E RAMP",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GARDINER XWY E - 427 X S GARDINER X E RAMP",
+        "coordinates": [
+          43.614496304144474,
+          -79.54106618702319
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T09:16:38.881Z"
     },
     {
       "id": "F26156474",
@@ -91,7 +224,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-02T09:01:49.836Z",
       "lastMeaningfulUpdateAt": "2026-10-02T09:05:58.313Z",
-      "lastSeenAt": "2026-10-02T09:14:39.068Z",
+      "lastSeenAt": "2026-10-02T09:16:38.881Z",
       "geography": {
         "text": "Steinway Boulevard between Signal Hill Avenue & Albion Road",
         "approximate": false,
@@ -104,6 +237,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-10-02T09:01:49.836Z"
       }
+    },
+    {
+      "id": "TPS-390acce3d3d19b6f77a25f07",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-10-02T08:54:03.000Z",
+      "location": "CLAREMONT ST - NIAGARA ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CLAREMONT ST - NIAGARA ST",
+        "coordinates": [
+          43.64607488817358,
+          -79.40956563014343
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T09:16:38.881Z"
     },
     {
       "id": "F26156473",
@@ -227,7 +382,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T08:45:31.669Z",
       "lastMeaningfulUpdateAt": "2026-10-02T08:50:29.078Z",
-      "lastSeenAt": "2026-10-02T09:14:39.068Z",
+      "lastSeenAt": "2026-10-02T09:16:38.881Z",
       "geography": {
         "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
         "approximate": true,
@@ -357,7 +512,7 @@
       "division": "325",
       "timestamp": "2026-10-02T08:29:33.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Ladder Truck",
@@ -220457,12 +220612,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T09:14:39.068Z",
-      "sourceUpdatedAt": "2026-10-02T09:10:01.000Z",
+      "fetchedAt": "2026-10-02T09:16:38.881Z",
+      "sourceUpdatedAt": "2026-10-02T09:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T09:14:39.068Z",
+      "fetchedAt": "2026-10-02T09:16:38.881Z",
       "status": "ok"
     }
   },
@@ -359398,7 +359553,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T09:14:25.000Z",
+    "sourceUpdatedAt": "2026-10-02T09:16:31.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -359407,14 +359562,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T09:14:39.068Z",
-    "checkedAt": "2026-10-02T09:14:39.068Z",
+    "fetchedAt": "2026-10-02T09:16:38.881Z",
+    "checkedAt": "2026-10-02T09:16:38.881Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T09:14:39.068Z",
-      "checkedAt": "2026-10-02T09:14:39.068Z",
+      "fetchedAt": "2026-10-02T09:16:38.881Z",
+      "checkedAt": "2026-10-02T09:16:38.881Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -359438,6 +359593,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "BURNHAMTHORPE CRES, ET / DUNDAS ST W / BURNHAMTHORPE RD": {
+      "text": "Approximate location near Burnhamthorpe Crescent & Dundas Street West",
+      "approximate": true,
+      "coordinates": [
+        43.6503911,
+        -79.5272754
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-02T09:16:38.881Z"
+    },
     "EDWALTER AVE, ET / PRINCE EDWARD DR S / BALLACAINE DR": {
       "text": "Edwalter Avenue between Prince Edward Drive South & Ballacaine Drive",
       "approximate": false,
