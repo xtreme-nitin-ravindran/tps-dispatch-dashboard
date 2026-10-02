@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T04:14:48.309Z",
-  "sourceUpdatedAt": "2026-10-02T04:10:02.000Z",
+  "fetchedAt": "2026-10-02T04:16:29.866Z",
+  "sourceUpdatedAt": "2026-10-02T04:15:01.000Z",
   "incidents": [
+    {
+      "id": "F26156391",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5S",
+      "division": "315",
+      "timestamp": "2026-10-02T04:05:34.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "315"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-02T04:16:29.866Z",
+      "lastSeenAt": "2026-10-02T04:16:29.866Z",
+      "geography": {
+        "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
+        "approximate": true,
+        "coordinates": [
+          43.6629,
+          -79.3987
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26156390",
       "source": "TFS",
@@ -27,7 +61,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T04:06:29.537Z",
-      "lastSeenAt": "2026-10-02T04:14:48.309Z",
+      "lastSeenAt": "2026-10-02T04:16:29.866Z",
       "geography": {
         "text": "Grey Road between Melrose Avenue & Deloraine Avenue",
         "approximate": false,
@@ -50,7 +84,7 @@
       "division": "425",
       "timestamp": "2026-10-02T03:58:43.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -118,7 +152,7 @@
       "division": "341",
       "timestamp": "2026-10-02T03:57:56.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -163,7 +197,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T04:06:29.537Z",
-      "lastSeenAt": "2026-10-02T04:14:48.309Z",
+      "lastSeenAt": "2026-10-02T04:16:29.866Z",
       "geography": {
         "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
         "approximate": true,
@@ -224,7 +258,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:57:31.425Z",
       "lastMeaningfulUpdateAt": "2026-10-02T04:01:59.037Z",
-      "lastSeenAt": "2026-10-02T04:14:48.309Z",
+      "lastSeenAt": "2026-10-02T04:16:29.866Z",
       "geography": {
         "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
         "approximate": true,
@@ -282,7 +316,7 @@
       "division": "234",
       "timestamp": "2026-10-02T03:48:53.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -472,7 +506,7 @@
       "division": "244",
       "timestamp": "2026-10-02T03:40:45.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -220888,95 +220922,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-25T04:31:21.684Z"
-    },
-    {
-      "id": "F26151931",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M9C",
-      "division": "444",
-      "timestamp": "2026-09-25T04:16:08.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "444"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-25T04:26:04.876Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T04:31:21.684Z",
-      "lastSeenAt": "2026-09-25T04:39:51.301Z",
-      "geography": {
-        "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
-        "approximate": true,
-        "coordinates": [
-          43.6437,
-          -79.5767
-        ],
-        "division": "Division 22",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "TPS-091eafaa3b18fbbaddf3bb8e",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "SEE AMBULANCE",
-      "callTypeCode": "SEEAM",
-      "timestamp": "2026-09-25T04:15:27.000Z",
-      "location": "LN N DANFORTH W MAIN ST - STANLEY G. GRIZZLE PARK TRL",
-      "division": "Division 55",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "LN N DANFORTH W MAIN ST - STANLEY G. GRIZZLE PARK TRL",
-        "coordinates": [
-          43.689436122397865,
-          -79.30098755237307
-        ],
-        "division": "Division 55",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T04:21:30.919Z"
-    },
-    {
-      "id": "TPS-33723fac0eb0298c15c9e990",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISORDERLIES",
-      "callTypeCode": "DIS",
-      "timestamp": "2026-09-25T04:14:55.000Z",
-      "location": "QUEEN ST W - SHUTER ST",
-      "division": "Division 52",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "QUEEN ST W - SHUTER ST",
-        "coordinates": [
-          43.65407279317647,
-          -79.37995624627325
-        ],
-        "division": "Division 52",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T04:21:30.919Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T04:14:48.309Z",
-      "sourceUpdatedAt": "2026-10-02T04:10:02.000Z",
+      "fetchedAt": "2026-10-02T04:16:29.866Z",
+      "sourceUpdatedAt": "2026-10-02T04:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T04:14:48.309Z",
+      "fetchedAt": "2026-10-02T04:16:29.866Z",
       "status": "ok"
     }
   },
@@ -357894,8 +357849,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-02T04:10:31.923Z",
-      "fetchedAt": "2026-10-02T04:10:31.923Z"
+      "checkedAt": "2026-10-02T04:16:29.866Z",
+      "fetchedAt": "2026-10-02T04:16:29.866Z"
     },
     "transit": {
       "items": [
@@ -358415,86 +358370,6 @@
             {
               "start": 1790366137000,
               "end": 1790999940000
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "77308",
-          "title": "91 Woodbine: Detour northbound via Sloane Ave, Victoria Park Ave and Lawrence Ave E due to a blocked road.",
-          "description": "",
-          "effect": "DETOUR",
-          "routes": [
-            "91"
-          ],
-          "stopIds": [
-            "8338",
-            "8335",
-            "8336",
-            "8341",
-            "7595",
-            "7594"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": "91",
-              "stopId": "8338",
-              "coordinates": [
-                43.735703,
-                -79.312716
-              ],
-              "name": "Sweeney Dr at Sloane Ave West Side"
-            },
-            {
-              "routeId": "91",
-              "stopId": "8335",
-              "coordinates": [
-                43.73542,
-                -79.315687
-              ],
-              "name": "Sweeney Dr at Gretna Ave West Side"
-            },
-            {
-              "routeId": "91",
-              "stopId": "8336",
-              "coordinates": [
-                43.735496,
-                -79.317251
-              ],
-              "name": "Sweeney Dr at Wyndcliff Cres"
-            },
-            {
-              "routeId": "91",
-              "stopId": "8341",
-              "coordinates": [
-                43.737394,
-                -79.317564
-              ],
-              "name": "Teak Ave at Carnforth Rd"
-            },
-            {
-              "routeId": "91",
-              "stopId": "7595",
-              "coordinates": [
-                43.739168,
-                -79.315925
-              ],
-              "name": "Opposite 38 Carnforth Rd"
-            },
-            {
-              "routeId": "91",
-              "stopId": "7594",
-              "coordinates": [
-                43.74095,
-                -79.314144
-              ],
-              "name": "Carnforth Rd at Lawrence Ave East"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790892996000,
-              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -360824,16 +360699,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-02T04:10:32.000Z",
+      "sourceUpdatedAt": "2026-10-02T04:16:30.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-02T04:10:31.923Z",
-      "fetchedAt": "2026-10-02T04:10:31.923Z"
+      "checkedAt": "2026-10-02T04:16:29.866Z",
+      "fetchedAt": "2026-10-02T04:16:29.866Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T04:14:37.000Z",
+    "sourceUpdatedAt": "2026-10-02T04:16:10.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -360842,14 +360717,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T04:14:48.309Z",
-    "checkedAt": "2026-10-02T04:14:48.309Z",
+    "fetchedAt": "2026-10-02T04:16:29.866Z",
+    "checkedAt": "2026-10-02T04:16:29.866Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "unavailable",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
       "fetchedAt": "2026-10-02T04:12:39.760Z",
-      "checkedAt": "2026-10-02T04:14:48.309Z",
+      "checkedAt": "2026-10-02T04:16:29.866Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -360863,6 +360738,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5S": {
+      "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
+      "approximate": true,
+      "coordinates": [
+        43.6629,
+        -79.3987
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "GREY RD, NY / MELROSE AVE / DELORAINE AVE": {
       "text": "Grey Road between Melrose Avenue & Deloraine Avenue",
       "approximate": false,
@@ -361966,18 +361853,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-10-01T23:45:52.752Z"
-    },
-    "M5S": {
-      "text": "Approximate area: (M5S) Downtown Toronto (University of Toronto / Harbord)",
-      "approximate": true,
-      "coordinates": [
-        43.6629,
-        -79.3987
-      ],
-      "division": "Division 52",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "BESSBOROUGH DR, EY / MILLWOOD RD / FIELD AVE": {
       "text": "Bessborough Drive between Millwood Road & Field Avenue",
