@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T18:54:35.271Z",
-  "sourceUpdatedAt": "2026-10-02T18:50:01.000Z",
+  "fetchedAt": "2026-10-02T18:56:30.280Z",
+  "sourceUpdatedAt": "2026-10-02T18:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26156750",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5J",
+      "division": "332",
+      "timestamp": "2026-10-02T18:49:47.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T18:56:30.280Z",
+      "lastSeenAt": "2026-10-02T18:56:30.280Z",
+      "geography": {
+        "text": "Approximate area: (M5J) Downtown Toronto (Harbourfront East / Union Station / Toronto Island)",
+        "approximate": true,
+        "coordinates": [
+          43.623,
+          -79.3936
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26156749",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "GOWAN AVE, EY / PAPE AVE / COSBURN AVE",
+      "division": "322",
+      "timestamp": "2026-10-02T18:47:43.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T18:56:30.280Z",
+      "lastSeenAt": "2026-10-02T18:56:30.280Z",
+      "geography": {
+        "text": "Gowan Avenue between Pape Avenue & Cosburn Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.689532650000004,
+          -79.34556665
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-02T18:56:30.280Z"
+      }
+    },
+    {
+      "id": "F26156748",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5A",
+      "division": "333",
+      "timestamp": "2026-10-02T18:45:45.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T18:56:30.280Z",
+      "lastSeenAt": "2026-10-02T18:56:30.280Z",
+      "geography": {
+        "text": "Approximate area: (M5A) Toronto",
+        "approximate": true,
+        "coordinates": [
+          43.6555,
+          -79.3626
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26156747",
       "source": "TFS",
@@ -16,9 +94,18 @@
       "timestamp": "2026-10-02T18:41:10.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "312"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T18:52:14.471Z",
-      "lastSeenAt": "2026-10-02T18:54:35.271Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T18:56:30.280Z",
+      "lastSeenAt": "2026-10-02T18:56:30.280Z",
       "geography": {
         "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
         "approximate": true,
@@ -109,7 +196,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T18:49:53.361Z",
-      "lastSeenAt": "2026-10-02T18:54:35.271Z",
+      "lastSeenAt": "2026-10-02T18:56:30.280Z",
       "geography": {
         "text": "Approximate location near Harrison Garden Boulevard & Everson Drive",
         "approximate": true,
@@ -254,7 +341,7 @@
       "division": "143",
       "timestamp": "2026-10-02T18:17:26.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -399,7 +486,7 @@
       "division": "113",
       "timestamp": "2026-10-02T18:10:36.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Command Unit",
@@ -219787,86 +219874,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26152290",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Fire - Highrise Residential",
-      "location": "COOPERAGE ST, TT / FRONT ST E / PALACE ST",
-      "division": "333",
-      "timestamp": "2026-09-25T18:55:48.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Command Unit",
-          "numbers": [
-            "32",
-            "33"
-          ]
-        },
-        {
-          "type": "High-Rise Unit",
-          "numbers": [
-            "114"
-          ]
-        },
-        {
-          "type": "Ladder Truck",
-          "numbers": [
-            "315",
-            "325"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "312",
-            "324",
-            "326",
-            "333"
-          ]
-        },
-        {
-          "type": "Squad Unit",
-          "numbers": [
-            "331"
-          ]
-        },
-        {
-          "type": "Tower Truck",
-          "numbers": [
-            "333"
-          ]
-        }
-      ],
-      "respondingUnitCount": 11,
-      "firstSeenAt": "2026-09-25T19:05:34.492Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T19:16:26.313Z",
-      "lastSeenAt": "2026-09-25T20:34:58.165Z",
-      "geography": {
-        "text": "Cooperage Street between Front Street East & Palace Street",
-        "approximate": false,
-        "coordinates": [
-          43.6532126,
-          -79.3569349
-        ],
-        "division": "Division 51",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-25T19:11:19.532Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T18:54:35.271Z",
-      "sourceUpdatedAt": "2026-10-02T18:50:01.000Z",
+      "fetchedAt": "2026-10-02T18:56:30.280Z",
+      "sourceUpdatedAt": "2026-10-02T18:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T18:54:35.271Z",
+      "fetchedAt": "2026-10-02T18:56:30.280Z",
       "status": "ok"
     }
   },
@@ -361205,8 +361222,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-02T18:49:53.361Z",
-      "fetchedAt": "2026-10-02T18:49:53.361Z"
+      "checkedAt": "2026-10-02T18:56:30.280Z",
+      "fetchedAt": "2026-10-02T18:56:30.280Z"
     },
     "transit": {
       "items": [
@@ -363498,6 +363515,44 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
+          "id": "77369",
+          "title": "Yorkdale: Escalator 7S3E out of service from Yorkdale Service Rd entrance to Line 1 Centre platform while we perform maintenance. Escalator is expected to be back in service October 4, 2026.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "13837",
+            "13838"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "13837",
+              "coordinates": [
+                43.725248,
+                -79.447692
+              ],
+              "name": "Yorkdale Station - Northbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13838",
+              "coordinates": [
+                43.723948,
+                -79.447292
+              ],
+              "name": "Yorkdale Station - Southbound Platform"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1790969400000,
+              "end": 1791172740000
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
           "id": "77368",
           "title": "Kipling: Escalator 16B4E out of service from Line 2 platform to concourse due to a technical problem.",
           "description": "",
@@ -364932,16 +364987,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-02T18:49:54.000Z",
+      "sourceUpdatedAt": "2026-10-02T18:56:31.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-02T18:49:53.361Z",
-      "fetchedAt": "2026-10-02T18:49:53.361Z"
+      "checkedAt": "2026-10-02T18:56:30.280Z",
+      "fetchedAt": "2026-10-02T18:56:30.280Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T18:54:15.000Z",
+    "sourceUpdatedAt": "2026-10-02T18:56:13.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -364950,14 +365005,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T18:54:35.271Z",
-    "checkedAt": "2026-10-02T18:54:35.271Z",
+    "fetchedAt": "2026-10-02T18:56:30.280Z",
+    "checkedAt": "2026-10-02T18:56:30.280Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "unavailable",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
       "fetchedAt": "2026-10-02T18:52:14.471Z",
-      "checkedAt": "2026-10-02T18:54:35.271Z",
+      "checkedAt": "2026-10-02T18:56:30.280Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -364971,17 +365026,29 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
-    "M5R": {
-      "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
+    "M5J": {
+      "text": "Approximate area: (M5J) Downtown Toronto (Harbourfront East / Union Station / Toronto Island)",
       "approximate": true,
       "coordinates": [
-        43.6736,
-        -79.4035
+        43.623,
+        -79.3936
       ],
-      "division": "Division 53",
+      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "GOWAN AVE, EY / PAPE AVE / COSBURN AVE": {
+      "text": "Gowan Avenue between Pape Avenue & Cosburn Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.689532650000004,
+        -79.34556665
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-02T18:56:30.280Z"
     },
     "M5A": {
       "text": "Approximate area: (M5A) Toronto",
@@ -364991,6 +365058,18 @@
         -79.3626
       ],
       "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M5R": {
+      "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
+      "approximate": true,
+      "coordinates": [
+        43.6736,
+        -79.4035
+      ],
+      "division": "Division 53",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -367832,18 +367911,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-10-01T22:20:51.160Z"
-    },
-    "M5J": {
-      "text": "Approximate area: (M5J) Downtown Toronto (Harbourfront East / Union Station / Toronto Island)",
-      "approximate": true,
-      "coordinates": [
-        43.623,
-        -79.3936
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "MARKHAM RD, SC / ELLESMERE RD / TUXEDO CRT": {
       "text": "Markham Road between Ellesmere Road & Tuxedo Court",
@@ -378758,18 +378825,6 @@
         -79.52290295
       ],
       "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-25T19:11:19.532Z"
-    },
-    "COOPERAGE ST, TT / FRONT ST E / PALACE ST": {
-      "text": "Cooperage Street between Front Street East & Palace Street",
-      "approximate": false,
-      "coordinates": [
-        43.6532126,
-        -79.3569349
-      ],
-      "division": "Division 51",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T19:11:19.532Z"
