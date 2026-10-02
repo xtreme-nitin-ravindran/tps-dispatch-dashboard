@@ -60,5 +60,5 @@ test('opaque mobile surfaces resolve to readable light and dark theme pairs', ()
 
 test('the revised mobile stylesheet replaces the cached app-shell asset', () => {
   assert.match(html, /styles\.css\?v=story-30g-1/);
-  assert.match(serviceWorker, /CACHE_VERSION = "sirento-shell-v40"/);
+  assert.match(serviceWorker, /CACHE_VERSION = "sirento-shell-v41"/);
 });

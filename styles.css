@@ -1539,6 +1539,19 @@ footer {
     grid-template-columns: 90px 1fr;
   }
 
+  /* Mobile hides the redundant Police division / History labels; the select fills the row. */
+  .control-group.secondary-filter-control {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .control-group.secondary-filter-control > label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
   .event-filters {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
