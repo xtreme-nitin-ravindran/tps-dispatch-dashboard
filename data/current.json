@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T15:59:56.761Z",
-  "sourceUpdatedAt": "2026-10-02T15:55:01.000Z",
+  "fetchedAt": "2026-10-02T16:03:16.803Z",
+  "sourceUpdatedAt": "2026-10-02T16:00:01.000Z",
   "incidents": [
+    {
+      "id": "F26156647",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6E",
+      "division": "343",
+      "timestamp": "2026-10-02T15:54:22.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T16:03:16.803Z",
+      "lastSeenAt": "2026-10-02T16:03:16.803Z",
+      "geography": {
+        "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
+        "approximate": true,
+        "coordinates": [
+          43.6889,
+          -79.4507
+        ],
+        "division": "Division 13",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26156646",
       "source": "TFS",
@@ -16,9 +42,18 @@
       "timestamp": "2026-10-02T15:46:14.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "233"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T15:56:26.879Z",
-      "lastSeenAt": "2026-10-02T15:59:56.761Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T16:03:16.803Z",
+      "lastSeenAt": "2026-10-02T16:03:16.803Z",
       "geography": {
         "text": "Approximate area: (M3A) North York (York Heights / Victoria Village / Parkway East)",
         "approximate": true,
@@ -37,7 +72,7 @@
       "source": "TFS",
       "eventType": "fire",
       "description": "Alarm Single Source",
-      "location": "MASSEY SQ, EY / CRESCENT TOWN RD / CRESCENT TOWN RD",
+      "location": "CRESCENT TOWN RD, EY / MASSEY SQ / CRESCENT PL",
       "division": "226",
       "timestamp": "2026-10-02T15:44:51.000Z",
       "alarmLevel": 0,
@@ -52,22 +87,23 @@
         {
           "type": "Fire Truck",
           "numbers": [
-            "224"
+            "224",
+            "226"
           ]
         }
       ],
-      "respondingUnitCount": 2,
+      "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-02T15:50:58.300Z",
-      "lastMeaningfulUpdateAt": "2026-10-02T15:56:26.879Z",
-      "lastSeenAt": "2026-10-02T15:59:56.761Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T16:03:16.803Z",
+      "lastSeenAt": "2026-10-02T16:03:16.803Z",
       "geography": {
-        "text": "Approximate location on Massey Sq",
+        "text": "Approximate location on Crescent Town Road between Massey Sq & Crescent Place",
         "approximate": true,
         "coordinates": null,
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-10-02T15:50:58.300Z"
+        "checkedAt": "2026-10-02T16:03:16.803Z"
       }
     },
     {
@@ -92,7 +128,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T15:50:58.300Z",
       "lastMeaningfulUpdateAt": "2026-10-02T15:56:26.879Z",
-      "lastSeenAt": "2026-10-02T15:59:56.761Z",
+      "lastSeenAt": "2026-10-02T16:03:16.803Z",
       "geography": {
         "text": "Alexandra Boulevard between Yonge Street & Duplex Avenue",
         "approximate": false,
@@ -115,7 +151,7 @@
       "division": "121",
       "timestamp": "2026-10-02T15:42:46.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -162,7 +198,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T15:50:58.300Z",
       "lastMeaningfulUpdateAt": "2026-10-02T15:56:26.879Z",
-      "lastSeenAt": "2026-10-02T15:59:56.761Z",
+      "lastSeenAt": "2026-10-02T16:03:16.803Z",
       "geography": {
         "text": "Weston Road between Wilby Crescent & Bellevue Crescent",
         "approximate": false,
@@ -7161,7 +7197,7 @@
         "division": "Unknown",
         "version": 1,
         "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-10-02T15:01:05.463Z"
+        "checkedAt": "2026-10-02T16:03:16.803Z"
       }
     },
     {
@@ -221030,206 +221066,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-25T16:19:02.293Z"
-    },
-    {
-      "id": "TPS-31b4b360a2d6f3d6c00ff61e",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "SEE AMBULANCE",
-      "callTypeCode": "SEEAM",
-      "timestamp": "2026-09-25T16:02:23.000Z",
-      "location": "PHARMACY AVE - GOODERHAM DR",
-      "division": "Division 41",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "PHARMACY AVE - GOODERHAM DR",
-        "coordinates": [
-          43.74375203830712,
-          -79.30218758488657
-        ],
-        "division": "Division 41",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T16:19:02.293Z"
-    },
-    {
-      "id": "TPS-c09bfd75d570f9ba9b16443f",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "UNKNOWN TROUBLE",
-      "callTypeCode": "UNKTR",
-      "timestamp": "2026-09-25T16:02:01.000Z",
-      "location": "MONCLOVA RD - GIOVANNI CABOTO PARK TRL",
-      "division": "Division 31",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "MONCLOVA RD - GIOVANNI CABOTO PARK TRL",
-        "coordinates": [
-          43.727626458862574,
-          -79.50501055069175
-        ],
-        "division": "Division 31",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T16:19:02.293Z"
-    },
-    {
-      "id": "F26152177",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M9N",
-      "division": "442",
-      "timestamp": "2026-09-25T16:01:21.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "442"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-25T16:11:36.228Z",
-      "lastSeenAt": "2026-09-25T16:30:01.339Z",
-      "geography": {
-        "text": "Approximate area: (M9N) Weston",
-        "approximate": true,
-        "coordinates": [
-          43.7068,
-          -79.517
-        ],
-        "division": "Division 12",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "F26152176",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Vehicle - Personal Injury",
-      "location": "SHEPPARD AVE E / KENNEDY RD",
-      "division": "244",
-      "timestamp": "2026-09-25T16:01:09.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "244"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-25T16:11:36.228Z",
-      "lastSeenAt": "2026-09-25T16:20:01.262Z",
-      "geography": {
-        "text": "Sheppard Avenue East & Kennedy Road",
-        "approximate": false,
-        "coordinates": [
-          43.7832869,
-          -79.2882637
-        ],
-        "division": "Division 42",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-25T16:11:36.228Z"
-      }
-    },
-    {
-      "id": "F26152175",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M1B",
-      "division": "213",
-      "timestamp": "2026-09-25T16:01:00.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "213"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-25T16:11:36.228Z",
-      "lastSeenAt": "2026-09-25T16:24:51.627Z",
-      "geography": {
-        "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
-        "approximate": true,
-        "coordinates": [
-          43.8113,
-          -79.193
-        ],
-        "division": "Division 42",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "TPS-e7f0c64aa57ce2e8f7947cae",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "THEFT JUST OCCURRED",
-      "callTypeCode": "THEJU",
-      "timestamp": "2026-09-25T16:01:00.000Z",
-      "location": "HUMBER BAY PARK EAST TRL - MIMICO CREEK",
-      "division": "Division 22",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "HUMBER BAY PARK EAST TRL - MIMICO CREEK",
-        "coordinates": [
-          43.62296488969196,
-          -79.48120021595713
-        ],
-        "division": "Division 22",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T16:19:02.293Z"
-    },
-    {
-      "id": "TPS-51c4624b96841832efd37693",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "SEE AMBULANCE",
-      "callTypeCode": "SEEAM",
-      "timestamp": "2026-09-25T16:00:30.000Z",
-      "location": "HERONS HILL WAY - SHEPPARD AVE E",
-      "division": "Division 33",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "HERONS HILL WAY - SHEPPARD AVE E",
-        "coordinates": [
-          43.77439621829491,
-          -79.3371006622649
-        ],
-        "division": "Division 33",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T16:19:02.293Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T15:59:56.761Z",
-      "sourceUpdatedAt": "2026-10-02T15:55:01.000Z",
+      "fetchedAt": "2026-10-02T16:03:16.803Z",
+      "sourceUpdatedAt": "2026-10-02T16:00:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T15:59:56.761Z",
+      "fetchedAt": "2026-10-02T16:03:16.803Z",
       "status": "ok"
     }
   },
@@ -364078,7 +363924,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T15:59:57.000Z",
+    "sourceUpdatedAt": "2026-10-02T16:02:56.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -364087,14 +363933,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T15:59:56.761Z",
-    "checkedAt": "2026-10-02T15:59:56.761Z",
+    "fetchedAt": "2026-10-02T16:03:16.803Z",
+    "checkedAt": "2026-10-02T16:03:16.803Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T15:59:56.761Z",
-      "checkedAt": "2026-10-02T15:59:56.761Z",
+      "fetchedAt": "2026-10-02T16:03:16.803Z",
+      "checkedAt": "2026-10-02T16:03:16.803Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -364118,6 +363964,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6E": {
+      "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
+      "approximate": true,
+      "coordinates": [
+        43.6889,
+        -79.4507
+      ],
+      "division": "Division 13",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M3A": {
       "text": "Approximate area: (M3A) North York (York Heights / Victoria Village / Parkway East)",
       "approximate": true,
@@ -364130,14 +363988,14 @@
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
     },
-    "MASSEY SQ, EY / CRESCENT TOWN RD / CRESCENT TOWN RD": {
-      "text": "Approximate location on Massey Sq",
+    "CRESCENT TOWN RD, EY / MASSEY SQ / CRESCENT PL": {
+      "text": "Approximate location on Crescent Town Road between Massey Sq & Crescent Place",
       "approximate": true,
       "coordinates": null,
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-10-02T15:50:58.300Z"
+      "checkedAt": "2026-10-02T16:03:16.803Z"
     },
     "ALEXANDRA BLVD, TT / YONGE ST / DUPLEX AVE": {
       "text": "Alexandra Boulevard between Yonge Street & Duplex Avenue",
@@ -365217,7 +365075,7 @@
       "division": "Unknown",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-10-02T15:01:05.463Z"
+      "checkedAt": "2026-10-02T16:03:16.803Z"
     },
     "M1K": {
       "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
@@ -365290,18 +365148,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-10-02T10:30:42.344Z"
-    },
-    "M6E": {
-      "text": "Approximate area: (M6E) York (Fairbank / Oakwood)",
-      "approximate": true,
-      "coordinates": [
-        43.6889,
-        -79.4507
-      ],
-      "division": "Division 13",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "DRAYTON AVE, TT / HANSON ST / WOODROW AVE": {
       "text": "Drayton Avenue between Hanson Street & Woodrow Avenue",
@@ -377995,18 +377841,6 @@
         -79.4373082
       ],
       "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-25T16:11:36.228Z"
-    },
-    "SHEPPARD AVE E / KENNEDY RD": {
-      "text": "Sheppard Avenue East & Kennedy Road",
-      "approximate": false,
-      "coordinates": [
-        43.7832869,
-        -79.2882637
-      ],
-      "division": "Division 42",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-25T16:11:36.228Z"
