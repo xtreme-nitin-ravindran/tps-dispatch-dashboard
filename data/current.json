@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T06:00:04.796Z",
-  "sourceUpdatedAt": "2026-10-02T05:50:02.000Z",
+  "fetchedAt": "2026-10-02T06:02:21.717Z",
+  "sourceUpdatedAt": "2026-10-02T05:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26156419",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6G",
+      "division": "344",
+      "timestamp": "2026-10-02T05:45:53.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "345"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-02T06:02:21.717Z",
+      "lastSeenAt": "2026-10-02T06:02:21.717Z",
+      "geography": {
+        "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
+        "approximate": true,
+        "coordinates": [
+          43.6683,
+          -79.4205
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26156418",
       "source": "TFS",
@@ -27,7 +61,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T05:51:42.030Z",
-      "lastSeenAt": "2026-10-02T06:00:04.796Z",
+      "lastSeenAt": "2026-10-02T06:02:21.717Z",
       "geography": {
         "text": "Street George Street between Lowther Avenue & Bernard Avenue",
         "approximate": false,
@@ -874,7 +908,7 @@
       ],
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-10-02T04:35:40.024Z",
-      "lastSeenAt": "2026-10-02T06:00:04.796Z",
+      "lastSeenAt": "2026-10-02T06:02:21.717Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -220999,38 +221033,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "TPS-323fe2c67651a553424608f9",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "ASSAULT JUST OCCURRED",
-      "callTypeCode": "ASSJU",
-      "timestamp": "2026-09-25T06:01:31.000Z",
-      "location": "PAUL MARTEL PARK TRL - LOWTHER AVE",
-      "division": "Division 53",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "PAUL MARTEL PARK TRL - LOWTHER AVE",
-        "coordinates": [
-          43.66690400968224,
-          -79.40268993912223
-        ],
-        "division": "Division 53",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T06:13:56.976Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T06:00:04.796Z",
-      "sourceUpdatedAt": "2026-10-02T05:50:02.000Z",
+      "fetchedAt": "2026-10-02T06:02:21.717Z",
+      "sourceUpdatedAt": "2026-10-02T05:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T06:00:04.796Z",
+      "fetchedAt": "2026-10-02T06:02:21.717Z",
       "status": "ok"
     }
   },
@@ -360881,7 +360893,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T05:59:52.000Z",
+    "sourceUpdatedAt": "2026-10-02T06:01:44.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -360890,14 +360902,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T06:00:04.796Z",
-    "checkedAt": "2026-10-02T06:00:04.796Z",
+    "fetchedAt": "2026-10-02T06:02:21.717Z",
+    "checkedAt": "2026-10-02T06:02:21.717Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T06:00:04.796Z",
-      "checkedAt": "2026-10-02T06:00:04.796Z",
+      "fetchedAt": "2026-10-02T06:02:21.717Z",
+      "checkedAt": "2026-10-02T06:02:21.717Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -360921,6 +360933,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6G": {
+      "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
+      "approximate": true,
+      "coordinates": [
+        43.6683,
+        -79.4205
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "ST GEORGE ST, TT / LOWTHER AVE / BERNARD AVE": {
       "text": "Street George Street between Lowther Avenue & Bernard Avenue",
       "approximate": false,
@@ -361226,18 +361250,6 @@
         -79.18898975
       ],
       "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6G": {
-      "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
-      "approximate": true,
-      "coordinates": [
-        43.6683,
-        -79.4205
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
