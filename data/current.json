@@ -3,9 +3,77 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T01:50:07.078Z",
-  "sourceUpdatedAt": "2026-10-02T01:45:01.000Z",
+  "fetchedAt": "2026-10-02T01:52:27.201Z",
+  "sourceUpdatedAt": "2026-10-02T01:50:02.000Z",
   "incidents": [
+    {
+      "id": "F26156316",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M3M",
+      "division": "146",
+      "timestamp": "2026-10-02T01:45:09.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "146"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-02T01:52:27.201Z",
+      "lastSeenAt": "2026-10-02T01:52:27.201Z",
+      "geography": {
+        "text": "Approximate area: (M3M) Downsview Central",
+        "approximate": true,
+        "coordinates": [
+          43.7319,
+          -79.4928
+        ],
+        "division": "Division 31",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T18:26:37.398Z"
+      }
+    },
+    {
+      "id": "F26156315",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5R",
+      "division": "344",
+      "timestamp": "2026-10-02T01:44:36.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "344"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-02T01:52:27.201Z",
+      "lastSeenAt": "2026-10-02T01:52:27.201Z",
+      "geography": {
+        "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
+        "approximate": true,
+        "coordinates": [
+          43.6736,
+          -79.4035
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26156314",
       "source": "TFS",
@@ -16,9 +84,19 @@
       "timestamp": "2026-10-02T01:37:37.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "332",
+            "334"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T01:45:39.197Z",
-      "lastSeenAt": "2026-10-02T01:50:07.078Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T01:52:27.201Z",
+      "lastSeenAt": "2026-10-02T01:52:27.201Z",
       "geography": {
         "text": "Approximate location on Fire Station 334 Driveway Lane",
         "approximate": true,
@@ -28,6 +106,94 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-10-02T01:28:55.904Z"
       }
+    },
+    {
+      "id": "TPS-365da977c2a74e5911f8dd6f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT",
+      "callTypeCode": "ASS",
+      "timestamp": "2026-10-02T01:36:56.000Z",
+      "location": "LN N BLOOR W PAULINE - WALLACE AVE",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN N BLOOR W PAULINE - WALLACE AVE",
+        "coordinates": [
+          43.663393915592565,
+          -79.43928422192336
+        ],
+        "division": "Division 11",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T01:52:27.201Z"
+    },
+    {
+      "id": "TPS-bb13828844db2fdc1e791971",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING ELDERLY",
+      "callTypeCode": "MISEL",
+      "timestamp": "2026-10-02T01:36:27.000Z",
+      "location": "CHURCH ST - JARVIS ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CHURCH ST - JARVIS ST",
+        "coordinates": [
+          43.66736870647241,
+          -79.38162554982559
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T01:52:27.201Z"
+    },
+    {
+      "id": "TPS-2c90cd18abc8af3157a5409c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-10-02T01:35:43.000Z",
+      "location": "LAWRENCE AVE E - WARDEN AVE",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LAWRENCE AVE E - WARDEN AVE",
+        "coordinates": [
+          43.745372143718285,
+          -79.29471819616803
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T01:52:27.201Z"
+    },
+    {
+      "id": "TPS-7504f538ee382b30002ccd64",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSON WITH A KNIFE",
+      "callTypeCode": "PERKN",
+      "timestamp": "2026-10-02T01:35:20.000Z",
+      "location": "RICHMOND ST W - JACK COOPER LANE",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "RICHMOND ST W - JACK COOPER LANE",
+        "coordinates": [
+          43.64840308750672,
+          -79.39327793738313
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T01:52:27.201Z"
     },
     {
       "id": "F26156313",
@@ -50,7 +216,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T01:43:25.750Z",
       "lastMeaningfulUpdateAt": "2026-10-02T01:45:39.197Z",
-      "lastSeenAt": "2026-10-02T01:50:07.078Z",
+      "lastSeenAt": "2026-10-02T01:52:27.201Z",
       "geography": {
         "text": "Eglinton Avenue West & Martin Grove Road",
         "approximate": false,
@@ -85,7 +251,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T01:43:25.750Z",
       "lastMeaningfulUpdateAt": "2026-10-02T01:45:39.197Z",
-      "lastSeenAt": "2026-10-02T01:50:07.078Z",
+      "lastSeenAt": "2026-10-02T01:52:27.201Z",
       "geography": {
         "text": "Approximate area: (M6B) North York (Glencairn)",
         "approximate": true,
@@ -126,7 +292,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T01:43:25.750Z",
       "lastMeaningfulUpdateAt": "2026-10-02T01:45:39.197Z",
-      "lastSeenAt": "2026-10-02T01:50:07.078Z",
+      "lastSeenAt": "2026-10-02T01:52:27.201Z",
       "geography": {
         "text": "Gilder Drive between Midland Avenue & Eglinton Avenue East",
         "approximate": false,
@@ -141,6 +307,28 @@
       }
     },
     {
+      "id": "TPS-59a0456d1d0f164586286263",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-10-02T01:30:21.000Z",
+      "location": "DUNN AVE - WEST LODGE AVE",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DUNN AVE - WEST LODGE AVE",
+        "coordinates": [
+          43.64084008869154,
+          -79.43540502153037
+        ],
+        "division": "Division 11",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T01:52:27.201Z"
+    },
+    {
       "id": "F26156310",
       "source": "TFS",
       "eventType": "fire",
@@ -149,7 +337,7 @@
       "division": "325",
       "timestamp": "2026-10-02T01:29:21.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Tower Truck",
@@ -277,6 +465,50 @@
       }
     },
     {
+      "id": "TPS-c77b17227ca0035a288dfd6a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-10-02T01:24:12.000Z",
+      "location": "CURZON ST - LESLIE ST",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CURZON ST - LESLIE ST",
+        "coordinates": [
+          43.66298874609436,
+          -79.33140459866242
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T01:52:27.201Z"
+    },
+    {
+      "id": "TPS-496994a0ee643bc30a263495",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-10-02T01:23:04.000Z",
+      "location": "AVENUE RD - GLENCAIRN AVE",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "AVENUE RD - GLENCAIRN AVE",
+        "coordinates": [
+          43.71600937333934,
+          -79.4123115209138
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T01:52:27.201Z"
+    },
+    {
       "id": "F26156307",
       "source": "TFS",
       "eventType": "fire",
@@ -398,7 +630,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T01:26:45.710Z",
       "lastMeaningfulUpdateAt": "2026-10-02T01:31:09.552Z",
-      "lastSeenAt": "2026-10-02T01:50:07.078Z",
+      "lastSeenAt": "2026-10-02T01:52:27.201Z",
       "geography": {
         "text": "Approximate area: (M4N) Central Toronto (Lawrence Park East)",
         "approximate": true,
@@ -490,7 +722,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T01:26:45.710Z",
       "lastMeaningfulUpdateAt": "2026-10-02T01:31:09.552Z",
-      "lastSeenAt": "2026-10-02T01:50:07.078Z",
+      "lastSeenAt": "2026-10-02T01:52:27.201Z",
       "geography": {
         "text": "Approximate location on Scarlett Road",
         "approximate": true,
@@ -694,7 +926,7 @@
       "division": "426",
       "timestamp": "2026-10-02T01:08:53.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -741,7 +973,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T01:15:44.429Z",
       "lastMeaningfulUpdateAt": "2026-10-02T01:22:18.325Z",
-      "lastSeenAt": "2026-10-02T01:50:07.078Z",
+      "lastSeenAt": "2026-10-02T01:52:27.201Z",
       "geography": {
         "text": "Marlee Avenue & Lawrence Avenue West",
         "approximate": false,
@@ -839,7 +1071,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T01:11:16.557Z",
       "lastMeaningfulUpdateAt": "2026-10-02T01:22:18.325Z",
-      "lastSeenAt": "2026-10-02T01:50:07.078Z",
+      "lastSeenAt": "2026-10-02T01:52:27.201Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -938,7 +1170,7 @@
       "division": "142",
       "timestamp": "2026-10-02T01:02:04.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -221269,118 +221501,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-25T02:11:20.918Z"
-    },
-    {
-      "id": "F26151862",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M3J",
-      "division": "141",
-      "timestamp": "2026-09-25T01:52:23.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "141"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-25T02:01:47.451Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T02:09:41.295Z",
-      "lastSeenAt": "2026-09-25T02:30:42.129Z",
-      "geography": {
-        "text": "Approximate area: (M3J) North York (Northwood Park / York University)",
-        "approximate": true,
-        "coordinates": [
-          43.7694,
-          -79.4921
-        ],
-        "division": "Division 31",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-21T22:01:19.951Z"
-      }
-    },
-    {
-      "id": "F26151861",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M1V",
-      "division": "242",
-      "timestamp": "2026-09-25T01:51:01.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Aerial Truck",
-          "numbers": [
-            "242"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-25T02:01:47.451Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T02:09:41.295Z",
-      "lastSeenAt": "2026-09-25T02:44:37.647Z",
-      "geography": {
-        "text": "Approximate area: (M1V) Scarborough (Milliken / Agincourt North / Steeles East / L'Amoreaux East)",
-        "approximate": true,
-        "coordinates": [
-          43.8177,
-          -79.2819
-        ],
-        "division": "Division 42",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "F26151860",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M6C",
-      "division": "341",
-      "timestamp": "2026-09-25T01:50:14.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "135"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-25T01:56:11.112Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T02:09:41.295Z",
-      "lastSeenAt": "2026-09-25T02:49:52.401Z",
-      "geography": {
-        "text": "Approximate area: (M6C) York (Cedarvale)",
-        "approximate": true,
-        "coordinates": [
-          43.6915,
-          -79.4307
-        ],
-        "division": "Division 13",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T01:50:07.078Z",
-      "sourceUpdatedAt": "2026-10-02T01:45:01.000Z",
+      "fetchedAt": "2026-10-02T01:52:27.201Z",
+      "sourceUpdatedAt": "2026-10-02T01:50:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T01:50:07.078Z",
+      "fetchedAt": "2026-10-02T01:52:27.201Z",
       "status": "ok"
     }
   },
@@ -361645,7 +361775,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T01:49:59.000Z",
+    "sourceUpdatedAt": "2026-10-02T01:52:05.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -361654,14 +361784,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T01:50:07.078Z",
-    "checkedAt": "2026-10-02T01:50:07.078Z",
+    "fetchedAt": "2026-10-02T01:52:27.201Z",
+    "checkedAt": "2026-10-02T01:52:27.201Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T01:50:07.078Z",
-      "checkedAt": "2026-10-02T01:50:07.078Z",
+      "fetchedAt": "2026-10-02T01:52:27.201Z",
+      "checkedAt": "2026-10-02T01:52:27.201Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -361685,6 +361815,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M3M": {
+      "text": "Approximate area: (M3M) Downsview Central",
+      "approximate": true,
+      "coordinates": [
+        43.7319,
+        -79.4928
+      ],
+      "division": "Division 31",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T18:26:37.398Z"
+    },
+    "M5R": {
+      "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
+      "approximate": true,
+      "coordinates": [
+        43.6736,
+        -79.4035
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "FIRE STATION 334 DRIVEWAY LANE / LOWER SPADINA AVE": {
       "text": "Approximate location on Fire Station 334 Driveway Lane",
       "approximate": true,
@@ -361984,18 +362138,6 @@
         -79.3538
       ],
       "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5R": {
-      "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
-      "approximate": true,
-      "coordinates": [
-        43.6736,
-        -79.4035
-      ],
-      "division": "Division 53",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -363058,18 +363200,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-10-01T21:40:51.802Z"
-    },
-    "M3M": {
-      "text": "Approximate area: (M3M) Downsview Central",
-      "approximate": true,
-      "coordinates": [
-        43.7319,
-        -79.4928
-      ],
-      "division": "Division 31",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T18:26:37.398Z"
     },
     "O'CONNOR DR, EY / DONLANDS AVE / LN E DONLANDS S O CONNOR": {
       "text": "O'connor Drive between Donlands Avenue & Lane East Donlands South O Connor",
