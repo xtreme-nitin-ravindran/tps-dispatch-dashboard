@@ -3,9 +3,83 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T03:08:57.921Z",
-  "sourceUpdatedAt": "2026-10-02T03:05:01.000Z",
+  "fetchedAt": "2026-10-02T03:11:20.316Z",
+  "sourceUpdatedAt": "2026-10-02T03:10:01.000Z",
   "incidents": [
+    {
+      "id": "F26156363",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "DONLANDS AVE / DANFORTH AVE",
+      "division": "323",
+      "timestamp": "2026-10-02T03:04:46.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T03:11:20.316Z",
+      "lastSeenAt": "2026-10-02T03:11:20.316Z",
+      "geography": {
+        "text": "Donlands Avenue & Danforth Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.6804155,
+          -79.3372896
+        ],
+        "division": "Division 55",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-28T18:16:47.281Z"
+      }
+    },
+    {
+      "id": "TPS-499d69d67a34ea923f4c1807",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-10-02T03:01:39.000Z",
+      "location": "DENISON RD E - ARTHUR ST",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DENISON RD E - ARTHUR ST",
+        "coordinates": [
+          43.69624396779389,
+          -79.50817876125117
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T03:11:20.316Z"
+    },
+    {
+      "id": "F26156360",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M4X",
+      "division": "313",
+      "timestamp": "2026-10-02T03:00:35.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T03:11:20.316Z",
+      "lastSeenAt": "2026-10-02T03:11:20.316Z",
+      "geography": {
+        "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
+        "approximate": true,
+        "coordinates": [
+          43.6684,
+          -79.3689
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26156358",
       "source": "TFS",
@@ -16,9 +90,18 @@
       "timestamp": "2026-10-02T02:59:56.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "442"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:06:10.734Z",
-      "lastSeenAt": "2026-10-02T03:08:57.921Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T03:11:20.316Z",
+      "lastSeenAt": "2026-10-02T03:11:20.316Z",
       "geography": {
         "text": "Approximate area: (M9P) Etobicoke (Westmount)",
         "approximate": true,
@@ -42,9 +125,18 @@
       "timestamp": "2026-10-02T02:59:46.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "241"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:06:10.734Z",
-      "lastSeenAt": "2026-10-02T03:08:57.921Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T03:11:20.316Z",
+      "lastSeenAt": "2026-10-02T03:11:20.316Z",
       "geography": {
         "text": "Approximate area: (M1W) Scarborough (Steeles West / L'Amoreaux West)",
         "approximate": true,
@@ -59,6 +151,28 @@
       }
     },
     {
+      "id": "TPS-f8b7e216cad9db505f54aef7",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-10-02T02:59:36.000Z",
+      "location": "ACACIA RD - JUNE ROWLANDS PARK TRL",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ACACIA RD - JUNE ROWLANDS PARK TRL",
+        "coordinates": [
+          43.701154234387616,
+          -79.38990396427914
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T03:11:20.316Z"
+    },
+    {
       "id": "F26156357",
       "source": "TFS",
       "eventType": "fire",
@@ -68,9 +182,31 @@
       "timestamp": "2026-10-02T02:58:23.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "33"
+          ]
+        },
+        {
+          "type": "Hazmat Unit",
+          "numbers": [
+            "323"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "333",
+            "433"
+          ]
+        }
+      ],
+      "respondingUnitCount": 4,
       "firstSeenAt": "2026-10-02T03:06:10.734Z",
-      "lastSeenAt": "2026-10-02T03:08:57.921Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T03:11:20.316Z",
+      "lastSeenAt": "2026-10-02T03:11:20.316Z",
       "geography": {
         "text": "Colborne Street between Yonge Street & Victoria Street",
         "approximate": false,
@@ -94,9 +230,18 @@
       "timestamp": "2026-10-02T02:56:55.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "232"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:06:10.734Z",
-      "lastSeenAt": "2026-10-02T03:08:57.921Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T03:11:20.316Z",
+      "lastSeenAt": "2026-10-02T03:11:20.316Z",
       "geography": {
         "text": "Approximate area: (M1K) Scarborough (Kennedy Park / Ionview / East Birchmount Park)",
         "approximate": true,
@@ -120,9 +265,18 @@
       "timestamp": "2026-10-02T02:56:01.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "426"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:06:10.734Z",
-      "lastSeenAt": "2026-10-02T03:08:57.921Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T03:11:20.316Z",
+      "lastSeenAt": "2026-10-02T03:11:20.316Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -137,6 +291,28 @@
       }
     },
     {
+      "id": "TPS-1c7e01b95d98ab8ef9f571d3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-10-02T02:56:00.000Z",
+      "location": "RUNNYMEDE RD - CASTLETON AVE",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "RUNNYMEDE RD - CASTLETON AVE",
+        "coordinates": [
+          43.669991843407445,
+          -79.4839540118213
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T03:11:20.316Z"
+    },
+    {
       "id": "F26156354",
       "source": "TFS",
       "eventType": "fire",
@@ -146,9 +322,18 @@
       "timestamp": "2026-10-02T02:55:34.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "224"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:06:10.734Z",
-      "lastSeenAt": "2026-10-02T03:08:57.921Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T03:11:20.316Z",
+      "lastSeenAt": "2026-10-02T03:11:20.316Z",
       "geography": {
         "text": "Approximate area: (M4C) East York (Woodbine Heights)",
         "approximate": true,
@@ -161,6 +346,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-636472f9a7a8a1517ae2100f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-10-02T02:53:25.000Z",
+      "location": "MILNER AVE - AUTO MALL DR",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MILNER AVE - AUTO MALL DR",
+        "coordinates": [
+          43.802996993662916,
+          -79.189620577262
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T03:11:20.316Z"
+    },
+    {
+      "id": "TPS-b3299b706e3951806b27b1e8",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FAIL TO REMAIN PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "FTRPD",
+      "timestamp": "2026-10-02T02:50:25.000Z",
+      "location": "DENISON RD E - ARTHUR ST",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DENISON RD E - ARTHUR ST",
+        "coordinates": [
+          43.69624396779389,
+          -79.50817876125117
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T03:11:20.316Z"
     },
     {
       "id": "F26156353",
@@ -182,7 +411,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:06:10.734Z",
-      "lastSeenAt": "2026-10-02T03:08:57.921Z",
+      "lastSeenAt": "2026-10-02T03:11:20.316Z",
       "geography": {
         "text": "Approximate area: (M6B) North York (Glencairn)",
         "approximate": true,
@@ -195,6 +424,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-737e43488428e26f542c20fe",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HOLDING LOST ELDERLY",
+      "callTypeCode": "LOSEL",
+      "timestamp": "2026-10-02T02:48:58.000Z",
+      "location": "KERN RD - YORK MILLS RD",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KERN RD - YORK MILLS RD",
+        "coordinates": [
+          43.751793007230766,
+          -79.34955554268718
+        ],
+        "division": "Division 33",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T03:11:20.316Z"
+    },
+    {
+      "id": "TPS-c2e1ff948f311ca24d0bcb2c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT IN PROGRESS",
+      "callTypeCode": "ASSPR",
+      "timestamp": "2026-10-02T02:48:22.000Z",
+      "location": "LN 2 S DANFORTH W LUTTRELL - LN 1 S DANFORTH E TRENT",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN 2 S DANFORTH W LUTTRELL - LN 1 S DANFORTH E TRENT",
+        "coordinates": [
+          43.689721823944126,
+          -79.29494105649931
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T03:11:20.316Z"
     },
     {
       "id": "TPS-7799fb2d835b8889cc0f658c",
@@ -219,6 +492,28 @@
       "firstSeenAt": "2026-10-02T03:06:10.734Z"
     },
     {
+      "id": "TPS-70a5a0de879b69e2b98d1bbd",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-10-02T02:47:05.000Z",
+      "location": "WESTMORE DR - ALBION W 27 N RAMP",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WESTMORE DR - ALBION W 27 N RAMP",
+        "coordinates": [
+          43.74363175999314,
+          -79.60390506513085
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T03:11:20.316Z"
+    },
+    {
       "id": "F26156352",
       "source": "TFS",
       "eventType": "fire",
@@ -227,7 +522,7 @@
       "division": "221",
       "timestamp": "2026-10-02T02:44:40.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -305,7 +600,7 @@
       "division": "122",
       "timestamp": "2026-10-02T02:40:26.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -378,7 +673,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:06:10.734Z",
-      "lastSeenAt": "2026-10-02T03:08:57.921Z",
+      "lastSeenAt": "2026-10-02T03:11:20.316Z",
       "geography": {
         "text": "Approximate area: (M5P) Central Toronto (Forest Hill North & West)",
         "approximate": true,
@@ -401,7 +696,7 @@
       "division": "221",
       "timestamp": "2026-10-02T02:39:04.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -578,7 +873,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:06:10.734Z",
-      "lastSeenAt": "2026-10-02T03:08:57.921Z",
+      "lastSeenAt": "2026-10-02T03:11:20.316Z",
       "geography": {
         "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
         "approximate": true,
@@ -612,7 +907,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T03:06:10.734Z",
-      "lastSeenAt": "2026-10-02T03:08:57.921Z",
+      "lastSeenAt": "2026-10-02T03:11:20.316Z",
       "geography": {
         "text": "Approximate area: (M4J) East Toronto (The Danforth East)",
         "approximate": true,
@@ -220805,116 +221100,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "TPS-0332dcfd71abe5eeea6d88a8",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "THEFT",
-      "callTypeCode": "THE",
-      "timestamp": "2026-09-25T03:10:31.000Z",
-      "location": "SPRUCE ST - DOCTOR O LANE",
-      "division": "Division 51",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "SPRUCE ST - DOCTOR O LANE",
-        "coordinates": [
-          43.663201702305415,
-          -79.36752735760204
-        ],
-        "division": "Division 51",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T03:31:34.210Z"
-    },
-    {
-      "id": "F26151902",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M2R",
-      "division": "112",
-      "timestamp": "2026-09-25T03:10:05.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "112"
-          ]
-        }
-      ],
-      "firstSeenAt": "2026-09-25T03:15:39.818Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T03:21:28.981Z",
-      "lastSeenAt": "2026-09-25T03:25:13.517Z",
-      "geography": {
-        "text": "Approximate area: (M2R) Willowdale West",
-        "approximate": true,
-        "coordinates": [
-          43.7786,
-          -79.445
-        ],
-        "division": "Division 32",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "TPS-a1446eb22f240f26b0a695d9",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "IMPAIRED DRIVER",
-      "callTypeCode": "IMPDR",
-      "timestamp": "2026-09-25T03:10:02.000Z",
-      "location": "TANGIERS RD - KEELE ST",
-      "division": "Division 31",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "TANGIERS RD - KEELE ST",
-        "coordinates": [
-          43.76408215220628,
-          -79.48826730101463
-        ],
-        "division": "Division 31",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T03:31:34.210Z"
-    },
-    {
-      "id": "TPS-3de929dc44cf3c318197f7b0",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISPUTE",
-      "callTypeCode": "DISPU",
-      "timestamp": "2026-09-25T03:09:54.000Z",
-      "location": "BELTLINE TRL - CHAPLIN CRES",
-      "division": "Division 53",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "BELTLINE TRL - CHAPLIN CRES",
-        "coordinates": [
-          43.69877350961021,
-          -79.40610413897552
-        ],
-        "division": "Division 53",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T03:31:34.210Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T03:08:57.921Z",
-      "sourceUpdatedAt": "2026-10-02T03:05:01.000Z",
+      "fetchedAt": "2026-10-02T03:11:20.316Z",
+      "sourceUpdatedAt": "2026-10-02T03:10:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T03:08:57.921Z",
+      "fetchedAt": "2026-10-02T03:11:20.316Z",
       "status": "ok"
     }
   },
@@ -357832,8 +358027,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-02T03:06:10.734Z",
-      "fetchedAt": "2026-10-02T03:06:10.734Z"
+      "checkedAt": "2026-10-02T03:11:20.316Z",
+      "fetchedAt": "2026-10-02T03:11:20.316Z"
     },
     "transit": {
       "items": [
@@ -359931,82 +360126,6 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         },
         {
-          "id": "77307",
-          "title": "St Andrew: Escalator 6Y2E out of service from concourse to Line 1 platform while we perform maintenance.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "stopIds": [
-            "13817",
-            "13818"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": null,
-              "stopId": "13817",
-              "coordinates": [
-                43.648249,
-                -79.385088
-              ],
-              "name": "St Andrew Station - Northbound Platform"
-            },
-            {
-              "routeId": null,
-              "stopId": "13818",
-              "coordinates": [
-                43.647049,
-                -79.384488
-              ],
-              "name": "St Andrew Station - Southbound Platform"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790892964000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "77305",
-          "title": "Dundas West: Escalator 8B2E out of service from Line 2 Kennedy platform to concourse due to an investigation.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "stopIds": [
-            "13769",
-            "13770"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": null,
-              "stopId": "13769",
-              "coordinates": [
-                43.657449,
-                -79.451091
-              ],
-              "name": "Dundas West Station - Eastbound Platform"
-            },
-            {
-              "routeId": null,
-              "stopId": "13770",
-              "coordinates": [
-                43.657149,
-                -79.452791
-              ],
-              "name": "Dundas West Station - Westbound Platform"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790892318000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
           "id": "77300",
           "title": "Laird: Escalator 3 out of service between concourse and service level (landing) due to a technical problem.",
           "description": "",
@@ -360039,44 +360158,6 @@
           "periods": [
             {
               "start": 1790891780000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "77293",
-          "title": "Sherbourne: Escalator 4D1E out of service from concourse to Sherbourne St entrance due to an investigation.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "stopIds": [
-            "13753",
-            "13754"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": null,
-              "stopId": "13753",
-              "coordinates": [
-                43.672103,
-                -79.376162
-              ],
-              "name": "Sherbourne Station - Eastbound Platform"
-            },
-            {
-              "routeId": null,
-              "stopId": "13754",
-              "coordinates": [
-                43.672174,
-                -79.376173
-              ],
-              "name": "Sherbourne Station - Westbound Platform"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790883054000,
               "end": null
             }
           ],
@@ -360183,64 +360264,6 @@
           "periods": [
             {
               "start": 1790873231000,
-              "end": null
-            }
-          ],
-          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
-        },
-        {
-          "id": "77273",
-          "title": "Finch West: Escalator 11S8E out of service from Keele St east side entrance and bus platform to concourse due to a technical problem.",
-          "description": "",
-          "effect": "ACCESSIBILITY ISSUE",
-          "routes": [],
-          "stopIds": [
-            "15659",
-            "15658",
-            "16323",
-            "16324"
-          ],
-          "affectedEntities": [
-            {
-              "routeId": null,
-              "stopId": "15659",
-              "coordinates": [
-                43.764855,
-                -79.491118
-              ],
-              "name": "Finch West Station - Northbound Platform"
-            },
-            {
-              "routeId": null,
-              "stopId": "15658",
-              "coordinates": [
-                43.764855,
-                -79.491118
-              ],
-              "name": "Finch West Station - Southbound Platform"
-            },
-            {
-              "routeId": null,
-              "stopId": "16323",
-              "coordinates": [
-                43.763147,
-                -79.490703
-              ],
-              "name": "Finch West Station LRT Platform"
-            },
-            {
-              "routeId": null,
-              "stopId": "16324",
-              "coordinates": [
-                43.76334,
-                -79.490789
-              ],
-              "name": "Finch West Station LRT Platform"
-            }
-          ],
-          "periods": [
-            {
-              "start": 1790865745000,
               "end": null
             }
           ],
@@ -360896,16 +360919,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-02T03:06:11.000Z",
+      "sourceUpdatedAt": "2026-10-02T03:11:21.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-02T03:06:10.734Z",
-      "fetchedAt": "2026-10-02T03:06:10.734Z"
+      "checkedAt": "2026-10-02T03:11:20.316Z",
+      "fetchedAt": "2026-10-02T03:11:20.316Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T03:08:33.000Z",
+    "sourceUpdatedAt": "2026-10-02T03:11:04.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -360914,14 +360937,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T03:08:57.921Z",
-    "checkedAt": "2026-10-02T03:08:57.921Z",
+    "fetchedAt": "2026-10-02T03:11:20.316Z",
+    "checkedAt": "2026-10-02T03:11:20.316Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T03:08:57.921Z",
-      "checkedAt": "2026-10-02T03:08:57.921Z",
+      "fetchedAt": "2026-10-02T03:11:20.316Z",
+      "checkedAt": "2026-10-02T03:11:20.316Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -360945,6 +360968,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "DONLANDS AVE / DANFORTH AVE": {
+      "text": "Donlands Avenue & Danforth Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.6804155,
+        -79.3372896
+      ],
+      "division": "Division 55",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-28T18:16:47.281Z"
+    },
+    "M4X": {
+      "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
+      "approximate": true,
+      "coordinates": [
+        43.6684,
+        -79.3689
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M9P": {
       "text": "Approximate area: (M9P) Etobicoke (Westmount)",
       "approximate": true,
@@ -361655,18 +361702,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-24T03:54:39.735Z"
-    },
-    "M4X": {
-      "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
-      "approximate": true,
-      "coordinates": [
-        43.6684,
-        -79.3689
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "EGLINTON AVE, TT / OLD FOREST HILL RD / BATHURST ST": {
       "text": "Eglinton Avenue between Old Forest Hill Road & Bathurst Street",
@@ -368774,18 +368809,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-28T18:30:43.914Z"
-    },
-    "DONLANDS AVE / DANFORTH AVE": {
-      "text": "Donlands Avenue & Danforth Avenue",
-      "approximate": false,
-      "coordinates": [
-        43.6804155,
-        -79.3372896
-      ],
-      "division": "Division 55",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-28T18:16:47.281Z"
     },
     "ALBANY AVE, TT / SEATON PARK TRL / BARTON AVE": {
       "text": "Approximate location near Albany Avenue & Seaton Park Trl",
