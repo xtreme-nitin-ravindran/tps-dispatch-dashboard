@@ -1016,7 +1016,8 @@ function renderNearbySummary() {
         origin: state.nearby,
         matchingCalls: callsMatchingNonGeographicFilters(),
         datasetIsEmpty: !state.calls.length,
-        coordinatesForCall
+        coordinatesForCall,
+        hours: state.hours
       })
     : null;
   const summaryText = empty?.message
