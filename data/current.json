@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T09:44:59.806Z",
-  "sourceUpdatedAt": "2026-10-02T09:40:01.000Z",
+  "fetchedAt": "2026-10-02T09:47:30.470Z",
+  "sourceUpdatedAt": "2026-10-02T09:45:01.000Z",
   "incidents": [
+    {
+      "id": "F26156483",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1L",
+      "division": "222",
+      "timestamp": "2026-10-02T09:36:37.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T09:47:30.470Z",
+      "lastSeenAt": "2026-10-02T09:47:30.470Z",
+      "geography": {
+        "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
+        "approximate": true,
+        "coordinates": [
+          43.7122,
+          -79.2843
+        ],
+        "division": "Division 41",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26156482",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6J",
+      "division": "331",
+      "timestamp": "2026-10-02T09:36:33.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T09:47:30.470Z",
+      "lastSeenAt": "2026-10-02T09:47:30.470Z",
+      "geography": {
+        "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+        "approximate": true,
+        "coordinates": [
+          43.648,
+          -79.4177
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26156481",
       "source": "TFS",
@@ -16,9 +68,24 @@
       "timestamp": "2026-10-02T09:30:18.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "215"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "234"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T09:42:51.821Z",
-      "lastSeenAt": "2026-10-02T09:44:59.806Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T09:47:30.470Z",
+      "lastSeenAt": "2026-10-02T09:47:30.470Z",
       "geography": {
         "text": "Lawrence Avenue between Morningside Avenue & Collinsgrove Road",
         "approximate": false,
@@ -201,7 +268,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T09:16:38.881Z",
       "lastMeaningfulUpdateAt": "2026-10-02T09:21:16.145Z",
-      "lastSeenAt": "2026-10-02T09:44:59.806Z",
+      "lastSeenAt": "2026-10-02T09:47:30.470Z",
       "geography": {
         "text": "Approximate location near Burnhamthorpe Crescent & Dundas Street West",
         "approximate": true,
@@ -220544,51 +220611,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26152017",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M4S",
-      "division": "134",
-      "timestamp": "2026-09-25T09:47:07.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "134"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-25T09:55:44.267Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T10:00:27.385Z",
-      "lastSeenAt": "2026-09-25T10:15:24.422Z",
-      "geography": {
-        "text": "Approximate area: (M4S) Central Toronto (Davisville)",
-        "approximate": true,
-        "coordinates": [
-          43.702,
-          -79.3853
-        ],
-        "division": "Division 53",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T09:44:59.806Z",
-      "sourceUpdatedAt": "2026-10-02T09:40:01.000Z",
+      "fetchedAt": "2026-10-02T09:47:30.470Z",
+      "sourceUpdatedAt": "2026-10-02T09:45:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T09:44:59.806Z",
+      "fetchedAt": "2026-10-02T09:47:30.470Z",
       "status": "ok"
     }
   },
@@ -358531,7 +358563,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T09:45:01.000Z",
+    "sourceUpdatedAt": "2026-10-02T09:46:58.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -358540,14 +358572,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T09:44:59.806Z",
-    "checkedAt": "2026-10-02T09:44:59.806Z",
+    "fetchedAt": "2026-10-02T09:47:30.470Z",
+    "checkedAt": "2026-10-02T09:47:30.470Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T09:44:59.806Z",
-      "checkedAt": "2026-10-02T09:44:59.806Z",
+      "fetchedAt": "2026-10-02T09:47:30.470Z",
+      "checkedAt": "2026-10-02T09:47:30.470Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -358571,6 +358603,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1L": {
+      "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
+      "approximate": true,
+      "coordinates": [
+        43.7122,
+        -79.2843
+      ],
+      "division": "Division 41",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M6J": {
+      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
+      "approximate": true,
+      "coordinates": [
+        43.648,
+        -79.4177
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "LAWRENCE AVE, SC / MORNINGSIDE AVE / COLLINSGROVE RD": {
       "text": "Lawrence Avenue between Morningside Avenue & Collinsgrove Road",
       "approximate": false,
@@ -358807,18 +358863,6 @@
         -79.5767
       ],
       "division": "Division 22",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6J": {
-      "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
-      "approximate": true,
-      "coordinates": [
-        43.648,
-        -79.4177
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -360607,18 +360651,6 @@
         -79.2389
       ],
       "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1L": {
-      "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
-      "approximate": true,
-      "coordinates": [
-        43.7122,
-        -79.2843
-      ],
-      "division": "Division 41",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
