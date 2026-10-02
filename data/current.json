@@ -3,9 +3,65 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T14:30:08.776Z",
-  "sourceUpdatedAt": "2026-10-02T14:25:02.000Z",
+  "fetchedAt": "2026-10-02T14:32:57.105Z",
+  "sourceUpdatedAt": "2026-10-02T14:30:01.000Z",
   "incidents": [
+    {
+      "id": "F26156602",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "WARDEN AVE / STEELES AVE E",
+      "division": "241",
+      "timestamp": "2026-10-02T14:24:43.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "242"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-02T14:32:57.105Z",
+      "lastSeenAt": "2026-10-02T14:32:57.105Z",
+      "geography": {
+        "text": "Warden Avenue & Steeles Avenue East",
+        "approximate": false,
+        "coordinates": [
+          43.8196436,
+          -79.3244836
+        ],
+        "division": "Division 42",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-02T14:32:57.105Z"
+      }
+    },
+    {
+      "id": "TPS-976b728f94592373c25ab140",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT",
+      "callTypeCode": "ASS",
+      "timestamp": "2026-10-02T14:24:09.000Z",
+      "location": "HONITON ST - WILSON HEIGHTS BLVD",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HONITON ST - WILSON HEIGHTS BLVD",
+        "coordinates": [
+          43.757455850656605,
+          -79.46179674367717
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T14:32:57.105Z"
+    },
     {
       "id": "F26156601",
       "source": "TFS",
@@ -41,6 +97,7 @@
         {
           "type": "Fire Truck",
           "numbers": [
+            "311",
             "312",
             "315",
             "344",
@@ -54,9 +111,10 @@
           ]
         }
       ],
-      "respondingUnitCount": 11,
+      "respondingUnitCount": 12,
       "firstSeenAt": "2026-10-02T14:27:25.215Z",
-      "lastSeenAt": "2026-10-02T14:30:08.776Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T14:32:57.105Z",
+      "lastSeenAt": "2026-10-02T14:32:57.105Z",
       "geography": {
         "text": "Spadina Road between Kendal Avenue & Bernard Avenue",
         "approximate": false,
@@ -91,7 +149,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T14:27:25.215Z",
-      "lastSeenAt": "2026-10-02T14:30:08.776Z",
+      "lastSeenAt": "2026-10-02T14:32:57.105Z",
       "geography": {
         "text": "Eagle Point Road between Crowfoot Place & Huntsmill Boulevard",
         "approximate": false,
@@ -104,6 +162,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-10-02T14:27:25.215Z"
       }
+    },
+    {
+      "id": "TPS-1900c392c94657527eb7e629",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-10-02T14:17:20.000Z",
+      "location": "WARDEN AVE - STEELES AVE E",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WARDEN AVE - STEELES AVE E",
+        "coordinates": [
+          43.81964596143489,
+          -79.32447129985282
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T14:32:57.105Z"
     },
     {
       "id": "F26156599",
@@ -131,7 +211,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T14:27:25.215Z",
-      "lastSeenAt": "2026-10-02T14:30:08.776Z",
+      "lastSeenAt": "2026-10-02T14:32:57.105Z",
       "geography": {
         "text": "Approximate area: (M9B) Etobicoke (West Deane Park / Princess Gardens / Martin Grove / Islington / Cloverdale)",
         "approximate": true,
@@ -146,6 +226,28 @@
       }
     },
     {
+      "id": "TPS-3f47fbd73dd21bf65adc132e",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HOLDUP ALARM",
+      "callTypeCode": "HOLAL",
+      "timestamp": "2026-10-02T14:15:32.000Z",
+      "location": "RUMIKE RD - ARDWICK BLVD",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "RUMIKE RD - ARDWICK BLVD",
+        "coordinates": [
+          43.74994878325985,
+          -79.5522637891285
+        ],
+        "division": "Division 31",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T14:32:57.105Z"
+    },
+    {
       "id": "F26156598",
       "source": "TFS",
       "eventType": "fire",
@@ -154,7 +256,7 @@
       "division": "243",
       "timestamp": "2026-10-02T14:14:20.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -178,6 +280,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-f9185721fb5cda50cd09aede",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-10-02T14:12:41.000Z",
+      "location": "BIRCHMOUNT RD - BERTRAND AVE",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BIRCHMOUNT RD - BERTRAND AVE",
+        "coordinates": [
+          43.73523366354255,
+          -79.27985330145286
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T14:32:57.105Z"
+    },
+    {
+      "id": "TPS-bcfcab5ea89d66b51651f299",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-10-02T14:11:17.000Z",
+      "location": "LAIRD DR - EGLINTON AVE E",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LAIRD DR - EGLINTON AVE E",
+        "coordinates": [
+          43.7135871579345,
+          -79.36478229921464
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T14:32:57.105Z"
+    },
+    {
+      "id": "TPS-659a45dfa9df60ee03053a4a",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FRAUD",
+      "callTypeCode": "FRA",
+      "timestamp": "2026-10-02T14:11:01.000Z",
+      "location": "MILTON ST - WINSLOW ST",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MILTON ST - WINSLOW ST",
+        "coordinates": [
+          43.62530463314298,
+          -79.49617121507913
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T14:32:57.105Z"
     },
     {
       "id": "F26156597",
@@ -205,7 +373,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T14:17:23.308Z",
-      "lastSeenAt": "2026-10-02T14:30:08.776Z",
+      "lastSeenAt": "2026-10-02T14:32:57.105Z",
       "geography": {
         "text": "Mcnicoll Avenue between Queen Magdalene Place & Bedle Avenue",
         "approximate": false,
@@ -301,7 +469,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T14:17:23.308Z",
-      "lastSeenAt": "2026-10-02T14:30:08.776Z",
+      "lastSeenAt": "2026-10-02T14:32:57.105Z",
       "geography": {
         "text": "Osler Street between Lindner Street & Lane South Davenport West Osler",
         "approximate": false,
@@ -607,7 +775,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T14:01:43.737Z",
       "lastMeaningfulUpdateAt": "2026-10-02T14:17:23.308Z",
-      "lastSeenAt": "2026-10-02T14:30:08.776Z",
+      "lastSeenAt": "2026-10-02T14:32:57.105Z",
       "geography": {
         "text": "Approximate area: (M1S) Scarborough (Agincourt)",
         "approximate": true,
@@ -954,7 +1122,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T13:40:45.254Z",
       "lastMeaningfulUpdateAt": "2026-10-02T13:46:05.843Z",
-      "lastSeenAt": "2026-10-02T14:30:08.776Z",
+      "lastSeenAt": "2026-10-02T14:32:57.105Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -1088,7 +1256,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T13:40:45.254Z",
       "lastMeaningfulUpdateAt": "2026-10-02T13:46:05.843Z",
-      "lastSeenAt": "2026-10-02T14:30:08.776Z",
+      "lastSeenAt": "2026-10-02T14:32:57.105Z",
       "geography": {
         "text": "Pitfield Road between Keyworth Trl & Mccowan Road",
         "approximate": false,
@@ -2249,7 +2417,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T13:02:24.494Z",
       "lastMeaningfulUpdateAt": "2026-10-02T13:52:55.727Z",
-      "lastSeenAt": "2026-10-02T14:30:08.776Z",
+      "lastSeenAt": "2026-10-02T14:32:57.105Z",
       "geography": {
         "text": "Gerry Fitzgerald Drive & Dufferin Street",
         "approximate": false,
@@ -220847,57 +221015,282 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26152138",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M9A",
-      "division": "431",
-      "timestamp": "2026-09-25T14:32:18.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "431"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-25T14:41:41.330Z",
-      "lastMeaningfulUpdateAt": "2026-09-25T14:46:30.667Z",
-      "lastSeenAt": "2026-09-25T14:54:32.661Z",
-      "geography": {
-        "text": "Approximate area: (M9A) Etobicoke (Islington Avenue)",
-        "approximate": true,
-        "coordinates": [
-          43.6662,
-          -79.5282
-        ],
-        "division": "Division 22",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T14:30:08.776Z",
-      "sourceUpdatedAt": "2026-10-02T14:25:02.000Z",
+      "fetchedAt": "2026-10-02T14:32:57.105Z",
+      "sourceUpdatedAt": "2026-10-02T14:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T14:30:08.776Z",
+      "fetchedAt": "2026-10-02T14:32:57.105Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "Tor-RD52026-6127-2",
+          "street": "St Joseph St",
+          "title": "St Joseph St 36 m West of Bay St to 27 m West of Bay St",
+          "description": "Toronto-TMC: CIPP LINING OF LARGE DIAMETER BRICK EGG SEWER. NOT PHASED. 24 HOUR SHIFT REQUIRED FOR LINER INSTALLATION. THIS LINER WILL TAKE 1 24 HOUR SHIFT TO COMPLETE. WE ARE WORKING WITHIN THE AREA ON MULTIPLE LINES OVER A 3 WEEK PERIOD. EACH RODAR HAS BEEN PUT IN FOR THE FULL 3 WEEKS TO ENSURE NO OTHER CONTRACTOR TAKES UP THE AREA WITH ANOTHER RODAR. WE WILL ONLY BE SETUP FOR 1 24 HOUR SHIFT PER EACH RODARS SUBMITTED. THE LINES ARE HEAVILY WEATHER DEPENDANT DUE TO BEING A COMBINED SEWER SYSTEM AND WE NEED THE AREA BOOKED FOR 3 WEEKS IN CASE OUR SCHEDULE DELAYS OR SHIFT DUE TO WEATHER.",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "Bay St",
+          "endLocation": "Bay St",
+          "start": 1792407600000,
+          "reportedAt": 1790951132000,
+          "end": 1793358000000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.66556,
+            -79.38816
+          ],
+          "line": [
+            [
+              43.66556,
+              -79.38816
+            ],
+            [
+              43.66558,
+              -79.38804
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.38816,
+                43.66556
+              ],
+              [
+                -79.38804,
+                43.66558
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Everyday: 07:00-07:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD52026-6127-1",
+          "street": "St Joseph St",
+          "title": "St Joseph St 55 m West of Bay St to 61 m East of Queen's Park Cres E",
+          "description": "Toronto-TMC: CIPP LINING OF LARGE DIAMETER BRICK EGG SEWER. NOT PHASED. 24 HOUR SHIFT REQUIRED FOR LINER INSTALLATION. THIS LINER WILL TAKE 1 24 HOUR SHIFT TO COMPLETE. WE ARE WORKING WITHIN THE AREA ON MULTIPLE LINES OVER A 3 WEEK PERIOD. EACH RODAR HAS BEEN PUT IN FOR THE FULL 3 WEEKS TO ENSURE NO OTHER CONTRACTOR TAKES UP THE AREA WITH ANOTHER RODAR. WE WILL ONLY BE SETUP FOR 1 24 HOUR SHIFT PER EACH RODARS SUBMITTED. THE LINES ARE HEAVILY WEATHER DEPENDANT DUE TO BEING A COMBINED SEWER SYSTEM AND WE NEED THE AREA BOOKED FOR 3 WEEKS IN CASE OUR SCHEDULE DELAYS OR SHIFT DUE TO WEATHER.",
+          "restrictionType": "ROAD CLOSED",
+          "type": "ROAD CLOSED",
+          "impact": "None",
+          "startLocation": "Bay St",
+          "endLocation": "Queen's Park Cres E",
+          "start": 1792407600000,
+          "reportedAt": 1790951132000,
+          "end": 1793358000000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.66551,
+            -79.38839
+          ],
+          "line": [
+            [
+              43.66551,
+              -79.38839
+            ],
+            [
+              43.66544,
+              -79.3886
+            ],
+            [
+              43.66539,
+              -79.38877
+            ],
+            [
+              43.66537,
+              -79.38885
+            ],
+            [
+              43.66522,
+              -79.38948
+            ],
+            [
+              43.66522,
+              -79.38948
+            ],
+            [
+              43.66501,
+              -79.39041
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.38839,
+                43.66551
+              ],
+              [
+                -79.3886,
+                43.66544
+              ],
+              [
+                -79.38877,
+                43.66539
+              ],
+              [
+                -79.38885,
+                43.66537
+              ],
+              [
+                -79.38948,
+                43.66522
+              ],
+              [
+                -79.38948,
+                43.66522
+              ],
+              [
+                -79.39041,
+                43.66501
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Everyday: 07:00-07:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD1H2026-2083",
+          "street": "Dalhousie St",
+          "title": "Dalhousie St 18 m South of Dundas St E to 31 m South of Dundas St E",
+          "description": "Toronto-TMC: PROJECT: 199 CHURCH ST - @ 117 DALHOUSIE ST - SOUTHBOUND - SIDEWALK REPAIR",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "Dundas St E",
+          "endLocation": "Dundas St E",
+          "start": 1791291600000,
+          "reportedAt": 1790951123000,
+          "end": 1791403200000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.65648,
+            -79.37648
+          ],
+          "line": [
+            [
+              43.65648,
+              -79.37648
+            ],
+            [
+              43.65637,
+              -79.37644
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.37648,
+                43.65648
+              ],
+              [
+                -79.37644,
+                43.65637
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD52026-5891",
+          "street": "Edward St",
+          "title": "Edward St 39 m East of University Ave to Chestnut St",
+          "description": "Toronto-TMC: T2 IS TO COMPLETE TEST HOLES USING VACUUM EXCAVATION NOT EXCEEDING 1500 PSI TO DAYLIGHT UNDERGROUND UTILITIES TO VERIFY HORIZONTAL & VERTICAL ALIGNMENTS. KEYHOLE CORES (18\" DIAMETER) CUTS. CUTS WILL BE REINSTATED SAME DAY AS PER TS4.70 STANDARD.",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "University Ave",
+          "endLocation": "Chestnut St",
+          "start": 1791810000000,
+          "reportedAt": 1790951116000,
+          "end": 1792785600000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.65555,
+            -79.38813
+          ],
+          "line": [
+            [
+              43.65555,
+              -79.38813
+            ],
+            [
+              43.65571,
+              -79.3874
+            ],
+            [
+              43.65571,
+              -79.3874
+            ],
+            [
+              43.65594,
+              -79.3863
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.38813,
+                43.65555
+              ],
+              [
+                -79.3874,
+                43.65571
+              ],
+              [
+                -79.3874,
+                43.65571
+              ],
+              [
+                -79.3863,
+                43.65594
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Monday: 09:00-16:00; Tuesday: 09:00-16:00; Wednesday: 09:00-16:00; Thursday: 09:00-16:00; Friday: 09:00-16:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "12240295",
           "street": "QUEENS QUAY W",
@@ -358587,8 +358980,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-02T14:27:25.215Z",
-      "fetchedAt": "2026-10-02T14:27:25.215Z"
+      "checkedAt": "2026-10-02T14:32:57.105Z",
+      "fetchedAt": "2026-10-02T14:32:57.105Z"
     },
     "transit": {
       "items": [
@@ -362524,16 +362917,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-02T14:27:25.000Z",
+      "sourceUpdatedAt": "2026-10-02T14:32:57.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-02T14:27:25.215Z",
-      "fetchedAt": "2026-10-02T14:27:25.215Z"
+      "checkedAt": "2026-10-02T14:32:57.105Z",
+      "fetchedAt": "2026-10-02T14:32:57.105Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T14:29:49.000Z",
+    "sourceUpdatedAt": "2026-10-02T14:32:20.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -362542,14 +362935,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T14:30:08.776Z",
-    "checkedAt": "2026-10-02T14:30:08.776Z",
+    "fetchedAt": "2026-10-02T14:32:57.105Z",
+    "checkedAt": "2026-10-02T14:32:57.105Z",
     "staticCorrelation": {
       "schemaVersion": 1,
-      "status": "ok",
+      "status": "unavailable",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
       "fetchedAt": "2026-10-02T14:30:08.776Z",
-      "checkedAt": "2026-10-02T14:30:08.776Z",
+      "checkedAt": "2026-10-02T14:32:57.105Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -362558,21 +362951,23 @@
         "shapes": 1406,
         "tripsWithoutStops": 4
       },
-      "patterns": {},
-      "report": {
-        "alerts": 0,
-        "exact": 0,
-        "partial": 0,
-        "ambiguous": 0,
-        "unmatched": 0,
-        "unmatchedRouteIds": [],
-        "unmatchedStopIds": [],
-        "unmatchedTripIds": []
-      }
+      "patterns": {}
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "WARDEN AVE / STEELES AVE E": {
+      "text": "Warden Avenue & Steeles Avenue East",
+      "approximate": false,
+      "coordinates": [
+        43.8196436,
+        -79.3244836
+      ],
+      "division": "Division 42",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-02T14:32:57.105Z"
+    },
     "SPADINA RD, TT / KENDAL AVE / BERNARD AVE": {
       "text": "Spadina Road between Kendal Avenue & Bernard Avenue",
       "approximate": false,
