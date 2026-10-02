@@ -3,9 +3,43 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T07:55:00.048Z",
-  "sourceUpdatedAt": "2026-10-02T07:50:01.000Z",
+  "fetchedAt": "2026-10-02T07:57:27.967Z",
+  "sourceUpdatedAt": "2026-10-02T07:55:01.000Z",
   "incidents": [
+    {
+      "id": "F26156454",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Other",
+      "location": "JOHN ST, YK / PINE ST / JANE ST",
+      "division": "442",
+      "timestamp": "2026-10-02T07:48:37.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "442"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-02T07:57:27.967Z",
+      "lastSeenAt": "2026-10-02T07:57:27.967Z",
+      "geography": {
+        "text": "John Street between Pine Street & Jane Street",
+        "approximate": false,
+        "coordinates": [
+          43.70607325,
+          -79.5073429
+        ],
+        "division": "Division 12",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-02T07:57:27.967Z"
+      }
+    },
     {
       "id": "F26156453",
       "source": "TFS",
@@ -66,7 +100,7 @@
       ],
       "respondingUnitCount": 11,
       "firstSeenAt": "2026-10-02T07:52:45.272Z",
-      "lastSeenAt": "2026-10-02T07:55:00.048Z",
+      "lastSeenAt": "2026-10-02T07:57:27.967Z",
       "geography": {
         "text": "Lawrence Avenue between Wayne Avenue & Lilian Drive",
         "approximate": false,
@@ -106,7 +140,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T07:45:50.526Z",
-      "lastSeenAt": "2026-10-02T07:55:00.048Z",
+      "lastSeenAt": "2026-10-02T07:57:27.967Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -126,7 +160,7 @@
       "division": "242",
       "timestamp": "2026-10-02T07:37:50.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -239,7 +273,7 @@
       "division": "435",
       "timestamp": "2026-10-02T07:27:09.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Other Unit",
@@ -650,7 +684,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-02T07:10:36.482Z",
-      "lastSeenAt": "2026-10-02T07:55:00.048Z",
+      "lastSeenAt": "2026-10-02T07:57:27.967Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -220236,138 +220270,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-21T21:51:08.968Z"
       }
-    },
-    {
-      "id": "TPS-29bd88094a943d8a8b8b0b9a",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "NOISY PARTY",
-      "callTypeCode": "NOIPA",
-      "timestamp": "2026-09-25T07:56:59.000Z",
-      "location": "BURLINGAME RD - WESTHEAD RD",
-      "division": "Division 22",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "BURLINGAME RD - WESTHEAD RD",
-        "coordinates": [
-          43.60004658453358,
-          -79.55264866698697
-        ],
-        "division": "Division 22",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T08:20:40.769Z"
-    },
-    {
-      "id": "F26151996",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M1L",
-      "division": "225",
-      "timestamp": "2026-09-25T07:56:14.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "225"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-25T08:06:30.500Z",
-      "lastSeenAt": "2026-09-25T08:14:50.650Z",
-      "geography": {
-        "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
-        "approximate": true,
-        "coordinates": [
-          43.7122,
-          -79.2843
-        ],
-        "division": "Division 41",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "TPS-30fbda5ffbb6931aecc486b9",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISORDERLIES",
-      "callTypeCode": "DIS",
-      "timestamp": "2026-09-25T07:56:07.000Z",
-      "location": "GREENWIN VILLAGE RD - BATHURST ST",
-      "division": "Division 32",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "GREENWIN VILLAGE RD - BATHURST ST",
-        "coordinates": [
-          43.79084418730969,
-          -79.44537491209026
-        ],
-        "division": "Division 32",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T08:20:40.769Z"
-    },
-    {
-      "id": "TPS-a08cfd305f73a08213a81c0f",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "SEE AMBULANCE",
-      "callTypeCode": "SEEAM",
-      "timestamp": "2026-09-25T07:55:28.000Z",
-      "location": "QUEEN ST E - EAST DON ROADWAY",
-      "division": "Division 55",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "QUEEN ST E - EAST DON ROADWAY",
-        "coordinates": [
-          43.658488597716605,
-          -79.35155766898684
-        ],
-        "division": "Division 55",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T08:20:40.769Z"
-    },
-    {
-      "id": "TPS-14954316e694ba3c2dc3112c",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISORDERLIES",
-      "callTypeCode": "DIS",
-      "timestamp": "2026-09-25T07:55:22.000Z",
-      "location": "FINCH AVE E - BAYVIEW AVE",
-      "division": "Division 33",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "FINCH AVE E - BAYVIEW AVE",
-        "coordinates": [
-          43.78500070329029,
-          -79.39213598212983
-        ],
-        "division": "Division 33",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T08:20:40.769Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T07:55:00.048Z",
-      "sourceUpdatedAt": "2026-10-02T07:50:01.000Z",
+      "fetchedAt": "2026-10-02T07:57:27.967Z",
+      "sourceUpdatedAt": "2026-10-02T07:55:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T07:55:00.048Z",
+      "fetchedAt": "2026-10-02T07:57:27.967Z",
       "status": "ok"
     }
   },
@@ -220377,8 +220289,8 @@
         {
           "id": "12239302",
           "street": "F G Gardiner Xy E",
-          "title": "F G Gardiner Xy E 638 m west of Park Lawn Rd",
-          "description": "Toronto-TMC: 2 Right lanes blocked before Park Lawn",
+          "title": "F G Gardiner Xy E before Park Lawn Rd",
+          "description": "Toronto-TMC: 2 Right lanes blocked before Park Lawn due to a collision.",
           "restrictionType": "HAZARD",
           "type": "HAZARD",
           "impact": "High",
@@ -226434,57 +226346,6 @@
           "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
         },
         {
-          "id": "Tor-RD042026-1257-4",
-          "street": "Westlake Rd",
-          "title": "Westlake Rd at Galloway Rd to 71 m West of Galloway Rd",
-          "description": "Toronto-TMC: The proposed work involves borehole drilling to support Phase II of the Environmental Site Assessment (ESA). Please note that only one traffic control setup and location will be occupied at any given time, with drilling limited to one borehole per location. We can confirm that work will be completed in multiple stages as shown in the attached TCPs. Also, I have attached the proposed boreholes drilling schedule for your easy reference.",
-          "restrictionType": "CONSTRUCTION",
-          "type": "CONSTRUCTION",
-          "impact": "None",
-          "startLocation": "Galloway Rd",
-          "endLocation": "Galloway Rd",
-          "start": 1790902800000,
-          "reportedAt": 1789967267000,
-          "end": 1794996000000,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.7552,
-            -79.19177
-          ],
-          "line": [
-            [
-              43.7552,
-              -79.19177
-            ],
-            [
-              43.755,
-              -79.19261
-            ]
-          ],
-          "geometry": {
-            "type": "LineString",
-            "coordinates": [
-              [
-                -79.19177,
-                43.7552
-              ],
-              [
-                -79.19261,
-                43.755
-              ]
-            ]
-          },
-          "geometryKind": "line",
-          "schedule": "Everyday: 21:00-05:00",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
           "id": "Tor-RD52026-5471",
           "street": "Dixon Rd",
           "title": "Dixon Rd 21 m East of Dixington Cres to Dixington Cres",
@@ -226528,6 +226389,57 @@
           },
           "geometryKind": "line",
           "schedule": "Monday: 21:00-05:00; Tuesday: 21:00-05:00; Wednesday: 21:00-05:00; Thursday: 21:00-05:00; Friday: 21:00-05:00",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
+        {
+          "id": "Tor-RD042026-1257-4",
+          "street": "Westlake Rd",
+          "title": "Westlake Rd at Galloway Rd to 71 m West of Galloway Rd",
+          "description": "Toronto-TMC: The proposed work involves borehole drilling to support Phase II of the Environmental Site Assessment (ESA). Please note that only one traffic control setup and location will be occupied at any given time, with drilling limited to one borehole per location. We can confirm that work will be completed in multiple stages as shown in the attached TCPs. Also, I have attached the proposed boreholes drilling schedule for your easy reference.",
+          "restrictionType": "CONSTRUCTION",
+          "type": "CONSTRUCTION",
+          "impact": "None",
+          "startLocation": "Galloway Rd",
+          "endLocation": "Galloway Rd",
+          "start": 1790902800000,
+          "reportedAt": 1789967267000,
+          "end": 1794996000000,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.7552,
+            -79.19177
+          ],
+          "line": [
+            [
+              43.7552,
+              -79.19177
+            ],
+            [
+              43.755,
+              -79.19261
+            ]
+          ],
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -79.19177,
+                43.7552
+              ],
+              [
+                -79.19261,
+                43.755
+              ]
+            ]
+          },
+          "geometryKind": "line",
+          "schedule": "Everyday: 21:00-05:00",
           "source": {
             "name": "City of Toronto Road Restrictions",
             "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
@@ -357262,8 +357174,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-02T07:50:18.367Z",
-      "fetchedAt": "2026-10-02T07:50:18.367Z"
+      "checkedAt": "2026-10-02T07:57:27.967Z",
+      "fetchedAt": "2026-10-02T07:57:27.967Z"
     },
     "transit": {
       "items": [
@@ -359955,16 +359867,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-02T07:50:19.000Z",
+      "sourceUpdatedAt": "2026-10-02T07:57:28.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-02T07:50:18.367Z",
-      "fetchedAt": "2026-10-02T07:50:18.367Z"
+      "checkedAt": "2026-10-02T07:57:27.967Z",
+      "fetchedAt": "2026-10-02T07:57:27.967Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T07:54:47.000Z",
+    "sourceUpdatedAt": "2026-10-02T07:57:17.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -359973,14 +359885,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T07:55:00.048Z",
-    "checkedAt": "2026-10-02T07:55:00.048Z",
+    "fetchedAt": "2026-10-02T07:57:27.967Z",
+    "checkedAt": "2026-10-02T07:57:27.967Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T07:55:00.048Z",
-      "checkedAt": "2026-10-02T07:55:00.048Z",
+      "fetchedAt": "2026-10-02T07:57:27.967Z",
+      "checkedAt": "2026-10-02T07:57:27.967Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -360004,6 +359916,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "JOHN ST, YK / PINE ST / JANE ST": {
+      "text": "John Street between Pine Street & Jane Street",
+      "approximate": false,
+      "coordinates": [
+        43.70607325,
+        -79.5073429
+      ],
+      "division": "Division 12",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-02T07:57:27.967Z"
+    },
     "LAWRENCE AVE, SC / WAYNE AVE / LILIAN DR": {
       "text": "Lawrence Avenue between Wayne Avenue & Lilian Drive",
       "approximate": false,
