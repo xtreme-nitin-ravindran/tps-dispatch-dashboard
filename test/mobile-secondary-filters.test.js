@@ -35,6 +35,18 @@ test('mobile disclosure stays in document flow and desktop layouts remain visibl
   assert.match(app, /function syncMobileFilterIndicator\(\)[\s\S]*?activeSecondaryFilterCount\(state\)/);
 });
 
+test('mobile hides the redundant Police division and History labels while desktop keeps them', () => {
+  const mobileStart = css.indexOf('@media (max-width: 680px)');
+  const mobileRules = css.slice(mobileStart);
+  assert.match(mobileRules, /\.control-group\.secondary-filter-control \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\);/);
+  assert.match(mobileRules, /\.control-group\.secondary-filter-control > label \{[\s\S]*?position: absolute;[\s\S]*?width: 1px;[\s\S]*?height: 1px;[\s\S]*?clip-path: inset\(50%\);/);
+  // Desktop keeps the visible label styling.
+  assert.match(css, /\.control-group label \{[\s\S]*?font-size: 12px;[\s\S]*?color: var\(--muted\);[\s\S]*?white-space: nowrap;/);
+  // The labels remain in the markup for accessibility.
+  assert.match(html, /<label for="divisionSelect">Police division<\/label>/);
+  assert.match(html, /<label for="historyHours">History<\/label>/);
+});
+
 test('clear filters reuses existing semantics and refreshes the count', () => {
   const clearHandler = app.slice(app.indexOf("document.querySelector('#clearFilters').addEventListener"), app.indexOf("document.querySelector('#shareView').addEventListener"));
   assert.match(clearHandler, /Object\.assign\(state, filterDefaults\)/);
