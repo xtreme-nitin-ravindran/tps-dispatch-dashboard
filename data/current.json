@@ -3,9 +3,154 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-02T15:48:36.047Z",
-  "sourceUpdatedAt": "2026-10-02T15:45:02.000Z",
+  "fetchedAt": "2026-10-02T15:50:58.300Z",
+  "sourceUpdatedAt": "2026-10-02T15:50:01.000Z",
   "incidents": [
+    {
+      "id": "F26156645",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "MASSEY SQ, EY / CRESCENT TOWN RD / CRESCENT TOWN RD",
+      "division": "226",
+      "timestamp": "2026-10-02T15:44:51.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T15:50:58.300Z",
+      "lastSeenAt": "2026-10-02T15:50:58.300Z",
+      "geography": {
+        "text": "Approximate location on Massey Sq",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-02T15:50:58.300Z"
+      }
+    },
+    {
+      "id": "F26156644",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "ALEXANDRA BLVD, TT / YONGE ST / DUPLEX AVE",
+      "division": "134",
+      "timestamp": "2026-10-02T15:43:40.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T15:50:58.300Z",
+      "lastSeenAt": "2026-10-02T15:50:58.300Z",
+      "geography": {
+        "text": "Alexandra Boulevard between Yonge Street & Duplex Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.717047050000005,
+          -79.4018521
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-02T15:50:58.300Z"
+      }
+    },
+    {
+      "id": "F26156643",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M2N",
+      "division": "121",
+      "timestamp": "2026-10-02T15:42:46.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T15:50:58.300Z",
+      "lastSeenAt": "2026-10-02T15:50:58.300Z",
+      "geography": {
+        "text": "Approximate area: (M2N) Willowdale South",
+        "approximate": true,
+        "coordinates": [
+          43.7673,
+          -79.4111
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26156642",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Check Call - Non Emergency",
+      "location": "WESTON RD, YK / WILBY CRES / BELLEVUE CRES",
+      "division": "442",
+      "timestamp": "2026-10-02T15:42:06.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-02T15:50:58.300Z",
+      "lastSeenAt": "2026-10-02T15:50:58.300Z",
+      "geography": {
+        "text": "Weston Road between Wilby Crescent & Bellevue Crescent",
+        "approximate": false,
+        "coordinates": [
+          43.69908495,
+          -79.51331805000001
+        ],
+        "division": "Division 12",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-01T21:51:11.717Z"
+      }
+    },
+    {
+      "id": "TPS-4feb27a2402d391cc7a4fcaa",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FOUND PROPERTY",
+      "callTypeCode": "FOUPR",
+      "timestamp": "2026-10-02T15:41:47.000Z",
+      "location": "FAIRLAWN AVE - ST GERMAIN AVE",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "FAIRLAWN AVE - ST GERMAIN AVE",
+        "coordinates": [
+          43.728895868894114,
+          -79.4182643251358
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T15:50:58.300Z"
+    },
+    {
+      "id": "TPS-da71725b2a1d423af6d607db",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-10-02T15:41:23.000Z",
+      "location": " - ",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": " - ",
+        "coordinates": [
+          43.718675298176,
+          -79.23976432827847
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T15:50:58.300Z"
+    },
     {
       "id": "F26156641",
       "source": "TFS",
@@ -16,9 +161,18 @@
       "timestamp": "2026-10-02T15:36:32.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "212"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T15:46:49.437Z",
-      "lastSeenAt": "2026-10-02T15:48:36.047Z",
+      "lastMeaningfulUpdateAt": "2026-10-02T15:50:58.300Z",
+      "lastSeenAt": "2026-10-02T15:50:58.300Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -31,6 +185,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-10c7dd88b5905f067523b023",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-10-02T15:35:35.000Z",
+      "location": "FRONT ST E - DERBY ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "FRONT ST E - DERBY ST",
+        "coordinates": [
+          43.651562990666605,
+          -79.3627214569264
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T15:50:58.300Z"
     },
     {
       "id": "F26156640",
@@ -173,6 +349,50 @@
       }
     },
     {
+      "id": "TPS-48871a5c3a22c616fe88e937",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-10-02T15:22:41.000Z",
+      "location": "MIDLAND AVE - EGLINTON AVE E",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MIDLAND AVE - EGLINTON AVE E",
+        "coordinates": [
+          43.735621982026046,
+          -79.25321483279882
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T15:50:58.300Z"
+    },
+    {
+      "id": "TPS-6637b14f802d488e6a375ac3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FIGHT",
+      "callTypeCode": "FIG",
+      "timestamp": "2026-10-02T15:22:40.000Z",
+      "location": "IONVIEW RD - LANDSEER RD",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "IONVIEW RD - LANDSEER RD",
+        "coordinates": [
+          43.73259837396042,
+          -79.2716839064521
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T15:50:58.300Z"
+    },
+    {
       "id": "F26156636",
       "source": "TFS",
       "eventType": "fire",
@@ -197,6 +417,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-b8101c4051d68f3b6a84d906",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT OF VEHICLE",
+      "callTypeCode": "THEVE",
+      "timestamp": "2026-10-02T15:22:02.000Z",
+      "location": " - PRINCESS ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": " - PRINCESS ST",
+        "coordinates": [
+          43.64904428814788,
+          -79.3672909533599
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-02T15:50:58.300Z"
     },
     {
       "id": "TPS-32fbf23442a2b3dd8f57a922",
@@ -264,7 +506,7 @@
       "division": "323",
       "timestamp": "2026-10-02T15:18:28.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -312,7 +554,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T15:27:45.885Z",
       "lastMeaningfulUpdateAt": "2026-10-02T15:32:39.024Z",
-      "lastSeenAt": "2026-10-02T15:48:36.047Z",
+      "lastSeenAt": "2026-10-02T15:50:58.300Z",
       "geography": {
         "text": "Approximate area: (M1L) Scarborough (The Golden Mile / Clairlea / Oakridge / Birchmount Park East)",
         "approximate": true,
@@ -478,7 +720,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-10-02T15:15:35.516Z",
       "lastMeaningfulUpdateAt": "2026-10-02T15:22:53.321Z",
-      "lastSeenAt": "2026-10-02T15:48:36.047Z",
+      "lastSeenAt": "2026-10-02T15:50:58.300Z",
       "geography": {
         "text": "Keele Street between Broadoaks Drive & Le Page Court",
         "approximate": false,
@@ -795,7 +1037,7 @@
       "division": "312",
       "timestamp": "2026-10-02T15:01:25.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -1189,7 +1431,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-02T14:56:47.101Z",
-      "lastSeenAt": "2026-10-02T15:48:36.047Z",
+      "lastSeenAt": "2026-10-02T15:50:58.300Z",
       "geography": {
         "text": "Hillsdale Avenue between Forman Avenue & Cleveland Street",
         "approximate": false,
@@ -221137,60 +221379,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-25T16:19:02.293Z"
-    },
-    {
-      "id": "TPS-582cc8722a3d84d537c5ce54",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISORDERLIES",
-      "callTypeCode": "DIS",
-      "timestamp": "2026-09-25T15:50:24.000Z",
-      "location": "SHUTER ST - DUNDAS ST E",
-      "division": "Division 51",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "SHUTER ST - DUNDAS ST E",
-        "coordinates": [
-          43.655892294996,
-          -79.37143335256164
-        ],
-        "division": "Division 51",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T16:19:02.293Z"
-    },
-    {
-      "id": "TPS-1f1f9aa92646fbde75533864",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "PROPERTY DAMAGE COLLISION",
-      "callTypeCode": "PDACC",
-      "timestamp": "2026-09-25T15:50:07.000Z",
-      "location": " - ",
-      "division": "TAC8",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": " - ",
-        "coordinates": [
-          43.666659509809364,
-          -79.40380913861458
-        ],
-        "division": "TAC8",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-25T16:19:02.293Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-02T15:48:36.047Z",
-      "sourceUpdatedAt": "2026-10-02T15:45:02.000Z",
+      "fetchedAt": "2026-10-02T15:50:58.300Z",
+      "sourceUpdatedAt": "2026-10-02T15:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-02T15:48:36.047Z",
+      "fetchedAt": "2026-10-02T15:50:58.300Z",
       "status": "ok"
     }
   },
@@ -363934,7 +364132,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-02T15:48:31.000Z",
+    "sourceUpdatedAt": "2026-10-02T15:50:25.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -363943,14 +364141,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-02T15:48:36.047Z",
-    "checkedAt": "2026-10-02T15:48:36.047Z",
+    "fetchedAt": "2026-10-02T15:50:58.300Z",
+    "checkedAt": "2026-10-02T15:50:58.300Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-02T15:48:36.047Z",
-      "checkedAt": "2026-10-02T15:48:36.047Z",
+      "fetchedAt": "2026-10-02T15:50:58.300Z",
+      "checkedAt": "2026-10-02T15:50:58.300Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -363974,6 +364172,51 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "MASSEY SQ, EY / CRESCENT TOWN RD / CRESCENT TOWN RD": {
+      "text": "Approximate location on Massey Sq",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-02T15:50:58.300Z"
+    },
+    "ALEXANDRA BLVD, TT / YONGE ST / DUPLEX AVE": {
+      "text": "Alexandra Boulevard between Yonge Street & Duplex Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.717047050000005,
+        -79.4018521
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-02T15:50:58.300Z"
+    },
+    "M2N": {
+      "text": "Approximate area: (M2N) Willowdale South",
+      "approximate": true,
+      "coordinates": [
+        43.7673,
+        -79.4111
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "WESTON RD, YK / WILBY CRES / BELLEVUE CRES": {
+      "text": "Weston Road between Wilby Crescent & Bellevue Crescent",
+      "approximate": false,
+      "coordinates": [
+        43.69908495,
+        -79.51331805000001
+      ],
+      "division": "Division 12",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-01T21:51:11.717Z"
+    },
     "M1B": {
       "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
       "approximate": true,
@@ -365008,18 +365251,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-10-02T11:11:42.086Z"
-    },
-    "M2N": {
-      "text": "Approximate area: (M2N) Willowdale South",
-      "approximate": true,
-      "coordinates": [
-        43.7673,
-        -79.4111
-      ],
-      "division": "Division 32",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "YONGE ST, TT / LAWTON PARKETTE TRL / LAWTON PARKETTE TRL": {
       "text": "Approximate location on Yonge Street",
@@ -366592,18 +366823,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "WESTON RD, YK / WILBY CRES / BELLEVUE CRES": {
-      "text": "Weston Road between Wilby Crescent & Bellevue Crescent",
-      "approximate": false,
-      "coordinates": [
-        43.69908495,
-        -79.51331805000001
-      ],
-      "division": "Division 12",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-10-01T21:51:11.717Z"
     },
     "JANE ST, YK / ELLINS AVE / HANEY AVE": {
       "text": "Jane Street between Ellins Avenue & Haney Avenue",
