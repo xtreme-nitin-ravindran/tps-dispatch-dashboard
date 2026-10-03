@@ -11,6 +11,7 @@ COPY src ./src
 COPY scripts ./scripts
 COPY data ./data
 COPY test ./test
+COPY concourse ./concourse
 COPY app.js index.html service-worker.js manifest.webmanifest icon-192.png icon-512.png styles.css eslint.config.js ruff.toml ./
 
 CMD ["npm", "test"]

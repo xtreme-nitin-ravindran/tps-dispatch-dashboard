@@ -18,8 +18,12 @@ resources:
       private_key: ((repo_private_key))
 
 jobs:
+  # Both jobs publish to the same `snapshots` (data) branch. The shared
+  # `snapshots-writers` serial group guarantees only one of them runs at a time,
+  # so a fast-forward push can never race another writer's older base.
   - name: update-sirento
     serial: true
+    serial_groups: [snapshots-writers]
     build_log_retention:
       builds: 50
     plan:
@@ -70,8 +74,11 @@ jobs:
 
   # Independent of incident publication; a failed TTC task cannot block snapshots.
   # Cache continuity is opportunistic. Each 90-second burst can confirm on its own.
+  # Shares the `snapshots-writers` serial group so it never publishes concurrently
+  # with update-sirento.
   - name: detect-ttc-vehicle-deviations
     serial: true
+    serial_groups: [snapshots-writers]
     build_log_retention:
       builds: 20
     plan:
