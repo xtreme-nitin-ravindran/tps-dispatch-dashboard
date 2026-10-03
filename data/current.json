@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T04:13:27.812Z",
-  "sourceUpdatedAt": "2026-10-03T04:10:01.000Z",
+  "fetchedAt": "2026-10-03T04:15:38.514Z",
+  "sourceUpdatedAt": "2026-10-03T04:15:01.000Z",
   "incidents": [
     {
       "id": "F26157019",
@@ -16,9 +16,18 @@
       "timestamp": "2026-10-03T04:04:19.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "135"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T04:11:16.227Z",
-      "lastSeenAt": "2026-10-03T04:13:27.812Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T04:15:38.514Z",
+      "lastSeenAt": "2026-10-03T04:15:38.514Z",
       "geography": {
         "text": "Approximate area: (M4R) Central Toronto (North Toronto West)",
         "approximate": true,
@@ -42,9 +51,18 @@
       "timestamp": "2026-10-03T04:03:12.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "134"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T04:11:16.227Z",
-      "lastSeenAt": "2026-10-03T04:13:27.812Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T04:15:38.514Z",
+      "lastSeenAt": "2026-10-03T04:15:38.514Z",
       "geography": {
         "text": "Approximate area: (M4S) Central Toronto (Davisville)",
         "approximate": true,
@@ -78,7 +96,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T04:11:16.227Z",
-      "lastSeenAt": "2026-10-03T04:13:27.812Z",
+      "lastSeenAt": "2026-10-03T04:15:38.514Z",
       "geography": {
         "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
         "approximate": true,
@@ -101,7 +119,7 @@
       "division": "227",
       "timestamp": "2026-10-03T03:54:50.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -136,7 +154,7 @@
       "division": "125",
       "timestamp": "2026-10-03T03:52:33.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -434,7 +452,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-03T03:46:17.690Z",
       "lastMeaningfulUpdateAt": "2026-10-03T04:11:16.227Z",
-      "lastSeenAt": "2026-10-03T04:13:27.812Z",
+      "lastSeenAt": "2026-10-03T04:15:38.514Z",
       "geography": {
         "text": "Approximate location on Charles Street between George Hislop Park Trl & Macy Dubois Lane",
         "approximate": true,
@@ -215442,38 +215460,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "TPS-c43816ab9f5c25f5b2da8e19",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "TRAFFIC OBSTRUCT",
-      "callTypeCode": "TRAOB",
-      "timestamp": "2026-09-26T04:13:38.000Z",
-      "location": "YONGE ST - BROOKDALE AVE",
-      "division": "Division 32",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "YONGE ST - BROOKDALE AVE",
-        "coordinates": [
-          43.72996227571092,
-          -79.40347844162464
-        ],
-        "division": "Division 32",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T04:32:17.861Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T04:13:27.812Z",
-      "sourceUpdatedAt": "2026-10-03T04:10:01.000Z",
+      "fetchedAt": "2026-10-03T04:15:38.514Z",
+      "sourceUpdatedAt": "2026-10-03T04:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T04:13:27.812Z",
+      "fetchedAt": "2026-10-03T04:15:38.514Z",
       "status": "ok"
     }
   },
@@ -350948,7 +350944,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T04:13:11.000Z",
+    "sourceUpdatedAt": "2026-10-03T04:15:12.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -350957,14 +350953,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T04:13:27.812Z",
-    "checkedAt": "2026-10-03T04:13:27.812Z",
+    "fetchedAt": "2026-10-03T04:15:38.514Z",
+    "checkedAt": "2026-10-03T04:15:38.514Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T04:13:27.812Z",
-      "checkedAt": "2026-10-03T04:13:27.812Z",
+      "fetchedAt": "2026-10-03T04:15:38.514Z",
+      "checkedAt": "2026-10-03T04:15:38.514Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
