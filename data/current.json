@@ -3,9 +3,149 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T03:50:16.920Z",
-  "sourceUpdatedAt": "2026-10-03T03:45:01.000Z",
+  "fetchedAt": "2026-10-03T03:52:07.165Z",
+  "sourceUpdatedAt": "2026-10-03T03:50:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-4c15b6dd70f180ab1722a754",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-10-03T03:44:07.000Z",
+      "location": "SHERBOURNE ST - MC FARRENS LANE",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SHERBOURNE ST - MC FARRENS LANE",
+        "coordinates": [
+          43.653374392478064,
+          -79.36913295325593
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T03:52:07.165Z"
+    },
+    {
+      "id": "F26157013",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5C",
+      "division": "332",
+      "timestamp": "2026-10-03T03:43:51.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-03T03:52:07.165Z",
+      "lastSeenAt": "2026-10-03T03:52:07.165Z",
+      "geography": {
+        "text": "Approximate area: (M5C) Downtown Toronto (St. James Park)",
+        "approximate": true,
+        "coordinates": [
+          43.6513,
+          -79.3756
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-93940b8264a77b28f6b58a22",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FAIL TO REMAIN PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "FTRPD",
+      "timestamp": "2026-10-03T03:43:14.000Z",
+      "location": "DUNN LAKE SHORE W RAMP - LAKE SHORE BLVD W",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DUNN LAKE SHORE W RAMP - LAKE SHORE BLVD W",
+        "coordinates": [
+          43.63373207851324,
+          -79.4333018222314
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T03:52:07.165Z"
+    },
+    {
+      "id": "F26157012",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1E",
+      "division": "213",
+      "timestamp": "2026-10-03T03:42:28.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-03T03:52:07.165Z",
+      "lastSeenAt": "2026-10-03T03:52:07.165Z",
+      "geography": {
+        "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+        "approximate": true,
+        "coordinates": [
+          43.7678,
+          -79.1866
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-c061e18a2decf0227bd9732b",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT IN PROGRESS",
+      "callTypeCode": "ASSPR",
+      "timestamp": "2026-10-03T03:41:25.000Z",
+      "location": "HUMBERWOOD BLVD - ARBORVIEW CRES",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HUMBERWOOD BLVD - ARBORVIEW CRES",
+        "coordinates": [
+          43.72816702990168,
+          -79.62448368408099
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T03:52:07.165Z"
+    },
+    {
+      "id": "TPS-0f018195ca48bbf7f274f67c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-10-03T03:40:43.000Z",
+      "location": "FIRVALLEY CRT - WARDEN AVE",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "FIRVALLEY CRT - WARDEN AVE",
+        "coordinates": [
+          43.703678311845515,
+          -79.27753407761173
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T03:52:07.165Z"
+    },
     {
       "id": "F26157011",
       "source": "TFS",
@@ -16,9 +156,18 @@
       "timestamp": "2026-10-03T03:40:03.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "331"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T03:46:17.690Z",
-      "lastSeenAt": "2026-10-03T03:50:16.920Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T03:52:07.165Z",
+      "lastSeenAt": "2026-10-03T03:52:07.165Z",
       "geography": {
         "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
         "approximate": true,
@@ -33,6 +182,28 @@
       }
     },
     {
+      "id": "TPS-654b83ce041670784a856a08",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING VULNERABLE PERSON",
+      "callTypeCode": "MISVU",
+      "timestamp": "2026-10-03T03:39:48.000Z",
+      "location": "QUEEN ST E - SHUTER ST",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "QUEEN ST E - SHUTER ST",
+        "coordinates": [
+          43.65456039366406,
+          -79.37761274799806
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T03:52:07.165Z"
+    },
+    {
       "id": "F26157010",
       "source": "TFS",
       "eventType": "fire",
@@ -42,9 +213,24 @@
       "timestamp": "2026-10-03T03:38:12.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "312"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "314"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T03:46:17.690Z",
-      "lastSeenAt": "2026-10-03T03:50:16.920Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T03:52:07.165Z",
+      "lastSeenAt": "2026-10-03T03:52:07.165Z",
       "geography": {
         "text": "Approximate location on Charles Street between George Hislop Park Trl & Macy Dubois Lane",
         "approximate": true,
@@ -54,6 +240,182 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-10-03T03:46:17.690Z"
       }
+    },
+    {
+      "id": "TPS-0329cb40fb7ecb50c007113c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-10-03T03:37:38.000Z",
+      "location": "GARDINER XWY E - ELLIS AVE",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GARDINER XWY E - ELLIS AVE",
+        "coordinates": [
+          43.63636439418401,
+          -79.46533051332354
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T03:52:07.165Z"
+    },
+    {
+      "id": "TPS-03347ab0e258d149daa0b992",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-10-03T03:36:47.000Z",
+      "location": "SPRINGMOUNT AVE - EDWARD MCILWAIN LANE",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SPRINGMOUNT AVE - EDWARD MCILWAIN LANE",
+        "coordinates": [
+          43.675305924282945,
+          -79.43530032606036
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T03:52:07.165Z"
+    },
+    {
+      "id": "TPS-6daee3c707d5a09343f2bfc3",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROWLER ON LOCATION",
+      "callTypeCode": "PRO",
+      "timestamp": "2026-10-03T03:33:26.000Z",
+      "location": "DELAVAN AVE - KILBARRY RD",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DELAVAN AVE - KILBARRY RD",
+        "coordinates": [
+          43.692827202798014,
+          -79.4144107307303
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T03:52:07.165Z"
+    },
+    {
+      "id": "TPS-33bfb2b5b87007a9e0bc5a25",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-10-03T03:32:12.000Z",
+      "location": "VICTORIA PARK AVE - DENTON AVE",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "VICTORIA PARK AVE - DENTON AVE",
+        "coordinates": [
+          43.69287712247234,
+          -79.28900806190899
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T03:52:07.165Z"
+    },
+    {
+      "id": "TPS-373f54515c584570ef6f714d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-10-03T03:29:54.000Z",
+      "location": "EUCLID AVE - MANNING AVE",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "EUCLID AVE - MANNING AVE",
+        "coordinates": [
+          43.655469098776415,
+          -79.41261043001539
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T03:52:07.165Z"
+    },
+    {
+      "id": "TPS-63baa7ae48fa2c784024bb54",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-10-03T03:29:43.000Z",
+      "location": "WILLOWDALE AVE - SHEPPARD AVE E",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WILLOWDALE AVE - SHEPPARD AVE E",
+        "coordinates": [
+          43.76399148810599,
+          -79.3996757112637
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T03:52:07.165Z"
+    },
+    {
+      "id": "TPS-53e7f3b440933edde43fca03",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-10-03T03:29:42.000Z",
+      "location": "IONIC LANE - LADY YORK AVE",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "IONIC LANE - LADY YORK AVE",
+        "coordinates": [
+          43.73152965009583,
+          -79.46283714444448
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T03:52:07.165Z"
+    },
+    {
+      "id": "TPS-28ae8ddd7a60b51db3cc60ec",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-10-03T03:23:18.000Z",
+      "location": "KENNEDY RD - DUNDALK DR",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KENNEDY RD - DUNDALK DR",
+        "coordinates": [
+          43.76942243842896,
+          -79.28227009559461
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T03:52:07.165Z"
     },
     {
       "id": "F26157009",
@@ -76,7 +438,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T03:31:06.535Z",
       "lastMeaningfulUpdateAt": "2026-10-03T03:37:37.098Z",
-      "lastSeenAt": "2026-10-03T03:50:16.920Z",
+      "lastSeenAt": "2026-10-03T03:52:07.165Z",
       "geography": {
         "text": "Sheppard Avenue East & Willowdale Avenue",
         "approximate": false,
@@ -89,6 +451,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-10-03T03:31:06.535Z"
       }
+    },
+    {
+      "id": "TPS-5b004f54ee5582e07a2091e0",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-10-03T03:21:24.000Z",
+      "location": "SHERBOURNE ST - MC FARRENS LANE",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SHERBOURNE ST - MC FARRENS LANE",
+        "coordinates": [
+          43.653374392478064,
+          -79.36913295325593
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T03:52:07.165Z"
     },
     {
       "id": "TPS-1202ba63a8c7001eec343ab9",
@@ -315,7 +699,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-10-03T03:21:47.174Z",
       "lastMeaningfulUpdateAt": "2026-10-03T03:26:29.428Z",
-      "lastSeenAt": "2026-10-03T03:50:16.920Z",
+      "lastSeenAt": "2026-10-03T03:52:07.165Z",
       "geography": {
         "text": "Dundas Street East & Sherbourne Street",
         "approximate": false,
@@ -372,7 +756,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T03:21:47.174Z",
       "lastMeaningfulUpdateAt": "2026-10-03T03:26:29.428Z",
-      "lastSeenAt": "2026-10-03T03:50:16.920Z",
+      "lastSeenAt": "2026-10-03T03:52:07.165Z",
       "geography": {
         "text": "Approximate area: (M4W) Downtown Toronto (Rosedale)",
         "approximate": true,
@@ -540,7 +924,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T03:15:28.616Z",
       "lastMeaningfulUpdateAt": "2026-10-03T03:21:47.174Z",
-      "lastSeenAt": "2026-10-03T03:50:16.920Z",
+      "lastSeenAt": "2026-10-03T03:52:07.165Z",
       "geography": {
         "text": "Tamworth Road between Betty Ann Drive & Ellerslie Avenue",
         "approximate": false,
@@ -215314,12 +215698,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T03:50:16.920Z",
-      "sourceUpdatedAt": "2026-10-03T03:45:01.000Z",
+      "fetchedAt": "2026-10-03T03:52:07.165Z",
+      "sourceUpdatedAt": "2026-10-03T03:50:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T03:50:16.920Z",
+      "fetchedAt": "2026-10-03T03:52:07.165Z",
       "status": "ok"
     }
   },
@@ -351251,7 +351635,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T03:50:12.000Z",
+    "sourceUpdatedAt": "2026-10-03T03:51:37.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -351260,14 +351644,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T03:50:16.920Z",
-    "checkedAt": "2026-10-03T03:50:16.920Z",
+    "fetchedAt": "2026-10-03T03:52:07.165Z",
+    "checkedAt": "2026-10-03T03:52:07.165Z",
     "staticCorrelation": {
       "schemaVersion": 1,
-      "status": "unavailable",
+      "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T03:46:17.690Z",
-      "checkedAt": "2026-10-03T03:50:16.920Z",
+      "fetchedAt": "2026-10-03T03:52:07.165Z",
+      "checkedAt": "2026-10-03T03:52:07.165Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -351276,11 +351660,45 @@
         "shapes": 1406,
         "tripsWithoutStops": 4
       },
-      "patterns": {}
+      "patterns": {},
+      "report": {
+        "alerts": 0,
+        "exact": 0,
+        "partial": 0,
+        "ambiguous": 0,
+        "unmatched": 0,
+        "unmatchedRouteIds": [],
+        "unmatchedStopIds": [],
+        "unmatchedTripIds": []
+      }
     }
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5C": {
+      "text": "Approximate area: (M5C) Downtown Toronto (St. James Park)",
+      "approximate": true,
+      "coordinates": [
+        43.6513,
+        -79.3756
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "M1E": {
+      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+      "approximate": true,
+      "coordinates": [
+        43.7678,
+        -79.1866
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M5V": {
       "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
       "approximate": true,
@@ -351526,18 +351944,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-10-03T02:55:50.684Z"
-    },
-    "M5C": {
-      "text": "Approximate area: (M5C) Downtown Toronto (St. James Park)",
-      "approximate": true,
-      "coordinates": [
-        43.6513,
-        -79.3756
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "KENWOOD AVE, YK / VAUGHAN RD / CLAXTON BLVD": {
       "text": "Kenwood Avenue between Vaughan Road & Claxton Boulevard",
@@ -352636,18 +353042,6 @@
         -79.412
       ],
       "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1E": {
-      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
-      "approximate": true,
-      "coordinates": [
-        43.7678,
-        -79.1866
-      ],
-      "division": "Division 43",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
