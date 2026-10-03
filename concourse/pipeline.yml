@@ -2,7 +2,10 @@ resources:
   - name: refresh
     type: time
     source:
-      interval: 3m
+      # The single update-sirento job runs the incident ETL plus a 90-second TTC
+      # vehicle burst and typically takes 2-4 minutes. A 5-minute interval keeps
+      # the timer above the worst-case job duration so builds do not queue.
+      interval: 5m
   - name: repo
     type: git
     source:
@@ -23,6 +26,9 @@ jobs:
   # two writers can race a fast-forward push. The trade-off is deliberate: a TTC
   # failure fails the whole build, so the next timer tick retries both.
   - name: update-sirento
+    # One writer, one build at a time. max_in_flight serializes this job's own
+    # builds so a slow run cannot overlap the next timer tick and race the push.
+    max_in_flight: 1
     build_log_retention:
       builds: 50
     plan:
@@ -44,7 +50,7 @@ jobs:
             - name: repo
             - name: snapshots
           outputs:
-            - name: updated-repo
+            - name: incident-repo
           params:
             NPM_VERSION: 12.1.0
           run:
@@ -55,13 +61,13 @@ jobs:
                 if [ "$(npm --version 2>/dev/null || true)" != "$NPM_VERSION" ]; then
                   npm install -g "npm@$NPM_VERSION"
                 fi
-                cp -a snapshots/. updated-repo/
+                cp -a snapshots/. incident-repo/
                 cd repo
                 npm ci
                 TZ=UTC npm test
                 TZ=America/Los_Angeles npm test
-                TFS_UPDATED_BY=concourse TFS_PREVIOUS=../snapshots/data/current.json TFS_OUTPUT=../updated-repo/data/current.json node scripts/tfs-etl.js
-                cd ../updated-repo
+                TFS_UPDATED_BY=concourse TFS_PREVIOUS=../snapshots/data/current.json TFS_OUTPUT=../incident-repo/data/current.json node scripts/tfs-etl.js
+                cd ../incident-repo
                 node ../repo/scripts/commit-tfs.js
       # Bounded 90-second vehicle burst; never runs the heavy incident ETL.
       - task: observe-vehicles

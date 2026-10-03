@@ -771,7 +771,7 @@ A successful JSON request alone does not mean the data is current.
 
 ## Automated Data Updates
 
-- **Concourse** runs `scripts/tfs-etl.js` approximately every three minutes to fetch feeds, merge history, and prepare map locations. Road and TTC feeds are checked at most once every five minutes.
+- **Concourse** runs `scripts/tfs-etl.js` approximately every five minutes to fetch feeds, merge history, and prepare map locations. Road and TTC feeds are checked at most once every five minutes.
 - **GitHub Actions fallback** checks every five minutes and runs the updater if the snapshot or either incident feed is at least ten minutes old or unavailable. Scheduled runs may be delayed.
 - Both use code from **`main`** and publish `data/current.json` and `data/ttc-diversions.json` to the **`data`** branch. The site reads those files directly, so data updates do not require a Pages deployment.
 - Failed sources retain their last successful data and are marked unavailable. If both incident feeds fail, the existing snapshot is preserved.
