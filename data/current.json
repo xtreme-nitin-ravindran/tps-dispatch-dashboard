@@ -3,9 +3,35 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T10:52:16.885Z",
-  "sourceUpdatedAt": "2026-10-03T10:50:01.000Z",
+  "fetchedAt": "2026-10-03T10:57:04.444Z",
+  "sourceUpdatedAt": "2026-10-03T10:55:02.000Z",
   "incidents": [
+    {
+      "id": "F26157133",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5R",
+      "division": "344",
+      "timestamp": "2026-10-03T10:47:18.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-03T10:57:04.444Z",
+      "lastSeenAt": "2026-10-03T10:57:04.444Z",
+      "geography": {
+        "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
+        "approximate": true,
+        "coordinates": [
+          43.6736,
+          -79.4035
+        ],
+        "division": "Division 53",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "TPS-ae4c77a41b1b399f5c1f9089",
       "source": "TPS",
@@ -38,9 +64,18 @@
       "timestamp": "2026-10-03T10:42:28.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "442"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T10:52:16.885Z",
-      "lastSeenAt": "2026-10-03T10:52:16.885Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T10:57:04.444Z",
+      "lastSeenAt": "2026-10-03T10:57:04.444Z",
       "geography": {
         "text": "Approximate area: (M9N) Weston",
         "approximate": true,
@@ -85,7 +120,7 @@
       "division": "114",
       "timestamp": "2026-10-03T10:38:55.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -176,7 +211,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T10:46:14.926Z",
       "lastMeaningfulUpdateAt": "2026-10-03T10:52:16.885Z",
-      "lastSeenAt": "2026-10-03T10:52:16.885Z",
+      "lastSeenAt": "2026-10-03T10:57:04.444Z",
       "geography": {
         "text": "Approximate area: (M2R) Willowdale West",
         "approximate": true,
@@ -233,7 +268,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T10:46:14.926Z",
       "lastMeaningfulUpdateAt": "2026-10-03T10:52:16.885Z",
-      "lastSeenAt": "2026-10-03T10:52:16.885Z",
+      "lastSeenAt": "2026-10-03T10:57:04.444Z",
       "geography": {
         "text": "Approximate area: (M1S) Scarborough (Agincourt)",
         "approximate": true,
@@ -290,7 +325,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T10:40:55.759Z",
       "lastMeaningfulUpdateAt": "2026-10-03T10:46:14.926Z",
-      "lastSeenAt": "2026-10-03T10:52:16.885Z",
+      "lastSeenAt": "2026-10-03T10:57:04.444Z",
       "geography": {
         "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
         "approximate": true,
@@ -379,7 +414,7 @@
       "division": "234",
       "timestamp": "2026-10-03T10:25:03.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -413,7 +448,7 @@
       "division": "231",
       "timestamp": "2026-10-03T10:07:37.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -1587,14 +1622,15 @@
         {
           "type": "Fire Truck",
           "numbers": [
-            "141"
+            "141",
+            "143"
           ]
         }
       ],
-      "respondingUnitCount": 1,
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T09:23:39.064Z",
-      "lastMeaningfulUpdateAt": "2026-10-03T10:18:18.048Z",
-      "lastSeenAt": "2026-10-03T10:52:16.885Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T10:57:04.444Z",
+      "lastSeenAt": "2026-10-03T10:57:04.444Z",
       "geography": {
         "text": "Finch Avenue between Chesswood Drive & Alexdon Road",
         "approximate": false,
@@ -215149,60 +215185,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-26T11:13:55.408Z"
-    },
-    {
-      "id": "TPS-eb6a670d4b2224658d825af4",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "UNKNOWN TROUBLE",
-      "callTypeCode": "UNKTR",
-      "timestamp": "2026-09-26T10:56:28.000Z",
-      "location": " - ",
-      "division": "Division 52",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": " - ",
-        "coordinates": [
-          43.657900097003875,
-          -79.38157314647108
-        ],
-        "division": "Division 52",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T11:13:55.408Z"
-    },
-    {
-      "id": "TPS-d5cc76fb5bd775650eae5500",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "PROPERTY DAMAGE COLLISION",
-      "callTypeCode": "PDACC",
-      "timestamp": "2026-09-26T10:53:24.000Z",
-      "location": "WARDEN AVE - FINCH AVE E",
-      "division": "HP",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "WARDEN AVE - FINCH AVE E",
-        "coordinates": [
-          43.79676839792209,
-          -79.31575388981902
-        ],
-        "division": "HP",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T11:13:55.408Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T10:52:16.885Z",
-      "sourceUpdatedAt": "2026-10-03T10:50:01.000Z",
+      "fetchedAt": "2026-10-03T10:57:04.444Z",
+      "sourceUpdatedAt": "2026-10-03T10:55:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T10:52:16.885Z",
+      "fetchedAt": "2026-10-03T10:57:04.444Z",
       "status": "ok"
     }
   },
@@ -348913,7 +348905,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T10:52:06.000Z",
+    "sourceUpdatedAt": "2026-10-03T10:56:31.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -348922,14 +348914,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T10:52:16.885Z",
-    "checkedAt": "2026-10-03T10:52:16.885Z",
+    "fetchedAt": "2026-10-03T10:57:04.444Z",
+    "checkedAt": "2026-10-03T10:57:04.444Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T10:52:16.885Z",
-      "checkedAt": "2026-10-03T10:52:16.885Z",
+      "fetchedAt": "2026-10-03T10:57:04.444Z",
+      "checkedAt": "2026-10-03T10:57:04.444Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -348953,6 +348945,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5R": {
+      "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
+      "approximate": true,
+      "coordinates": [
+        43.6736,
+        -79.4035
+      ],
+      "division": "Division 53",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M9N": {
       "text": "Approximate area: (M9N) Weston",
       "approximate": true,
@@ -349606,18 +349610,6 @@
         -79.2819
       ],
       "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5R": {
-      "text": "Approximate area: (M5R) Central Toronto (The Annex / North Midtown / Yorkville)",
-      "approximate": true,
-      "coordinates": [
-        43.6736,
-        -79.4035
-      ],
-      "division": "Division 53",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
