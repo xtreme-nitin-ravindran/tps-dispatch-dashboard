@@ -3,9 +3,83 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T09:36:07.700Z",
-  "sourceUpdatedAt": "2026-10-03T09:35:01.000Z",
+  "fetchedAt": "2026-10-03T09:40:30.953Z",
+  "sourceUpdatedAt": "2026-10-03T09:40:01.000Z",
   "incidents": [
+    {
+      "id": "F26157116",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "AUGUSTA SQ, TT / AUGUSTA AVE /",
+      "division": "331",
+      "timestamp": "2026-10-03T09:33:18.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-03T09:40:30.953Z",
+      "lastSeenAt": "2026-10-03T09:40:30.953Z",
+      "geography": {
+        "text": "Augusta Sq & Augusta Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.6501557,
+          -79.4004772
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-03T09:40:30.953Z"
+      }
+    },
+    {
+      "id": "F26157115",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5V",
+      "division": "332",
+      "timestamp": "2026-10-03T09:32:15.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-03T09:40:30.953Z",
+      "lastSeenAt": "2026-10-03T09:40:30.953Z",
+      "geography": {
+        "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+        "approximate": true,
+        "coordinates": [
+          43.6404,
+          -79.3995
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-ed755e3ca52a1aeae9891789",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-10-03T09:24:37.000Z",
+      "location": "MILVAN DR - FINCH AVE W",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MILVAN DR - FINCH AVE W",
+        "coordinates": [
+          43.74994878325985,
+          -79.5522637891285
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T09:40:30.953Z"
+    },
     {
       "id": "F26157114",
       "source": "TFS",
@@ -15,7 +89,7 @@
       "division": "134",
       "timestamp": "2026-10-03T09:23:24.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -62,7 +136,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T09:31:54.021Z",
       "lastMeaningfulUpdateAt": "2026-10-03T09:36:07.700Z",
-      "lastSeenAt": "2026-10-03T09:36:07.700Z",
+      "lastSeenAt": "2026-10-03T09:40:30.953Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -75,6 +149,50 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-7278c4bdc0fd6ae3a06249a4",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-10-03T09:19:38.000Z",
+      "location": " - ",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": " - ",
+        "coordinates": [
+          43.66773399900949,
+          -79.3103353300342
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T09:40:30.953Z"
+    },
+    {
+      "id": "TPS-f8ab6ade6a67fbebfe7a431c",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "NOISY PARTY",
+      "callTypeCode": "NOIPA",
+      "timestamp": "2026-10-03T09:17:04.000Z",
+      "location": "JEFFERSON AVE - LAMPORT STADIUM PARK TRL",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "JEFFERSON AVE - LAMPORT STADIUM PARK TRL",
+        "coordinates": [
+          43.639720283357505,
+          -79.42354092548501
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T09:40:30.953Z"
     },
     {
       "id": "F26157112",
@@ -318,7 +436,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T09:23:39.064Z",
-      "lastSeenAt": "2026-10-03T09:36:07.700Z",
+      "lastSeenAt": "2026-10-03T09:40:30.953Z",
       "geography": {
         "text": "Mercer Street between Lane East John South Mercer & Lane South King West John",
         "approximate": false,
@@ -591,7 +709,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T09:23:39.064Z",
-      "lastSeenAt": "2026-10-03T09:36:07.700Z",
+      "lastSeenAt": "2026-10-03T09:40:30.953Z",
       "geography": {
         "text": "Finch Avenue between Chesswood Drive & Alexdon Road",
         "approximate": false,
@@ -215014,93 +215132,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26152679",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Alarm Single Source",
-      "location": "KING ST, TT / LAMPORT STADIUM PARK TRL / FRASER AVE",
-      "division": "346",
-      "timestamp": "2026-09-26T09:39:31.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "426"
-          ]
-        },
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "346"
-          ]
-        }
-      ],
-      "respondingUnitCount": 2,
-      "firstSeenAt": "2026-09-26T09:45:44.347Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T09:51:40.125Z",
-      "lastSeenAt": "2026-09-26T10:00:23.874Z",
-      "geography": {
-        "text": "Approximate location near King Street & Fraser Avenue",
-        "approximate": true,
-        "coordinates": [
-          43.6394619,
-          -79.4248139
-        ],
-        "division": "Unknown",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-25T09:11:11.548Z"
-      }
-    },
-    {
-      "id": "F26152678",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Rescue - Elevator",
-      "location": "MARKET ST, TT / / CONGER COAL LANE",
-      "division": "333",
-      "timestamp": "2026-09-26T09:36:38.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "332",
-            "333"
-          ]
-        }
-      ],
-      "respondingUnitCount": 2,
-      "firstSeenAt": "2026-09-26T09:45:44.347Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T09:51:40.125Z",
-      "lastSeenAt": "2026-09-26T10:00:23.874Z",
-      "geography": {
-        "text": "Market Street & Conger Coal Lane",
-        "approximate": false,
-        "coordinates": [
-          43.6469741,
-          -79.3712648
-        ],
-        "division": "Division 51",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-26T09:45:44.347Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T09:36:07.700Z",
-      "sourceUpdatedAt": "2026-10-03T09:35:01.000Z",
+      "fetchedAt": "2026-10-03T09:40:30.953Z",
+      "sourceUpdatedAt": "2026-10-03T09:40:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T09:36:07.700Z",
+      "fetchedAt": "2026-10-03T09:40:30.953Z",
       "status": "ok"
     }
   },
@@ -346687,11 +346728,61 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-03T09:31:54.021Z",
-      "fetchedAt": "2026-10-03T09:31:54.021Z"
+      "checkedAt": "2026-10-03T09:40:30.953Z",
+      "fetchedAt": "2026-10-03T09:40:30.953Z"
     },
     "transit": {
       "items": [
+        {
+          "id": "77400",
+          "title": "43 Kennedy: Detour southbound via Passmore Ave, Milliken Blvd and Mcnicoll Ave due to construction.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "43"
+          ],
+          "stopIds": [
+            "11254",
+            "12197",
+            "11558"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "43",
+              "stopId": "11254",
+              "coordinates": [
+                43.818764,
+                -79.303701
+              ],
+              "name": "Passmore Ave at Kennedy Rd"
+            },
+            {
+              "routeId": "43",
+              "stopId": "12197",
+              "coordinates": [
+                43.817073,
+                -79.304258
+              ],
+              "name": "Kennedy Rd at Purcell Sq South Side"
+            },
+            {
+              "routeId": "43",
+              "stopId": "11558",
+              "coordinates": [
+                43.812989,
+                -79.30244
+              ],
+              "name": "Kennedy Rd at McNicoll Ave"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1791020284000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
         {
           "id": "100",
           "title": "88 South Leaside – Route change, due to Ontario Line construction",
@@ -348522,16 +348613,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-03T09:31:54.000Z",
+      "sourceUpdatedAt": "2026-10-03T09:40:31.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-03T09:31:54.021Z",
-      "fetchedAt": "2026-10-03T09:31:54.021Z"
+      "checkedAt": "2026-10-03T09:40:30.953Z",
+      "fetchedAt": "2026-10-03T09:40:30.953Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T09:36:00.000Z",
+    "sourceUpdatedAt": "2026-10-03T09:40:31.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -348540,14 +348631,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T09:36:07.700Z",
-    "checkedAt": "2026-10-03T09:36:07.700Z",
+    "fetchedAt": "2026-10-03T09:40:30.953Z",
+    "checkedAt": "2026-10-03T09:40:30.953Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T09:36:07.700Z",
-      "checkedAt": "2026-10-03T09:36:07.700Z",
+      "fetchedAt": "2026-10-03T09:40:30.953Z",
+      "checkedAt": "2026-10-03T09:40:30.953Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -348571,6 +348662,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "AUGUSTA SQ, TT / AUGUSTA AVE /": {
+      "text": "Augusta Sq & Augusta Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.6501557,
+        -79.4004772
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-03T09:40:30.953Z"
+    },
+    "M5V": {
+      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+      "approximate": true,
+      "coordinates": [
+        43.6404,
+        -79.3995
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M4R": {
       "text": "Approximate area: (M4R) Central Toronto (North Toronto West)",
       "approximate": true,
@@ -348747,18 +348862,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-10-03T06:32:06.743Z"
-    },
-    "M5V": {
-      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
-      "approximate": true,
-      "coordinates": [
-        43.6404,
-        -79.3995
-      ],
-      "division": "Division 14",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "M4J": {
       "text": "Approximate area: (M4J) East Toronto (The Danforth East)",
@@ -361890,18 +361993,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T09:56:29.929Z"
-    },
-    "MARKET ST, TT / / CONGER COAL LANE": {
-      "text": "Market Street & Conger Coal Lane",
-      "approximate": false,
-      "coordinates": [
-        43.6469741,
-        -79.3712648
-      ],
-      "division": "Division 51",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-26T09:45:44.347Z"
     }
   }
 }
