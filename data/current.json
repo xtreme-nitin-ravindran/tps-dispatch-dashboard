@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T15:16:22.134Z",
-  "sourceUpdatedAt": "2026-10-03T15:15:01.000Z",
+  "fetchedAt": "2026-10-03T15:22:22.161Z",
+  "sourceUpdatedAt": "2026-10-03T15:20:01.000Z",
   "incidents": [
     {
       "id": "F26157225",
@@ -16,9 +16,24 @@
       "timestamp": "2026-10-03T15:09:22.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "215"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "231"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T15:16:22.134Z",
-      "lastSeenAt": "2026-10-03T15:16:22.134Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T15:22:22.161Z",
+      "lastSeenAt": "2026-10-03T15:22:22.161Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -50,7 +65,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T15:10:39.562Z",
       "lastMeaningfulUpdateAt": "2026-10-03T15:16:22.134Z",
-      "lastSeenAt": "2026-10-03T15:16:22.134Z",
+      "lastSeenAt": "2026-10-03T15:22:22.161Z",
       "geography": {
         "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
         "approximate": true,
@@ -92,7 +107,7 @@
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-03T15:10:39.562Z",
       "lastMeaningfulUpdateAt": "2026-10-03T15:16:22.134Z",
-      "lastSeenAt": "2026-10-03T15:16:22.134Z",
+      "lastSeenAt": "2026-10-03T15:22:22.161Z",
       "geography": {
         "text": "Approximate area: (M3N) North York (Jane and Finch)",
         "approximate": true,
@@ -115,7 +130,7 @@
       "division": "323",
       "timestamp": "2026-10-03T15:02:02.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -205,7 +220,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T15:10:39.562Z",
-      "lastSeenAt": "2026-10-03T15:16:22.134Z",
+      "lastSeenAt": "2026-10-03T15:22:22.161Z",
       "geography": {
         "text": "Mccowan Road & Pitfield Road",
         "approximate": false,
@@ -272,7 +287,7 @@
       "division": "445",
       "timestamp": "2026-10-03T14:56:12.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -306,7 +321,7 @@
       "division": "221",
       "timestamp": "2026-10-03T14:55:33.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -490,7 +505,7 @@
       "division": "142",
       "timestamp": "2026-10-03T14:45:20.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -527,7 +542,7 @@
       "division": "345",
       "timestamp": "2026-10-03T14:42:50.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -1187,7 +1202,7 @@
       "respondingUnitCount": 5,
       "firstSeenAt": "2026-10-03T14:22:58.667Z",
       "lastMeaningfulUpdateAt": "2026-10-03T14:52:53.896Z",
-      "lastSeenAt": "2026-10-03T15:16:22.134Z",
+      "lastSeenAt": "2026-10-03T15:22:22.161Z",
       "geography": {
         "text": "Mercer Street between Lane East John South Mercer & Lane South King West John",
         "approximate": false,
@@ -1449,7 +1464,7 @@
       ],
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-03T14:13:11.388Z",
-      "lastSeenAt": "2026-10-03T15:16:22.134Z",
+      "lastSeenAt": "2026-10-03T15:22:22.161Z",
       "geography": {
         "text": "Rustic Road between Culford Road & Blue Springs Road",
         "approximate": false,
@@ -2109,7 +2124,7 @@
       "respondingUnitCount": 6,
       "firstSeenAt": "2026-10-03T13:39:08.556Z",
       "lastMeaningfulUpdateAt": "2026-10-03T15:16:22.134Z",
-      "lastSeenAt": "2026-10-03T15:16:22.134Z",
+      "lastSeenAt": "2026-10-03T15:22:22.161Z",
       "geography": {
         "text": "Weston Road between Rectory Road & Holley Park Trl",
         "approximate": false,
@@ -214657,108 +214672,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-26T15:31:38.969Z"
-    },
-    {
-      "id": "F26152788",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M2N",
-      "division": "114",
-      "timestamp": "2026-09-26T15:20:15.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "114"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-26T15:31:38.969Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T15:37:01.023Z",
-      "lastSeenAt": "2026-09-26T15:59:59.301Z",
-      "geography": {
-        "text": "Approximate area: (M2N) Willowdale South",
-        "approximate": true,
-        "coordinates": [
-          43.7673,
-          -79.4111
-        ],
-        "division": "Division 32",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "F26152787",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M4M",
-      "division": "326",
-      "timestamp": "2026-09-26T15:17:06.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "326"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-26T15:26:01.708Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T15:31:38.969Z",
-      "lastSeenAt": "2026-09-26T15:39:48.886Z",
-      "geography": {
-        "text": "Approximate area: (M4M) East Toronto (Studio District)",
-        "approximate": true,
-        "coordinates": [
-          43.6561,
-          -79.3406
-        ],
-        "division": "Division 55",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "TPS-859f179c0ca7f2a7b4969515",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "UNKNOWN TROUBLE",
-      "callTypeCode": "UNKTR",
-      "timestamp": "2026-09-26T15:16:46.000Z",
-      "location": "TEMPLE AVE - KING ST W",
-      "division": "Division 14",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "TEMPLE AVE - KING ST W",
-        "coordinates": [
-          43.635976479777305,
-          -79.42811662395982
-        ],
-        "division": "Division 14",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T15:31:38.969Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T15:16:22.134Z",
-      "sourceUpdatedAt": "2026-10-03T15:15:01.000Z",
+      "fetchedAt": "2026-10-03T15:22:22.161Z",
+      "sourceUpdatedAt": "2026-10-03T15:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T15:16:22.134Z",
+      "fetchedAt": "2026-10-03T15:22:22.161Z",
       "status": "ok"
     }
   },
@@ -346109,11 +346032,181 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-03T15:16:22.134Z",
-      "fetchedAt": "2026-10-03T15:16:22.134Z"
+      "checkedAt": "2026-10-03T15:22:22.161Z",
+      "fetchedAt": "2026-10-03T15:22:22.161Z"
     },
     "transit": {
       "items": [
+        {
+          "id": "77419",
+          "title": "131 Nugget: Detour westbound via Sheppard Ave E and Brimley Rd due to a collision.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "131"
+          ],
+          "stopIds": [
+            "1318"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "131",
+              "stopId": "1318",
+              "coordinates": [
+                43.789787,
+                -79.259086
+              ],
+              "name": "McCowan Rd at Sheppard Ave East"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1791040878000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "77418",
+          "title": "130 Middlefield: Detour southbound via Sheppard Ave E and Brimley Rd due to a collision.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "130"
+          ],
+          "stopIds": [
+            "1318",
+            "1312",
+            "1309",
+            "9623",
+            "14769"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "130",
+              "stopId": "1318",
+              "coordinates": [
+                43.789787,
+                -79.259086
+              ],
+              "name": "McCowan Rd at Sheppard Ave East"
+            },
+            {
+              "routeId": "130",
+              "stopId": "1312",
+              "coordinates": [
+                43.787486,
+                -79.257514
+              ],
+              "name": "McCowan Rd at Pitfield Rd"
+            },
+            {
+              "routeId": "130",
+              "stopId": "1309",
+              "coordinates": [
+                43.78552,
+                -79.256738
+              ],
+              "name": "McCowan Rd at Milner Ave"
+            },
+            {
+              "routeId": "130",
+              "stopId": "9623",
+              "coordinates": [
+                43.775532,
+                -79.252861
+              ],
+              "name": "McCowan Rd at Triton Rd"
+            },
+            {
+              "routeId": "130",
+              "stopId": "14769",
+              "coordinates": [
+                43.774322,
+                -79.257944
+              ],
+              "name": "Scarborough Centre Station"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1791040653000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "77417",
+          "title": "169 Huntingwood: Detour eastbound via Sheppard Ave E and Brimley Rd due to a collision.",
+          "description": "",
+          "effect": "DETOUR",
+          "routes": [
+            "169"
+          ],
+          "stopIds": [
+            "1318",
+            "1312",
+            "1309",
+            "9623",
+            "14760"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": "169",
+              "stopId": "1318",
+              "coordinates": [
+                43.789787,
+                -79.259086
+              ],
+              "name": "McCowan Rd at Sheppard Ave East"
+            },
+            {
+              "routeId": "169",
+              "stopId": "1312",
+              "coordinates": [
+                43.787486,
+                -79.257514
+              ],
+              "name": "McCowan Rd at Pitfield Rd"
+            },
+            {
+              "routeId": "169",
+              "stopId": "1309",
+              "coordinates": [
+                43.78552,
+                -79.256738
+              ],
+              "name": "McCowan Rd at Milner Ave"
+            },
+            {
+              "routeId": "169",
+              "stopId": "9623",
+              "coordinates": [
+                43.775532,
+                -79.252861
+              ],
+              "name": "McCowan Rd at Triton Rd"
+            },
+            {
+              "routeId": "169",
+              "stopId": "14760",
+              "coordinates": [
+                43.77417,
+                -79.258565
+              ],
+              "name": "Scarborough Centre Station"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1791040647000,
+              "end": null
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
         {
           "id": "77414",
           "title": "164 Castlefield: Detour via Eglinton Ave E and Caledonia Rd due to a broken railway crossing arm.",
@@ -348387,16 +348480,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-03T15:16:22.000Z",
+      "sourceUpdatedAt": "2026-10-03T15:22:22.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-03T15:16:22.134Z",
-      "fetchedAt": "2026-10-03T15:16:22.134Z"
+      "checkedAt": "2026-10-03T15:22:22.161Z",
+      "fetchedAt": "2026-10-03T15:22:22.161Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T15:15:52.000Z",
+    "sourceUpdatedAt": "2026-10-03T15:22:21.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -348405,14 +348498,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T15:16:22.134Z",
-    "checkedAt": "2026-10-03T15:16:22.134Z",
+    "fetchedAt": "2026-10-03T15:22:22.161Z",
+    "checkedAt": "2026-10-03T15:22:22.161Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T15:16:22.134Z",
-      "checkedAt": "2026-10-03T15:16:22.134Z",
+      "fetchedAt": "2026-10-03T15:22:22.161Z",
+      "checkedAt": "2026-10-03T15:22:22.161Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
