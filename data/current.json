@@ -3,9 +3,65 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T10:29:44.103Z",
-  "sourceUpdatedAt": "2026-10-03T10:25:01.000Z",
+  "fetchedAt": "2026-10-03T10:35:46.786Z",
+  "sourceUpdatedAt": "2026-10-03T10:35:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-4c8083b9933f5a550684953f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DAMAGE TO AUTO",
+      "callTypeCode": "DAMAU",
+      "timestamp": "2026-10-03T10:28:54.000Z",
+      "location": "ALLANFORD RD - KENNEDY RD",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ALLANFORD RD - KENNEDY RD",
+        "coordinates": [
+          43.78211963627784,
+          -79.29346258821549
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T10:35:46.786Z"
+    },
+    {
+      "id": "F26157127",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1E",
+      "division": "234",
+      "timestamp": "2026-10-03T10:25:03.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "234"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-03T10:35:46.786Z",
+      "lastSeenAt": "2026-10-03T10:35:46.786Z",
+      "geography": {
+        "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+        "approximate": true,
+        "coordinates": [
+          43.7678,
+          -79.1866
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
     {
       "id": "F26157126",
       "source": "TFS",
@@ -32,7 +88,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T10:18:18.048Z",
-      "lastSeenAt": "2026-10-03T10:29:44.103Z",
+      "lastSeenAt": "2026-10-03T10:35:46.786Z",
       "geography": {
         "text": "Tuxedo Court & Markham Road",
         "approximate": false,
@@ -45,6 +101,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-25T00:26:50.119Z"
       }
+    },
+    {
+      "id": "TPS-7b7d75a3e96b7c273a14862e",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-10-03T10:06:38.000Z",
+      "location": "THE WEST MALL - RATHBURN RD",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "THE WEST MALL - RATHBURN RD",
+        "coordinates": [
+          43.653097824524,
+          -79.57257188568579
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T10:35:46.786Z"
     },
     {
       "id": "F26157125",
@@ -89,7 +167,7 @@
       "division": "221",
       "timestamp": "2026-10-03T10:00:01.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -255,7 +333,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T09:51:06.313Z",
       "lastMeaningfulUpdateAt": "2026-10-03T09:57:32.378Z",
-      "lastSeenAt": "2026-10-03T10:29:44.103Z",
+      "lastSeenAt": "2026-10-03T10:35:46.786Z",
       "geography": {
         "text": "Approximate area: (M3A) North York (York Heights / Victoria Village / Parkway East)",
         "approximate": true,
@@ -889,7 +967,7 @@
       "division": "332",
       "timestamp": "2026-10-03T08:43:52.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "High-Rise Unit",
@@ -1174,7 +1252,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T09:23:39.064Z",
       "lastMeaningfulUpdateAt": "2026-10-03T10:18:18.048Z",
-      "lastSeenAt": "2026-10-03T10:29:44.103Z",
+      "lastSeenAt": "2026-10-03T10:35:46.786Z",
       "geography": {
         "text": "Finch Avenue between Chesswood Drive & Alexdon Road",
         "approximate": false,
@@ -215028,130 +215106,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-26T10:52:04.842Z"
-    },
-    {
-      "id": "F26152690",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Alarm Single Source",
-      "location": "ST JOSEPH ST, TT / BAY ST / ELMSLEY PL",
-      "division": "314",
-      "timestamp": "2026-09-26T10:35:33.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "314",
-            "315"
-          ]
-        }
-      ],
-      "respondingUnitCount": 2,
-      "firstSeenAt": "2026-09-26T10:45:40.255Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T10:50:35.823Z",
-      "lastSeenAt": "2026-09-26T11:15:11.836Z",
-      "geography": {
-        "text": "Street Joseph Street between Bay Street & Elmsley Place",
-        "approximate": false,
-        "coordinates": [
-          43.6654338,
-          -79.3885905
-        ],
-        "division": "Division 52",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-26T10:45:40.255Z"
-      }
-    },
-    {
-      "id": "TPS-1f48839b3a59e177ff121b32",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISORDERLIES",
-      "callTypeCode": "DIS",
-      "timestamp": "2026-09-26T10:31:14.000Z",
-      "location": "LN 2 N QUEEN E KINGSTON - LARK ST",
-      "division": "Division 55",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "LN 2 N QUEEN E KINGSTON - LARK ST",
-        "coordinates": [
-          43.66748149675699,
-          -79.31138382839757
-        ],
-        "division": "Division 55",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T10:52:04.842Z"
-    },
-    {
-      "id": "F26152689",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Check Call",
-      "location": "YONGE ST, TT / ORCHARD VIEW BLVD / HELENDALE AVE",
-      "division": "134",
-      "timestamp": "2026-09-26T10:30:55.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "134"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-26T10:40:50.826Z",
-      "lastSeenAt": "2026-09-26T10:44:51.300Z",
-      "geography": {
-        "text": "Yonge Street between Orchard View Boulevard & Helendale Avenue",
-        "approximate": false,
-        "coordinates": [
-          43.7086678,
-          -79.3987508
-        ],
-        "division": "Division 53",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-26T10:40:50.826Z"
-      }
-    },
-    {
-      "id": "TPS-7c5a01bd79efb760963b815a",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "SEE AMBULANCE",
-      "callTypeCode": "SEEAM",
-      "timestamp": "2026-09-26T10:30:37.000Z",
-      "location": "LN N DANFORTH W MAIN ST - STANLEY G. GRIZZLE PARK TRL",
-      "division": "Division 55",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "LN N DANFORTH W MAIN ST - STANLEY G. GRIZZLE PARK TRL",
-        "coordinates": [
-          43.689436122397865,
-          -79.30098755237307
-        ],
-        "division": "Division 55",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T10:52:04.842Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T10:29:44.103Z",
-      "sourceUpdatedAt": "2026-10-03T10:25:01.000Z",
+      "fetchedAt": "2026-10-03T10:35:46.786Z",
+      "sourceUpdatedAt": "2026-10-03T10:35:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T10:29:44.103Z",
+      "fetchedAt": "2026-10-03T10:35:46.786Z",
       "status": "ok"
     }
   },
@@ -346738,8 +346702,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-03T10:29:44.103Z",
-      "fetchedAt": "2026-10-03T10:29:44.103Z"
+      "checkedAt": "2026-10-03T10:35:46.786Z",
+      "fetchedAt": "2026-10-03T10:35:46.786Z"
     },
     "transit": {
       "items": [
@@ -348817,16 +348781,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-03T10:29:44.000Z",
+      "sourceUpdatedAt": "2026-10-03T10:35:47.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-03T10:29:44.103Z",
-      "fetchedAt": "2026-10-03T10:29:44.103Z"
+      "checkedAt": "2026-10-03T10:35:46.786Z",
+      "fetchedAt": "2026-10-03T10:35:46.786Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T10:29:36.000Z",
+    "sourceUpdatedAt": "2026-10-03T10:35:37.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -348835,14 +348799,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T10:29:44.103Z",
-    "checkedAt": "2026-10-03T10:29:44.103Z",
+    "fetchedAt": "2026-10-03T10:35:46.786Z",
+    "checkedAt": "2026-10-03T10:35:46.786Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T10:29:44.103Z",
-      "checkedAt": "2026-10-03T10:29:44.103Z",
+      "fetchedAt": "2026-10-03T10:35:46.786Z",
+      "checkedAt": "2026-10-03T10:35:46.786Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -348866,6 +348830,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1E": {
+      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+      "approximate": true,
+      "coordinates": [
+        43.7678,
+        -79.1866
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "TUXEDO CRT, SC / MARKHAM RD /": {
       "text": "Tuxedo Court & Markham Road",
       "approximate": false,
@@ -348946,18 +348922,6 @@
         -79.521
       ],
       "division": "Division 31",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M1E": {
-      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
-      "approximate": true,
-      "coordinates": [
-        43.7678,
-        -79.1866
-      ],
-      "division": "Division 43",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -362149,18 +362113,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T11:10:31.934Z"
-    },
-    "YONGE ST, TT / ORCHARD VIEW BLVD / HELENDALE AVE": {
-      "text": "Yonge Street between Orchard View Boulevard & Helendale Avenue",
-      "approximate": false,
-      "coordinates": [
-        43.7086678,
-        -79.3987508
-      ],
-      "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-26T10:40:50.826Z"
     }
   }
 }
