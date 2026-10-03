@@ -3,9 +3,151 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T14:35:11.109Z",
-  "sourceUpdatedAt": "2026-10-03T14:30:01.000Z",
+  "fetchedAt": "2026-10-03T14:40:59.687Z",
+  "sourceUpdatedAt": "2026-10-03T14:40:02.000Z",
   "incidents": [
+    {
+      "id": "F26157209",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M6K",
+      "division": "426",
+      "timestamp": "2026-10-03T14:32:43.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "426"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-03T14:40:59.687Z",
+      "lastSeenAt": "2026-10-03T14:40:59.687Z",
+      "geography": {
+        "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+        "approximate": true,
+        "coordinates": [
+          43.6383,
+          -79.4301
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26157211",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "JANE ST, NY / EDDYSTONE AVE / FIRGROVE CRES",
+      "division": "142",
+      "timestamp": "2026-10-03T14:32:12.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "142"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "142"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-10-03T14:40:59.687Z",
+      "lastSeenAt": "2026-10-03T14:40:59.687Z",
+      "geography": {
+        "text": "Approximate location near Jane Street & Eddystone Avenue",
+        "approximate": true,
+        "coordinates": [
+          43.7491388,
+          -79.5156417
+        ],
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-03T14:40:59.687Z"
+      }
+    },
+    {
+      "id": "F26157210",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Fire - Grass/Rubbish",
+      "location": "DUFFERIN ST, NY / JANE OSLER BLVD / 401 C E DUFFERIN ST S RAMP",
+      "division": "145",
+      "timestamp": "2026-10-03T14:31:53.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "143"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-03T14:40:59.687Z",
+      "lastSeenAt": "2026-10-03T14:40:59.687Z",
+      "geography": {
+        "text": "Dufferin Street between Jane Osler Boulevard & 401 C East Dufferin Street South Ramp",
+        "approximate": false,
+        "coordinates": [
+          43.7249748,
+          -79.4571508
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-03T14:40:59.687Z"
+      }
+    },
+    {
+      "id": "F26157207",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury",
+      "location": "DUFFERIN ST, NY / SPARROW AVE / BENTWORTH AVE",
+      "division": "145",
+      "timestamp": "2026-10-03T14:28:57.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "132"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-03T14:40:59.687Z",
+      "lastSeenAt": "2026-10-03T14:40:59.687Z",
+      "geography": {
+        "text": "Dufferin Street between Sparrow Avenue & Bentworth Avenue",
+        "approximate": false,
+        "coordinates": [
+          43.72125715,
+          -79.45631764999999
+        ],
+        "division": "Division 32",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-03T14:40:59.687Z"
+      }
+    },
     {
       "id": "F26157205",
       "source": "TFS",
@@ -15,7 +157,7 @@
       "division": "133",
       "timestamp": "2026-10-03T14:24:21.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-10-03T14:35:11.109Z",
       "lastSeenAt": "2026-10-03T14:35:11.109Z",
@@ -42,9 +184,25 @@
       "timestamp": "2026-10-03T14:21:21.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "141",
+            "142"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "143"
+          ]
+        }
+      ],
+      "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-03T14:35:11.109Z",
-      "lastSeenAt": "2026-10-03T14:35:11.109Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T14:40:59.687Z",
+      "lastSeenAt": "2026-10-03T14:40:59.687Z",
       "geography": {
         "text": "Campus Walk & Vanier Lane",
         "approximate": false,
@@ -100,7 +258,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T14:29:12.007Z",
-      "lastSeenAt": "2026-10-03T14:35:11.109Z",
+      "lastSeenAt": "2026-10-03T14:40:59.687Z",
       "geography": {
         "text": "Approximate area: (M9C) Etobicoke (Eringate / Bloordale Gardens / Old Burnhamthorpe / Markland Woods)",
         "approximate": true,
@@ -170,16 +328,23 @@
       "isOngoing": true,
       "vehicles": [
         {
+          "type": "Command Unit",
+          "numbers": [
+            "33"
+          ]
+        },
+        {
           "type": "Fire Truck",
           "numbers": [
-            "332"
+            "332",
+            "334"
           ]
         }
       ],
-      "respondingUnitCount": 1,
+      "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-03T14:22:58.667Z",
-      "lastMeaningfulUpdateAt": "2026-10-03T14:35:11.109Z",
-      "lastSeenAt": "2026-10-03T14:35:11.109Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T14:40:59.687Z",
+      "lastSeenAt": "2026-10-03T14:40:59.687Z",
       "geography": {
         "text": "Mercer Street between Lane East John South Mercer & Lane South King West John",
         "approximate": false,
@@ -214,7 +379,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T14:18:21.143Z",
       "lastMeaningfulUpdateAt": "2026-10-03T14:22:58.667Z",
-      "lastSeenAt": "2026-10-03T14:35:11.109Z",
+      "lastSeenAt": "2026-10-03T14:40:59.687Z",
       "geography": {
         "text": "Weston Road & Lawrence Avenue West",
         "approximate": false,
@@ -306,7 +471,7 @@
       "division": "232",
       "timestamp": "2026-10-03T14:02:08.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -419,7 +584,7 @@
       ],
       "respondingUnitCount": 3,
       "firstSeenAt": "2026-10-03T14:13:11.388Z",
-      "lastSeenAt": "2026-10-03T14:35:11.109Z",
+      "lastSeenAt": "2026-10-03T14:40:59.687Z",
       "geography": {
         "text": "Rustic Road between Culford Road & Blue Springs Road",
         "approximate": false,
@@ -519,7 +684,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T14:08:10.365Z",
-      "lastSeenAt": "2026-10-03T14:35:11.109Z",
+      "lastSeenAt": "2026-10-03T14:40:59.687Z",
       "geography": {
         "text": "Approximate area: (M1T) Scarborough (Clarks Corners / Tam O'Shanter / Sullivan)",
         "approximate": true,
@@ -1078,7 +1243,7 @@
       "respondingUnitCount": 5,
       "firstSeenAt": "2026-10-03T13:39:08.556Z",
       "lastMeaningfulUpdateAt": "2026-10-03T14:13:11.388Z",
-      "lastSeenAt": "2026-10-03T14:35:11.109Z",
+      "lastSeenAt": "2026-10-03T14:40:59.687Z",
       "geography": {
         "text": "Weston Road between Rectory Road & Holley Park Trl",
         "approximate": false,
@@ -214750,192 +214915,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-26T15:11:18.068Z"
-    },
-    {
-      "id": "TPS-ca6c1d8a302a46bb388be904",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "ANIMAL COMP",
-      "callTypeCode": "ANICO",
-      "timestamp": "2026-09-26T14:39:51.000Z",
-      "location": "RED DEER AVE - WARDEN AVE",
-      "division": "Division 41",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "RED DEER AVE - WARDEN AVE",
-        "coordinates": [
-          43.69067463401062,
-          -79.27213167169151
-        ],
-        "division": "Division 41",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T14:51:20.707Z"
-    },
-    {
-      "id": "F26152766",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Vehicle - Personal Injury Highway",
-      "location": "/",
-      "division": "132",
-      "timestamp": "2026-09-26T14:36:51.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Aerial Truck",
-          "numbers": [
-            "135"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "131"
-          ]
-        }
-      ],
-      "respondingUnitCount": 2,
-      "firstSeenAt": "2026-09-26T14:46:37.395Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T14:51:20.707Z",
-      "lastSeenAt": "2026-09-26T14:59:20.840Z",
-      "geography": {
-        "text": "Approximate location on an unspecified street",
-        "approximate": true,
-        "coordinates": null,
-        "division": "Unknown",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-10-03T14:29:12.007Z"
-      }
-    },
-    {
-      "id": "TPS-6d3be4b53db1e0c6f552ac03",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "PERSONAL INJURY COLLISION",
-      "callTypeCode": "PIACC",
-      "timestamp": "2026-09-26T14:36:07.000Z",
-      "location": "LAWRENCE AVE E - GREENCREST CRCT",
-      "division": "Division 43",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "LAWRENCE AVE E - GREENCREST CRCT",
-        "coordinates": [
-          43.760307305471905,
-          -79.22297077425829
-        ],
-        "division": "Division 43",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T14:51:20.707Z"
-    },
-    {
-      "id": "F26152765",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Vehicle - Personal Injury",
-      "location": "MIDLAND AVE / EGLINTON AVE E",
-      "division": "221",
-      "timestamp": "2026-09-26T14:36:06.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Squad Unit",
-          "numbers": [
-            "232"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-26T14:46:37.395Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T14:51:20.707Z",
-      "lastSeenAt": "2026-09-26T14:59:20.840Z",
-      "geography": {
-        "text": "Midland Avenue & Eglinton Avenue East",
-        "approximate": false,
-        "coordinates": [
-          43.7345269,
-          -79.2581252
-        ],
-        "division": "Division 41",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-26T14:46:37.395Z"
-      }
-    },
-    {
-      "id": "F26152764",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Alarm Single Source",
-      "location": "MILVERTON BLVD, TT / WOODMOUNT AVE / WOODBINE AVE",
-      "division": "224",
-      "timestamp": "2026-09-26T14:35:47.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "224",
-            "226",
-            "312"
-          ]
-        }
-      ],
-      "respondingUnitCount": 3,
-      "firstSeenAt": "2026-09-26T14:46:37.395Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T14:51:20.707Z",
-      "lastSeenAt": "2026-09-26T15:05:17.889Z",
-      "geography": {
-        "text": "Approximate location near Milverton Boulevard & Woodmount Avenue",
-        "approximate": true,
-        "coordinates": [
-          43.6883794,
-          -79.3165873
-        ],
-        "division": "Unknown",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-26T14:46:37.395Z"
-      }
-    },
-    {
-      "id": "TPS-3d8ef1381103ba420fac186e",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "SEE AMBULANCE",
-      "callTypeCode": "SEEAM",
-      "timestamp": "2026-09-26T14:35:32.000Z",
-      "location": "AMSTERDAM AVE - WILLIS BLAIR PARKETTE TRL",
-      "division": "Division 55",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "AMSTERDAM AVE - WILLIS BLAIR PARKETTE TRL",
-        "coordinates": [
-          43.715299271624396,
-          -79.3058090561617
-        ],
-        "division": "Division 55",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T14:51:20.707Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T14:35:11.109Z",
-      "sourceUpdatedAt": "2026-10-03T14:30:01.000Z",
+      "fetchedAt": "2026-10-03T14:40:59.687Z",
+      "sourceUpdatedAt": "2026-10-03T14:40:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T14:35:11.109Z",
+      "fetchedAt": "2026-10-03T14:40:59.687Z",
       "status": "ok"
     }
   },
@@ -346286,8 +346275,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-03T14:35:11.109Z",
-      "fetchedAt": "2026-10-03T14:35:11.109Z"
+      "checkedAt": "2026-10-03T14:40:59.687Z",
+      "fetchedAt": "2026-10-03T14:40:59.687Z"
     },
     "transit": {
       "items": [
@@ -348487,16 +348476,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-03T14:35:11.000Z",
+      "sourceUpdatedAt": "2026-10-03T14:41:00.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-03T14:35:11.109Z",
-      "fetchedAt": "2026-10-03T14:35:11.109Z"
+      "checkedAt": "2026-10-03T14:40:59.687Z",
+      "fetchedAt": "2026-10-03T14:40:59.687Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T14:34:51.000Z",
+    "sourceUpdatedAt": "2026-10-03T14:40:45.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -348505,14 +348494,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T14:35:11.109Z",
-    "checkedAt": "2026-10-03T14:35:11.109Z",
+    "fetchedAt": "2026-10-03T14:40:59.687Z",
+    "checkedAt": "2026-10-03T14:40:59.687Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T14:35:11.109Z",
-      "checkedAt": "2026-10-03T14:35:11.109Z",
+      "fetchedAt": "2026-10-03T14:40:59.687Z",
+      "checkedAt": "2026-10-03T14:40:59.687Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -348536,6 +348525,54 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M6K": {
+      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
+      "approximate": true,
+      "coordinates": [
+        43.6383,
+        -79.4301
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "JANE ST, NY / EDDYSTONE AVE / FIRGROVE CRES": {
+      "text": "Approximate location near Jane Street & Eddystone Avenue",
+      "approximate": true,
+      "coordinates": [
+        43.7491388,
+        -79.5156417
+      ],
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-03T14:40:59.687Z"
+    },
+    "DUFFERIN ST, NY / JANE OSLER BLVD / 401 C E DUFFERIN ST S RAMP": {
+      "text": "Dufferin Street between Jane Osler Boulevard & 401 C East Dufferin Street South Ramp",
+      "approximate": false,
+      "coordinates": [
+        43.7249748,
+        -79.4571508
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-03T14:40:59.687Z"
+    },
+    "DUFFERIN ST, NY / SPARROW AVE / BENTWORTH AVE": {
+      "text": "Dufferin Street between Sparrow Avenue & Bentworth Avenue",
+      "approximate": false,
+      "coordinates": [
+        43.72125715,
+        -79.45631764999999
+      ],
+      "division": "Division 32",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-03T14:40:59.687Z"
+    },
     "M6M": {
       "text": "Approximate area: (M6M) York (Del Ray / Keelsdale / Mount Dennis / Silverthorne)",
       "approximate": true,
@@ -349240,18 +349277,6 @@
         -79.2644
       ],
       "division": "Division 42",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M6K": {
-      "text": "Approximate area: (M6K) West Toronto (Brockton / Parkdale Village / Exhibition Place)",
-      "approximate": true,
-      "coordinates": [
-        43.6383,
-        -79.4301
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
@@ -361831,30 +361856,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-26T14:56:00.332Z"
-    },
-    "MIDLAND AVE / EGLINTON AVE E": {
-      "text": "Midland Avenue & Eglinton Avenue East",
-      "approximate": false,
-      "coordinates": [
-        43.7345269,
-        -79.2581252
-      ],
-      "division": "Division 41",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-26T14:46:37.395Z"
-    },
-    "MILVERTON BLVD, TT / WOODMOUNT AVE / WOODBINE AVE": {
-      "text": "Approximate location near Milverton Boulevard & Woodmount Avenue",
-      "approximate": true,
-      "coordinates": [
-        43.6883794,
-        -79.3165873
-      ],
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-26T14:46:37.395Z"
     }
   }
 }
