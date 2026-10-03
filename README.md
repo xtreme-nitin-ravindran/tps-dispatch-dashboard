@@ -771,10 +771,29 @@ A successful JSON request alone does not mean the data is current.
 
 ## Automated Data Updates
 
-- **Concourse** runs `scripts/tfs-etl.js` approximately every minute to fetch feeds, merge history, and prepare map locations. Road and TTC feeds are checked at most once every five minutes.
+- **Concourse** runs `scripts/tfs-etl.js` approximately every three minutes to fetch feeds, merge history, and prepare map locations. Road and TTC feeds are checked at most once every five minutes.
 - **GitHub Actions fallback** checks every five minutes and runs the updater if the snapshot or either incident feed is at least ten minutes old or unavailable. Scheduled runs may be delayed.
-- Both use code from **`main`** and publish only `data/current.json` to the **`data`** branch. The site reads that snapshot directly, so data updates do not require a Pages deployment.
+- Both use code from **`main`** and publish `data/current.json` and `data/ttc-diversions.json` to the **`data`** branch. The site reads those files directly, so data updates do not require a Pages deployment.
 - Failed sources retain their last successful data and are marked unavailable. If both incident feeds fail, the existing snapshot is preserved.
+
+### Single data-branch writer
+
+The `data` branch is a single Git ref, so any two writers that push to it can race a
+fast-forward push: whichever finishes second is based on an older commit and is
+rejected. SirenTO avoids this by using **exactly one writer per pipeline** rather than
+serializing two writers with a shared lock.
+
+- **Concourse** runs one `update-sirento` job. The incident ETL and the bounded TTC
+  vehicle burst are sequential steps in that job, and a single `put: snapshots` step
+  publishes both `data/current.json` and `data/ttc-diversions.json` in one push.
+- **GitHub Actions** runs one `update-sirento` workflow (`.github/workflows/update-sirento.yml`)
+  with the same sequential steps and a single `git push origin HEAD:data`.
+
+Because there is only one writer, no `serial_groups` lock is needed. The trade-off is
+deliberate: a TTC failure fails the whole build, so the next timer tick or scheduled
+run retries both the incident snapshot and the TTC geometry together. This is preferred
+over a shared serial group, which previously deadlocked the pipeline when a resource
+check stalled and no build could start.
 
 Keep generated snapshots out of code commits. The snapshot on `dev` and `main` is a
 fixture; the live snapshot is on `data`. Pipeline configuration is in
@@ -1129,22 +1148,22 @@ separate reasons, immediately export unavailable with **no deviations**, and age
 restart state for at most 180 seconds. Static failure clears restart evidence.
 Failures are isolated from all incident/alert publication jobs.
 
-Concourse `detect-ttc-vehicle-deviations` is a separate serial job triggered by the
-existing one-minute resource. `concourse/ttc-vehicles.yml` loads static GTFS once and
-makes **four polls 30 seconds apart** (a 90-second burst plus network/setup time).
-Actual starts are limited by serial job duration; this is not a guaranteed continuous
-30-second service. A bounded task cache carries state when available; losing it is
-safe because each burst can confirm independently. `ttc-vehicle-evidence/deviations.json`
-is a task output for subsequent backend tasks; it is not committed or published to
-the web data branch. Build logs retain 20 builds. The existing standalone incident
-ETL task requires no changes for this separate feature.
+Concourse runs the vehicle burst as the `observe-vehicles` step inside the single
+`update-sirento` job, after the incident ETL. `concourse/ttc-vehicles.yml` loads static
+GTFS once and makes **four polls 30 seconds apart** (a 90-second burst plus
+network/setup time). Actual starts are limited by the job's total duration; this is not
+a guaranteed continuous 30-second service. A bounded task cache carries state when
+available; losing it is safe because each burst can confirm independently.
+`ttc-vehicle-evidence/deviations.json` is a task output consumed by the following
+`publish-ttc-geometry` step; it is not committed or published to the web data branch.
+Build logs retain 50 builds. The incident ETL step requires no changes for this feature.
 
-GitHub `.github/workflows/ttc-vehicles.yml` runs the same four-poll code every five
-minutes when scheduled, independently of the incident fallback. It caches only the
-static ZIP, starts fresh vehicle history each run, and uploads compact evidence for
-one day. It cannot establish continuity between runs. Scheduler delays and feed
-repetition may yield no confirmed deviations; correctness is unchanged. No new
-always-on service, browser polling, dependencies, or data-branch writes are added.
+GitHub `.github/workflows/update-sirento.yml` runs the same four-poll code every five
+minutes when scheduled, as a step in the single data-writer job. It caches only the
+static ZIP, starts fresh vehicle history each run, and cannot establish continuity
+between runs. Scheduler delays and feed repetition may yield no confirmed deviations;
+correctness is unchanged. No new always-on service, browser polling, or dependencies
+are added.
 
 Local commands (no UI startup):
 
@@ -1291,9 +1310,9 @@ update. A successful empty construction feed leaves no extra panel or zero count
 
 The new public `data/ttc-diversions.json` on the **data branch** is an allow-listed
 projection of the separate Story 30E output. `scripts/publish-ttc-geometry.js` drops
-all raw boundary evidence, vehicle data and confidence diagnostics. The independent
-Concourse vehicle job and GitHub fallback publish this file with normal fast-forward
-pushes; a concurrent data commit safely rejects the push and the next cycle retries.
+all raw boundary evidence, vehicle data and confidence diagnostics. The single
+`update-sirento` writer (Concourse job and GitHub workflow) publishes this file
+together with `data/current.json` in one fast-forward push, so no two writers can race.
 No polling workload was added to the incident ETL. These workflow changes require
 normal code promotion/pipeline configuration before production can serve the new
 artifact. A missing artifact is handled as unavailable, not as an incident failure.
