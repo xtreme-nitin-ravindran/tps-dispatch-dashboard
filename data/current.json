@@ -3,9 +3,102 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T17:15:14.986Z",
-  "sourceUpdatedAt": "2026-10-03T17:10:01.000Z",
+  "fetchedAt": "2026-10-03T17:20:04.884Z",
+  "sourceUpdatedAt": "2026-10-03T17:15:01.000Z",
   "incidents": [
+    {
+      "id": "F26157287",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "CHURCH ST, TT / GRANBY ST / CARLTON ST",
+      "division": "314",
+      "timestamp": "2026-10-03T17:08:58.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-03T17:20:04.884Z",
+      "lastSeenAt": "2026-10-03T17:20:04.884Z",
+      "geography": {
+        "text": "Church Street between Granby Street & Carlton Street",
+        "approximate": false,
+        "coordinates": [
+          43.6615634,
+          -79.37921845
+        ],
+        "division": "Division 51",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-03T17:20:04.884Z"
+      }
+    },
+    {
+      "id": "TPS-0b9d9c3f2d2ea7ca22771eec",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSIST PC",
+      "callTypeCode": "ASSPC",
+      "timestamp": "2026-10-03T17:08:05.000Z",
+      "location": "RICHMOND ST E - JARVIS ST",
+      "division": "5GRP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "RICHMOND ST E - JARVIS ST",
+        "coordinates": [
+          43.652731491835155,
+          -79.37283545057326
+        ],
+        "division": "5GRP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:20:04.884Z"
+    },
+    {
+      "id": "F26157286",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "THORNCLIFFE PARK DR, EY / R. V. BURGESS PARK TRL / OVERLEA BLVD",
+      "division": "322",
+      "timestamp": "2026-10-03T17:05:47.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-03T17:20:04.884Z",
+      "lastSeenAt": "2026-10-03T17:20:04.884Z",
+      "geography": {
+        "text": "Approximate location on Thorncliffe Park Drive between R. V. Burgess Park Trl & Overlea Boulevard",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-03T16:35:23.769Z"
+      }
+    },
+    {
+      "id": "TPS-1b0356e182e0f1fd0afee9db",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DAMAGE JUST OCCURRED",
+      "callTypeCode": "DAMJU",
+      "timestamp": "2026-10-03T17:03:57.000Z",
+      "location": "ST MARY ST - CHARLES ST W",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ST MARY ST - CHARLES ST W",
+        "coordinates": [
+          43.667434106695886,
+          -79.38849864685093
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:20:04.884Z"
+    },
     {
       "id": "F26157285",
       "source": "TFS",
@@ -16,9 +109,18 @@
       "timestamp": "2026-10-03T17:03:53.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "331"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T17:15:14.986Z",
-      "lastSeenAt": "2026-10-03T17:15:14.986Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T17:20:04.884Z",
+      "lastSeenAt": "2026-10-03T17:20:04.884Z",
       "geography": {
         "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
         "approximate": true,
@@ -33,6 +135,72 @@
       }
     },
     {
+      "id": "TPS-7ede7d796fb3371ccb6992b7",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "MISSING ELDERLY",
+      "callTypeCode": "MISEL",
+      "timestamp": "2026-10-03T17:02:10.000Z",
+      "location": " - ",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": " - ",
+        "coordinates": [
+          43.64288068198433,
+          -79.37527824703511
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:20:04.884Z"
+    },
+    {
+      "id": "TPS-ccfc148d915dbd93f65ca139",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT IN PROGRESS",
+      "callTypeCode": "THEPR",
+      "timestamp": "2026-10-03T17:02:01.000Z",
+      "location": "HOGARTH AVE - BOWDEN ST",
+      "division": "Division 55",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HOGARTH AVE - BOWDEN ST",
+        "coordinates": [
+          43.67402133917341,
+          -79.35273328471463
+        ],
+        "division": "Division 55",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:20:04.884Z"
+    },
+    {
+      "id": "TPS-1772b016756fc6998c1ee41d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-10-03T17:01:57.000Z",
+      "location": "FENSIDE DR - PARKWOODS VILLAGE DR",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "FENSIDE DR - PARKWOODS VILLAGE DR",
+        "coordinates": [
+          43.76133302065415,
+          -79.32501386687734
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:20:04.884Z"
+    },
+    {
       "id": "F26157284",
       "source": "TFS",
       "eventType": "fire",
@@ -41,7 +209,7 @@
       "division": "325",
       "timestamp": "2026-10-03T17:00:55.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [],
       "firstSeenAt": "2026-10-03T17:15:14.986Z",
       "lastSeenAt": "2026-10-03T17:15:14.986Z",
@@ -112,7 +280,7 @@
       "respondingUnitCount": 9,
       "firstSeenAt": "2026-10-03T17:09:02.356Z",
       "lastMeaningfulUpdateAt": "2026-10-03T17:15:14.986Z",
-      "lastSeenAt": "2026-10-03T17:15:14.986Z",
+      "lastSeenAt": "2026-10-03T17:20:04.884Z",
       "geography": {
         "text": "Spadina Road between Chaplin Crescent & New Haven Drive",
         "approximate": false,
@@ -147,7 +315,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T17:09:02.356Z",
       "lastMeaningfulUpdateAt": "2026-10-03T17:15:14.986Z",
-      "lastSeenAt": "2026-10-03T17:15:14.986Z",
+      "lastSeenAt": "2026-10-03T17:20:04.884Z",
       "geography": {
         "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
         "approximate": true,
@@ -210,7 +378,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T17:02:54.859Z",
       "lastMeaningfulUpdateAt": "2026-10-03T17:09:02.356Z",
-      "lastSeenAt": "2026-10-03T17:15:14.986Z",
+      "lastSeenAt": "2026-10-03T17:20:04.884Z",
       "geography": {
         "text": "Mccaul Street between Lane 2 South College West Mc Caul & Lane 1 South College West Mc Caul",
         "approximate": false,
@@ -233,7 +401,7 @@
       "division": "213",
       "timestamp": "2026-10-03T16:48:47.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -353,7 +521,7 @@
       "division": "435",
       "timestamp": "2026-10-03T16:47:18.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Squad Unit",
@@ -817,7 +985,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T16:42:55.619Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:46:54.862Z",
-      "lastSeenAt": "2026-10-03T17:15:14.986Z",
+      "lastSeenAt": "2026-10-03T17:20:04.884Z",
       "geography": {
         "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
         "approximate": true,
@@ -1055,7 +1223,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T16:35:23.769Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:42:55.619Z",
-      "lastSeenAt": "2026-10-03T17:15:14.986Z",
+      "lastSeenAt": "2026-10-03T17:20:04.884Z",
       "geography": {
         "text": "Approximate area: (M4M) East Toronto (Studio District)",
         "approximate": true,
@@ -1096,7 +1264,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T16:29:23.648Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:35:23.769Z",
-      "lastSeenAt": "2026-10-03T17:15:14.986Z",
+      "lastSeenAt": "2026-10-03T17:20:04.884Z",
       "geography": {
         "text": "Approximate location on Plywood Place",
         "approximate": true,
@@ -1496,7 +1664,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T16:23:31.690Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:29:23.648Z",
-      "lastSeenAt": "2026-10-03T17:15:14.986Z",
+      "lastSeenAt": "2026-10-03T17:20:04.884Z",
       "geography": {
         "text": "Raab Boulevard between Hospital Road & Veterans Hill Trl",
         "approximate": false,
@@ -4464,7 +4632,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-10-03T14:13:11.388Z",
       "lastMeaningfulUpdateAt": "2026-10-03T15:56:38.177Z",
-      "lastSeenAt": "2026-10-03T17:15:14.986Z",
+      "lastSeenAt": "2026-10-03T17:20:04.884Z",
       "geography": {
         "text": "Rustic Road between Culford Road & Blue Springs Road",
         "approximate": false,
@@ -214044,121 +214212,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "TPS-87902f0c4e7b67bf94dee608",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "UNKNOWN TROUBLE",
-      "callTypeCode": "UNKTR",
-      "timestamp": "2026-09-26T17:19:56.000Z",
-      "location": "LN N KING E PETER - ADELAIDE ST W",
-      "division": "Division 52",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "LN N KING E PETER - ADELAIDE ST W",
-        "coordinates": [
-          43.64631338541703,
-          -79.39103823795996
-        ],
-        "division": "Division 52",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T17:31:12.425Z"
-    },
-    {
-      "id": "F26152859",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M6G",
-      "division": "314",
-      "timestamp": "2026-09-26T17:19:45.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "343"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-26T17:26:31.935Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T17:31:12.425Z",
-      "lastSeenAt": "2026-09-26T17:31:12.425Z",
-      "geography": {
-        "text": "Approximate area: (M6G) Downtown Toronto (Christie)",
-        "approximate": true,
-        "coordinates": [
-          43.6683,
-          -79.4205
-        ],
-        "division": "Division 14",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
-    },
-    {
-      "id": "TPS-c9fe43f16ab8ade460cd6a85",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "FIGHT",
-      "callTypeCode": "FIG",
-      "timestamp": "2026-09-26T17:18:11.000Z",
-      "location": "AVENUE RD - GREY RD",
-      "division": "Division 32",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "AVENUE RD - GREY RD",
-        "coordinates": [
-          43.729883168947865,
-          -79.4186773269365
-        ],
-        "division": "Division 32",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T17:31:12.425Z"
-    },
-    {
-      "id": "F26152858",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M4X",
-      "division": "313",
-      "timestamp": "2026-09-26T17:17:27.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [],
-      "firstSeenAt": "2026-09-26T17:26:31.935Z",
-      "lastSeenAt": "2026-09-26T17:29:50.101Z",
-      "geography": {
-        "text": "Approximate area: (M4X) Downtown Toronto (St. James Town / Cabbagetown)",
-        "approximate": true,
-        "coordinates": [
-          43.6684,
-          -79.3689
-        ],
-        "division": "Division 51",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T17:15:14.986Z",
-      "sourceUpdatedAt": "2026-10-03T17:10:01.000Z",
+      "fetchedAt": "2026-10-03T17:20:04.884Z",
+      "sourceUpdatedAt": "2026-10-03T17:15:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T17:15:14.986Z",
+      "fetchedAt": "2026-10-03T17:20:04.884Z",
       "status": "ok"
     }
   },
@@ -347894,7 +347957,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T17:14:55.000Z",
+    "sourceUpdatedAt": "2026-10-03T17:19:57.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -347903,14 +347966,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T17:15:14.986Z",
-    "checkedAt": "2026-10-03T17:15:14.986Z",
+    "fetchedAt": "2026-10-03T17:20:04.884Z",
+    "checkedAt": "2026-10-03T17:20:04.884Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T17:15:14.986Z",
-      "checkedAt": "2026-10-03T17:15:14.986Z",
+      "fetchedAt": "2026-10-03T17:20:04.884Z",
+      "checkedAt": "2026-10-03T17:20:04.884Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -347934,6 +347997,27 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "CHURCH ST, TT / GRANBY ST / CARLTON ST": {
+      "text": "Church Street between Granby Street & Carlton Street",
+      "approximate": false,
+      "coordinates": [
+        43.6615634,
+        -79.37921845
+      ],
+      "division": "Division 51",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-03T17:20:04.884Z"
+    },
+    "THORNCLIFFE PARK DR, EY / R. V. BURGESS PARK TRL / OVERLEA BLVD": {
+      "text": "Approximate location on Thorncliffe Park Drive between R. V. Burgess Park Trl & Overlea Boulevard",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-03T16:35:23.769Z"
+    },
     "M5T": {
       "text": "Approximate area: (M5T) Downtown Toronto (Kensington Market / Chinatown / Grange Park)",
       "approximate": true,
@@ -352523,15 +352607,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-10-01T18:48:29.062Z"
-    },
-    "THORNCLIFFE PARK DR, EY / R. V. BURGESS PARK TRL / OVERLEA BLVD": {
-      "text": "Approximate location on Thorncliffe Park Drive between R. V. Burgess Park Trl & Overlea Boulevard",
-      "approximate": true,
-      "coordinates": null,
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-10-03T16:35:23.769Z"
     },
     "CRESCENTWOOD RD, SC / WARDEN AVE / WHITE BIRCH RD": {
       "text": "Approximate location near Crescentwood Road & Warden Avenue",
