@@ -3,9 +3,87 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T13:15:46.918Z",
-  "sourceUpdatedAt": "2026-10-03T13:15:01.000Z",
+  "fetchedAt": "2026-10-03T13:20:48.293Z",
+  "sourceUpdatedAt": "2026-10-03T13:20:02.000Z",
   "incidents": [
+    {
+      "id": "F26157178",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M9V",
+      "division": "413",
+      "timestamp": "2026-10-03T13:11:01.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "413"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-03T13:20:48.293Z",
+      "lastSeenAt": "2026-10-03T13:20:48.293Z",
+      "geography": {
+        "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
+        "approximate": true,
+        "coordinates": [
+          43.7432,
+          -79.5876
+        ],
+        "division": "Division 23",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-333a4113b61772f8a5683666",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-10-03T13:07:20.000Z",
+      "location": "R. V. BURGESS PARK TRL - WEST DON RIVER TRL",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "R. V. BURGESS PARK TRL - WEST DON RIVER TRL",
+        "coordinates": [
+          43.703234389898334,
+          -79.34661502162206
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
+    },
+    {
+      "id": "TPS-29712ec2d955262e70e2cf1d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-10-03T13:07:19.000Z",
+      "location": "WEDGEWOOD DR - YONGE ST",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WEDGEWOOD DR - YONGE ST",
+        "coordinates": [
+          43.78897150271507,
+          -79.41781122461191
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
+    },
     {
       "id": "F26157177",
       "source": "TFS",
@@ -16,9 +94,24 @@
       "timestamp": "2026-10-03T13:06:23.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "142"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "143"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T13:15:46.918Z",
-      "lastSeenAt": "2026-10-03T13:15:46.918Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T13:20:48.293Z",
+      "lastSeenAt": "2026-10-03T13:20:48.293Z",
       "geography": {
         "text": "Steeles Avenue between Dufferin Street & Gerry Fitzgerald Drive",
         "approximate": false,
@@ -31,6 +124,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-10-03T13:15:46.918Z"
       }
+    },
+    {
+      "id": "TPS-44c84310e75f1e3a61ea1205",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "THEFT",
+      "callTypeCode": "THE",
+      "timestamp": "2026-10-03T13:06:14.000Z",
+      "location": "HUMBER HILL AVE - HOWLAND ST",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HUMBER HILL AVE - HOWLAND ST",
+        "coordinates": [
+          43.664889940419826,
+          -79.50147990299354
+        ],
+        "division": "Division 11",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
+    },
+    {
+      "id": "TPS-4b05e06014ec619fb9ab9a16",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-10-03T13:05:04.000Z",
+      "location": "INNISMORE CRES - SURREY AVE",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "INNISMORE CRES - SURREY AVE",
+        "coordinates": [
+          43.73626653787107,
+          -79.30741586821695
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
+    },
+    {
+      "id": "TPS-3c8957cd93293c2b487e47d4",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-10-03T13:03:17.000Z",
+      "location": "PARLIAMENT ST - ADELAIDE ST E",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "PARLIAMENT ST - ADELAIDE ST E",
+        "coordinates": [
+          43.65356709267071,
+          -79.36357385702622
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
     },
     {
       "id": "F26157176",
@@ -67,6 +226,50 @@
       }
     },
     {
+      "id": "TPS-de627c78ab6acc34fbe78139",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-10-03T13:01:31.000Z",
+      "location": "OLD STOCK YARDS RD - ST CLAIR AVE W",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "OLD STOCK YARDS RD - ST CLAIR AVE W",
+        "coordinates": [
+          43.67177454421725,
+          -79.47110771721377
+        ],
+        "division": "Division 11",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
+    },
+    {
+      "id": "TPS-55c0df696efb2916897f6b54",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-10-03T13:00:59.000Z",
+      "location": "STEELES AVE W - KEELE ST",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "STEELES AVE W - KEELE ST",
+        "coordinates": [
+          43.78149547981646,
+          -79.49439581224932
+        ],
+        "division": "Division 31",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
+    },
+    {
       "id": "F26157175",
       "source": "TFS",
       "eventType": "fire",
@@ -86,7 +289,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T13:10:49.304Z",
-      "lastSeenAt": "2026-10-03T13:15:46.918Z",
+      "lastSeenAt": "2026-10-03T13:20:48.293Z",
       "geography": {
         "text": "Approximate area: (M6A) North York (Lawrence Manor / Lawrence Heights)",
         "approximate": true,
@@ -99,6 +302,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-049818be65e061832403e372",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-10-03T13:00:08.000Z",
+      "location": "YONGE ST - DEER PARK CRES",
+      "division": "Division 53",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "YONGE ST - DEER PARK CRES",
+        "coordinates": [
+          43.68803364422179,
+          -79.3940734629841
+        ],
+        "division": "Division 53",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
+    },
+    {
+      "id": "TPS-acf8ae77b8c3c86637355b1f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-10-03T13:00:02.000Z",
+      "location": "GARDINER E LAKE SHORE WEST E RAMP - PARK LAWN RD",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GARDINER E LAKE SHORE WEST E RAMP - PARK LAWN RD",
+        "coordinates": [
+          43.62545188019389,
+          -79.48568571369577
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
+    },
+    {
+      "id": "TPS-990959137c252a69c0199427",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-10-03T12:59:48.000Z",
+      "location": "MARKHAM RD - ",
+      "division": "Division 43",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MARKHAM RD - ",
+        "coordinates": [
+          43.77953670123865,
+          -79.23296484605089
+        ],
+        "division": "Division 43",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
     },
     {
       "id": "F26157174",
@@ -120,7 +389,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T13:05:50.560Z",
-      "lastSeenAt": "2026-10-03T13:15:46.918Z",
+      "lastSeenAt": "2026-10-03T13:20:48.293Z",
       "geography": {
         "text": "Street Clair Avenue West & Old Stock Yards Road",
         "approximate": false,
@@ -154,7 +423,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T13:05:50.560Z",
-      "lastSeenAt": "2026-10-03T13:15:46.918Z",
+      "lastSeenAt": "2026-10-03T13:20:48.293Z",
       "geography": {
         "text": "Keele Street & Steeles Avenue West",
         "approximate": false,
@@ -169,6 +438,28 @@
       }
     },
     {
+      "id": "TPS-9eb22a6e88b98433b28b956d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-10-03T12:54:29.000Z",
+      "location": " - ",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": " - ",
+        "coordinates": [
+          43.63917708053595,
+          -79.41142392952399
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
+    },
+    {
       "id": "F26157172",
       "source": "TFS",
       "eventType": "fire",
@@ -177,7 +468,7 @@
       "division": "141",
       "timestamp": "2026-10-03T12:52:37.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Aerial Truck",
@@ -208,6 +499,138 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-10-03T13:05:50.560Z"
       }
+    },
+    {
+      "id": "TPS-7079f38b0dae8feda22a5636",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-10-03T12:51:42.000Z",
+      "location": "ALBERT ST - HAGERMAN ST",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ALBERT ST - HAGERMAN ST",
+        "coordinates": [
+          43.65431899342268,
+          -79.38316094421884
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
+    },
+    {
+      "id": "TPS-b82bdff26ce79f2eb9acc485",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ANIMAL COMP",
+      "callTypeCode": "ANICO",
+      "timestamp": "2026-10-03T12:51:30.000Z",
+      "location": "ORDE ST - COLLEGE ST",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ORDE ST - COLLEGE ST",
+        "coordinates": [
+          43.65989239899617,
+          -79.39035214362231
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
+    },
+    {
+      "id": "TPS-3e1aea399ac9eba4de4f017f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HOLDING ONE WITH TROUBLE",
+      "callTypeCode": "HOLTR",
+      "timestamp": "2026-10-03T12:51:13.000Z",
+      "location": "DISTILLERY LANE - TANK HOUSE LANE",
+      "division": "Division 51",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DISTILLERY LANE - TANK HOUSE LANE",
+        "coordinates": [
+          43.651340190443776,
+          -79.35735746075329
+        ],
+        "division": "Division 51",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
+    },
+    {
+      "id": "TPS-77186d536092a89a9fa62ba7",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "SEE AMBULANCE",
+      "callTypeCode": "SEEAM",
+      "timestamp": "2026-10-03T12:49:50.000Z",
+      "location": "ANDOVER CRES - 4140 LAWRENCE AVE E",
+      "division": "Division 43",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ANDOVER CRES - 4140 LAWRENCE AVE E",
+        "coordinates": [
+          43.76650299357238,
+          -79.19486880585487
+        ],
+        "division": "Division 43",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
+    },
+    {
+      "id": "TPS-8895bb8e0235138c8801b0f7",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISPUTE",
+      "callTypeCode": "DISPU",
+      "timestamp": "2026-10-03T12:49:05.000Z",
+      "location": "CHEROKEE BLVD - APACHE TRL",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CHEROKEE BLVD - APACHE TRL",
+        "coordinates": [
+          43.80021009780986,
+          -79.3355571818553
+        ],
+        "division": "Division 33",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
+    },
+    {
+      "id": "TPS-59c7dd184b3afbca3d1459aa",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ATTEMPT BREAK & ENTER",
+      "callTypeCode": "ATTBR",
+      "timestamp": "2026-10-03T12:46:26.000Z",
+      "location": "DUPONT ST - LN N DUPONT E ST CLARENS",
+      "division": "Division 11",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DUPONT ST - LN N DUPONT E ST CLARENS",
+        "coordinates": [
+          43.66696052215573,
+          -79.44530672100763
+        ],
+        "division": "Division 11",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
     },
     {
       "id": "F26157170",
@@ -393,6 +816,28 @@
         "approximate": true
       },
       "firstSeenAt": "2026-10-03T12:53:59.331Z"
+    },
+    {
+      "id": "TPS-ff7aad44c90a8677f7ffe2a8",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT",
+      "callTypeCode": "ASS",
+      "timestamp": "2026-10-03T12:38:56.000Z",
+      "location": "CLIFFCREST CRES - KELSONIA AVE",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CLIFFCREST CRES - KELSONIA AVE",
+        "coordinates": [
+          43.71081470997427,
+          -79.24721221181989
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T13:20:48.293Z"
     },
     {
       "id": "TPS-255f41b3d58f84668ddd63f4",
@@ -214819,51 +215264,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-26T13:52:00.028Z"
-    },
-    {
-      "id": "F26152731",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M1R",
-      "division": "245",
-      "timestamp": "2026-09-26T13:16:36.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "245"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-26T13:25:35.823Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T13:32:05.210Z",
-      "lastSeenAt": "2026-09-26T13:44:15.641Z",
-      "geography": {
-        "text": "Approximate area: (M1R) Scarborough (Wexford / Maryvale)",
-        "approximate": true,
-        "coordinates": [
-          43.7507,
-          -79.3003
-        ],
-        "division": "Division 41",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T13:15:46.918Z",
-      "sourceUpdatedAt": "2026-10-03T13:15:01.000Z",
+      "fetchedAt": "2026-10-03T13:20:48.293Z",
+      "sourceUpdatedAt": "2026-10-03T13:20:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T13:15:46.918Z",
+      "fetchedAt": "2026-10-03T13:20:48.293Z",
       "status": "ok"
     }
   },
@@ -346301,8 +346711,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-03T13:15:46.918Z",
-      "fetchedAt": "2026-10-03T13:15:46.918Z"
+      "checkedAt": "2026-10-03T13:20:48.293Z",
+      "fetchedAt": "2026-10-03T13:20:48.293Z"
     },
     "transit": {
       "items": [
@@ -348418,16 +348828,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-03T13:15:47.000Z",
+      "sourceUpdatedAt": "2026-10-03T13:20:49.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-03T13:15:46.918Z",
-      "fetchedAt": "2026-10-03T13:15:46.918Z"
+      "checkedAt": "2026-10-03T13:20:48.293Z",
+      "fetchedAt": "2026-10-03T13:20:48.293Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T13:15:40.000Z",
+    "sourceUpdatedAt": "2026-10-03T13:20:46.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -348436,14 +348846,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T13:15:46.918Z",
-    "checkedAt": "2026-10-03T13:15:46.918Z",
+    "fetchedAt": "2026-10-03T13:20:48.293Z",
+    "checkedAt": "2026-10-03T13:20:48.293Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T13:15:46.918Z",
-      "checkedAt": "2026-10-03T13:15:46.918Z",
+      "fetchedAt": "2026-10-03T13:20:48.293Z",
+      "checkedAt": "2026-10-03T13:20:48.293Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -348467,6 +348877,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M9V": {
+      "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
+      "approximate": true,
+      "coordinates": [
+        43.7432,
+        -79.5876
+      ],
+      "division": "Division 23",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "STEELES AVE, NY / DUFFERIN ST / GERRY FITZGERALD DR": {
       "text": "Steeles Avenue between Dufferin Street & Gerry Fitzgerald Drive",
       "approximate": false,
@@ -349492,18 +349914,6 @@
         -79.3853
       ],
       "division": "Division 53",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M9V": {
-      "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
-      "approximate": true,
-      "coordinates": [
-        43.7432,
-        -79.5876
-      ],
-      "division": "Division 23",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
