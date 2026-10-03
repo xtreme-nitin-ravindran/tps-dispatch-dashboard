@@ -2,12 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-// Regression: `update-sirento` and `detect-ttc-vehicle-deviations` both publish to
-// the same `snapshots` (data) branch. They previously ran in parallel, so whichever
+// Regression: `update-sirento` and `detect-ttc-vehicle-deviations` previously both
+// published to the same `snapshots` (data) branch. They ran in parallel, so whichever
 // finished second failed its fast-forward push because it was based on an older
-// version of the branch. They must now share a serial group so only one writer runs
-// at a time. This test parses the pipeline structurally (no YAML dependency) and
-// fails if any two jobs that write the same resource can run concurrently.
+// version of the branch. The incident ETL and the bounded TTC vehicle burst are now
+// sequential steps in a single `update-sirento` job with exactly one `put`, so no two
+// writers can race. This test parses the pipeline structurally (no YAML dependency)
+// and fails if any two jobs that write the same resource can run concurrently.
 
 // Minimal structural reader: split the `jobs:` block into per-job chunks at the
 // two-space `- name:` list markers, then read the fields this invariant depends on.
@@ -87,22 +88,19 @@ test('concurrent writers are reported only when a shared resource has no shared 
   assert.deepEqual(conflicts, [['a', 'c', ['shared']], ['b', 'c', ['shared']]]);
 });
 
-test('the pipeline still defines both snapshot writers', () => {
-  const names = jobs.map(job => job.name);
-  assert.ok(names.includes('update-sirento'), 'update-sirento job must exist');
-  assert.ok(names.includes('detect-ttc-vehicle-deviations'), 'detect-ttc-vehicle-deviations job must exist');
+test('the pipeline defines a single snapshot writer', () => {
+  const writers = jobs.filter(job => job.writes.includes('snapshots'));
+  assert.equal(writers.length, 1, 'exactly one job may publish snapshots');
+  assert.equal(writers[0].name, 'update-sirento', 'update-sirento must be the snapshot writer');
 });
 
 test('no two jobs can publish the same resource concurrently', () => {
   assert.deepEqual(concurrentWriters(jobs), []);
 });
 
-test('the two snapshot writers are serialized against each other', () => {
+test('the snapshot writer publishes exactly once per build', () => {
   const update = jobs.find(job => job.name === 'update-sirento');
-  const ttc = jobs.find(job => job.name === 'detect-ttc-vehicle-deviations');
-  assert.ok(update.writes.includes('snapshots'), 'update-sirento must publish snapshots');
-  assert.ok(ttc.writes.includes('snapshots'), 'detect-ttc-vehicle-deviations must publish snapshots');
-  const overlap = update.groups.filter(group => ttc.groups.includes(group));
-  assert.ok(overlap.length > 0, 'the two snapshot writers must share a serial group');
+  assert.equal(update.writes.filter(resource => resource === 'snapshots').length, 1,
+    'update-sirento must publish snapshots exactly once');
 });
 

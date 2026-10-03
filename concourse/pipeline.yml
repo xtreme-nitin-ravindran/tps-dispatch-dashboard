@@ -2,7 +2,7 @@ resources:
   - name: refresh
     type: time
     source:
-      interval: 1m
+      interval: 3m
   - name: repo
     type: git
     source:
@@ -18,12 +18,11 @@ resources:
       private_key: ((repo_private_key))
 
 jobs:
-  # Both jobs publish to the same `snapshots` (data) branch. The shared
-  # `snapshots-writers` serial group guarantees only one of them runs at a time,
-  # so a fast-forward push can never race another writer's older base.
+  # Single writer for the `data` branch. Incident ETL and the bounded TTC vehicle
+  # burst run as sequential steps in one job so there is exactly one `put` and no
+  # two writers can race a fast-forward push. The trade-off is deliberate: a TTC
+  # failure fails the whole build, so the next timer tick retries both.
   - name: update-sirento
-    serial: true
-    serial_groups: [snapshots-writers]
     build_log_retention:
       builds: 50
     plan:
@@ -64,32 +63,12 @@ jobs:
                 TFS_UPDATED_BY=concourse TFS_PREVIOUS=../snapshots/data/current.json TFS_OUTPUT=../updated-repo/data/current.json node scripts/tfs-etl.js
                 cd ../updated-repo
                 node ../repo/scripts/commit-tfs.js
-      # Fast-forward only: a concurrent push fails safely instead of overwriting
-      # newer history or publishing results based on untested code after a rebase.
-      # Rerun with fresh inputs or wait for the next timer tick to recompute.
-      - put: snapshots
-        timeout: 2m
-        params:
-          repository: updated-repo
-
-  # Independent of incident publication; a failed TTC task cannot block snapshots.
-  # Cache continuity is opportunistic. Each 90-second burst can confirm on its own.
-  # Shares the `snapshots-writers` serial group so it never publishes concurrently
-  # with update-sirento.
-  - name: detect-ttc-vehicle-deviations
-    serial: true
-    serial_groups: [snapshots-writers]
-    build_log_retention:
-      builds: 20
-    plan:
-      - get: refresh
-        trigger: true
-      - get: repo
+      # Bounded 90-second vehicle burst; never runs the heavy incident ETL.
       - task: observe-vehicles
         timeout: 6m
         file: repo/concourse/ttc-vehicles.yml
-
-      - get: snapshots
+      # Project confirmed TTC geometry into the same working copy as the incident
+      # snapshot so a single `put` publishes both files.
       - task: publish-ttc-geometry
         config:
           platform: linux
@@ -98,25 +77,28 @@ jobs:
             source: { repository: node, tag: 22-bookworm }
           inputs:
             - name: repo
-            - name: snapshots
+            - name: incident-repo
             - name: ttc-vehicle-evidence
           outputs:
-            - name: ttc-updated-repo
+            - name: updated-repo
           run:
             path: sh
             args:
               - -ec
               - |
-                cp -a snapshots/. ttc-updated-repo/
+                # An output with the same name as an input replaces it, so seed the
+                # output from the incident snapshot before adding TTC geometry.
+                cp -a incident-repo/. updated-repo/
                 cd repo
                 npm ci --omit=dev
-                node scripts/publish-ttc-geometry.js ../ttc-vehicle-evidence/diversions.json ../ttc-updated-repo/data/ttc-diversions.json
-                cd ../ttc-updated-repo
+                node scripts/publish-ttc-geometry.js ../ttc-vehicle-evidence/diversions.json ../updated-repo/data/ttc-diversions.json
+                cd ../updated-repo
                 git add -- data/ttc-diversions.json
                 if ! git diff --cached --quiet; then
                   git -c user.name='SirenTO updater' -c user.email='sirento-updater@localhost' commit -m 'chore: refresh public TTC geometry'
                 fi
-      # Concurrent data updates fail safely; never force or overwrite incident history.
+      # Single fast-forward push for both data/current.json and data/ttc-diversions.json.
       - put: snapshots
+        timeout: 2m
         params:
-          repository: ttc-updated-repo
+          repository: updated-repo
