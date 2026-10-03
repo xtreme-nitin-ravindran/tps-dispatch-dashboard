@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T06:53:54.681Z",
-  "sourceUpdatedAt": "2026-10-03T06:50:01.000Z",
+  "fetchedAt": "2026-10-03T06:55:50.646Z",
+  "sourceUpdatedAt": "2026-10-03T06:55:02.000Z",
   "incidents": [
     {
       "id": "TPS-a1a38b60a0cbfd2d21605eb1",
@@ -1834,7 +1834,7 @@
       ],
       "respondingUnitCount": 7,
       "firstSeenAt": "2026-10-03T05:36:23.397Z",
-      "lastSeenAt": "2026-10-03T06:53:54.681Z",
+      "lastSeenAt": "2026-10-03T06:55:50.646Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -216004,72 +216004,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-26T07:11:59.030Z"
-    },
-    {
-      "id": "TPS-ff3a6473f18e90178d4a334d",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "BREAK & ENTER IN PROGRESS",
-      "callTypeCode": "BREPR",
-      "timestamp": "2026-09-26T06:55:36.000Z",
-      "location": "STORMONT AVE - LAWRENCE AVE W",
-      "division": "TAC9",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "STORMONT AVE - LAWRENCE AVE W",
-        "coordinates": [
-          43.718424762575225,
-          -79.42956569181044
-        ],
-        "division": "TAC9",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T07:11:59.030Z"
-    },
-    {
-      "id": "F26152634",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M9R",
-      "division": "441",
-      "timestamp": "2026-09-26T06:54:42.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Rescue Truck",
-          "numbers": [
-            "441"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-26T07:00:30.059Z",
-      "lastSeenAt": "2026-09-26T07:25:20.200Z",
-      "geography": {
-        "text": "Approximate area: (M9R) Etobicoke (Kingsview Village / St. Phillips / Martin Grove Gardens / Richview Gardens)",
-        "approximate": true,
-        "coordinates": [
-          43.6898,
-          -79.5582
-        ],
-        "division": "Division 23",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T06:53:54.681Z",
-      "sourceUpdatedAt": "2026-10-03T06:50:01.000Z",
+      "fetchedAt": "2026-10-03T06:55:50.646Z",
+      "sourceUpdatedAt": "2026-10-03T06:55:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T06:53:54.681Z",
+      "fetchedAt": "2026-10-03T06:55:50.646Z",
       "status": "ok"
     }
   },
@@ -350870,7 +350814,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T06:53:50.000Z",
+    "sourceUpdatedAt": "2026-10-03T06:55:48.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -350879,14 +350823,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T06:53:54.681Z",
-    "checkedAt": "2026-10-03T06:53:54.681Z",
+    "fetchedAt": "2026-10-03T06:55:50.646Z",
+    "checkedAt": "2026-10-03T06:55:50.646Z",
     "staticCorrelation": {
       "schemaVersion": 1,
-      "status": "unavailable",
+      "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T06:48:24.131Z",
-      "checkedAt": "2026-10-03T06:53:54.681Z",
+      "fetchedAt": "2026-10-03T06:55:50.646Z",
+      "checkedAt": "2026-10-03T06:55:50.646Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -350895,7 +350839,17 @@
         "shapes": 1406,
         "tripsWithoutStops": 4
       },
-      "patterns": {}
+      "patterns": {},
+      "report": {
+        "alerts": 0,
+        "exact": 0,
+        "partial": 0,
+        "ambiguous": 0,
+        "unmatched": 0,
+        "unmatchedRouteIds": [],
+        "unmatchedStopIds": [],
+        "unmatchedTripIds": []
+      }
     }
   },
   "updatedBy": "concourse",
