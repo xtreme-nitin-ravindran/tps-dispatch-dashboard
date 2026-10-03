@@ -3,14 +3,36 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T07:30:11.384Z",
-  "sourceUpdatedAt": "2026-10-03T07:25:01.000Z",
+  "fetchedAt": "2026-10-03T07:32:41.032Z",
+  "sourceUpdatedAt": "2026-10-03T07:30:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-6f150831aeba0ab13b39bbdb",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-10-03T07:19:37.000Z",
+      "location": "SIX POINTS PARK TRL - DUNDAS ST W",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SIX POINTS PARK TRL - DUNDAS ST W",
+        "coordinates": [
+          43.63771722849298,
+          -79.53705179196442
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T07:32:41.032Z"
+    },
     {
       "id": "F26157089",
       "source": "TFS",
       "eventType": "fire",
-      "description": "Public Hazard",
+      "description": "Vehicle - Personal Injury",
       "location": "MILVAN DR / FINCH AVE W",
       "division": "411",
       "timestamp": "2026-10-03T07:19:10.000Z",
@@ -26,7 +48,8 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T07:27:46.392Z",
-      "lastSeenAt": "2026-10-03T07:30:11.384Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T07:32:41.032Z",
+      "lastSeenAt": "2026-10-03T07:32:41.032Z",
       "geography": {
         "text": "Milvan Drive & Finch Avenue West",
         "approximate": false,
@@ -39,6 +62,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-10-03T07:27:46.392Z"
       }
+    },
+    {
+      "id": "TPS-918919080945860c32be06f5",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "NOISY PARTY",
+      "callTypeCode": "NOIPA",
+      "timestamp": "2026-10-03T07:18:20.000Z",
+      "location": "BUXTON RD - LINTHURST AVE",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "BUXTON RD - LINTHURST AVE",
+        "coordinates": [
+          43.732768782524644,
+          -79.50391186097634
+        ],
+        "division": "Division 31",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T07:32:41.032Z"
     },
     {
       "id": "TPS-9923526e0afb66920a555ab9",
@@ -139,7 +184,7 @@
       ],
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T07:10:46.259Z",
-      "lastSeenAt": "2026-10-03T07:30:11.384Z",
+      "lastSeenAt": "2026-10-03T07:32:41.032Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -215913,12 +215958,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T07:30:11.384Z",
-      "sourceUpdatedAt": "2026-10-03T07:25:01.000Z",
+      "fetchedAt": "2026-10-03T07:32:41.032Z",
+      "sourceUpdatedAt": "2026-10-03T07:30:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T07:30:11.384Z",
+      "fetchedAt": "2026-10-03T07:32:41.032Z",
       "status": "ok"
     }
   },
@@ -350683,7 +350728,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T07:29:48.000Z",
+    "sourceUpdatedAt": "2026-10-03T07:32:14.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -350692,14 +350737,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T07:30:11.384Z",
-    "checkedAt": "2026-10-03T07:30:11.384Z",
+    "fetchedAt": "2026-10-03T07:32:41.032Z",
+    "checkedAt": "2026-10-03T07:32:41.032Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T07:30:11.384Z",
-      "checkedAt": "2026-10-03T07:30:11.384Z",
+      "fetchedAt": "2026-10-03T07:32:41.032Z",
+      "checkedAt": "2026-10-03T07:32:41.032Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
