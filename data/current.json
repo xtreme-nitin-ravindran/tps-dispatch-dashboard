@@ -3,8 +3,8 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T09:31:54.021Z",
-  "sourceUpdatedAt": "2026-10-03T09:30:01.000Z",
+  "fetchedAt": "2026-10-03T09:36:07.700Z",
+  "sourceUpdatedAt": "2026-10-03T09:35:01.000Z",
   "incidents": [
     {
       "id": "F26157114",
@@ -16,9 +16,18 @@
       "timestamp": "2026-10-03T09:23:24.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "134"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T09:31:54.021Z",
-      "lastSeenAt": "2026-10-03T09:31:54.021Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T09:36:07.700Z",
+      "lastSeenAt": "2026-10-03T09:36:07.700Z",
       "geography": {
         "text": "Approximate area: (M4R) Central Toronto (North Toronto West)",
         "approximate": true,
@@ -42,9 +51,18 @@
       "timestamp": "2026-10-03T09:21:44.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "325"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T09:31:54.021Z",
-      "lastSeenAt": "2026-10-03T09:31:54.021Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T09:36:07.700Z",
+      "lastSeenAt": "2026-10-03T09:36:07.700Z",
       "geography": {
         "text": "Approximate area: (M5A) Toronto",
         "approximate": true,
@@ -300,7 +318,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T09:23:39.064Z",
-      "lastSeenAt": "2026-10-03T09:31:54.021Z",
+      "lastSeenAt": "2026-10-03T09:36:07.700Z",
       "geography": {
         "text": "Mercer Street between Lane East John South Mercer & Lane South King West John",
         "approximate": false,
@@ -573,7 +591,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T09:23:39.064Z",
-      "lastSeenAt": "2026-10-03T09:31:54.021Z",
+      "lastSeenAt": "2026-10-03T09:36:07.700Z",
       "geography": {
         "text": "Finch Avenue between Chesswood Drive & Alexdon Road",
         "approximate": false,
@@ -215073,60 +215091,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-26T09:45:44.347Z"
       }
-    },
-    {
-      "id": "TPS-0611a384596eb8475ee80aa8",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "PROPERTY DAMAGE COLLISION",
-      "callTypeCode": "PDACC",
-      "timestamp": "2026-09-26T09:34:41.000Z",
-      "location": "PARLIAMENT ST - WELLESLEY ST E",
-      "division": "Division 51",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "PARLIAMENT ST - WELLESLEY ST E",
-        "coordinates": [
-          43.66817370793327,
-          -79.3695508587399
-        ],
-        "division": "Division 51",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T09:51:40.125Z"
-    },
-    {
-      "id": "TPS-281018631c1df96a0e89db5d",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "DISORDERLIES",
-      "callTypeCode": "DIS",
-      "timestamp": "2026-09-26T09:33:15.000Z",
-      "location": "STRATFORD PARK TRL - STRATFORD PARK TRL",
-      "division": "Division 53",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "STRATFORD PARK TRL - STRATFORD PARK TRL",
-        "coordinates": [
-          43.721735013315154,
-          -79.37792337253975
-        ],
-        "division": "Division 53",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T09:51:40.125Z"
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T09:31:54.021Z",
-      "sourceUpdatedAt": "2026-10-03T09:30:01.000Z",
+      "fetchedAt": "2026-10-03T09:36:07.700Z",
+      "sourceUpdatedAt": "2026-10-03T09:35:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T09:31:54.021Z",
+      "fetchedAt": "2026-10-03T09:36:07.700Z",
       "status": "ok"
     }
   },
@@ -348557,7 +348531,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T09:31:23.000Z",
+    "sourceUpdatedAt": "2026-10-03T09:36:00.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -348566,14 +348540,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T09:31:54.021Z",
-    "checkedAt": "2026-10-03T09:31:54.021Z",
+    "fetchedAt": "2026-10-03T09:36:07.700Z",
+    "checkedAt": "2026-10-03T09:36:07.700Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T09:31:54.021Z",
-      "checkedAt": "2026-10-03T09:31:54.021Z",
+      "fetchedAt": "2026-10-03T09:36:07.700Z",
+      "checkedAt": "2026-10-03T09:36:07.700Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
