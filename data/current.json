@@ -3,22 +3,96 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T17:48:42.741Z",
-  "sourceUpdatedAt": "2026-10-03T17:45:02.000Z",
+  "fetchedAt": "2026-10-03T17:54:44.031Z",
+  "sourceUpdatedAt": "2026-10-03T17:50:02.000Z",
   "incidents": [
     {
-      "id": "F26157302",
+      "id": "F26157305",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Hazmat Level 1",
+      "location": "MARBLEMOUNT CRES, SC / DAVISBROOK BLVD / DAVISBROOK BLVD",
+      "division": "244",
+      "timestamp": "2026-10-03T17:44:46.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "245"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-03T17:54:44.031Z",
+      "lastSeenAt": "2026-10-03T17:54:44.031Z",
+      "geography": {
+        "text": "Approximate location on Marblemount Crescent",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-03T17:54:44.031Z"
+      }
+    },
+    {
+      "id": "F26157304",
       "source": "TFS",
       "eventType": "fire",
       "description": "Vehicle - Personal Injury",
-      "location": "/",
-      "division": "235",
-      "timestamp": "2026-10-03T17:39:35.000Z",
+      "location": "ELLESMERE RD / DOLLY VARDEN BLVD",
+      "division": "231",
+      "timestamp": "2026-10-03T17:43:35.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
-      "firstSeenAt": "2026-10-03T17:48:42.741Z",
-      "lastSeenAt": "2026-10-03T17:48:42.741Z",
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "232"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
+      "firstSeenAt": "2026-10-03T17:54:44.031Z",
+      "lastSeenAt": "2026-10-03T17:54:44.031Z",
+      "geography": {
+        "text": "Ellesmere Road & Dolly Varden Boulevard",
+        "approximate": false,
+        "coordinates": [
+          43.77576,
+          -79.2349372
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-03T17:54:44.031Z"
+      }
+    },
+    {
+      "id": "F26157303",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury Highway",
+      "location": "/",
+      "division": "313",
+      "timestamp": "2026-10-03T17:43:00.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "313",
+            "323"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-10-03T17:54:44.031Z",
+      "lastSeenAt": "2026-10-03T17:54:44.031Z",
       "geography": {
         "text": "Approximate location on an unspecified street",
         "approximate": true,
@@ -30,6 +104,66 @@
       }
     },
     {
+      "id": "F26157302",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Vehicle - Personal Injury Highway",
+      "location": "/",
+      "division": "235",
+      "timestamp": "2026-10-03T17:39:35.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "125"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "235"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
+      "firstSeenAt": "2026-10-03T17:48:42.741Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T17:54:44.031Z",
+      "lastSeenAt": "2026-10-03T17:54:44.031Z",
+      "geography": {
+        "text": "Approximate location on an unspecified street",
+        "approximate": true,
+        "coordinates": null,
+        "division": "Unknown",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-03T17:37:55.060Z"
+      }
+    },
+    {
+      "id": "TPS-06ff586c1241fc45bfb1f604",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-10-03T17:38:25.000Z",
+      "location": "JANE ST - ROSEGLEN CRES",
+      "division": "Division 31",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "JANE ST - ROSEGLEN CRES",
+        "coordinates": [
+          43.746068471885614,
+          -79.51660090559959
+        ],
+        "division": "Division 31",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:54:44.031Z"
+    },
+    {
       "id": "F26157301",
       "source": "TFS",
       "eventType": "fire",
@@ -39,9 +173,51 @@
       "timestamp": "2026-10-03T17:38:00.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Command Unit",
+          "numbers": [
+            "11",
+            "24"
+          ]
+        },
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "111"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "111",
+            "112",
+            "114"
+          ]
+        },
+        {
+          "type": "Rescue Truck",
+          "numbers": [
+            "122"
+          ]
+        },
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "143"
+          ]
+        },
+        {
+          "type": "Tower Truck",
+          "numbers": [
+            "114"
+          ]
+        }
+      ],
+      "respondingUnitCount": 9,
       "firstSeenAt": "2026-10-03T17:48:42.741Z",
-      "lastSeenAt": "2026-10-03T17:48:42.741Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T17:54:44.031Z",
+      "lastSeenAt": "2026-10-03T17:54:44.031Z",
       "geography": {
         "text": "Bayview Avenue between Mckee Avenue & Burleigh Heights Drive",
         "approximate": false,
@@ -56,6 +232,28 @@
       }
     },
     {
+      "id": "TPS-084fd24e378ed07a6681c3ce",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-10-03T17:37:28.000Z",
+      "location": "ELMVALE CRES - LITCHFIELD CRT",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ELMVALE CRES - LITCHFIELD CRT",
+        "coordinates": [
+          43.74148696920855,
+          -79.59860236163694
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:54:44.031Z"
+    },
+    {
       "id": "F26157299",
       "source": "TFS",
       "eventType": "fire",
@@ -65,9 +263,18 @@
       "timestamp": "2026-10-03T17:37:21.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "426"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T17:48:42.741Z",
-      "lastSeenAt": "2026-10-03T17:48:42.741Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T17:54:44.031Z",
+      "lastSeenAt": "2026-10-03T17:54:44.031Z",
       "geography": {
         "text": "Approximate area: (M6P) West Toronto (High Park / The Junction South)",
         "approximate": true,
@@ -91,9 +298,18 @@
       "timestamp": "2026-10-03T17:36:42.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "426"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T17:48:42.741Z",
-      "lastSeenAt": "2026-10-03T17:48:42.741Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T17:54:44.031Z",
+      "lastSeenAt": "2026-10-03T17:54:44.031Z",
       "geography": {
         "text": "Approximate area: (M6J) West Toronto (Rua Aþores / Trinity)",
         "approximate": true,
@@ -106,6 +322,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-fe6a4cb5efc2e4269cb40148",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FAIL TO REMAIN PERSONAL INJURY COLLISION",
+      "callTypeCode": "FTRPI",
+      "timestamp": "2026-10-03T17:36:37.000Z",
+      "location": "MILVAN DR - FINCH AVE W",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "MILVAN DR - FINCH AVE W",
+        "coordinates": [
+          43.74994878325985,
+          -79.5522637891285
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:54:44.031Z"
+    },
+    {
+      "id": "TPS-8f404c42b9cfe12433f4317b",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-10-03T17:34:32.000Z",
+      "location": "SHEPPARD AVE E - CONLINS RD",
+      "division": "Division 42",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SHEPPARD AVE E - CONLINS RD",
+        "coordinates": [
+          43.80415769327604,
+          -79.19014497751144
+        ],
+        "division": "Division 42",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:54:44.031Z"
+    },
+    {
+      "id": "TPS-59c7371cbb3e271ed481f542",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-10-03T17:34:26.000Z",
+      "location": "401 HWY W - KEELE ST",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "401 HWY W - KEELE ST",
+        "coordinates": [
+          43.72158254723679,
+          -79.48094084007404
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:54:44.031Z"
     },
     {
       "id": "F26157298",
@@ -134,7 +416,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T17:43:42.577Z",
       "lastMeaningfulUpdateAt": "2026-10-03T17:48:42.741Z",
-      "lastSeenAt": "2026-10-03T17:48:42.741Z",
+      "lastSeenAt": "2026-10-03T17:54:44.031Z",
       "geography": {
         "text": "Victoria Park Avenue between Sutherland Avenue & Denton Avenue",
         "approximate": false,
@@ -147,6 +429,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-10-03T17:43:42.577Z"
       }
+    },
+    {
+      "id": "TPS-b0e3b880f0cfb70d1fd44356",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-10-03T17:30:17.000Z",
+      "location": "ELLESMERE PARK TRL - PRINCIPAL RD",
+      "division": "Division 41",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "ELLESMERE PARK TRL - PRINCIPAL RD",
+        "coordinates": [
+          43.76263452987807,
+          -79.294724683269
+        ],
+        "division": "Division 41",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:54:44.031Z"
     },
     {
       "id": "F26157297",
@@ -191,7 +495,7 @@
       "division": "312",
       "timestamp": "2026-10-03T17:29:08.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -256,7 +560,7 @@
       "respondingUnitCount": 5,
       "firstSeenAt": "2026-10-03T17:37:55.060Z",
       "lastMeaningfulUpdateAt": "2026-10-03T17:48:42.741Z",
-      "lastSeenAt": "2026-10-03T17:48:42.741Z",
+      "lastSeenAt": "2026-10-03T17:54:44.031Z",
       "geography": {
         "text": "Sheppard Avenue East & Conlins Road",
         "approximate": false,
@@ -297,7 +601,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T17:32:05.284Z",
       "lastMeaningfulUpdateAt": "2026-10-03T17:37:55.060Z",
-      "lastSeenAt": "2026-10-03T17:48:42.741Z",
+      "lastSeenAt": "2026-10-03T17:54:44.031Z",
       "geography": {
         "text": "Approximate location near Glendower Crct & Andes Road",
         "approximate": true,
@@ -976,7 +1280,7 @@
       "respondingUnitCount": 9,
       "firstSeenAt": "2026-10-03T17:09:02.356Z",
       "lastMeaningfulUpdateAt": "2026-10-03T17:15:14.986Z",
-      "lastSeenAt": "2026-10-03T17:48:42.741Z",
+      "lastSeenAt": "2026-10-03T17:54:44.031Z",
       "geography": {
         "text": "Spadina Road between Chaplin Crescent & New Haven Drive",
         "approximate": false,
@@ -1011,7 +1315,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T17:09:02.356Z",
       "lastMeaningfulUpdateAt": "2026-10-03T17:15:14.986Z",
-      "lastSeenAt": "2026-10-03T17:48:42.741Z",
+      "lastSeenAt": "2026-10-03T17:54:44.031Z",
       "geography": {
         "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
         "approximate": true,
@@ -1960,7 +2264,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T16:29:23.648Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:35:23.769Z",
-      "lastSeenAt": "2026-10-03T17:48:42.741Z",
+      "lastSeenAt": "2026-10-03T17:54:44.031Z",
       "geography": {
         "text": "Approximate location on Plywood Place",
         "approximate": true,
@@ -214174,101 +214478,58 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "TPS-f46caab8773543cb05a9a9b9",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "BREAK & ENTER",
-      "callTypeCode": "BREEN",
-      "timestamp": "2026-09-26T17:54:18.000Z",
-      "location": "LESLIE ST - FIELD SPARROWAY",
-      "division": "Division 33",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "LESLIE ST - FIELD SPARROWAY",
-        "coordinates": [
-          43.79129733205732,
-          -79.36912382540753
-        ],
-        "division": "Division 33",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T18:11:01.103Z"
-    },
-    {
-      "id": "TPS-83a2b51d029349ab315ece38",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "BREAK & ENTER",
-      "callTypeCode": "BREEN",
-      "timestamp": "2026-09-26T17:53:20.000Z",
-      "location": "ISLINGTON AVE - YORK RD",
-      "division": "Division 23",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "ISLINGTON AVE - YORK RD",
-        "coordinates": [
-          43.70131885527808,
-          -79.54866704066109
-        ],
-        "division": "Division 23",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T18:11:01.103Z"
-    },
-    {
-      "id": "F26152872",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "MEDICAL",
-      "location": "M1H",
-      "division": "231",
-      "timestamp": "2026-09-26T17:51:45.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "231"
-          ]
-        }
-      ],
-      "respondingUnitCount": 1,
-      "firstSeenAt": "2026-09-26T18:03:24.473Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T18:06:32.921Z",
-      "lastSeenAt": "2026-09-26T18:19:45.826Z",
-      "geography": {
-        "text": "Approximate area: (M1H) Scarborough (Cedarbrae)",
-        "approximate": true,
-        "coordinates": [
-          43.7686,
-          -79.2389
-        ],
-        "division": "Division 43",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-19T04:48:15.180Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T17:48:42.741Z",
-      "sourceUpdatedAt": "2026-10-03T17:45:02.000Z",
+      "fetchedAt": "2026-10-03T17:54:44.031Z",
+      "sourceUpdatedAt": "2026-10-03T17:50:02.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T17:48:42.741Z",
+      "fetchedAt": "2026-10-03T17:54:44.031Z",
       "status": "ok"
     }
   },
   "disruptions": {
     "roads": {
       "items": [
+        {
+          "id": "12244148",
+          "street": "Don Valley Parkway N",
+          "title": "Northbound Don Valley Parkway before Eglinton Ave East",
+          "description": "Toronto-TMC: Right lane is blocked due to a stalled vehicle.",
+          "restrictionType": "HAZARD",
+          "type": "HAZARD",
+          "impact": "High",
+          "startLocation": "Don Mills Rd",
+          "endLocation": "",
+          "start": 1791047848000,
+          "reportedAt": 1791047848000,
+          "end": null,
+          "status": null,
+          "expired": false,
+          "coordinates": [
+            43.705988,
+            -79.331507
+          ],
+          "line": [],
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -79.331507,
+              43.705988
+            ]
+          },
+          "geometryKind": "point",
+          "schedule": "Everyday: 00:00-23:59",
+          "source": {
+            "name": "City of Toronto Road Restrictions",
+            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
+            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
+          },
+          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
+        },
         {
           "id": "12244191",
           "street": "Dufferin St",
@@ -214294,42 +214555,6 @@
             "coordinates": [
               -79.45726,
               43.72528
-            ]
-          },
-          "geometryKind": "point",
-          "schedule": "Everyday: 00:00-23:59",
-          "source": {
-            "name": "City of Toronto Road Restrictions",
-            "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/",
-            "feedUrl": "https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json"
-          },
-          "url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
-        },
-        {
-          "id": "12244148",
-          "street": "Don Valley Parkway N",
-          "title": "Northbound Don Valley Parkway before Eglinton Ave East",
-          "description": "Toronto-TMC: Right shoulder blocked due to a stalled vehicle.",
-          "restrictionType": "HAZARD",
-          "type": "HAZARD",
-          "impact": "High",
-          "startLocation": "Don Mills Rd",
-          "endLocation": "",
-          "start": 1791047848000,
-          "reportedAt": 1791047848000,
-          "end": null,
-          "status": null,
-          "expired": false,
-          "coordinates": [
-            43.705988,
-            -79.331507
-          ],
-          "line": [],
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-              -79.331507,
-              43.705988
             ]
           },
           "geometryKind": "point",
@@ -345721,8 +345946,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-03T17:48:42.741Z",
-      "fetchedAt": "2026-10-03T17:48:42.741Z"
+      "checkedAt": "2026-10-03T17:54:44.031Z",
+      "fetchedAt": "2026-10-03T17:54:44.031Z"
     },
     "transit": {
       "items": [
@@ -346741,6 +346966,64 @@
             {
               "start": 1791014400000,
               "end": 1791689400000
+            }
+          ],
+          "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+        },
+        {
+          "id": "77427",
+          "title": "Wilson: Escalator 8S5E out of service from underpass (to bus platform) to Wilson Ave north side entrance and concourse due to an investigation.",
+          "description": "",
+          "effect": "ACCESSIBILITY ISSUE",
+          "routes": [],
+          "stopIds": [
+            "13840",
+            "13839",
+            "14817",
+            "15055"
+          ],
+          "affectedEntities": [
+            {
+              "routeId": null,
+              "stopId": "13840",
+              "coordinates": [
+                43.735048,
+                -79.450192
+              ],
+              "name": "Wilson Station - Northbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "13839",
+              "coordinates": [
+                43.733848,
+                -79.449892
+              ],
+              "name": "Wilson Station - Southbound Platform"
+            },
+            {
+              "routeId": null,
+              "stopId": "14817",
+              "coordinates": [
+                43.734555,
+                -79.450966
+              ],
+              "name": "Wilson Station"
+            },
+            {
+              "routeId": null,
+              "stopId": "15055",
+              "coordinates": [
+                43.734777,
+                -79.451045
+              ],
+              "name": "Wilson Station"
+            }
+          ],
+          "periods": [
+            {
+              "start": 1791049749000,
+              "end": null
             }
           ],
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
@@ -348157,16 +348440,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-03T17:48:43.000Z",
+      "sourceUpdatedAt": "2026-10-03T17:54:44.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-03T17:48:42.741Z",
-      "fetchedAt": "2026-10-03T17:48:42.741Z"
+      "checkedAt": "2026-10-03T17:54:44.031Z",
+      "fetchedAt": "2026-10-03T17:54:44.031Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T17:48:31.000Z",
+    "sourceUpdatedAt": "2026-10-03T17:54:26.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -348175,14 +348458,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T17:48:42.741Z",
-    "checkedAt": "2026-10-03T17:48:42.741Z",
+    "fetchedAt": "2026-10-03T17:54:44.031Z",
+    "checkedAt": "2026-10-03T17:54:44.031Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T17:48:42.741Z",
-      "checkedAt": "2026-10-03T17:48:42.741Z",
+      "fetchedAt": "2026-10-03T17:54:44.031Z",
+      "checkedAt": "2026-10-03T17:54:44.031Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -348206,6 +348489,27 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "MARBLEMOUNT CRES, SC / DAVISBROOK BLVD / DAVISBROOK BLVD": {
+      "text": "Approximate location on Marblemount Crescent",
+      "approximate": true,
+      "coordinates": null,
+      "division": "Unknown",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-03T17:54:44.031Z"
+    },
+    "ELLESMERE RD / DOLLY VARDEN BLVD": {
+      "text": "Ellesmere Road & Dolly Varden Boulevard",
+      "approximate": false,
+      "coordinates": [
+        43.77576,
+        -79.2349372
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-03T17:54:44.031Z"
+    },
     "/": {
       "text": "Approximate location on an unspecified street",
       "approximate": true,
