@@ -3,9 +3,57 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T16:58:01.900Z",
-  "sourceUpdatedAt": "2026-10-03T16:55:01.000Z",
+  "fetchedAt": "2026-10-03T17:02:54.859Z",
+  "sourceUpdatedAt": "2026-10-03T17:00:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-726f7a99d58cdaa8a5d53902",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-10-03T16:52:32.000Z",
+      "location": "KEYWEST AVE - VAUGHAN RD",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "KEYWEST AVE - VAUGHAN RD",
+        "coordinates": [
+          43.694701168009615,
+          -79.44710888887897
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:02:54.859Z"
+    },
+    {
+      "id": "F26157281",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "MCCAUL ST, TT / LN 2 S COLLEGE W MC CAUL / LN 1 S COLLEGE W MC CAUL",
+      "division": "314",
+      "timestamp": "2026-10-03T16:51:37.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-03T17:02:54.859Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
+      "geography": {
+        "text": "Mccaul Street between Lane 2 South College West Mc Caul & Lane 1 South College West Mc Caul",
+        "approximate": false,
+        "coordinates": [
+          43.65841265,
+          -79.39317525
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-03T17:02:54.859Z"
+      }
+    },
     {
       "id": "F26157280",
       "source": "TFS",
@@ -16,9 +64,18 @@
       "timestamp": "2026-10-03T16:48:47.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "213"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T16:58:01.900Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T17:02:54.859Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
         "approximate": true,
@@ -33,6 +90,28 @@
       }
     },
     {
+      "id": "TPS-98fa9bfcef3e6078908937c4",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT",
+      "callTypeCode": "ASS",
+      "timestamp": "2026-10-03T16:48:28.000Z",
+      "location": "WILFRED AVE - WILFRED AVE",
+      "division": "Division 32",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WILFRED AVE - WILFRED AVE",
+        "coordinates": [
+          43.76211968810597,
+          -79.39332981438405
+        ],
+        "division": "Division 32",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:02:54.859Z"
+    },
+    {
       "id": "F26157279",
       "source": "TFS",
       "eventType": "fire",
@@ -42,9 +121,24 @@
       "timestamp": "2026-10-03T16:47:42.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Aerial Truck",
+          "numbers": [
+            "341"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "343"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T16:58:01.900Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T17:02:54.859Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "Kenwood Avenue between Vaughan Road & Claxton Boulevard",
         "approximate": false,
@@ -59,6 +153,28 @@
       }
     },
     {
+      "id": "TPS-d7917fcfba7c71831b6f0c37",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-10-03T16:47:27.000Z",
+      "location": "WINTER AVE - DANFORTH RD",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WINTER AVE - DANFORTH RD",
+        "coordinates": [
+          43.729312486519554,
+          -79.25178432687463
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:02:54.859Z"
+    },
+    {
       "id": "F26157278",
       "source": "TFS",
       "eventType": "fire",
@@ -68,9 +184,18 @@
       "timestamp": "2026-10-03T16:47:18.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Squad Unit",
+          "numbers": [
+            "445"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T16:58:01.900Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T17:02:54.859Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "Approximate area: (M8V) Etobicoke (New Toronto / Mimico South / Humber Bay Shores)",
         "approximate": true,
@@ -85,6 +210,50 @@
       }
     },
     {
+      "id": "TPS-554a27d5fc217268066e7dbe",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-10-03T16:45:40.000Z",
+      "location": "EGLINTON AVE W - WINONA DR",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "EGLINTON AVE W - WINONA DR",
+        "coordinates": [
+          43.698109366034366,
+          -79.43904159078797
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:02:54.859Z"
+    },
+    {
+      "id": "TPS-6bf10438140456625c686464",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "PDACC",
+      "timestamp": "2026-10-03T16:45:09.000Z",
+      "location": "NORTHUMBERLAND ST - CONCORD AVE",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "NORTHUMBERLAND ST - CONCORD AVE",
+        "coordinates": [
+          43.662767910956006,
+          -79.42725272572518
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T17:02:54.859Z"
+    },
+    {
       "id": "F26157277",
       "source": "TFS",
       "eventType": "fire",
@@ -93,7 +262,7 @@
       "division": "431",
       "timestamp": "2026-10-03T16:44:54.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -156,7 +325,7 @@
       "division": "312",
       "timestamp": "2026-10-03T16:42:47.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -248,7 +417,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T16:46:54.862Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:51:44.968Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "Approximate area: (M1N) Scarborough (Birch Cliff / Cliffside West)",
         "approximate": true,
@@ -293,7 +462,7 @@
       "division": "435",
       "timestamp": "2026-10-03T16:35:16.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -366,7 +535,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T16:42:55.619Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:46:54.862Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "Danforth Road & Winter Avenue",
         "approximate": false,
@@ -402,7 +571,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T16:42:55.619Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:46:54.862Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "Brooke Avenue between Falkirk Street & Sunshine Street",
         "approximate": false,
@@ -443,7 +612,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T16:42:55.619Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:46:54.862Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "York Gate Boulevard between Finch Avenue West & Finch Corridor Trl",
         "approximate": false,
@@ -478,7 +647,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T16:42:55.619Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:46:54.862Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "Approximate area: (M4L) East Toronto (India Bazaar / The Beaches West)",
         "approximate": true,
@@ -569,7 +738,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T16:42:55.619Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "Lake Shore Boulevard between Burlington Street & Albert Avenue",
         "approximate": false,
@@ -670,7 +839,7 @@
       "division": "234",
       "timestamp": "2026-10-03T16:26:27.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Fire Truck",
@@ -716,7 +885,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T16:35:23.769Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:42:55.619Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "Approximate area: (M4M) East Toronto (Studio District)",
         "approximate": true,
@@ -757,7 +926,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T16:29:23.648Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:35:23.769Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "Approximate location on Plywood Place",
         "approximate": true,
@@ -817,7 +986,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T16:29:23.648Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:35:23.769Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "Approximate location near Van Horne Avenue & Hobart Drive",
         "approximate": true,
@@ -1157,7 +1326,7 @@
       "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T16:23:31.690Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:29:23.648Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "Raab Boulevard between Hospital Road & Veterans Hill Trl",
         "approximate": false,
@@ -1665,7 +1834,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T16:01:03.195Z",
       "lastMeaningfulUpdateAt": "2026-10-03T16:07:04.108Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "Warden Avenue between Canadian Road & C P R",
         "approximate": false,
@@ -4125,7 +4294,7 @@
       "respondingUnitCount": 4,
       "firstSeenAt": "2026-10-03T14:13:11.388Z",
       "lastMeaningfulUpdateAt": "2026-10-03T15:56:38.177Z",
-      "lastSeenAt": "2026-10-03T16:58:01.900Z",
+      "lastSeenAt": "2026-10-03T17:02:54.859Z",
       "geography": {
         "text": "Rustic Road between Culford Road & Blue Springs Road",
         "approximate": false,
@@ -214286,136 +214455,16 @@
         "approximate": true
       },
       "firstSeenAt": "2026-09-26T17:31:12.425Z"
-    },
-    {
-      "id": "TPS-97f035ef72b00402cd9dd8c1",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "PERSON WITH A KNIFE",
-      "callTypeCode": "PERKN",
-      "timestamp": "2026-09-26T17:02:21.000Z",
-      "location": "VICTORIA STREET LANE - BOND ST",
-      "division": "Division 51",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "VICTORIA STREET LANE - BOND ST",
-        "coordinates": [
-          43.65625839536214,
-          -79.37830414810317
-        ],
-        "division": "Division 51",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T17:10:40.998Z"
-    },
-    {
-      "id": "TPS-a22975977f042600cdd12cdb",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "HAZARD",
-      "callTypeCode": "HAZ",
-      "timestamp": "2026-09-26T17:01:50.000Z",
-      "location": "27 HWY N - NEARCTIC DR",
-      "division": "Division 23",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "27 HWY N - NEARCTIC DR",
-        "coordinates": [
-          43.71419233613667,
-          -79.59419099962328
-        ],
-        "division": "Division 23",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T17:31:12.425Z"
-    },
-    {
-      "id": "TPS-6a2c9dc3b6eef2538d0726c9",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "PERSONAL INJURY COLLISION",
-      "callTypeCode": "PIACC",
-      "timestamp": "2026-09-26T17:00:54.000Z",
-      "location": "AGATE RD - JULIAN RD",
-      "division": "Division 31",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "AGATE RD - JULIAN RD",
-        "coordinates": [
-          43.7260602471047,
-          -79.49071904552055
-        ],
-        "division": "Division 31",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T17:10:40.998Z"
-    },
-    {
-      "id": "TPS-824b669cc261738942f19245",
-      "source": "TPS",
-      "eventType": "police",
-      "description": "PERSONAL INJURY COLLISION",
-      "callTypeCode": "PIACC",
-      "timestamp": "2026-09-26T17:00:43.000Z",
-      "location": "FORMAN AVE - EGLINTON AVE E",
-      "division": "Division 53",
-      "vehicles": [],
-      "isOngoing": false,
-      "geography": {
-        "text": "FORMAN AVE - EGLINTON AVE E",
-        "coordinates": [
-          43.709227122932326,
-          -79.38621326475119
-        ],
-        "division": "Division 53",
-        "approximate": true
-      },
-      "firstSeenAt": "2026-09-26T17:10:40.998Z"
-    },
-    {
-      "id": "F26152848",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Alarm Single Source",
-      "location": "ASHLEY RD / BEXHILL CRT",
-      "division": "431",
-      "timestamp": "2026-09-26T17:00:20.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "422",
-            "431"
-          ]
-        }
-      ],
-      "respondingUnitCount": 2,
-      "firstSeenAt": "2026-09-26T17:10:40.998Z",
-      "lastSeenAt": "2026-09-26T17:31:12.425Z",
-      "geography": {
-        "text": "Approximate location on Ashley Road",
-        "approximate": true,
-        "coordinates": null,
-        "division": "Unknown",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-10-03T16:35:23.769Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T16:58:01.900Z",
-      "sourceUpdatedAt": "2026-10-03T16:55:01.000Z",
+      "fetchedAt": "2026-10-03T17:02:54.859Z",
+      "sourceUpdatedAt": "2026-10-03T17:00:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T16:58:01.900Z",
+      "fetchedAt": "2026-10-03T17:02:54.859Z",
       "status": "ok"
     }
   },
@@ -348051,7 +348100,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T16:57:55.000Z",
+    "sourceUpdatedAt": "2026-10-03T17:02:25.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -348060,14 +348109,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T16:58:01.900Z",
-    "checkedAt": "2026-10-03T16:58:01.900Z",
+    "fetchedAt": "2026-10-03T17:02:54.859Z",
+    "checkedAt": "2026-10-03T17:02:54.859Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T16:58:01.900Z",
-      "checkedAt": "2026-10-03T16:58:01.900Z",
+      "fetchedAt": "2026-10-03T17:02:54.859Z",
+      "checkedAt": "2026-10-03T17:02:54.859Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -348091,6 +348140,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "MCCAUL ST, TT / LN 2 S COLLEGE W MC CAUL / LN 1 S COLLEGE W MC CAUL": {
+      "text": "Mccaul Street between Lane 2 South College West Mc Caul & Lane 1 South College West Mc Caul",
+      "approximate": false,
+      "coordinates": [
+        43.65841265,
+        -79.39317525
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-03T17:02:54.859Z"
+    },
     "M1B": {
       "text": "Approximate area: (M1B) Scarborough (Malvern / Rouge River)",
       "approximate": true,
@@ -361332,15 +361393,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "ASHLEY RD / BEXHILL CRT": {
-      "text": "Approximate location on Ashley Road",
-      "approximate": true,
-      "coordinates": null,
-      "division": "Unknown",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-10-03T16:35:23.769Z"
     }
   }
 }
