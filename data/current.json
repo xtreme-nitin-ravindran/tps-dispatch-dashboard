@@ -3,9 +3,61 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T09:40:30.953Z",
-  "sourceUpdatedAt": "2026-10-03T09:40:01.000Z",
+  "fetchedAt": "2026-10-03T09:45:56.936Z",
+  "sourceUpdatedAt": "2026-10-03T09:45:01.000Z",
   "incidents": [
+    {
+      "id": "F26157118",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M1E",
+      "division": "234",
+      "timestamp": "2026-10-03T09:38:38.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-03T09:45:56.936Z",
+      "lastSeenAt": "2026-10-03T09:45:56.936Z",
+      "geography": {
+        "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+        "approximate": true,
+        "coordinates": [
+          43.7678,
+          -79.1866
+        ],
+        "division": "Division 43",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "F26157117",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "Alarm Single Source",
+      "location": "JOHN ST, TT / RICHMOND ST W / LN S QUEEN W JOHN",
+      "division": "332",
+      "timestamp": "2026-10-03T09:37:32.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-03T09:45:56.936Z",
+      "lastSeenAt": "2026-10-03T09:45:56.936Z",
+      "geography": {
+        "text": "John Street between Richmond Street West & Lane South Queen West John",
+        "approximate": false,
+        "coordinates": [
+          43.64929015,
+          -79.39082825
+        ],
+        "division": "Division 52",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-10-03T09:45:56.936Z"
+      }
+    },
     {
       "id": "F26157116",
       "source": "TFS",
@@ -16,9 +68,24 @@
       "timestamp": "2026-10-03T09:33:18.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Ladder Truck",
+          "numbers": [
+            "331"
+          ]
+        },
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "331"
+          ]
+        }
+      ],
+      "respondingUnitCount": 2,
       "firstSeenAt": "2026-10-03T09:40:30.953Z",
-      "lastSeenAt": "2026-10-03T09:40:30.953Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T09:45:56.936Z",
+      "lastSeenAt": "2026-10-03T09:45:56.936Z",
       "geography": {
         "text": "Augusta Sq & Augusta Avenue",
         "approximate": false,
@@ -42,9 +109,18 @@
       "timestamp": "2026-10-03T09:32:15.000Z",
       "alarmLevel": 0,
       "isOngoing": true,
-      "vehicles": [],
+      "vehicles": [
+        {
+          "type": "Fire Truck",
+          "numbers": [
+            "334"
+          ]
+        }
+      ],
+      "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T09:40:30.953Z",
-      "lastSeenAt": "2026-10-03T09:40:30.953Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T09:45:56.936Z",
+      "lastSeenAt": "2026-10-03T09:45:56.936Z",
       "geography": {
         "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
         "approximate": true,
@@ -124,7 +200,7 @@
       "division": "325",
       "timestamp": "2026-10-03T09:21:44.000Z",
       "alarmLevel": 0,
-      "isOngoing": true,
+      "isOngoing": false,
       "vehicles": [
         {
           "type": "Rescue Truck",
@@ -436,7 +512,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T09:23:39.064Z",
-      "lastSeenAt": "2026-10-03T09:40:30.953Z",
+      "lastSeenAt": "2026-10-03T09:45:56.936Z",
       "geography": {
         "text": "Mercer Street between Lane East John South Mercer & Lane South King West John",
         "approximate": false,
@@ -709,7 +785,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T09:23:39.064Z",
-      "lastSeenAt": "2026-10-03T09:40:30.953Z",
+      "lastSeenAt": "2026-10-03T09:45:56.936Z",
       "geography": {
         "text": "Finch Avenue between Chesswood Drive & Alexdon Road",
         "approximate": false,
@@ -215136,12 +215212,12 @@
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T09:40:30.953Z",
-      "sourceUpdatedAt": "2026-10-03T09:40:01.000Z",
+      "fetchedAt": "2026-10-03T09:45:56.936Z",
+      "sourceUpdatedAt": "2026-10-03T09:45:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T09:40:30.953Z",
+      "fetchedAt": "2026-10-03T09:45:56.936Z",
       "status": "ok"
     }
   },
@@ -346728,8 +346804,8 @@
         }
       ],
       "status": "ok",
-      "checkedAt": "2026-10-03T09:40:30.953Z",
-      "fetchedAt": "2026-10-03T09:40:30.953Z"
+      "checkedAt": "2026-10-03T09:45:56.936Z",
+      "fetchedAt": "2026-10-03T09:45:56.936Z"
     },
     "transit": {
       "items": [
@@ -348613,16 +348689,16 @@
           "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
         }
       ],
-      "sourceUpdatedAt": "2026-10-03T09:40:31.000Z",
+      "sourceUpdatedAt": "2026-10-03T09:45:57.000Z",
       "status": "ok",
-      "checkedAt": "2026-10-03T09:40:30.953Z",
-      "fetchedAt": "2026-10-03T09:40:30.953Z"
+      "checkedAt": "2026-10-03T09:45:56.936Z",
+      "fetchedAt": "2026-10-03T09:45:56.936Z"
     }
   },
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T09:40:31.000Z",
+    "sourceUpdatedAt": "2026-10-03T09:45:58.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -348631,14 +348707,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T09:40:30.953Z",
-    "checkedAt": "2026-10-03T09:40:30.953Z",
+    "fetchedAt": "2026-10-03T09:45:56.936Z",
+    "checkedAt": "2026-10-03T09:45:56.936Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T09:40:30.953Z",
-      "checkedAt": "2026-10-03T09:40:30.953Z",
+      "fetchedAt": "2026-10-03T09:45:56.936Z",
+      "checkedAt": "2026-10-03T09:45:56.936Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -348662,6 +348738,30 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M1E": {
+      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
+      "approximate": true,
+      "coordinates": [
+        43.7678,
+        -79.1866
+      ],
+      "division": "Division 43",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
+    "JOHN ST, TT / RICHMOND ST W / LN S QUEEN W JOHN": {
+      "text": "John Street between Richmond Street West & Lane South Queen West John",
+      "approximate": false,
+      "coordinates": [
+        43.64929015,
+        -79.39082825
+      ],
+      "division": "Division 52",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-10-03T09:45:56.936Z"
+    },
     "AUGUSTA SQ, TT / AUGUSTA AVE /": {
       "text": "Augusta Sq & Augusta Avenue",
       "approximate": false,
@@ -349288,18 +349388,6 @@
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-10-03T09:23:39.064Z"
-    },
-    "M1E": {
-      "text": "Approximate area: (M1E) Scarborough (Guildwood / Morningside / Ellesmere)",
-      "approximate": true,
-      "coordinates": [
-        43.7678,
-        -79.1866
-      ],
-      "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
     },
     "CHARLES ST, TT / GEORGE HISLOP PARK TRL / MACY DUBOIS LANE": {
       "text": "Approximate location on Charles Street between George Hislop Park Trl & Macy Dubois Lane",
