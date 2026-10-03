@@ -3,9 +3,145 @@
   "source": "TFS",
   "retentionHours": 168,
   "historyStartedAt": "2026-09-16T05:28:44.014Z",
-  "fetchedAt": "2026-10-03T04:20:07.631Z",
-  "sourceUpdatedAt": "2026-10-03T04:15:01.000Z",
+  "fetchedAt": "2026-10-03T04:22:17.313Z",
+  "sourceUpdatedAt": "2026-10-03T04:20:01.000Z",
   "incidents": [
+    {
+      "id": "TPS-d34db7ee0bfd5f0231af110b",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FAIL TO REMAIN PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "FTRPD",
+      "timestamp": "2026-10-03T04:16:27.000Z",
+      "location": "JARVIS ST - RICHMOND ST E",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "JARVIS ST - RICHMOND ST E",
+        "coordinates": [
+          43.652731491835155,
+          -79.37283545057326
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
+    },
+    {
+      "id": "TPS-022bb2c598fbabcf79e1585f",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "UNKNOWN TROUBLE",
+      "callTypeCode": "UNKTR",
+      "timestamp": "2026-10-03T04:16:19.000Z",
+      "location": "WELLINGTON ST W - KING ST W",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WELLINGTON ST W - KING ST W",
+        "coordinates": [
+          43.64739348649714,
+          -79.38609594045597
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
+    },
+    {
+      "id": "TPS-3521044f625c909c31f6f344",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-10-03T04:15:34.000Z",
+      "location": "LN 2 E SANAGAN N LIGHTWOOD - LN 1 E SANAGAN N LIGHTWOOD",
+      "division": "Division 23",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LN 2 E SANAGAN N LIGHTWOOD - LN 1 E SANAGAN N LIGHTWOOD",
+        "coordinates": [
+          43.73928017296072,
+          -79.57353657485335
+        ],
+        "division": "Division 23",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
+    },
+    {
+      "id": "F26157020",
+      "source": "TFS",
+      "eventType": "fire",
+      "description": "MEDICAL",
+      "location": "M5V",
+      "division": "332",
+      "timestamp": "2026-10-03T04:15:05.000Z",
+      "alarmLevel": 0,
+      "isOngoing": true,
+      "vehicles": [],
+      "firstSeenAt": "2026-10-03T04:22:17.313Z",
+      "lastSeenAt": "2026-10-03T04:22:17.313Z",
+      "geography": {
+        "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+        "approximate": true,
+        "coordinates": [
+          43.6404,
+          -79.3995
+        ],
+        "division": "Division 14",
+        "version": 1,
+        "source": "toronto-centreline-geonames-2026-09-19",
+        "checkedAt": "2026-09-19T04:48:15.180Z"
+      }
+    },
+    {
+      "id": "TPS-c73834d1a6faf0359a0bb26b",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "IMPAIRED DRIVER",
+      "callTypeCode": "IMPDR",
+      "timestamp": "2026-10-03T04:14:53.000Z",
+      "location": "DUFFERIN ST - SPRINGHURST AVE",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DUFFERIN ST - SPRINGHURST AVE",
+        "coordinates": [
+          43.63488797755115,
+          -79.42579232473457
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
+    },
+    {
+      "id": "TPS-2df71ac02c1b9b138f90cfde",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-10-03T04:11:05.000Z",
+      "location": "HEATHERDALE RD - KINSDALE BLVD",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "HEATHERDALE RD - KINSDALE BLVD",
+        "coordinates": [
+          43.63526639281554,
+          -79.49010410845084
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
+    },
     {
       "id": "F26157019",
       "source": "TFS",
@@ -27,7 +163,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T04:11:16.227Z",
       "lastMeaningfulUpdateAt": "2026-10-03T04:15:38.514Z",
-      "lastSeenAt": "2026-10-03T04:20:07.631Z",
+      "lastSeenAt": "2026-10-03T04:22:17.313Z",
       "geography": {
         "text": "Approximate area: (M4R) Central Toronto (North Toronto West)",
         "approximate": true,
@@ -40,6 +176,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-977f05de4f6c7a2c2a2c0a09",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "HAZARD",
+      "callTypeCode": "HAZ",
+      "timestamp": "2026-10-03T04:03:54.000Z",
+      "location": "GARDINER XWY E - PARK LAWN RD",
+      "division": "Division 22",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "GARDINER XWY E - PARK LAWN RD",
+        "coordinates": [
+          43.62545188019389,
+          -79.48568571369577
+        ],
+        "division": "Division 22",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
     },
     {
       "id": "F26157018",
@@ -62,7 +220,7 @@
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T04:11:16.227Z",
       "lastMeaningfulUpdateAt": "2026-10-03T04:15:38.514Z",
-      "lastSeenAt": "2026-10-03T04:20:07.631Z",
+      "lastSeenAt": "2026-10-03T04:22:17.313Z",
       "geography": {
         "text": "Approximate area: (M4S) Central Toronto (Davisville)",
         "approximate": true,
@@ -96,7 +254,7 @@
       ],
       "respondingUnitCount": 1,
       "firstSeenAt": "2026-10-03T04:11:16.227Z",
-      "lastSeenAt": "2026-10-03T04:20:07.631Z",
+      "lastSeenAt": "2026-10-03T04:22:17.313Z",
       "geography": {
         "text": "Approximate area: (M9V) Etobicoke (South Steeles / Silverstone / Humbergate / Jamestown / Mount Olive / Beaumond Heights / Thistletown / Albion Gardens)",
         "approximate": true,
@@ -109,6 +267,28 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-5ab0ea7a335c9a08c5b87572",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "NOISY PARTY",
+      "callTypeCode": "NOIPA",
+      "timestamp": "2026-10-03T03:56:01.000Z",
+      "location": "LOCUST ST - OXFORD DR",
+      "division": "Division 12",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "LOCUST ST - OXFORD DR",
+        "coordinates": [
+          43.68791698563399,
+          -79.49201418259986
+        ],
+        "division": "Division 12",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
     },
     {
       "id": "F26157016",
@@ -144,6 +324,72 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
+    },
+    {
+      "id": "TPS-d6ba39a5b488f90bf24e5c1d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FIGHT",
+      "callTypeCode": "FIG",
+      "timestamp": "2026-10-03T03:54:26.000Z",
+      "location": "YONGE ST - VICTORIA ST",
+      "division": "Division 52",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "YONGE ST - VICTORIA ST",
+        "coordinates": [
+          43.656324795428525,
+          -79.38091294638609
+        ],
+        "division": "Division 52",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
+    },
+    {
+      "id": "TPS-22095d644d38f0d3bad44573",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "DISORDERLIES",
+      "callTypeCode": "DIS",
+      "timestamp": "2026-10-03T03:54:14.000Z",
+      "location": "SPADINA AVE - BRANT ST",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "SPADINA AVE - BRANT ST",
+        "coordinates": [
+          43.64494468404835,
+          -79.39763053443214
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
+    },
+    {
+      "id": "TPS-bb5f9dab644469ed1d6e06e7",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-10-03T03:53:25.000Z",
+      "location": "OSSINGTON AVE - LAKEVIEW AVE",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "OSSINGTON AVE - LAKEVIEW AVE",
+        "coordinates": [
+          43.64938579398797,
+          -79.42268522577027
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
     },
     {
       "id": "F26157015",
@@ -182,6 +428,116 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-10-03T04:00:58.388Z"
       }
+    },
+    {
+      "id": "TPS-43aaa488c9e00bf457939192",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ARREST",
+      "callTypeCode": "ARR",
+      "timestamp": "2026-10-03T03:49:56.000Z",
+      "location": "EGLINTON AVE E - WYNFORD DR",
+      "division": "Division 33",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "EGLINTON AVE E - WYNFORD DR",
+        "coordinates": [
+          43.723018138008804,
+          -79.33948131895013
+        ],
+        "division": "Division 33",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
+    },
+    {
+      "id": "TPS-1b0dbaee0de3fa94ae01d4cb",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FOUND PROPERTY",
+      "callTypeCode": "FOUPR",
+      "timestamp": "2026-10-03T03:49:35.000Z",
+      "location": "REGAL RD - CLOVIS JOHN BROOKS LANE",
+      "division": "Division 13",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "REGAL RD - CLOVIS JOHN BROOKS LANE",
+        "coordinates": [
+          43.67447982481759,
+          -79.43921122380645
+        ],
+        "division": "Division 13",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
+    },
+    {
+      "id": "TPS-a46a41110845c4e7719dab28",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-10-03T03:49:16.000Z",
+      "location": "WILLOWDALE AVE - SHEPPARD AVE E",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "WILLOWDALE AVE - SHEPPARD AVE E",
+        "coordinates": [
+          43.76399148810599,
+          -79.3996757112637
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
+    },
+    {
+      "id": "TPS-fa45629cc02ae3815604f3b5",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "ASSAULT JUST OCCURRED",
+      "callTypeCode": "ASSJU",
+      "timestamp": "2026-10-03T03:49:13.000Z",
+      "location": "AUGUSTA AVE - ",
+      "division": "Division 14",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "AUGUSTA AVE - ",
+        "coordinates": [
+          43.650154589465394,
+          -79.4004775332235
+        ],
+        "division": "Division 14",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
+    },
+    {
+      "id": "TPS-18fb9bffa670ca648526337d",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "PERSONAL INJURY COLLISION",
+      "callTypeCode": "PIACC",
+      "timestamp": "2026-10-03T03:46:46.000Z",
+      "location": "DUNDAS ST E - SHERBOURNE ST",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "DUNDAS ST E - SHERBOURNE ST",
+        "coordinates": [
+          43.65829659740034,
+          -79.37100285365003
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
     },
     {
       "id": "F26157014",
@@ -287,6 +643,28 @@
         "approximate": true
       },
       "firstSeenAt": "2026-10-03T03:52:07.165Z"
+    },
+    {
+      "id": "TPS-28106b1e65704d468ca03ce6",
+      "source": "TPS",
+      "eventType": "police",
+      "description": "FAIL TO REMAIN PROPERTY DAMAGE COLLISION",
+      "callTypeCode": "FTRPD",
+      "timestamp": "2026-10-03T03:43:14.000Z",
+      "location": "CLOSE AVE - SPRINGHURST AVE",
+      "division": "HP",
+      "vehicles": [],
+      "isOngoing": false,
+      "geography": {
+        "text": "CLOSE AVE - SPRINGHURST AVE",
+        "coordinates": [
+          43.63373207851324,
+          -79.4333018222314
+        ],
+        "division": "HP",
+        "approximate": true
+      },
+      "firstSeenAt": "2026-10-03T04:22:17.313Z"
     },
     {
       "id": "F26157012",
@@ -436,6 +814,12 @@
       "isOngoing": true,
       "vehicles": [
         {
+          "type": "High-Rise Unit",
+          "numbers": [
+            "332"
+          ]
+        },
+        {
           "type": "Ladder Truck",
           "numbers": [
             "312",
@@ -449,10 +833,10 @@
           ]
         }
       ],
-      "respondingUnitCount": 3,
+      "respondingUnitCount": 4,
       "firstSeenAt": "2026-10-03T03:46:17.690Z",
-      "lastMeaningfulUpdateAt": "2026-10-03T04:11:16.227Z",
-      "lastSeenAt": "2026-10-03T04:20:07.631Z",
+      "lastMeaningfulUpdateAt": "2026-10-03T04:22:17.313Z",
+      "lastSeenAt": "2026-10-03T04:22:17.313Z",
       "geography": {
         "text": "Approximate location on Charles Street between George Hislop Park Trl & Macy Dubois Lane",
         "approximate": true,
@@ -215318,57 +215702,16 @@
         "source": "toronto-centreline-geonames-2026-09-19",
         "checkedAt": "2026-09-19T04:48:15.180Z"
       }
-    },
-    {
-      "id": "F26152586",
-      "source": "TFS",
-      "eventType": "fire",
-      "description": "Alarm Single Source",
-      "location": "UNIVERSITY AVE, TT / ARMOURY ST / DUNDAS ST W",
-      "division": "332",
-      "timestamp": "2026-09-26T04:20:47.000Z",
-      "alarmLevel": 0,
-      "isOngoing": false,
-      "vehicles": [
-        {
-          "type": "High-Rise Unit",
-          "numbers": [
-            "332"
-          ]
-        },
-        {
-          "type": "Fire Truck",
-          "numbers": [
-            "332"
-          ]
-        }
-      ],
-      "respondingUnitCount": 2,
-      "firstSeenAt": "2026-09-26T04:30:45.510Z",
-      "lastMeaningfulUpdateAt": "2026-09-26T04:37:30.613Z",
-      "lastSeenAt": "2026-09-26T04:49:18.965Z",
-      "geography": {
-        "text": "University Avenue between Armoury Street & Dundas Street West",
-        "approximate": false,
-        "coordinates": [
-          43.65395315,
-          -79.3879484
-        ],
-        "division": "Division 52",
-        "version": 1,
-        "source": "toronto-centreline-geonames-2026-09-19",
-        "checkedAt": "2026-09-26T04:30:45.510Z"
-      }
     }
   ],
   "feeds": {
     "TFS": {
-      "fetchedAt": "2026-10-03T04:20:07.631Z",
-      "sourceUpdatedAt": "2026-10-03T04:15:01.000Z",
+      "fetchedAt": "2026-10-03T04:22:17.313Z",
+      "sourceUpdatedAt": "2026-10-03T04:20:01.000Z",
       "status": "ok"
     },
     "TPS": {
-      "fetchedAt": "2026-10-03T04:20:07.631Z",
+      "fetchedAt": "2026-10-03T04:22:17.313Z",
       "status": "ok"
     }
   },
@@ -350633,7 +350976,7 @@
   "ttcAlerts": {
     "schemaVersion": 1,
     "items": [],
-    "sourceUpdatedAt": "2026-10-03T04:19:39.000Z",
+    "sourceUpdatedAt": "2026-10-03T04:22:13.000Z",
     "lifecycleVersion": 1,
     "changes": {
       "new": [],
@@ -350642,14 +350985,14 @@
       "removed": []
     },
     "status": "ok",
-    "fetchedAt": "2026-10-03T04:20:07.631Z",
-    "checkedAt": "2026-10-03T04:20:07.631Z",
+    "fetchedAt": "2026-10-03T04:22:17.313Z",
+    "checkedAt": "2026-10-03T04:22:17.313Z",
     "staticCorrelation": {
       "schemaVersion": 1,
       "status": "ok",
       "version": "e67c06dad8633cda674bdd12dc68cfe0e8e215842e37371f4bd686d7c79c93ec",
-      "fetchedAt": "2026-10-03T04:20:07.631Z",
-      "checkedAt": "2026-10-03T04:20:07.631Z",
+      "fetchedAt": "2026-10-03T04:22:17.313Z",
+      "checkedAt": "2026-10-03T04:22:17.313Z",
       "counts": {
         "routes": 230,
         "stops": 9128,
@@ -350673,6 +351016,18 @@
   },
   "updatedBy": "concourse",
   "locationCache": {
+    "M5V": {
+      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
+      "approximate": true,
+      "coordinates": [
+        43.6404,
+        -79.3995
+      ],
+      "division": "Division 14",
+      "version": 1,
+      "source": "toronto-centreline-geonames-2026-09-19",
+      "checkedAt": "2026-09-19T04:48:15.180Z"
+    },
     "M4R": {
       "text": "Approximate area: (M4R) Central Toronto (North Toronto West)",
       "approximate": true,
@@ -350762,18 +351117,6 @@
         -79.1866
       ],
       "division": "Division 43",
-      "version": 1,
-      "source": "toronto-centreline-geonames-2026-09-19",
-      "checkedAt": "2026-09-19T04:48:15.180Z"
-    },
-    "M5V": {
-      "text": "Approximate area: (M5V) Downtown Toronto (CN Tower / King and Spadina / Railway Lands / Harbourfront West / Bathurst Quay / South Niagara / YTZ)",
-      "approximate": true,
-      "coordinates": [
-        43.6404,
-        -79.3995
-      ],
-      "division": "Division 14",
       "version": 1,
       "source": "toronto-centreline-geonames-2026-09-19",
       "checkedAt": "2026-09-19T04:48:15.180Z"
