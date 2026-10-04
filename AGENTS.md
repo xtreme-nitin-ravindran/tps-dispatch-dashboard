@@ -33,6 +33,7 @@
 (`COPY scripts ./scripts`, `COPY test ./test`). The image is a snapshot, not a
 mount of the working tree.
 
+- **Mandatory validation note:** Rebuild the Docker test image after any `styles.css`, `app.js`, or `test/` change. Run `npx eslint .`, not only targeted files. `scripts/ttc-ui-browser.js` is an optional manual script and is not part of the required suite; it has a deliberate 61-second wait, so run it in the background, and note that `timeout` may be unavailable on macOS.
 - After ANY change to `scripts/` or `test/`, rebuild before running tests:
   `docker build -f Dockerfile.test -t toronto-dispatch-tests .`
 - A test/coverage/lint run against a stale image silently validates old code and
@@ -146,6 +147,8 @@ Preserve these product semantics in both logic and UI:
 
 ## Safe file editing
 
+- **Mandatory prompt instruction:** Use only `perl -0pi -e` or `python3` heredocs for source/test edits. Never use `single_find_and_replace` or `edit_existing_file` on source or test files; they can reformat the whole file and waste implementation cycles before the changes must be reverted.
+- The canonical roadmap is `SirenTO-Development-Roadmap.md` in the Continue rules directory. Generic edit tools cannot reach it, so roadmap changes must use a `python3` heredoc with the resolved path.
 - Avoid editor-based or generic edit tools that may open files in VS Code or trigger automatic formatting.
 - Do not use `single_find_and_replace`, `edit_file`, or similar tools on source/test files if they may rewrite formatting outside the intended change.
 - Prefer surgical, non-formatting edits using:
