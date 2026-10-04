@@ -27,6 +27,39 @@
 - Run broad/full verification at story or feature completion, or when required to reproduce a CI failure.
 - Before declaring a task complete, verify that `git diff --stat` and `git diff` contain only intentional changes.
 
+### Docker test image freshness
+
+`Dockerfile.test` copies `scripts/` and `test/` into the image at build time
+(`COPY scripts ./scripts`, `COPY test ./test`). The image is a snapshot, not a
+mount of the working tree.
+
+- After ANY change to `scripts/` or `test/`, rebuild before running tests:
+  `docker build -f Dockerfile.test -t toronto-dispatch-tests .`
+- A test/coverage/lint run against a stale image silently validates old code and
+  can report false success (for example, 100% coverage on pre-change source).
+- Never trust a local Docker result that disagrees with CI until you have rebuilt
+  the image and re-run.
+- When reproducing a CI failure locally, rebuild first; if the failure does not
+  reproduce, suspect a stale image before suspecting the environment.
+
+### Prefer content-tagged images
+
+To make staleness visible instead of silent, tag the image by the content it was
+built from rather than reusing a fixed tag:
+
+```bash
+TAG="toronto-dispatch-tests:$(git rev-parse --short HEAD)"
+docker build -f Dockerfile.test -t "$TAG" .
+docker run --rm "$TAG" npm run test:coverage
+```
+
+- A tag derived from the current commit makes it obvious when the image predates
+  the working tree, and prevents accidentally reusing an older image.
+- Rebuild whenever `scripts/` or `test/` changes, even if the commit hash is
+  unchanged (for example, uncommitted edits): the tag reflects the commit, not
+  the working tree, so rebuild after every edit before verifying.
+- Keep the image self-contained; do not rely on host Node or host tooling.
+
 ## Required tests and coverage
 
 - Before considering implementation complete or recommending push or promotion, all required tests must pass.
