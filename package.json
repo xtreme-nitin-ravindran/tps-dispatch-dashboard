@@ -18,6 +18,7 @@
         "test:story-38g": "node --test test/police-boundary-overlay.test.js test/police-boundary-lifecycle.test.js test/marker-clustering.test.js test/mobile-selected-incident.test.js test/mobile-audit-fixture.test.js test/mobile-bottom-sheet.test.js test/mobile-view-toggle.test.js test/mobile-compositing.test.js test/disruptions.test.js test/service-worker.test.js",
         "test:story-39a:browser": "node scripts/cluster-connectors-browser.js",
         "test:story-40e:browser": "node scripts/mobile-focus-browser.js",
+        "test:road-closure-count:browser": "node scripts/road-closure-count-browser.js",
         "fixture:notification-ux": "node test/fixtures/run-notification-ux.js",
         "test:coverage": "node --experimental-test-coverage --test test/*.test.js",
         "test:python": "python3 -m unittest discover -s test/python -v",

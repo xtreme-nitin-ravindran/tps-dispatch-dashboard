@@ -1112,7 +1112,18 @@ html:not([data-map-load-state]) #dispatchMap.leaflet-container + .map-load-statu
   font-weight: 700;
 }
 .map-panel .leaflet-top.leaflet-right .leaflet-control-layers { width: var(--map-layer-control-width); }
-.map-layer-toggle .map-layer-status { grid-column: 2 / -1; color: var(--muted); font: 9px/1.2 "Space Mono", monospace; }
+/* The road-closure count is not shown beneath the "Road closures" label at any
+   breakpoint; the checkbox, dashed red legend key, and label remain. The count
+   stays in the DOM for assistive technology and is surfaced in the disruptions
+   panel (#roadCount). */
+.map-layer-toggle .map-layer-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 .closure-detail { width: min(300px, 100%); padding: 16px; }
 .closure-detail-kicker { color: var(--road-marker); font: 700 10px/1 "Space Mono", monospace; letter-spacing: .08em; }
 .closure-detail h3 { margin: 7px 0 12px; font-size: 18px; }
@@ -1927,14 +1938,6 @@ footer {
     box-shadow: 0 2px 8px rgb(0 0 0 / 18%);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-  }
-  .map-layer-toggle .map-layer-status {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
   }
   .map-panel .leaflet-top.leaflet-right {
     top: 8px;
