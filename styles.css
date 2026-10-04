@@ -1988,6 +1988,10 @@ footer {
     --mobile-map-height: 460px;
     --mobile-sheet-height: calc(52px + env(safe-area-inset-bottom, 0px));
   }
+  /* Story 42: the collapsed sheet sizes to its header so a wrapped summary is
+     never clipped or overlapped. The body keeps its normal layout but no longer
+     contributes height, so it stays clipped below the sheet as before. */
+  html[data-mobile-sheet-state="collapsed"] .mobile-bottom-sheet { height: auto; min-height: var(--mobile-sheet-height); grid-template-rows: auto 0; }
   html[data-mobile-sheet-state="half"] { --mobile-sheet-height: min(30dvh, calc(var(--mobile-map-height) - 220px)); }
   html[data-mobile-sheet-state="expanded"] { --mobile-sheet-height: min(50dvh, calc(var(--mobile-map-height) - 160px)); }
   .mobile-bottom-sheet {
@@ -2015,7 +2019,7 @@ footer {
   .mobile-sheet-header {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr);
     align-items: center;
     gap: 12px;
     width: 100%;
@@ -2030,8 +2034,7 @@ footer {
   }
   .mobile-sheet-header:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: -4px; }
   .mobile-sheet-handle { position: absolute; top: 4px; left: 50%; width: 36px; height: 4px; border-radius: 999px; background: var(--muted-2); transform: translateX(-50%); }
-  .mobile-sheet-summary { overflow: hidden; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
-  .mobile-sheet-state { color: var(--muted); font: 10px/1 "Space Mono", monospace; text-transform: uppercase; }
+  .mobile-sheet-summary { min-width: 0; font-weight: 800; overflow-wrap: anywhere; }
   .mobile-sheet-body { min-height: 0; padding: 4px 0 18px; overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y; border-top: 1px solid var(--line); }
   .mobile-sheet-body > p { margin: 14px 0; color: var(--muted); }
   .mobile-closure-detail { padding: 0 18px; }
@@ -2094,7 +2097,14 @@ footer {
     position: absolute;
     /* Story 40D/40E: sit below the floating navigation band, which itself tracks
        the focus button's real position. */
-    top: calc(var(--mobile-layer-row-bottom, 64px) + 108px + env(safe-area-inset-top, 0px));
+    /* Story 42: clamp the top so a taller collapsed sheet (wrapped summary) or
+       a taller layer row can never push the summary over the required map
+       credit; the bottom is anchored above the sheet and attribution. */
+    top: min(
+      calc(var(--mobile-layer-row-bottom, 64px) + 108px + env(safe-area-inset-top, 0px)),
+      calc(100dvh - var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) - 48px - 16px - env(safe-area-inset-bottom, 0px))
+    );
+    bottom: calc(var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) + 48px + env(safe-area-inset-bottom, 0px));
     left: calc(8px + env(safe-area-inset-left, 0px));
     right: calc(8px + env(safe-area-inset-right, 0px));
     z-index: 600;
@@ -2107,10 +2117,6 @@ footer {
     box-shadow: 0 2px 8px rgb(0 0 0 / 18%);
     font: 600 11px/1.35 "Space Mono", monospace;
     overflow-wrap: anywhere;
-    /* Story 41: bound the summary to the space above the bottom sheet and
-       attribution so a taller stacked layer row cannot push it over the
-       required map credit. */
-    max-height: calc(100dvh - var(--mobile-layer-row-bottom, 64px) - 108px - var(--mobile-sheet-height, 52px) - 48px - env(safe-area-inset-top, 0px));
     overflow: hidden;
   }
   .mobile-focus-filter-summary[hidden] { display: none; }
@@ -2187,16 +2193,18 @@ footer {
      sibling of the fixed map stage, so float it above the map and the summary. */
   html[data-mobile-focus="on"][data-mobile-view="map"] .map-info {
     position: fixed;
-    top: calc(var(--mobile-layer-row-bottom, 64px) + 152px + env(safe-area-inset-top, 0px));
+    /* Story 42: clamp the top so a taller collapsed sheet (wrapped summary) or
+       a taller layer row can never push the map info over the required map
+       credit; the bottom is anchored above the sheet and attribution. */
+    top: min(
+      calc(var(--mobile-layer-row-bottom, 64px) + 152px + env(safe-area-inset-top, 0px)),
+      calc(100dvh - var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) - 48px - env(safe-area-inset-bottom, 0px))
+    );
+    bottom: calc(var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) + 48px + env(safe-area-inset-bottom, 0px));
     left: calc(8px + env(safe-area-inset-left, 0px));
     right: calc(8px + env(safe-area-inset-right, 0px));
     z-index: 750;
     margin: 0;
-    /* Story 41: the layer row is now two stacked controls, so the map info can
-       start lower. Bound its height to the space above the bottom sheet and
-       attribution so it never overlaps them; when there is no room it collapses
-       rather than covering the required map credit. */
-    max-height: calc(100dvh - var(--mobile-layer-row-bottom, 64px) - 152px - var(--mobile-sheet-height, 52px) - 48px - env(safe-area-inset-top, 0px));
     overflow: auto;
   }
   /* Story 40C/40F: focused Calls keeps the existing calls surface clear of the
