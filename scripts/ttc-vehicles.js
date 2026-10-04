@@ -17,7 +17,7 @@ async function atomicJson(path,value) {
 }
 // One-line end-of-run verdict so Concourse task output alone shows whether any
 // diversion evidence was found and whether anything is publishable.
-function diversionSummary(state) {
+export function diversionSummary(state) {
   const records=state?.records||[];
   const confirmed=records.filter(r=>r.status==='confirmed').length;
   const likely=records.filter(r=>r.status==='likely').length;
