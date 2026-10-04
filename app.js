@@ -102,6 +102,8 @@ const callsFeedStatus = document.querySelector('#callsFeedStatus');
 const radiusToggles = document.querySelectorAll('[data-radius-km]');
 const mobileViewToggles = document.querySelectorAll('[data-mobile-view]');
 const mobileDisruptionsControl = document.querySelector('#mobileDisruptionsControl');
+const mobileMapFocusToggle = document.querySelector('#mobileMapFocusToggle');
+const mobileFocusFilterSummary = document.querySelector('#mobileFocusFilterSummary');
 const mobileBottomSheet = document.querySelector('#mobileBottomSheet');
 const mobileSheetToggle = document.querySelector('#mobileSheetToggle');
 const mobileSheetStateLabel = document.querySelector('#mobileSheetState');
@@ -160,6 +162,8 @@ let presentedMobileLayout = null;
 let mobileSheetState = "collapsed";
 let mobileSheetDrag = null;
 let suppressNextMobileSheetClick = false;
+let mobileFocusMode = false;
+let mobileFocusScrollY = 0;
 const initialParams = new URLSearchParams(location.search);
 const mobileAuditFixture = mobileAuditFixtureOptions(location);
 const boundaryDebugEnabled = initialParams.get('policeBoundaryDebug') === '1';
@@ -277,7 +281,21 @@ function isMobileViewLayout() {
 }
 
 function syncMapAttributionPosition() {
-  dispatchMap?.attributionControl?.setPosition(isMobileViewLayout() ? "topleft" : "bottomright");
+  // Story 40F: keep the attribution in the lower-right map chrome on every
+  // layout. The previous mobile "topleft" placement put the OpenStreetMap link
+  // directly over the fullscreen/× focus control (Leaflet's .leaflet-top corner
+  // stacks at z-index 1000, above the control), so touching the control opened
+  // the attribution link instead.
+  //
+  // Leaflet inserts bottom-corner controls at the *front* of the corner, so
+  // calling setPosition("bottomright") again would lift the attribution above
+  // the zoom control and, on short mobile maps, into the Road closures / Police
+  // divisions row. The default position is already "bottomright", so only
+  // reposition when the corner actually differs; that keeps the attribution
+  // after the zoom control (below it) and clear of the layer controls.
+  const control = dispatchMap?.attributionControl;
+  if (!control) return;
+  if (control.getPosition?.() !== "bottomright") control.setPosition("bottomright");
 }
 
 let mapMaintenanceFrame = null;
@@ -293,6 +311,21 @@ function syncMapSheetOverlap() {
   els.dispatchMap.style.setProperty("--mobile-map-sheet-overlap", `${overlap}px`);
 }
 
+// Story 40E: the Road closures / Police divisions layer row wraps taller on some
+// engines (notably iOS Safari), so a fixed offset can place the focus control
+// underneath it. Measure the row's real bottom edge and expose it as a CSS
+// variable the focus control anchors to.
+function syncMobileLayerRowOffset() {
+  const wrap = els.dispatchMap?.closest?.(".map-wrap");
+  const layerRow = wrap?.querySelector?.(".map-layer-toggle");
+  if (!wrap || !layerRow) return;
+  const wrapTop = wrap.getBoundingClientRect().top;
+  const rowBottom = layerRow.getBoundingClientRect().bottom - wrapTop;
+  // Set on the root so both the map-wrap descendants (the focus control) and the
+  // fixed focus-mode chrome (navigation band, summary, map info) can read it.
+  document.documentElement.style.setProperty("--mobile-layer-row-bottom", `${Math.round(rowBottom)}px`);
+}
+
 function scheduleMapMaintenance({ invalidateSize = false } = {}) {
   mapSizeInvalidationPending ||= invalidateSize;
   if (viewTransitionScheduler.pending()) return;
@@ -301,6 +334,7 @@ function scheduleMapMaintenance({ invalidateSize = false } = {}) {
   mapMaintenanceFrame = requestAnimationFrame(() => {
     mapMaintenanceFrame = null;
     syncMapSheetOverlap();
+    syncMobileLayerRowOffset();
     if (!mapSizeInvalidationPending) return;
     mapSizeInvalidationPending = false;
     const finishInvalidation = uxAudit.begin('view-toggle:leaflet-invalidate-size');
@@ -428,8 +462,41 @@ mobileDisruptionsControl?.addEventListener('click', auditInteraction('mobile:dis
     disruptions?.focus({ preventScroll: true });
   });
 }));
+function setMobileFocusMode(on) {
+  const next = Boolean(on) && isMobileViewLayout();
+  if (next === mobileFocusMode) return;
+  mobileFocusMode = next;
+  document.documentElement.dataset.mobileFocus = next ? "on" : "off";
+  mobileMapFocusToggle?.setAttribute("aria-pressed", String(next));
+  mobileMapFocusToggle?.setAttribute("aria-label", next ? "Exit full screen map" : "Full screen map");
+  const icon = mobileMapFocusToggle?.querySelector(".mobile-map-focus-icon");
+  if (icon) icon.textContent = next ? "×" : "⛶";
+  // Story 40F: update the sheet-overlap variable synchronously so the Leaflet
+  // bottom-corner controls (attribution, zoom) move with the focused layout in
+  // the same frame. Otherwise the attribution briefly overlaps the bottom sheet
+  // until the deferred maintenance frame runs.
+  syncMapSheetOverlap();
+  if (next) {
+    mobileFocusScrollY = window.scrollY || window.pageYOffset || 0;
+    if (mobileView !== "map") setMobileView("map", { persist: false });
+    scheduleMapMaintenance({ invalidateSize: true });
+  } else {
+    scheduleMapMaintenance({ invalidateSize: true });
+    requestAnimationFrame(() => window.scrollTo({ top: mobileFocusScrollY, behavior: "instant" }));
+  }
+  syncFocusFilterSummary();
+}
+
+mobileMapFocusToggle?.addEventListener("click", auditInteraction('mobile:map-focus', () => {
+  if (!isMobileViewLayout()) return;
+  setMobileFocusMode(!mobileFocusMode);
+}));
+
 setMobileView(mobileView, { persist: false });
-mobileLayoutMedia.addEventListener?.("change", () => setMobileView(mobileView, { persist: false }));
+mobileLayoutMedia.addEventListener?.("change", () => {
+  if (!isMobileViewLayout() && mobileFocusMode) setMobileFocusMode(false);
+  setMobileView(mobileView, { persist: false });
+});
 
 function setMobileSheetState(nextState) {
   if (!mobileBottomSheet || !["collapsed", "half", "expanded"].includes(nextState)) return;
@@ -493,6 +560,11 @@ mobileSheetStateControls.forEach(control => control.addEventListener("click", au
 setMobileSheetState(mobileSheetState);
 window.addEventListener("scroll", scheduleMapMaintenance, { passive: true });
 window.addEventListener("resize", () => scheduleMapMaintenance({ invalidateSize: true }));
+// Orientation changes resize the usable viewport; only the visible map needs new geometry.
+window.addEventListener("orientationchange", () => {
+  if (isMobileViewLayout() && mobileView !== "map") return;
+  scheduleMapMaintenance({ invalidateSize: true });
+});
 window.visualViewport?.addEventListener("resize", scheduleMapMaintenance);
 window.visualViewport?.addEventListener("scroll", scheduleMapMaintenance);
 document.addEventListener("scroll", scheduleMapMaintenance, { passive: true, capture: true });
@@ -503,6 +575,8 @@ if (globalThis.ResizeObserver) {
   const mapSheetObserver = new ResizeObserver(scheduleMapMaintenance);
   mapSheetObserver.observe(els.dispatchMap);
   mapSheetObserver.observe(mobileBottomSheet);
+  const layerRow = els.dispatchMap?.closest?.(".map-wrap")?.querySelector?.(".map-layer-toggle");
+  if (layerRow) mapSheetObserver.observe(layerRow);
 }
 scheduleMapMaintenance();
 
@@ -891,6 +965,7 @@ function applyFilters({ map = true } = {}) {
   expandedCluster.clear();
   document.querySelector("#filterSummary").textContent = filterSummary(state);
   syncMobileFilterIndicator();
+  syncFocusFilterSummary();
   syncSearchControl();
   render(map);
   if (map && previouslyFocusedCallId !== focusedCallId) {
@@ -1726,6 +1801,11 @@ function setupDivisionOverlay() {
   L.control.layers(null, { "Police division boundaries": divisionLayer }, {
     collapsed: false, position: "topright"
   }).addTo(dispatchMap);
+  // Story 40D: keep the full official wording in the DOM/attribution but show a
+  // concise "Police divisions" label on the compact mobile control.
+  const boundaryControlLabel = dispatchMap.getContainer()
+    .querySelector('.leaflet-control-layers-overlays label');
+  boundaryControlLabel?.setAttribute('data-mobile-label', 'Police divisions');
   if (boundaryVisible) {
     divisionLayer.addTo(dispatchMap);
     queuePoliceBoundaryWork('initial-visible-map');
@@ -2839,6 +2919,29 @@ function syncMobileFilterIndicator() {
   els.mobileFilterCount.hidden = count === 0;
   els.mobileFiltersToggle.classList.toggle('active', count > 0);
   els.mobileFiltersToggle.setAttribute('aria-label', count ? `Filters, ${count} active` : 'Filters');
+}
+function focusFilterSummaryText() {
+  const parts = [];
+  const originLabel = nearbyOriginKind === 'map'
+    ? 'the selected area'
+    : nearbyOriginKind === 'saved'
+      ? savedLocationForContext(state)?.label || 'the saved location'
+      : 'your location';
+  if (state.radiusKm === null) parts.push('Toronto-wide');
+  else if (state.nearby) parts.push(`Within ${state.radiusKm} km of ${originLabel}`);
+  else parts.push(`${state.radiusKm} km radius`);
+  parts.push(state.hours < 24 ? `Last ${state.hours} hour${state.hours === 1 ? '' : 's'}` : state.hours === 24 ? 'Last 24 hours' : `Last ${state.hours / 24} days`);
+  if (state.serviceFilter !== 'all') parts.push(state.serviceFilter === 'TFS' ? 'Fire' : 'Police');
+  if (state.eventFilter !== 'all') parts.push(`Event: ${state.eventFilter}`);
+  if (state.division !== 'all') parts.push(state.division);
+  if (state.search) parts.push(`Search: “${state.search}”`);
+  return parts.join(' · ');
+}
+function syncFocusFilterSummary() {
+  if (!mobileFocusFilterSummary) return;
+  const visible = mobileFocusMode && isMobileViewLayout();
+  mobileFocusFilterSummary.hidden = !visible;
+  if (visible) mobileFocusFilterSummary.textContent = focusFilterSummaryText();
 }
 function setMobileFiltersOpen(open) {
   document.documentElement.classList.toggle('mobile-filters-open', open);
