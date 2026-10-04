@@ -258,4 +258,25 @@ test('map control is mobile-accessible and closure selection stays separate from
  assert.match(app,/callLayer = L\.layerGroup\(\)\.addTo\(dispatchMap\)/);
 });
 
+test('road-closure count is hidden beneath the label at every breakpoint',()=>{
+ const css=readFileSync(new URL('../styles.css',import.meta.url),'utf8');
+ const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
+ // The count stays in the DOM for assistive technology and the disruptions panel.
+ assert.match(html,/<small id="roadOverlayStatus" class="map-layer-status">/);
+ assert.match(html,/<span>Road closures<\/span>/);
+ assert.match(html,/<span aria-hidden="true" class="road-key"><\/span>/);
+ // The base (desktop) rule clips the count to a non-visible box.
+ const baseStart=css.indexOf('.map-layer-toggle .map-layer-status {');
+ const baseRule=css.slice(baseStart,css.indexOf('}',baseStart)+1);
+ assert.match(baseRule,/position: absolute/);
+ assert.match(baseRule,/width: 1px/);
+ assert.match(baseRule,/height: 1px/);
+ assert.match(baseRule,/overflow: hidden/);
+ assert.match(baseRule,/clip-path: inset\(50%\)/);
+ assert.match(baseRule,/white-space: nowrap/);
+ // The count is not re-shown by any later rule (for example a mobile override).
+ const laterRules=css.slice(baseStart+baseRule.length);
+ assert.doesNotMatch(laterRules,/\.map-layer-toggle \.map-layer-status\s*\{[^}]*grid-column/);
+});
+
 test.after(()=>{globalThis.document=originalDocument;globalThis.L=originalLeaflet;globalThis.requestAnimationFrame=originalRequestAnimationFrame;globalThis.cancelAnimationFrame=originalCancelAnimationFrame;});
