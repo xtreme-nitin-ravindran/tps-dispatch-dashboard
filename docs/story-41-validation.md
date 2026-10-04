@@ -31,6 +31,11 @@ Mode). It does not change map data, filtering, or interaction semantics.
   the `--police-control-bottom` CSS variable on the document root. The
   measurement runs inside the existing coalesced `scheduleMapMaintenance` frame,
   so no new listeners, refetch, or layer recreation are introduced.
+- Extended the same measurement to expose two more root variables:
+  `--mobile-layer-stack-center` (the vertical center of the stacked Police
+  Divisions / Road closures controls) and `--mobile-layer-control-width` (the
+  wider of the two controls' rendered widths). Both are measured from the same
+  frame with no additional listeners.
 
 ### `styles.css`
 
@@ -38,11 +43,19 @@ Mode). It does not change map data, filtering, or interaction semantics.
   closures control is `right: 10px; left: auto; width: 200px` and anchors at
   `top: var(--police-control-bottom, 47px)`. The Police Divisions Leaflet
   control shares the same `200px` width.
-- Mobile (`max-width: 680px`): both controls are full-width with matching
-  `8px` left/right insets. The Road closures control anchors at
-  `top: var(--police-control-bottom, 56px)`.
+- Mobile (`max-width: 680px`): both controls **shrink-wrap to their content**
+  (`width: max-content`) and are **right-aligned** (`right: 8px; left: auto`).
+  They share a measured `min-width: var(--mobile-layer-control-width, 0)` so
+  their rendered widths match even though their labels differ. The Road closures
+  control anchors at `top: var(--police-control-bottom, 56px)`. The Police
+  Divisions label weight is set to `700` to match the Road closures label so the
+  two stacked controls read as one group.
+- The fullscreen/× focus control is **left-aligned** (`left: 8px`) and
+  **vertically centered** against the stack via
+  `top: calc(var(--mobile-layer-stack-center, 56px) - 24px)`.
 - Focus mode: the Road closures control and the Police Divisions corner both
-  respect left/right safe-area insets.
+  respect right safe-area insets and keep `left: auto`; the focus control keeps
+  its left safe-area inset and stack-center anchoring.
 - Focus-mode floating chrome (`max-height` on `.mobile-focus-filter-summary` and
   `.map-info`) is bounded to the space above the bottom sheet and attribution so
   the taller stacked row cannot push chrome over the required map credit.
@@ -73,10 +86,26 @@ One Story 39A browser run failed while loading its fixture with a
 pre-existing load-timing flake rather than a layout failure; the suite passed
 **5/5** on re-run.
 
+### Layout follow-up verification (shrink-wrapped stack + centered focus control)
+
+Measured rendered geometry via Playwright Chromium against the deterministic
+loopback fixture on port `8765`:
+
+- At 390×844 (non-focus): Police Divisions `x=203, w=167, right=370`; Road
+  closures `x=203, w=167, right=370`; focus control `x=20, w=48`, vertical
+  center `576` = stack center `576`; zoom control `x=334, y=703` (no collision).
+- At 320, 375, 390, 430, and 844×390 landscape: widths match, right edges match,
+  the focus control is vertically centered and left of the stack, label text is
+  `start`-aligned, and there is no horizontal overflow.
+- In focus mode (390×844): Police Divisions `x=215, right=382`; Road closures
+  `x=215, right=382`; focus control `x=8, y=32` (center `56` = stack center
+  `56`); navigation band `y=160`; summary `y=212`; map info `y=256`; no
+  overlaps.
+
 ## Final diff and publication
 
-The application/test diff is small and scoped: **10 files, +79/-37**, plus this
-new validation document. It contains no unrelated churn and no
+The application/test diff is small and scoped: **6 files, +56/-32**, plus this
+validation document. It contains no unrelated churn and no
 `data/current.json` changes.
 
 No commit or push was made. Publication still requires explicit authorization.

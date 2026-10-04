@@ -335,6 +335,23 @@ function syncMobileLayerRowOffset() {
   // Set on the root so both the map-wrap descendants (the focus control) and the
   // fixed focus-mode chrome (navigation band, summary, map info) can read it.
   document.documentElement.style.setProperty("--mobile-layer-row-bottom", `${Math.round(rowBottom)}px`);
+  // Story 41: the focus control is vertically centered against the stacked
+  // Police Divisions / Road closures controls, so expose the stack's real
+  // vertical center (measured from the Police Divisions top to the Road
+  // closures bottom) for the focus control to anchor to.
+  if (policeControl) {
+    const stackTop = policeControl.getBoundingClientRect().top - wrapTop;
+    const stackCenter = (stackTop + rowBottom) / 2;
+    document.documentElement.style.setProperty("--mobile-layer-stack-center", `${Math.round(stackCenter)}px`);
+    // Story 41: the two stacked controls shrink-wrap to their own labels, so
+    // their natural widths differ. Share the wider control's width so both
+    // render at an identical width at every breakpoint.
+    const controlWidth = Math.max(
+      policeControl.getBoundingClientRect().width,
+      layerRow.getBoundingClientRect().width
+    );
+    document.documentElement.style.setProperty("--mobile-layer-control-width", `${Math.round(controlWidth)}px`);
+  }
 }
 
 function scheduleMapMaintenance({ invalidateSize = false } = {}) {

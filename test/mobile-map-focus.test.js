@@ -63,11 +63,11 @@ test('the focus control is inert on desktop and exits when leaving mobile layout
   assert.match(app, /if \(!isMobileViewLayout\(\) && mobileFocusMode\) setMobileFocusMode\(false\);/);
 });
 
-test('the focus control sits below the stacked layer controls without compressing them', () => {
-  assert.match(mobileRules, /\.mobile-map-focus-toggle \{[^}]*top: var\(--mobile-layer-row-bottom, 64px\);[^}]*left: 8px;/);
-  // Story 41: the layer controls stack full-width, so the focus control anchors
-  // below the measured row bottom rather than sharing a compressed row.
-  assert.match(mobileRules, /\.map-layer-toggle \{[^}]*top: var\(--police-control-bottom, 56px\);[^}]*right: 8px;[^}]*left: 8px;/);
+test('the focus control sits beside the stacked layer controls without compressing them', () => {
+  // Story 41: the focus control is left-aligned and vertically centered against
+  // the right-aligned Police Divisions / Road closures stack.
+  assert.match(mobileRules, /\.mobile-map-focus-toggle \{[^}]*top: calc\(var\(--mobile-layer-stack-center, 56px\) - 24px\);[^}]*left: 8px;/);
+  assert.match(mobileRules, /\.map-layer-toggle \{[^}]*top: var\(--police-control-bottom, 56px\);[^}]*right: 8px;[^}]*left: auto;/);
 });
 
 test('the focus control anchors to the layer row\'s measured bottom edge, not a fixed offset', () => {
@@ -81,7 +81,7 @@ test('the focus control anchors to the layer row\'s measured bottom edge, not a 
   assert.match(app, /syncMapSheetOverlap\(\);\s*syncMobileLayerRowOffset\(\);/);
   assert.match(app, /mapSheetObserver\.observe\(layerRow\);/);
   // The focus control and the focus-mode chrome all derive from the same variable.
-  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.mobile-map-focus-toggle \{ top: var\(--mobile-layer-row-bottom, 64px\);/);
+  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.mobile-map-focus-toggle \{ top: calc\(var\(--mobile-layer-stack-center, 56px\) - 24px\);/);
   assert.doesNotMatch(mobileRules, /top: 64px;/);
 });
 
@@ -104,8 +104,8 @@ test('focused map derives sheet heights from the focused viewport, not the stati
 
 test('focused map respects safe-area insets on every edge and avoids horizontal overflow', () => {
   assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-panel \.leaflet-top \{ top: calc\(8px \+ env\(safe-area-inset-top, 0px\)\); \}/);
-  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-layer-toggle \{ top: var\(--police-control-bottom, 56px\); right: calc\(8px \+ env\(safe-area-inset-right, 0px\)\); left: calc\(8px \+ env\(safe-area-inset-left, 0px\)\); \}/);
-  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-panel \.leaflet-top\.leaflet-right \{ top: calc\(8px \+ env\(safe-area-inset-top, 0px\)\); right: calc\(8px \+ env\(safe-area-inset-right, 0px\)\); left: calc\(8px \+ env\(safe-area-inset-left, 0px\)\); \}/);
+  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-layer-toggle \{ top: var\(--police-control-bottom, 56px\); right: calc\(8px \+ env\(safe-area-inset-right, 0px\)\); left: auto; \}/);
+  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-panel \.leaflet-top\.leaflet-right \{ top: calc\(8px \+ env\(safe-area-inset-top, 0px\)\); right: calc\(8px \+ env\(safe-area-inset-right, 0px\)\); left: auto; \}/);
   assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-stage \{[\s\S]*?max-width: 100vw;[\s\S]*?overflow: hidden;/);
   assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \{\s*\/\*[\s\S]*?\*\/\s*--mobile-map-height: 100vh;\s*--mobile-map-height: 100dvh;\s*overflow-x: hidden;/);
 });
