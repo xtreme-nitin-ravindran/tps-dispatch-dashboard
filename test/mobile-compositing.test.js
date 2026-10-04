@@ -37,10 +37,10 @@ test('mobile map overlay containers avoid backdrop blur without changing alignme
     assert.match(rules, /backdrop-filter: none/);
     assert.doesNotMatch(rules, /blur\(/);
   }
-  // Story 41: both controls share the full map width and the same insets.
+  // Story 41: both controls shrink-wrap and share the same right inset.
   assert.match(declaration('.map-layer-toggle'), /right: 8px/);
-  assert.match(declaration('.map-layer-toggle'), /left: 8px/);
-  assert.match(declaration('.map-panel .leaflet-top.leaflet-right'), /left: 8px/);
+  assert.match(declaration('.map-layer-toggle'), /left: auto/);
+  assert.match(declaration('.map-panel .leaflet-top.leaflet-right'), /left: auto/);
 });
 
 test('long mobile incident lists skip offscreen paint without dropping cards from the DOM', () => {

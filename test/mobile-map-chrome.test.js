@@ -18,7 +18,7 @@ test('mobile overlay controls stack with full labels and 44px targets', () => {
   assert.equal([...html.matchAll(/id="roadOverlay"/g)].length, 1);
   assert.equal([...app.matchAll(/L\.control\.layers\(/g)].length, 1);
   // Story 41: Road closures sits directly below Police Divisions and shares its width.
-  assert.match(mobileRules, /\.map-layer-toggle \{[\s\S]*?top: var\(--police-control-bottom, 56px\);[\s\S]*?right: 8px;[\s\S]*?left: 8px;[\s\S]*?min-height: 48px/);
+  assert.match(mobileRules, /\.map-layer-toggle \{[\s\S]*?top: var\(--police-control-bottom, 56px\);[\s\S]*?right: 8px;[\s\S]*?left: auto;[\s\S]*?min-height: 48px/);
   assert.match(mobileRules, /\.leaflet-control-layers \{[\s\S]*?min-height: 48px;[\s\S]*?padding: 1px 8px/);
   assert.match(mobileRules, /\.leaflet-control-layers-overlays label \{[\s\S]*?min-height: 44px/);
 });
@@ -55,8 +55,8 @@ test('mobile-only compaction preserves desktop map chrome', () => {
 });
 
 test('compact fixed surfaces do not introduce horizontal overflow or expensive blur', () => {
-  assert.match(mobileRules, /\.map-layer-toggle \{[\s\S]*?right: 8px;[\s\S]*?left: 8px;[\s\S]*?max-width: none/);
-  assert.match(mobileRules, /\.leaflet-top\.leaflet-right \{[\s\S]*?right: 8px;[\s\S]*?left: 8px/);
+  assert.match(mobileRules, /\.map-layer-toggle \{[\s\S]*?right: 8px;[\s\S]*?left: auto;[\s\S]*?max-width: none/);
+  assert.match(mobileRules, /\.leaflet-top\.leaflet-right \{[\s\S]*?right: 8px;[\s\S]*?left: auto/);
   assert.match(mobileRules, /\.mobile-bottom-sheet \{[\s\S]*?inset: auto 0 0;[\s\S]*?backdrop-filter: none/);
   assert.match(mobileRules, /\.map-stage \{[\s\S]*?z-index: 0;[\s\S]*?isolation: isolate/);
 });

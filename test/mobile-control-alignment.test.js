@@ -32,10 +32,10 @@ test('radius choices stay on one bounded row above the mobile navigation control
 test('road and police boundary controls stack in aligned mobile map columns', () => {
   assert.match(html, /class="road-overlay-toggle map-layer-toggle"[\s\S]*?Road closures/);
   // Story 41: Police Divisions sits first, with Road closures directly below it.
-  // Both controls share the full map width and the same left/right insets.
-  assert.match(sharedMobileRules, /\.map-layer-toggle\s*{[\s\S]*?top: var\(--police-control-bottom, 56px\);[\s\S]*?right: 8px;[\s\S]*?left: 8px;[\s\S]*?min-height: 48px;/);
-  assert.match(sharedMobileRules, /\.map-panel \.leaflet-top\.leaflet-right\s*{[\s\S]*?right: 8px;[\s\S]*?left: 8px;/);
-  assert.match(sharedMobileRules, /\.leaflet-control-layers\s*{[\s\S]*?width: 100%;[\s\S]*?min-height: 48px;/);
+  // Both controls shrink-wrap and share the same right inset.
+  assert.match(sharedMobileRules, /\.map-layer-toggle\s*{[\s\S]*?top: var\(--police-control-bottom, 56px\);[\s\S]*?right: 8px;[\s\S]*?left: auto;[\s\S]*?min-height: 48px;/);
+  assert.match(sharedMobileRules, /\.map-panel \.leaflet-top\.leaflet-right\s*{[\s\S]*?right: 8px;[\s\S]*?left: auto;/);
+  assert.match(sharedMobileRules, /\.leaflet-control-layers\s*{[\s\S]*?width: max-content;[\s\S]*?min-height: 48px;/);
   assert.match(sharedMobileRules, /\.leaflet-control-layers-overlays label\s*{[\s\S]*?min-height: 44px;/);
 });
 
