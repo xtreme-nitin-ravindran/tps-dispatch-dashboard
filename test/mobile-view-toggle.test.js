@@ -45,7 +45,7 @@ test('view switching only updates presentation and preserves filters, radius, da
 });
 
 test('breakpoint changes rebuild only the active incident surface without stale ownership', () => {
-  assert.match(app, /mobileLayoutMedia\.addEventListener\?\.\("change", \(\) => setMobileView\(mobileView, \{ persist: false \}\)\)/);
+  assert.match(app, /mobileLayoutMedia\.addEventListener\?\.\("change", \(\) => \{[\s\S]*?setMobileView\(mobileView, \{ persist: false \}\);[\s\S]*?\}\)/);
   const setterStart = app.indexOf('function setMobileView(');
   const setter = app.slice(setterStart, app.indexOf('\nmobileViewToggles.forEach', setterStart));
   assert.match(setter, /removeAttribute\("aria-hidden"\)/);

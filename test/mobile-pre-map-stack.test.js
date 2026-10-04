@@ -39,7 +39,9 @@ test('Quick Look keeps its action, status, fallback and disclosure while avoidin
 });
 
 test('mobile compaction stays in normal flow and desktop layout remains unchanged', () => {
-  assert.doesNotMatch(portraitRules, /\.(?:topbar|nearby-feature|controls-card|radius-controls)\s*\{[^}]*position:\s*(?:fixed|sticky)/);
+  // Story 40C floats the navigation only inside focus mode; the normal mobile layout stays in flow.
+  const normalFlowRules = portraitRules.split('\n').filter(line => !line.includes('data-mobile-focus')).join('\n');
+  assert.doesNotMatch(normalFlowRules, /\.(?:topbar|nearby-feature|controls-card|radius-controls)\s*\{[^}]*position:\s*(?:fixed|sticky)/);
   assert.match(desktopRules, /\.topbar \{[\s\S]*?min-height: 86px;/);
   const desktopControls = desktopRules.match(/\.controls-card \{[\s\S]*?\}/)[0];
   assert.match(desktopControls, /grid-template-columns: 1fr auto auto;/);
