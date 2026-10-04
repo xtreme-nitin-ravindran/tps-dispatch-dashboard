@@ -61,6 +61,19 @@
         "concourse/**"
       ],
       "groupName": "task container dependencies"
+    },
+    {
+      "description": "Automerge non-major updates after successful checks",
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest",
+        "lockFileMaintenance"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": false
     }
   ]
 }
