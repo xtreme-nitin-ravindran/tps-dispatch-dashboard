@@ -8,7 +8,7 @@ import { correlateVehicle, detectVehicles, deviationOutput, refreshVehicles, val
 import { compileShape, projectVehicle } from '../src/ttc/vehicle-geometry.js';
 import { parseTtcAlerts, updateTtcAlerts } from '../src/ttc/alerts.js';
 import { correlateState } from '../src/ttc/correlation.js';
-import { runVehiclePolling } from '../scripts/ttc-vehicles.js';
+import { runVehiclePolling, diversionSummary } from '../scripts/ttc-vehicles.js';
 import { at, vehicle, protobuf, staticIndex } from './fixtures/ttc-vehicles/builders.js';
 const index=staticIndex();
 const parse=(seconds=0,overrides={})=>parseTtcVehicles(protobuf([vehicle(seconds,overrides)],seconds),at(seconds));
@@ -201,6 +201,21 @@ test('five-minute cadence gap preserves a track so a departure-to-rejoin episode
   assert.equal(rejoined,1);
   assert.equal(VEHICLE_POLICY.inactivityMs>cadence*1000,true);
   assert.equal(VEHICLE_POLICY.maxGapMs>cadence*1000,true);
+});
+test('diversion summary reports publishable, candidate and empty states and tolerates missing evidence',()=>{
+  // Confirmed evidence is publishable and names the affected routes.
+  const confirmed=diversionSummary({status:'ok',records:[{routeId:'506',status:'confirmed'},{routeId:'501',status:'confirmed'}]});
+  assert.equal(confirmed.publishable,true);assert.equal(confirmed.confirmed,2);assert.deepEqual(confirmed.routes,['501','506']);
+  assert.equal(confirmed.message,'2 confirmed diversion(s) published');
+  // Candidates are observed but not yet publishable.
+  const candidate=diversionSummary({status:'ok',records:[{routeId:'510',status:'candidate'},{routeId:'510',status:'likely'}]});
+  assert.equal(candidate.publishable,false);assert.equal(candidate.candidate,1);assert.equal(candidate.likely,1);
+  assert.equal(candidate.message,'2 diversion candidate(s) observed, none confirmed yet');
+  // No evidence at all, and a missing state, both fall back safely.
+  assert.equal(diversionSummary({status:'ok',records:[]}).message,'No diversion evidence observed');
+  const missing=diversionSummary(undefined);
+  assert.equal(missing.status,'unavailable');assert.equal(missing.found,false);assert.deepEqual(missing.routes,[]);
+  assert.equal(missing.message,'No diversion evidence observed');
 });
 test('time bound prunes history before count limit; ambiguous context breaks confirmation',()=>{
   const state=sequence(Array.from({length:12},(_,i)=>i*80),()=>({position:{latitude:43.6512,longitude:-79.4}})).at(-1).state;
