@@ -37,8 +37,10 @@ test('mobile map overlay containers avoid backdrop blur without changing alignme
     assert.match(rules, /backdrop-filter: none/);
     assert.doesNotMatch(rules, /blur\(/);
   }
-  assert.match(declaration('.map-layer-toggle'), /width: calc\(50% - 12px\)/);
-  assert.match(declaration('.map-panel .leaflet-top.leaflet-right'), /left: calc\(50% \+ 4px\)/);
+  // Story 41: both controls share the full map width and the same insets.
+  assert.match(declaration('.map-layer-toggle'), /right: 8px/);
+  assert.match(declaration('.map-layer-toggle'), /left: 8px/);
+  assert.match(declaration('.map-panel .leaflet-top.leaflet-right'), /left: 8px/);
 });
 
 test('long mobile incident lists skip offscreen paint without dropping cards from the DOM', () => {
@@ -59,6 +61,6 @@ test('opaque mobile surfaces resolve to readable light and dark theme pairs', ()
 });
 
 test('the revised mobile stylesheet replaces the cached app-shell asset', () => {
-  assert.match(html, /styles\.css\?v=story-40f-2/);
-  assert.match(serviceWorker, /CACHE_VERSION = "sirento-shell-v49"/);
+  assert.match(html, /styles\.css\?v=story-41-1/);
+  assert.match(serviceWorker, /CACHE_VERSION = "sirento-shell-v50"/);
 });

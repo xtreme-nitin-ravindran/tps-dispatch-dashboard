@@ -315,11 +315,22 @@ function syncMapSheetOverlap() {
 // engines (notably iOS Safari), so a fixed offset can place the focus control
 // underneath it. Measure the row's real bottom edge and expose it as a CSS
 // variable the focus control anchors to.
+//
+// Story 41: the Road closures control now sits directly below the Police
+// Divisions control, so its top edge must track the Police Divisions control's
+// real rendered bottom edge (which varies with label wrapping). Measure that
+// bottom edge and expose it as a CSS variable the Road closures control anchors
+// to, keeping the two controls stacked without overlap at every breakpoint.
 function syncMobileLayerRowOffset() {
   const wrap = els.dispatchMap?.closest?.(".map-wrap");
   const layerRow = wrap?.querySelector?.(".map-layer-toggle");
   if (!wrap || !layerRow) return;
   const wrapTop = wrap.getBoundingClientRect().top;
+  const policeControl = wrap.querySelector(".leaflet-top.leaflet-right .leaflet-control-layers");
+  if (policeControl) {
+    const policeBottom = policeControl.getBoundingClientRect().bottom - wrapTop;
+    document.documentElement.style.setProperty("--police-control-bottom", `${Math.round(policeBottom)}px`);
+  }
   const rowBottom = layerRow.getBoundingClientRect().bottom - wrapTop;
   // Set on the root so both the map-wrap descendants (the focus control) and the
   // fixed focus-mode chrome (navigation band, summary, map info) can read it.
@@ -1798,14 +1809,14 @@ function setupDivisionOverlay() {
     rememberPreferences();
     finishToggle({ visible: boundaryVisible, constructionDeferred: boundaryVisible && !divisionGeometryLayer });
   });
-  L.control.layers(null, { "Police division boundaries": divisionLayer }, {
+  L.control.layers(null, { "Police Divisions": divisionLayer }, {
     collapsed: false, position: "topright"
   }).addTo(dispatchMap);
   // Story 40D: keep the full official wording in the DOM/attribution but show a
-  // concise "Police divisions" label on the compact mobile control.
+  // concise "Police Divisions" label on the compact mobile control.
   const boundaryControlLabel = dispatchMap.getContainer()
     .querySelector('.leaflet-control-layers-overlays label');
-  boundaryControlLabel?.setAttribute('data-mobile-label', 'Police divisions');
+  boundaryControlLabel?.setAttribute('data-mobile-label', 'Police Divisions');
   if (boundaryVisible) {
     divisionLayer.addTo(dispatchMap);
     queuePoliceBoundaryWork('initial-visible-map');

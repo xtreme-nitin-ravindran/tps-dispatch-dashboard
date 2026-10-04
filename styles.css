@@ -1085,10 +1085,17 @@ html:not([data-map-load-state]) #dispatchMap.leaflet-container + .map-load-statu
   filter: drop-shadow(0 1px 2px rgba(0,0,0,.7));
 }
 .road-closure-symbol--point span { font-size: 20px; }
+/* Story 41: the Road closures control sits directly below the Police Divisions
+   control and shares its width. The top edge tracks the Police Divisions
+   control's real rendered bottom edge (set by syncMobileLayerRowOffset) so the
+   two controls stay stacked without overlap at every breakpoint. */
+.map-wrap { --map-layer-control-width: 200px; }
 .map-layer-toggle {
   position: absolute;
-  top: 12px;
-  left: 12px;
+  top: var(--police-control-bottom, 47px);
+  right: 10px;
+  left: auto;
+  width: var(--map-layer-control-width);
   z-index: 500;
   display: grid;
   grid-template-columns: auto auto 1fr;
@@ -1104,6 +1111,7 @@ html:not([data-map-load-state]) #dispatchMap.leaflet-container + .map-load-statu
   font-size: 13px;
   font-weight: 700;
 }
+.map-panel .leaflet-top.leaflet-right .leaflet-control-layers { width: var(--map-layer-control-width); }
 .map-layer-toggle .map-layer-status { grid-column: 2 / -1; color: var(--muted); font: 9px/1.2 "Space Mono", monospace; }
 .closure-detail { width: min(300px, 100%); padding: 16px; }
 .closure-detail-kicker { color: var(--road-marker); font: 700 10px/1 "Space Mono", monospace; letter-spacing: .08em; }
@@ -1904,10 +1912,14 @@ footer {
   .mobile-map-data-warning[hidden] { display: none; }
   html[data-mobile-view="calls"] .mobile-map-data-warning { display: none; }
   .map-panel .leaflet-top { top: 60px; }
+  /* Story 41: Police Divisions sits first, with Road closures directly below it.
+     Both controls share the full map width and the same left/right insets so
+     their rendered widths match at every mobile breakpoint. */
   .map-layer-toggle {
-    top: 8px;
+    top: var(--police-control-bottom, 56px);
+    right: 8px;
     left: 8px;
-    width: calc(50% - 12px);
+    width: auto;
     max-width: none;
     min-height: 48px;
     padding: 2px 8px;
@@ -1927,7 +1939,7 @@ footer {
   .map-panel .leaflet-top.leaflet-right {
     top: 8px;
     right: 8px;
-    left: calc(50% + 4px);
+    left: 8px;
   }
   .map-panel .leaflet-top.leaflet-right .leaflet-control-layers {
     box-sizing: border-box;
@@ -2085,6 +2097,11 @@ footer {
     box-shadow: 0 2px 8px rgb(0 0 0 / 18%);
     font: 600 11px/1.35 "Space Mono", monospace;
     overflow-wrap: anywhere;
+    /* Story 41: bound the summary to the space above the bottom sheet and
+       attribution so a taller stacked layer row cannot push it over the
+       required map credit. */
+    max-height: calc(100dvh - var(--mobile-layer-row-bottom, 64px) - 108px - var(--mobile-sheet-height, 52px) - 48px - env(safe-area-inset-top, 0px));
+    overflow: hidden;
   }
   .mobile-focus-filter-summary[hidden] { display: none; }
   /* Focus mode: hide the pre-map page stack and let the map fill the usable viewport. */
@@ -2153,9 +2170,9 @@ footer {
     height: 100dvh;
   }
   html[data-mobile-focus="on"][data-mobile-view="map"] .map-panel .leaflet-top { top: calc(8px + env(safe-area-inset-top, 0px)); }
-  html[data-mobile-focus="on"][data-mobile-view="map"] .map-layer-toggle { top: calc(8px + env(safe-area-inset-top, 0px)); left: calc(8px + env(safe-area-inset-left, 0px)); }
+  html[data-mobile-focus="on"][data-mobile-view="map"] .map-layer-toggle { top: var(--police-control-bottom, 56px); right: calc(8px + env(safe-area-inset-right, 0px)); left: calc(8px + env(safe-area-inset-left, 0px)); }
   html[data-mobile-focus="on"][data-mobile-view="map"] .mobile-map-focus-toggle { top: var(--mobile-layer-row-bottom, 64px); left: calc(8px + env(safe-area-inset-left, 0px)); }
-  html[data-mobile-focus="on"][data-mobile-view="map"] .map-panel .leaflet-top.leaflet-right { top: calc(8px + env(safe-area-inset-top, 0px)); right: calc(8px + env(safe-area-inset-right, 0px)); }
+  html[data-mobile-focus="on"][data-mobile-view="map"] .map-panel .leaflet-top.leaflet-right { top: calc(8px + env(safe-area-inset-top, 0px)); right: calc(8px + env(safe-area-inset-right, 0px)); left: calc(8px + env(safe-area-inset-left, 0px)); }
   /* Story 40D: keep the map info & legend reachable in focus mode. It is a
      sibling of the fixed map stage, so float it above the map and the summary. */
   html[data-mobile-focus="on"][data-mobile-view="map"] .map-info {
@@ -2165,7 +2182,11 @@ footer {
     right: calc(8px + env(safe-area-inset-right, 0px));
     z-index: 750;
     margin: 0;
-    max-height: calc(100dvh - 176px - env(safe-area-inset-top, 0px));
+    /* Story 41: the layer row is now two stacked controls, so the map info can
+       start lower. Bound its height to the space above the bottom sheet and
+       attribution so it never overlaps them; when there is no room it collapses
+       rather than covering the required map credit. */
+    max-height: calc(100dvh - var(--mobile-layer-row-bottom, 64px) - 152px - var(--mobile-sheet-height, 52px) - 48px - env(safe-area-inset-top, 0px));
     overflow: auto;
   }
   /* Story 40C/40F: focused Calls keeps the existing calls surface clear of the

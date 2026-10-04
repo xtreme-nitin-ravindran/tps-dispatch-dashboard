@@ -63,9 +63,11 @@ test('the focus control is inert on desktop and exits when leaving mobile layout
   assert.match(app, /if \(!isMobileViewLayout\(\) && mobileFocusMode\) setMobileFocusMode\(false\);/);
 });
 
-test('the focus control sits beside the layer controls without compressing them', () => {
+test('the focus control sits below the stacked layer controls without compressing them', () => {
   assert.match(mobileRules, /\.mobile-map-focus-toggle \{[^}]*top: var\(--mobile-layer-row-bottom, 64px\);[^}]*left: 8px;/);
-  assert.match(mobileRules, /\.map-layer-toggle \{[^}]*width: calc\(50% - 12px\);/);
+  // Story 41: the layer controls stack full-width, so the focus control anchors
+  // below the measured row bottom rather than sharing a compressed row.
+  assert.match(mobileRules, /\.map-layer-toggle \{[^}]*top: var\(--police-control-bottom, 56px\);[^}]*right: 8px;[^}]*left: 8px;/);
 });
 
 test('the focus control anchors to the layer row\'s measured bottom edge, not a fixed offset', () => {
@@ -102,8 +104,8 @@ test('focused map derives sheet heights from the focused viewport, not the stati
 
 test('focused map respects safe-area insets on every edge and avoids horizontal overflow', () => {
   assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-panel \.leaflet-top \{ top: calc\(8px \+ env\(safe-area-inset-top, 0px\)\); \}/);
-  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-layer-toggle \{ top: calc\(8px \+ env\(safe-area-inset-top, 0px\)\); left: calc\(8px \+ env\(safe-area-inset-left, 0px\)\); \}/);
-  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-panel \.leaflet-top\.leaflet-right \{ top: calc\(8px \+ env\(safe-area-inset-top, 0px\)\); right: calc\(8px \+ env\(safe-area-inset-right, 0px\)\); \}/);
+  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-layer-toggle \{ top: var\(--police-control-bottom, 56px\); right: calc\(8px \+ env\(safe-area-inset-right, 0px\)\); left: calc\(8px \+ env\(safe-area-inset-left, 0px\)\); \}/);
+  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-panel \.leaflet-top\.leaflet-right \{ top: calc\(8px \+ env\(safe-area-inset-top, 0px\)\); right: calc\(8px \+ env\(safe-area-inset-right, 0px\)\); left: calc\(8px \+ env\(safe-area-inset-left, 0px\)\); \}/);
   assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-stage \{[\s\S]*?max-width: 100vw;[\s\S]*?overflow: hidden;/);
   assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \{\s*\/\*[\s\S]*?\*\/\s*--mobile-map-height: 100vh;\s*--mobile-map-height: 100dvh;\s*overflow-x: hidden;/);
 });
@@ -297,11 +299,12 @@ test('the floating filter summary is positioned as floating map chrome with safe
 });
 
 test('the boundary control shows a concise mobile label while keeping the full wording', () => {
-  // The full official wording stays in the Leaflet layer name and the attribution.
-  assert.match(app, /"Police division boundaries": divisionLayer/);
+  // Story 41: the visible control label is the concise "Police Divisions"; the
+  // full official wording stays in the map attribution.
+  assert.match(app, /"Police Divisions": divisionLayer/);
   assert.match(html, /Police division boundaries — Toronto Police Service/);
   // A concise mobile label is attached to the rendered control.
-  assert.match(app, /boundaryControlLabel\?\.setAttribute\('data-mobile-label', 'Police divisions'\)/);
+  assert.match(app, /boundaryControlLabel\?\.setAttribute\('data-mobile-label', 'Police Divisions'\)/);
   assert.match(mobileRules, /\.map-panel \.leaflet-control-layers-overlays label\[data-mobile-label\]::after \{\s*content: attr\(data-mobile-label\);/);
   // The full text is visually hidden but preserved for assistive tech.
   assert.match(mobileRules, /\.map-panel \.leaflet-control-layers-overlays label\[data-mobile-label\] > span \{[\s\S]*?clip-path: inset\(50%\);/);
