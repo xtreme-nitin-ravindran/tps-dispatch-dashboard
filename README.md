@@ -88,6 +88,51 @@ and Ruff environment as CI. Unit tests use fixtures, mocked services, bundled ge
 data, and temporary files/repositories; they do not publish changes or require live feeds.
 See [Test coverage](#test-coverage) for how coverage is measured and published.
 
+### Rendered-browser regression tests
+
+Playwright Chromium testing is required for changes whose correctness depends on
+rendered layout, element geometry or stacking, hit targets, pointer/touch interaction,
+responsive breakpoints, or browser-driven UI transitions. It is feature-specific, so
+data-only and backend-only changes do not need it. These suites complement the Docker
+unit and coverage suites; JavaScript syntax checks and string/DOM unit tests cannot
+verify real browser layout or hit-testing.
+
+The standard Docker test image intentionally does not contain Playwright or browser
+binaries, and the rendered-browser suites are not currently run by CI. Install the
+local test-only tooling once without changing `package.json` or `package-lock.json`:
+
+```bash
+npm install --no-save --package-lock=false playwright
+npx playwright install chromium
+```
+
+Start the deterministic site in one terminal (port `8765` is the browser-suite
+default and port `8080` must not be used):
+
+```bash
+python3 -m http.server 8765 --bind 127.0.0.1
+```
+
+Then run every applicable suite from another terminal:
+
+```bash
+npm run test:story-39a:browser
+node scripts/ttc-ui-browser.js
+```
+
+The Story 39A suite checks bounded cluster connectors and lifecycle cleanup. The Story
+TTC suite checks disruption rendering and state transitions. Each uses loopback-only
+deterministic fixtures. Environment overrides such as `PLAYWRIGHT_MODULE`,
+`CHROMIUM_EXECUTABLE`, and the suite-specific `*_UI_URL` remain available for
+nonstandard local installations.
+
+When fixing another browser/rendering regression, add or extend a deterministic
+Playwright suite and expose it as a `test:*:browser` package script. Assert rendered
+DOM state, bounding geometry, hit-testing, and real unforced interaction where
+applicable; screenshots are supporting evidence, not the only assertion. A relevant
+browser suite must pass before the implementation is considered complete. Browser-
+specific reports still require the physical-device validation described below.
+
 ### Local watch and push fixtures
 
 For repeatable mobile layout audits without live feeds, use the loopback-only
@@ -1339,8 +1384,9 @@ police-boundary fixture options for regression testing.
 
 `test/ttc-ui.test.js` covers the real backend-to-frontend fixture, confidence and
 expiry policies, source failures, multi-part/multi-route identity, safe geometry,
-nearby context, updates and 100 layer-reuse cycles. The optional real-browser suite
-uses a locally installed Playwright (not a production dependency):
+nearby context, updates and 100 layer-reuse cycles. The feature-specific real-browser
+suite uses the locally installed Playwright test tooling described in
+[Rendered-browser regression tests](#rendered-browser-regression-tests):
 
 ```sh
 # Start the local server above, then use Playwright's installed Chromium:
