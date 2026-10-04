@@ -16,6 +16,7 @@
 - Reuse existing state, rendering, DOM, and data paths instead of introducing duplicate implementations.
 - Remove legacy or duplicate code only when it is demonstrably dead or directly relevant to the task.
 - Do not make speculative fixes before identifying the actual failure or root cause when reproduction is practical.
+- Small changes should produce small diffs. Unexpected large diffs are a stop condition and must be investigated before continuing.
 
 ## Docker and local validation
 
@@ -24,6 +25,7 @@
 - During implementation, prefer the smallest relevant targeted test set.
 - Do not repeatedly run the full repository suite after every small change.
 - Run broad/full verification at story or feature completion, or when required to reproduce a CI failure.
+- Before declaring a task complete, verify that `git diff --stat` and `git diff` contain only intentional changes.
 
 ## Required tests and coverage
 
@@ -105,6 +107,20 @@ Preserve these product semantics in both logic and UI:
 - Remove temporary keys, credentials, and debug files after use.
 - Run `git diff --check` before considering work complete.
 - When asked for a commit message, keep it concise, high-level, and user-facing, using literal `-` bullets.
+
+## Safe file editing
+
+- Avoid editor-based or generic edit tools that may open files in VS Code or trigger automatic formatting.
+- Do not use `single_find_and_replace`, `edit_file`, or similar tools on source/test files if they may rewrite formatting outside the intended change.
+- Prefer surgical, non-formatting edits using:
+  - `perl -0pi -e` for small in-place replacements
+  - `python3` heredoc scripts for exact insertions/replacements
+  - other literal text-editing commands that preserve untouched bytes
+- Before and after any edit, inspect `git diff --stat` and `git diff`.
+- If a supposedly small change produces large unrelated formatting churn, stop immediately.
+- Revert the affected file(s) and re-apply the intended change with a surgical text-editing method.
+- Do not keep formatter-generated churn in the final diff unless the task explicitly requires formatting changes.
+- Treat unexpected file-wide reformatting as a tooling failure, not as part of the implementation.
 
 ## Story completion
 
