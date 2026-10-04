@@ -13,7 +13,7 @@ class CoverageBadgesTests(unittest.TestCase):
     def test_summary_generates_three_valid_badges(self):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory)
-            badges.generate('# all files | 99.71 | 97.41 | 96.59 |\n', output)
+            badges.generate('ℹ all files | 99.71 | 97.41 | 96.59 |\n', output)
             for name, value in [('lines', '99.71'), ('branches', '97.41'), ('functions', '96.59')]:
                 root = ET.parse(output / f'{name}.svg').getroot()
                 self.assertEqual(root.attrib['aria-label'], f'JS {name}: {value}%')

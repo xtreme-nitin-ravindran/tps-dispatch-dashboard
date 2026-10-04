@@ -5,7 +5,7 @@ import sys
 
 
 def coverage_values(report):
-    matches = re.findall(r'^# all files\s*\|\s*(\d+(?:\.\d+)?)\s*\|\s*(\d+(?:\.\d+)?)\s*\|\s*(\d+(?:\.\d+)?)\s*\|', report, re.M)
+    matches = re.findall(r'^(?:#|ℹ)\s+all files\s*\|\s*(\d+(?:\.\d+)?)\s*\|\s*(\d+(?:\.\d+)?)\s*\|\s*(\d+(?:\.\d+)?)\s*\|', report, re.M)
     if len(matches) != 1:
         raise ValueError('Expected one complete Node coverage summary')
     values = tuple(float(value) for value in matches[0])

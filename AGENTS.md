@@ -160,6 +160,6 @@ Preserve these product semantics in both logic and UI:
 - Do not mark a story `DONE` while a required production, CI, browser, or physical-device acceptance step is still outstanding.
 - Use an intermediate status such as `IMPLEMENTED / AWAITING VALIDATION` when appropriate.
 - When a SirenTO story is completed, update the canonical roadmap:
-  `/Working/SirenTO — Development Roadmap & Product Priorities.md`
+  `SirenTO-Development-Roadmap.md` (in the Continue rules directory, `~/.continue/rules/`)
 - Do not create or update duplicate roadmap copies elsewhere.
 - Prefer a narrowly scoped follow-up or regression story over reopening a completed story with a broad rewrite.
