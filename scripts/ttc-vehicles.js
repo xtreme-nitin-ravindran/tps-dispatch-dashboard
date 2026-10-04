@@ -15,6 +15,20 @@ async function atomicJson(path,value) {
   await writeFile(`${path}.tmp`,`${JSON.stringify(value)}\n`);
   await rename(`${path}.tmp`,path);
 }
+// One-line end-of-run verdict so Concourse task output alone shows whether any
+// diversion evidence was found and whether anything is publishable.
+function diversionSummary(state) {
+  const records=state?.records||[];
+  const confirmed=records.filter(r=>r.status==='confirmed').length;
+  const likely=records.filter(r=>r.status==='likely').length;
+  const candidate=records.filter(r=>r.status==='candidate').length;
+  return {source:'ttc-diversions-summary',status:state?.status||'unavailable',
+    found:records.length>0,publishable:confirmed>0,confirmed,likely,candidate,
+    routes:[...new Set(records.map(r=>r.routeId))].sort(),
+    message:confirmed>0?`${confirmed} confirmed diversion(s) published`
+      :records.length>0?`${records.length} diversion candidate(s) observed, none confirmed yet`
+      :'No diversion evidence observed'};
+}
 export async function runVehiclePolling({polls=1,intervalMs=30000,statePath='.cache/ttc/vehicle-state.json',outputPath='.cache/ttc/deviations.json',
   inferenceStatePath=resolve(dirname(statePath),'diversion-state.json'),inferenceOutputPath=resolve(dirname(outputPath),'diversions.json'),geoJsonPath,inferOnly=false,freshState=false,
   loadStatic=loadStaticGtfs,refresh=refreshVehicles,updateAlerts=updateTtcAlerts,clock=()=>new Date(),wait=sleep,log=entry=>console.log(JSON.stringify(entry)),fixture}={}) {
@@ -50,7 +64,9 @@ export async function runVehiclePolling({polls=1,intervalMs=30000,statePath='.ca
     const result=inferDiversions(inference,current,loaded.index,now);
     await atomicJson(inferenceStatePath,result.state);await atomicJson(inferenceOutputPath,result.output);
     if (geoJsonPath) await atomicJson(geoJsonPath,diversionGeoJson(result.state,loaded.index));
-    log({source:'ttc-diversions',status:result.state.status,...result.report});return previous;
+    log({source:'ttc-diversions',status:result.state.status,...result.report});
+    log(diversionSummary(result.state));
+    return previous;
   }
   const geometryCache=new Map();
   let alerts;
@@ -70,6 +86,7 @@ export async function runVehiclePolling({polls=1,intervalMs=30000,statePath='.ca
     log({source:'ttc-diversions',status:inference.status,...inferred.report,artifactBytes:Buffer.byteLength(JSON.stringify(inferred.output))});
     await atomicJson(statePath,previous); await atomicJson(outputPath,deviationOutput(previous));
   }
+  log(diversionSummary(inference));
   return previous;
 }
 if (process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {
