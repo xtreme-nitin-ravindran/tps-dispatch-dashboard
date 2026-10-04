@@ -93,15 +93,15 @@ test('assignment changes, gaps and static versions reset evidence',()=>{
   for (const trip of [{tripId:'t2',routeId:'0504',directionId:0},{tripId:'t1',routeId:'0504',directionId:0,startTime:'13:00:00'}]) {
     const r=detectVehicles(previous,parse(90,{trip}),index,at(90));assert.equal(r.state.tracks[0].state,'possible');assert.equal(r.state.tracks[0].history.length,1);
   }
-  const g=detectVehicles(previous,parse(151),index,at(151));assert.equal(g.state.tracks[0].history.length,1);
+  const g=detectVehicles(previous,parse(60+VEHICLE_POLICY.maxGapMs/1000+1),index,at(60+VEHICLE_POLICY.maxGapMs/1000+1));assert.equal(g.state.tracks[0].history.length,1);
   const r=detectVehicles(previous,parse(90),{...index,version:'new'},at(90));assert.equal(r.state.tracks[0].history.length,1);
 });
 test('disappearance expires state; reappearance starts fresh; failures suppress export immediately',async()=>{
   const previous=sequence([0,30,60]).at(-1).state;
   const r=await refreshVehicles(previous,index,at(90),undefined,{fetchSource:async()=>{throw new Error('offline');}});
   assert.equal(r.state.status,'unavailable');assert.equal(deviationOutput(r.state).deviations.length,0);
-  const expired=detectVehicles(previous,{observations:[]},index,at(241));assert.equal(expired.state.tracks.length,0);assert.equal(expired.report.expired,1);
-  assert.equal(detectVehicles(expired.state,parse(270),index,at(270)).state.tracks[0].state,'possible');
+  const expired=detectVehicles(previous,{observations:[]},index,at(60+VEHICLE_POLICY.inactivityMs/1000+1));assert.equal(expired.state.tracks.length,0);assert.equal(expired.report.expired,1);
+  assert.equal(detectVehicles(expired.state,parse(60+VEHICLE_POLICY.inactivityMs/1000+30),index,at(60+VEHICLE_POLICY.inactivityMs/1000+30)).state.tracks[0].state,'possible');
 });
 test('history is count/time bounded and tracker fleet cap is explicit',()=>{
   const result=sequence(Array.from({length:35},(_,i)=>i*30),()=>({position:{latitude:43.6512,longitude:-79.4}}));
@@ -180,6 +180,27 @@ test('stale observations cannot confirm; missing polls within the gap limit can'
   const stale=detectVehicles(prior,{observations:[observation(60)]},index,at(181));
   assert.equal(stale.report.stale,1);assert.equal(stale.state.tracks[0].state,'possible');
   assert.equal(sequence([0,30,110]).at(-1).state.tracks[0].state,'confirmed');
+});
+
+test('five-minute cadence gap preserves a track so a departure-to-rejoin episode can complete across runs',()=>{
+  // Regression: the data writer runs every five minutes, so consecutive bursts are
+  // ~300 s apart. The old 180 s inactivity and 90 s gap limits dropped or reset every
+  // track at the start of each run, so no episode could ever complete and the published
+  // diversion artifact stayed permanently empty.
+  const cadence=300;
+  let state=sequence([0,30,60]).at(-1).state;
+  assert.equal(state.tracks[0].state,'confirmed');
+  // Next run starts ~300 s later; the track must survive the cadence gap.
+  state=detectVehicles(state,parse(cadence),index,at(cadence)).state;
+  assert.equal(state.tracks[0].state,'confirmed');
+  assert.equal(state.tracks[0].history.length,4);
+  // The vehicle rejoins within the same run: three on-route samples over 60 s.
+  let rejoined=0;
+  for (const s of [cadence+30,cadence+60,cadence+90]) { const r=detectVehicles(state,parse(s,{position:{latitude:43.65,longitude:-79.395}}),index,at(s)); state=r.state; rejoined+=r.report.rejoined; }
+  assert.equal(state.tracks[0].state,'on-route');
+  assert.equal(rejoined,1);
+  assert.equal(VEHICLE_POLICY.inactivityMs>cadence*1000,true);
+  assert.equal(VEHICLE_POLICY.maxGapMs>cadence*1000,true);
 });
 test('time bound prunes history before count limit; ambiguous context breaks confirmation',()=>{
   const state=sequence(Array.from({length:12},(_,i)=>i*80),()=>({position:{latitude:43.6512,longitude:-79.4}})).at(-1).state;

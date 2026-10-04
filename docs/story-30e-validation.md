@@ -38,7 +38,7 @@ so the last credible scheduled sample is not lost as 30D's 20-sample window roll
 Only episodes confirmed by 30D may contribute to clusters. This is downstream
 retention of accepted detector evidence, not another fleet tracking/classification
 system. Duplicate/out-of-order samples cannot append. Route/pattern reassignment,
-missing tracks and gaps over 90 seconds close incomplete episodes. A recovered
+missing tracks and gaps over 6 minutes close incomplete episodes. A recovered
 vehicle's later off-route start gets a distinct episode. Lost histories cannot be
 reconstructed from the compact 30D deviations export.
 
@@ -190,10 +190,11 @@ are each atomic JSON writes. They are not a multi-file transaction; missing evid
 on cold starts remains conservative. The existing incident ETL and TPS/TFS/closure
 sources do not depend on inference. No additional pipeline/job/poller was created.
 
-The fallback uploads both compact artifacts and caches only static GTFS. Four actual
-polls can support incomplete candidates/likely clusters, but commonly cannot observe
-both departure and the full recovery window. It cannot manufacture completed episodes
-or cross-run continuity. One-day artifact retention is unchanged. Configurations were
+The fallback uploads both compact artifacts and restores bounded vehicle/inference
+state from the Actions cache. Four actual polls can support incomplete candidates/likely
+clusters, but commonly cannot observe both departure and the full recovery window on a
+cold cache. It cannot manufacture completed episodes or cross-run continuity without
+restored state. One-day artifact retention is unchanged. Configurations were
 validated locally; neither Concourse nor GitHub was deployed or triggered.
 
 ## 19–20. Local commands and diagnostic geometry

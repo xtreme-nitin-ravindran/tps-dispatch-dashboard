@@ -98,9 +98,12 @@ Explicit bounds: **20 samples / 10 minutes**, whichever is smaller; **3,000 trac
 **32 MiB restart artifact**; **8 MiB feed response**; 1–20 polls per invocation.
 Feed/observation age must be at most **120 seconds**, with at most **30 seconds** of
 future skew. Missing/old/future feed timestamps are unavailable, not successful-empty.
-Inactivity expires a vehicle after **180 seconds**. A gap over **90 seconds** resets
+Inactivity expires a vehicle after **10 minutes**. A gap over **6 minutes** resets
 confirmation. Static version, route, trip, direction, start date/time, or pattern
 changes reset history. Disappearance and reappearance cannot resurrect stale evidence.
+These limits exceed the five-minute data-writer cadence so a track survives between
+runs; the original 180 s / 90 s values assumed the earlier one-minute trigger and made
+completed episodes impossible once the interval was raised.
 
 ## 15. Active-alert context
 
@@ -128,11 +131,12 @@ their own reference clock—old files cannot expire themselves after scheduler f
 
 ## 17–19. Cadence, Concourse and GitHub fallback
 
-Independent Concourse serial job `detect-ttc-vehicle-deviations` uses the existing
-one-minute trigger and new task file. Each task loads static GTFS once, then polls
-**four times 30 seconds apart** (90 seconds plus setup/network time). The existing
-incident ETL/publication is not repeated per poll and cannot be blocked by TTC failure.
-A bounded task cache may continue evidence between builds; cold starts are safe.
+Independent Concourse serial job `detect-ttc-vehicle-deviations` runs inside the
+single `update-sirento` job on the five-minute trigger and new task file. Each task
+loads static GTFS once, then polls **four times 30 seconds apart** (90 seconds plus
+setup/network time). The existing incident ETL/publication is not repeated per poll and
+cannot be blocked by TTC failure. A bounded task cache may continue evidence between
+builds; cold starts are safe.
 Actual cadence includes scheduler/serial-job delays and is not an always-on service.
 
 `ttc-vehicle-evidence/deviations.json` is a Concourse task output consumable by future
@@ -140,9 +144,10 @@ backend tasks in that build. It is not stored in the web data branch. Job logs r
 20 builds. The existing `concourse/tfs-etl.yml` requires no vehicle-specific edits.
 
 The independent GitHub fallback runs every five minutes when scheduling permits,
-uses the same four-poll code, caches only the static ZIP, and starts vehicle history
-fresh each run. Its compact artifact has one-day retention. It cannot claim
-cross-run continuity, and no confirmation is manufactured on cache loss or delay.
+uses the same four-poll code, restores bounded vehicle/inference state from the Actions
+cache, and starts vehicle history fresh only on a cold cache. Its compact artifact has
+one-day retention. It cannot claim cross-run continuity on cache loss, and no
+confirmation is manufactured on cache loss or delay.
 Both workflow definitions are implemented locally, not deployed or triggered.
 
 ## 20–21. Commands and deterministic tests
