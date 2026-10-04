@@ -45,7 +45,7 @@ jobs:
             source:
               repository: node
               # Full image includes Git; slim does not.
-              tag: 22-bookworm
+              tag: 24-bookworm
           inputs:
             - name: repo
             - name: snapshots
@@ -80,7 +80,7 @@ jobs:
           platform: linux
           image_resource:
             type: registry-image
-            source: { repository: node, tag: 22-bookworm }
+            source: { repository: node, tag: 24-bookworm }
           inputs:
             - name: repo
             - name: incident-repo
