@@ -106,6 +106,28 @@ test('sheet header stays visible while incident content scrolls independently', 
   assert.doesNotMatch(app, /mobileSheetBody\?\.addEventListener\("pointer(?:down|move|up)"/);
 });
 
+test('Story 42: the sheet header shows no internal state label and the summary wraps', () => {
+  // The visible COLLAPSED / HALF / expanded state label is removed from the header.
+  assert.doesNotMatch(html, /id="mobileSheetState"/);
+  assert.doesNotMatch(html, /class="mobile-sheet-state"/);
+  assert.doesNotMatch(app, /mobileSheetStateLabel/);
+  assert.doesNotMatch(app, /#mobileSheetState/);
+  // The state machine still drives the data attributes and accessible controls.
+  assert.match(app, /document\.documentElement\.dataset\.mobileSheetState = nextState/);
+  assert.match(app, /setAttribute\("aria-expanded", String\(nextState !== "collapsed"\)\)/);
+  // The summary is allowed to wrap instead of truncating with an ellipsis.
+  const mobileRules = css.slice(css.indexOf(mobileQuery));
+  const summary = mobileRules.match(/\.mobile-sheet-summary \{([^}]*)\}/)[1];
+  assert.doesNotMatch(summary, /text-overflow: ellipsis/);
+  assert.doesNotMatch(summary, /white-space: nowrap/);
+  assert.doesNotMatch(summary, /overflow: hidden/);
+  assert.match(summary, /overflow-wrap: anywhere/);
+  // The header is a single column so wrapped text cannot collide with a label.
+  const header = mobileRules.match(/\.mobile-sheet-header \{([^}]*)\}/)[1];
+  assert.match(header, /grid-template-columns: minmax\(0, 1fr\);/);
+  assert.doesNotMatch(header, /grid-template-columns: minmax\(0, 1fr\) auto/);
+});
+
 test('opening and closing the sheet is presentation-only and never refetches data', () => {
   const setterStart = app.indexOf('function setMobileSheetState(');
   const setter = app.slice(setterStart, app.indexOf('\nmobileSheetToggle?.addEventListener', setterStart));

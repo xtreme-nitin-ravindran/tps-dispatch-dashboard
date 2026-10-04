@@ -42,7 +42,7 @@ for(const width of [320,375,390,430,768,1440]) {
   }
   await page.locator('#ttcOverlay').evaluate((el,i)=>{el.checked=i%2===0;el.dispatchEvent(new Event('change',{bubbles:true}));},i);
   await page.locator('#roadOverlay').evaluate((el,i)=>{el.checked=i%2===0;el.dispatchEvent(new Event('change',{bubbles:true}));},i);
-  await page.getByLabel('Police division boundaries').setChecked(i%2===0,{force:true});
+  await page.getByLabel('Police Divisions').setChecked(i%2===0,{force:true});
   await page.locator('.leaflet-control-zoom-in').click({force:true});
   await page.locator('.leaflet-control-zoom-out').click({force:true});
  }

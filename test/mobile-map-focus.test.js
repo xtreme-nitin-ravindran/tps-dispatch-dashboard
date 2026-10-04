@@ -292,7 +292,7 @@ test('the floating filter summary updates when filters change and on focus entry
 });
 
 test('the floating filter summary is positioned as floating map chrome with safe-area insets', () => {
-  assert.match(mobileRules, /\.mobile-focus-filter-summary \{[\s\S]*?position: absolute;[\s\S]*?top: calc\(var\(--mobile-layer-row-bottom, 64px\) \+ 108px \+ env\(safe-area-inset-top, 0px\)\);[\s\S]*?left: calc\(8px \+ env\(safe-area-inset-left, 0px\)\);[\s\S]*?right: calc\(8px \+ env\(safe-area-inset-right, 0px\)\);/);
+  assert.match(mobileRules, /\.mobile-focus-filter-summary \{[\s\S]*?position: absolute;[\s\S]*?top: min\([\s\S]*?var\(--mobile-layer-row-bottom, 64px\) \+ 108px \+ env\(safe-area-inset-top, 0px\)[\s\S]*?\);[\s\S]*?left: calc\(8px \+ env\(safe-area-inset-left, 0px\)\);[\s\S]*?right: calc\(8px \+ env\(safe-area-inset-right, 0px\)\);/);
   assert.match(mobileRules, /\.mobile-focus-filter-summary\[hidden\] \{ display: none; \}/);
   // It is not rendered on desktop.
   assert.doesNotMatch(desktopRules, /\.mobile-focus-filter-summary \{/);
@@ -340,9 +340,9 @@ test('focus mode keeps the map info & legend reachable instead of hiding it', ()
 test('the floating filter summary clears the floating navigation band', () => {
   // The navigation band clears the focus button (whose top tracks the layer row's real bottom edge).
   assert.match(mobileRules, /html\[data-mobile-focus="on"\] \.radius-controls \{[\s\S]*?top: calc\(var\(--mobile-layer-row-bottom, 64px\) \+ 56px \+ env\(safe-area-inset-top, 0px\)\);/);
-  assert.match(mobileRules, /\.mobile-focus-filter-summary \{[\s\S]*?top: calc\(var\(--mobile-layer-row-bottom, 64px\) \+ 108px \+ env\(safe-area-inset-top, 0px\)\);/);
+  assert.match(mobileRules, /\.mobile-focus-filter-summary \{[\s\S]*?top: min\([\s\S]*?var\(--mobile-layer-row-bottom, 64px\) \+ 108px \+ env\(safe-area-inset-top, 0px\)[\s\S]*?\);/);
   // The map-info floats below the summary so the three chrome bands do not collide.
-  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-info \{[\s\S]*?top: calc\(var\(--mobile-layer-row-bottom, 64px\) \+ 152px \+ env\(safe-area-inset-top, 0px\)\);/);
+  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-info \{[\s\S]*?top: min\([\s\S]*?var\(--mobile-layer-row-bottom, 64px\) \+ 152px \+ env\(safe-area-inset-top, 0px\)[\s\S]*?\);/);
 });
 
 test('the floating filter summary names the location context it is scoped to', () => {

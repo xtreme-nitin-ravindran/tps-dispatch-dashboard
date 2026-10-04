@@ -106,7 +106,6 @@ const mobileMapFocusToggle = document.querySelector('#mobileMapFocusToggle');
 const mobileFocusFilterSummary = document.querySelector('#mobileFocusFilterSummary');
 const mobileBottomSheet = document.querySelector('#mobileBottomSheet');
 const mobileSheetToggle = document.querySelector('#mobileSheetToggle');
-const mobileSheetStateLabel = document.querySelector('#mobileSheetState');
 const mobileSheetSummary = document.querySelector('#mobileSheetSummary');
 const mobileSheetStateControls = document.querySelectorAll('[data-sheet-target]');
 const mobileSheetCallList = document.querySelector('#mobileSheetCallList');
@@ -303,12 +302,19 @@ let mapSizeInvalidationPending = false;
 const viewTransitionScheduler = createViewTransitionScheduler();
 function syncMapSheetOverlap() {
   if (!els.dispatchMap || !mobileBottomSheet) return;
+  const sheetRect = mobileBottomSheet.getBoundingClientRect();
   const overlap = mobileMapSheetOverlap(
     els.dispatchMap.getBoundingClientRect(),
-    mobileBottomSheet.getBoundingClientRect(),
+    sheetRect,
     isMobileViewLayout() && mobileView === "map"
   );
   els.dispatchMap.style.setProperty("--mobile-map-sheet-overlap", `${overlap}px`);
+  // Story 42: the collapsed sheet grows to fit a wrapped summary, so the
+  // focus-mode chrome must reserve the sheet's real rendered height rather than
+  // the nominal 52px collapsed height.
+  if (sheetRect.height > 0) {
+    document.documentElement.style.setProperty("--mobile-sheet-height-actual", `${Math.round(sheetRect.height)}px`);
+  }
 }
 
 // Story 40E: the Road closures / Police divisions layer row wraps taller on some
@@ -534,7 +540,6 @@ function setMobileSheetState(nextState) {
   mobileSheetState = nextState;
   mobileBottomSheet.dataset.sheetState = nextState;
   document.documentElement.dataset.mobileSheetState = nextState;
-  mobileSheetStateLabel.textContent = nextState[0].toUpperCase() + nextState.slice(1);
   mobileSheetToggle.setAttribute("aria-expanded", String(nextState !== "collapsed"));
   mobileSheetToggle.setAttribute("aria-label", mobileSheetActionLabel(nextState));
   mobileSheetStateControls.forEach(control => {
