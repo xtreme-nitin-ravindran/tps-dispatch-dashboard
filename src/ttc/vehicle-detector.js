@@ -3,9 +3,16 @@ import { isAlertActive } from './lifecycle.js';
 import { compileShape, projectVehicle, geographicDistance } from './vehicle-geometry.js';
 import { MAX_OBSERVATION_AGE_MS, fetchTtcVehicles } from './vehicle-feed.js';
 
+// The data writer runs every five minutes and each run polls a bounded 90-second
+// burst, so consecutive runs are roughly five minutes apart. `inactivityMs` and
+// `maxGapMs` must exceed that cadence or every track is dropped or reset at the start
+// of each run, which makes a completed departure-to-rejoin episode impossible and
+// leaves the published diversion artifact permanently empty. `inactivityMs` tolerates
+// one missed run; `maxGapMs` tolerates the normal cadence gap with scheduler slack
+// while still rejecting genuinely discontinuous evidence.
 export const VEHICLE_POLICY = Object.freeze({entryMeters:100,exitMeters:50,terminalMeters:150,
   confirmationCount:3,confirmationMs:60000,confirmationMovementMeters:100,rejoinCount:3,rejoinMs:60000,
-  historyCount:20,historyMs:600000,inactivityMs:180000,maxGapMs:90000,maxVehicles:3000,
+  historyCount:20,historyMs:600000,inactivityMs:600000,maxGapMs:360000,maxVehicles:3000,
   maxSpeedMetersPerSecond:40,jumpSlackMeters:100,maxArtifactBytes:32*1024*1024});
 const states = ['on-route','possible','confirmed','rejoining','unknown'];
 const instant = s => typeof s === 'string' && Number.isFinite(Date.parse(s)) && new Date(s).toISOString() === s;

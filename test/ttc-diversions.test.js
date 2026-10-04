@@ -5,7 +5,7 @@ import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { at, vehicle, protobuf, staticIndex } from './fixtures/ttc-vehicles/builders.js';
 import { parseTtcVehicles } from '../src/ttc/vehicle-feed.js';
-import { detectVehicles } from '../src/ttc/vehicle-detector.js';
+import { detectVehicles, VEHICLE_POLICY } from '../src/ttc/vehicle-detector.js';
 import { parseTtcAlerts, updateTtcAlerts } from '../src/ttc/alerts.js';
 import { correlateState } from '../src/ttc/correlation.js';
 import { inferDiversions, trajectorySimilarity, validateDiversionState, validateDiversionOutput, diversionGeoJson, DIVERSION_POLICY } from '../src/ttc/diversion-inference.js';
@@ -96,7 +96,8 @@ test('stale evidence expires with injected time; unavailable feed suppresses out
 });
 test('route reassignment, gap and static version cannot join episodes or invent rejoin',()=>{
   const r=run({paths:[path.slice(0,4)]});
-  const shifted=run({paths:[path],start:240,previous:r.state,detector:r.vehicles});
+  // The gap must exceed the cadence-aware maxGapMs to be treated as discontinuous.
+  const shifted=run({paths:[path],start:90+VEHICLE_POLICY.maxGapMs/1000+30,previous:r.state,detector:r.vehicles});
   assert.equal(shifted.state.episodes.length,2);assert.equal(shifted.state.episodes.filter(e=>e.completed).length,1);
   const v={...empty(240),staticVersion:'changed'};const next=inferDiversions(r.state,v,{...index,version:'changed'},at(240));assert.equal(next.state.episodes.length,0);
 });

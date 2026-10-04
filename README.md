@@ -1113,9 +1113,12 @@ Named policy (`VEHICLE_POLICY` in `src/ttc/vehicle-detector.js`):
   times cannot advance state; conflicting same-time records are discarded together.
 - Retain at most **20 observations / 10 minutes**, whichever is smaller, per vehicle;
   at most **3,000 vehicles**, freshest first with deterministic identity tie-breaks.
-  History expires after **180 seconds** without accepted observations. Gaps greater
-  than **90 seconds**, route/trip/direction/start-date/start-time/pattern changes,
+  History expires after **10 minutes** without accepted observations. Gaps greater
+  than **6 minutes**, route/trip/direction/start-date/start-time/pattern changes,
   and static-version changes reset evidence. History never becomes a tracking archive.
+  These limits are deliberately larger than the five-minute data-writer cadence so a
+  track survives between runs; otherwise every run would start cold and a completed
+  departure-to-rejoin episode could never form.
 
 The 100 m entry threshold is deliberately conservative for GPS uncertainty, road
 width, loops, and static shape approximation. Live matched-distance medians were
@@ -1145,7 +1148,7 @@ versions, and enforce freshness from `checkedAt`/`lastObservedAt` themselves: a 
 cannot age itself if a scheduler stops. Successful-empty polls are `ok`; unmatched
 vehicles are reported separately. Fetch, decode and stale-header failures have
 separate reasons, immediately export unavailable with **no deviations**, and age
-restart state for at most 180 seconds. Static failure clears restart evidence.
+restart state for at most 10 minutes. Static failure clears restart evidence.
 Failures are isolated from all incident/alert publication jobs.
 
 Concourse runs the vehicle burst as the `observe-vehicles` step inside the single
@@ -1159,11 +1162,12 @@ available; losing it is safe because each burst can confirm independently.
 Build logs retain 50 builds. The incident ETL step requires no changes for this feature.
 
 GitHub `.github/workflows/update-sirento.yml` runs the same four-poll code every five
-minutes when scheduled, as a step in the single data-writer job. It caches only the
-static ZIP, starts fresh vehicle history each run, and cannot establish continuity
-between runs. Scheduler delays and feed repetition may yield no confirmed deviations;
-correctness is unchanged. No new always-on service, browser polling, or dependencies
-are added.
+minutes when scheduled, as a step in the single data-writer job. It restores the
+`.cache/ttc` directory (including bounded vehicle and inference state) through the
+Actions cache, so a completed departure-to-rejoin episode can span runs when the cache
+is available. A cold cache starts fresh and cannot fabricate confirmation. Scheduler
+delays and feed repetition may yield no confirmed deviations; correctness is unchanged.
+No new always-on service, browser polling, or dependencies are added.
 
 Local commands (no UI startup):
 
@@ -1257,8 +1261,9 @@ Existing `--fixture`/`--static-fixture` options also run inference on custom seq
 The existing Concourse vehicle task caches inference alongside detection and exports
 `ttc-vehicle-evidence/diversions.json`. No separate pipeline or incident-ETL dependency
 was added. The GitHub fallback uploads both compact artifacts with one-day retention;
-it still starts fresh each run and cannot assume cross-run continuity. Four polls
-usually cannot establish completed departure-to-rejoin evidence. Cold starts never
+it restores bounded vehicle/inference state from the Actions cache so evidence can
+continue between runs, but a cold cache cannot assume cross-run continuity. Four polls
+alone usually cannot establish completed departure-to-rejoin evidence. Cold starts never
 fabricate confirmation. See [the Story 30E validation report](docs/story-30e-validation.md)
 for algorithms, diagnostics, limitations and validation results.
 
