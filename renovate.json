@@ -1,0 +1,66 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "baseBranchPatterns": [
+    "dev"
+  ],
+  "enabledManagers": [
+    "npm",
+    "dockerfile",
+    "custom.regex"
+  ],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update inline Concourse task container images",
+      "managerFilePatterns": [
+        "/^concourse/.*\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "source:\\s*\\{\\s*repository:\\s*(?<depName>[^,}\\s]+),\\s*tag:\\s*(?<currentValue>[^,}\\s]+)\\s*\\}"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "description": "Update expanded Concourse task container images",
+      "managerFilePatterns": [
+        "/^concourse/.*\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "source:\\s*\\n\\s+repository:\\s*(?<depName>\\S+)\\s*\\n(?:\\s*#[^\\n]*\\n)*\\s+tag:\\s*(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "description": "Update npm installed inside Concourse task containers",
+      "managerFilePatterns": [
+        "/^concourse/.*\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "NPM_VERSION:\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+      ],
+      "depNameTemplate": "npm",
+      "datasourceTemplate": "npm",
+      "versioningTemplate": "npm"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Group task-container dependency updates",
+      "matchFileNames": [
+        "Dockerfile.test",
+        "concourse/**"
+      ],
+      "groupName": "task container dependencies"
+    }
+  ]
+}
