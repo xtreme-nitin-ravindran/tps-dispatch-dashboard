@@ -1,6 +1,6 @@
 FROM ghcr.io/astral-sh/ruff:0.16.10 AS ruff
 
-FROM node:22-bookworm
+FROM node:24-bookworm
 
 WORKDIR /workspace
 
