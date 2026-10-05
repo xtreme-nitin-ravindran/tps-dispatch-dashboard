@@ -14,6 +14,12 @@
 // exiting, and re-entering fullscreen.
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
+import {
+  measureChrome,
+  assertNoOverlap,
+  assertInViewport,
+  assertNoHorizontalOverflow
+} from './lib/mobile-chrome-assert.js';
 
 const base = process.env.MOBILE_MAP_INFO_UI_URL || 'http://127.0.0.1:8765/';
 const query = '?mobileAuditFixture=many&mobileAuditView=map&mobileAuditLocation=current&mobileAuditRadius=toronto&mobileAuditSheet=collapsed&mobileAuditRoads=on&mobileAuditBoundaries=on';
@@ -32,77 +38,58 @@ const MAX_COLLAPSED_HEIGHT = 80;
 // The expanded panel must leave a substantial slice of the map visible above it.
 const MIN_VISIBLE_MAP_FRACTION = 0.2;
 
-function intersects(a, b) {
-  return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
-}
-
-function rectOf(box) {
-  return { left: box.x, top: box.y, right: box.x + box.width, bottom: box.y + box.height };
-}
+// Feature-specific selectors for the map-info regression. The shared helper
+// reads the rectangles; the open/hidden state reads stay here.
+const MAP_INFO_SELECTORS = {
+  mapInfo: '#mapInfo',
+  mapInfoBody: '.map-info-body',
+  summary: '#mobileFocusFilterSummary',
+  nav: '.mobile-view-toggle',
+  sheet: '#mobileBottomSheet',
+  focus: '#mobileMapFocusToggle',
+  road: '.map-layer-toggle',
+  police: '.map-panel .leaflet-top.leaflet-right .leaflet-control-layers',
+  zoom: '.leaflet-control-zoom',
+  attribution: '.leaflet-control-attribution',
+  mapStage: '#mapView'
+};
 
 async function measure(page) {
-  return page.evaluate(() => {
-    const rect = selector => {
-      const el = document.querySelector(selector);
-      if (!el) return null;
-      const r = el.getBoundingClientRect();
-      return { x: r.x, y: r.y, width: r.width, height: r.height, right: r.right, bottom: r.bottom };
-    };
+  const rects = await measureChrome(page, MAP_INFO_SELECTORS);
+  const extras = await page.evaluate(() => {
     const mapInfo = document.querySelector('#mapInfo');
     const summary = document.querySelector('#mobileFocusFilterSummary');
     return {
       focusMode: document.documentElement.dataset.mobileFocus || null,
       mapInfoOpen: mapInfo ? mapInfo.open : null,
-      mapInfo: rect('#mapInfo'),
-      mapInfoBody: rect('.map-info-body'),
-      summary: rect('#mobileFocusFilterSummary'),
       summaryHidden: summary ? summary.hidden : null,
-      nav: rect('.mobile-view-toggle'),
-      sheet: rect('#mobileBottomSheet'),
-      focus: rect('#mobileMapFocusToggle'),
-      road: rect('.map-layer-toggle'),
-      police: rect('.map-panel .leaflet-top.leaflet-right .leaflet-control-layers'),
-      zoom: rect('.leaflet-control-zoom'),
-      attribution: rect('.leaflet-control-attribution'),
-      mapStage: rect('#mapView'),
       docScrollWidth: document.documentElement.scrollWidth,
       docClientWidth: document.documentElement.clientWidth,
       viewportWidth: window.innerWidth,
       viewportHeight: window.innerHeight
     };
   });
-}
-
-function assertNoHorizontalOverflow(state, label) {
-  assert.ok(state.docScrollWidth <= state.docClientWidth + 1, `${label}: horizontal overflow (${state.docScrollWidth} > ${state.docClientWidth})`);
+  return { ...rects, ...extras };
 }
 
 function assertMapInfoWithinViewport(state, viewport, label) {
-  const box = rectOf(state.mapInfo);
-  assert.ok(box.left >= -0.5, `${label}: map info starts left of the viewport`);
-  assert.ok(box.right <= viewport.width + 0.5, `${label}: map info overflows the right edge`);
-  assert.ok(box.top >= -0.5, `${label}: map info starts above the viewport`);
-  assert.ok(box.bottom <= viewport.height + 0.5, `${label}: map info overflows the bottom edge`);
+  assertInViewport(state.mapInfo, viewport, `${label}: map info`);
 }
 
 function assertChromeClear(state, label) {
-  const mapInfo = rectOf(state.mapInfo);
   // The map info must not overlap the navigation band, the filter summary, the
   // bottom sheet, the focus control, the layer controls, the zoom control, or
   // the attribution.
-  for (const [name, box] of [
-    ['navigation', state.nav],
-    ['filter summary', state.summary],
-    ['bottom sheet', state.sheet],
-    ['focus control', state.focus],
-    ['Road closures', state.road],
-    ['Police divisions', state.police],
-    ['zoom control', state.zoom],
-    ['attribution', state.attribution]
-  ]) {
-    if (!box) continue;
-    assert.ok(!intersects(mapInfo, rectOf(box)), `${label}: map info intersects ${name}`);
-  }
+  assertNoOverlap(state, [
+    ['mapInfo', 'nav'],
+    ['mapInfo', 'summary'],
+    ['mapInfo', 'sheet'],
+    ['mapInfo', 'focus'],
+    ['mapInfo', 'road'],
+    ['mapInfo', 'police'],
+    ['mapInfo', 'zoom'],
+    ['mapInfo', 'attribution']
+  ], label);
 }
 
 function assertCollapsed(state, viewport, label) {
@@ -114,7 +101,7 @@ function assertCollapsed(state, viewport, label) {
   // The body is clipped by the collapsed container (a <details> keeps its body
   // in the DOM), so the container height is what must stay compact.
   // The map stays substantially visible.
-  const visibleMap = state.mapInfo.y;
+  const visibleMap = state.mapInfo.top;
   assert.ok(visibleMap >= viewport.height * MIN_VISIBLE_MAP_FRACTION, `${label}: collapsed map info leaves only ${visibleMap}px of map visible`);
   assertMapInfoWithinViewport(state, viewport, label);
   assertChromeClear(state, label);
@@ -127,7 +114,7 @@ function assertExpanded(state, viewport, label) {
   // The expanded panel sizes to its content within a sensible maximum height.
   assert.ok(state.mapInfo.height <= viewport.height * 0.75, `${label}: expanded map info is ${state.mapInfo.height}px tall (over 75% of the viewport)`);
   // The map stays substantially visible above the panel.
-  const visibleMap = state.mapInfo.y;
+  const visibleMap = state.mapInfo.top;
   assert.ok(visibleMap >= viewport.height * MIN_VISIBLE_MAP_FRACTION, `${label}: expanded map info leaves only ${visibleMap}px of map visible`);
   assertMapInfoWithinViewport(state, viewport, label);
   assertChromeClear(state, label);
@@ -231,7 +218,7 @@ try {
       viewport: viewport.name,
       collapsedHeight: collapsed.mapInfo.height,
       expandedHeight: expanded.mapInfo.height,
-      visibleMapAboveExpanded: expanded.mapInfo.y
+      visibleMapAboveExpanded: expanded.mapInfo.top
     });
 
     await context.close();

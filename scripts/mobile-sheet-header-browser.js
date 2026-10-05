@@ -12,6 +12,12 @@
 // geometry at supported narrow phone widths and drives the real sheet states.
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
+import {
+  measureChrome,
+  assertNoOverlap,
+  assertInViewport,
+  assertNoHorizontalOverflow
+} from './lib/mobile-chrome-assert.js';
 
 const base = process.env.MOBILE_SHEET_HEADER_UI_URL || 'http://127.0.0.1:8765/';
 const query = '?mobileAuditFixture=many&mobileAuditView=map&mobileAuditLocation=current&mobileAuditRadius=toronto&mobileAuditSheet=collapsed&mobileAuditRoads=on&mobileAuditBoundaries=on';
@@ -32,22 +38,19 @@ const LONG_SUMMARY = '1,212 calls · Closest 0.2 km · Latest 4 min ago · Last 
 
 const SHEET_STATES = ['collapsed', 'half', 'expanded'];
 
-function intersects(a, b) {
-  return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
-}
-
-function rectOf(box) {
-  return { left: box.x, top: box.y, right: box.x + box.width, bottom: box.y + box.height };
-}
+// Feature-specific selectors for the sheet-header regression. The shared helper
+// reads the rectangles; the computed-style/text/state reads stay here.
+const SHEET_SELECTORS = {
+  sheetRect: '#mobileBottomSheet',
+  headerRect: '#mobileSheetToggle',
+  summaryRect: '#mobileSheetSummary',
+  handleRect: '.mobile-sheet-handle',
+  stateControlsRect: '.mobile-sheet-state-controls'
+};
 
 async function measure(page) {
-  return page.evaluate(() => {
-    const rect = selector => {
-      const el = document.querySelector(selector);
-      if (!el) return null;
-      const r = el.getBoundingClientRect();
-      return { x: r.x, y: r.y, width: r.width, height: r.height, right: r.right, bottom: r.bottom };
-    };
+  const rects = await measureChrome(page, SHEET_SELECTORS);
+  const extras = await page.evaluate(() => {
     const summary = document.querySelector('#mobileSheetSummary');
     const summaryStyle = summary ? getComputedStyle(summary) : null;
     const header = document.querySelector('#mobileSheetToggle');
@@ -57,9 +60,6 @@ async function measure(page) {
     const stateLabelStyle = stateLabel ? getComputedStyle(stateLabel) : null;
     return {
       sheetState: document.documentElement.dataset.mobileSheetState || null,
-      sheetRect: rect('#mobileBottomSheet'),
-      headerRect: rect('#mobileSheetToggle'),
-      summaryRect: rect('#mobileSheetSummary'),
       summaryText: summary ? summary.textContent : null,
       summaryScrollWidth: summary ? summary.scrollWidth : null,
       summaryClientWidth: summary ? summary.clientWidth : null,
@@ -68,8 +68,6 @@ async function measure(page) {
       summaryTextOverflow: summaryStyle ? summaryStyle.textOverflow : null,
       summaryWhiteSpace: summaryStyle ? summaryStyle.whiteSpace : null,
       summaryOverflow: summaryStyle ? summaryStyle.overflow : null,
-      handleRect: rect('.mobile-sheet-handle'),
-      stateControlsRect: rect('.mobile-sheet-state-controls'),
       stateLabelPresent: Boolean(stateLabel),
       stateLabelVisible: Boolean(stateLabel && stateLabelStyle && stateLabelStyle.display !== 'none' && stateLabelStyle.visibility !== 'hidden' && stateLabel.getClientRects().length > 0),
       stateLabelText: stateLabel ? stateLabel.textContent.trim() : null,
@@ -79,6 +77,7 @@ async function measure(page) {
       docClientWidth: document.documentElement.clientWidth
     };
   });
+  return { ...rects, ...extras };
 }
 
 function assertNoStateLabel(state, label) {
@@ -101,24 +100,20 @@ function assertSummaryWraps(state, viewport, label) {
   const lineHeight = state.summaryRect.height;
   assert.ok(lineHeight > 0, `${label}: summary has no rendered height`);
   // No horizontal page overflow.
-  assert.ok(state.docScrollWidth <= state.docClientWidth + 1, `${label}: horizontal overflow (${state.docScrollWidth} > ${state.docClientWidth})`);
+  assertNoHorizontalOverflow(state, label);
   // The summary must stay inside the viewport.
-  const summaryBox = rectOf(state.summaryRect);
-  assert.ok(summaryBox.left >= -0.5 && summaryBox.right <= viewport.width + 0.5, `${label}: summary overflows the viewport horizontally`);
+  assertInViewport(state.summaryRect, viewport, `${label}: summary`);
 }
 
-function assertNoOverlap(state, label) {
-  const summary = rectOf(state.summaryRect);
-  // The wrapped summary must not overlap the drag handle.
-  if (state.handleRect) {
-    assert.ok(!intersects(summary, rectOf(state.handleRect)), `${label}: wrapped summary overlaps the drag handle`);
-  }
-  // The wrapped summary must not overlap the sheet state controls.
-  if (state.stateControlsRect) {
-    assert.ok(!intersects(summary, rectOf(state.stateControlsRect)), `${label}: wrapped summary overlaps the sheet controls`);
-  }
+function assertSummaryClear(state, label) {
+  // The wrapped summary must not overlap the drag handle or the sheet controls.
+  assertNoOverlap(state, [
+    ['summaryRect', 'handleRect'],
+    ['summaryRect', 'stateControlsRect']
+  ], label);
   // The header must contain the summary (the header grows to fit it).
-  const header = rectOf(state.headerRect);
+  const summary = state.summaryRect;
+  const header = state.headerRect;
   assert.ok(summary.top >= header.top - 0.5 && summary.bottom <= header.bottom + 0.5, `${label}: summary escapes the header box`);
 }
 
@@ -172,7 +167,7 @@ try {
       assert.equal(state.sheetState, sheetState, `${viewport.name} ${sheetState}: sheet state did not apply`);
       assertNoStateLabel(state, `${viewport.name} ${sheetState}`);
       assertSummaryWraps(state, viewport, `${viewport.name} ${sheetState}`);
-      assertNoOverlap(state, `${viewport.name} ${sheetState}`);
+      assertSummaryClear(state, `${viewport.name} ${sheetState}`);
       results.push({ viewport: viewport.name, sheetState, summaryHeight: state.summaryRect.height, summaryWidth: state.summaryRect.width });
     }
 
@@ -189,7 +184,7 @@ try {
     for (const [name, state] of [['collapsed', collapsed], ['half', half], ['expanded', expanded]]) {
       assertNoStateLabel(state, `${viewport.name} snap-${name}`);
       assertSummaryWraps(state, viewport, `${viewport.name} snap-${name}`);
-      assertNoOverlap(state, `${viewport.name} snap-${name}`);
+      assertSummaryClear(state, `${viewport.name} snap-${name}`);
     }
 
     // --- View transitions preserve the header behavior ---
@@ -206,7 +201,7 @@ try {
     const backToMap = await measure(page);
     assertNoStateLabel(backToMap, `${viewport.name} map-return`);
     assertSummaryWraps(backToMap, viewport, `${viewport.name} map-return`);
-    assertNoOverlap(backToMap, `${viewport.name} map-return`);
+    assertSummaryClear(backToMap, `${viewport.name} map-return`);
 
     // --- Viewport / orientation change preserves the header behavior ---
     await page.setViewportSize({ width: viewport.height, height: viewport.width });
@@ -215,7 +210,7 @@ try {
     const rotated = await measure(page);
     assertNoStateLabel(rotated, `${viewport.name} rotated`);
     assertSummaryWraps(rotated, { width: viewport.height, height: viewport.width }, `${viewport.name} rotated`);
-    assertNoOverlap(rotated, `${viewport.name} rotated`);
+    assertSummaryClear(rotated, `${viewport.name} rotated`);
     // Restore the original viewport for the next iteration.
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
     await page.waitForTimeout(50);

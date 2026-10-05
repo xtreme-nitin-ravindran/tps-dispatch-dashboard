@@ -8,6 +8,12 @@
 // bounding rectangles and performs unforced pointer clicks.
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
+import {
+  measureChrome,
+  assertNoOverlap,
+  assertInViewport,
+  assertNoHorizontalOverflow
+} from './lib/mobile-chrome-assert.js';
 
 const base = process.env.MOBILE_FOCUS_UI_URL || 'http://127.0.0.1:8765/';
 const query = '?mobileAuditFixture=many&mobileAuditView=map&mobileAuditLocation=current&mobileAuditRadius=toronto&mobileAuditSheet=collapsed&mobileAuditRoads=on&mobileAuditBoundaries=on';
@@ -37,22 +43,23 @@ const WRAPPED_ATTRIBUTION_CSS = `
   .leaflet-control-attribution { white-space: normal !important; max-width: 180px !important; height: 40px !important; }
 `;
 
-function intersects(a, b) {
-  return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
-}
-
-function rectOf(box) {
-  return { left: box.x, top: box.y, right: box.x + box.width, bottom: box.y + box.height };
-}
+// Feature-specific selectors for the focus-control regression. The shared
+// helper reads the rectangles; the extra hit-test/label/state reads stay here.
+const FOCUS_SELECTORS = {
+  focus: '#mobileMapFocusToggle',
+  road: '.map-layer-toggle',
+  police: '.map-panel .leaflet-top.leaflet-right .leaflet-control-layers',
+  nav: '.mobile-view-toggle',
+  summary: '#mobileFocusFilterSummary',
+  mapInfo: '#mapInfo',
+  sheet: '#mobileBottomSheet',
+  attribution: '.leaflet-control-attribution',
+  zoom: '.leaflet-control-zoom'
+};
 
 async function measure(page) {
-  return page.evaluate(() => {
-    const rect = selector => {
-      const el = document.querySelector(selector);
-      if (!el) return null;
-      const r = el.getBoundingClientRect();
-      return { x: r.x, y: r.y, width: r.width, height: r.height, right: r.right, bottom: r.bottom };
-    };
+  const rects = await measureChrome(page, FOCUS_SELECTORS);
+  const extras = await page.evaluate(() => {
     const focus = document.querySelector('#mobileMapFocusToggle');
     const focusRect = focus?.getBoundingClientRect();
     const centre = focusRect
@@ -66,15 +73,6 @@ async function measure(page) {
       : null;
     const attributionHit = attributionCentre ? document.elementFromPoint(attributionCentre.x, attributionCentre.y) : null;
     return {
-      focus: rect('#mobileMapFocusToggle'),
-      road: rect('.map-layer-toggle'),
-      police: rect('.map-panel .leaflet-top.leaflet-right .leaflet-control-layers'),
-      nav: rect('.mobile-view-toggle'),
-      summary: rect('#mobileFocusFilterSummary'),
-      mapInfo: rect('#mapInfo'),
-      sheet: rect('#mobileBottomSheet'),
-      attribution: rect('.leaflet-control-attribution'),
-      zoom: rect('.leaflet-control-zoom'),
       attributionHitIsLink: Boolean(attributionHit && attribution && (attributionHit === attribution || attribution.contains(attributionHit))),
       attributionHitTag: attributionHit ? `${attributionHit.tagName.toLowerCase()}${attributionHit.id ? '#' + attributionHit.id : ''}` : null,
       focusLabel: focus?.getAttribute('aria-label') || null,
@@ -86,46 +84,50 @@ async function measure(page) {
       docClientWidth: document.documentElement.clientWidth
     };
   });
+  return { ...rects, ...extras };
 }
 
 function assertLayout(state, viewport, mode) {
   const label = `${viewport.name} ${mode}`;
   assert.ok(state.focus, `${label}: focus control is not rendered`);
-  const focus = rectOf(state.focus);
 
   // The focus control must be a real 44px+ target.
   assert.ok(state.focus.width >= MIN_TARGET, `${label}: focus width ${state.focus.width} < ${MIN_TARGET}`);
   assert.ok(state.focus.height >= MIN_TARGET, `${label}: focus height ${state.focus.height} < ${MIN_TARGET}`);
 
   // It must not intersect the layer controls, navigation, or the filter summary.
-  for (const [name, box] of [['Road closures', state.road], ['Police divisions', state.police], ['navigation', state.nav], ['filter summary', state.summary], ['attribution', state.attribution]]) {
-    if (!box) continue;
-    assert.ok(!intersects(focus, rectOf(box)), `${label}: focus control intersects ${name}`);
-  }
+  assertNoOverlap(state, [
+    ['focus', 'road'],
+    ['focus', 'police'],
+    ['focus', 'nav'],
+    ['focus', 'summary'],
+    ['focus', 'attribution']
+  ], label);
 
   // Story 40F: the OpenStreetMap attribution must stay in the lower-right chrome,
   // clear of the focus control, layer controls, zoom control, navigation, filter
   // summary, and bottom sheet, and must remain the topmost hit target at its own
   // centre so the required credit stays reachable.
   assert.ok(state.attribution, `${label}: attribution is not rendered`);
-  const attribution = rectOf(state.attribution);
-  for (const [name, box] of [['Road closures', state.road], ['Police divisions', state.police], ['zoom control', state.zoom], ['navigation', state.nav], ['filter summary', state.summary], ['bottom sheet', state.sheet]]) {
-    if (!box) continue;
-    assert.ok(!intersects(attribution, rectOf(box)), `${label}: attribution intersects ${name}`);
-  }
+  assertNoOverlap(state, [
+    ['attribution', 'road'],
+    ['attribution', 'police'],
+    ['attribution', 'zoom'],
+    ['attribution', 'nav'],
+    ['attribution', 'summary'],
+    ['attribution', 'sheet']
+  ], label);
   assert.ok(state.attributionHitIsLink, `${label}: attribution centre resolved to ${state.attributionHitTag}, not the attribution link`);
-  assert.ok(attribution.left >= -0.5 && attribution.right <= viewport.width + 0.5, `${label}: attribution overflows the viewport horizontally`);
+  assertInViewport(state.attribution, viewport, `${label}: attribution`);
 
   // It must be the topmost hit-test target at its visual centre.
   assert.ok(state.hitIsFocus, `${label}: elementFromPoint resolved to ${state.hitTag}, not the focus control`);
 
   // It must stay inside the viewport.
-  assert.ok(focus.left >= -0.5 && focus.top >= -0.5, `${label}: focus control starts outside the viewport`);
-  assert.ok(focus.right <= viewport.width + 0.5, `${label}: focus control overflows the right edge`);
-  assert.ok(focus.bottom <= viewport.height + 0.5, `${label}: focus control overflows the bottom edge`);
+  assertInViewport(state.focus, viewport, `${label}: focus control`);
 
   // No horizontal overflow.
-  assert.ok(state.docScrollWidth <= state.docClientWidth + 1, `${label}: horizontal overflow (${state.docScrollWidth} > ${state.docClientWidth})`);
+  assertNoHorizontalOverflow(state, label);
 
   // The layer controls keep their 44px targets.
   for (const [name, box] of [['Road closures', state.road], ['Police divisions', state.police]]) {
@@ -194,14 +196,24 @@ async function runScenario(page, viewport, label) {
 // (Road closures, Police divisions, the fullscreen × control) that are hidden in
 // those views. The navigation must move to the top safe-area position and the
 // calls/disruptions content must start just below it.
+const CALLS_SELECTORS = {
+  nav: '.mobile-view-toggle',
+  navBand: '.radius-controls',
+  // #callsView is the .content-grid, which uses display:contents in Calls
+  // view, so its own rect is empty; the real calls surface is .calls-panel.
+  calls: '.calls-panel',
+  callList: '#callList',
+  disruptions: '#disruptions',
+  focus: '#mobileMapFocusToggle',
+  road: '.map-layer-toggle',
+  police: '.map-panel .leaflet-top.leaflet-right .leaflet-control-layers',
+  summary: '#mobileFocusFilterSummary',
+  mapInfo: '#mapInfo'
+};
+
 async function measureCalls(page) {
-  return page.evaluate(() => {
-    const rect = selector => {
-      const el = document.querySelector(selector);
-      if (!el) return null;
-      const r = el.getBoundingClientRect();
-      return { x: r.x, y: r.y, width: r.width, height: r.height, right: r.right, bottom: r.bottom };
-    };
+  const rects = await measureChrome(page, CALLS_SELECTORS);
+  const extras = await page.evaluate(() => {
     const nav = document.querySelector('.mobile-view-toggle');
     const navRect = nav?.getBoundingClientRect();
     const navCentre = navRect
@@ -211,29 +223,18 @@ async function measureCalls(page) {
     return {
       focusMode: document.documentElement.dataset.mobileFocus || null,
       mobileView: document.documentElement.dataset.mobileView || null,
-      nav: rect('.mobile-view-toggle'),
-      navBand: rect('.radius-controls'),
-      // #callsView is the .content-grid, which uses display:contents in Calls
-      // view, so its own rect is empty; the real calls surface is .calls-panel.
-      calls: rect('.calls-panel'),
-      callList: rect('#callList'),
-      disruptions: rect('#disruptions'),
-      focus: rect('#mobileMapFocusToggle'),
-      road: rect('.map-layer-toggle'),
-      police: rect('.map-panel .leaflet-top.leaflet-right .leaflet-control-layers'),
-      summary: rect('#mobileFocusFilterSummary'),
-      mapInfo: rect('#mapInfo'),
       navHitIsNav: Boolean(hit && nav && (hit === nav || nav.contains(hit))),
       navHitTag: hit ? `${hit.tagName.toLowerCase()}${hit.id ? '#' + hit.id : ''}` : null,
       docScrollWidth: document.documentElement.scrollWidth,
       docClientWidth: document.documentElement.clientWidth
     };
   });
+  return { ...rects, ...extras };
 }
 
 function assertTopAlignedNav(state, viewport, label) {
   assert.ok(state.nav, `${label}: navigation is not rendered`);
-  const nav = rectOf(state.nav);
+  const nav = state.nav;
   // The navigation band begins near the top of the usable viewport (8px + safe area).
   assert.ok(nav.top <= 12, `${label}: navigation top ${nav.top} is not near the viewport top`);
   assert.ok(nav.top >= -0.5, `${label}: navigation starts above the viewport`);
@@ -244,12 +245,12 @@ function assertTopAlignedNav(state, viewport, label) {
   // The navigation is the topmost hit-test target at its centre.
   assert.ok(state.navHitIsNav, `${label}: elementFromPoint resolved to ${state.navHitTag}, not the navigation`);
   // No horizontal overflow.
-  assert.ok(state.docScrollWidth <= state.docClientWidth + 1, `${label}: horizontal overflow (${state.docScrollWidth} > ${state.docClientWidth})`);
+  assertNoHorizontalOverflow(state, label);
 }
 
 function assertContentBelowNav(state, viewport, label, contentKey, maxGap) {
-  const nav = rectOf(state.nav);
-  const content = state[contentKey] ? rectOf(state[contentKey]) : null;
+  const nav = state.nav;
+  const content = state[contentKey] || null;
   assert.ok(content, `${label}: ${contentKey} is not rendered`);
   // The content starts below the navigation without overlapping it.
   assert.ok(content.top >= nav.bottom - 0.5, `${label}: ${contentKey} overlaps the navigation (${content.top} < ${nav.bottom})`);
@@ -358,10 +359,10 @@ try {
     const callsRun = await runCallsScenario(page, viewport);
     results.push({
       viewport: viewport.name,
-      focusedCallsNavTop: callsRun.calls.nav.y,
-      focusedCallsContentTop: callsRun.calls.calls.y,
-      focusedDisruptionsNavTop: callsRun.disruptions.nav.y,
-      focusedDisruptionsTop: callsRun.disruptions.disruptions.y
+      focusedCallsNavTop: callsRun.calls.nav.top,
+      focusedCallsContentTop: callsRun.calls.calls.top,
+      focusedDisruptionsNavTop: callsRun.disruptions.nav.top,
+      focusedDisruptionsTop: callsRun.disruptions.disruptions.top
     });
 
     await context.close();
