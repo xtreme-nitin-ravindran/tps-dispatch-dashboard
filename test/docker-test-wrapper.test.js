@@ -101,7 +101,7 @@ async function readLog(log) {
 async function currentFingerprint() {
   const { createHash } = await import("node:crypto");
   const hash = createHash("sha256");
-  for (const f of ["Dockerfile.test", "package.json", "package-lock.json"]) {
+  for (const f of ["Dockerfile.test", ".dockerignore", "package.json", "package-lock.json"]) {
     hash.update(f + "\n");
     hash.update(await readFile(join(root, f)));
   }
@@ -223,7 +223,7 @@ test("the wrapper mounts working-tree paths read-only and never mounts node_modu
         `the wrapper must mount ${required}`
       );
     }
-    for (const required of ["app.js", "index.html", "service-worker.js", "styles.css", "eslint.config.js", "ruff.toml"]) {
+    for (const required of ["app.js", "index.html", "service-worker.js", "styles.css", "eslint.config.js", "ruff.toml", "Dockerfile.test", ".dockerignore", "package.json", "package-lock.json"]) {
       assert.ok(
         mounts.some(m => m.includes(`/workspace/${required}:ro`)),
         `the wrapper must mount ${required}`
@@ -428,7 +428,7 @@ test("the wrapper's fingerprint changes when a dependency input changes", async 
   try {
     await mkdir(join(scratch, "scripts"), { recursive: true });
     await cp(wrapperPath, join(scratch, "scripts", "docker-test.sh"));
-    for (const f of ["Dockerfile.test", "package.json", "package-lock.json"]) {
+    for (const f of ["Dockerfile.test", ".dockerignore", "package.json", "package-lock.json"]) {
       await cp(join(root, f), join(scratch, f));
     }
     const before = spawnSync("sh", [join(scratch, "scripts", "docker-test.sh"), "--fingerprint"], {

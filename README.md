@@ -111,11 +111,23 @@ scripts/docker-test.sh --ensure-image
 ```
 
 The wrapper computes a SHA-256 fingerprint of the image-defining inputs
-(`Dockerfile.test`, `package.json`, `package-lock.json`) and compares it with the
-`org.sirento.test-fingerprint` label baked into the image. On mismatch it fails before
-testing with a clear rebuild command, so a stale image cannot silently validate old code.
-A commit-derived tag alone cannot detect uncommitted dependency changes; the fingerprint
-is content-derived, so it can.
+(`Dockerfile.test`, `.dockerignore`, `package.json`, `package-lock.json`) and compares it
+with the `org.sirento.test-fingerprint` label baked into the image. On mismatch it fails
+before testing with a clear rebuild command, so a stale image cannot silently validate old
+code. A commit-derived tag alone cannot detect uncommitted dependency changes; the
+fingerprint is content-derived, so it can. `.dockerignore` is included because it controls
+which files reach the build context: a rule that excluded a copied path would change the
+image while leaving the other inputs unchanged.
+
+The image is a dependency/tooling snapshot, not a source snapshot. `npm ci` runs in its own
+layer with only the manifests copied before it, and repository content is copied from
+relatively stable to relatively volatile (`concourse`, `data`, `scripts`, `src`, `test`,
+then the root frontend files). Editing a volatile path such as `test/` therefore reuses the
+cached dependency, tooling, and stable-content layers instead of reinstalling dependencies.
+`.dockerignore` excludes only non-build inputs (version control, host `node_modules`, local
+caches and coverage, rendered-browser evidence, editor/OS files, local environment and
+deployment secrets, documentation, and Python bytecode) and never a path the Dockerfile
+copies.
 
 `npm run verify` and `npm run verify:fast` call `scripts/docker-test.sh --ensure-image`
 and run every container command through the wrapper. Do not call `docker run` directly for

@@ -45,8 +45,8 @@ is a dependency/tooling snapshot, not a source snapshot.
   `npm run verify`. Do not call `docker run` directly for validation; a bare
   `docker run` uses the image's baked-in source and can silently validate old code.
 - Rebuilding remains mandatory when the Dockerfile or the dependency/tooling
-  fingerprint inputs change: `Dockerfile.test`, `package.json`, and
-  `package-lock.json`. Build with the canonical path:
+  fingerprint inputs change: `Dockerfile.test`, `.dockerignore`, `package.json`,
+  and `package-lock.json`. Build with the canonical path:
   `scripts/docker-test.sh --build`.
 - The wrapper computes a SHA-256 fingerprint of those inputs and compares it with
   the `org.sirento.test-fingerprint` label baked into the image. On mismatch it
@@ -55,8 +55,15 @@ is a dependency/tooling snapshot, not a source snapshot.
   only when the image is missing or stale.
 - A commit-derived image tag alone does **not** detect uncommitted dependency
   changes, because the commit hash does not change. The fingerprint is
-  content-derived, so uncommitted `package.json`/`package-lock.json`/`Dockerfile.test`
-  edits are detected.
+  content-derived, so uncommitted `package.json`/`package-lock.json`/`Dockerfile.test`/
+  `.dockerignore` edits are detected.
+- Keep the image cheap to rebuild: `npm ci` must stay in its own layer with only
+  the manifests copied before it, and repository content must be copied from
+  relatively stable to relatively volatile (`concourse`, `data`, `scripts`,
+  `src`, `test`, then the root frontend files). Do not add a broad `COPY . .`.
+  `.dockerignore` must exclude only non-build inputs and must never exclude a
+  path the Dockerfile copies. `test/docker-image-layout.test.js` enforces these
+  properties structurally.
 - When a local Docker result disagrees with CI, first run the wrapper's
   fingerprint check (`scripts/docker-test.sh --fingerprint` versus the image
   label) and, when appropriate, rebuild with `scripts/docker-test.sh --build`

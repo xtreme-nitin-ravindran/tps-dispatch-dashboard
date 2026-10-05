@@ -1,5 +1,58 @@
-.git
-node_modules
-.DS_Store
+# Docker build-context exclusions for the SirenTO test image.
+#
+# The image is a dependency/tooling snapshot. Only the paths the Dockerfile
+# copies are needed in the build context, so everything else is excluded to
+# keep the context small and to avoid leaking local or sensitive files.
+#
+# Do NOT add a rule that excludes a path the Dockerfile copies or that the
+# tests, linters, fixtures, or fingerprinting require: concourse/, data/,
+# scripts/, src/, test/, app.js, index.html, service-worker.js,
+# manifest.webmanifest, icon-192.png, icon-512.png, styles.css,
+# eslint.config.js, ruff.toml, package.json, package-lock.json, and
+# Dockerfile.test must all remain in the context.
 
+# Version control and host-installed dependencies.
+.git
+.gitignore
+node_modules
+
+# Local caches, coverage output, and generated debug artifacts.
 .cache
+coverage
+coverage-badges
+*.log
+
+# Rendered-browser evidence: screenshots, Playwright traces, and reports.
+screenshots
+test-results
+playwright-report
+
+# Editor and OS files.
+.DS_Store
+.vscode
+.idea
+*.swp
+
+# Local environment, secret, and deployment files.
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+wrangler.toml
+.wrangler
+
+# Documentation, roadmap, and attachment artifacts that are not build inputs.
+docs
+*.md
+brand-doberman.jpg
+brand-spaghetti.jpg
+curious-cat.jpg
+favicon.png
+renovate.json
+_config.yml
+CNAME
+LICENSE
+
+# Python bytecode.
+__pycache__
+*.pyc

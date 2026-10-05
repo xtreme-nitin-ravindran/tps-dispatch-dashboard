@@ -33,7 +33,12 @@ FINGERPRINT_LABEL="org.sirento.test-fingerprint"
 # Image-defining inputs that are baked into the image and NOT bind-mounted.
 # Changing any of these requires a rebuild. The Dockerfile embeds the pinned
 # Ruff version and base images, so hashing it covers the tooling pin.
-FINGERPRINT_INPUTS="Dockerfile.test package.json package-lock.json"
+#
+# .dockerignore is included because it controls which files reach the build
+# context: a rule that excludes a copied path (for example test/) would change
+# the resulting image while leaving the other inputs unchanged, so it must
+# invalidate the fingerprint too.
+FINGERPRINT_INPUTS="Dockerfile.test .dockerignore package.json package-lock.json"
 
 # --- Portable SHA-256 ------------------------------------------------------
 sha256_of_files() {
@@ -145,7 +150,7 @@ check_fresh() {
 # are skipped so the wrapper stays usable on a partial checkout, but the core
 # validation inputs must exist.
 MOUNT_DIRS="src scripts test data concourse"
-MOUNT_FILES="app.js index.html service-worker.js manifest.webmanifest styles.css eslint.config.js ruff.toml Dockerfile.test package.json package-lock.json"
+MOUNT_FILES="app.js index.html service-worker.js manifest.webmanifest styles.css eslint.config.js ruff.toml Dockerfile.test .dockerignore package.json package-lock.json"
 
 mount_args() {
   for d in $MOUNT_DIRS; do
