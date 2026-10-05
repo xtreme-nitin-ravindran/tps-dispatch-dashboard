@@ -2,6 +2,12 @@ FROM ghcr.io/astral-sh/ruff:0.16.10 AS ruff
 
 FROM node:24-bookworm
 
+# The canonical build path (scripts/docker-test.sh --build) passes a fingerprint
+# of the image-defining inputs (Dockerfile.test, package.json, package-lock.json)
+# so the wrapper can detect a stale image without relying on the commit hash.
+ARG TEST_FINGERPRINT=unknown
+LABEL org.sirento.test-fingerprint=$TEST_FINGERPRINT
+
 WORKDIR /workspace
 
 COPY --from=ruff /ruff /usr/local/bin/ruff

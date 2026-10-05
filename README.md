@@ -83,10 +83,46 @@ git pull --ff-only origin dev
 
 ## Testing
 
-Run commands from the repository root. Use Docker for the same Node.js 22, ESLint,
+Run commands from the repository root. Use Docker for the same Node.js, ESLint,
 and Ruff environment as CI. Unit tests use fixtures, mocked services, bundled geographic
 data, and temporary files/repositories; they do not publish changes or require live feeds.
 See [Test coverage](#test-coverage) for how coverage is measured and published.
+
+### Docker test wrapper
+
+`scripts/docker-test.sh` runs validation against the **current working tree** using the
+pinned Docker test image for dependencies and tooling. It mounts the working-tree source,
+scripts, tests, fixtures, and bind-mounted configuration read-only over the image's
+`/workspace`, while keeping the image-installed `node_modules` and pinned tools (Node,
+ESLint, Ruff). Ordinary source, test, fixture, script, and configuration edits therefore
+do **not** require a Docker rebuild.
+
+```bash
+# Run any command in the container against the current working tree.
+scripts/docker-test.sh npm test
+scripts/docker-test.sh npm run lint
+scripts/docker-test.sh node --test test/theme.test.js
+
+# Canonical image build (only needed when the image inputs change).
+scripts/docker-test.sh --build
+
+# Build only when the image is missing or stale.
+scripts/docker-test.sh --ensure-image
+```
+
+The wrapper computes a SHA-256 fingerprint of the image-defining inputs
+(`Dockerfile.test`, `package.json`, `package-lock.json`) and compares it with the
+`org.sirento.test-fingerprint` label baked into the image. On mismatch it fails before
+testing with a clear rebuild command, so a stale image cannot silently validate old code.
+A commit-derived tag alone cannot detect uncommitted dependency changes; the fingerprint
+is content-derived, so it can.
+
+`npm run verify` and `npm run verify:fast` call `scripts/docker-test.sh --ensure-image`
+and run every container command through the wrapper. Do not call `docker run` directly for
+validation: a bare `docker run` uses the image's baked-in source and can silently validate
+old code. The wrapper uses `--rm`, so no container remains after a run, including on
+failure. The snapshot-generation command below is the one exception: it intentionally
+mounts `data/` writable to produce `data/current.json`.
 
 ### Rendered-browser regression tests
 
@@ -251,8 +287,7 @@ both an explicit enable switch and a loopback hostname, so a development mode ca
 activated on the production hostname. Run its network-free targeted suite in Docker:
 
 ```bash
-docker build -f Dockerfile.test -t toronto-dispatch-tests .
-docker run --rm toronto-dispatch-tests npm run test:watch-backend
+scripts/docker-test.sh npm run test:watch-backend
 ```
 
 The suite uses injectable IDs, possession tokens, clocks, and real validation/service/
@@ -355,9 +390,8 @@ candidate. Stale or unavailable feeds create no candidates and do not mutate wat
 Run the targeted deterministic suite and the safe local demonstration in Docker:
 
 ```bash
-docker build -f Dockerfile.test -t toronto-dispatch-tests .
-docker run --rm toronto-dispatch-tests npm run test:watch-matching
-docker run --rm toronto-dispatch-tests npm run fixture:watch-matching
+scripts/docker-test.sh npm run test:watch-matching
+scripts/docker-test.sh npm run fixture:watch-matching
 ```
 
 The demonstration reports safe counts only: first match and first dedupe row `1`, repeat
@@ -395,9 +429,8 @@ Run the deterministic sender/controller suite and demonstration without contacti
 service or requiring notification permission:
 
 ```bash
-docker build -f Dockerfile.test -t toronto-dispatch-tests .
-docker run --rm toronto-dispatch-tests npm run test:watch-delivery
-docker run --rm toronto-dispatch-tests npm run fixture:watch-delivery
+scripts/docker-test.sh npm run test:watch-delivery
+scripts/docker-test.sh npm run fixture:watch-delivery
 ```
 
 Set the deployed Worker URL in the `sirento-watch-api-base-url` meta element and the
@@ -430,9 +463,8 @@ incident is no longer in the current SirenTO data.” while leaving the dashboar
 Run the deterministic UX suite and fixture without notification permission or push delivery:
 
 ```bash
-docker build -f Dockerfile.test -t toronto-dispatch-tests .
-docker run --rm toronto-dispatch-tests npm run test:notification-ux
-docker run --rm toronto-dispatch-tests npm run fixture:notification-ux
+scripts/docker-test.sh npm run test:notification-ux
+scripts/docker-test.sh npm run fixture:notification-ux
 ```
 
 For manual visual checks, serve the repository on port 4173 and use:
@@ -509,13 +541,13 @@ device; desktop emulation does not establish iOS or Android delivery support.
 The deterministic suites are the repeatable regression path and contact no real push service:
 
 ```bash
-docker run --rm toronto-dispatch-tests npm run test:watch-production
-docker run --rm toronto-dispatch-tests npm run test:watch-matching
-docker run --rm toronto-dispatch-tests npm run test:watch-delivery
-docker run --rm toronto-dispatch-tests npm run test:notification-ux
-docker run --rm toronto-dispatch-tests npm run fixture:watch-matching
-docker run --rm toronto-dispatch-tests npm run fixture:watch-delivery
-docker run --rm toronto-dispatch-tests npm run fixture:notification-ux
+scripts/docker-test.sh npm run test:watch-production
+scripts/docker-test.sh npm run test:watch-matching
+scripts/docker-test.sh npm run test:watch-delivery
+scripts/docker-test.sh npm run test:notification-ux
+scripts/docker-test.sh npm run fixture:watch-matching
+scripts/docker-test.sh npm run fixture:watch-delivery
+scripts/docker-test.sh npm run fixture:notification-ux
 ```
 
 Together these cover permission states, subscription validation and renewal, inside/outside
@@ -528,8 +560,7 @@ Run the deterministic Story 33E2 suite without live D1, Web Push, incident data,
 production secrets:
 
 ```bash
-docker build -f Dockerfile.test -t toronto-dispatch-tests .
-docker run --rm toronto-dispatch-tests npm run test:watch-production
+scripts/docker-test.sh npm run test:watch-production
 ```
 
 The suite drives the real HTTP handler and D1 repository contract through an in-memory
@@ -550,10 +581,7 @@ The badges show Node’s measured line, branch, and function coverage after succ
 After building the Docker image, run the same coverage command used by CI:
 
 ```bash
-docker run --rm \
-  -e NODE_V8_COVERAGE=/tmp/coverage \
-  toronto-dispatch-tests \
-  npm run test:coverage
+scripts/docker-test.sh env NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage
 ```
 
 The coverage command can fail even when every test passes because the coverage gate
@@ -759,15 +787,15 @@ visually as well.
 
 ### Run individual suites
 
-Build the Docker image once after changing code or tests:
+Run individual suites through the wrapper, which mounts the current working tree
+read-only over the image's `/workspace` and keeps the image-installed dependencies:
 
 ```bash
-docker build -f Dockerfile.test -t toronto-dispatch-tests .
-docker run --rm toronto-dispatch-tests npm run lint
-docker run --rm -e TZ=UTC toronto-dispatch-tests
-docker run --rm -e TZ=America/Los_Angeles toronto-dispatch-tests
-docker run --rm toronto-dispatch-tests npm run test:integration
-docker run --rm toronto-dispatch-tests node --test test/disruptions.test.js
+scripts/docker-test.sh npm run lint
+scripts/docker-test.sh env TZ=UTC npm test
+scripts/docker-test.sh env TZ=America/Los_Angeles npm test
+scripts/docker-test.sh npm run test:integration
+scripts/docker-test.sh node --test test/disruptions.test.js
 ```
 
 The two timezone runs execute the same unit suite to catch accidental dependence
@@ -786,7 +814,7 @@ npm run verify
 
 It runs, in order:
 
-- Docker image preparation (`docker build -f Dockerfile.test -t toronto-dispatch-tests .`)
+- Docker image preparation (`scripts/docker-test.sh --ensure-image`, which builds only when the image is missing or its dependency/tooling fingerprint changed)
 - full ESLint and Ruff linting (`npm run lint`)
 - unit tests in `TZ=UTC`
 - unit tests in `TZ=America/Los_Angeles`
@@ -830,7 +858,7 @@ npm run verify:fast -- test/mobile-map-focus.test.js test/theme.test.js
 
 Fast mode runs, in order:
 
-- Docker image preparation (`docker build -f Dockerfile.test -t toronto-dispatch-tests .`)
+- Docker image preparation (`scripts/docker-test.sh --ensure-image`, which builds only when the image is missing or its dependency/tooling fingerprint changed)
 - full ESLint and Ruff linting (`npm run lint`)
 - browser JavaScript syntax checks (`app.js` and every `src`/`scripts` `.js` file)
 - offline JavaScript unit tests under `TZ=UTC` — the canonical `npm test` suite with

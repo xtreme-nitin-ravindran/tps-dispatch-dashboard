@@ -25,41 +25,40 @@
 - During implementation, prefer the smallest relevant targeted test set, or `npm run verify:fast` (or `npm run verify:fast -- test/file.test.js`) for a fast inner-loop check.
 - Do not repeatedly run the full repository suite after every small change.
 - Run broad/full verification at story or feature completion, or when required to reproduce a CI failure. Use `npm run verify` for final full validation; it is the single, versioned entry point for every required check. Continue to use the smallest relevant targeted checks during implementation.
-- `npm run verify:fast` is an inner-loop aid only. It builds the Docker image, runs full lint and the browser syntax checks, and runs offline unit tests under `TZ=UTC`, but it omits the America/Los_Angeles suite, the Python tests, the live-source integration suite, the coverage gate, and the Git publication/snapshot checks. It does not satisfy the 100/100/100 coverage requirement and is not final, pre-push, or promotion verification.
+- `npm run verify:fast` is an inner-loop aid only. It ensures the Docker test image exists and is current, runs full lint and the browser syntax checks, and runs offline unit tests under `TZ=UTC`, but it omits the America/Los_Angeles suite, the Python tests, the live-source integration suite, the coverage gate, and the Git publication/snapshot checks. It does not satisfy the 100/100/100 coverage requirement and is not final, pre-push, or promotion verification.
 - Before declaring a task complete, verify that `git diff --stat` and `git diff` contain only intentional changes.
 
-### Docker test image freshness
+### Docker test image freshness and the working-tree wrapper
 
-`Dockerfile.test` copies `scripts/` and `test/` into the image at build time
-(`COPY scripts ./scripts`, `COPY test ./test`). The image is a snapshot, not a
-mount of the working tree.
+Validation runs through `scripts/docker-test.sh`, which mounts the current
+working tree read-only over the image's `/workspace` while keeping the
+image-installed `node_modules` and pinned tools (Node, ESLint, Ruff). The image
+is a dependency/tooling snapshot, not a source snapshot.
 
-- **Mandatory validation note:** Rebuild the Docker test image after any `styles.css`, `app.js`, or `test/` change. Run `npx eslint .`, not only targeted files. `scripts/ttc-ui-browser.js` is an optional manual script and is not part of the required suite; it has a deliberate 61-second wait, so run it in the background, and note that `timeout` may be unavailable on macOS.
-- After ANY change to `scripts/` or `test/`, rebuild before running tests:
-  `docker build -f Dockerfile.test -t toronto-dispatch-tests .`
-- A test/coverage/lint run against a stale image silently validates old code and
-  can report false success (for example, 100% coverage on pre-change source).
-- Never trust a local Docker result that disagrees with CI until you have rebuilt
-  the image and re-run.
-- When reproducing a CI failure locally, rebuild first; if the failure does not
-  reproduce, suspect a stale image before suspecting the environment.
-
-### Prefer content-tagged images
-
-To make staleness visible instead of silent, tag the image by the content it was
-built from rather than reusing a fixed tag:
-
-```bash
-TAG="toronto-dispatch-tests:$(git rev-parse --short HEAD)"
-docker build -f Dockerfile.test -t "$TAG" .
-docker run --rm "$TAG" npm run test:coverage
-```
-
-- A tag derived from the current commit makes it obvious when the image predates
-  the working tree, and prevents accidentally reusing an older image.
-- Rebuild whenever `scripts/` or `test/` changes, even if the commit hash is
-  unchanged (for example, uncommitted edits): the tag reflects the commit, not
-  the working tree, so rebuild after every edit before verifying.
+- **Mandatory validation note:** Run `npx eslint .`, not only targeted files. `scripts/ttc-ui-browser.js` is an optional manual script and is not part of the required suite; it has a deliberate 61-second wait, so run it in the background, and note that `timeout` may be unavailable on macOS.
+- Source, test, fixture, script, and bind-mounted configuration edits do **not**
+  require a Docker rebuild. The wrapper supplies the current working-tree content
+  on every run.
+- Run validation through `scripts/docker-test.sh`, `npm run verify:fast`, or
+  `npm run verify`. Do not call `docker run` directly for validation; a bare
+  `docker run` uses the image's baked-in source and can silently validate old code.
+- Rebuilding remains mandatory when the Dockerfile or the dependency/tooling
+  fingerprint inputs change: `Dockerfile.test`, `package.json`, and
+  `package-lock.json`. Build with the canonical path:
+  `scripts/docker-test.sh --build`.
+- The wrapper computes a SHA-256 fingerprint of those inputs and compares it with
+  the `org.sirento.test-fingerprint` label baked into the image. On mismatch it
+  fails before testing with a clear rebuild command. `npm run verify` and
+  `npm run verify:fast` call `scripts/docker-test.sh --ensure-image`, which builds
+  only when the image is missing or stale.
+- A commit-derived image tag alone does **not** detect uncommitted dependency
+  changes, because the commit hash does not change. The fingerprint is
+  content-derived, so uncommitted `package.json`/`package-lock.json`/`Dockerfile.test`
+  edits are detected.
+- When a local Docker result disagrees with CI, first run the wrapper's
+  fingerprint check (`scripts/docker-test.sh --fingerprint` versus the image
+  label) and, when appropriate, rebuild with `scripts/docker-test.sh --build`
+  before suspecting the environment.
 - Keep the image self-contained; do not rely on host Node or host tooling.
 
 ## Required tests and coverage

@@ -9,11 +9,18 @@
 # the first failure.
 #
 # Fast mode (`npm run verify:fast`) is a deliberately reduced inner-loop check.
-# It builds the Docker test image, runs full lint, runs the browser JavaScript
-# syntax checks, and runs offline JavaScript unit tests under TZ=UTC. It omits
-# the America/Los_Angeles suite, the Python tests, the live-source integration
-# suite, the coverage gate, and the Git publication/snapshot checks. Fast mode
-# never satisfies final, pre-push, or promotion verification.
+# It ensures the Docker test image exists and is current, runs full lint, runs
+# the browser JavaScript syntax checks, and runs offline JavaScript unit tests
+# under TZ=UTC. It omits the America/Los_Angeles suite, the Python tests, the
+# live-source integration suite, the coverage gate, and the Git
+# publication/snapshot checks. Fast mode never satisfies final, pre-push, or
+# promotion verification.
+#
+# Both modes run every container command through scripts/docker-test.sh, which
+# mounts the current working tree read-only over the image's /workspace while
+# keeping the image-installed node_modules and pinned tools. The image is only
+# rebuilt when its dependency/tooling fingerprint changes, not after ordinary
+# source, script, test, or fixture edits.
 #
 # Usage:
 #   npm run verify
@@ -29,6 +36,10 @@
 # GNU-only tools such as `timeout`.
 
 set -eu
+
+# Resolve the repository root deterministically, independent of the caller's
+# current directory, so the wrapper is always invoked from the same place.
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 
 IMAGE="toronto-dispatch-tests"
 
@@ -85,45 +96,42 @@ if [ "$FAST" -eq 1 ] && [ "$#" -gt 0 ]; then
   done
 fi
 
-echo "==> Building Docker test image ($IMAGE)"
-docker build -f Dockerfile.test -t "$IMAGE" .
+echo "==> Ensuring Docker test image is present and current ($IMAGE)"
+sh "$ROOT/scripts/docker-test.sh" --ensure-image
 
 echo "==> Running linters (ESLint and Ruff)"
-docker run --rm "$IMAGE" npm run lint
+sh "$ROOT/scripts/docker-test.sh" npm run lint
 
 echo "==> Checking browser JavaScript syntax"
-docker run --rm -i "$IMAGE" node --input-type=module --check < app.js
-docker run --rm "$IMAGE" sh -c 'find src scripts -name "*.js" -exec node --check {} +'
+sh "$ROOT/scripts/docker-test.sh" node --check app.js
+sh "$ROOT/scripts/docker-test.sh" sh -c 'find src scripts -name "*.js" -exec node --check {} +'
 
 if [ "$FAST" -eq 1 ]; then
   if [ "$#" -gt 0 ]; then
     echo "==> Running offline unit tests (TZ=UTC): $*"
-    docker run --rm -e TZ=UTC "$IMAGE" node --test "$@"
+    sh "$ROOT/scripts/docker-test.sh" env TZ=UTC node --test "$@"
   else
     echo "==> Running offline unit tests (TZ=UTC)"
-    docker run --rm -e TZ=UTC "$IMAGE" npm test
+    sh "$ROOT/scripts/docker-test.sh" env TZ=UTC npm test
   fi
   echo "==> Fast verification passed (not final, pre-push, or promotion verification)"
   exit 0
 fi
 
 echo "==> Running unit tests (TZ=UTC)"
-docker run --rm -e TZ=UTC "$IMAGE"
+sh "$ROOT/scripts/docker-test.sh" env TZ=UTC npm test
 
 echo "==> Running unit tests (TZ=America/Los_Angeles)"
-docker run --rm -e TZ=America/Los_Angeles "$IMAGE"
+sh "$ROOT/scripts/docker-test.sh" env TZ=America/Los_Angeles npm test
 
 echo "==> Running Python tests"
-docker run --rm "$IMAGE" npm run test:python
+sh "$ROOT/scripts/docker-test.sh" npm run test:python
 
 echo "==> Running live-source integration tests"
-docker run --rm "$IMAGE" npm run test:integration
+sh "$ROOT/scripts/docker-test.sh" npm run test:integration
 
 echo "==> Running coverage gate (100% lines/branches/functions)"
-docker run --rm \
-  -e NODE_V8_COVERAGE=/tmp/coverage \
-  "$IMAGE" \
-  npm run test:coverage
+sh "$ROOT/scripts/docker-test.sh" env NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage
 
 echo "==> Checking whitespace (git diff --check)"
 git diff --check
