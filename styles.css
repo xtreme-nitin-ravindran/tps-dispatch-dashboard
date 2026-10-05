@@ -2102,10 +2102,13 @@ footer {
     position: absolute;
     /* Story 40D/40E: sit below the floating navigation band, which itself tracks
        the focus button's real position. */
+    /* Story 44: anchor to the navigation band's real measured bottom edge (plus
+       an 8px gap) instead of a hardcoded offset, so a taller focus button or a
+       wrapped navigation band cannot push the summary into the map info. */
     /* Clamp the top so a taller layer row cannot push the summary down into the
        bottom chrome (attribution / sheet) on short landscape viewports. */
     top: min(
-      calc(var(--mobile-layer-row-bottom, 64px) + 108px + env(safe-area-inset-top, 0px)),
+      calc(var(--mobile-nav-bottom, calc(var(--mobile-layer-row-bottom, 64px) + 108px)) + 8px + env(safe-area-inset-top, 0px)),
       calc(100dvh - var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) - 48px - 16px - env(safe-area-inset-bottom, 0px))
     );
     bottom: auto;
@@ -2114,7 +2117,7 @@ footer {
     height: auto;
     max-height: min(
       30dvh,
-      calc(100dvh - var(--mobile-layer-row-bottom, 64px) - 108px - env(safe-area-inset-top, 0px) - var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) - 48px - env(safe-area-inset-bottom, 0px))
+      calc(100dvh - var(--mobile-nav-bottom, calc(var(--mobile-layer-row-bottom, 64px) + 108px)) - 8px - env(safe-area-inset-top, 0px) - var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) - 48px - env(safe-area-inset-bottom, 0px))
     );
     z-index: 600;
     margin: 0;
@@ -2143,8 +2146,10 @@ footer {
   html[data-mobile-focus="on"] .radius-controls {
     position: fixed;
     /* Story 40E: clear the focus button (its top tracks the layer row's real
-       bottom edge, +48px tall) with a visible gap. */
-    top: calc(var(--mobile-layer-row-bottom, 64px) + 56px + env(safe-area-inset-top, 0px));
+       bottom edge) with a visible gap. Story 44: derive the offset from the
+       focus button's real measured height instead of a hardcoded 48px, so a
+       taller button cannot overlap the navigation band. */
+    top: calc(var(--mobile-layer-row-bottom, 64px) + var(--mobile-focus-height, 48px) + 8px + env(safe-area-inset-top, 0px));
     left: 50%;
     z-index: 800;
     width: min(360px, calc(100vw - 16px));
@@ -2209,16 +2214,20 @@ footer {
   html[data-mobile-focus="on"][data-mobile-view="map"] .map-info {
     position: fixed;
     top: auto;
-    /* Clear the bottom sheet and the attribution vertically. */
-    bottom: calc(var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) + 28px + env(safe-area-inset-bottom, 0px));
+    /* Clear the bottom sheet and the attribution vertically. Story 44: anchor
+       above the attribution's real measured clearance from the viewport bottom
+       (plus a 13px gap) instead of a hardcoded 28px, so a taller attribution
+       cannot be covered. */
+    bottom: calc(var(--mobile-attribution-clearance, calc(var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) + 28px)) + 13px + env(safe-area-inset-bottom, 0px));
     left: calc(8px + env(safe-area-inset-left, 0px));
     /* Clear the zoom control, which sits in the lower-right chrome, by stopping
-       the panel short of its column instead of overlapping it. */
-    right: calc(8px + 34px + 8px + env(safe-area-inset-right, 0px));
+       the panel short of its real measured clearance from the viewport right
+       edge (plus an 8px gap) instead of a hardcoded 34px column width. */
+    right: calc(var(--mobile-zoom-clearance, calc(8px + 34px + 8px)) + 8px + env(safe-area-inset-right, 0px));
     height: auto;
     max-height: min(
       60dvh,
-      calc(100dvh - var(--mobile-layer-row-bottom, 64px) - 152px - env(safe-area-inset-top, 0px) - var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) - 28px - env(safe-area-inset-bottom, 0px))
+      calc((100dvh - var(--mobile-attribution-clearance, calc(var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) + 28px))) - var(--mobile-summary-bottom, calc(var(--mobile-layer-row-bottom, 64px) + 152px)) - 13px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))
     );
     z-index: 750;
     margin: 0;
