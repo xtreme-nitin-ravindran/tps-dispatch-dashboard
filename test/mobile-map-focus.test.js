@@ -292,7 +292,10 @@ test('the floating filter summary updates when filters change and on focus entry
 });
 
 test('the floating filter summary is positioned as floating map chrome with safe-area insets', () => {
-  assert.match(mobileRules, /\.mobile-focus-filter-summary \{[\s\S]*?position: absolute;[\s\S]*?top: min\([\s\S]*?var\(--mobile-layer-row-bottom, 64px\) \+ 108px \+ env\(safe-area-inset-top, 0px\)[\s\S]*?\);[\s\S]*?left: calc\(8px \+ env\(safe-area-inset-left, 0px\)\);[\s\S]*?right: calc\(8px \+ env\(safe-area-inset-right, 0px\)\);/);
+  // Story 43: the summary sizes to its content (height: auto) instead of
+  // stretching between top and bottom insets, which previously rendered a tall
+  // empty box over the map.
+  assert.match(mobileRules, /\.mobile-focus-filter-summary \{[\s\S]*?position: absolute;[\s\S]*?top: min\([\s\S]*?var\(--mobile-layer-row-bottom, 64px\) \+ 108px \+ env\(safe-area-inset-top, 0px\)[\s\S]*?\);[\s\S]*?bottom: auto;[\s\S]*?left: calc\(8px \+ env\(safe-area-inset-left, 0px\)\);[\s\S]*?right: calc\(8px \+ env\(safe-area-inset-right, 0px\)\);[\s\S]*?height: auto;[\s\S]*?max-height: min\(/);
   assert.match(mobileRules, /\.mobile-focus-filter-summary\[hidden\] \{ display: none; \}/);
   // It is not rendered on desktop.
   assert.doesNotMatch(desktopRules, /\.mobile-focus-filter-summary \{/);
@@ -337,12 +340,46 @@ test('focus mode keeps the map info & legend reachable instead of hiding it', ()
   assert.equal(html.match(/id="mapInfo"/g)?.length, 1);
 });
 
+test('focus-mode map info and filter summary size to their content instead of stretching', () => {
+  // Story 43: a fixed/absolute element with both top and bottom insets and no
+  // height fills the whole gap between them. The collapsed map info and the
+  // one-line filter summary previously rendered as tall boxes covering the map.
+  // Both must anchor to one edge and size to their content.
+  const mapInfoRule = mobileRules.slice(
+    mobileRules.indexOf('html[data-mobile-focus="on"][data-mobile-view="map"] .map-info {'),
+    mobileRules.indexOf('}', mobileRules.indexOf('html[data-mobile-focus="on"][data-mobile-view="map"] .map-info {'))
+  );
+  assert.match(mapInfoRule, /position: fixed;/);
+  assert.match(mapInfoRule, /top: auto;/);
+  assert.match(mapInfoRule, /bottom: calc\(var\(--mobile-sheet-height-actual, var\(--mobile-sheet-height, 52px\)\) \+ 28px \+ env\(safe-area-inset-bottom, 0px\)\);/);
+  assert.match(mapInfoRule, /height: auto;/);
+  assert.match(mapInfoRule, /max-height: min\(/);
+  // It must not stretch between two vertical insets.
+  assert.doesNotMatch(mapInfoRule, /top: min\(/);
+  // It clears the zoom control column instead of overlapping it.
+  assert.match(mapInfoRule, /right: calc\(8px \+ 34px \+ 8px \+ env\(safe-area-inset-right, 0px\)\);/);
+
+  const summaryRule = mobileRules.slice(
+    mobileRules.indexOf('.mobile-focus-filter-summary {'),
+    mobileRules.indexOf('}', mobileRules.indexOf('.mobile-focus-filter-summary {'))
+  );
+  assert.match(summaryRule, /position: absolute;/);
+  // The top is clamped so a taller layer row cannot push the summary into the
+  // bottom chrome on short landscape viewports.
+  assert.match(summaryRule, /top: min\([\s\S]*?var\(--mobile-layer-row-bottom, 64px\) \+ 108px \+ env\(safe-area-inset-top, 0px\)[\s\S]*?\);/);
+  assert.match(summaryRule, /bottom: auto;/);
+  assert.match(summaryRule, /height: auto;/);
+  assert.match(summaryRule, /max-height: min\(/);
+});
+
 test('the floating filter summary clears the floating navigation band', () => {
   // The navigation band clears the focus button (whose top tracks the layer row's real bottom edge).
   assert.match(mobileRules, /html\[data-mobile-focus="on"\] \.radius-controls \{[\s\S]*?top: calc\(var\(--mobile-layer-row-bottom, 64px\) \+ 56px \+ env\(safe-area-inset-top, 0px\)\);/);
   assert.match(mobileRules, /\.mobile-focus-filter-summary \{[\s\S]*?top: min\([\s\S]*?var\(--mobile-layer-row-bottom, 64px\) \+ 108px \+ env\(safe-area-inset-top, 0px\)[\s\S]*?\);/);
   // The map-info floats below the summary so the three chrome bands do not collide.
-  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-info \{[\s\S]*?top: min\([\s\S]*?var\(--mobile-layer-row-bottom, 64px\) \+ 152px \+ env\(safe-area-inset-top, 0px\)[\s\S]*?\);/);
+  // Story 43: it is anchored to the bottom and sizes to its content, so it no
+  // longer stretches between top and bottom insets over the whole map.
+  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-info \{[\s\S]*?position: fixed;[\s\S]*?top: auto;[\s\S]*?bottom: calc\(var\(--mobile-sheet-height-actual, var\(--mobile-sheet-height, 52px\)\) \+ 28px \+ env\(safe-area-inset-bottom, 0px\)\);[\s\S]*?height: auto;[\s\S]*?max-height: min\(/);
 });
 
 test('the floating filter summary names the location context it is scoped to', () => {

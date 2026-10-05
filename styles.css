@@ -2092,21 +2092,30 @@ footer {
   }
   .mobile-map-focus-toggle:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
   .mobile-map-focus-icon { display: block; line-height: 1; }
-  /* Story 40D: read-only applied-filter summary, shown only in focus mode. */
+  /* Story 40D: read-only applied-filter summary, shown only in focus mode.
+     Story 43: like the map info, this floating chrome must size to its content.
+     A fixed/absolute element with both top and bottom insets and no height fills
+     the whole gap between them, so the one-line summary rendered as a tall empty
+     box over the map. Anchor it below the navigation band and let it grow to its
+     content, bounded by a sensible max-height. */
   .mobile-focus-filter-summary {
     position: absolute;
     /* Story 40D/40E: sit below the floating navigation band, which itself tracks
        the focus button's real position. */
-    /* Story 42: clamp the top so a taller collapsed sheet (wrapped summary) or
-       a taller layer row can never push the summary over the required map
-       credit; the bottom is anchored above the sheet and attribution. */
+    /* Clamp the top so a taller layer row cannot push the summary down into the
+       bottom chrome (attribution / sheet) on short landscape viewports. */
     top: min(
       calc(var(--mobile-layer-row-bottom, 64px) + 108px + env(safe-area-inset-top, 0px)),
       calc(100dvh - var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) - 48px - 16px - env(safe-area-inset-bottom, 0px))
     );
-    bottom: calc(var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) + 48px + env(safe-area-inset-bottom, 0px));
+    bottom: auto;
     left: calc(8px + env(safe-area-inset-left, 0px));
     right: calc(8px + env(safe-area-inset-right, 0px));
+    height: auto;
+    max-height: min(
+      30dvh,
+      calc(100dvh - var(--mobile-layer-row-bottom, 64px) - 108px - env(safe-area-inset-top, 0px) - var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) - 48px - env(safe-area-inset-bottom, 0px))
+    );
     z-index: 600;
     margin: 0;
     padding: 6px 10px;
@@ -2117,7 +2126,7 @@ footer {
     box-shadow: 0 2px 8px rgb(0 0 0 / 18%);
     font: 600 11px/1.35 "Space Mono", monospace;
     overflow-wrap: anywhere;
-    overflow: hidden;
+    overflow: auto;
   }
   .mobile-focus-filter-summary[hidden] { display: none; }
   /* Focus mode: hide the pre-map page stack and let the map fill the usable viewport. */
@@ -2190,19 +2199,27 @@ footer {
   html[data-mobile-focus="on"][data-mobile-view="map"] .mobile-map-focus-toggle { top: calc(var(--mobile-layer-stack-center, 56px) - 24px); left: calc(8px + env(safe-area-inset-left, 0px)); }
   html[data-mobile-focus="on"][data-mobile-view="map"] .map-panel .leaflet-top.leaflet-right { top: calc(8px + env(safe-area-inset-top, 0px)); right: calc(8px + env(safe-area-inset-right, 0px)); left: auto; }
   /* Story 40D: keep the map info & legend reachable in focus mode. It is a
-     sibling of the fixed map stage, so float it above the map and the summary. */
+     sibling of the fixed map stage, so float it above the map and the summary.
+     Story 43: the panel must size to its content, not stretch. A fixed element
+     with both top and bottom insets and no height fills the whole gap between
+     them, so the collapsed disclosure covered nearly the entire map. Anchor it
+     to the bottom (above the sheet and attribution) and let it grow upward to
+     its content, bounded by a sensible max-height so the expanded panel scrolls
+     internally instead of covering the map. */
   html[data-mobile-focus="on"][data-mobile-view="map"] .map-info {
     position: fixed;
-    /* Story 42: clamp the top so a taller collapsed sheet (wrapped summary) or
-       a taller layer row can never push the map info over the required map
-       credit; the bottom is anchored above the sheet and attribution. */
-    top: min(
-      calc(var(--mobile-layer-row-bottom, 64px) + 152px + env(safe-area-inset-top, 0px)),
-      calc(100dvh - var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) - 48px - env(safe-area-inset-bottom, 0px))
-    );
-    bottom: calc(var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) + 48px + env(safe-area-inset-bottom, 0px));
+    top: auto;
+    /* Clear the bottom sheet and the attribution vertically. */
+    bottom: calc(var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) + 28px + env(safe-area-inset-bottom, 0px));
     left: calc(8px + env(safe-area-inset-left, 0px));
-    right: calc(8px + env(safe-area-inset-right, 0px));
+    /* Clear the zoom control, which sits in the lower-right chrome, by stopping
+       the panel short of its column instead of overlapping it. */
+    right: calc(8px + 34px + 8px + env(safe-area-inset-right, 0px));
+    height: auto;
+    max-height: min(
+      60dvh,
+      calc(100dvh - var(--mobile-layer-row-bottom, 64px) - 152px - env(safe-area-inset-top, 0px) - var(--mobile-sheet-height-actual, var(--mobile-sheet-height, 52px)) - 28px - env(safe-area-inset-bottom, 0px))
+    );
     z-index: 750;
     margin: 0;
     overflow: auto;
