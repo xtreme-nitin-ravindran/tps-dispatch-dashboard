@@ -27,6 +27,7 @@
 - Run broad/full verification at story or feature completion, or when required to reproduce a CI failure. Use `npm run verify` for final full validation; it is the single, versioned entry point for every required check. Continue to use the smallest relevant targeted checks during implementation.
 - `npm run verify` runs its independent checks concurrently with bounded concurrency (`VERIFY_JOBS`, default `4`, maximum `8`); image preparation and the final Git/snapshot checks stay sequential. Every required check still runs exactly once. Set `VERIFY_JOBS=1` for fully sequential, readable diagnosis. An invalid `VERIFY_JOBS` value is rejected before any Docker work.
 - `npm run verify:fast` is an inner-loop aid only. It ensures the Docker test image exists and is current, runs full lint and the browser syntax checks, and runs offline unit tests under `TZ=UTC`, but it omits the America/Los_Angeles suite, the Python tests, the live-source integration suite, the coverage gate, and the Git publication/snapshot checks. It does not satisfy the 100/100/100 coverage requirement and is not final, pre-push, or promotion verification.
+- `npm test` and `npm run test:coverage` both run the canonical offline suite through `scripts/run-unit-tests.sh`. That runner is the single source of truth for which offline JavaScript test files run: it selects every `test/*.test.js` file, excludes every `test/*.integration.test.js` live-source test, and sorts the result deterministically. Do not reintroduce a manually duplicated file list in `package.json`; new offline `*.test.js` files join the suite automatically. `npm run test:coverage` runs that same file set with Node coverage and the mandatory 100/100/100 gate. Live-source integration tests run only under `npm run test:integration`; browser/Playwright suites run only under their `test:*:browser` scripts.
 - Before declaring a task complete, verify that `git diff --stat` and `git diff` contain only intentional changes.
 
 ### Docker test image freshness and the working-tree wrapper
@@ -76,7 +77,7 @@ is a dependency/tooling snapshot, not a source snapshot.
 - Add meaningful tests for reachable behavior.
 - Remove only genuinely dead or unreachable code.
 - Do not add artificial execution paths solely to satisfy coverage.
-- Before committing, run `npm run verify`, which covers the README Docker unit suites in UTC and America/Los_Angeles, the live-source integration suite, browser JavaScript syntax checks, applicable lint checks, coverage, and `git diff --check`.
+- Before committing, run `npm run verify`, which covers the canonical offline unit suite in America/Los_Angeles, the same canonical offline suite in UTC with the 100/100/100 coverage gate, the live-source integration suite, browser JavaScript syntax checks, applicable lint checks, and `git diff --check`. The UTC coverage job is also the UTC unit-suite execution, so there is no separate redundant UTC unit job.
 
 ## Deterministic fixtures and regression tests
 

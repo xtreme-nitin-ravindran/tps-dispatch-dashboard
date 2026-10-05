@@ -2,10 +2,11 @@
 # Single, versioned entry point for all required SirenTO repository verification.
 #
 # Full mode (`npm run verify`) runs the same checks as the README "Run all
-# required checks" workflow: Docker image preparation, both linters, both
-# timezone unit suites, the Python tests, the live-source integration suite, the
-# CI-equivalent 100/100/100 coverage gate, browser JavaScript syntax checks,
-# whitespace checks, and the generated-snapshot exclusion checks.
+# required checks" workflow: Docker image preparation, both linters, the
+# America/Los_Angeles unit suite, the Python tests, the live-source integration
+# suite, the CI-equivalent 100/100/100 coverage gate (which is also the UTC
+# unit-suite execution), browser JavaScript syntax checks, whitespace checks,
+# and the generated-snapshot exclusion checks.
 #
 # Full mode runs its independent checks concurrently. Preparation (image
 # ensure) and the final Git/snapshot checks stay sequential; only the
@@ -154,11 +155,10 @@ resolve_jobs() {
 # Format: <name>|<wrapper args...>
 FULL_JOBS='lint|npm run lint
 javascript-syntax|sh -c node --check app.js && find src scripts -name "*.js" -exec node --check {} +
-unit-utc|env TZ=UTC npm test
 unit-los-angeles|env TZ=America/Los_Angeles npm test
 python|npm run test:python
 integration|npm run test:integration
-coverage|env NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage'
+coverage|env TZ=UTC NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage'
 
 # --- Parallel scheduler ----------------------------------------------------
 # Runs the full-mode jobs with bounded concurrency, capturing each job's output

@@ -578,10 +578,17 @@ simplest way to reproduce CI without installing Ruff on the host.
 
 The badges show Node’s measured line, branch, and function coverage after successful CI checks on `dev`. They include test files and exclude unloaded code, browser UI interactions, and Python code; they are not whole-repository coverage. The generated badges and [full report](https://github.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/blob/coverage/coverage-report.txt) live on the `coverage` branch and appear after the first successful publishing run. Python tests run separately and include checks for badge generation.
 
+`npm run test:coverage` runs the canonical offline unit suite
+(`scripts/run-unit-tests.sh --coverage`) — the same file set as `npm test`, with Node
+coverage enabled and the 100/100/100 gate enforced by Node's coverage thresholds. It
+excludes live-source integration tests, which run only under `npm run test:integration`.
+During full verification the coverage job runs under `TZ=UTC` and therefore also serves
+as the UTC unit-suite execution.
+
 After building the Docker image, run the same coverage command used by CI:
 
 ```bash
-scripts/docker-test.sh env NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage
+scripts/docker-test.sh env TZ=UTC NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage
 ```
 
 The coverage command can fail even when every test passes because the coverage gate
@@ -731,7 +738,17 @@ Regression tests must ensure:
 - SirenTO-observed diversion geometry remains visibly distinguishable from official TTC data
 - zero TTC results remain distinct from TTC source unavailability
 
-`npm test` runs all 25 JavaScript unit test files below:
+`npm test` runs the canonical offline JavaScript unit/regression suite through
+`scripts/run-unit-tests.sh`. That runner is the executable source of truth for which
+files run: it selects every `test/*.test.js` file, excludes every
+`test/*.integration.test.js` live-source test, and sorts the result deterministically.
+New offline `*.test.js` files join the suite automatically; no manual file list is
+maintained. `npm run test:coverage` runs that exact same file set with Node coverage
+enabled and the mandatory 100/100/100 gate.
+
+The table below is an illustrative, non-authoritative sample of what some unit files
+verify. It is not the executable list and may lag the suite; run
+`scripts/run-unit-tests.sh` (or inspect `test/*.test.js`) for the current membership.
 
 | Test file (under `test/`) | What it verifies |
 | --- | --- |
@@ -798,9 +815,12 @@ scripts/docker-test.sh npm run test:integration
 scripts/docker-test.sh node --test test/disruptions.test.js
 ```
 
-The two timezone runs execute the same unit suite to catch accidental dependence
-on the machine's local timezone. `npm run test:watch` uses Node's default discovery,
-which can include the live integration test; use an explicit file as above for offline watching.
+`npm test` and `npm run test:coverage` run the same canonical offline suite
+(`scripts/run-unit-tests.sh`); the only difference is that coverage enables Node's
+coverage report and the 100/100/100 gate. The two timezone runs execute that same
+offline suite to catch accidental dependence on the machine's local timezone.
+`npm run test:watch` uses Node's default discovery, which can include the live
+integration test; use an explicit file as above for offline watching.
 
 ### Run all required checks
 
@@ -818,11 +838,17 @@ It runs:
 - the independent validation jobs, scheduled concurrently with bounded concurrency:
   - full ESLint and Ruff linting (`npm run lint`)
   - browser JavaScript syntax checks (`app.js` and every `src`/`scripts` `.js` file)
-  - unit tests in `TZ=UTC`
-  - unit tests in `TZ=America/Los_Angeles`
+  - the canonical offline unit suite in `TZ=America/Los_Angeles` (`npm test`)
   - Python tests (`npm run test:python`)
   - live-source integration tests (`npm run test:integration`)
-  - the CI-equivalent 100/100/100 coverage gate (`npm run test:coverage`)
+  - the canonical offline unit suite in `TZ=UTC` with the CI-equivalent 100/100/100 coverage gate (`npm run test:coverage`)
+
+The UTC coverage job is also the UTC unit-suite execution: it runs the same canonical
+offline file set as `npm test`, so full verification no longer runs a separate redundant
+UTC unit job. The `TZ=America/Los_Angeles` job runs that same offline suite without
+coverage to detect local-time dependencies. Live-source integration tests run only in
+the dedicated `integration` job; neither the unit nor the coverage job contacts live
+sources.
 - whitespace checks (`git diff --check` and `git diff --cached --check`) — always sequential, after the jobs
 - both `data/current.json` exclusion checks — always sequential, after the jobs
 

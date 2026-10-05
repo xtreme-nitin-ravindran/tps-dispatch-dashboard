@@ -96,11 +96,10 @@ test("the verify script runs the required checks in the documented order", () =>
     "npm run lint",
     "node --check app.js",
     'find src scripts -name "*.js" -exec node --check {} +',
-    "env TZ=UTC",
     "env TZ=America/Los_Angeles",
     "npm run test:python",
     "npm run test:integration",
-    "npm run test:coverage"
+    "env TZ=UTC NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage"
   ];
   const positions = jobOrder.map(check => {
     const index = script.indexOf(check);
@@ -134,7 +133,7 @@ test("the verify script runs every container command through the wrapper", () =>
 });
 
 test("the verify script runs the coverage gate with the CI coverage environment", () => {
-  assert.match(script, /env NODE_V8_COVERAGE=\/tmp\/coverage/);
+  assert.match(script, /env TZ=UTC NODE_V8_COVERAGE=\/tmp\/coverage/);
 });
 
 // --- Full-mode parallel scheduler -----------------------------------------
@@ -156,7 +155,6 @@ test("the full-mode job table contains every required check exactly once", () =>
   assert.deepEqual(names, [
     "lint",
     "javascript-syntax",
-    "unit-utc",
     "unit-los-angeles",
     "python",
     "integration",
@@ -169,11 +167,10 @@ test("each full-mode job runs through the Docker wrapper with the expected comma
   const byName = Object.fromEntries(fullJobs.map(job => [job.name, job.args]));
   assert.equal(byName.lint, "npm run lint");
   assert.equal(byName["javascript-syntax"], 'sh -c node --check app.js && find src scripts -name "*.js" -exec node --check {} +');
-  assert.equal(byName["unit-utc"], "env TZ=UTC npm test");
   assert.equal(byName["unit-los-angeles"], "env TZ=America/Los_Angeles npm test");
   assert.equal(byName.python, "npm run test:python");
   assert.equal(byName.integration, "npm run test:integration");
-  assert.equal(byName.coverage, "env NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage");
+  assert.equal(byName.coverage, "env TZ=UTC NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage");
 });
 
 test("the scheduler launches every job through the wrapper", () => {
