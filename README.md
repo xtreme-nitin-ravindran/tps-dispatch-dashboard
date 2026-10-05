@@ -110,6 +110,14 @@ scripts/docker-test.sh --build
 scripts/docker-test.sh --ensure-image
 ```
 
+The canonical image name is `toronto-dispatch-tests`. A successful
+`--ensure-image` check intentionally prints nothing when that image already exists and
+its fingerprint is current; check the command's exit status. Build/stale diagnostics are
+printed only when action is required. Repository validation should use the pinned Docker
+toolchain rather than ad hoc host Node, ESLint, or Ruff commands. If a host-only failure
+uses a Node version allowed by `package.json`'s `engines`, record it for compatibility
+follow-up even when the canonical Docker gate passes.
+
 The wrapper computes a SHA-256 fingerprint of the image-defining inputs
 (`Dockerfile.test`, `.dockerignore`, `package.json`, `package-lock.json`) and compares it
 with the `org.sirento.test-fingerprint` label baked into the image. On mismatch it fails
@@ -628,6 +636,12 @@ requires these minimums:
 - Branches: 100.00%
 - Functions: 100.00%
 
+Files under `test/fixtures/` are helpers and are not selected as standalone tests by
+`scripts/run-unit-tests.sh`. A fixture imported by a selected test may still participate
+in Node's coverage accounting. Targeted coverage output is therefore not the final gate;
+use the complete Docker coverage command above or `npm run verify` for the authoritative
+100/100/100 result.
+
 CI fails if any category in the final `all files` row is below 100.00%. For example:
 
 ```text
@@ -936,6 +950,12 @@ npm run verify:fast -- test/mobile-map-focus.test.js
 # Multiple explicit files, run in the order supplied.
 npm run verify:fast -- test/mobile-map-focus.test.js test/theme.test.js
 ```
+
+For a newly added offline test, the one-file form is the preferred first check. Fast
+verification still runs the full Docker-backed lint and browser syntax checks before that
+test. Local ignored files under `tmp/` are visible to `eslint .`; inspect that directory
+for stale, unreferenced debug scripts if lint reports them, but do not delete unrelated
+temporary work indiscriminately.
 
 Fast mode runs, in order:
 
