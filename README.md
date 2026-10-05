@@ -181,6 +181,8 @@ npm run test:ttc-ui:browser
 The suites cover bounded cluster connectors and lifecycle cleanup, mobile focus-control
 geometry and interaction, the clipped road-closure count, mobile bottom-sheet header
 geometry, fullscreen Map-info sizing, and TTC disruption rendering/state transitions.
+The mobile focus-mode chrome contract these suites protect is documented in
+[docs/mobile-focus-chrome.md](docs/mobile-focus-chrome.md).
 The TTC suite has a deliberate 61-second wait; the aggregate runner reports that expected
 delay and does not depend on the GNU `timeout` command. Each suite uses loopback-only
 deterministic fixtures. Environment overrides such as `PLAYWRIGHT_MODULE`,
