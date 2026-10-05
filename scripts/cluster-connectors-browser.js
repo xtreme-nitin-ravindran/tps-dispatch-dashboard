@@ -2,6 +2,7 @@
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
+import { awaitFixtureReady } from './lib/browser-fixture.js';
 
 const output = process.env.CLUSTER_VISUAL_OUTPUT || '.cache/cluster-connectors';
 await mkdir(output, { recursive: true });
@@ -45,7 +46,7 @@ try {
   const base = process.env.CLUSTER_UI_URL || 'http://127.0.0.1:8765/';
   const query = '?mobileAuditFixture=many&mobileAuditView=map&mobileAuditLocation=current&mobileAuditRadius=toronto&mobileAuditSheet=collapsed&mobileAuditRoads=on&mobileAuditBoundaries=on&incident=mobile-audit-selected';
   await page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => document.documentElement.dataset.incidentLoadState === 'ready');
+  await awaitFixtureReady(page);
   await page.waitForSelector('.call-cluster');
   await assertBounded();
 
@@ -84,7 +85,7 @@ try {
   assert.equal((await connectorState()).count, 0, 'connectors remained after deselection/filter removal');
 
   await page.goto(`${base}${query.replace('mobileAuditSheet=collapsed', 'mobileAuditSheet=half')}`, { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => document.documentElement.dataset.incidentLoadState === 'ready');
+  await awaitFixtureReady(page);
   await page.waitForSelector('.call-cluster');
   await assertBounded();
   await page.locator('#dispatchMap').screenshot({ path: `${output}/story-39a-390x844.png`, animations: 'disabled' });

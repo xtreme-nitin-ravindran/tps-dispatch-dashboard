@@ -20,6 +20,7 @@ import {
   assertInViewport,
   assertNoHorizontalOverflow
 } from './lib/mobile-chrome-assert.js';
+import { awaitFixtureReady } from './lib/browser-fixture.js';
 
 const base = process.env.MOBILE_MAP_INFO_UI_URL || 'http://127.0.0.1:8765/';
 const query = '?mobileAuditFixture=many&mobileAuditView=map&mobileAuditLocation=current&mobileAuditRadius=toronto&mobileAuditSheet=collapsed&mobileAuditRoads=on&mobileAuditBoundaries=on';
@@ -158,7 +159,7 @@ try {
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(`${viewport.name}: ${error.message}`));
     await page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' });
-    await page.waitForFunction(() => document.documentElement.dataset.incidentLoadState === 'ready');
+    await awaitFixtureReady(page);
     await page.waitForSelector('#mobileMapFocusToggle');
 
     // --- Enter fullscreen: collapsed map info must be a compact header ---

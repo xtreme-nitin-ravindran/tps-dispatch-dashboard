@@ -12,6 +12,7 @@
 // it is clipped to a non-visible box at desktop widths.
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
+import { awaitFixtureReady } from './lib/browser-fixture.js';
 
 const base = process.env.ROAD_CLOSURE_COUNT_UI_URL || 'http://127.0.0.1:8765/';
 const query = '?mobileAuditFixture=many&mobileAuditView=map&mobileAuditLocation=current&mobileAuditRadius=toronto&mobileAuditSheet=collapsed&mobileAuditRoads=on&mobileAuditBoundaries=on';
@@ -96,7 +97,7 @@ try {
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(`${viewport.name}: ${error.message}`));
     await page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' });
-    await page.waitForFunction(() => document.documentElement.dataset.incidentLoadState === 'ready');
+    await awaitFixtureReady(page);
     await page.waitForSelector('.map-layer-toggle');
     await page.waitForTimeout(100);
     const state = await measure(page);
