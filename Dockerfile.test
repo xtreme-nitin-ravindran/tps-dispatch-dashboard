@@ -21,6 +21,11 @@ COPY --from=ruff /ruff /usr/local/bin/ruff
 COPY package.json package-lock.json ./
 RUN npm ci
 
+# The image-layout and wrapper regressions inspect the image-defining inputs.
+# Keep them in the self-contained CI image; the local wrapper also bind-mounts
+# the current working-tree versions over these copies.
+COPY Dockerfile.test .dockerignore ./
+
 # Repository content, ordered from relatively stable to relatively volatile so
 # an edit to a volatile path (for example test/) does not invalidate the cache
 # of the stable layers copied before it. Each path is copied explicitly rather

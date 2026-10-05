@@ -45,7 +45,9 @@ const REQUIRED_COPY_PATHS = [
   "eslint.config.js",
   "ruff.toml",
   "package.json",
-  "package-lock.json"
+  "package-lock.json",
+  "Dockerfile.test",
+  ".dockerignore"
 ];
 
 // Parse the Dockerfile into ordered instructions, ignoring comments and blanks.
