@@ -588,7 +588,8 @@ already 100%.
 
 Before pushing, run `npm run verify` (the canonical full-verification command) and confirm:
 
-- [ ] `npm run verify` passes end to end.
+- [ ] `npm run verify` passes end to end. (`npm run verify:fast` is an inner-loop aid only
+      and does not satisfy this checklist.)
 - [ ] The coverage command reports 100.00% lines.
 - [ ] The coverage command reports 100.00% branches.
 - [ ] The coverage command reports 100.00% functions.
@@ -810,6 +811,52 @@ correctness problems; the explicit syntax checks parse browser JavaScript withou
 executing it, and whitespace checks flag issues such as trailing spaces. None of these
 checks replaces feature-specific regression contracts or required physical-device
 validation.
+
+### Fast inner-loop verification
+
+`npm run verify:fast` is a deliberately reduced inner-loop check for use while
+implementing. It is not a substitute for `npm run verify`.
+
+```bash
+# No arguments: run the canonical offline unit suite (npm test) under TZ=UTC.
+npm run verify:fast
+
+# One explicit test file.
+npm run verify:fast -- test/mobile-map-focus.test.js
+
+# Multiple explicit files, run in the order supplied.
+npm run verify:fast -- test/mobile-map-focus.test.js test/theme.test.js
+```
+
+Fast mode runs, in order:
+
+- Docker image preparation (`docker build -f Dockerfile.test -t toronto-dispatch-tests .`)
+- full ESLint and Ruff linting (`npm run lint`)
+- browser JavaScript syntax checks (`app.js` and every `src`/`scripts` `.js` file)
+- offline JavaScript unit tests under `TZ=UTC` — the canonical `npm test` suite with
+  no arguments, or exactly the supplied `test/*.test.js` files with Node's test runner
+
+Fast mode omits:
+
+- the `TZ=America/Los_Angeles` unit suite
+- the Python tests (`npm run test:python`)
+- the live-source integration suite (`npm run test:integration`)
+- the CI-equivalent 100/100/100 coverage gate (`npm run test:coverage`)
+- the Git publication and generated-snapshot exclusion checks
+
+Explicit file arguments are validated before any Docker work begins. Only
+repository-relative regular files under `test/` ending in `.test.js` are accepted;
+absolute paths, `..` traversal, directories, missing files, empty arguments,
+option-like arguments, and `.integration.test.js` files are rejected with a clear
+diagnostic and a nonzero exit status.
+
+> [!WARNING]
+> Fast mode does **not** replace `npm run verify`. It does not run the coverage gate,
+> the live-source integration suite, the America/Los_Angeles timezone suite, applicable
+> rendered-browser (Playwright) tests, or physical-device validation. A passing fast run
+> does not satisfy the 100/100/100 coverage requirement and is not final, pre-push, or
+> promotion verification. Run `npm run verify` at story completion and before
+> recommending push or promotion.
 
 ### Generate a development snapshot (not a test)
 
