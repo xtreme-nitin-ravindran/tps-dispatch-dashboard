@@ -2,16 +2,42 @@ FROM ghcr.io/astral-sh/ruff:0.16.10 AS ruff
 
 FROM node:24-bookworm
 
+# The canonical build path (scripts/docker-test.sh --build) passes a fingerprint
+# of the image-defining inputs (Dockerfile.test, .dockerignore, package.json,
+# package-lock.json) so the wrapper can detect a stale image without relying on
+# the commit hash.
+ARG TEST_FINGERPRINT=unknown
+LABEL org.sirento.test-fingerprint=$TEST_FINGERPRINT
+
 WORKDIR /workspace
 
+# Pinned Ruff binary, copied before any repository content so it is cached
+# independently of source changes.
 COPY --from=ruff /ruff /usr/local/bin/ruff
+
+# Dependency layer: only the manifests are copied before `npm ci`, so a change
+# limited to application source, scripts, tests, data, documentation, or
+# frontend assets never invalidates the expensive dependency install.
 COPY package.json package-lock.json ./
 RUN npm ci
-COPY src ./src
-COPY scripts ./scripts
-COPY data ./data
-COPY test ./test
+
+# The image-layout and wrapper regressions inspect the image-defining inputs.
+# Keep them in the self-contained CI image; the local wrapper also bind-mounts
+# the current working-tree versions over these copies.
+COPY Dockerfile.test .dockerignore ./
+
+# Repository content, ordered from relatively stable to relatively volatile so
+# an edit to a volatile path (for example test/) does not invalidate the cache
+# of the stable layers copied before it. Each path is copied explicitly rather
+# than with a broad `COPY . .` so the image contents stay under deliberate
+# control. These files are also supplied by the wrapper's read-only working-tree
+# mounts during normal validation; they remain baked in so the image is
+# self-contained for direct `docker run` and CI fallback use.
 COPY concourse ./concourse
+COPY data ./data
+COPY scripts ./scripts
+COPY src ./src
+COPY test ./test
 COPY app.js index.html service-worker.js manifest.webmanifest icon-192.png icon-512.png styles.css eslint.config.js ruff.toml ./
 
 CMD ["npm", "test"]

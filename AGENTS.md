@@ -25,41 +25,49 @@
 - During implementation, prefer the smallest relevant targeted test set, or `npm run verify:fast` (or `npm run verify:fast -- test/file.test.js`) for a fast inner-loop check.
 - Do not repeatedly run the full repository suite after every small change.
 - Run broad/full verification at story or feature completion, or when required to reproduce a CI failure. Use `npm run verify` for final full validation; it is the single, versioned entry point for every required check. Continue to use the smallest relevant targeted checks during implementation.
-- `npm run verify:fast` is an inner-loop aid only. It builds the Docker image, runs full lint and the browser syntax checks, and runs offline unit tests under `TZ=UTC`, but it omits the America/Los_Angeles suite, the Python tests, the live-source integration suite, the coverage gate, and the Git publication/snapshot checks. It does not satisfy the 100/100/100 coverage requirement and is not final, pre-push, or promotion verification.
+- `npm run verify` runs its independent checks concurrently with bounded concurrency (`VERIFY_JOBS`, default `4`, maximum `8`); image preparation and the final Git/snapshot checks stay sequential. Every required check still runs exactly once. Set `VERIFY_JOBS=1` for fully sequential, readable diagnosis. An invalid `VERIFY_JOBS` value is rejected before any Docker work.
+- `npm run verify:fast` is an inner-loop aid only. It ensures the Docker test image exists and is current, runs full lint and the browser syntax checks, and runs offline unit tests under `TZ=UTC`, but it omits the America/Los_Angeles suite, the Python tests, the live-source integration suite, the coverage gate, and the Git publication/snapshot checks. It does not satisfy the 100/100/100 coverage requirement and is not final, pre-push, or promotion verification.
+- `npm test` and `npm run test:coverage` both run the canonical offline suite through `scripts/run-unit-tests.sh`. That runner is the single source of truth for which offline JavaScript test files run: it selects every `test/*.test.js` file, excludes every `test/*.integration.test.js` live-source test, and sorts the result deterministically. Do not reintroduce a manually duplicated file list in `package.json`; new offline `*.test.js` files join the suite automatically. `npm run test:coverage` runs that same file set with Node coverage and the mandatory 100/100/100 gate. Live-source integration tests run only under `npm run test:integration`; browser/Playwright suites run only under their `test:*:browser` scripts.
 - Before declaring a task complete, verify that `git diff --stat` and `git diff` contain only intentional changes.
 
-### Docker test image freshness
+### Docker test image freshness and the working-tree wrapper
 
-`Dockerfile.test` copies `scripts/` and `test/` into the image at build time
-(`COPY scripts ./scripts`, `COPY test ./test`). The image is a snapshot, not a
-mount of the working tree.
+Validation runs through `scripts/docker-test.sh`, which mounts the current
+working tree read-only over the image's `/workspace` while keeping the
+image-installed `node_modules` and pinned tools (Node, ESLint, Ruff). The image
+is a dependency/tooling snapshot, not a source snapshot.
 
-- **Mandatory validation note:** Rebuild the Docker test image after any `styles.css`, `app.js`, or `test/` change. Run `npx eslint .`, not only targeted files. `scripts/ttc-ui-browser.js` is an optional manual script and is not part of the required suite; it has a deliberate 61-second wait, so run it in the background, and note that `timeout` may be unavailable on macOS.
-- After ANY change to `scripts/` or `test/`, rebuild before running tests:
-  `docker build -f Dockerfile.test -t toronto-dispatch-tests .`
-- A test/coverage/lint run against a stale image silently validates old code and
-  can report false success (for example, 100% coverage on pre-change source).
-- Never trust a local Docker result that disagrees with CI until you have rebuilt
-  the image and re-run.
-- When reproducing a CI failure locally, rebuild first; if the failure does not
-  reproduce, suspect a stale image before suspecting the environment.
-
-### Prefer content-tagged images
-
-To make staleness visible instead of silent, tag the image by the content it was
-built from rather than reusing a fixed tag:
-
-```bash
-TAG="toronto-dispatch-tests:$(git rev-parse --short HEAD)"
-docker build -f Dockerfile.test -t "$TAG" .
-docker run --rm "$TAG" npm run test:coverage
-```
-
-- A tag derived from the current commit makes it obvious when the image predates
-  the working tree, and prevents accidentally reusing an older image.
-- Rebuild whenever `scripts/` or `test/` changes, even if the commit hash is
-  unchanged (for example, uncommitted edits): the tag reflects the commit, not
-  the working tree, so rebuild after every edit before verifying.
+- **Mandatory validation note:** Run `npx eslint .`, not only targeted files. Rendered-browser validation runs through `npm run test:browser`, which includes the TTC UI suite and manages its deliberate 61-second wait without relying on GNU `timeout`.
+- Source, test, fixture, script, and bind-mounted configuration edits do **not**
+  require a Docker rebuild. The wrapper supplies the current working-tree content
+  on every run.
+- Run validation through `scripts/docker-test.sh`, `npm run verify:fast`, or
+  `npm run verify`. Do not call `docker run` directly for validation; a bare
+  `docker run` uses the image's baked-in source and can silently validate old code.
+- Rebuilding remains mandatory when the Dockerfile or the dependency/tooling
+  fingerprint inputs change: `Dockerfile.test`, `.dockerignore`, `package.json`,
+  and `package-lock.json`. Build with the canonical path:
+  `scripts/docker-test.sh --build`.
+- The wrapper computes a SHA-256 fingerprint of those inputs and compares it with
+  the `org.sirento.test-fingerprint` label baked into the image. On mismatch it
+  fails before testing with a clear rebuild command. `npm run verify` and
+  `npm run verify:fast` call `scripts/docker-test.sh --ensure-image`, which builds
+  only when the image is missing or stale.
+- A commit-derived image tag alone does **not** detect uncommitted dependency
+  changes, because the commit hash does not change. The fingerprint is
+  content-derived, so uncommitted `package.json`/`package-lock.json`/`Dockerfile.test`/
+  `.dockerignore` edits are detected.
+- Keep the image cheap to rebuild: `npm ci` must stay in its own layer with only
+  the manifests copied before it, and repository content must be copied from
+  relatively stable to relatively volatile (`concourse`, `data`, `scripts`,
+  `src`, `test`, then the root frontend files). Do not add a broad `COPY . .`.
+  `.dockerignore` must exclude only non-build inputs and must never exclude a
+  path the Dockerfile copies. `test/docker-image-layout.test.js` enforces these
+  properties structurally.
+- When a local Docker result disagrees with CI, first run the wrapper's
+  fingerprint check (`scripts/docker-test.sh --fingerprint` versus the image
+  label) and, when appropriate, rebuild with `scripts/docker-test.sh --build`
+  before suspecting the environment.
 - Keep the image self-contained; do not rely on host Node or host tooling.
 
 ## Required tests and coverage
@@ -76,7 +84,7 @@ docker run --rm "$TAG" npm run test:coverage
 - Add meaningful tests for reachable behavior.
 - Remove only genuinely dead or unreachable code.
 - Do not add artificial execution paths solely to satisfy coverage.
-- Before committing, run `npm run verify`, which covers the README Docker unit suites in UTC and America/Los_Angeles, the live-source integration suite, browser JavaScript syntax checks, applicable lint checks, coverage, and `git diff --check`.
+- Before committing, run `npm run verify`, which covers the canonical offline unit suite in America/Los_Angeles, the same canonical offline suite in UTC with the 100/100/100 coverage gate, the live-source integration suite, browser JavaScript syntax checks, applicable lint checks, and `git diff --check`. The UTC coverage job is also the UTC unit-suite execution, so there is no separate redundant UTC unit job.
 
 ## Deterministic fixtures and regression tests
 
@@ -96,7 +104,8 @@ docker run --rm "$TAG" npm run test:coverage
 ## Mobile and browser validation
 
 - Playwright Chromium regression testing is required when a change affects rendered layout, geometry, stacking, hit targets, pointer/touch interaction, responsive breakpoints, or browser-driven UI state transitions. Node DOM/string tests and JavaScript syntax checks do not replace it.
-- Use the applicable existing `test:*:browser` package script with the deterministic loopback fixture on port `8765`. The browser suites are feature-specific and are not part of the default Docker or CI suite; do not spend time probing the Docker test image for Playwright or Chromium. Follow the README browser-test setup instead.
+- Use `npm run test:browser` for applicable story-completion validation. It discovers every `test:*:browser` package script (excluding itself), starts and readiness-checks the deterministic loopback server on port `8765`, runs the suites sequentially in deterministic order, and tears down its server and child processes on success, failure, or interruption. Do not leave a manual port-8765 server running. A targeted `test:*:browser` script may be used during implementation. The browser suites are not part of the default Docker, CI, `npm run verify`, or `npm run verify:fast` suites; do not probe the Docker test image for Playwright or Chromium. Follow the README browser-test setup instead.
+- `npm run test:browser` includes the TTC UI suite, whose deliberate wait makes that suite take a little over one minute. Missing local Playwright or Chromium is an outstanding validation requirement, not permission to mark a browser-relevant story `DONE`.
 - If a relevant browser regression does not yet have a Playwright script, add or extend a deterministic rendered-browser regression that asserts DOM state, geometry, and interaction rather than relying only on screenshots.
 - Automated Chromium success does not replace physical-device validation when the reported defect is specific to iPhone Safari, Brave, WebKit, or another browser/device environment.
 - If physical-device validation is still outstanding, report the story as implemented or awaiting validation rather than fully complete.

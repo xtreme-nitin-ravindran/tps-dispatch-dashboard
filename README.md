@@ -83,10 +83,58 @@ git pull --ff-only origin dev
 
 ## Testing
 
-Run commands from the repository root. Use Docker for the same Node.js 22, ESLint,
+Run commands from the repository root. Use Docker for the same Node.js, ESLint,
 and Ruff environment as CI. Unit tests use fixtures, mocked services, bundled geographic
 data, and temporary files/repositories; they do not publish changes or require live feeds.
 See [Test coverage](#test-coverage) for how coverage is measured and published.
+
+### Docker test wrapper
+
+`scripts/docker-test.sh` runs validation against the **current working tree** using the
+pinned Docker test image for dependencies and tooling. It mounts the working-tree source,
+scripts, tests, fixtures, and bind-mounted configuration read-only over the image's
+`/workspace`, while keeping the image-installed `node_modules` and pinned tools (Node,
+ESLint, Ruff). Ordinary source, test, fixture, script, and configuration edits therefore
+do **not** require a Docker rebuild.
+
+```bash
+# Run any command in the container against the current working tree.
+scripts/docker-test.sh npm test
+scripts/docker-test.sh npm run lint
+scripts/docker-test.sh node --test test/theme.test.js
+
+# Canonical image build (only needed when the image inputs change).
+scripts/docker-test.sh --build
+
+# Build only when the image is missing or stale.
+scripts/docker-test.sh --ensure-image
+```
+
+The wrapper computes a SHA-256 fingerprint of the image-defining inputs
+(`Dockerfile.test`, `.dockerignore`, `package.json`, `package-lock.json`) and compares it
+with the `org.sirento.test-fingerprint` label baked into the image. On mismatch it fails
+before testing with a clear rebuild command, so a stale image cannot silently validate old
+code. A commit-derived tag alone cannot detect uncommitted dependency changes; the
+fingerprint is content-derived, so it can. `.dockerignore` is included because it controls
+which files reach the build context: a rule that excluded a copied path would change the
+image while leaving the other inputs unchanged.
+
+The image is a dependency/tooling snapshot, not a source snapshot. `npm ci` runs in its own
+layer with only the manifests copied before it, and repository content is copied from
+relatively stable to relatively volatile (`concourse`, `data`, `scripts`, `src`, `test`,
+then the root frontend files). Editing a volatile path such as `test/` therefore reuses the
+cached dependency, tooling, and stable-content layers instead of reinstalling dependencies.
+`.dockerignore` excludes only non-build inputs (version control, host `node_modules`, local
+caches and coverage, rendered-browser evidence, editor/OS files, local environment and
+deployment secrets, documentation, and Python bytecode) and never a path the Dockerfile
+copies.
+
+`npm run verify` and `npm run verify:fast` call `scripts/docker-test.sh --ensure-image`
+and run every container command through the wrapper. Do not call `docker run` directly for
+validation: a bare `docker run` uses the image's baked-in source and can silently validate
+old code. The wrapper uses `--rm`, so no container remains after a run, including on
+failure. The snapshot-generation command below is the one exception: it intentionally
+mounts `data/` writable to produce `data/current.json`.
 
 ### Rendered-browser regression tests
 
@@ -106,28 +154,44 @@ npm install --no-save --package-lock=false playwright
 npx playwright install chromium
 ```
 
-Start the deterministic site in one terminal (port `8765` is the browser-suite
-default and port `8080` must not be used):
+Run all rendered-browser regression suites with one command:
 
 ```bash
-python3 -m http.server 8765 --bind 127.0.0.1
+npm run test:browser
 ```
 
-Then run every applicable suite from another terminal:
+The aggregate runner discovers every `test:*:browser` package script except itself,
+sorts the suites deterministically, starts the repository's deterministic static site on
+`127.0.0.1:8765`, waits for its own server to become ready, runs each suite sequentially,
+and tears down the server and child processes on success, failure, or interruption. It
+fails rather than reusing or terminating an unrelated listener when port `8765` is
+occupied. Port `8080` must not be used.
+
+The included suites are:
 
 ```bash
 npm run test:story-39a:browser
+npm run test:story-40e:browser
 npm run test:road-closure-count:browser
-node scripts/ttc-ui-browser.js
+npm run test:story-42:browser
+npm run test:story-43:browser
+npm run test:ttc-ui:browser
 ```
 
-The Story 39A suite checks bounded cluster connectors and lifecycle cleanup. The
-road-closure-count suite checks that the "N current" count is clipped to a non-visible
-box at desktop widths while the checkbox, dashed red legend key, and label remain. The
-Story TTC suite checks disruption rendering and state transitions. Each uses loopback-only
+The suites cover bounded cluster connectors and lifecycle cleanup, mobile focus-control
+geometry and interaction, the clipped road-closure count, mobile bottom-sheet header
+geometry, fullscreen Map-info sizing, and TTC disruption rendering/state transitions.
+The TTC suite has a deliberate 61-second wait; the aggregate runner reports that expected
+delay and does not depend on the GNU `timeout` command. Each suite uses loopback-only
 deterministic fixtures. Environment overrides such as `PLAYWRIGHT_MODULE`,
-`CHROMIUM_EXECUTABLE`, and the suite-specific `*_UI_URL` remain available for
-nonstandard local installations.
+`CHROMIUM_EXECUTABLE`, and suite-specific `*_UI_URL` values remain available for
+nonstandard local installations and are not overwritten when explicitly set.
+
+Use an individual `test:*:browser` script for a targeted implementation loop. Run the
+aggregate command before completing a story whose correctness depends on rendered-browser
+behavior. The aggregate browser suites remain outside Docker, CI, `npm run verify`, and
+`npm run verify:fast`; missing Playwright or Chromium therefore remains an outstanding
+validation item rather than a skipped success.
 
 When fixing another browser/rendering regression, add or extend a deterministic
 Playwright suite and expose it as a `test:*:browser` package script. Assert rendered
@@ -251,8 +315,7 @@ both an explicit enable switch and a loopback hostname, so a development mode ca
 activated on the production hostname. Run its network-free targeted suite in Docker:
 
 ```bash
-docker build -f Dockerfile.test -t toronto-dispatch-tests .
-docker run --rm toronto-dispatch-tests npm run test:watch-backend
+scripts/docker-test.sh npm run test:watch-backend
 ```
 
 The suite uses injectable IDs, possession tokens, clocks, and real validation/service/
@@ -355,9 +418,8 @@ candidate. Stale or unavailable feeds create no candidates and do not mutate wat
 Run the targeted deterministic suite and the safe local demonstration in Docker:
 
 ```bash
-docker build -f Dockerfile.test -t toronto-dispatch-tests .
-docker run --rm toronto-dispatch-tests npm run test:watch-matching
-docker run --rm toronto-dispatch-tests npm run fixture:watch-matching
+scripts/docker-test.sh npm run test:watch-matching
+scripts/docker-test.sh npm run fixture:watch-matching
 ```
 
 The demonstration reports safe counts only: first match and first dedupe row `1`, repeat
@@ -395,9 +457,8 @@ Run the deterministic sender/controller suite and demonstration without contacti
 service or requiring notification permission:
 
 ```bash
-docker build -f Dockerfile.test -t toronto-dispatch-tests .
-docker run --rm toronto-dispatch-tests npm run test:watch-delivery
-docker run --rm toronto-dispatch-tests npm run fixture:watch-delivery
+scripts/docker-test.sh npm run test:watch-delivery
+scripts/docker-test.sh npm run fixture:watch-delivery
 ```
 
 Set the deployed Worker URL in the `sirento-watch-api-base-url` meta element and the
@@ -430,9 +491,8 @@ incident is no longer in the current SirenTO data.” while leaving the dashboar
 Run the deterministic UX suite and fixture without notification permission or push delivery:
 
 ```bash
-docker build -f Dockerfile.test -t toronto-dispatch-tests .
-docker run --rm toronto-dispatch-tests npm run test:notification-ux
-docker run --rm toronto-dispatch-tests npm run fixture:notification-ux
+scripts/docker-test.sh npm run test:notification-ux
+scripts/docker-test.sh npm run fixture:notification-ux
 ```
 
 For manual visual checks, serve the repository on port 4173 and use:
@@ -509,13 +569,13 @@ device; desktop emulation does not establish iOS or Android delivery support.
 The deterministic suites are the repeatable regression path and contact no real push service:
 
 ```bash
-docker run --rm toronto-dispatch-tests npm run test:watch-production
-docker run --rm toronto-dispatch-tests npm run test:watch-matching
-docker run --rm toronto-dispatch-tests npm run test:watch-delivery
-docker run --rm toronto-dispatch-tests npm run test:notification-ux
-docker run --rm toronto-dispatch-tests npm run fixture:watch-matching
-docker run --rm toronto-dispatch-tests npm run fixture:watch-delivery
-docker run --rm toronto-dispatch-tests npm run fixture:notification-ux
+scripts/docker-test.sh npm run test:watch-production
+scripts/docker-test.sh npm run test:watch-matching
+scripts/docker-test.sh npm run test:watch-delivery
+scripts/docker-test.sh npm run test:notification-ux
+scripts/docker-test.sh npm run fixture:watch-matching
+scripts/docker-test.sh npm run fixture:watch-delivery
+scripts/docker-test.sh npm run fixture:notification-ux
 ```
 
 Together these cover permission states, subscription validation and renewal, inside/outside
@@ -528,8 +588,7 @@ Run the deterministic Story 33E2 suite without live D1, Web Push, incident data,
 production secrets:
 
 ```bash
-docker build -f Dockerfile.test -t toronto-dispatch-tests .
-docker run --rm toronto-dispatch-tests npm run test:watch-production
+scripts/docker-test.sh npm run test:watch-production
 ```
 
 The suite drives the real HTTP handler and D1 repository contract through an in-memory
@@ -547,13 +606,17 @@ simplest way to reproduce CI without installing Ruff on the host.
 
 The badges show Node’s measured line, branch, and function coverage after successful CI checks on `dev`. They include test files and exclude unloaded code, browser UI interactions, and Python code; they are not whole-repository coverage. The generated badges and [full report](https://github.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/blob/coverage/coverage-report.txt) live on the `coverage` branch and appear after the first successful publishing run. Python tests run separately and include checks for badge generation.
 
+`npm run test:coverage` runs the canonical offline unit suite
+(`scripts/run-unit-tests.sh --coverage`) — the same file set as `npm test`, with Node
+coverage enabled and the 100/100/100 gate enforced by Node's coverage thresholds. It
+excludes live-source integration tests, which run only under `npm run test:integration`.
+During full verification the coverage job runs under `TZ=UTC` and therefore also serves
+as the UTC unit-suite execution.
+
 After building the Docker image, run the same coverage command used by CI:
 
 ```bash
-docker run --rm \
-  -e NODE_V8_COVERAGE=/tmp/coverage \
-  toronto-dispatch-tests \
-  npm run test:coverage
+scripts/docker-test.sh env TZ=UTC NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage
 ```
 
 The coverage command can fail even when every test passes because the coverage gate
@@ -703,7 +766,17 @@ Regression tests must ensure:
 - SirenTO-observed diversion geometry remains visibly distinguishable from official TTC data
 - zero TTC results remain distinct from TTC source unavailability
 
-`npm test` runs all 25 JavaScript unit test files below:
+`npm test` runs the canonical offline JavaScript unit/regression suite through
+`scripts/run-unit-tests.sh`. That runner is the executable source of truth for which
+files run: it selects every `test/*.test.js` file, excludes every
+`test/*.integration.test.js` live-source test, and sorts the result deterministically.
+New offline `*.test.js` files join the suite automatically; no manual file list is
+maintained. `npm run test:coverage` runs that exact same file set with Node coverage
+enabled and the mandatory 100/100/100 gate.
+
+The table below is an illustrative, non-authoritative sample of what some unit files
+verify. It is not the executable list and may lag the suite; run
+`scripts/run-unit-tests.sh` (or inspect `test/*.test.js`) for the current membership.
 
 | Test file (under `test/`) | What it verifies |
 | --- | --- |
@@ -759,20 +832,23 @@ visually as well.
 
 ### Run individual suites
 
-Build the Docker image once after changing code or tests:
+Run individual suites through the wrapper, which mounts the current working tree
+read-only over the image's `/workspace` and keeps the image-installed dependencies:
 
 ```bash
-docker build -f Dockerfile.test -t toronto-dispatch-tests .
-docker run --rm toronto-dispatch-tests npm run lint
-docker run --rm -e TZ=UTC toronto-dispatch-tests
-docker run --rm -e TZ=America/Los_Angeles toronto-dispatch-tests
-docker run --rm toronto-dispatch-tests npm run test:integration
-docker run --rm toronto-dispatch-tests node --test test/disruptions.test.js
+scripts/docker-test.sh npm run lint
+scripts/docker-test.sh env TZ=UTC npm test
+scripts/docker-test.sh env TZ=America/Los_Angeles npm test
+scripts/docker-test.sh npm run test:integration
+scripts/docker-test.sh node --test test/disruptions.test.js
 ```
 
-The two timezone runs execute the same unit suite to catch accidental dependence
-on the machine's local timezone. `npm run test:watch` uses Node's default discovery,
-which can include the live integration test; use an explicit file as above for offline watching.
+`npm test` and `npm run test:coverage` run the same canonical offline suite
+(`scripts/run-unit-tests.sh`); the only difference is that coverage enables Node's
+coverage report and the 100/100/100 gate. The two timezone runs execute that same
+offline suite to catch accidental dependence on the machine's local timezone.
+`npm run test:watch` uses Node's default discovery, which can include the live
+integration test; use an explicit file as above for offline watching.
 
 ### Run all required checks
 
@@ -784,18 +860,49 @@ first failure.
 npm run verify
 ```
 
-It runs, in order:
+It runs:
 
-- Docker image preparation (`docker build -f Dockerfile.test -t toronto-dispatch-tests .`)
-- full ESLint and Ruff linting (`npm run lint`)
-- unit tests in `TZ=UTC`
-- unit tests in `TZ=America/Los_Angeles`
-- Python tests (`npm run test:python`)
-- live-source integration tests (`npm run test:integration`)
-- the CI-equivalent 100/100/100 coverage gate (`npm run test:coverage`)
-- browser JavaScript syntax checks (`app.js` and every `src`/`scripts` `.js` file)
-- whitespace checks (`git diff --check` and `git diff --cached --check`)
-- both `data/current.json` exclusion checks
+- Docker image preparation (`scripts/docker-test.sh --ensure-image`, which builds only when the image is missing or its dependency/tooling fingerprint changed) — always sequential, before any container check
+- the independent validation jobs, scheduled concurrently with bounded concurrency:
+  - full ESLint and Ruff linting (`npm run lint`)
+  - browser JavaScript syntax checks (`app.js` and every `src`/`scripts` `.js` file)
+  - the canonical offline unit suite in `TZ=America/Los_Angeles` (`npm test`)
+  - Python tests (`npm run test:python`)
+  - live-source integration tests (`npm run test:integration`)
+  - the canonical offline unit suite in `TZ=UTC` with the CI-equivalent 100/100/100 coverage gate (`npm run test:coverage`)
+
+The UTC coverage job is also the UTC unit-suite execution: it runs the same canonical
+offline file set as `npm test`, so full verification no longer runs a separate redundant
+UTC unit job. The `TZ=America/Los_Angeles` job runs that same offline suite without
+coverage to detect local-time dependencies. Live-source integration tests run only in
+the dedicated `integration` job; neither the unit nor the coverage job contacts live
+sources.
+- whitespace checks (`git diff --check` and `git diff --cached --check`) — always sequential, after the jobs
+- both `data/current.json` exclusion checks — always sequential, after the jobs
+
+Every required check runs exactly once regardless of scheduling. Each job's output is
+captured to its own log so concurrent output never interleaves; a passing job prints a
+bounded tail, and a failing job prints its complete output. On the first failure the
+scheduler stops launching queued jobs, terminates any still-running siblings (including
+their process trees), reports every failing job, and exits nonzero.
+
+Concurrency is bounded by the `VERIFY_JOBS` environment variable (default `4`, maximum
+`8`). Set `VERIFY_JOBS=1` for fully sequential, readable diagnosis; the same jobs run in
+the same order with the same commands and environment.
+
+```bash
+# Default: up to 4 concurrent jobs.
+npm run verify
+
+# Fully sequential.
+VERIFY_JOBS=1 npm run verify
+
+# Up to 6 concurrent jobs.
+VERIFY_JOBS=6 npm run verify
+```
+
+An invalid `VERIFY_JOBS` value (non-numeric, empty, less than 1, or greater than 8) is
+rejected before any Docker work begins.
 
 Prerequisites:
 
@@ -830,7 +937,7 @@ npm run verify:fast -- test/mobile-map-focus.test.js test/theme.test.js
 
 Fast mode runs, in order:
 
-- Docker image preparation (`docker build -f Dockerfile.test -t toronto-dispatch-tests .`)
+- Docker image preparation (`scripts/docker-test.sh --ensure-image`, which builds only when the image is missing or its dependency/tooling fingerprint changed)
 - full ESLint and Ruff linting (`npm run lint`)
 - browser JavaScript syntax checks (`app.js` and every `src`/`scripts` `.js` file)
 - offline JavaScript unit tests under `TZ=UTC` — the canonical `npm test` suite with
