@@ -317,6 +317,14 @@ function syncMapSheetOverlap() {
   }
 }
 
+// Write a root CSS custom property only when its value actually changes, so the
+// measurement pass cannot thrash layout or re-trigger the ResizeObserver.
+function setRootMetric(name, value) {
+  const next = `${Math.round(value)}px`;
+  if (document.documentElement.style.getPropertyValue(name) === next) return;
+  document.documentElement.style.setProperty(name, next);
+}
+
 // Story 40E: the Road closures / Police divisions layer row wraps taller on some
 // engines (notably iOS Safari), so a fixed offset can place the focus control
 // underneath it. Measure the row's real bottom edge and expose it as a CSS
@@ -327,6 +335,15 @@ function syncMapSheetOverlap() {
 // real rendered bottom edge (which varies with label wrapping). Measure that
 // bottom edge and expose it as a CSS variable the Road closures control anchors
 // to, keeping the two controls stacked without overlap at every breakpoint.
+//
+// Story 44: the focus-mode floating chrome (navigation band, filter summary,
+// map info) previously chained off hardcoded offsets from the layer row. Those
+// offsets assumed fixed control heights, so a taller focus button, a wrapped
+// navigation band, or a taller summary could push chrome over the map credit or
+// the zoom control. Measure the real rendered boundaries of the focus button,
+// navigation band, filter summary, zoom control, and attribution and expose them
+// as CSS variables the focus-mode rules consume. The measurement runs inside the
+// existing coalesced maintenance frame with no new listeners.
 function syncMobileLayerRowOffset() {
   const wrap = els.dispatchMap?.closest?.(".map-wrap");
   const layerRow = wrap?.querySelector?.(".map-layer-toggle");
@@ -358,6 +375,45 @@ function syncMobileLayerRowOffset() {
     );
     document.documentElement.style.setProperty("--mobile-layer-control-width", `${Math.round(controlWidth)}px`);
   }
+  syncMobileFocusChromeMetrics();
+}
+
+// Story 44: measure the focus-mode floating chrome's real rendered boundaries.
+// The focus-mode rules are position: fixed, so viewport-relative rectangles are
+// the correct reference (the fixed map stage starts at the viewport top). Only
+// measure while focus mode is active on a mobile layout; otherwise the elements
+// are laid out in the normal page flow and their rectangles are meaningless for
+// the fixed chrome.
+function syncMobileFocusChromeMetrics() {
+  if (!mobileFocusMode || !isMobileViewLayout()) return;
+  const focusToggle = mobileMapFocusToggle;
+  if (focusToggle) {
+    const rect = focusToggle.getBoundingClientRect();
+    if (rect.height > 0) setRootMetric("--mobile-focus-height", rect.height);
+  }
+  const navBand = document.querySelector(".radius-controls");
+  if (navBand) {
+    const rect = navBand.getBoundingClientRect();
+    if (rect.height > 0) setRootMetric("--mobile-nav-bottom", rect.bottom);
+  }
+  if (mobileFocusFilterSummary && !mobileFocusFilterSummary.hidden) {
+    const rect = mobileFocusFilterSummary.getBoundingClientRect();
+    if (rect.height > 0) setRootMetric("--mobile-summary-bottom", rect.bottom);
+  }
+  const zoomControl = wrapQuery(".leaflet-control-zoom");
+  if (zoomControl) {
+    const rect = zoomControl.getBoundingClientRect();
+    if (rect.width > 0) setRootMetric("--mobile-zoom-clearance", window.innerWidth - rect.left);
+  }
+  const attribution = wrapQuery(".leaflet-control-attribution");
+  if (attribution) {
+    const rect = attribution.getBoundingClientRect();
+    if (rect.height > 0) setRootMetric("--mobile-attribution-clearance", window.innerHeight - rect.top);
+  }
+}
+
+function wrapQuery(selector) {
+  return els.dispatchMap?.closest?.(".map-wrap")?.querySelector?.(selector) || null;
 }
 
 function scheduleMapMaintenance({ invalidateSize = false } = {}) {
