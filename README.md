@@ -812,18 +812,43 @@ first failure.
 npm run verify
 ```
 
-It runs, in order:
+It runs:
 
-- Docker image preparation (`scripts/docker-test.sh --ensure-image`, which builds only when the image is missing or its dependency/tooling fingerprint changed)
-- full ESLint and Ruff linting (`npm run lint`)
-- unit tests in `TZ=UTC`
-- unit tests in `TZ=America/Los_Angeles`
-- Python tests (`npm run test:python`)
-- live-source integration tests (`npm run test:integration`)
-- the CI-equivalent 100/100/100 coverage gate (`npm run test:coverage`)
-- browser JavaScript syntax checks (`app.js` and every `src`/`scripts` `.js` file)
-- whitespace checks (`git diff --check` and `git diff --cached --check`)
-- both `data/current.json` exclusion checks
+- Docker image preparation (`scripts/docker-test.sh --ensure-image`, which builds only when the image is missing or its dependency/tooling fingerprint changed) — always sequential, before any container check
+- the independent validation jobs, scheduled concurrently with bounded concurrency:
+  - full ESLint and Ruff linting (`npm run lint`)
+  - browser JavaScript syntax checks (`app.js` and every `src`/`scripts` `.js` file)
+  - unit tests in `TZ=UTC`
+  - unit tests in `TZ=America/Los_Angeles`
+  - Python tests (`npm run test:python`)
+  - live-source integration tests (`npm run test:integration`)
+  - the CI-equivalent 100/100/100 coverage gate (`npm run test:coverage`)
+- whitespace checks (`git diff --check` and `git diff --cached --check`) — always sequential, after the jobs
+- both `data/current.json` exclusion checks — always sequential, after the jobs
+
+Every required check runs exactly once regardless of scheduling. Each job's output is
+captured to its own log so concurrent output never interleaves; a passing job prints a
+bounded tail, and a failing job prints its complete output. On the first failure the
+scheduler stops launching queued jobs, terminates any still-running siblings (including
+their process trees), reports every failing job, and exits nonzero.
+
+Concurrency is bounded by the `VERIFY_JOBS` environment variable (default `4`, maximum
+`8`). Set `VERIFY_JOBS=1` for fully sequential, readable diagnosis; the same jobs run in
+the same order with the same commands and environment.
+
+```bash
+# Default: up to 4 concurrent jobs.
+npm run verify
+
+# Fully sequential.
+VERIFY_JOBS=1 npm run verify
+
+# Up to 6 concurrent jobs.
+VERIFY_JOBS=6 npm run verify
+```
+
+An invalid `VERIFY_JOBS` value (non-numeric, empty, less than 1, or greater than 8) is
+rejected before any Docker work begins.
 
 Prerequisites:
 

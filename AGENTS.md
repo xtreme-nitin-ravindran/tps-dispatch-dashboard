@@ -25,6 +25,7 @@
 - During implementation, prefer the smallest relevant targeted test set, or `npm run verify:fast` (or `npm run verify:fast -- test/file.test.js`) for a fast inner-loop check.
 - Do not repeatedly run the full repository suite after every small change.
 - Run broad/full verification at story or feature completion, or when required to reproduce a CI failure. Use `npm run verify` for final full validation; it is the single, versioned entry point for every required check. Continue to use the smallest relevant targeted checks during implementation.
+- `npm run verify` runs its independent checks concurrently with bounded concurrency (`VERIFY_JOBS`, default `4`, maximum `8`); image preparation and the final Git/snapshot checks stay sequential. Every required check still runs exactly once. Set `VERIFY_JOBS=1` for fully sequential, readable diagnosis. An invalid `VERIFY_JOBS` value is rejected before any Docker work.
 - `npm run verify:fast` is an inner-loop aid only. It ensures the Docker test image exists and is current, runs full lint and the browser syntax checks, and runs offline unit tests under `TZ=UTC`, but it omits the America/Los_Angeles suite, the Python tests, the live-source integration suite, the coverage gate, and the Git publication/snapshot checks. It does not satisfy the 100/100/100 coverage requirement and is not final, pre-push, or promotion verification.
 - Before declaring a task complete, verify that `git diff --stat` and `git diff` contain only intentional changes.
 
