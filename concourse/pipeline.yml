@@ -36,39 +36,64 @@ jobs:
         trigger: true
       - get: snapshots
       - get: repo
-      - task: test-update-and-commit
-        timeout: 10m
+      # Build the same pinned test image used by GitHub Actions. UNPACK_ROOTFS
+      # exposes it as a task image for the following verification/update step.
+      - task: build-test-image
+        timeout: 5m
+        privileged: true
+        output_mapping:
+          image: test-image
         config:
           platform: linux
           image_resource:
             type: registry-image
-            source:
-              repository: node
-              # Full image includes Git; slim does not.
-              tag: 24-bookworm
+            source: { repository: concourse/oci-build-task }
+          inputs:
+            - name: repo
+          outputs:
+            - name: image
+          caches:
+            - path: cache
+          params:
+            CONTEXT: repo
+            DOCKERFILE: repo/Dockerfile.test
+            UNPACK_ROOTFS: "true"
+          run:
+            path: build
+      - task: test-update-and-commit
+        timeout: 10m
+        image: test-image
+        config:
+          platform: linux
           inputs:
             - name: repo
             - name: snapshots
           outputs:
             - name: incident-repo
-          params:
-            NPM_VERSION: 12.2.0
           run:
             path: sh
             args:
               - -ec
               - |
-                if [ "$(npm --version 2>/dev/null || true)" != "$NPM_VERSION" ]; then
-                  npm install -g "npm@$NPM_VERSION"
-                fi
+                BUILD_DIR=$PWD
                 cp -a snapshots/. incident-repo/
-                cd repo
-                npm ci
-                TZ=UTC npm test
+
+                # Match the GitHub Actions test gate using the same image and
+                # canonical offline-suite selector.
+                cd /workspace
                 TZ=America/Los_Angeles npm test
-                TFS_UPDATED_BY=concourse TFS_PREVIOUS=../snapshots/data/current.json TFS_OUTPUT=../incident-repo/data/current.json node scripts/tfs-etl.js
-                cd ../incident-repo
-                node ../repo/scripts/commit-tfs.js
+                npm run test:python
+                npm run lint
+                node --check app.js
+                find src scripts -name "*.js" -exec node --check {} \;
+                TZ=UTC NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage
+
+                TFS_UPDATED_BY=concourse \
+                  TFS_PREVIOUS="$BUILD_DIR/snapshots/data/current.json" \
+                  TFS_OUTPUT="$BUILD_DIR/incident-repo/data/current.json" \
+                  node scripts/tfs-etl.js
+                cd "$BUILD_DIR/incident-repo"
+                node /workspace/scripts/commit-tfs.js
       # Bounded 90-second vehicle burst; never runs the heavy incident ETL.
       - task: observe-vehicles
         timeout: 6m

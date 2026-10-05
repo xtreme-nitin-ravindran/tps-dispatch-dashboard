@@ -59,8 +59,8 @@ is a dependency/tooling snapshot, not a source snapshot.
   `.dockerignore` edits are detected.
 - Keep the image cheap to rebuild: `npm ci` must stay in its own layer with only
   the manifests copied before it, and repository content must be copied from
-  relatively stable to relatively volatile (`concourse`, `data`, `scripts`,
-  `src`, `test`, then the root frontend files). Do not add a broad `COPY . .`.
+  relatively stable to relatively volatile (`concourse`, `.github`, `data`,
+  `scripts`, `src`, `test`, then the root frontend files). Do not add a broad `COPY . .`.
   `.dockerignore` must exclude only non-build inputs and must never exclude a
   path the Dockerfile copies. `test/docker-image-layout.test.js` enforces these
   properties structurally.

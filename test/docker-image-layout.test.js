@@ -31,6 +31,7 @@ const [dockerfile, dockerignore] = await Promise.all([
 // Dockerfile copies and that the offline suite, linters, and fixtures read.
 const REQUIRED_COPY_PATHS = [
   "concourse",
+  ".github",
   "data",
   "scripts",
   "src",
@@ -87,7 +88,7 @@ test("the Dockerfile installs dependencies in an isolated layer", () => {
 test("the Dockerfile copies repository content from stable to volatile", () => {
   // The relative order of the content COPY layers must be stable-first so an
   // edit to a volatile path does not invalidate the stable layers before it.
-  const order = ["concourse", "data", "scripts", "src", "test"];
+  const order = ["concourse", ".github", "data", "scripts", "src", "test"];
   const positions = order.map(name => {
     const index = lines.findIndex(line => line === `COPY ${name} ./${name}`);
     assert.notEqual(index, -1, `the Dockerfile must copy ${name}`);
@@ -97,7 +98,7 @@ test("the Dockerfile copies repository content from stable to volatile", () => {
   assert.deepEqual(
     positions,
     sorted,
-    "content COPY layers must be ordered stable-first (concourse, data, scripts, src, test)"
+    "content COPY layers must be ordered stable-first (concourse, .github, data, scripts, src, test)"
   );
 });
 
@@ -175,6 +176,7 @@ test(".dockerignore never excludes a path the Dockerfile copies", () => {
   // leaving the fingerprint inputs unchanged. Guard the required paths.
   const required = [
     "concourse",
+    ".github",
     "data",
     "scripts",
     "src",

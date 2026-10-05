@@ -121,7 +121,7 @@ image while leaving the other inputs unchanged.
 
 The image is a dependency/tooling snapshot, not a source snapshot. `npm ci` runs in its own
 layer with only the manifests copied before it, and repository content is copied from
-relatively stable to relatively volatile (`concourse`, `data`, `scripts`, `src`, `test`,
+relatively stable to relatively volatile (`concourse`, `.github`, `data`, `scripts`, `src`, `test`,
 then the root frontend files). Editing a volatile path such as `test/` therefore reuses the
 cached dependency, tooling, and stable-content layers instead of reinstalling dependencies.
 `.dockerignore` excludes only non-build inputs (version control, host `node_modules`, local
@@ -1010,6 +1010,13 @@ Keep generated snapshots out of code commits. The snapshot on `dev` and `main` i
 fixture; the live snapshot is on `data`. Pipeline configuration is in
 [`concourse/pipeline.yml`](concourse/pipeline.yml), with example settings in
 [`concourse/values.example.yml`](concourse/values.example.yml).
+
+Before updating the data branch, Concourse builds `Dockerfile.test` with the supported
+OCI build task and uses that artifact as its task image. It enforces the same gates as
+the protected GitHub Actions workflow: the canonical offline suite in
+America/Los_Angeles, Python tests, ESLint and Ruff, browser JavaScript syntax checks,
+and the canonical UTC suite with the 100/100/100 coverage thresholds. The structural
+CI-strategy regression fails if either pipeline drops one of those shared checks.
 
 ## Run locally
 
