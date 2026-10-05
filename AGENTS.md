@@ -137,6 +137,7 @@ Preserve these product semantics in both logic and UI:
   - service-worker cache versions are advanced when needed
   - obsolete SirenTO caches are removed as intended
 - Do not allow stale cached assets to reintroduce reverted application behavior.
+- Use `npm run bump:asset-version -- --asset <tag> --cache <sirento-shell-vN>` for frontend asset/cache version changes. Do not update version references manually. Afterward, run the asset-version agreement test and inspect the diff.
 
 ## Repository hygiene
 

@@ -671,6 +671,15 @@ When cached frontend assets or modules change, verify:
 - obsolete SirenTO caches are removed as intended
 - query-string and cache-key behavior cannot serve an older implementation unexpectedly
 
+Bump frontend asset and cache versions together with:
+
+```bash
+npm run bump:asset-version -- --asset story-44-1 --cache sirento-shell-v54
+```
+
+The command updates the stylesheet, app-module, service-worker cache, and
+corresponding test references together. Invalid input leaves the files unchanged.
+
 #### Data-state semantics
 
 Regression tests must preserve distinct states for:
