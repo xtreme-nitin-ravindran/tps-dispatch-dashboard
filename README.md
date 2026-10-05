@@ -154,28 +154,44 @@ npm install --no-save --package-lock=false playwright
 npx playwright install chromium
 ```
 
-Start the deterministic site in one terminal (port `8765` is the browser-suite
-default and port `8080` must not be used):
+Run all rendered-browser regression suites with one command:
 
 ```bash
-python3 -m http.server 8765 --bind 127.0.0.1
+npm run test:browser
 ```
 
-Then run every applicable suite from another terminal:
+The aggregate runner discovers every `test:*:browser` package script except itself,
+sorts the suites deterministically, starts the repository's deterministic static site on
+`127.0.0.1:8765`, waits for its own server to become ready, runs each suite sequentially,
+and tears down the server and child processes on success, failure, or interruption. It
+fails rather than reusing or terminating an unrelated listener when port `8765` is
+occupied. Port `8080` must not be used.
+
+The included suites are:
 
 ```bash
 npm run test:story-39a:browser
+npm run test:story-40e:browser
 npm run test:road-closure-count:browser
-node scripts/ttc-ui-browser.js
+npm run test:story-42:browser
+npm run test:story-43:browser
+npm run test:ttc-ui:browser
 ```
 
-The Story 39A suite checks bounded cluster connectors and lifecycle cleanup. The
-road-closure-count suite checks that the "N current" count is clipped to a non-visible
-box at desktop widths while the checkbox, dashed red legend key, and label remain. The
-Story TTC suite checks disruption rendering and state transitions. Each uses loopback-only
+The suites cover bounded cluster connectors and lifecycle cleanup, mobile focus-control
+geometry and interaction, the clipped road-closure count, mobile bottom-sheet header
+geometry, fullscreen Map-info sizing, and TTC disruption rendering/state transitions.
+The TTC suite has a deliberate 61-second wait; the aggregate runner reports that expected
+delay and does not depend on the GNU `timeout` command. Each suite uses loopback-only
 deterministic fixtures. Environment overrides such as `PLAYWRIGHT_MODULE`,
-`CHROMIUM_EXECUTABLE`, and the suite-specific `*_UI_URL` remain available for
-nonstandard local installations.
+`CHROMIUM_EXECUTABLE`, and suite-specific `*_UI_URL` values remain available for
+nonstandard local installations and are not overwritten when explicitly set.
+
+Use an individual `test:*:browser` script for a targeted implementation loop. Run the
+aggregate command before completing a story whose correctness depends on rendered-browser
+behavior. The aggregate browser suites remain outside Docker, CI, `npm run verify`, and
+`npm run verify:fast`; missing Playwright or Chromium therefore remains an outstanding
+validation item rather than a skipped success.
 
 When fixing another browser/rendering regression, add or extend a deterministic
 Playwright suite and expose it as a `test:*:browser` package script. Assert rendered

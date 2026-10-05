@@ -37,7 +37,7 @@ working tree read-only over the image's `/workspace` while keeping the
 image-installed `node_modules` and pinned tools (Node, ESLint, Ruff). The image
 is a dependency/tooling snapshot, not a source snapshot.
 
-- **Mandatory validation note:** Run `npx eslint .`, not only targeted files. `scripts/ttc-ui-browser.js` is an optional manual script and is not part of the required suite; it has a deliberate 61-second wait, so run it in the background, and note that `timeout` may be unavailable on macOS.
+- **Mandatory validation note:** Run `npx eslint .`, not only targeted files. Rendered-browser validation runs through `npm run test:browser`, which includes the TTC UI suite and manages its deliberate 61-second wait without relying on GNU `timeout`.
 - Source, test, fixture, script, and bind-mounted configuration edits do **not**
   require a Docker rebuild. The wrapper supplies the current working-tree content
   on every run.
@@ -104,7 +104,8 @@ is a dependency/tooling snapshot, not a source snapshot.
 ## Mobile and browser validation
 
 - Playwright Chromium regression testing is required when a change affects rendered layout, geometry, stacking, hit targets, pointer/touch interaction, responsive breakpoints, or browser-driven UI state transitions. Node DOM/string tests and JavaScript syntax checks do not replace it.
-- Use the applicable existing `test:*:browser` package script with the deterministic loopback fixture on port `8765`. The browser suites are feature-specific and are not part of the default Docker or CI suite; do not spend time probing the Docker test image for Playwright or Chromium. Follow the README browser-test setup instead.
+- Use `npm run test:browser` for applicable story-completion validation. It discovers every `test:*:browser` package script (excluding itself), starts and readiness-checks the deterministic loopback server on port `8765`, runs the suites sequentially in deterministic order, and tears down its server and child processes on success, failure, or interruption. Do not leave a manual port-8765 server running. A targeted `test:*:browser` script may be used during implementation. The browser suites are not part of the default Docker, CI, `npm run verify`, or `npm run verify:fast` suites; do not probe the Docker test image for Playwright or Chromium. Follow the README browser-test setup instead.
+- `npm run test:browser` includes the TTC UI suite, whose deliberate wait makes that suite take a little over one minute. Missing local Playwright or Chromium is an outstanding validation requirement, not permission to mark a browser-relevant story `DONE`.
 - If a relevant browser regression does not yet have a Playwright script, add or extend a deterministic rendered-browser regression that asserts DOM state, geometry, and interaction rather than relying only on screenshots.
 - Automated Chromium success does not replace physical-device validation when the reported defect is specific to iPhone Safari, Brave, WebKit, or another browser/device environment.
 - If physical-device validation is still outstanding, report the story as implemented or awaiting validation rather than fully complete.
