@@ -110,6 +110,14 @@ scripts/docker-test.sh --build
 scripts/docker-test.sh --ensure-image
 ```
 
+The canonical image name is `toronto-dispatch-tests`. A successful
+`--ensure-image` check intentionally prints nothing when that image already exists and
+its fingerprint is current; check the command's exit status. Build/stale diagnostics are
+printed only when action is required. Repository validation should use the pinned Docker
+toolchain rather than ad hoc host Node, ESLint, or Ruff commands. If a host-only failure
+uses a Node version allowed by `package.json`'s `engines`, record it for compatibility
+follow-up even when the canonical Docker gate passes.
+
 The wrapper computes a SHA-256 fingerprint of the image-defining inputs
 (`Dockerfile.test`, `.dockerignore`, `package.json`, `package-lock.json`) and compares it
 with the `org.sirento.test-fingerprint` label baked into the image. On mismatch it fails
@@ -628,6 +636,12 @@ requires these minimums:
 - Branches: 100.00%
 - Functions: 100.00%
 
+Files under `test/fixtures/` are helpers and are not selected as standalone tests by
+`scripts/run-unit-tests.sh`. A fixture imported by a selected test may still participate
+in Node's coverage accounting. Targeted coverage output is therefore not the final gate;
+use the complete Docker coverage command above or `npm run verify` for the authoritative
+100/100/100 result.
+
 CI fails if any category in the final `all files` row is below 100.00%. For example:
 
 ```text
@@ -937,6 +951,12 @@ npm run verify:fast -- test/mobile-map-focus.test.js
 npm run verify:fast -- test/mobile-map-focus.test.js test/theme.test.js
 ```
 
+For a newly added offline test, the one-file form is the preferred first check. Fast
+verification still runs the full Docker-backed lint and browser syntax checks before that
+test. Local ignored files under `tmp/` are visible to `eslint .`; inspect that directory
+for stale, unreferenced debug scripts if lint reports them, but do not delete unrelated
+temporary work indiscriminately.
+
 Fast mode runs, in order:
 
 - Docker image preparation (`scripts/docker-test.sh --ensure-image`, which builds only when the image is missing or its dependency/tooling fingerprint changed)
@@ -952,6 +972,25 @@ Fast mode omits:
 - the live-source integration suite (`npm run test:integration`)
 - the CI-equivalent 100/100/100 coverage gate (`npm run test:coverage`)
 - the Git publication and generated-snapshot exclusion checks
+
+### Story retrospective checklist
+
+Every numbered story retrospective or completion handoff must explicitly assess:
+
+- out-of-band chore or cleanup work that should become a separate roadmap story instead
+  of expanding the current implementation
+- durable workflow knowledge that should be added to `AGENTS.md` or this README
+
+Record `None` when either assessment finds no follow-up. This distinguishes a deliberate
+decision from an omitted review.
+
+When the retrospective uncovers verified repository-specific details that would save the
+next increment from repeating discovery work, carry them into its prompt under a concise
+**Known local facts** block. Keep the block scoped to that increment and prefer concrete
+facts such as inherited files, contract field units, fixture route IDs and epochs, helper
+compatibility, known environment-only failures, the exact targeted command, and files
+reserved for a later story. Do not promote transient observations (for example, whether a
+local Docker image happens to be current) into durable instructions.
 
 Explicit file arguments are validated before any Docker work begins. Only
 repository-relative regular files under `test/` ending in `.test.js` are accepted;
