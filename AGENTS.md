@@ -22,9 +22,10 @@
 
 - Use Docker for repository validation commands.
 - Do not use port `8080`.
-- During implementation, prefer the smallest relevant targeted test set.
+- During implementation, prefer the smallest relevant targeted test set, or `npm run verify:fast` (or `npm run verify:fast -- test/file.test.js`) for a fast inner-loop check.
 - Do not repeatedly run the full repository suite after every small change.
 - Run broad/full verification at story or feature completion, or when required to reproduce a CI failure. Use `npm run verify` for final full validation; it is the single, versioned entry point for every required check. Continue to use the smallest relevant targeted checks during implementation.
+- `npm run verify:fast` is an inner-loop aid only. It builds the Docker image, runs full lint and the browser syntax checks, and runs offline unit tests under `TZ=UTC`, but it omits the America/Los_Angeles suite, the Python tests, the live-source integration suite, the coverage gate, and the Git publication/snapshot checks. It does not satisfy the 100/100/100 coverage requirement and is not final, pre-push, or promotion verification.
 - Before declaring a task complete, verify that `git diff --stat` and `git diff` contain only intentional changes.
 
 ### Docker test image freshness
@@ -70,6 +71,7 @@ docker run --rm "$TAG" npm run test:coverage
   - 100.00% functions
 - Do not treat passing tests as sufficient when coverage is below 100%.
 - Run `npm run verify` (the canonical full-verification command) before push or promotion when a change can affect covered code; it includes the README Docker coverage command.
+- `npm run verify:fast` does not satisfy the 100/100/100 coverage requirement; only `npm run verify` (or the README Docker coverage command) does.
 - If coverage is below 100%, identify and report the exact file, uncovered line(s), branch(es), or function(s).
 - Add meaningful tests for reachable behavior.
 - Remove only genuinely dead or unreachable code.

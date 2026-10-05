@@ -5,6 +5,7 @@
     "type": "module",
     "scripts": {
         "verify": "sh scripts/verify.sh",
+        "verify:fast": "sh scripts/verify.sh --fast",
         "lint": "npm run lint:js && npm run lint:python",
         "lint:js": "eslint .",
         "lint:python": "ruff check scripts test/python",
