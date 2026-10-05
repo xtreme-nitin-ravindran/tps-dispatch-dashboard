@@ -177,6 +177,7 @@ Preserve these product semantics in both logic and UI:
 
 ## Story completion
 
+- Record every change in the canonical roadmap, including at minimum why the change was needed and what was changed; this applies to follow-up fixes and maintenance work, not only completed stories.
 - Do not mark a story `DONE` while a required production, CI, browser, or physical-device acceptance step is still outstanding.
 - Use an intermediate status such as `IMPLEMENTED / AWAITING VALIDATION` when appropriate.
 - When a SirenTO story is completed, update the canonical roadmap:
