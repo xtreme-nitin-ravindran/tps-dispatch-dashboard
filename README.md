@@ -984,6 +984,14 @@ Every numbered story retrospective or completion handoff must explicitly assess:
 Record `None` when either assessment finds no follow-up. This distinguishes a deliberate
 decision from an omitted review.
 
+When the retrospective uncovers verified repository-specific details that would save the
+next increment from repeating discovery work, carry them into its prompt under a concise
+**Known local facts** block. Keep the block scoped to that increment and prefer concrete
+facts such as inherited files, contract field units, fixture route IDs and epochs, helper
+compatibility, known environment-only failures, the exact targeted command, and files
+reserved for a later story. Do not promote transient observations (for example, whether a
+local Docker image happens to be current) into durable instructions.
+
 Explicit file arguments are validated before any Docker work begins. Only
 repository-relative regular files under `test/` ending in `.test.js` are accepted;
 absolute paths, `..` traversal, directories, missing files, empty arguments,
