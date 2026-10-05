@@ -23,6 +23,8 @@
 - Use Docker for repository validation commands.
 - Do not use port `8080`.
 - During implementation, prefer the smallest relevant targeted test set, or `npm run verify:fast` (or `npm run verify:fast -- test/file.test.js`) for a fast inner-loop check.
+- The canonical test image is named `toronto-dispatch-tests`. `scripts/docker-test.sh --ensure-image` is intentionally silent when that image already exists and its fingerprint is current; use its exit status rather than expecting success output.
+- Run repository Node, ESLint, and Ruff validation through `scripts/docker-test.sh`, `npm run verify:fast`, or `npm run verify`. Do not use a missing or different host toolchain to diagnose a failure unless the same failure reproduces in the canonical Docker environment. Host-only failures still need a follow-up when the host version is within `package.json`'s supported `engines` range.
 - Do not repeatedly run the full repository suite after every small change.
 - Run broad/full verification at story or feature completion, or when required to reproduce a CI failure. Use `npm run verify` for final full validation; it is the single, versioned entry point for every required check. Continue to use the smallest relevant targeted checks during implementation.
 - `npm run verify` runs its independent checks concurrently with bounded concurrency (`VERIFY_JOBS`, default `4`, maximum `8`); image preparation and the final Git/snapshot checks stay sequential. Every required check still runs exactly once. Set `VERIFY_JOBS=1` for fully sequential, readable diagnosis. An invalid `VERIFY_JOBS` value is rejected before any Docker work.
@@ -80,6 +82,7 @@ is a dependency/tooling snapshot, not a source snapshot.
 - Do not treat passing tests as sufficient when coverage is below 100%.
 - Run `npm run verify` (the canonical full-verification command) before push or promotion when a change can affect covered code; it includes the README Docker coverage command.
 - `npm run verify:fast` does not satisfy the 100/100/100 coverage requirement; only `npm run verify` (or the README Docker coverage command) does.
+- Files under `test/fixtures/` are helpers and are not selected as standalone tests by the canonical runner. Imported fixture modules may still appear in Node's coverage accounting; do not infer final coverage from a targeted test run. The full Docker coverage gate is authoritative.
 - If coverage is below 100%, identify and report the exact file, uncovered line(s), branch(es), or function(s).
 - Add meaningful tests for reachable behavior.
 - Remove only genuinely dead or unreachable code.
@@ -153,6 +156,7 @@ Preserve these product semantics in both logic and UI:
 ## Repository hygiene
 
 - Do not commit unrelated generated files, screenshots, debug artifacts, temporary credentials, local fixture output, or accidental `data/current.json` changes.
+- Before full lint, inspect ignored `tmp/` content for stale repository debug scripts. Never clear `tmp/` indiscriminately: delete only files confirmed to be unreferenced debris, and record that cleanup in the roadmap.
 - Remove temporary keys, credentials, and debug files after use.
 - Run `git diff --check` before considering work complete.
 - When asked for a commit message, keep it concise, high-level, and user-facing, using literal `-` bullets.
@@ -182,5 +186,7 @@ Preserve these product semantics in both logic and UI:
 - Use an intermediate status such as `IMPLEMENTED / AWAITING VALIDATION` when appropriate.
 - When a SirenTO story is completed, update the canonical roadmap:
   `SirenTO-Development-Roadmap.md` (in the Continue rules directory, `~/.continue/rules/`)
+- For a numbered roadmap increment, update its status-table row, detailed section heading/status, and completion handoff in one pass. The handoff must give the next task enough context to start without chat history.
+- Every story retrospective/completion handoff must explicitly assess: (1) out-of-band chore or cleanup stories that should be created rather than expanding the current scope, and (2) durable workflow lessons that should refine `AGENTS.md` or `README.md`. Write `None` when no follow-up is warranted; do not silently omit either assessment.
 - Do not create or update duplicate roadmap copies elsewhere.
 - Prefer a narrowly scoped follow-up or regression story over reopening a completed story with a broad rewrite.
