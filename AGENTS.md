@@ -172,6 +172,8 @@ Preserve these product semantics in both logic and UI:
 - Revert the affected file(s) and re-apply the intended change with a surgical text-editing method.
 - Do not keep formatter-generated churn in the final diff unless the task explicitly requires formatting changes.
 - Treat unexpected file-wide reformatting as a tooling failure, not as part of the implementation.
+- `package.json` must retain its trailing newline. Surgical edits must not introduce a spurious whole-file or final-line diff.
+- Browser-executed scripts must declare the browser globals they use in their ESLint global comment when those globals are not supplied by the file's lint environment (for example, `getComputedStyle`). Do not add unnecessary globals or weaken ESLint rules globally, and do not modify ESLint configuration solely to accommodate one browser script.
 
 ## Story completion
 
