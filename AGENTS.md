@@ -24,7 +24,7 @@
 - Do not use port `8080`.
 - During implementation, prefer the smallest relevant targeted test set.
 - Do not repeatedly run the full repository suite after every small change.
-- Run broad/full verification at story or feature completion, or when required to reproduce a CI failure.
+- Run broad/full verification at story or feature completion, or when required to reproduce a CI failure. Use `npm run verify` for final full validation; it is the single, versioned entry point for every required check. Continue to use the smallest relevant targeted checks during implementation.
 - Before declaring a task complete, verify that `git diff --stat` and `git diff` contain only intentional changes.
 
 ### Docker test image freshness
@@ -69,12 +69,12 @@ docker run --rm "$TAG" npm run test:coverage
   - 100.00% branches
   - 100.00% functions
 - Do not treat passing tests as sufficient when coverage is below 100%.
-- Run the README Docker coverage command before push or promotion when a change can affect covered code.
+- Run `npm run verify` (the canonical full-verification command) before push or promotion when a change can affect covered code; it includes the README Docker coverage command.
 - If coverage is below 100%, identify and report the exact file, uncovered line(s), branch(es), or function(s).
 - Add meaningful tests for reachable behavior.
 - Remove only genuinely dead or unreachable code.
 - Do not add artificial execution paths solely to satisfy coverage.
-- Before committing, run the README Docker unit suites in UTC and America/Los_Angeles, the live-source integration suite, browser JavaScript syntax checks, applicable lint checks, coverage, and `git diff --check`.
+- Before committing, run `npm run verify`, which covers the README Docker unit suites in UTC and America/Los_Angeles, the live-source integration suite, browser JavaScript syntax checks, applicable lint checks, coverage, and `git diff --check`.
 
 ## Deterministic fixtures and regression tests
 

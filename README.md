@@ -586,9 +586,9 @@ already 100%.
 
 #### Pre-push checklist
 
-Before pushing:
+Before pushing, run `npm run verify` (the canonical full-verification command) and confirm:
 
-- [ ] All required tests pass.
+- [ ] `npm run verify` passes end to end.
 - [ ] The coverage command reports 100.00% lines.
 - [ ] The coverage command reports 100.00% branches.
 - [ ] The coverage command reports 100.00% functions.
@@ -775,41 +775,41 @@ which can include the live integration test; use an explicit file as above for o
 
 ### Run all required checks
 
-Copy this complete command block into a shell from the repository root. It builds
-the Docker image, runs both linters, both timezone unit suites, the Python tests, the
-live integration suite, the CI-equivalent 100/100/100 coverage gate, browser JavaScript
-syntax checks, and whitespace checks, and verifies that generated snapshot changes are
-not included in the code branch. It stops at the first failure.
+`npm run verify` is the canonical full-verification command. Run it from the repository
+root; it is the single, versioned entry point for every required check and stops at the
+first failure.
 
 ```bash
-(
-  set -e
-  docker build -f Dockerfile.test -t toronto-dispatch-tests .
-  docker run --rm toronto-dispatch-tests npm run lint
-  docker run --rm -e TZ=UTC toronto-dispatch-tests
-  docker run --rm -e TZ=America/Los_Angeles toronto-dispatch-tests
-  docker run --rm toronto-dispatch-tests npm run test:python
-  docker run --rm toronto-dispatch-tests npm run test:integration
-  docker run --rm \
-    -e NODE_V8_COVERAGE=/tmp/coverage \
-    toronto-dispatch-tests \
-    npm run test:coverage
-  docker run --rm -i toronto-dispatch-tests node --input-type=module --check < app.js
-  docker run --rm toronto-dispatch-tests sh -c 'find src scripts -name "*.js" -exec node --check {} +'
-  git diff --check
-  git diff --cached --check
-  git diff --exit-code origin/main...HEAD -- data/current.json
-  git diff --exit-code HEAD -- data/current.json
-)
+npm run verify
 ```
 
-The snapshot checks use the locally fetched `origin/main` reference. Synchronize
-remote references before validating a branch for publication. ESLint and Ruff catch
-static correctness problems; the explicit syntax checks parse browser JavaScript
-without executing it, and whitespace checks flag issues such as trailing spaces. The
-coverage command is also mandatory: a passing test suite with less than 100.00% line,
-branch, or function coverage is not ready for promotion. None of these checks replaces
-feature-specific regression contracts or required physical-device validation.
+It runs, in order:
+
+- Docker image preparation (`docker build -f Dockerfile.test -t toronto-dispatch-tests .`)
+- full ESLint and Ruff linting (`npm run lint`)
+- unit tests in `TZ=UTC`
+- unit tests in `TZ=America/Los_Angeles`
+- Python tests (`npm run test:python`)
+- live-source integration tests (`npm run test:integration`)
+- the CI-equivalent 100/100/100 coverage gate (`npm run test:coverage`)
+- browser JavaScript syntax checks (`app.js` and every `src`/`scripts` `.js` file)
+- whitespace checks (`git diff --check` and `git diff --cached --check`)
+- both `data/current.json` exclusion checks
+
+Prerequisites:
+
+- Docker must be available and able to build `Dockerfile.test`.
+- Live internet access is required for the integration suite. Source outages, rate
+  limits, or incompatible responses fail that suite; empty valid feeds are allowed.
+- The snapshot checks compare against the locally fetched `origin/main` reference.
+  Synchronize remote references before validating a branch for publication.
+
+The coverage command is mandatory: a passing test suite with less than 100.00% line,
+branch, or function coverage is not ready for promotion. ESLint and Ruff catch static
+correctness problems; the explicit syntax checks parse browser JavaScript without
+executing it, and whitespace checks flag issues such as trailing spaces. None of these
+checks replaces feature-specific regression contracts or required physical-device
+validation.
 
 ### Generate a development snapshot (not a test)
 
