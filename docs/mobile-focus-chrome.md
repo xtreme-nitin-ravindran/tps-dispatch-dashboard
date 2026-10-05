@@ -208,6 +208,34 @@ In focused Calls/Disruptions the map-only controls are hidden, so the navigation
 band moves to `calc(8px + env(safe-area-inset-top, 0px))` and the calls content
 starts just below it (`main { padding-top: calc(8px + 44px + 8px + env(safe-area-inset-top, 0px)); }`).
 
+### 9.1 Landscape focus-mode chrome (Story 50)
+
+The relationships above are the **portrait** layout. In landscape the viewport is
+only ~390 px tall, so chaining the navigation band below the layer-control stack
+and the focus button pushed the band and the filter summary into the middle of
+the screen while the bottom-anchored map info rose to meet them, leaving a
+measured **7 px** visible map band at 844×390 (the map was effectively covered).
+
+A landscape media query
+(`@media (max-width: 950px) and (max-height: 500px) and (pointer: coarse)`, the
+same condition the mobile layout uses) overrides the focus-mode chrome:
+
+- **Navigation and close** align at the top safe-area edge. Navigation reserves
+  the close button on its left and the measured layer-control width on its right.
+- **Filter summary** sits below navigation/close and stops short of the layer
+  controls. Long summaries scroll within a 40 px cap.
+- **Map info** keeps a complete 44 px disclosure target; its expanded height
+  clears both the summary and layer stack and its content scrolls internally.
+- **Calls sheet** is capped using the available viewport height minus the
+  measured top controls and room for Map info, zoom and attribution. In landscape
+  focus mode its state buttons share the heading row, leaving the body for calls.
+
+The regression covers 844×390 and the browser-chrome-reduced 932×342 viewport,
+all sheet states, Map info taps/scrolling, long summaries, and rotation back from
+portrait. The user confirmed the local fix on physical iPhone Brave on October
+5, 2026. Publication and production validation remain pending. Portrait geometry
+is unchanged.
+
 ## 10. Collapsed and expanded map info
 
 - The map info is a `<details>` element. Collapsed, it is a compact header
@@ -244,6 +272,12 @@ The rendered-browser suites enforce:
   controls/zoom/attribution; sheet summary vs. handle/state controls).
 - **Viewport containment** — every measured chrome rectangle stays inside the
   viewport (0.5 px tolerance).
+- **Visible map band** — with the map info collapsed, the vertical gap between
+  the lowest top chrome (navigation band, filter summary, layer controls, focus
+  control) and the highest bottom chrome (map info, sheet, attribution, zoom
+  control) is at least 25% of the viewport height (Story 50). This catches the
+  landscape defect where the map info's own top edge was still below 20% of the
+  viewport but the band and summary had consumed the map.
 - **Target size** — focus control, navigation band, and layer controls are
   `>= 44 px`.
 - **Hit-testing** — `document.elementFromPoint` at the focus control's center

@@ -30,7 +30,8 @@ const VIEWPORTS = [
   { name: '375x812', width: 375, height: 812 },
   { name: '390x844', width: 390, height: 844 },
   { name: '430x932', width: 430, height: 932 },
-  { name: '844x390-landscape', width: 844, height: 390, isMobile: true, hasTouch: true }
+  { name: '844x390-landscape', width: 844, height: 390, isMobile: true, hasTouch: true },
+  { name: '932x342-browser-chrome', width: 932, height: 342, isMobile: true, hasTouch: true }
 ];
 
 // The collapsed disclosure is a single header row. It must stay compact rather
@@ -38,6 +39,14 @@ const VIEWPORTS = [
 const MAX_COLLAPSED_HEIGHT = 80;
 // The expanded panel must leave a substantial slice of the map visible above it.
 const MIN_VISIBLE_MAP_FRACTION = 0.2;
+// Story 50: the map info's own top edge is not enough to prove the map is
+// usable. In landscape the navigation band and filter summary were chained below
+// the layer-control stack, so they consumed the middle of the viewport while the
+// bottom-anchored map info rose to meet them, leaving a 7px map band even though
+// the map info's top edge was still below 20% of the viewport. Assert the real
+// visible map band: the vertical gap between the lowest top chrome and the
+// highest bottom chrome.
+const MIN_VISIBLE_MAP_BAND_FRACTION = 0.25;
 
 // Feature-specific selectors for the map-info regression. The shared helper
 // reads the rectangles; the open/hidden state reads stay here.
@@ -93,6 +102,74 @@ function assertChromeClear(state, label) {
   ], label);
 }
 
+async function assertLandscapeSheet(page, viewport) {
+  for (const sheetState of ['half', 'expanded', 'collapsed']) {
+    if (sheetState === 'half') await page.locator('#mobileSheetToggle').click();
+    else await page.locator(`[data-sheet-target="${sheetState}"]`).click();
+    await page.waitForTimeout(350);
+    const state = await measure(page);
+    const label = `${viewport.name} sheet ${sheetState}`;
+    assertChromeClear(state, label);
+    assertNoOverlap(state, [
+      ['summary', 'road'], ['summary', 'police'], ['summary', 'zoom'],
+      ['zoom', 'road'], ['zoom', 'police'], ['nav', 'road'], ['nav', 'police']
+    ], label);
+    assert.ok(Math.abs(state.focus.top - state.nav.top) < 2, `${label}: close is not top-aligned`);
+    const header = await page.locator('#mapInfo > summary').boundingBox();
+    assert.ok(header.height >= 44, `${label}: Map info touch target is too small`);
+    assert.ok(header.y + header.height <= state.mapInfo.bottom + 1, `${label}: Map info header is clipped`);
+    await page.locator('#mapInfo > summary').tap();
+    await page.waitForFunction(() => document.querySelector('#mapInfo').open);
+    assertChromeClear(await measure(page), `${label} info open`);
+    const scrolled = await page.locator('#mapInfo').evaluate(el => {
+      el.scrollTop = el.scrollHeight;
+      const bottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+      el.scrollTop = 0;
+      return bottom;
+    });
+    assert.ok(scrolled, `${label}: Map info content is not scrollable to its end`);
+    await page.locator('#mapInfo > summary').tap();
+    await page.waitForFunction(() => !document.querySelector('#mapInfo').open);
+    if (sheetState !== 'collapsed') {
+      const body = await page.locator('#mobileSheetBody').boundingBox();
+      assert.ok(body.height >= 60, `${label}: no usable call content area`);
+      const headerRect = await page.locator('#mobileSheetToggle').boundingBox();
+      const controls = await page.locator('.mobile-sheet-state-controls').boundingBox();
+      assert.ok(headerRect.x + headerRect.width <= controls.x, `${label}: sheet heading overlaps state buttons`);
+      if (sheetState === 'expanded') {
+        await page.setViewportSize({ width: viewport.height, height: viewport.width });
+        await page.waitForTimeout(350);
+        await page.setViewportSize({ width: viewport.width, height: viewport.height });
+        await page.waitForTimeout(350);
+        assertChromeClear(await measure(page), `${label} rotated back`);
+        assert.equal(await page.locator('html').getAttribute('data-mobile-sheet-state'), 'expanded');
+      }
+    }
+  }
+}
+
+// Story 50: the visible map band is the vertical gap between the lowest top
+// chrome (navigation band, filter summary, layer controls, focus control) and
+// the highest bottom chrome (map info, sheet, attribution, zoom control). With
+// the map info collapsed, a usable map must remain between them. (When the map
+// info is expanded it intentionally covers the map, so this check applies to the
+// collapsed state only.)
+function assertVisibleMapBand(state, viewport, label) {
+  const topChrome = ['nav', 'summary', 'road', 'police', 'focus']
+    .map(key => state[key])
+    .filter(Boolean);
+  const bottomChrome = ['mapInfo', 'sheet', 'attribution', 'zoom']
+    .map(key => state[key])
+    .filter(Boolean);
+  const topChromeBottom = Math.max(...topChrome.map(rect => rect.bottom));
+  const bottomChromeTop = Math.min(...bottomChrome.map(rect => rect.top));
+  const band = bottomChromeTop - topChromeBottom;
+  assert.ok(
+    band >= viewport.height * MIN_VISIBLE_MAP_BAND_FRACTION,
+    `${label}: visible map band is only ${band}px (min ${Math.round(viewport.height * MIN_VISIBLE_MAP_BAND_FRACTION)}px)`
+  );
+}
+
 function assertCollapsed(state, viewport, label) {
   assert.equal(state.mapInfoOpen, false, `${label}: map info should be collapsed`);
   assert.ok(state.mapInfo, `${label}: map info is not rendered`);
@@ -106,6 +183,7 @@ function assertCollapsed(state, viewport, label) {
   assert.ok(visibleMap >= viewport.height * MIN_VISIBLE_MAP_FRACTION, `${label}: collapsed map info leaves only ${visibleMap}px of map visible`);
   assertMapInfoWithinViewport(state, viewport, label);
   assertChromeClear(state, label);
+  assertVisibleMapBand(state, viewport, label);
   assertNoHorizontalOverflow(state, label);
 }
 
@@ -214,6 +292,16 @@ try {
     const reentered = await measure(page);
     assert.equal(reentered.focusMode, 'on', `${viewport.name}: focus mode did not re-enter`);
     assertCollapsed(reentered, viewport, `${viewport.name} reentered`);
+
+    if (viewport.width > viewport.height) {
+      await assertLandscapeSheet(page, viewport);
+      // A long applied-filter label must scroll within its reserved column.
+      await page.locator('#mobileFocusFilterSummary').evaluate(el => {
+        el.textContent = 'Toronto-wide · Last 24 hours · Fire and Police · Event: fire · '.repeat(5);
+      });
+      await page.waitForTimeout(200);
+      await assertLandscapeSheet(page, viewport);
+    }
 
     results.push({
       viewport: viewport.name,
