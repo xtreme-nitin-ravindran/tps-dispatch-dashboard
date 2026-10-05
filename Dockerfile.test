@@ -34,6 +34,7 @@ COPY Dockerfile.test .dockerignore ./
 # mounts during normal validation; they remain baked in so the image is
 # self-contained for direct `docker run` and CI fallback use.
 COPY concourse ./concourse
+COPY .github ./.github
 COPY data ./data
 COPY scripts ./scripts
 COPY src ./src
