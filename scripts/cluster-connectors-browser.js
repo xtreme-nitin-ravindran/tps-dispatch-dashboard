@@ -33,7 +33,24 @@ async function connectorState() {
 }
 
 async function assertBounded({ selected = true, largeCluster = true } = {}) {
-  await page.waitForTimeout(100);
+  // Bounded wait for the expected selection state instead of a fixed sleep.
+  // The app marks the selected incident card `.selected` during an async render
+  // pass, so a fixed delay can race it. Wait for the state the assertions below
+  // already require, then assert against the real DOM. This never weakens the
+  // connector invariants; it only removes the timing race.
+  if (selected) {
+    await page.waitForFunction(
+      () => document.querySelectorAll('[data-call-id="mobile-audit-selected"].selected').length >= 1,
+      undefined,
+      { timeout: 5000 }
+    );
+  } else {
+    await page.waitForFunction(
+      () => document.querySelectorAll('[data-call-id="mobile-audit-selected"].selected').length === 0,
+      undefined,
+      { timeout: 5000 }
+    );
+  }
   const state = await connectorState();
   assert.ok(state.count <= 12, `rendered ${state.count} cluster connectors`);
   assert.ok(state.lengths.every(length => length <= 96.5), `connector exceeded 96 px: ${state.lengths}`);
