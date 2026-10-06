@@ -115,7 +115,12 @@ ensure_image() {
     echo "    image fingerprint: ${have:-<none>}" >&2
     echo "    current fingerprint: $want" >&2
     build_image
+    return 0
   fi
+  # Current image: print one concise readiness line so callers can see that the
+  # canonical image is present and up to date. Ordinary wrapped commands do not
+  # call this path, so they gain no extra readiness noise.
+  echo "docker-test: image '$IMAGE' is ready (fingerprint current)"
 }
 
 check_fresh() {

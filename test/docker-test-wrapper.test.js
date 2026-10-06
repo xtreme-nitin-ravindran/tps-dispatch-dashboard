@@ -372,6 +372,125 @@ test("--ensure-image builds only when the image is missing or stale", async () =
   }
 });
 
+test("--ensure-image prints one concise readiness line when the image is current", async () => {
+  const stub = await makeStubEnv();
+  try {
+    const fp = await currentFingerprint();
+    const result = runWrapper(["--ensure-image"], { ...stub, env: { STUB_FP: fp } });
+    assert.equal(result.status, 0, result.stderr);
+    // Exactly one readiness line, naming the canonical image.
+    const lines = result.stdout.split("\n").filter(Boolean);
+    assert.equal(lines.length, 1, `expected one readiness line, got: ${JSON.stringify(lines)}`);
+    assert.match(lines[0], /toronto-dispatch-tests/);
+    assert.match(lines[0], /ready/i);
+    // A current image must not be rebuilt and must not print build diagnostics.
+    const calls = await readLog(stub.log);
+    assert.ok(!calls.some(c => c[0] === "build"), "a current image must not be rebuilt");
+    assert.doesNotMatch(result.stderr, /stale|not found/i);
+  } finally {
+    await rm(stub.dir, { recursive: true, force: true });
+  }
+});
+
+test("--ensure-image reports a successful rebuild for a missing image", async () => {
+  const stub = await makeStubEnv();
+  try {
+    const result = runWrapper(["--ensure-image"], {
+      ...stub,
+      env: { STUB_IMAGE_MISSING: "1" }
+    });
+    assert.equal(result.status, 0, result.stderr);
+    const calls = await readLog(stub.log);
+    assert.ok(calls.some(c => c[0] === "build"), "a missing image must be built");
+    // The build path reports the canonical image and its fingerprint.
+    assert.match(result.stdout, /toronto-dispatch-tests/);
+    assert.match(result.stdout, /fingerprint/i);
+    // A successful rebuild must not print the current-image readiness line.
+    assert.doesNotMatch(result.stdout, /is ready \(fingerprint current\)/);
+  } finally {
+    await rm(stub.dir, { recursive: true, force: true });
+  }
+});
+
+test("--ensure-image reports a successful rebuild for a stale image", async () => {
+  const stub = await makeStubEnv();
+  try {
+    const result = runWrapper(["--ensure-image"], { ...stub, env: { STUB_FP: "stale" } });
+    assert.equal(result.status, 0, result.stderr);
+    const calls = await readLog(stub.log);
+    assert.ok(calls.some(c => c[0] === "build"), "a stale image must be rebuilt");
+    assert.match(result.stderr, /stale/i);
+    assert.match(result.stdout, /toronto-dispatch-tests/);
+    assert.doesNotMatch(result.stdout, /is ready \(fingerprint current\)/);
+  } finally {
+    await rm(stub.dir, { recursive: true, force: true });
+  }
+});
+
+test("--ensure-image rebuilds an unlabelled image and reports success", async () => {
+  const stub = await makeStubEnv();
+  try {
+    // An existing image with no fingerprint label is treated as stale and rebuilt.
+    const result = runWrapper(["--ensure-image"], { ...stub, env: { STUB_FP: "" } });
+    assert.equal(result.status, 0, result.stderr);
+    const calls = await readLog(stub.log);
+    assert.ok(calls.some(c => c[0] === "build"), "an unlabelled image must be rebuilt");
+    assert.match(result.stdout, /toronto-dispatch-tests/);
+    assert.doesNotMatch(result.stdout, /is ready \(fingerprint current\)/);
+  } finally {
+    await rm(stub.dir, { recursive: true, force: true });
+  }
+});
+
+test("--ensure-image propagates a build failure and prints no readiness line", async () => {
+  const stub = await makeStubEnv();
+  try {
+    const result = runWrapper(["--ensure-image"], {
+      ...stub,
+      env: { STUB_IMAGE_MISSING: "1", STUB_BUILD_EXIT: "5" }
+    });
+    assert.equal(result.status, 5, "a failed build must propagate its exit status");
+    assert.doesNotMatch(result.stdout, /is ready \(fingerprint current\)/);
+  } finally {
+    await rm(stub.dir, { recursive: true, force: true });
+  }
+});
+
+test("--ensure-image fails clearly when docker is unavailable", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "docker-test-ensure-nodocker-"));
+  try {
+    const bin = join(dir, "bin");
+    await mkdir(bin, { recursive: true });
+    for (const tool of ["sh", "dirname", "cat", "awk", "shasum", "openssl", "uname"]) {
+      const found = spawnSync("sh", ["-c", `command -v ${tool}`], { encoding: "utf8" });
+      const path = found.stdout.trim();
+      if (path && path.startsWith("/")) await symlink(path, join(bin, tool));
+    }
+    const result = spawnSync(join(bin, "sh"), [wrapperPath, "--ensure-image"], {
+      cwd: root,
+      encoding: "utf8",
+      env: { ...process.env, PATH: bin }
+    });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /docker/i);
+    assert.doesNotMatch(result.stdout, /is ready \(fingerprint current\)/);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test("ordinary wrapped commands print no readiness line", async () => {
+  const stub = await makeStubEnv();
+  try {
+    const fp = await currentFingerprint();
+    const result = runWrapper(["npm", "test"], { ...stub, env: { STUB_FP: fp } });
+    assert.equal(result.status, 0, result.stderr);
+    assert.doesNotMatch(result.stdout, /is ready \(fingerprint current\)/);
+  } finally {
+    await rm(stub.dir, { recursive: true, force: true });
+  }
+});
+
 test("the wrapper reports a clear usage error with no command", async () => {
   const stub = await makeStubEnv();
   try {
