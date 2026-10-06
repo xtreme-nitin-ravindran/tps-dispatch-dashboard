@@ -9,8 +9,8 @@ import { runTfsEtl } from '../scripts/tfs-etl.js';
 const now = new Date('2026-09-18T16:00:00Z');
 const fixturePath = join(dirname(fileURLToPath(import.meta.url)), 'fixtures/fresh-snapshot-stale-feed.json');
 test('freshness uses fetch time, including exact cutoff and invalid clocks', () => {
-  assert.equal(needsUpdate({fetchedAt:'2026-09-18T15:50:00.001Z'},now),false);
-  assert.equal(needsUpdate({fetchedAt:'2026-09-18T15:50:00Z'},now),true);
+  assert.equal(needsUpdate({fetchedAt:'2026-09-18T15:55:00.001Z'},now),false);
+  assert.equal(needsUpdate({fetchedAt:'2026-09-18T15:55:00Z'},now),true);
   for (const fetchedAt of [undefined,'invalid','2026-09-19T00:00:00Z']) assert.equal(needsUpdate({fetchedAt},now),true);
 });
 test('fresh snapshot envelope does not hide stale or unavailable incident feeds', async () => {

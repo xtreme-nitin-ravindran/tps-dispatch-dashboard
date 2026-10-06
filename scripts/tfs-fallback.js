@@ -5,20 +5,12 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { fetchTpsSource } from '../src/tps/source.js';
 import { runTfsEtl } from './tfs-etl.js';
+import { needsUpdate } from './lib/data-publication.js';
 
-export function needsUpdate(snapshot, now = new Date()) {
-  const nowMs = now.getTime();
-  const timestampNeedsUpdate = value => {
-    const timestamp = Date.parse(value);
-    return !Number.isFinite(timestamp) || timestamp > nowMs || nowMs - timestamp >= 600000;
-  };
-  if (timestampNeedsUpdate(snapshot?.fetchedAt)) return true;
-  if (!snapshot?.feeds) return false;
-  return ['TFS', 'TPS'].some(source => {
-    const feed = snapshot.feeds[source];
-    return feed?.status !== 'ok' || timestampNeedsUpdate(feed.fetchedAt);
-  });
-}
+// The freshness/skip policy is shared with Concourse so both schedulers decide
+// identically whether a snapshot needs an update. Re-exported here to preserve
+// the existing public API of this module.
+export { needsUpdate };
 export async function runFallback({ outputPath = 'data/current.json', now = new Date(), etl = options => runTfsEtl({...options, fetchPolice:fetchTpsSource, fetchTravel:updateDisruptions, fetchTtc:updateTtcBackend}) } = {}) {
   let snapshot;
   try { snapshot = JSON.parse(await readFile(outputPath, 'utf8')); }
@@ -29,6 +21,6 @@ export async function runFallback({ outputPath = 'data/current.json', now = new 
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const updated = await runFallback();
-  console.log(updated ? 'Updated stale snapshot via GitHub Actions' : 'Snapshot and incident feeds are under 10 minutes old; skipped');
+  console.log(updated ? 'Updated stale snapshot via GitHub Actions' : 'Snapshot and incident feeds are under 5 minutes old; skipped');
   if (process.env.GITHUB_OUTPUT) await appendFile(process.env.GITHUB_OUTPUT, `updated=${updated}\n`);
 }
