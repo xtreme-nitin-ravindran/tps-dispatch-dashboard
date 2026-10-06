@@ -28,6 +28,7 @@
 
 import { spawn, execFileSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
+import { realpathSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import http from "node:http";
@@ -394,10 +395,26 @@ export async function runCli({
   }
 }
 
+// Canonicalize a filesystem path so two spellings of the same file compare
+// equal. macOS exposes the same temporary directory through both `/var` and
+// `/private/var`, and Node resolves `import.meta.url` to the real path while
+// `process.argv[1]` keeps the spelling the caller used. Comparing the raw
+// strings therefore fails on a symlinked path even though both refer to this
+// module. `realpathSync` resolves symlinks; a path that does not exist (for
+// example a synthetic test value) is returned unchanged.
+export function canonicalPath(path) {
+  try {
+    return realpathSync(path);
+  } catch {
+    return path;
+  }
+}
+
 // Determine whether this module is the process entry point. Exported so the
-// detection is directly testable.
+// detection is directly testable. Both sides are canonicalized so a symlinked
+// invocation path (macOS `/var` vs `/private/var`) is still recognized.
 export function isDirectInvocation({ argv1 = process.argv[1], moduleUrl = import.meta.url } = {}) {
-  return Boolean(argv1) && fileURLToPath(moduleUrl) === argv1;
+  return Boolean(argv1) && canonicalPath(fileURLToPath(moduleUrl)) === canonicalPath(argv1);
 }
 
 // Run the CLI only when this module is the process entry point. Exported so the

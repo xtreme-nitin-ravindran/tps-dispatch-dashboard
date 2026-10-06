@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFile, mkdtemp, mkdir, writeFile, rm, readdir } from "node:fs/promises";
+import { readFile, mkdtemp, mkdir, writeFile, rm, readdir, symlink, realpath } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { EventEmitter } from "node:events";
@@ -22,6 +22,7 @@ import {
   runCli,
   main,
   isDirectInvocation,
+  canonicalPath,
   bootstrap,
   defaultExit
 } from "../scripts/run-browser-suites.js";
@@ -890,6 +891,57 @@ test("isDirectInvocation is true only when argv[1] is this module", () => {
     false,
     "a missing argv[1] must not be a direct invocation"
   );
+});
+
+test("canonicalPath resolves a symlinked path to its real target", async () => {
+  // macOS exposes the same temporary directory through both `/var` and
+  // `/private/var`; a symlink reproduces that aliasing deterministically on
+  // every platform.
+  const scratch = await mkdtemp(join(tmpdir(), "browser-canonical-"));
+  try {
+    const real = join(scratch, "real.js");
+    const link = join(scratch, "link.js");
+    await writeFile(real, "// real\n");
+    await symlink(real, link);
+    assert.equal(canonicalPath(link), canonicalPath(real), "a symlink must canonicalize to its target");
+    // The canonical form is the fully resolved path, which on macOS differs
+    // from the `/var` spelling the scratch directory was created under.
+    assert.equal(canonicalPath(real), await realpath(real), "a real path must resolve to its canonical form");
+  } finally {
+    await rm(scratch, { recursive: true, force: true });
+  }
+});
+
+test("canonicalPath returns a nonexistent path unchanged", () => {
+  const missing = join(tmpdir(), "browser-canonical-missing-does-not-exist.js");
+  assert.equal(canonicalPath(missing), missing, "a missing path must be returned unchanged");
+});
+
+test("isDirectInvocation recognizes a symlinked invocation path", async () => {
+  // Regression: on macOS the scratch directory is reached through `/var` while
+  // Node resolves `import.meta.url` to `/private/var`, so the raw string
+  // comparison failed and the CLI never ran (exit 0 instead of a clear
+  // failure). A symlinked argv[1] must still be recognized as this module.
+  const scratch = await mkdtemp(join(tmpdir(), "browser-symlink-"));
+  try {
+    const real = join(scratch, "run-browser-suites.js");
+    const link = join(scratch, "linked-runner.js");
+    await writeFile(real, "// runner\n");
+    await symlink(real, link);
+    const moduleUrl = new URL(`file://${real}`).href;
+    assert.equal(
+      isDirectInvocation({ argv1: link, moduleUrl }),
+      true,
+      "a symlinked argv[1] pointing at this module must be a direct invocation"
+    );
+    assert.equal(
+      isDirectInvocation({ argv1: join(scratch, "other.js"), moduleUrl }),
+      false,
+      "a different symlinked path must not be a direct invocation"
+    );
+  } finally {
+    await rm(scratch, { recursive: true, force: true });
+  }
 });
 
 test("bootstrap runs the CLI only on a direct invocation", () => {
