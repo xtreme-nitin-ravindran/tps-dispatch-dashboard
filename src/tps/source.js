@@ -18,7 +18,23 @@ export async function fetchTpsSource({ fetchImpl = fetch } = {}) {
     features.push(...page.features);
   }
   if (features.length !== objectIds.length) throw new Error('TPS changed during fetch; retry next run');
-  return features.map(feature => normalizeTps(feature.attributes));
+  // A record that cannot be normalized is skipped so valid siblings are never
+  // discarded. The bounded count is attached non-enumerably so the array contract
+  // (length, map, deepEqual) is unchanged and no upstream text is exposed.
+  const calls = [];
+  let rejected = 0;
+  for (const feature of features) {
+    try {
+      calls.push(normalizeTps(feature.attributes));
+    } catch {
+      rejected++;
+    }
+  }
+  if (rejected > 0) {
+    Object.defineProperty(calls, 'rejected', { value: rejected, enumerable: false });
+    Object.defineProperty(calls, 'rejectedReasons', { value: { invalid_record: rejected }, enumerable: false });
+  }
+  return calls;
 }
 export function normalizeTps(a) {
   const time = a?.OCCURRENCE_TIME_AGOL;

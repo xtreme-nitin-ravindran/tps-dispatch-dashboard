@@ -201,11 +201,59 @@ test('TTC skips spec-violating entities with bounded reasons and retains valid s
  assert.deepEqual(healthy.rejectedReasons,{missing_id:0,missing_title:0,invalid_active_period:0});
 });
 
-test('roads reject malformed identities and dates, and discard invalid geometry',()=>{
- for(const row of [{name:'x'},{id:'x'},{...road,startTime:'bad'},{...road,endTime:'bad'}]) assert.throws(()=>normalizeRoads({Closure:[row]}));
+test('roads skip malformed identities and dates with bounded reasons and discard invalid geometry',()=>{
+ // A malformed record is skipped, never synthesized, and never discards valid siblings.
+ const skipped=normalizeRoads({Closure:[{name:'x'},{id:'x'},{...road,startTime:'bad'},{...road,endTime:'bad'}]});
+ assert.deepEqual(skipped.items,[]);
+ assert.equal(skipped.rejected,4);
+ assert.deepEqual(skipped.rejectedReasons,{missing_id:1,missing_name:1,invalid_dates:2});
+ // A feed-level failure (not an array) still throws rather than reporting healthy-empty.
+ assert.throws(()=>normalizeRoads({error:'bad'}));
  const [item]=normalizeRoads({Closure:[{id:'x',road:'Fallback name',geoPolyline:'[200,100]',expired:1}]}).items;
  assert.equal(item.title,'Fallback name');assert.deepEqual(item.line,[]);assert.equal(item.coordinates,null);assert.equal(item.start,null);assert.equal(item.expired,true);
  assert.deepEqual(normalizeRoads({Closure:[{...road,geoPolyline:''}]}).items[0].line,[]);
+});
+
+test('roads isolate malformed records, retain valid siblings in order, and report bounded reasons',()=>{
+ const rows=[{...road,id:'a'},{name:'no id'},{id:'b'},{...road,id:'c',startTime:'bad'},{...road,id:'d',endTime:'bad'},{...road,id:'e'}];
+ const result=normalizeRoads({Closure:rows});
+ // Valid siblings survive in deterministic source order; malformed records are skipped.
+ assert.deepEqual(result.items.map(item=>item.id),['a','e']);
+ assert.equal(result.rejected,4);
+ assert.deepEqual(result.rejectedReasons,{missing_id:1,missing_name:1,invalid_dates:2});
+ // A healthy feed reports zero rejections and no reason keys are fabricated.
+ const healthy=normalizeRoads({Closure:[road]});
+ assert.equal(healthy.rejected,0);
+ assert.deepEqual(healthy.rejectedReasons,{missing_id:0,missing_name:0,invalid_dates:0});
+ // A healthy-empty feed is distinct from a feed-level failure.
+ const empty=normalizeRoads({Closure:[]});
+ assert.deepEqual(empty.items,[]);
+ assert.equal(empty.rejected,0);
+ // All-malformed input yields a healthy-empty result, not a thrown error.
+ const allBad=normalizeRoads({Closure:[{name:'x'},{id:'y'}]});
+ assert.deepEqual(allBad.items,[]);
+ assert.equal(allBad.rejected,2);
+ // A non-array envelope is a feed-level failure and still throws.
+ assert.throws(()=>normalizeRoads({error:'bad'}));
+ assert.throws(()=>normalizeRoads(null));
+});
+
+test('roads refresh logs bounded rejection diagnostics and preserves unavailable retention',async()=>{
+ const logs=[];
+ const updated=await updateDisruptions({},new Date(now),async(kind)=>kind==='roads'?normalizeRoads({Closure:[road,{name:'no id'}]}):{items:[]},entry=>logs.push(entry));
+ assert.equal(updated.roads.status,'ok');
+ assert.deepEqual(updated.roads.items.map(item=>item.id),['r']);
+ assert.equal(updated.roads.rejected,1);
+ assert.deepEqual(logs,[{source:'toronto-roads',status:'ok',count:1,rejected:1,rejectedReasons:{missing_id:1,missing_name:0,invalid_dates:0}}]);
+ // A healthy feed with no rejections emits no diagnostic log.
+ const quiet=[];
+ await updateDisruptions({},new Date(now),async(kind)=>kind==='roads'?normalizeRoads({Closure:[road]}):{items:[]},entry=>quiet.push(entry));
+ assert.deepEqual(quiet,[]);
+ // A thrown source still marks the source unavailable and retains prior valid items.
+ const previous={roads:{items:[{id:'kept'}],sourceUpdatedAt:null,fetchedAt:new Date(now).toISOString(),checkedAt:new Date(now).toISOString(),status:'ok'}};
+ const failed=await updateDisruptions(previous,new Date(now+300000),async()=>{throw Error('down');},()=>{});
+ assert.equal(failed.roads.status,'unavailable');
+ assert.deepEqual(failed.roads.items,[{id:'kept'}]);
 });
 
 test('failed initial disruption refresh publishes unavailable empty sources and future cache is retried',async()=>{

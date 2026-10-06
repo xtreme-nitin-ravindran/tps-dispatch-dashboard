@@ -22,8 +22,17 @@ export function buildTfsSnapshot(source, now = new Date(), previous = null) {
             incidents.set(incident.id, { ...incident, isOngoing: false });
         }
     }
+    // A row that cannot be normalized is skipped so valid siblings are never
+    // discarded; the count is bounded and carries no upstream text.
+    let rejected = 0;
     for (const row of source.incidents) {
-        const incident = normalizeTfsIncident(row);
+        let incident;
+        try {
+            incident = normalizeTfsIncident(row);
+        } catch {
+            rejected++;
+            continue;
+        }
         if (!incident.id) continue;
         const prior = previousById.get(incident.id);
         incidents.set(incident.id, {
@@ -41,6 +50,7 @@ export function buildTfsSnapshot(source, now = new Date(), previous = null) {
         sourceUpdatedAt,
         incidents: [...incidents.values()]
             .filter(incident => Date.parse(incident.timestamp) >= cutoff && Date.parse(incident.timestamp) <= now.getTime())
-            .sort((a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp))
+            .sort((a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp)),
+        ...(rejected > 0 ? { rejected, rejectedReasons: { invalid_record: rejected } } : {})
     };
 }

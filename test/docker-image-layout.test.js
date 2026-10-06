@@ -45,6 +45,7 @@ const REQUIRED_COPY_PATHS = [
   "styles.css",
   "eslint.config.js",
   "ruff.toml",
+  "_config.yml",
   "package.json",
   "package-lock.json",
   "Dockerfile.test",
@@ -190,6 +191,7 @@ test(".dockerignore never excludes a path the Dockerfile copies", () => {
     "styles.css",
     "eslint.config.js",
     "ruff.toml",
+    "_config.yml",
     "package.json",
     "package-lock.json",
     "Dockerfile.test"

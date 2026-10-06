@@ -65,13 +65,39 @@ test('normalization rejects non-records and handles missing fields and unit iden
  assert.deepEqual(parseDispatchedUnits('Pumper, , REHAB, Z99'),[{type:'Rehab Unit',numbers:['unit']},{type:'Other Unit',numbers:['Z99']}]);
 });
 
+test('TFS XML isolates malformed events, retains valid siblings in order, and reports bounded reasons', async () => {
+ const {parseTfsXml}=await import('../src/tfs/source.js');
+ const header='<tfs_active_incidents><update_from_db_time>2026-09-22 00:00:00</update_from_db_time>';
+ const event=(id,time)=>`<event>${id?`<event_num>${id}</event_num>`:''}${time?`<dispatch_time>${time}</dispatch_time>`:''}</event>`;
+ // Valid siblings survive in deterministic source order; malformed events are skipped.
+ const mixed=parseTfsXml(header+event('F1','2026-09-22T00:00:00')+event('','2026-09-22T00:00:00')+event('F2','garbage')+event('F3','2026-09-22T01:00:00')+'</tfs_active_incidents>');
+ assert.deepEqual(mixed.incidents.map(i=>i.event_id),['F1','F3']);
+ assert.equal(mixed.rejected,2);
+ assert.deepEqual(mixed.rejectedReasons,{missing_id:1,invalid_timestamp:1});
+ // A healthy feed reports zero rejections.
+ const healthy=parseTfsXml(header+event('F1','2026-09-22T00:00:00')+'</tfs_active_incidents>');
+ assert.equal(healthy.rejected,0);
+ assert.deepEqual(healthy.rejectedReasons,{missing_id:0,invalid_timestamp:0});
+ // A healthy-empty feed is distinct from a feed-level failure.
+ const empty=parseTfsXml(header+'</tfs_active_incidents>');
+ assert.deepEqual(empty.incidents,[]);
+ assert.equal(empty.rejected,0);
+ // All-malformed input yields a healthy-empty result, not a thrown error.
+ const allBad=parseTfsXml(header+event('','2026-09-22T00:00:00')+event('F2','garbage')+'</tfs_active_incidents>');
+ assert.deepEqual(allBad.incidents,[]);
+ assert.equal(allBad.rejected,2);
+});
+
 test('TFS fetch propagates HTTP failures and the supplied abort signal', async () => {
  const {fetchTfsSource}=await import('../src/tfs/source.js');
  const signal=new AbortController().signal;
  await assert.rejects(fetchTfsSource({signal,fetchImpl:async(url,options)=>{
   assert.equal(options.signal,signal);return {ok:false,status:503};
  }}), /HTTP 503/);
- const result=await fetchTfsSource({fetchImpl:async()=>({ok:true,text:async()=>'<tfs_active_incidents><update_from_db_time>2026-09-22T00:00:00Z</update_from_db_time><event><event_num>F1</event_num><prime_street>A &amp; B &#35; &#x43;</prime_street></event><event><event_num></event_num></event></tfs_active_incidents>'})});
+ const result=await fetchTfsSource({fetchImpl:async()=>({ok:true,text:async()=>'<tfs_active_incidents><update_from_db_time>2026-09-22T00:00:00Z</update_from_db_time><event><event_num>F1</event_num><dispatch_time>2026-09-22T00:00:00Z</dispatch_time><prime_street>A &amp; B &#35; &#x43;</prime_street></event><event><event_num></event_num><dispatch_time>2026-09-22T00:00:00Z</dispatch_time></event></tfs_active_incidents>'})});
  assert.equal(result.incidents.length,1);
  assert.equal(result.incidents[0].location,'A & B # C');
+ // A malformed sibling is skipped with a bounded reason and never discards the valid event.
+ assert.equal(result.rejected,1);
+ assert.deepEqual(result.rejectedReasons,{missing_id:1,invalid_timestamp:0});
 });
