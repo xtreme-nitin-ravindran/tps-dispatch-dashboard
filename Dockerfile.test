@@ -22,9 +22,10 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 # The image-layout and wrapper regressions inspect the image-defining inputs.
+# The docs-only classifier also requires the Pages configuration in CI.
 # Keep them in the self-contained CI image; the local wrapper also bind-mounts
 # the current working-tree versions over these copies.
-COPY Dockerfile.test .dockerignore ./
+COPY Dockerfile.test .dockerignore _config.yml ./
 
 # Repository content, ordered from relatively stable to relatively volatile so
 # an edit to a volatile path (for example test/) does not invalidate the cache
