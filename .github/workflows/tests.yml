@@ -11,8 +11,26 @@ permissions:
   contents: read
 
 jobs:
+  changes:
+    name: Classify change
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      docs_only: ${{ steps.classify.outputs.docs_only }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Classify documentation-only changes
+        id: classify
+        env:
+          DOCS_ONLY_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          DOCS_ONLY_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: node scripts/docs-only.js
+
   tests:
     name: All tests (Docker)
+    needs: changes
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -21,34 +39,41 @@ jobs:
           fetch-depth: 0
 
       - name: Keep generated snapshots out of code changes
+        if: needs.changes.outputs.docs_only != 'true'
         run: git diff --exit-code origin/main...HEAD -- data/current.json
 
       - name: Build test image
         id: build
+        if: needs.changes.outputs.docs_only != 'true'
         run: docker build -f Dockerfile.test -t toronto-dispatch-tests .
 
       - name: Run unit tests (America/Los_Angeles)
+        if: needs.changes.outputs.docs_only != 'true'
         run: docker run --rm -e TZ=America/Los_Angeles toronto-dispatch-tests npm test
 
       - name: Run Python tests
+        if: needs.changes.outputs.docs_only != 'true'
         run: docker run --rm toronto-dispatch-tests npm run test:python
 
       - name: Run linters
+        if: needs.changes.outputs.docs_only != 'true'
         run: docker run --rm toronto-dispatch-tests npm run lint
 
       - name: Check browser JavaScript syntax
+        if: needs.changes.outputs.docs_only != 'true'
         run: |
           node --check app.js
           find src scripts -name "*.js" -exec node --check {} \;
 
       - name: Run canonical offline suite with coverage (TZ=UTC)
         shell: bash
-        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        if: ${{ !cancelled() && needs.changes.outputs.docs_only != 'true' && steps.build.outcome == 'success' }}
         run: |
           docker run --rm -e TZ=UTC -e NODE_V8_COVERAGE=/tmp/coverage toronto-dispatch-tests npm run test:coverage | tee coverage-report.txt
           python3 scripts/coverage-badges.py coverage-report.txt coverage-badges
 
       - name: Save coverage badges and report
+        if: needs.changes.outputs.docs_only != 'true'
         uses: actions/upload-artifact@v6
         with:
           name: coverage-badges
@@ -56,6 +81,10 @@ jobs:
           path: |
             coverage-badges/*.svg
             coverage-report.txt
+
+      - name: Documentation-only change; application tests not required
+        if: needs.changes.outputs.docs_only == 'true'
+        run: echo "Documentation-only change; application test jobs skipped."
 
   promote:
     name: Promote tested dev
@@ -82,7 +111,7 @@ jobs:
   coverage:
     name: Publish coverage badges
     if: github.ref == 'refs/heads/dev'
-    needs: tests
+    needs: [changes, tests]
     timeout-minutes: 5
     runs-on: ubuntu-latest
     permissions:
@@ -94,11 +123,16 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
+      - name: Documentation-only change; no coverage to publish
+        if: needs.changes.outputs.docs_only == 'true'
+        run: echo "Documentation-only change; coverage badges left unchanged."
       - uses: actions/download-artifact@v7
+        if: needs.changes.outputs.docs_only != 'true'
         with:
           name: coverage-badges
           path: ${{ runner.temp }}/coverage-result
       - name: Publish generated badges on the coverage branch
+        if: needs.changes.outputs.docs_only != 'true'
         env:
           REPORT_DIR: ${{ runner.temp }}/coverage-result
         run: |

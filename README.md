@@ -74,6 +74,18 @@ The **`coverage`** branch is generated solely to publish the [Code Coverage Badg
 and coverage report; it is not a development branch and must not be used for development work.
 Failed checks stop promotion; do not push code directly to **`main`**.
 
+Documentation-only changes skip the expensive application test jobs. A `changes` job runs
+`scripts/docs-only.js`, which classifies the diff with an explicit allow-list: documentation
+extensions (`.md`, `.txt`, `.rst`) inside `docs/` or an explicit root documentation file, and
+only when no executable tooling references the path. A Markdown extension alone is not enough,
+because a documentation file can be read by a script, test, workflow, or build step. Mixed
+changes and every application, script, test, fixture, workflow, package, Docker,
+deployment/configuration, and generated-data change keep full validation. Renames and deletions
+are conservative: both the old and new path must qualify. The `tests` job still runs and reports
+a terminal result for documentation-only changes, so a required status context is never left
+pending and promotion is never left waiting. The classifier is covered by
+`test/docs-only.test.js`.
+
 Before starting new work, synchronize with the last automatic merge:
 
 ```bash

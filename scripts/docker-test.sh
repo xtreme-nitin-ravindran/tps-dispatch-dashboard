@@ -155,7 +155,7 @@ check_fresh() {
 # are skipped so the wrapper stays usable on a partial checkout, but the core
 # validation inputs must exist.
 MOUNT_DIRS="src scripts test data concourse .github"
-MOUNT_FILES="app.js index.html service-worker.js manifest.webmanifest styles.css eslint.config.js ruff.toml Dockerfile.test .dockerignore package.json package-lock.json"
+MOUNT_FILES="app.js index.html service-worker.js manifest.webmanifest styles.css eslint.config.js ruff.toml Dockerfile.test .dockerignore package.json package-lock.json _config.yml"
 
 mount_args() {
   for d in $MOUNT_DIRS; do
