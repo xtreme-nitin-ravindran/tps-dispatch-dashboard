@@ -116,6 +116,34 @@ test('sources refresh independently, cache five minutes, and preserve successful
  assert.deepEqual(transit.items,[]);
 });
 
+test('transit refresh logs bounded rejection diagnostics and preserves unavailable retention',async()=>{
+ const header=proto.split('entity')[0];
+ const malformed=header+'entity { id: "77559" alert { effect: NO_SERVICE } } entity { id: "ok" alert { header_text {translation {text:"Valid sibling"}} } }';
+ const logs=[];
+ const updated=await updateDisruptions({},new Date(now),async(kind)=>kind==='transit'?normalizeTransit(malformed,now):{items:[]},entry=>logs.push(entry));
+ assert.equal(updated.transit.status,'ok');
+ assert.deepEqual(updated.transit.items.map(item=>item.id),['ok']);
+ assert.equal(updated.transit.rejected,1);
+ assert.deepEqual(logs,[{source:'ttc-transit',status:'ok',count:1,rejected:1,rejectedReasons:{missing_id:0,missing_title:1,invalid_active_period:0}}]);
+ // A healthy feed with no rejections emits no diagnostic log.
+ const quiet=[];
+ await updateDisruptions({},new Date(now),async(kind)=>kind==='transit'?normalizeTransit(header,now):{items:[]},entry=>quiet.push(entry));
+ assert.deepEqual(quiet,[]);
+ // The default logger writes a bounded JSON line to stdout when entities are rejected.
+ const originalLog=console.log;
+ const printed=[];
+ console.log=entry=>printed.push(entry);
+ try {
+  await updateDisruptions({},new Date(now),async(kind)=>kind==='transit'?normalizeTransit(malformed,now):{items:[]});
+ } finally { console.log=originalLog; }
+ assert.deepEqual(printed,[JSON.stringify({source:'ttc-transit',status:'ok',count:1,rejected:1,rejectedReasons:{missing_id:0,missing_title:1,invalid_active_period:0}})]);
+ // A thrown source still marks the source unavailable and retains prior valid items.
+ const previous={transit:{items:[{id:'kept'}],sourceUpdatedAt:null,fetchedAt:new Date(now).toISOString(),checkedAt:new Date(now).toISOString(),status:'ok'}};
+ const failed=await updateDisruptions(previous,new Date(now+300000),async()=>{throw Error('down');},()=>{});
+ assert.equal(failed.transit.status,'unavailable');
+ assert.deepEqual(failed.transit.items,[{id:'kept'}]);
+});
+
 test('TTC mixed JSON entities use camelCase and numeric string timestamps',()=>{
  const jsonEntity={id:'mixed',alert:{activePeriod:[{start:String(now/1000-60)}],informedEntity:[{routeId:'5'}],headerText:{translation:[{text:'Line 5 delay',language:'en'}]}}};
  const result=normalizeTransit(proto+'entity '+JSON.stringify(jsonEntity),now);
@@ -130,15 +158,47 @@ test('textproto rejects malformed fields, values, separators and excessive nesti
  assert.deepEqual({...parseTextProto('# comment\nvalue: -1.5')},{value:[-1.5],entity:[]});
 });
 
-test('TTC validates headers, alert identities and active periods, while tolerating optional fields',()=>{
+test('TTC validates headers and rejects malformed feed-level input',()=>{
  const header=proto.split('entity')[0];
- for(const text of ['',header.replace(String(now/1000),String(now/1000+301)),header+'entity { id: "x" alert {} }',header+'entity { alert { header_text {translation {text:"Title"}}} }',header+'entity {id:"x" alert {header_text {translation {text:"Title"}} active_period {start:"bad"}}}']) assert.throws(()=>normalizeTransit(text,now));
+ for(const text of ['',header.replace(String(now/1000),String(now/1000+301))]) assert.throws(()=>normalizeTransit(text,now));
  assert.deepEqual(normalizeTransit(header+'entity {id:"gone" is_deleted:true alert {}} entity {id:"no-alert"}',now).items,[]);
  const [item]=normalizeTransit(header+'entity {id:"x" alert {header_text {translation {text:"Titre" language:"fr"} translation {text:"Title" language:"en"}} informed_entity {} active_period {end:123}}}',now).items;
  assert.equal(item.title,'Title');assert.deepEqual(item.routes,[]);assert.deepEqual(item.periods,[{start:null,end:123000}]);
  const mixed={id:'q',alert:{headerText:{translation:[{text:'Quoted "text" \\ path {x}'}]}}};
  assert.equal(normalizeTransit(header+'entity '+JSON.stringify(mixed),now).items[0].title,'Quoted "text" \\ path {x}');
  assert.deepEqual(normalizeTransit(header,now).items,[]);
+});
+
+test('TTC skips spec-violating entities with bounded reasons and retains valid siblings',()=>{
+ const header=proto.split('entity')[0];
+ // GTFS-Realtime marks header_text Required; a missing title is skipped, never synthesized.
+ const missingTitle=normalizeTransit(header+'entity { id: "77559" alert { effect: NO_SERVICE informed_entity {route_id:"2"} } }',now);
+ assert.deepEqual(missingTitle.items,[]);
+ assert.equal(missingTitle.rejected,1);
+ assert.deepEqual(missingTitle.rejectedReasons,{missing_id:0,missing_title:1,invalid_active_period:0});
+ // A missing entity id is skipped with its own reason.
+ const missingId=normalizeTransit(header+'entity { alert { header_text {translation {text:"Title"}}} }',now);
+ assert.deepEqual(missingId.items,[]);
+ assert.equal(missingId.rejected,1);
+ assert.equal(missingId.rejectedReasons.missing_id,1);
+ // An invalid active period is skipped with its own reason.
+ const badPeriod=normalizeTransit(header+'entity {id:"x" alert {header_text {translation {text:"Title"}} active_period {start:"bad"}}}',now);
+ assert.deepEqual(badPeriod.items,[]);
+ assert.equal(badPeriod.rejectedReasons.invalid_active_period,1);
+ // Valid siblings survive alongside a malformed entity, and ordering is preserved.
+ const mixed=normalizeTransit(header+'entity { id: "77559" alert { effect: NO_SERVICE } } entity { id: "ok" alert { header_text {translation {text:"Valid sibling"}} } }',now);
+ assert.deepEqual(mixed.items.map(item=>item.id),['ok']);
+ assert.equal(mixed.rejected,1);
+ // All entities malformed yields a healthy-empty result, not a thrown error.
+ const allBad=normalizeTransit(header+'entity { id: "a" alert {} } entity { id: "b" alert {} }',now);
+ assert.deepEqual(allBad.items,[]);
+ assert.equal(allBad.rejected,2);
+ assert.equal(allBad.rejectedReasons.missing_title,2);
+ // A healthy-empty feed reports zero rejections.
+ const healthy=normalizeTransit(header,now);
+ assert.deepEqual(healthy.items,[]);
+ assert.equal(healthy.rejected,0);
+ assert.deepEqual(healthy.rejectedReasons,{missing_id:0,missing_title:0,invalid_active_period:0});
 });
 
 test('roads reject malformed identities and dates, and discard invalid geometry',()=>{

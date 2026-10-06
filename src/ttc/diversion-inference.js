@@ -3,6 +3,7 @@ import { validateVehicleState, VEHICLE_POLICY } from './vehicle-detector.js';
 import { isAlertActive } from './lifecycle.js';
 import { compileShape, projectVehicle, geographicDistance } from './vehicle-geometry.js';
 import { coordinate, distance, corridorDistance, simplifyGeometry, scheduledSegment } from './diversion-geometry.js';
+import { validateOfficialAdvisories } from './official-advisories.js';
 
 export const DIVERSION_POLICY=Object.freeze({maxEpisodes:500,maxPoints:120,maxClustersPerRoute:12,maxClusters:200,
   maxMembers:24,maxGeometryPoints:122,evidenceMs:1800000,maxEpisodeMs:1800000,endpointMeters:150,corridorMeters:100,
@@ -26,8 +27,10 @@ const usable=e=>e.confirmed&&!e.truncated&&e.departure&&e.points.length>=3;
 const episodeGeometry=e=>[e.departure.point,...e.points.map(coordinate),...(e.rejoin?[e.rejoin.point]:[])];
 
 /** Capture only Story 30D's accepted history and transitions, never classify GPS anew. */
-export function collectEpisodes(previous,vehicles,now) {
-  const episodes=new Map((previous||[]).filter(e=>+now-Date.parse(e.lastObservedAt)<=DIVERSION_POLICY.evidenceMs).map(e=>[e.id,structuredClone(e)]));
+export function collectEpisodes(previous,vehicles,now,report) {
+  const prior=(previous||[]);
+  const episodes=new Map(prior.filter(e=>+now-Date.parse(e.lastObservedAt)<=DIVERSION_POLICY.evidenceMs).map(e=>[e.id,structuredClone(e)]));
+  if (report) { report.episodesLoaded=prior.length; report.episodesExpired=prior.length-episodes.size; }
   if (vehicles.status==='ok') for (const t of vehicles.tracks) {
     if (+now-Date.parse(t.lastObservedAt)>120000) continue;
     const eid=t.deviationStartedAt?episodeId(vehicles.staticVersion,t):null;
@@ -40,6 +43,7 @@ export function collectEpisodes(previous,vehicles,now) {
         ...(t.tripId?{tripId:t.tripId}:{}),startedAt:t.deviationStartedAt,lastObservedAt:off.observedAt,lastOffAt:off.observedAt,
         confirmed:false,completed:false,closed:false,truncated:false,departure:boundary(on,off),points:[],relatedAlertIds:[]};
       episodes.set(e.id,e);
+      if (report) report.episodesCreated++;
     }
     if (!e||e.closed) continue;
     const fresh=t.history.filter(h=>h.observedAt>=e.startedAt&&(!e.points.length||h.observedAt>e.lastObservedAt));
@@ -101,14 +105,34 @@ function alertSupport(group,alerts,index,now) {
     return projections.every(p=>p&&!p.projectionAmbiguous)&&Math.max(...projections.map(p=>p.progressMeters))>=start&&Math.min(...projections.map(p=>p.progressMeters))<=end;
   }).map(a=>a.id).sort();
 }
-function confidence(group,related) {
+// Story 51C: associate independently observed trajectories with active official
+// Service Changes using structured route/time evidence only. The observed pattern
+// and GTFS directionId remain the authority for the path direction; website prose
+// ("eastbound", "both ways") is never converted into a direction id and never
+// generates geometry. When more than one active, route-compatible advisory is
+// indistinguishable, no advisory relationship is claimed.
+const ADVISORY_DETOUR_EFFECTS=new Set(['DETOUR','MODIFIED SERVICE']);
+function advisorySupport(group,advisories,now) {
+  if (advisories?.status!=='ok') return {refs:[],ambiguous:false};
+  const routeId=group[0].routeId;
+  const candidates=advisories.advisories.filter(a=>{
+    if (!a.routeIds.includes(routeId)||!ADVISORY_DETOUR_EFFECTS.has(a.effect)) return false;
+    // Half-open active periods; absent bounds are unlimited. An advisory with no
+    // periods is treated as active, matching the GTFS-RT lifecycle semantics.
+    return !a.activePeriods.length||a.activePeriods.some(p=>(!p.start||Date.parse(p.start)<=+now)&&(!p.end||+now<Date.parse(p.end)));
+  }).map(a=>a.ref).sort();
+  // Two or more indistinguishable same-route advisories cannot be safely claimed.
+  if (candidates.length>1) return {refs:[],ambiguous:true};
+  return {refs:candidates,ambiguous:false};
+}
+function confidence(group,related,advisory) {
   const completed=group.filter(e=>e.completed&&e.departure.method==='on-route-projection');
   const vehicles=new Set(group.map(e=>e.vehicleId)).size;
   const completedVehicles=new Set(completed.map(e=>e.vehicleId)).size;
   const confirmed=completedVehicles>=2||completed.length>=3;
   const likely=vehicles>=2||group.filter(e=>e.completed).length>=3;
   return {status:confirmed?'confirmed':likely?'likely':'candidate',rule:confirmed?'two-completed-vehicles-or-three-completed-episodes':likely?'repeated-incomplete-evidence':'insufficient-independent-evidence',
-    alertSupported:related.length>0};
+    alertSupported:related.length>0,advisorySupported:advisory.refs.length>0};
 }
 function representative(group) {
   const anchored=group.filter(e=>e.completed&&e.departure.method==='on-route-projection');
@@ -118,13 +142,21 @@ function representative(group) {
 }
 function anchor(e) { return {routeId:e.routeId,directionId:e.directionId,patternId:e.patternId,shapeId:e.shapeId,departure:e.departure,...(e.rejoin?{rejoin:e.rejoin}:{}),geometry:episodeGeometry(e)}; }
 
-export function inferDiversions(previous,vehicles,index,now,alerts,{simplificationMeters=DIVERSION_POLICY.simplificationMeters}={}) {
+export function inferDiversions(previous,vehicles,index,now,alerts,{simplificationMeters=DIVERSION_POLICY.simplificationMeters,advisories}={}) {
   const started=performance.now();validateVehicleState(vehicles,index);
+  // Story 51C: official advisory context is validated, counted, and associated
+  // with observed trajectories through structured route/time evidence only.
+  if (advisories) validateOfficialAdvisories(advisories);
   if (previous) validateDiversionState(previous,previous.staticVersion===index.version?index:undefined);
   if (previous?.staticVersion!==index.version) previous=undefined;
-  const episodes=collectEpisodes(previous?.episodes,vehicles,now);
-  const report={episodesReceived:episodes.filter(e=>e.confirmed).length,completedTrajectories:episodes.filter(e=>e.completed).length,
-    incompleteTrajectories:episodes.filter(e=>e.confirmed&&!e.completed).length,clustersCreated:0,clustersMerged:0,clustersSplit:0,expiredClusters:0,geometryUpdates:0,capacityDropped:0,geometryRejected:0};
+  const report={clustersCreated:0,clustersMerged:0,clustersSplit:0,expiredClusters:0,geometryUpdates:0,capacityDropped:0,geometryRejected:0,
+    officialAdvisories:advisories?.advisories?.length||0,
+    // Bounded episode lifecycle diagnostics: loaded/created/closed/expired/retained.
+    episodesLoaded:0,episodesCreated:0,episodesClosed:0,episodesExpired:0,episodesRetained:0,
+    advisoryAssociated:0,advisoryAmbiguous:0};
+  const episodes=collectEpisodes(previous?.episodes,vehicles,now,report);
+  Object.assign(report,{episodesReceived:episodes.filter(e=>e.confirmed).length,completedTrajectories:episodes.filter(e=>e.completed).length,
+    incompleteTrajectories:episodes.filter(e=>e.confirmed&&!e.completed).length});
   const groups=[],buckets=new Map(),routeCounts=new Map();
   const candidates=episodes.filter(usable).filter(e=>{
     if (Number.isFinite(trajectorySimilarity(e,e))) return true;
@@ -142,9 +174,11 @@ export function inferDiversions(previous,vehicles,index,now,alerts,{simplificati
     const g=[e];groups.push(g);routeCounts.set(e.routeId,(routeCounts.get(e.routeId)||0)+1);
     const k=`${prefix}:${bin}`;if (!buckets.has(k)) buckets.set(k,[]);buckets.get(k).push(g);
   }
-  const used=new Set(),retired=new Set(),records=[],similarities=[];
+  const used=new Set(),retired=new Set(),records=[],similarities=[],advisoryAmbiguous=new Set();
   for (const group of groups) {
-    const rep=representative(group),related=alertSupport(group,alerts,index,now),c=confidence(group,related);
+    const rep=representative(group),related=alertSupport(group,alerts,index,now),advisory=advisorySupport(group,advisories,now),c=confidence(group,related,advisory);
+    if (advisory.ambiguous) { advisoryAmbiguous.add(rep.routeId); report.advisoryAmbiguous++; }
+    else if (advisory.refs.length) report.advisoryAssociated++;
     const old=(previous?.records||[]).filter(r=>!used.has(r.id)&&trajectorySimilarity(anchor(rep),r.identityAnchor)<=DIVERSION_POLICY.corridorMeters)
       .sort((a,b)=>a.firstObservedAt.localeCompare(b.firstObservedAt)||a.id.localeCompare(b.id))[0];
     const firstObservedAt=old?.firstObservedAt||group.map(e=>e.startedAt).sort()[0];
@@ -171,7 +205,14 @@ export function inferDiversions(previous,vehicles,index,now,alerts,{simplificati
     const scheduled=scheduledSegment(index.shapes.get(rep.shapeId),rep.departure,rep.rejoin);
     // At most maxPoints (120) accepted samples plus two boundary points (122).
     const spread=Math.max(0,...group.map(e=>trajectorySimilarity(rep,e)));similarities.push(spread);
-    const record={id:old?.id||`diversion-${digest(JSON.stringify([index.version,rep.id])).slice(0,24)}`,
+    // A cluster can split when one member's trajectory diverges. The inherited id
+    // must stay unique: the group that does not claim the previous record derives a
+    // fresh id from its own representative, which can collide with the previous
+    // record's original derivation. Disambiguate deterministically from the group.
+    const baseId=old?.id||`diversion-${digest(JSON.stringify([index.version,rep.id])).slice(0,24)}`;
+    const taken=new Set([...used,...records.map(r=>r.id)]);
+    const recordId=taken.has(baseId)?`diversion-${digest(JSON.stringify([index.version,rep.id,group.map(e=>e.id).sort()])).slice(0,24)}`:baseId;
+    const record={id:recordId,
       routeId:rep.routeId,directionId:rep.directionId,patternId:rep.patternId,shapeId:rep.shapeId,status:c.status,confidence:c,geometrySource:'sirento-observed',
       firstObservedAt,lastObservedAt,departure:rep.departure,...(rep.rejoin?{rejoin:rep.rejoin}:{}),geometry,
       scheduledAffectedSegment:{shapeId:rep.shapeId,fromMeters:rep.departure.progressMeters,toMeters:rep.rejoin?.progressMeters??null,
@@ -179,7 +220,7 @@ export function inferDiversions(previous,vehicles,index,now,alerts,{simplificati
       evidence:{trajectoryCount:group.length,vehicleCount:new Set(group.map(e=>e.vehicleId)).size,completedTrajectoryCount:group.filter(e=>e.completed).length,
         anchoredCompletedCount:group.filter(e=>e.completed&&e.departure.method==='on-route-projection').length,
         completedVehicleCount:new Set(group.filter(e=>e.completed&&e.departure.method==='on-route-projection').map(e=>e.vehicleId)).size,maxCorridorDistanceMeters:spread},
-      relatedAlertIds:related,retirementMs:expiry,identityAnchor:old?.identityAnchor?.rejoin?old.identityAnchor:anchor(rep),episodeIds:group.map(e=>e.id).sort()};
+      relatedAlertIds:related,relatedAdvisoryRefs:advisory.refs,retirementMs:expiry,identityAnchor:old?.identityAnchor?.rejoin?old.identityAnchor:anchor(rep),episodeIds:group.map(e=>e.id).sort()};
     if (old) {used.add(old.id);if (JSON.stringify(old.geometry)!==JSON.stringify(geometry)) report.geometryUpdates++;}
     else {report.clustersCreated++;if ((previous?.records||[]).some(r=>key(r)===key(record)&&Math.abs(r.departure.progressMeters-record.departure.progressMeters)<=DIVERSION_POLICY.endpointMeters)) report.clustersSplit++;}
     report.clustersMerged+=(previous?.records||[]).filter(r=>r.id!==old?.id&&r.episodeIds.some(id=>record.episodeIds.includes(id))).length;
@@ -187,10 +228,14 @@ export function inferDiversions(previous,vehicles,index,now,alerts,{simplificati
   }
   report.expiredClusters=(previous?.records||[]).filter(r=>!records.some(n=>n.id===r.id)).length;
   const state={schemaVersion:1,staticVersion:index.version,status:vehicles.status,checkedAt:now.toISOString(),episodes:episodes.filter(e=>!retired.has(e.id)),records};
+  report.episodesRetained=state.episodes.length;
+  report.episodesClosed=state.episodes.filter(e=>e.closed).length;
   Object.assign(report,{candidate:records.filter(r=>r.status==='candidate').length,likely:records.filter(r=>r.status==='likely').length,confirmed:records.filter(r=>r.status==='confirmed').length,
     clustersWithOneVehicle:records.filter(r=>r.evidence.vehicleCount===1).length,clustersWithMultipleVehicles:records.filter(r=>r.evidence.vehicleCount>=2).length,
     routesAffected:[...new Set(records.map(r=>r.routeId))].sort(),averageClusterDistanceMeters:similarities.length?similarities.reduce((a,b)=>a+b,0)/similarities.length:0,
-    maxClusterDistanceMeters:Math.max(0,...similarities),relatedAlertCount:records.reduce((n,r)=>n+r.relatedAlertIds.length,0),processingMs:performance.now()-started,rssBytes:process.memoryUsage().rss});
+    maxClusterDistanceMeters:Math.max(0,...similarities),relatedAlertCount:records.reduce((n,r)=>n+r.relatedAlertIds.length,0),
+    relatedAdvisoryCount:records.reduce((n,r)=>n+r.relatedAdvisoryRefs.length,0),advisoryAmbiguousCount:records.filter(r=>advisoryAmbiguous.has(r.routeId)).length,
+    processingMs:performance.now()-started,rssBytes:process.memoryUsage().rss});
   validateDiversionState(state,index);
   return {state,output:diversionOutput(state),report};
 }
@@ -229,11 +274,12 @@ export function validateDiversionOutput(s,index) {
       !validateBoundary(r.departure,shape)||(r.rejoin&&(!validateBoundary(r.rejoin,shape)||r.rejoin.progressMeters<=r.departure.progressMeters))||
       !Array.isArray(r.geometry)||r.geometry.length<2||r.geometry.length>DIVERSION_POLICY.maxGeometryPoints||!r.geometry.every(coord)||
       !Array.isArray(r.relatedAlertIds)||!r.relatedAlertIds.every(id)||new Set(r.relatedAlertIds).size!==r.relatedAlertIds.length||
+      !Array.isArray(r.relatedAdvisoryRefs)||!r.relatedAdvisoryRefs.every(id)||new Set(r.relatedAdvisoryRefs).size!==r.relatedAdvisoryRefs.length||
       !e||!['trajectoryCount','vehicleCount','completedTrajectoryCount','anchoredCompletedCount','completedVehicleCount'].every(k=>integer(e[k]))||
       e.trajectoryCount<1||e.trajectoryCount>DIVERSION_POLICY.maxMembers||e.vehicleCount<1||e.vehicleCount>e.trajectoryCount||e.completedTrajectoryCount>e.trajectoryCount||e.anchoredCompletedCount>e.completedTrajectoryCount||e.completedVehicleCount>e.anchoredCompletedCount||e.completedVehicleCount>e.vehicleCount||
       !Number.isFinite(e.maxCorridorDistanceMeters)||e.maxCorridorDistanceMeters<0||e.maxCorridorDistanceMeters>DIVERSION_POLICY.corridorMeters||
       (r.status==='confirmed'&&(!(e.completedVehicleCount>=2||e.anchoredCompletedCount>=3)||!r.rejoin||r.departure.method!=='on-route-projection'))||
-      (r.status==='likely'&&!(e.vehicleCount>=2||e.completedTrajectoryCount>=3))||!r.confidence||r.confidence.status!==r.status||!id(r.confidence.rule)||r.confidence.alertSupported!==(r.relatedAlertIds.length>0)) fail();
+      (r.status==='likely'&&!(e.vehicleCount>=2||e.completedTrajectoryCount>=3))||!r.confidence||r.confidence.status!==r.status||!id(r.confidence.rule)||r.confidence.alertSupported!==(r.relatedAlertIds.length>0)||r.confidence.advisorySupported!==(r.relatedAdvisoryRefs.length>0)) fail();
     const seg=r.scheduledAffectedSegment;
     if (!seg||seg.shapeId!==r.shapeId||seg.fromMeters!==r.departure.progressMeters||seg.toMeters!==(r.rejoin?.progressMeters??null)||
       !(seg.geometry===null||(Array.isArray(seg.geometry)&&seg.geometry.length>=2&&seg.geometry.length<=DIVERSION_POLICY.maxGeometryPoints&&seg.geometry.every(coord)))) fail();

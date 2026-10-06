@@ -1,4 +1,4 @@
-import { activeTtcAlerts } from '../ttc/presentation.js';
+import { activeTtcAlerts, claimedAdvisoryIds } from '../ttc/presentation.js';
 import { currentDisruptions, roadDistance, transitGeographicMatch } from './view.js';
 import { distanceLabel } from '../nearby.js';
 import { sourceStatus, sourceStatusText } from '../source-status.js?v=source-states-1';
@@ -233,7 +233,10 @@ export function renderDisruptions(data, origin, radius, map) {
   let roads=allRoads;
   if (origin) roads=roads.filter(r => roadDistance(r,origin) <= radius).sort((a,b)=>roadDistance(a,origin)-roadDistance(b,origin));
   const backendIds=new Set(activeTtcAlerts(data?.ttcAlerts,now).map(item=>item.id));
-  const transit=currentDisruptions(data?.transit,'transit',now).filter(item=>!backendIds.has(item.id));
+  // Story 51D: an official Service Change that the Story 30 presentation now
+  // renders with observed geometry must not also appear in the citywide list.
+  const claimedAdvisories=claimedAdvisoryIds(data?.ttcDiversions,data?.transit,now);
+  const transit=currentDisruptions(data?.transit,'transit',now).filter(item=>!backendIds.has(item.id) && !claimedAdvisories.has(item.id));
   const nearbyTransit=origin && radius !== null
     ? transit.map(item => ({item,match:transitGeographicMatch(item,origin,radius)})).filter(({match}) => match.relevant)
     : [];

@@ -5,6 +5,9 @@ image_resource:
   source: { repository: node, tag: 24-bookworm-slim }
 inputs:
   - name: repo
+  # The preceding incident snapshot supplies official-advisory context. The TTC
+  # website is never fetched again here; a missing input is a `not-loaded` contract.
+  - name: incident-repo
 outputs:
   - name: ttc-vehicle-evidence
 caches:
@@ -21,4 +24,4 @@ run:
     - -ec
     - |
       npm ci --prefix repo --omit=dev
-      node repo/scripts/ttc-vehicles.js --polls 4 --interval-ms 30000
+      node repo/scripts/ttc-vehicles.js --polls 4 --interval-ms 30000 --advisory incident-repo/data/current.json

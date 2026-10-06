@@ -13,7 +13,12 @@ import { MAX_OBSERVATION_AGE_MS, fetchTtcVehicles } from './vehicle-feed.js';
 export const VEHICLE_POLICY = Object.freeze({entryMeters:100,exitMeters:50,terminalMeters:150,
   confirmationCount:3,confirmationMs:60000,confirmationMovementMeters:100,rejoinCount:3,rejoinMs:60000,
   historyCount:20,historyMs:600000,inactivityMs:600000,maxGapMs:360000,maxVehicles:3000,
-  maxSpeedMetersPerSecond:40,jumpSlackMeters:100,maxArtifactBytes:32*1024*1024});
+  maxSpeedMetersPerSecond:40,jumpSlackMeters:100,maxArtifactBytes:32*1024*1024,
+  // A single transient unmatched or ambiguous observation must not destroy accumulated
+  // evidence. A track survives unresolved observations for at most this bounded window
+  // (one cadence with slack, matching maxGapMs); a resolved observation that matches the
+  // same assignment/pattern continues it, and anything else drops it.
+  unresolvedGraceMs:360000});
 const states = ['on-route','possible','confirmed','rejoining','unknown'];
 const instant = s => typeof s === 'string' && Number.isFinite(Date.parse(s)) && new Date(s).toISOString() === s;
 const id = s => typeof s === 'string' && s.trim().length > 0;
@@ -43,6 +48,29 @@ export function correlateVehicle(o,index) {
   return {quality,pattern};
 }
 
+// Bounded grace for a transient unmatched/ambiguous observation. The track keeps
+// its accumulated history and deviation anchor, but its lastObservedAt does not
+// advance, so it cannot be exported as fresh evidence and it still ages out via
+// inactivityMs. A conflicting route is an incompatible assignment, not a transient
+// gap, so it is never graced. The grace window is measured from the last resolved
+// observation, which is always at or before the first unresolved one, so a single
+// age check bounds the whole gap. Returns a fixed reason key so the caller can
+// report why a track was retained or dropped without logging raw history.
+//   started/continued -> the track may be retained
+//   absent/conflict/stale/expired -> the track must be dropped
+function graceUnresolved(tracks,t,o,now,policy) {
+  if (!t) return 'absent';
+  if (o.routeId !== undefined && o.routeId !== t.routeId) return 'conflict';
+  if (+now-Date.parse(t.lastObservedAt)>policy.unresolvedGraceMs) return t.unresolvedSince!==undefined ? 'expired' : 'stale';
+  const started = t.unresolvedSince === undefined;
+  t.unresolvedSince ??= o.observedAt;
+  tracks.set(o.vehicleId,t);
+  return started ? 'started' : 'continued';
+}
+// Fixed, documented mapping from a grace reason key to its bounded report counter.
+const GRACE_COUNTERS = Object.freeze({started:'graceStarted',continued:'graceContinued',expired:'graceExpired',
+  absent:'graceRefusedAbsent',conflict:'graceRefusedConflict',stale:'graceRefusedStale'});
+
 function relatedAlerts(alerts,p,o,now) {
   if (alerts?.status !== 'ok') return [];
   return alerts.items.filter(a=>{
@@ -61,12 +89,18 @@ export function detectVehicles(previous,feed,index,now,alerts,{geometryCache = n
   const start = performance.now(), policy = VEHICLE_POLICY;
   if (previous) validateVehicleState(previous,previous.staticVersion === index.version ? index : undefined);
   const report = {...feed?.diagnostics,exact:0,probable:0,ambiguous:0,unmatched:0,tripIdMatched:0,tripIdUnmatched:0,tripContextConflicts:0,withRoute:0,withTrip:0,
-    stale:feed?.diagnostics?.stale || 0,duplicateOrOutOfOrder:0,gpsAnomalies:0,expired:0,resets:0,rejoined:0,terminalSuppressed:0,capacityDropped:0,matchingMs:0,geometryMs:0};
+    stale:feed?.diagnostics?.stale || 0,duplicateOrOutOfOrder:0,gpsAnomalies:0,expired:0,resets:0,rejoined:0,terminalSuppressed:0,capacityDropped:0,matchingMs:0,geometryMs:0,
+    // Bounded continuity diagnostics: track lifecycle and unresolved-grace reasons.
+    // These explain "why was no path produced?" without logging raw fleet history.
+    tracksLoaded:previous?.tracks?.length || 0,tracksCreated:0,tracksRetained:0,
+    graceStarted:0,graceContinued:0,graceCleared:0,graceExpired:0,graceRefusedAbsent:0,graceRefusedConflict:0,graceRefusedStale:0,graceRefusedIncompatible:0};
   const tracks = new Map();
   for (const t of previous?.tracks || []) {
     if (previous.staticVersion !== index.version || +now-Date.parse(t.lastObservedAt)>policy.inactivityMs) { report.expired++; continue; }
     tracks.set(t.vehicleId,structuredClone(t));
   }
+  // Retain a track for a bounded grace window and record the fixed reason key.
+  const grace = (t,o) => { const reason=graceUnresolved(tracks,t,o,now,policy); report[GRACE_COUNTERS[reason]]++; return reason==='started'||reason==='continued'; };
   const distances = [];
   for (const o of feed?.observations || []) {
     if (!id(o.vehicleId) || !validCoordinate(o.latitude,o.longitude) || !instant(o.observedAt) || !instant(o.fetchedAt)) throw new Error('Invalid normalized vehicle observation');
@@ -83,17 +117,27 @@ export function detectVehicles(previous,feed,index,now,alerts,{geometryCache = n
     if (match.conflict) report.tripContextConflicts++;
     if (o.routeId) report.withRoute++;
     if (o.tripId) { report.withTrip++; report[index.trips.has(o.tripId)?'tripIdMatched':'tripIdUnmatched']++; }
-    if (!match.pattern) { tracks.delete(o.vehicleId); continue; }
+    // A single transient unmatched or ambiguous observation must not destroy
+    // accumulated evidence. Keep the track for a bounded grace window; a resolved
+    // observation that matches the same assignment/pattern continues it, and the
+    // existing gap/assignment reset still rejects incompatible or stale joins.
+    if (!match.pattern) { if (!grace(t,o)) tracks.delete(o.vehicleId); continue; }
     const p = match.pattern, shapeKey = `${index.version}:${p.shapeId}`;
     const geoStart = performance.now();
     if (!geometryCache.has(shapeKey)) geometryCache.set(shapeKey,compileShape(index.shapes.get(p.shapeId)));
     const projection = projectVehicle(o,geometryCache.get(shapeKey));
     report.geometryMs += performance.now()-geoStart;
-    if (!projection) { tracks.delete(o.vehicleId); continue; }
+    if (!projection) { if (!grace(t,o)) tracks.delete(o.vehicleId); continue; }
+    if (t) { if (t.unresolvedSince !== undefined) report.graceCleared++; delete t.unresolvedSince; }
     distances.push(projection.distanceFromShapeMeters);
-    if (t && (t.assignment!==assignment(o) || t.patternId!==p.patternId || gap>policy.maxGapMs)) { t = null; report.resets++; }
-    if (!t) t = {vehicleId:o.vehicleId,assignment:assignment(o),routeId:p.routeId,...(o.tripId?{tripId:o.tripId}:{}),directionId:p.directionId,
-      patternId:p.patternId,shapeId:p.shapeId,quality:match.quality,state:'unknown',history:[],relatedAlertIds:[]};
+    if (t && (t.assignment!==assignment(o) || t.patternId!==p.patternId || gap>policy.maxGapMs)) {
+      // A resolved observation with an incompatible assignment/pattern is a reset,
+      // not a transient gap: accumulated evidence is discarded, never graced.
+      if (t.assignment!==assignment(o) || t.patternId!==p.patternId) report.graceRefusedIncompatible++;
+      t = null; report.resets++;
+    }
+    if (!t) { report.tracksCreated++; t = {vehicleId:o.vehicleId,assignment:assignment(o),routeId:p.routeId,...(o.tripId?{tripId:o.tripId}:{}),directionId:p.directionId,
+      patternId:p.patternId,shapeId:p.shapeId,quality:match.quality,state:'unknown',history:[],relatedAlertIds:[]}; }
     const terminal = projection.endpointDistanceMeters<policy.terminalMeters;
     const evidence = projection.distanceFromShapeMeters<policy.exitMeters ? 'on' : terminal ? 'neutral' : projection.distanceFromShapeMeters>policy.entryMeters ? 'off' : 'neutral';
     if (terminal) report.terminalSuppressed++;
@@ -131,6 +175,7 @@ export function detectVehicles(previous,feed,index,now,alerts,{geometryCache = n
   distances.sort((a,b)=>a-b);
   const result = {schemaVersion:1,staticVersion:index.version,status:feed?'ok':'unavailable',checkedAt:now.toISOString(),
     fetchedAt:feed?now.toISOString():previous?.fetchedAt??null,sourceUpdatedAt:feed?.sourceUpdatedAt??previous?.sourceUpdatedAt??null,tracks:sorted};
+  report.tracksRetained=sorted.length;
   Object.assign(report,{onRoute:sorted.filter(t=>t.state==='on-route').length,possible:sorted.filter(t=>t.state==='possible').length,confirmed:sorted.filter(t=>t.state==='confirmed').length,
     rejoining:sorted.filter(t=>t.state==='rejoining').length,relatedAlerts:sorted.filter(t=>t.relatedAlertIds.length).length,
     maxDistanceMeters:distances.at(-1)??null,p50Meters:distances[Math.floor(distances.length*.5)]??null,p95Meters:distances[Math.floor(distances.length*.95)]??null,p99Meters:distances[Math.floor(distances.length*.99)]??null,
@@ -169,6 +214,7 @@ export function validateVehicleState(s,index) {
   for (const t of s.tracks) {
     if (!id(t.vehicleId)||ids.has(t.vehicleId)||!id(t.routeId)||!id(t.assignment)||!id(t.patternId)||!id(t.shapeId)||!states.includes(t.state)||!['exact','probable'].includes(t.quality)||![null,0,1].includes(t.directionId)||!instant(t.lastObservedAt)||!Array.isArray(t.history)||!t.history.length||t.history.length>VEHICLE_POLICY.historyCount||!Array.isArray(t.relatedAlertIds)||!t.relatedAlertIds.every(id)||new Set(t.relatedAlertIds).size!==t.relatedAlertIds.length) fail();
     if (['possible','confirmed','rejoining'].includes(t.state) && (!instant(t.deviationStartedAt)||t.deviationStartedAt>t.lastObservedAt)) fail();
+    if (t.unresolvedSince!==undefined && (!instant(t.unresolvedSince)||t.unresolvedSince<t.lastObservedAt||Date.parse(t.unresolvedSince)>Date.parse(s.checkedAt)+30000)) fail();
     if (Date.parse(t.lastObservedAt)>Date.parse(s.checkedAt)+30000) fail();
     ids.add(t.vehicleId);
     const p = index?.patterns.get(t.patternId), shape = index?.shapes.get(t.shapeId);

@@ -1,0 +1,88 @@
+{
+  "now": 1791229200000,
+  "transit": {
+    "items": [
+      {
+        "id": "102",
+        "title": "94 Wellesley – Temporary route change due to Wellesley Street project",
+        "description": "94 Wellesley buses will divert eastbound via south on Jarvis Street, east on Carlton Street and north on Parliament Street, to regular route. Stops not served: eastbound Wellesley Street East between Jarvis and Parliament streets.",
+        "effect": "MODIFIED SERVICE",
+        "routes": [
+          "94"
+        ],
+        "stopIds": [],
+        "affectedEntities": [
+          {
+            "routeId": "94",
+            "stopId": null
+          }
+        ],
+        "periods": [
+          {
+            "start": 1791228200000,
+            "end": 1791329200000
+          }
+        ],
+        "url": "https://www.ttc.ca/service-advisories/all-service-alerts"
+      }
+    ],
+    "status": "ok",
+    "checkedAt": "2026-10-05T19:40:00.000Z",
+    "fetchedAt": "2026-10-05T19:40:00.000Z",
+    "sourceUpdatedAt": "2026-10-05T19:40:00.000Z"
+  },
+  "ttcAlerts": {
+    "schemaVersion": 1,
+    "items": [],
+    "sourceUpdatedAt": "2026-10-05T19:40:00.000Z",
+    "status": "ok",
+    "fetchedAt": "2026-10-05T19:40:00.000Z",
+    "checkedAt": "2026-10-05T19:40:00.000Z"
+  },
+  "ttcDiversions": {
+    "schemaVersion": 1,
+    "status": "ok",
+    "checkedAt": "2026-10-05T19:44:00.000Z",
+    "diversions": [
+      {
+        "id": "diversion-5b46bfaf4fa2aa55fc5c71ad",
+        "routeId": "94",
+        "directionId": 0,
+        "status": "confirmed",
+        "geometrySource": "sirento-observed",
+        "geometry": [
+          [
+            -79.37899780273438,
+            43.665
+          ],
+          [
+            -79.38099670410156,
+            43.66299819946289
+          ],
+          [
+            -79.38400268554688,
+            43.6609992980957
+          ],
+          [
+            -79.38600158691406,
+            43.6609992980957
+          ],
+          [
+            -79.38800048828125,
+            43.66299819946289
+          ],
+          [
+            -79.38899993896484,
+            43.665
+          ]
+        ],
+        "relatedAlertIds": [],
+        "relatedAdvisoryRefs": [
+          "ttc-service-change:102"
+        ],
+        "lastObservedAt": "2026-10-05T19:42:30.000Z",
+        "expiresAt": "2026-10-05T20:12:30.000Z"
+      }
+    ]
+  }
+}

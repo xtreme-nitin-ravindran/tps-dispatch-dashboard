@@ -1,7 +1,16 @@
 export async function loadTtcUiFixture(locationLike=globalThis.location,fetchImpl=fetch,now=Date.now()) {
   if(!['localhost','127.0.0.1','::1'].includes(locationLike?.hostname)) return null;
   const mode=new URLSearchParams(locationLike.search).get('ttcFixture');
-  if(!['confirmed','alert-only','multiple','unavailable','expired','empty'].includes(mode)) return null;
+  if(!['confirmed','alert-only','multiple','unavailable','expired','empty','official-advisory'].includes(mode)) return null;
+  // Story 51D: the official-advisory scenario uses the route 94 baseline fixture
+  // where an active official Service Change receives confirmed observed geometry.
+  if(mode==='official-advisory') {
+    const response=await fetchImpl('./test/fixtures/ttc-official-advisory/frontend.json');
+    if(!response.ok) throw new Error('Generate the TTC UI fixture first');
+    const fixture=await response.json(),shift=now-fixture.now;
+    const rebase=value=>Array.isArray(value)?value.map(rebase):value && typeof value==='object'?Object.fromEntries(Object.entries(value).map(([k,v])=>[k,rebase(v)])):typeof value==='string' && /^2026-\d\d-\d\dT/.test(value)?new Date(Date.parse(value)+shift).toISOString():value;
+    return rebase(fixture);
+  }
   const response=await fetchImpl('./test/fixtures/ttc-diversions/frontend.json');
   if(!response.ok) throw new Error('Generate the TTC UI fixture first');
   const fixture=await response.json(),shift=now-fixture.now;
