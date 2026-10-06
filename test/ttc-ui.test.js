@@ -365,3 +365,33 @@ test('51D: sparse advisory and feed shapes fall back without throwing', () => {
   assert.equal(claimedAdvisoryIds(emptyObserved, transit, c.now).size, 0);
   assert.equal(ttcPresentation(c.ttcAlerts, emptyObserved, c.now, { advisories: transit }).items.length, 0);
 });
+
+// Recorded public geometry from Concourse build 308: confirmed but unassociated.
+test('unassociated real public geometry renders independently with observed provenance',async()=>{
+  const {readFile}=await import('node:fs/promises');
+  const output=JSON.parse(await readFile(new URL('./fixtures/ttc-diversions/unassociated-public.json',import.meta.url),'utf8'));
+  const now=Date.parse(output.checkedAt),feed={status:'ok',fetchedAt:output.checkedAt,items:[]};
+  const [item]=ttcPresentation(feed,output,now).items;
+  assert.equal(item.id,`sirento-observed:${output.diversions[0].id}`);
+  assert.equal(item.source,'sirento-observed');assert.equal(item.routes[0].id,'501');
+  assert.equal(item.diversions.length,1);assert.deepEqual(item.diversions[0].geometry,output.diversions[0].geometry);
+  assert.deepEqual(item.stops,[]);assert.deepEqual(item.scheduled,[]);
+  assert.equal(item.nearestDistance,null);assert.equal(item.observedUnavailable,false);
+  assert.equal(item.freshness,'Last successfully updated just now.');
+  const nearby=ttcPresentation(feed,output,now,{origin:[43.64,-79.42],radius:1}).items[0];
+  assert.ok(Number.isFinite(nearby.nearestDistance));assert.match(nearby.geography,/Within selected radius/);
+  const outside=ttcPresentation(feed,output,now,{origin:[44,-80],radius:1}).items[0];
+  assert.match(outside.geography,/Citywide alert/);
+  for(const changed of [
+    {...output,status:'unavailable'},
+    {...output,checkedAt:new Date(now-120001).toISOString()},
+    {...output,diversions:output.diversions.map(d=>({...d,status:'candidate'}))},
+    {...output,diversions:output.diversions.map(d=>({...d,geometrySource:'ttc-official'}))},
+    {...output,diversions:output.diversions.map(d=>({...d,relatedAlertIds:['missing-alert']}))},
+    {...output,diversions:output.diversions.map(d=>({...d,relatedAdvisoryRefs:['ttc-service-change:missing']}))},
+    {...output,diversions:output.diversions.map(d=>({...d,expiresAt:new Date(now).toISOString()}))}
+  ]) assert.equal(ttcPresentation(feed,changed,now).items.length,0);
+  const legacy=structuredClone(output);delete legacy.diversions[0].relatedAlertIds;delete legacy.diversions[0].relatedAdvisoryRefs;
+  assert.equal(ttcPresentation(feed,legacy,now).items.length,1);
+  assert.equal(ttcPresentation(feed,{status:'ok',checkedAt:output.checkedAt},now).items.length,0);
+});

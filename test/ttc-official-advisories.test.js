@@ -317,7 +317,8 @@ test('cacheSummary reports a fixed disposition and bounded counts only', () => {
 
 test('continuitySummary reports bounded lifecycle counts and fixed reason keys', () => {
   const summary = continuitySummary({
-    vehicleReport: { status: 'ok', tracksLoaded: 2, tracksCreated: 1, tracksRetained: 3, resets: 1, expired: 0, graceStarted: 1, graceContinued: 2, graceCleared: 1, graceExpired: 0, graceRefusedAbsent: 0, graceRefusedConflict: 1, graceRefusedStale: 0, graceRefusedIncompatible: 1 },
+    vehicleState: { status: 'ok' },
+    vehicleReport: { tracksLoaded: 2, tracksCreated: 1, tracksRetained: 3, resets: 1, expired: 0, graceStarted: 1, graceContinued: 2, graceCleared: 1, graceExpired: 0, graceRefusedAbsent: 0, graceRefusedConflict: 1, graceRefusedStale: 0, graceRefusedIncompatible: 1 },
     vehicleCache: { status: 'restored', staticVersion: 'v1' },
     inferenceCache: { status: 'incompatible', staticVersion: 'v0' },
     inferenceReport: { episodesLoaded: 2, episodesCreated: 1, episodesRetained: 3, episodesClosed: 1, episodesExpired: 0, advisoryAssociated: 1, advisoryAmbiguous: 0, candidate: 1, likely: 1, confirmed: 1 },
@@ -325,6 +326,8 @@ test('continuitySummary reports bounded lifecycle counts and fixed reason keys',
     state: { records: [{ status: 'confirmed' }, { status: 'candidate' }] }
   });
   assert.equal(summary.source, 'ttc-continuity');
+  assert.equal(summary.vehicleSource, 'ok');
+  assert.equal(continuitySummary({ vehicleState: { status: 'unavailable' }, vehicleReport: { status: 'ok' } }).vehicleSource, 'unavailable');
   assert.equal(summary.vehicleCache, 'restored');
   assert.equal(summary.inferenceCache, 'incompatible');
   assert.equal(summary.vehicleStaticVersion, 'v1');
@@ -339,6 +342,7 @@ test('continuitySummary reports bounded lifecycle counts and fixed reason keys',
   assert.equal(summary.published, 1);
   // A missing report and missing caches fall back to bounded defaults.
   const empty = continuitySummary({});
+  assert.equal(empty.vehicleSource, 'unavailable');
   assert.equal(empty.vehicleCache, 'missing');
   assert.equal(empty.inferenceCache, 'missing');
   assert.equal(empty.tracksLoaded, 0);
@@ -359,6 +363,7 @@ test('runVehiclePolling logs cache disposition and a continuity summary without 
     assert.equal(first.find(e => e.source === 'ttc-diversions-cache').status, 'missing');
     const continuity = first.find(e => e.source === 'ttc-continuity');
     assert.ok(continuity, 'continuity summary must be logged');
+    assert.equal(continuity.vehicleSource, 'ok');
     assert.equal(continuity.vehicleCache, 'missing');
     assert.equal(continuity.tracksRetained, 1);
     // The summary never leaks raw fleet history, cache contents, or advisory text.

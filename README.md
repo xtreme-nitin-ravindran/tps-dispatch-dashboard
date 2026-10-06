@@ -813,6 +813,13 @@ Regression tests must ensure:
 - affected scheduled-route geometry is not presented as the actual temporary diversion route
 - SirenTO-observed diversion geometry remains visibly distinguishable from official TTC data
 - zero TTC results remain distinct from TTC source unavailability
+- confirmed observed paths with empty official-reference lists remain mapped without inventing an advisory association
+
+Vehicle inference detects deviations from the **current TTC static GTFS shape**.
+A long-term detour already incorporated into that shape can produce on-route
+observations and no inferred diversion. An official Service Change alone does not
+supply a mapped detour: route-only text has no structured affected segment, and
+scheduled-route context must not be labelled as a confirmed temporary path.
 
 `npm test` runs the canonical offline JavaScript unit/regression suite through
 `scripts/run-unit-tests.sh`. That runner is the executable source of truth for which

@@ -79,6 +79,17 @@ export function ttcPresentation(feed, observed, now = Date.now(), {origin=null,r
       geography:geographyFor(nearest,origin,radius),nearestDistance:Number.isFinite(nearest)?nearest:null,cause:advisory.effect ? advisory.effect.replaceAll('_',' ').toLowerCase() : '',periods:advisoryPeriods(advisory.periods),
       freshness:sourceStatusText('TTC disruption',advisories,now),observedUnavailable:!observedUsable});
   }
+  // Independently confirmed observations can exist without an official alert.
+  // Empty association lists must not discard otherwise usable public geometry.
+  for (const d of observedUsable ? observed.diversions || [] : []) {
+    if (!usableDiversion(d,now) || d.geometrySource !== 'sirento-observed' || d.relatedAlertIds?.length || d.relatedAdvisoryRefs?.length) continue;
+    const diversions=[diversionPart(d)];
+    const nearest=origin ? roadDistance({line:d.geometry.map(([lng,lat])=>[lat,lng])},origin) : Infinity;
+    const id=`sirento-observed:${d.id}`;
+    items.set(id,{id,source:'sirento-observed',title:'Observed TTC diversion',description:'',routes:[{id:d.routeId,label:d.routeId}],stops:[],scheduled:[],diversions,
+      geography:geographyFor(nearest,origin,radius),nearestDistance:Number.isFinite(nearest)?nearest:null,cause:'',periods:[],
+      freshness:sourceStatusText('TTC diversion',{status:observed.status,fetchedAt:observed.checkedAt},now),observedUnavailable:false});
+  }
   return {items:[...items.values()].sort((a,b)=>(a.nearestDistance ?? Infinity)-(b.nearestDistance ?? Infinity)),status:sourceStatus('TTC disruption',feed,now).status,freshness:sourceStatusText('TTC disruption',feed,now)};
 }
 export function mergeTtcDisruptions(data, feed, observed, transit) {
