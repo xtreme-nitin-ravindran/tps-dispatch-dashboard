@@ -116,11 +116,19 @@ export function normalizeTransit(text, now = Date.now(), stopLookup = TTC_STOP_L
   const rejectedCount = TTC_REJECTION_REASONS.reduce((total, reason) => total + rejected[reason], 0);
   return {items, sourceUpdatedAt:new Date(timestamp).toISOString(), rejected:rejectedCount, rejectedReasons:rejected};
 }
+// Fixed reason keys for per-record rejection; never derived from upstream text.
+export const ROAD_REJECTION_REASONS = Object.freeze(['missing_id','missing_name','invalid_dates']);
 export function normalizeRoads(payload) {
   if (!Array.isArray(payload?.Closure)) throw new Error('Invalid road restriction feed');
-  const items = payload.Closure.map(row => {
-    if (!row.id || !(row.name || row.road)) throw new Error('Invalid road restriction');
-    if ([row.startTime,row.endTime].some(v => number(v) !== null && !Number.isFinite(number(v)))) throw new Error('Invalid road dates');
+  const rejected = Object.fromEntries(ROAD_REJECTION_REASONS.map(reason => [reason, 0]));
+  const items = [];
+  for (const row of payload.Closure) {
+    // A malformed record is skipped with a bounded reason so valid siblings are
+    // never discarded. Missing identity, name, or dates are never synthesized.
+    if (!row || typeof row !== 'object') { rejected.missing_id++; continue; }
+    if (!row.id) { rejected.missing_id++; continue; }
+    if (!(row.name || row.road)) { rejected.missing_name++; continue; }
+    if ([row.startTime,row.endTime].some(v => number(v) !== null && !Number.isFinite(number(v)))) { rejected.invalid_dates++; continue; }
     let line = [];
     try { line = JSON.parse(`[${row.geoPolyline || ''}]`).map(p => [p[1],p[0]]); } catch { /* Some restrictions have no segment geometry. */ }
     if (line.length < 2 || !line.every(point)) line = [];
@@ -131,7 +139,7 @@ export function normalizeRoads(payload) {
       : validCoordinates ? {type:'Point',coordinates:[validCoordinates[1],validCoordinates[0]]} : null;
     const schedules = ['Everyday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'].filter(day => row[`schedule${day}`]).map(day => `${day}: ${row[`schedule${day}`]}`).join('; ');
     const url=clean(row.URL) || ROAD_LINK;
-    return {
+    items.push({
       id:clean(row.id), street:clean(row.road), title:clean(row.name || row.road), description:clean(row.description),
       restrictionType:clean(row.type).replaceAll('_',' '), type:clean(row.type).replaceAll('_',' '), impact:clean(row.currImpact),
       startLocation:clean(row.fromRoad || row.atRoad), endLocation:clean(row.toRoad),
@@ -139,9 +147,10 @@ export function normalizeRoads(payload) {
       expired:Number(row.expired) === 1, coordinates:validCoordinates, line, geometry,
       geometryKind:geometry?.type === 'LineString' ? 'line' : geometry?.type === 'Point' ? 'point' : 'none',
       schedule:schedules, source:{...ROAD_SOURCE,url}, url
-    };
-  });
-  return {items};
+    });
+  }
+  const rejectedCount = ROAD_REJECTION_REASONS.reduce((total, reason) => total + rejected[reason], 0);
+  return {items, rejected:rejectedCount, rejectedReasons:rejected};
 }
 export async function fetchDisruptionSource(kind, fetchImpl = fetch, now = Date.now()) {
   const response = await fetchImpl(kind === 'roads' ? ROAD_FEED : TTC_FEED, {signal:AbortSignal.timeout(12000)});
@@ -156,7 +165,7 @@ export async function updateDisruptions(previous = {}, now = new Date(), fetchSo
     try {
       const result = await fetchSource(kind, undefined, now.getTime());
       // Bounded, privacy-safe diagnostics: counts and fixed reason keys only, never raw upstream text.
-      if (kind === 'transit' && result.rejected > 0) log({source:'ttc-transit',status:'ok',count:result.items.length,rejected:result.rejected,rejectedReasons:result.rejectedReasons});
+      if (result.rejected > 0) log({source:kind === 'roads' ? 'toronto-roads' : 'ttc-transit',status:'ok',count:result.items.length,rejected:result.rejected,rejectedReasons:result.rejectedReasons});
       return [kind,{...result,status:'ok',checkedAt:now.toISOString(),fetchedAt:now.toISOString()}];
     } catch {
       return [kind,{items:old?.items || [],sourceUpdatedAt:old?.sourceUpdatedAt || null,fetchedAt:old?.fetchedAt || null,checkedAt:now.toISOString(),status:'unavailable'}];

@@ -89,6 +89,27 @@ for (const [label, rows] of [
     });
 }
 
+test('snapshot isolates non-normalizable rows, retains valid siblings, and reports a bounded count', () => {
+    const now = new Date('2026-09-16T20:00:00Z');
+    const source = { updatedAt: '2026-09-16T20:00:00Z', incidents: [
+        { event_id: 'F1', time: '2026-09-16T11:00:00' },
+        null,
+        { event_id: 'F2', time: '2026-09-16T12:00:00' }
+    ] };
+    const result = buildTfsSnapshot(source, now);
+    // Valid siblings survive in deterministic (timestamp-descending) order.
+    assert.deepEqual(result.incidents.map(i => i.id), ['F2', 'F1']);
+    assert.equal(result.rejected, 1);
+    assert.deepEqual(result.rejectedReasons, { invalid_record: 1 });
+    // A healthy feed reports no rejection metadata.
+    const healthy = buildTfsSnapshot({ updatedAt: '2026-09-16T20:00:00Z', incidents: [{ event_id: 'F1', time: '2026-09-16T11:00:00' }] }, now);
+    assert.equal('rejected' in healthy, false);
+    // All-malformed input yields a healthy-empty snapshot, not a thrown error.
+    const allBad = buildTfsSnapshot({ updatedAt: '2026-09-16T20:00:00Z', incidents: [null, 'bad'] }, now);
+    assert.deepEqual(allBad.incidents, []);
+    assert.equal(allBad.rejected, 2);
+});
+
 test('snapshot rejects absent sources and non-array incidents', () => {
  for (const source of [null, {}, {incidents:{}}]) assert.throws(()=>buildTfsSnapshot(source), /incidents array/);
  const result=buildTfsSnapshot({updatedAt:'2026-09-16T12:00:00Z',incidents:[{}]},new Date('2026-09-16T12:00:00Z'));

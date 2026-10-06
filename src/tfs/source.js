@@ -1,3 +1,5 @@
+import { parseTfsTimestamp } from "./time.js";
+
 export const TFS_LIVE_XML_URL = "https://www.toronto.ca/data/fire/livecad.xml";
 
 export async function fetchTfsSource({ fetchImpl = fetch, signal } = {}) {
@@ -9,14 +11,23 @@ export async function fetchTfsSource({ fetchImpl = fetch, signal } = {}) {
     return parseTfsXml(await response.text());
 }
 
+// Fixed reason keys for per-event rejection; never derived from upstream text.
+export const TFS_REJECTION_REASONS = Object.freeze(["missing_id", "invalid_timestamp"]);
 export function parseTfsXml(xml) {
     const root = matchTag(xml, "tfs_active_incidents");
     const updatedAt = text(matchTag(root, "update_from_db_time"));
-    const incidents = [...root.matchAll(/<event>([\s\S]*?)<\/event>/gi)]
-        .map(match => parseEvent(match[1]))
-        .filter(event => event.event_id);
-
-    return { updatedAt, incidents };
+    const rejected = Object.fromEntries(TFS_REJECTION_REASONS.map(reason => [reason, 0]));
+    const incidents = [];
+    for (const match of root.matchAll(/<event>([\s\S]*?)<\/event>/gi)) {
+        const event = parseEvent(match[1]);
+        // A malformed event is skipped with a bounded reason so valid siblings are
+        // never discarded. An id or timestamp is never synthesized from other fields.
+        if (!event.event_id) { rejected.missing_id++; continue; }
+        if (!parseTfsTimestamp(event.time)) { rejected.invalid_timestamp++; continue; }
+        incidents.push(event);
+    }
+    const rejectedCount = TFS_REJECTION_REASONS.reduce((total, reason) => total + rejected[reason], 0);
+    return { updatedAt, incidents, rejected: rejectedCount, rejectedReasons: rejected };
 }
 
 function parseEvent(xml) {

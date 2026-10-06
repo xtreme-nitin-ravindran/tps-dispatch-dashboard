@@ -17,6 +17,29 @@ test('TPS fetch checks IDs and rejects partial or error payloads',async()=>{
  assert.equal((await fetchTpsSource({fetchImpl})).length,1);
  await assert.rejects(fetchTpsSource({fetchImpl:async()=>({ok:true,json:async()=>({error:{code:500}})})}));
 });
+test('TPS fetch isolates malformed records, retains valid siblings in order, and reports a bounded count',async()=>{
+ const good={...row};
+ const bad={CALL_TYPE:'X'}; // missing OCCURRENCE_TIME_AGOL
+ const fetchImpl=async url=>({ok:true,json:async()=>url.includes('returnIdsOnly')?{objectIds:[1,2,3]}:{features:[{attributes:good},{attributes:bad},{attributes:{...good,OCCURRENCE_TIME_AGOL:row.OCCURRENCE_TIME_AGOL+1000}}]}});
+ const calls=await fetchTpsSource({fetchImpl});
+ // Valid siblings survive in deterministic source order; the malformed record is skipped.
+ assert.equal(calls.length,2);
+ assert.equal(calls.rejected,1);
+ assert.deepEqual(calls.rejectedReasons,{invalid_record:1});
+ // The array contract is unchanged: length, map and deepEqual still behave as before.
+ assert.deepEqual(calls.map(c=>c.source),['TPS','TPS']);
+ // A healthy feed reports no rejection metadata.
+ const healthy=await fetchTpsSource({fetchImpl:async url=>({ok:true,json:async()=>url.includes('returnIdsOnly')?{objectIds:[1]}:{features:[{attributes:good}]}})});
+ assert.equal(healthy.length,1);
+ assert.equal('rejected' in healthy,false);
+ // All-malformed input yields a healthy-empty array, not a thrown error.
+ const allBad=await fetchTpsSource({fetchImpl:async url=>({ok:true,json:async()=>url.includes('returnIdsOnly')?{objectIds:[1,2]}:{features:[{attributes:bad},{attributes:bad}]}})});
+ assert.deepEqual(allBad,[]);
+ assert.equal(allBad.rejected,2);
+ // A feed-level failure (HTTP error, missing IDs, incomplete page) still throws.
+ await assert.rejects(fetchTpsSource({fetchImpl:async()=>({ok:false,status:503})}), /TPS HTTP 503/);
+});
+
 test('police retention preserves separate records without conflating TFS',()=>{
  const a=normalizeTps(row), now=new Date(row.OCCURRENCE_TIME_AGOL+1000);
  const merged=mergePolice([a],[a,{...a,source:'TFS',id:'F1'}],now);
