@@ -13,18 +13,40 @@ resources:
       branch: main
       private_key: ((repo_private_key))
 
-  - name: snapshots
+  # Two scoped views of the same `data` branch, one per dataset. `paths` limits
+  # which commits yield new versions from `check`, so an incident-only commit
+  # does not re-trigger the TTC resource and vice versa. `sparse_paths` checks
+  # out only the file each phase owns, so a phase can never stage the other
+  # dataset. Both phases still push to the same branch; the `put` below uses
+  # `rebase: true` for a safe fast-forward.
+  - name: snapshots-incidents
     type: git
     source:
       uri: ((repo_uri))
       branch: data
       private_key: ((repo_private_key))
+      paths:
+        - data/current.json
+      sparse_paths:
+        - data/current.json
+  - name: snapshots-ttc
+    type: git
+    source:
+      uri: ((repo_uri))
+      branch: data
+      private_key: ((repo_private_key))
+      paths:
+        - data/ttc-diversions.json
+      sparse_paths:
+        - data/ttc-diversions.json
 
 jobs:
-  # Single writer for the `data` branch. Incident ETL and the bounded TTC vehicle
-  # burst run as sequential steps in one job so there is exactly one `put` and no
-  # two writers can race a fast-forward push. The trade-off is deliberate: a TTC
-  # failure fails the whole build, so the next timer tick retries both.
+  # Single writer for the `data` branch. The incident snapshot is committed first,
+  # then the bounded TTC vehicle burst and geometry projection run as later steps.
+  # A TTC failure cannot block or roll back the already-committed incident snapshot;
+  # the next timer tick retries the TTC stage. Each phase commits only its own file
+  # and the `put` uses `rebase: true`, so a cross-scheduler conflict preserves both
+  # datasets without a lock.
   - name: update-sirento
     # One writer, one build at a time. max_in_flight serializes this job's own
     # builds so a slow run cannot overlap the next timer tick and race the push.
@@ -34,7 +56,7 @@ jobs:
     plan:
       - get: refresh
         trigger: true
-      - get: snapshots
+      - get: snapshots-incidents
       - get: repo
       # Build the same pinned test image used by GitHub Actions. UNPACK_ROOTFS
       # exposes it as a task image for the following verification/update step.
@@ -67,7 +89,7 @@ jobs:
           platform: linux
           inputs:
             - name: repo
-            - name: snapshots
+            - name: snapshots-incidents
           outputs:
             - name: incident-repo
           run:
@@ -76,7 +98,7 @@ jobs:
               - -ec
               - |
                 BUILD_DIR=$PWD
-                cp -a snapshots/. incident-repo/
+                cp -a snapshots-incidents/. incident-repo/
 
                 # Match the GitHub Actions test gate using the same image and
                 # canonical offline-suite selector.
@@ -88,19 +110,28 @@ jobs:
                 find src scripts -name "*.js" -exec node --check {} \;
                 TZ=UTC NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage
 
+                # Shared freshness/skip policy and snapshot-only commit. The push
+                # is done by the following `put`, so this script never pushes.
+                cd "$BUILD_DIR"
                 TFS_UPDATED_BY=concourse \
-                  TFS_PREVIOUS="$BUILD_DIR/snapshots/data/current.json" \
+                  TFS_PREVIOUS="$BUILD_DIR/snapshots-incidents/data/current.json" \
                   TFS_OUTPUT="$BUILD_DIR/incident-repo/data/current.json" \
-                  node scripts/tfs-etl.js
-                cd "$BUILD_DIR/incident-repo"
-                node /workspace/scripts/commit-tfs.js
+                  DATA_REPO_DIR="$BUILD_DIR/incident-repo" \
+                  node /workspace/scripts/publish-incidents.js
+      # PHASE 1: publish the incident snapshot before any TTC vehicle work. A slow
+      # or failed TTC stage below cannot block or roll back this publication.
+      - put: snapshots-incidents
+        params:
+          repository: incident-repo
+          rebase: true
       # Bounded 90-second vehicle burst; never runs the heavy incident ETL.
       - task: observe-vehicles
         timeout: 6m
         file: repo/concourse/ttc-vehicles.yml
-      # Project confirmed TTC geometry into the same working copy as the incident
-      # snapshot so a single `put` publishes both files.
-      - task: publish-ttc-geometry
+      # Project confirmed TTC geometry into a fresh checkout of the TTC-scoped
+      # resource so only data/ttc-diversions.json is staged.
+      - get: snapshots-ttc
+      - task: commit-ttc-geometry
         config:
           platform: linux
           image_resource:
@@ -108,7 +139,7 @@ jobs:
             source: { repository: node, tag: 24-bookworm }
           inputs:
             - name: repo
-            - name: incident-repo
+            - name: snapshots-ttc
             - name: ttc-vehicle-evidence
           outputs:
             - name: updated-repo
@@ -118,8 +149,8 @@ jobs:
               - -ec
               - |
                 # An output with the same name as an input replaces it, so seed the
-                # output from the incident snapshot before adding TTC geometry.
-                cp -a incident-repo/. updated-repo/
+                # output from the TTC-scoped checkout before adding TTC geometry.
+                cp -a snapshots-ttc/. updated-repo/
                 cd repo
                 npm ci --omit=dev
                 node scripts/publish-ttc-geometry.js ../ttc-vehicle-evidence/diversions.json ../updated-repo/data/ttc-diversions.json
@@ -128,8 +159,12 @@ jobs:
                 if ! git diff --cached --quiet; then
                   git -c user.name='SirenTO updater' -c user.email='sirento-updater@localhost' commit -m 'chore: refresh public TTC geometry'
                 fi
-      # Single fast-forward push for both data/current.json and data/ttc-diversions.json.
-      - put: snapshots
+      # PHASE 2: publish the TTC geometry. `rebase: true` starts from the latest
+      # data branch and preserves the other dataset on a cross-scheduler conflict.
+      # `no_get: true` avoids the implicit post-put get, which previously timed out
+      # on this final step.
+      - put: snapshots-ttc
         no_get: true
         params:
           repository: updated-repo
+          rebase: true
