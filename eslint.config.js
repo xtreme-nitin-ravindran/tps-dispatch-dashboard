@@ -3,7 +3,7 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['data/**', '.cache/**'],
+    ignores: ['data/**', '.cache/**', 'tmp/**'],
   },
   js.configs.recommended,
   {
