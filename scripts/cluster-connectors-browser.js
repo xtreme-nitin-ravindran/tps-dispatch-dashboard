@@ -3,10 +3,14 @@ const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright')
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 import { awaitFixtureReady } from './lib/browser-fixture.js';
+import { createBrowserTiming, resolveTimingFormat } from './lib/browser-timing.js';
+
+const timing = createBrowserTiming();
+const timingFormat = resolveTimingFormat(process.env);
 
 const output = process.env.CLUSTER_VISUAL_OUTPUT || '.cache/cluster-connectors';
 await mkdir(output, { recursive: true });
-const browser = await chromium.launch({ headless: true, executablePath: process.env.CHROMIUM_EXECUTABLE });
+const browser = await timing.time('chromium-launch', () => chromium.launch({ headless: true, executablePath: process.env.CHROMIUM_EXECUTABLE }));
 const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
 const errors = [];
 page.on('pageerror', error => errors.push(error.message));
@@ -29,7 +33,24 @@ async function connectorState() {
 }
 
 async function assertBounded({ selected = true, largeCluster = true } = {}) {
-  await page.waitForTimeout(100);
+  // Bounded wait for the expected selection state instead of a fixed sleep.
+  // The app marks the selected incident card `.selected` during an async render
+  // pass, so a fixed delay can race it. Wait for the state the assertions below
+  // already require, then assert against the real DOM. This never weakens the
+  // connector invariants; it only removes the timing race.
+  if (selected) {
+    await page.waitForFunction(
+      () => document.querySelectorAll('[data-call-id="mobile-audit-selected"].selected').length >= 1,
+      undefined,
+      { timeout: 5000 }
+    );
+  } else {
+    await page.waitForFunction(
+      () => document.querySelectorAll('[data-call-id="mobile-audit-selected"].selected').length === 0,
+      undefined,
+      { timeout: 5000 }
+    );
+  }
   const state = await connectorState();
   assert.ok(state.count <= 12, `rendered ${state.count} cluster connectors`);
   assert.ok(state.lengths.every(length => length <= 96.5), `connector exceeded 96 px: ${state.lengths}`);
@@ -45,8 +66,8 @@ async function assertBounded({ selected = true, largeCluster = true } = {}) {
 try {
   const base = process.env.CLUSTER_UI_URL || 'http://127.0.0.1:8765/';
   const query = '?mobileAuditFixture=many&mobileAuditView=map&mobileAuditLocation=current&mobileAuditRadius=toronto&mobileAuditSheet=collapsed&mobileAuditRoads=on&mobileAuditBoundaries=on&incident=mobile-audit-selected';
-  await page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' });
-  await awaitFixtureReady(page);
+  await timing.time('page-goto:390x844', () => page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' }));
+  await timing.time('fixture-ready:390x844', () => awaitFixtureReady(page));
   await page.waitForSelector('.call-cluster');
   await assertBounded();
 
@@ -84,8 +105,8 @@ try {
   await page.locator('#searchInput').dispatchEvent('input');
   assert.equal((await connectorState()).count, 0, 'connectors remained after deselection/filter removal');
 
-  await page.goto(`${base}${query.replace('mobileAuditSheet=collapsed', 'mobileAuditSheet=half')}`, { waitUntil: 'domcontentloaded' });
-  await awaitFixtureReady(page);
+  await timing.time('page-goto:390x844-half', () => page.goto(`${base}${query.replace('mobileAuditSheet=collapsed', 'mobileAuditSheet=half')}`, { waitUntil: 'domcontentloaded' }));
+  await timing.time('fixture-ready:390x844-half', () => awaitFixtureReady(page));
   await page.waitForSelector('.call-cluster');
   await assertBounded();
   await page.locator('#dispatchMap').screenshot({ path: `${output}/story-39a-390x844.png`, animations: 'disabled' });
@@ -103,5 +124,6 @@ try {
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({ viewport: '390x844', ...(await connectorState()), errors }, null, 2));
 } finally {
-  await browser.close();
+  await timing.time('browser-close', () => browser.close());
+  console.log(timing.format({ format: timingFormat, label: 'test:story-39a:browser' }));
 }

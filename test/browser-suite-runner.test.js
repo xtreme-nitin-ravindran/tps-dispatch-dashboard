@@ -283,6 +283,110 @@ test("runs every included suite exactly once in deterministic order", async () =
   assert.ok(lines.some(l => l.includes("[2/2]")), "progress must show [current/total]");
 });
 
+test("records and prints a timing span for server readiness and each suite", async () => {
+  const pkg = {
+    scripts: {
+      "test:browser": "node scripts/run-browser-suites.js",
+      "test:alpha:browser": "node a.js",
+      "test:zeta:browser": "node z.js"
+    }
+  };
+  const { spawnFn, kill } = makeStubSpawn();
+  const { log, lines } = silentLog();
+  const status = await runBrowserSuites({
+    pkg,
+    spawnFn,
+    kill,
+    request: freeThenReady(),
+    log,
+    errorLog: () => { }
+  });
+  assert.equal(status, 0);
+  // The summary is printed and names the readiness span and every suite span.
+  const summary = lines.find(l => l.includes("test:browser timing:"));
+  assert.ok(summary, "the runner must print a timing summary");
+  assert.match(summary, /server-ready: \d/);
+  assert.match(summary, /suite:test:alpha:browser: \d/);
+  assert.match(summary, /suite:test:zeta:browser: \d/);
+});
+
+test("prints the timing summary when the server never becomes ready", async () => {
+  const pkg = {
+    scripts: {
+      "test:browser": "node scripts/run-browser-suites.js",
+      "test:alpha:browser": "node a.js"
+    }
+  };
+  const { spawnFn, kill } = makeStubSpawn();
+  const errors = [];
+  const status = await runBrowserSuites({
+    pkg,
+    spawnFn,
+    kill,
+    request: async () => false,
+    readinessTimeoutMs: 30,
+    log: () => { },
+    errorLog: (...a) => errors.push(a.join(" "))
+  });
+  assert.equal(status, 3);
+  // The failed readiness span is reported so the failing stage is identifiable.
+  assert.ok(
+    errors.some(l => /server-ready: \d+ms \(failed\)/.test(l)),
+    "a readiness failure must report the failed server-ready span"
+  );
+});
+
+test("prints the timing summary when a suite fails", async () => {
+  const pkg = {
+    scripts: {
+      "test:browser": "node scripts/run-browser-suites.js",
+      "test:alpha:browser": "node a.js"
+    }
+  };
+  const { spawnFn, kill } = makeStubSpawn({ suiteStatus: { "test:alpha:browser": 5 } });
+  const errors = [];
+  const status = await runBrowserSuites({
+    pkg,
+    spawnFn,
+    kill,
+    request: freeThenReady(),
+    log: () => { },
+    errorLog: (...a) => errors.push(a.join(" "))
+  });
+  assert.equal(status, 5);
+  assert.ok(
+    errors.some(l => /suite:test:alpha:browser: \d+ms \(failed\)/.test(l)),
+    "a suite failure must report the failed suite span"
+  );
+});
+
+test("honors the JSON timing format when requested", async () => {
+  const pkg = {
+    scripts: {
+      "test:browser": "node scripts/run-browser-suites.js",
+      "test:alpha:browser": "node a.js"
+    }
+  };
+  const { spawnFn, kill } = makeStubSpawn();
+  const { log, lines } = silentLog();
+  const status = await runBrowserSuites({
+    pkg,
+    spawnFn,
+    kill,
+    request: freeThenReady(),
+    log,
+    errorLog: () => { },
+    timingFormat: "json"
+  });
+  assert.equal(status, 0);
+  const jsonLine = lines.find(l => l.startsWith("{") && l.includes("\"spans\""));
+  assert.ok(jsonLine, "the JSON timing summary must be printed");
+  const parsed = JSON.parse(jsonLine);
+  assert.equal(parsed.label, "test:browser");
+  assert.ok(parsed.spans.some(s => s.name === "server-ready"));
+  assert.ok(parsed.spans.some(s => s.name === "suite:test:alpha:browser"));
+});
+
 test("stops on the first suite failure and preserves its exit status", async () => {
   const pkg = {
     scripts: {
@@ -847,10 +951,16 @@ test("the CLI exits nonzero when no browser suites are configured", async () => 
   // test:*:browser scripts. It must fail fast without starting a server.
   const scratch = await mkdtemp(join(tmpdir(), "browser-cli-"));
   try {
-    await mkdir(join(scratch, "scripts"), { recursive: true });
+    await mkdir(join(scratch, "scripts", "lib"), { recursive: true });
     await writeFile(
       join(scratch, "scripts", "run-browser-suites.js"),
       await readFile(runnerPath, "utf8")
+    );
+    // The runner imports its shared timing helper from scripts/lib, so the
+    // scratch copy must include it for the module graph to resolve.
+    await writeFile(
+      join(scratch, "scripts", "lib", "browser-timing.js"),
+      await readFile(join(root, "scripts", "lib", "browser-timing.js"), "utf8")
     );
     await writeFile(
       join(scratch, "package.json"),
@@ -897,8 +1007,9 @@ test("every standalone browser script is exposed and included or documented", as
 test("the runner is Node standard library only and does not add an orchestration dependency", async () => {
   const source = await readFile(runnerPath, "utf8");
   const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
-  // No third-party orchestration imports.
-  assert.doesNotMatch(source, /from\s+["'](?!node:)[^"']+["']/, "the runner must import only node: builtins");
+  // No third-party orchestration imports. Local relative imports (its own
+  // scripts/lib helpers) are allowed; bare package specifiers are not.
+  assert.doesNotMatch(source, /from\s+["'](?!node:|\.)[^"']+["']/, "the runner must import only node: builtins and local helpers");
   // No new runtime dependency was added for orchestration.
   const deps = { ...pkg.dependencies, ...pkg.devDependencies };
   for (const name of ["concurrently", "npm-run-all", "wait-on", "start-server-and-test"]) {

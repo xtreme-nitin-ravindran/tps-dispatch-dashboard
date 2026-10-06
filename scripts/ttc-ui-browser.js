@@ -2,14 +2,18 @@
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
 import { mkdir,writeFile } from 'node:fs/promises';
+import { createBrowserTiming, resolveTimingFormat } from './lib/browser-timing.js';
+import { awaitFixtureReady } from './lib/browser-fixture.js';
+const timing=createBrowserTiming();const timingFormat=resolveTimingFormat(process.env);
 const out=process.env.TTC_VISUAL_OUTPUT || '.cache/ttc-ui-visual';await mkdir(out,{recursive:true});
-const browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE});
+const browser=await timing.time('chromium-launch',()=>chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE}));
 const results=[];
 try {
 for(const width of [320,375,390,430,768,1440]) {
  const page=await browser.newPage({viewport:{width,height:900},deviceScaleFactor:1});const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(()=>{window.ttcLongTasks=[];new PerformanceObserver(list=>window.ttcLongTasks.push(...list.getEntries().map(e=>e.duration))).observe({type:'longtask',buffered:true});});
- await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&mobileAuditSheet=expanded&ttcFixture=confirmed`,{waitUntil:'networkidle'});
+ await timing.time(`page-goto:${width}`,()=>page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&mobileAuditSheet=expanded&ttcFixture=confirmed`,{waitUntil:'networkidle'}));
+ await timing.time(`fixture-ready:${width}`,()=>awaitFixtureReady(page));
  await page.waitForSelector('.ttc-disruption').catch(async error=>{console.log({width,errors,body:await page.locator('body').innerText()});await page.screenshot({path:`${out}/failure-${width}.png`});throw error;});
  const initialMaxLongTask=await page.evaluate(()=>{const max=Math.max(0,...window.ttcLongTasks);window.ttcLongTasks=[];return max;});
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
@@ -114,5 +118,5 @@ for(const mode of ['alert-only','multiple','expired','unavailable','empty']) {
  await page.locator('#ttcListHome').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/official-advisory.png`});
  results.push({mode:'official-advisory',...state});await page.close();
 }
-} finally {await browser.close();await writeFile(`${out}/results.json`,JSON.stringify(results,null,2));}
+} finally {await timing.time('browser-close',()=>browser.close());await writeFile(`${out}/results.json`,JSON.stringify(results,null,2));console.log(timing.format({format:timingFormat,label:'test:ttc-ui:browser'}));}
 console.log(JSON.stringify(results.map(result=>({...result,text:undefined})),null,2));

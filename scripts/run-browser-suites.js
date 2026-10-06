@@ -31,6 +31,7 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import http from "node:http";
+import { createBrowserTiming, resolveTimingFormat } from "./lib/browser-timing.js";
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 
@@ -281,7 +282,9 @@ export async function runBrowserSuites({
   env = process.env,
   readinessTimeoutMs = READINESS_TIMEOUT_MS,
   kill = process.kill,
-  exit = defaultExit
+  exit = defaultExit,
+  timing = createBrowserTiming(),
+  timingFormat = resolveTimingFormat(env)
 } = {}) {
   const suites = discoverBrowserSuites(pkg);
   if (suites.length === 0) {
@@ -321,14 +324,15 @@ export async function runBrowserSuites({
   const removeHandlers = installSignalHandlers(onSignal);
 
   try {
-    await waitForServerReady({
+    await timing.time("server-ready", () => waitForServerReady({
       timeoutMs: readinessTimeoutMs,
       isAlive: () => !serverExited,
       request
-    });
+    }));
     log(`==> Server ready at ${BASE_URL}`);
   } catch (error) {
     errorLog(`test:browser: ${error.message}`);
+    errorLog(timing.format({ format: timingFormat, label: "test:browser" }));
     await cleanup();
     removeHandlers();
     return 3;
@@ -342,9 +346,14 @@ export async function runBrowserSuites({
     if (suite.name === LONG_SUITE_HINT) {
       log("    note: this suite retains a deliberate ~61s wait and may take over a minute");
     }
+    // A suite that exits nonzero is a failed span even though the call itself
+    // resolved, so the timing summary identifies the failing stage.
+    timing.start(`suite:${suite.name}`);
     const status = await runSuite(suite.name, { spawnFn, cwd, env });
+    timing.end(`suite:${suite.name}`, { failed: status !== 0 });
     if (status !== 0) {
       errorLog(`test:browser: suite failed: ${suite.name} (exit ${status})`);
+      errorLog(timing.format({ format: timingFormat, label: "test:browser" }));
       await cleanup();
       removeHandlers();
       return status;
@@ -353,6 +362,7 @@ export async function runBrowserSuites({
 
   await cleanup();
   removeHandlers();
+  log(timing.format({ format: timingFormat, label: "test:browser" }));
   log(`==> All ${total} browser suite(s) passed`);
   return 0;
 }

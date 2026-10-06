@@ -13,6 +13,10 @@
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
 import { awaitFixtureReady } from './lib/browser-fixture.js';
+import { createBrowserTiming, resolveTimingFormat } from './lib/browser-timing.js';
+
+const timing = createBrowserTiming();
+const timingFormat = resolveTimingFormat(process.env);
 
 const base = process.env.ROAD_CLOSURE_COUNT_UI_URL || 'http://127.0.0.1:8765/';
 const query = '?mobileAuditFixture=many&mobileAuditView=map&mobileAuditLocation=current&mobileAuditRadius=toronto&mobileAuditSheet=collapsed&mobileAuditRoads=on&mobileAuditBoundaries=on';
@@ -88,7 +92,7 @@ function assertCountHidden(state, viewport) {
   assert.ok(state.roadCountText && state.roadCountText !== '—', `${label}: disruptions panel road count is empty`);
 }
 
-const browser = await chromium.launch({ headless: true, executablePath: process.env.CHROMIUM_EXECUTABLE });
+const browser = await timing.time('chromium-launch', () => chromium.launch({ headless: true, executablePath: process.env.CHROMIUM_EXECUTABLE }));
 const errors = [];
 const results = [];
 try {
@@ -96,8 +100,8 @@ try {
     const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height }, deviceScaleFactor: 1 });
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(`${viewport.name}: ${error.message}`));
-    await page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' });
-    await awaitFixtureReady(page);
+    await timing.time(`page-goto:${viewport.name}`, () => page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' }));
+    await timing.time(`fixture-ready:${viewport.name}`, () => awaitFixtureReady(page));
     await page.waitForSelector('.map-layer-toggle');
     await page.waitForTimeout(100);
     const state = await measure(page);
@@ -108,5 +112,6 @@ try {
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({ story: 'road-closure-count', viewports: results, errors }, null, 2));
 } finally {
-  await browser.close();
+  await timing.time('browser-close', () => browser.close());
+  console.log(timing.format({ format: timingFormat, label: 'test:road-closure-count:browser' }));
 }
