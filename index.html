@@ -52,7 +52,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./styles.css?v=story-50-2" />
+  <link rel="stylesheet" href="./styles.css?v=story-51-ttc-layer" />
 </head>
 
 <body>
@@ -302,6 +302,9 @@
               <span aria-hidden="true" class="road-key"></span><span>Road closures</span>
               <small id="roadOverlayStatus" class="map-layer-status">Not available yet</small>
             </label>
+            <label id="ttcLayerControl" class="ttc-overlay-toggle map-layer-toggle" hidden><input id="ttcOverlay" type="checkbox" checked />
+              <span aria-hidden="true" class="ttc-key"></span><span>TTC disruptions</span>
+            </label>
             <button id="mobileMapFocusToggle" class="mobile-map-focus-toggle" type="button" aria-pressed="false"
               aria-controls="mapView" aria-label="Full screen map">
               <span class="mobile-map-focus-icon" aria-hidden="true">⛶</span>
@@ -484,7 +487,6 @@
         <div id="ttcListHome"><div id="ttcContent">
         <p id="ttcDisruptionStatus" class="disruption-note" hidden></p>
         <div id="ttcDisruptionList"></div>
-        <label id="ttcLayerControl" hidden><input id="ttcOverlay" type="checkbox" checked /> TTC disruptions</label>
         </div></div>
         <details id="nearbyTransit" hidden open>
           <summary><span id="nearbyTransitScope">TTC disruptions near selected area</span> (<span id="nearbyTransitCount">—</span>)</summary>
@@ -576,7 +578,7 @@
   </script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=story-50-2"></script>
+  <script type="module" src="./app.js?v=story-51-ttc-layer"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", async () => {

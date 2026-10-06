@@ -354,24 +354,32 @@ function syncMobileLayerRowOffset() {
     const policeBottom = policeControl.getBoundingClientRect().bottom - wrapTop;
     document.documentElement.style.setProperty("--police-control-bottom", `${Math.round(policeBottom)}px`);
   }
-  const rowBottom = layerRow.getBoundingClientRect().bottom - wrapTop;
+  // The Road closures control is the first .map-layer-toggle; the TTC
+  // disruptions control (when visible) is the last. The TTC control anchors to
+  // the Road closures control's real bottom edge, and the focus control and
+  // focus-mode chrome anchor to the bottom of the whole stack.
+  const roadBottom = layerRow.getBoundingClientRect().bottom - wrapTop;
+  document.documentElement.style.setProperty("--road-control-bottom", `${Math.round(roadBottom)}px`);
+  const toggles = [...wrap.querySelectorAll(".map-layer-toggle")];
+  const stackBottomEl = toggles.filter(el => el.getClientRects().length).pop() || layerRow;
+  const rowBottom = stackBottomEl.getBoundingClientRect().bottom - wrapTop;
   // Set on the root so both the map-wrap descendants (the focus control) and the
   // fixed focus-mode chrome (navigation band, summary, map info) can read it.
   document.documentElement.style.setProperty("--mobile-layer-row-bottom", `${Math.round(rowBottom)}px`);
   // Story 41: the focus control is vertically centered against the stacked
   // Police Divisions / Road closures controls, so expose the stack's real
-  // vertical center (measured from the Police Divisions top to the Road
-  // closures bottom) for the focus control to anchor to.
+  // vertical center (measured from the Police Divisions top to the bottom of the
+  // stack) for the focus control to anchor to.
   if (policeControl) {
     const stackTop = policeControl.getBoundingClientRect().top - wrapTop;
     const stackCenter = (stackTop + rowBottom) / 2;
     document.documentElement.style.setProperty("--mobile-layer-stack-center", `${Math.round(stackCenter)}px`);
-    // Story 41: the two stacked controls shrink-wrap to their own labels, so
-    // their natural widths differ. Share the wider control's width so both
-    // render at an identical width at every breakpoint.
+    // Story 41: the stacked controls shrink-wrap to their own labels, so their
+    // natural widths differ. Share the widest control's width so all render at
+    // an identical width at every breakpoint.
     const controlWidth = Math.max(
       policeControl.getBoundingClientRect().width,
-      layerRow.getBoundingClientRect().width
+      ...toggles.map(el => el.getBoundingClientRect().width)
     );
     document.documentElement.style.setProperty("--mobile-layer-control-width", `${Math.round(controlWidth)}px`);
   }

@@ -1112,6 +1112,9 @@ html:not([data-map-load-state]) #dispatchMap.leaflet-container + .map-load-statu
   font-weight: 700;
 }
 .map-panel .leaflet-top.leaflet-right .leaflet-control-layers { width: var(--map-layer-control-width); }
+/* Match the Road closures / TTC disruptions label weight so the stacked map
+   layer controls read as one bold control group at every breakpoint. */
+.map-panel .leaflet-control-layers-overlays label { font-weight: 700; }
 /* The road-closure count is not shown beneath the "Road closures" label at any
    breakpoint; the checkbox, dashed red legend key, and label remain. The count
    stays in the DOM for assistive technology and is surfaced in the disruptions
@@ -1124,6 +1127,16 @@ html:not([data-map-load-state]) #dispatchMap.leaflet-container + .map-load-statu
   clip-path: inset(50%);
   white-space: nowrap;
 }
+/* The TTC disruptions control sits directly below the Road closures control and
+   shares its styling. Its top edge tracks the Road closures control's real
+   rendered bottom edge (set by syncMobileLayerRowOffset) so the three stacked
+   controls stay aligned without overlap at every breakpoint. */
+.ttc-overlay-toggle { top: var(--road-control-bottom, 89px); }
+/* The control is only shown when TTC geometry exists; the .map-layer-toggle
+   display: grid would otherwise override the hidden attribute. */
+.ttc-overlay-toggle[hidden] { display: none; }
+.ttc-key { width: 24px; height: 0; border-top: 4px solid #007b87; display: inline-block; }
+[data-theme="dark"] .ttc-key { border-top-color: #61dce6; }
 .closure-detail { width: min(300px, 100%); padding: 16px; }
 .closure-detail-kicker { color: var(--road-marker); font: 700 10px/1 "Space Mono", monospace; letter-spacing: .08em; }
 .closure-detail h3 { margin: 7px 0 12px; font-size: 18px; }
@@ -1940,6 +1953,11 @@ footer {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
+  /* The TTC disruptions control stacks directly below Road closures, anchored to
+     the Road closures control's measured bottom edge. */
+  .ttc-overlay-toggle {
+    top: var(--road-control-bottom, 104px);
+  }
   .map-panel .leaflet-top.leaflet-right {
     top: 8px;
     right: 8px;
@@ -2201,6 +2219,7 @@ footer {
   }
   html[data-mobile-focus="on"][data-mobile-view="map"] .map-panel .leaflet-top { top: calc(8px + env(safe-area-inset-top, 0px)); }
   html[data-mobile-focus="on"][data-mobile-view="map"] .map-layer-toggle { top: var(--police-control-bottom, 56px); right: calc(8px + env(safe-area-inset-right, 0px)); left: auto; }
+  html[data-mobile-focus="on"][data-mobile-view="map"] .ttc-overlay-toggle { top: var(--road-control-bottom, 104px); }
   html[data-mobile-focus="on"][data-mobile-view="map"] .mobile-map-focus-toggle { top: calc(var(--mobile-layer-stack-center, 56px) - 24px); left: calc(8px + env(safe-area-inset-left, 0px)); }
   html[data-mobile-focus="on"][data-mobile-view="map"] .map-panel .leaflet-top.leaflet-right { top: calc(8px + env(safe-area-inset-top, 0px)); right: calc(8px + env(safe-area-inset-right, 0px)); left: auto; }
   /* Story 40D: keep the map info & legend reachable in focus mode. It is a
@@ -2390,7 +2409,5 @@ footer {
 .ttc-detail h5 { font-size: 1em; margin: 12px 0 4px; }
 .ttc-detail p { margin-block: 8px; }
 .ttc-show-map { min-height: 44px; padding: 8px 12px; }
-#ttcLayerControl { min-height: 44px; align-items: center; gap: 8px; }
-#ttcLayerControl:not([hidden]) { display: flex; }
 #mobileTtcListHome #ttcContent { padding: 0 16px 12px; }
 #ttcContent:has(#ttcDisruptionList:empty):has(#ttcDisruptionStatus[hidden]) { display: none; }

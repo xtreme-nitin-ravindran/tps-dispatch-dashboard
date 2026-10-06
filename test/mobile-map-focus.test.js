@@ -75,7 +75,12 @@ test('the focus control anchors to the layer row\'s measured bottom edge, not a 
   // on iOS Safari cannot place the control underneath Road closures.
   assert.match(app, /function syncMobileLayerRowOffset\(\) \{/);
   assert.match(app, /const layerRow = wrap\?\.querySelector\?\.\("\.map-layer-toggle"\);/);
-  assert.match(app, /const rowBottom = layerRow\.getBoundingClientRect\(\)\.bottom - wrapTop;/);
+  // The Road closures control's bottom edge anchors the TTC disruptions control.
+  assert.match(app, /const roadBottom = layerRow\.getBoundingClientRect\(\)\.bottom - wrapTop;/);
+  assert.match(app, /document\.documentElement\.style\.setProperty\("--road-control-bottom", `\$\{Math\.round\(roadBottom\)\}px`\);/);
+  // The focus control and chrome anchor to the bottom of the whole visible stack.
+  assert.match(app, /const stackBottomEl = toggles\.filter\(el => el\.getClientRects\(\)\.length\)\.pop\(\) \|\| layerRow;/);
+  assert.match(app, /const rowBottom = stackBottomEl\.getBoundingClientRect\(\)\.bottom - wrapTop;/);
   assert.match(app, /document\.documentElement\.style\.setProperty\("--mobile-layer-row-bottom", `\$\{Math\.round\(rowBottom\)\}px`\);/);
   // It runs inside the existing coalesced maintenance frame and observes the row.
   assert.match(app, /syncMapSheetOverlap\(\);\s*syncMobileLayerRowOffset\(\);/);
