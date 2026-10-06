@@ -51,14 +51,14 @@ export function cacheSummary(source,disposition,{staticVersion=null,loaded=0}={}
 // Bounded, deterministically-ordered end-of-run continuity diagnostic. It answers
 // "why was no path produced?" from counts and fixed reason keys only, never raw
 // vehicle history, cache contents, episode collections, or advisory text.
-export function continuitySummary({vehicleReport,vehicleCache,inferenceCache,inferenceReport,advisories,state}={}) {
+export function continuitySummary({vehicleState,vehicleReport,vehicleCache,inferenceCache,inferenceReport,advisories,state}={}) {
   const v=vehicleReport||{},i=inferenceReport||{};
   const records=state?.records||[];
   const confirmed=records.filter(r=>r.status==='confirmed').length;
   return {source:'ttc-continuity',
     vehicleCache:vehicleCache?.status||'missing',inferenceCache:inferenceCache?.status||'missing',
     vehicleStaticVersion:vehicleCache?.staticVersion??null,inferenceStaticVersion:inferenceCache?.staticVersion??null,
-    vehicleSource:v.status||'unavailable',advisorySource:advisories?.status||'not-loaded',
+    vehicleSource:vehicleState?.status||'unavailable',advisorySource:advisories?.status||'not-loaded',
     tracksLoaded:v.tracksLoaded||0,tracksCreated:v.tracksCreated||0,tracksRetained:v.tracksRetained||0,tracksReset:v.resets||0,tracksExpired:v.expired||0,
     graceStarted:v.graceStarted||0,graceContinued:v.graceContinued||0,graceCleared:v.graceCleared||0,graceExpired:v.graceExpired||0,
     graceRefusedAbsent:v.graceRefusedAbsent||0,graceRefusedConflict:v.graceRefusedConflict||0,graceRefusedStale:v.graceRefusedStale||0,graceRefusedIncompatible:v.graceRefusedIncompatible||0,
@@ -125,7 +125,7 @@ export async function runVehiclePolling({polls=1,intervalMs=30000,statePath='.ca
     if (geoJsonPath) await atomicJson(geoJsonPath,diversionGeoJson(result.state,loaded.index));
     log({source:'ttc-diversions',status:result.state.status,...result.report});
     log(diversionSummary(result.state));
-    log(continuitySummary({vehicleCache,inferenceCache,inferenceReport:result.report,advisories,state:result.state}));
+    log(continuitySummary({vehicleState:current,vehicleCache,inferenceCache,inferenceReport:result.report,advisories,state:result.state}));
     return previous;
   }
   const geometryCache=new Map();
@@ -147,7 +147,7 @@ export async function runVehiclePolling({polls=1,intervalMs=30000,statePath='.ca
     await atomicJson(statePath,previous); await atomicJson(outputPath,deviationOutput(previous));
   }
   log(diversionSummary(inference));
-  log(continuitySummary({vehicleReport,vehicleCache,inferenceCache,inferenceReport,advisories,state:inference}));
+  log(continuitySummary({vehicleState:previous,vehicleReport,vehicleCache,inferenceCache,inferenceReport,advisories,state:inference}));
   return previous;
 }
 if (process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href) {

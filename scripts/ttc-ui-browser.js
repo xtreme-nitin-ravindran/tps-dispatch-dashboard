@@ -78,6 +78,32 @@ for(const width of [320,375,390,430,768,1440]) {
  const maxLongTask=await page.evaluate(()=>Math.max(0,...window.ttcLongTasks));assert.ok(maxLongTask<2000);
  results.push({width,errors,layers:(await diag()).layers,cycles:12,initialMaxLongTask,maxLongTask});await page.close();
 }
+// A real confirmed public path with no official references remains selectable.
+{
+ const page=await browser.newPage({viewport:{width:390,height:900}});
+ await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&ttcFixture=confirmed`,{waitUntil:'networkidle'});
+ await page.waitForFunction(()=>document.documentElement.dataset.secondaryLoadState==='ready');
+ const id=await page.evaluate(async()=>{
+  const observed=await (await fetch('./test/fixtures/ttc-diversions/unassociated-public.json')).json();
+  const shift=Date.now()-Date.parse(observed.checkedAt);observed.checkedAt=new Date(Date.now()).toISOString();
+  for(const d of observed.diversions) {d.lastObservedAt=new Date(Date.parse(d.lastObservedAt)+shift).toISOString();d.expiresAt=new Date(Date.parse(d.expiresAt)+shift).toISOString();}
+  const fixture=await (await import('./src/ttc/fixture.js')).loadTtcUiFixture();
+  fixture.ttcAlerts.items=[];fixture.ttcDiversions=observed;
+  (await import('./src/ttc/ui.js')).renderTtc(fixture);
+  return `sirento-observed:${observed.diversions[0].id}`;
+ });
+ await page.waitForFunction(id=>document.querySelector('.ttc-disruption')?.dataset.ttcId===id,id);
+ assert.equal(await page.locator('.ttc-disruption').count(),1);
+ assert.equal(await page.locator('.ttc-detail .section-kicker').textContent(),'SIRENTO OBSERVED DIVERSION');
+ assert.equal(await page.locator('#ttcLayerControl').isVisible(),true);
+ assert.equal(await page.locator('#ttcLegend-diversion').evaluate(el=>el.hidden),false);
+ await page.locator('.ttc-disruption > summary').click();await page.locator('.ttc-show-map').click();
+ const diag=await page.evaluate(async()=>(await import('./src/ttc/ui.js')).captureTtcRenderState());
+ assert.equal(diag.parts,1);assert.equal(diag.layers,2);assert.equal(diag.selected,id);
+ await page.locator('.ttc-hit').first().dispatchEvent('click');
+ assert.equal((await page.evaluate(async()=>(await import('./src/ttc/ui.js')).captureTtcRenderState())).selected,id);
+ results.push({scenario:'unassociated-public',...diag});await page.close();
+}
 for(const mode of ['alert-only','multiple','expired','unavailable','empty']) {
  const page=await browser.newPage({viewport:{width:390,height:900}});
  await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&mobileAuditView=calls&ttcFixture=${mode}`,{waitUntil:'networkidle'});

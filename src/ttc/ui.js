@@ -10,7 +10,7 @@ function summarySelection(details,item) { details.querySelector('summary').addEv
 export function createTtcDetail(item) {
   const article=node('article',null,'disruption-item ttc-detail');
   article.dataset.ttcId=item.id;
-  article.append(node('span','OFFICIAL TTC DISRUPTION','section-kicker'),node('h4',item.routes.map(r=>r.label).join(' · ') || 'TTC'),node('p',item.title));
+  article.append(node('span',item.source === 'sirento-observed' ? 'SIRENTO OBSERVED DIVERSION' : 'OFFICIAL TTC DISRUPTION','section-kicker'),node('h4',item.routes.map(r=>r.label).join(' · ') || 'TTC'),node('p',item.title));
   article.append(node('p',item.geography,'disruption-note'));
   if(item.cause) article.append(node('p',item.cause,'disruption-note'));
   if(item.description) article.append(node('p',item.description));
