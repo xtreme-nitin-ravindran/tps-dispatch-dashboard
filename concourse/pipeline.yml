@@ -130,6 +130,6 @@ jobs:
                 fi
       # Single fast-forward push for both data/current.json and data/ttc-diversions.json.
       - put: snapshots
-        timeout: 2m
+        no_get: true
         params:
           repository: updated-repo
