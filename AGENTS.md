@@ -23,7 +23,7 @@
 - Use Docker for repository validation commands.
 - Do not use port `8080`.
 - During implementation, prefer the smallest relevant targeted test set, or `npm run verify:fast` (or `npm run verify:fast -- test/file.test.js`) for a fast inner-loop check.
-- The canonical test image is named `toronto-dispatch-tests`. `scripts/docker-test.sh --ensure-image` is intentionally silent when that image already exists and its fingerprint is current; use its exit status rather than expecting success output.
+- The canonical test image is named `toronto-dispatch-tests`. `scripts/docker-test.sh --ensure-image` prints one concise readiness line naming that image when it already exists and its fingerprint is current; use its exit status as the authoritative signal.
 - Run repository Node, ESLint, and Ruff validation through `scripts/docker-test.sh`, `npm run verify:fast`, or `npm run verify`. Do not use a missing or different host toolchain to diagnose a failure unless the same failure reproduces in the canonical Docker environment. Host-only failures still need a follow-up when the host version is within `package.json`'s supported `engines` range.
 - Do not repeatedly run the full repository suite after every small change.
 - Run broad/full verification at story or feature completion, or when required to reproduce a CI failure. Use `npm run verify` for final full validation; it is the single, versioned entry point for every required check. Continue to use the smallest relevant targeted checks during implementation.

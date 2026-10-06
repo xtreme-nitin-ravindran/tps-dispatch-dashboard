@@ -111,12 +111,13 @@ scripts/docker-test.sh --ensure-image
 ```
 
 The canonical image name is `toronto-dispatch-tests`. A successful
-`--ensure-image` check intentionally prints nothing when that image already exists and
-its fingerprint is current; check the command's exit status. Build/stale diagnostics are
-printed only when action is required. Repository validation should use the pinned Docker
-toolchain rather than ad hoc host Node, ESLint, or Ruff commands. If a host-only failure
-uses a Node version allowed by `package.json`'s `engines`, record it for compatibility
-follow-up even when the canonical Docker gate passes.
+`--ensure-image` check prints one concise readiness line naming that image when it
+already exists and its fingerprint is current; check the command's exit status.
+Build/stale diagnostics are printed only when action is required. Repository
+validation should use the pinned Docker toolchain rather than ad hoc host Node,
+ESLint, or Ruff commands. If a host-only failure uses a Node version allowed by
+`package.json`'s `engines`, record it for compatibility follow-up even when the
+canonical Docker gate passes.
 
 The wrapper computes a SHA-256 fingerprint of the image-defining inputs
 (`Dockerfile.test`, `.dockerignore`, `package.json`, `package-lock.json`) and compares it
