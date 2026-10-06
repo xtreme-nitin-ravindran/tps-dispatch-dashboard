@@ -197,6 +197,23 @@ deterministic fixtures. Environment overrides such as `PLAYWRIGHT_MODULE`,
 `CHROMIUM_EXECUTABLE`, and suite-specific `*_UI_URL` values remain available for
 nonstandard local installations and are not overwritten when explicitly set.
 
+The runner and all six suites report timing spans through
+`scripts/lib/browser-timing.js`, including server readiness, Chromium launch,
+navigation, fixture readiness, suite execution, and teardown where applicable.
+Use these spans to identify the failing stage. For machine-readable summaries, run:
+
+```bash
+BROWSER_TIMING=json npm run test:browser
+```
+
+The shared `awaitFixtureReady` helper in `scripts/lib/browser-fixture.js` waits for
+`document.documentElement.dataset.incidentLoadState === 'ready'`. By default it
+allows 60 seconds per readiness attempt and reloads once before retrying a failed
+readiness wait. It still requires `ready` before assertions run; this retry is scoped
+to fixture startup. Helper tests that require a single failed attempt must pass
+`{ retries: 0 }`. For asynchronous UI assertions, use bounded waits for the expected
+rendered state instead of fixed sleeps.
+
 Use an individual `test:*:browser` script for a targeted implementation loop. Run the
 aggregate command before completing a story whose correctness depends on rendered-browser
 behavior. The aggregate browser suites remain outside Docker, CI, `npm run verify`, and

@@ -103,6 +103,7 @@ is a dependency/tooling snapshot, not a source snapshot.
 - For regressions, reproduce the real failure sequence when practical and add a test that would have failed before the fix.
 - Prefer structural and invariant assertions over brittle screenshot-only tests.
 - For browser/rendering bugs, assert against actual rendered DOM, geometry, or state where possible.
+- Wait for asynchronous rendered state with a bounded Playwright predicate rather than a fixed sleep (for example, Story 39A waits for the expected selected card before checking connector invariants). Diagnose browser startup failures using the shared timing spans before changing timeout or retry behavior.
 
 ## Mobile and browser validation
 
@@ -157,6 +158,7 @@ Preserve these product semantics in both logic and UI:
 
 - Do not commit unrelated generated files, screenshots, debug artifacts, temporary credentials, local fixture output, or accidental `data/current.json` changes.
 - Before full lint, inspect ignored `tmp/` content for stale repository debug scripts. Never clear `tmp/` indiscriminately: delete only files confirmed to be unreferenced debris, and record that cleanup in the roadmap.
+- Prefer the git-ignored `.cache/` directory for repository-local scratch files. Confirm the resolved absolute path before relying on a scratch file; some file tools have resolved `/tmp` requests to the workspace `tmp/` directory.
 - Remove temporary keys, credentials, and debug files after use.
 - Run `git diff --check` before considering work complete.
 - When asked for a commit message, keep it concise, high-level, and user-facing, using literal `-` bullets.
@@ -176,6 +178,7 @@ Preserve these product semantics in both logic and UI:
 - Revert the affected file(s) and re-apply the intended change with a surgical text-editing method.
 - Do not keep formatter-generated churn in the final diff unless the task explicitly requires formatting changes.
 - Treat unexpected file-wide reformatting as a tooling failure, not as part of the implementation.
+- `scripts/ttc-ui-browser.js` contains dense formatting that generic edit tools have expanded into unrelated file-wide changes. Apply exact replacements with a `python3` heredoc or `perl -0pi -e`, and inspect the diff immediately.
 - `package.json` must retain its trailing newline. Surgical edits must not introduce a spurious whole-file or final-line diff.
 - Browser-executed scripts must declare the browser globals they use in their ESLint global comment when those globals are not supplied by the file's lint environment (for example, `getComputedStyle`). Do not add unnecessary globals or weaken ESLint rules globally, and do not modify ESLint configuration solely to accommodate one browser script.
 
