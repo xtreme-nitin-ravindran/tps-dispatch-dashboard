@@ -85,5 +85,34 @@ for(const mode of ['alert-only','multiple','expired','unavailable','empty']) {
  if(mode==='unavailable') assert.match(state.text,/unavailable/);
  await page.locator('#ttcListHome').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/${mode}.png`});results.push({mode,...state});await page.close();
 }
+// Story 51D: an active official Service Change that a confirmed observed path
+// claims must render once, with its geometry, and must not also appear in the
+// citywide transit list.
+{
+ const page=await browser.newPage({viewport:{width:390,height:900}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&mobileAuditView=calls&ttcFixture=official-advisory`,{waitUntil:'networkidle'});
+ await page.waitForFunction(()=>document.documentElement.dataset.secondaryLoadState==='ready');
+ const state=await page.evaluate(async()=>({
+   diag:(await import('./src/ttc/ui.js')).captureTtcRenderState(),
+   cards:document.querySelectorAll('.ttc-disruption').length,
+   ids:[...document.querySelectorAll('.ttc-disruption')].map(n=>n.dataset.ttcId),
+   text:document.querySelector('#ttcContent').textContent,
+   citywide:document.querySelector('#transitList').textContent,
+   citywideCount:document.querySelector('#transitCount').textContent
+ }));
+ // The official Service Change renders once, keyed by its official id.
+ assert.equal(state.cards,1);
+ assert.deepEqual(state.ids,['102']);
+ assert.match(state.text,/94 Wellesley/);
+ assert.match(state.text,/Observed by SirenTO/);
+ // The observed path is drawn on the map (route-only advisory: no scheduled segment).
+ assert.equal(state.diag.parts,1);
+ // The claimed advisory is deduped from the citywide list.
+ assert.doesNotMatch(state.citywide,/94 Wellesley/);
+ assert.equal(state.citywideCount,'0');
+ assert.deepEqual(errors,[]);
+ await page.locator('#ttcListHome').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/official-advisory.png`});
+ results.push({mode:'official-advisory',...state});await page.close();
+}
 } finally {await browser.close();await writeFile(`${out}/results.json`,JSON.stringify(results,null,2));}
 console.log(JSON.stringify(results.map(result=>({...result,text:undefined})),null,2));

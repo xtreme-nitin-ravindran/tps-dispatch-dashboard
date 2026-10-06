@@ -115,6 +115,13 @@ test('schema rejects invalid coordinates, timestamps, distances, states, referen
   for (const mutate of [s=>s.tracks[0].history[0].latitude=100,s=>s.tracks[0].history[0].distanceFromShapeMeters=-1,s=>s.tracks[0].state='detour',s=>s.checkedAt='today',s=>s.tracks[0].shapeId='s2',s=>s.tracks[0].history=Array(21).fill(s.tracks[0].history[0]),s=>s.tracks[0].history[0].segmentIndex=999]) {
     const copy=structuredClone(valid);mutate(copy);assert.throws(()=>validateVehicleState(copy,index));
   }
+  // A retained unresolved marker must be a real instant, not precede the last
+  // observation, and not be in the future relative to the check time.
+  for (const mutate of [s=>s.tracks[0].unresolvedSince='soon',s=>s.tracks[0].unresolvedSince='2026-09-28T15:59:00.000Z',s=>s.tracks[0].unresolvedSince='2026-09-28T16:05:00.000Z']) {
+    const copy=structuredClone(valid);mutate(copy);assert.throws(()=>validateVehicleState(copy,index));
+  }
+  const retained=structuredClone(valid);retained.tracks[0].unresolvedSince=retained.tracks[0].lastObservedAt;
+  assert.equal(validateVehicleState(retained,index),retained);
   assert.equal(VEHICLE_POLICY.historyMs,600000);
 });
 const geom=points=>compileShape(points.map(([lat,lon],i)=>[i,lat,lon]));
@@ -202,10 +209,69 @@ test('five-minute cadence gap preserves a track so a departure-to-rejoin episode
   assert.equal(VEHICLE_POLICY.inactivityMs>cadence*1000,true);
   assert.equal(VEHICLE_POLICY.maxGapMs>cadence*1000,true);
 });
+test('a single transient ambiguous observation preserves a confirmed deviation instead of deleting the track',()=>{
+  // Regression: deleting the track on one unmatched/ambiguous observation discarded a
+  // confirmed deviation's history and deviation anchor, so a single transient gap
+  // demoted a confirmed diversion to candidate. The track must survive the gap.
+  const confirmed=sequence([0,30,60]).at(-1).state;
+  assert.equal(confirmed.tracks[0].state,'confirmed');
+  const ambiguous=detectVehicles(confirmed,parse(90,{trip:{routeId:'0504'}}),index,at(90)).state;
+  assert.equal(ambiguous.tracks.length,1);
+  assert.equal(ambiguous.tracks[0].state,'confirmed');
+  assert.equal(ambiguous.tracks[0].history.length,3);
+  assert.equal(ambiguous.tracks[0].unresolvedSince,at(90).toISOString());
+  // A second consecutive unresolved observation keeps the original grace start.
+  const stillAmbiguous=detectVehicles(ambiguous,parse(120,{trip:{routeId:'0504'}}),index,at(120)).state;
+  assert.equal(stillAmbiguous.tracks[0].unresolvedSince,at(90).toISOString());
+  assert.equal(stillAmbiguous.tracks[0].history.length,3);
+  // A resolved observation within the grace window continues the same track.
+  const resumed=detectVehicles(ambiguous,parse(120),index,at(120)).state;
+  assert.equal(resumed.tracks[0].state,'confirmed');
+  assert.equal(resumed.tracks[0].history.length,4);
+  assert.equal(resumed.tracks[0].unresolvedSince,undefined);
+  // A conflicting route is an incompatible assignment, not a transient gap.
+  const conflicting=detectVehicles(confirmed,parse(90,{trip:{routeId:'29'}}),index,at(90)).state;
+  assert.equal(conflicting.tracks.length,0);
+  // An unmatched observation with no existing track cannot create one.
+  assert.equal(detectVehicles(undefined,parse(0,{trip:{routeId:'0504'}}),index,at(0)).state.tracks.length,0);
+  // A track already older than the grace window is not retained by a later gap.
+  const staleAt=60+VEHICLE_POLICY.unresolvedGraceMs/1000+1;
+  const stale=detectVehicles(confirmed,parse(staleAt,{trip:{routeId:'0504'}}),index,at(staleAt)).state;
+  assert.equal(stale.tracks.length,0);
+});
+test('Story 51E: bounded continuity counters explain track lifecycle and grace reasons',()=>{
+  // Track lifecycle: the first cycle creates a track; later cycles load and retain it.
+  const cycles=sequence([0,30,60]);
+  assert.equal(cycles[0].report.tracksLoaded,0);assert.equal(cycles[0].report.tracksCreated,1);assert.equal(cycles[0].report.tracksRetained,1);
+  const first=cycles.at(-1);
+  assert.equal(first.report.tracksLoaded,1);assert.equal(first.report.tracksCreated,0);assert.equal(first.report.tracksRetained,1);
+  const restored=detectVehicles(first.state,parse(90),index,at(90));
+  assert.equal(restored.report.tracksLoaded,1);assert.equal(restored.report.tracksCreated,0);assert.equal(restored.report.tracksRetained,1);
+  // Grace start, continue, and clear are reported as distinct fixed reasons.
+  const started=detectVehicles(first.state,parse(90,{trip:{routeId:'0504'}}),index,at(90));
+  assert.equal(started.report.graceStarted,1);assert.equal(started.report.graceContinued,0);
+  const continued=detectVehicles(started.state,parse(120,{trip:{routeId:'0504'}}),index,at(120));
+  assert.equal(continued.report.graceStarted,0);assert.equal(continued.report.graceContinued,1);
+  const cleared=detectVehicles(started.state,parse(120),index,at(120));
+  assert.equal(cleared.report.graceCleared,1);
+  // Grace refusals: absent track, conflicting route, stale window, incompatible reset.
+  assert.equal(detectVehicles(undefined,parse(0,{trip:{routeId:'0504'}}),index,at(0)).report.graceRefusedAbsent,1);
+  assert.equal(detectVehicles(first.state,parse(90,{trip:{routeId:'29'}}),index,at(90)).report.graceRefusedConflict,1);
+  const staleAt=60+VEHICLE_POLICY.unresolvedGraceMs/1000+1;
+  assert.equal(detectVehicles(first.state,parse(staleAt,{trip:{routeId:'0504'}}),index,at(staleAt)).report.graceRefusedStale,1);
+  const incompatible=detectVehicles(first.state,parse(90,{trip:{tripId:'t2',routeId:'0504',directionId:0}}),index,at(90));
+  assert.equal(incompatible.report.graceRefusedIncompatible,1);assert.equal(incompatible.report.resets,1);
+  // A previously graced track that exceeds the window reports graceExpired, not stale.
+  const graced=detectVehicles(first.state,parse(90,{trip:{routeId:'0504'}}),index,at(90)).state;
+  const expired=detectVehicles(graced,parse(staleAt,{trip:{routeId:'0504'}}),index,at(staleAt));
+  assert.equal(expired.report.graceExpired,1);assert.equal(expired.report.graceRefusedStale,0);assert.equal(expired.state.tracks.length,0);
+});
+
 test('diversion summary reports publishable, candidate and empty states and tolerates missing evidence',()=>{
   // Confirmed evidence is publishable and names the affected routes.
-  const confirmed=diversionSummary({status:'ok',records:[{routeId:'506',status:'confirmed'},{routeId:'501',status:'confirmed'}]});
+  const confirmed=diversionSummary({status:'ok',records:[{routeId:'506',status:'confirmed',confidence:{advisorySupported:true}},{routeId:'501',status:'confirmed',confidence:{advisorySupported:false}}]});
   assert.equal(confirmed.publishable,true);assert.equal(confirmed.confirmed,2);assert.deepEqual(confirmed.routes,['501','506']);
+  assert.equal(confirmed.advisorySupported,1);
   assert.equal(confirmed.message,'2 confirmed diversion(s) published');
   // Candidates are observed but not yet publishable.
   const candidate=diversionSummary({status:'ok',records:[{routeId:'510',status:'candidate'},{routeId:'510',status:'likely'}]});
@@ -214,15 +280,25 @@ test('diversion summary reports publishable, candidate and empty states and tole
   // No evidence at all, and a missing state, both fall back safely.
   assert.equal(diversionSummary({status:'ok',records:[]}).message,'No diversion evidence observed');
   const missing=diversionSummary(undefined);
-  assert.equal(missing.status,'unavailable');assert.equal(missing.found,false);assert.deepEqual(missing.routes,[]);
+  assert.equal(missing.status,'unavailable');assert.equal(missing.found,false);assert.deepEqual(missing.routes,[]);assert.equal(missing.advisorySupported,0);
   assert.equal(missing.message,'No diversion evidence observed');
 });
-test('time bound prunes history before count limit; ambiguous context breaks confirmation',()=>{
+test('time bound prunes history before count limit; a transient ambiguous observation preserves the track',()=>{
   const state=sequence(Array.from({length:12},(_,i)=>i*80),()=>({position:{latitude:43.6512,longitude:-79.4}})).at(-1).state;
   assert.equal(state.tracks[0].history.length,8);
+  // One unmatched/ambiguous observation must not destroy accumulated evidence: the
+  // track keeps its history and continues when a resolved observation follows.
   const prior=sequence([0,30]).at(-1).state;
   const unknown=detectVehicles(prior,parse(60,{trip:{routeId:'0504'}}),index,at(60)).state;
-  assert.equal(detectVehicles(unknown,parse(90),index,at(90)).state.tracks[0].state,'possible');
+  assert.equal(unknown.tracks.length,1);
+  assert.equal(unknown.tracks[0].history.length,2);
+  assert.equal(unknown.tracks[0].unresolvedSince,at(60).toISOString());
+  const resumed=detectVehicles(unknown,parse(90),index,at(90)).state;
+  assert.equal(resumed.tracks[0].history.length,3);
+  assert.equal(resumed.tracks[0].unresolvedSince,undefined);
+  // A sustained ambiguous context beyond the bounded grace window still drops it.
+  const expired=detectVehicles(unknown,parse(60+VEHICLE_POLICY.unresolvedGraceMs/1000+1,{trip:{routeId:'0504'}}),index,at(60+VEHICLE_POLICY.unresolvedGraceMs/1000+1)).state;
+  assert.equal(expired.tracks.length,0);
 });
 test('compact schema validates index references and does not accept malformed evidence',()=>{
   const output=deviationOutput(sequence([0,30,60]).at(-1).state);

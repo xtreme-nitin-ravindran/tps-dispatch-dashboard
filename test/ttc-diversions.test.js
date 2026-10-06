@@ -13,14 +13,14 @@ import { simplifyGeometry, corridorDistance } from '../src/ttc/diversion-geometr
 import { runVehiclePolling } from '../scripts/ttc-vehicles.js';
 const index=staticIndex();
 const path=[[43.65,-79.404],[43.652,-79.403],[43.652,-79.402],[43.652,-79.400],[43.65,-79.398],[43.65,-79.397],[43.65,-79.396]];
-function run({paths=[path,path],alerts,start=0,step=30,previous,detector}={}) {
+function run({paths=[path,path],alerts,advisories,start=0,step=30,previous,detector}={}) {
   let state=previous,vehicles=detector,result;const cycles=[];
   for (let i=0;i<Math.max(...paths.map(p=>p.length));i++) {
     const seconds=start+i*step;
     const rows=paths.flatMap((p,j)=>p[i]?[vehicle(seconds,{vehicle:{id:String(j)},position:{latitude:p[i][0],longitude:p[i][1]}})]:[]);
     const feed=parseTtcVehicles(protobuf(rows,seconds),at(seconds));
     vehicles=detectVehicles(vehicles,feed,index,at(seconds),alerts).state;
-    result=inferDiversions(state,vehicles,index,at(seconds),alerts);state=result.state;cycles.push(result);
+    result=inferDiversions(state,vehicles,index,at(seconds),alerts,{advisories});state=result.state;cycles.push(result);
   }
   return {...result,vehicles,cycles};
 }
@@ -29,9 +29,43 @@ function fromEpisodes(episodes,seconds=180,records=[]) {
   return inferDiversions({schemaVersion:1,staticVersion:index.version,status:'ok',checkedAt:at(seconds).toISOString(),episodes,records},empty(seconds),index,at(seconds));
 }
 const only=r=>{assert.equal(r.output.diversions.length,1);return r.output.diversions[0];};
+test('Story 51E: bounded episode lifecycle counters explain inference continuity',()=>{
+  // The first cycle has no evidence yet; the second creates episodes; later cycles load them.
+  const r=run();
+  assert.equal(r.cycles[0].report.episodesLoaded,0);assert.equal(r.cycles[0].report.episodesCreated,0);assert.equal(r.cycles[0].report.episodesRetained,0);
+  assert.equal(r.cycles[1].report.episodesLoaded,0);assert.equal(r.cycles[1].report.episodesCreated,2);assert.equal(r.cycles[1].report.episodesRetained,2);
+  assert.equal(r.report.episodesLoaded,2);assert.equal(r.report.episodesCreated,0);assert.equal(r.report.episodesRetained,2);
+  const restored=inferDiversions(r.state,r.vehicles,index,at(180));
+  assert.equal(restored.report.episodesLoaded,2);assert.equal(restored.report.episodesCreated,0);assert.equal(restored.report.episodesRetained,2);
+  // Completed episodes are closed; the count reflects closed episodes at run end.
+  assert.equal(r.report.episodesClosed,2);
+  // Expired episodes are counted when evidence ages out beyond the retention window.
+  const expired=inferDiversions(r.state,empty(2100),index,at(2100));
+  assert.equal(expired.report.episodesExpired,2);assert.equal(expired.report.episodesRetained,0);assert.equal(expired.report.episodesClosed,0);
+  // An incomplete episode orphaned mid-run is closed but retained until expiry.
+  const partial=run({paths:[path.slice(0,4),path.slice(0,4)]});
+  const orphaned=inferDiversions(partial.state,empty(180),index,at(180));
+  assert.equal(orphaned.report.episodesClosed,2);assert.equal(orphaned.report.episodesRetained,2);
+});
+
 test('one vehicle and repeated polling of one episode never confirm',()=>{
   const r=run({paths:[path]});assert.equal(only(r).status,'candidate');assert.equal(only(r).evidence.trajectoryCount,1);
   const repeated=inferDiversions(r.state,r.vehicles,index,at(180));assert.equal(only(repeated).evidence.trajectoryCount,1);assert.equal(only(repeated).id,only(r).id);
+});
+test('Story 51C: an active route-compatible advisory is associated without changing confirmation',()=>{
+  const advisories={schemaVersion:1,source:'ttc-service-change',status:'ok',checkedAt:at(0).toISOString(),sourceUpdatedAt:null,fetchedAt:null,
+    advisories:[{ref:'ttc-service-change:0504',source:'ttc-service-change',sourceId:'0504',title:'504 detour',effect:'DETOUR',url:null,routeIds:['0504'],activePeriods:[]}]};
+  const r=run({advisories}),d=only(r);
+  // The advisory is associated but the confirmation rule is unchanged.
+  assert.equal(d.status,'confirmed');assert.deepEqual(d.relatedAdvisoryRefs,['ttc-service-change:0504']);assert.equal(d.confidence.advisorySupported,true);
+  assert.deepEqual(d.relatedAlertIds,[]);assert.equal(d.confidence.alertSupported,false);
+  // Without the advisory context the same evidence produces no association.
+  assert.deepEqual(only(run()).relatedAdvisoryRefs,[]);
+});
+test('Story 51C: an unrelated-route advisory is never associated with the observed path',()=>{
+  const advisories={schemaVersion:1,source:'ttc-service-change',status:'ok',checkedAt:at(0).toISOString(),sourceUpdatedAt:null,fetchedAt:null,
+    advisories:[{ref:'ttc-service-change:501',source:'ttc-service-change',sourceId:'501',title:'501 detour',effect:'DETOUR',url:null,routeIds:['501'],activePeriods:[]}]};
+  assert.deepEqual(only(run({advisories})).relatedAdvisoryRefs,[]);
 });
 test('two independent complete vehicles confirm a path and preserve raw/projection evidence',()=>{
   const r=run(),d=only(r);assert.equal(d.status,'confirmed');assert.equal(d.evidence.vehicleCount,2);assert.equal(d.geometrySource,'sirento-observed');
@@ -39,6 +73,31 @@ test('two independent complete vehicles confirm a path and preserve raw/projecti
   assert.ok(Math.abs(d.rejoin.point[0]+79.398)<.00001);assert.equal(d.departure.rawEvidence.length,2);
   assert.ok(d.geometry.some(p=>p[1]>43.6519));assert.ok(d.scheduledAffectedSegment.geometry.every(p=>p[1]===43.65));
   assert.equal(d.episodeIds,undefined);assert.equal(d.identityAnchor,undefined);
+});
+test('a single transient ambiguous observation does not demote a confirmed diversion',()=>{
+  // Regression: deleting the track on one unmatched/ambiguous observation discarded a
+  // confirmed deviation's history and anchor, so a single transient gap demoted a
+  // confirmed diversion to candidate. The confirmed path must survive the gap.
+  const long=[[43.65,-79.404],[43.652,-79.403],[43.652,-79.402],[43.652,-79.400],[43.65,-79.398],[43.65,-79.397],[43.65,-79.396],[43.65,-79.395],[43.65,-79.394]];
+  const clean=only(run({paths:[long,long]}));
+  assert.equal(clean.status,'confirmed');
+  assert.equal(clean.evidence.completedVehicleCount,2);
+  // Inject one ambiguous observation for vehicle 0 mid-episode, then resume.
+  let state,vehicles,result;
+  for (let i=0;i<long.length;i++) {
+    const seconds=i*30;
+    const rows=[0,1].map(j=>{
+      const ambiguous=j===0&&seconds===120;
+      return vehicle(seconds,{vehicle:{id:String(j)},...(ambiguous?{trip:{routeId:'0504'}}:{position:{latitude:long[i][0],longitude:long[i][1]}})});
+    });
+    const feed=parseTtcVehicles(protobuf(rows,seconds),at(seconds));
+    vehicles=detectVehicles(vehicles,feed,index,at(seconds)).state;
+    result=inferDiversions(state,vehicles,index,at(seconds));state=result.state;
+  }
+  const interrupted=only(result);
+  assert.equal(interrupted.status,'confirmed');
+  assert.equal(interrupted.evidence.completedVehicleCount,2);
+  assert.equal(interrupted.id,clean.id);
 });
 test('same vehicle separate completed episodes count independently; two are insufficient',()=>{
   let r=run({paths:[path]});

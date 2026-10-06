@@ -40,8 +40,10 @@ jobs:
         id: snapshot
         run: node scripts/tfs-fallback.js
       - name: Observe TTC vehicle deviations
-        # Fresh state per run: four polls supply actual timestamped evidence.
-        run: npm run update:ttc:vehicles -- --polls 4 --interval-ms 30000
+        # Bounded burst of four polls supplies actual timestamped evidence. The
+        # already-updated data/current.json is reused as official-advisory context;
+        # the TTC website is never fetched again here.
+        run: npm run update:ttc:vehicles -- --polls 4 --interval-ms 30000 --advisory data/current.json
       - name: Project compact TTC geometry
         run: node scripts/publish-ttc-geometry.js .cache/ttc/diversions.json snapshot-data/data/ttc-diversions.json
       - name: Commit and push snapshot and TTC geometry

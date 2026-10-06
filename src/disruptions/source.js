@@ -73,19 +73,27 @@ function translated(object) {
   const translations = object?.translation || [];
   return clean(first(translations.find(t => first(t,'language') === 'en') || translations[0], 'text'));
 }
+// Fixed reason keys for per-entity rejection; never derived from upstream text.
+export const TTC_REJECTION_REASONS = Object.freeze(['missing_id','missing_title','invalid_active_period']);
 export function normalizeTransit(text, now = Date.now(), stopLookup = TTC_STOP_LOOKUP) {
   const feed = parseTextProto(text);
   const header = first(feed,'header');
   const timestamp = Number(first(header,'timestamp')) * 1000;
   if (!first(header,'gtfs_realtime_version') || !Number.isFinite(timestamp) || timestamp > now + 300000 || now - timestamp > 3600000 || first(header,'incrementality') === 'DIFFERENTIAL') throw new Error('Invalid or stale TTC feed');
-  const items = feed.entity.flatMap(entity => {
+  const rejected = Object.fromEntries(TTC_REJECTION_REASONS.map(reason => [reason, 0]));
+  const items = [];
+  for (const entity of feed.entity) {
     const alert = first(entity,'alert');
-    if (!alert || first(entity,'is_deleted') === 'true') return [];
-    const title = translated(first(alert,'header_text'));
+    if (!alert || first(entity,'is_deleted') === 'true') continue;
+    // GTFS-Realtime marks header_text Required; a spec-violating entity is skipped
+    // with a bounded reason so valid siblings are never discarded. A title is never
+    // synthesized from description, route ids, or any other free-form field.
     const id = clean(first(entity,'id'));
-    if (!title || !id) throw new Error('Invalid TTC alert');
+    if (!id) { rejected.missing_id++; continue; }
+    const title = translated(first(alert,'header_text'));
+    if (!title) { rejected.missing_title++; continue; }
     const periods = (alert.active_period || []).map(p => ({start: number(first(p,'start')) === null ? null : number(first(p,'start')) * 1000, end:number(first(p,'end')) === null ? null : number(first(p,'end')) * 1000}));
-    if (periods.some(p => [p.start,p.end].some(v => v !== null && !Number.isFinite(v)))) throw new Error('Invalid TTC active period');
+    if (periods.some(p => [p.start,p.end].some(v => v !== null && !Number.isFinite(v)))) { rejected.invalid_active_period++; continue; }
     const affectedEntities = (alert.informed_entity || []).map(entity => {
       const routeId = clean(first(entity,'route_id')) || null;
       const stopId = clean(first(entity,'stop_id')) || null;
@@ -98,14 +106,15 @@ export function normalizeTransit(text, now = Date.now(), stopLookup = TTC_STOP_L
         ...(name ? {name} : {})
       };
     });
-    return [{
+    items.push({
       id, title, description:translated(first(alert,'description_text')), effect:clean(first(alert,'effect')).replaceAll('_',' '),
       routes:[...new Set(affectedEntities.map(entity => entity.routeId).filter(Boolean))],
       stopIds:[...new Set(affectedEntities.map(entity => entity.stopId).filter(Boolean))],
       affectedEntities, periods, url:TTC_LINK
-    }];
-  });
-  return {items, sourceUpdatedAt:new Date(timestamp).toISOString()};
+    });
+  }
+  const rejectedCount = TTC_REJECTION_REASONS.reduce((total, reason) => total + rejected[reason], 0);
+  return {items, sourceUpdatedAt:new Date(timestamp).toISOString(), rejected:rejectedCount, rejectedReasons:rejected};
 }
 export function normalizeRoads(payload) {
   if (!Array.isArray(payload?.Closure)) throw new Error('Invalid road restriction feed');
@@ -139,13 +148,15 @@ export async function fetchDisruptionSource(kind, fetchImpl = fetch, now = Date.
   if (!response.ok) throw new Error(`Disruption feed HTTP ${response.status}`);
   return kind === 'roads' ? normalizeRoads(await response.json()) : normalizeTransit(await response.text(), now);
 }
-export async function updateDisruptions(previous = {}, now = new Date(), fetchSource = fetchDisruptionSource) {
+export async function updateDisruptions(previous = {}, now = new Date(), fetchSource = fetchDisruptionSource, log = entry => console.log(JSON.stringify(entry))) {
   const entries = await Promise.all(['roads','transit'].map(async kind => {
     const old = previous?.[kind];
     const age = now.getTime() - Date.parse(old?.checkedAt);
     if (age >= 0 && age < 300000) return [kind,old];
     try {
       const result = await fetchSource(kind, undefined, now.getTime());
+      // Bounded, privacy-safe diagnostics: counts and fixed reason keys only, never raw upstream text.
+      if (kind === 'transit' && result.rejected > 0) log({source:'ttc-transit',status:'ok',count:result.items.length,rejected:result.rejected,rejectedReasons:result.rejectedReasons});
       return [kind,{...result,status:'ok',checkedAt:now.toISOString(),fetchedAt:now.toISOString()}];
     } catch {
       return [kind,{items:old?.items || [],sourceUpdatedAt:old?.sourceUpdatedAt || null,fetchedAt:old?.fetchedAt || null,checkedAt:now.toISOString(),status:'unavailable'}];

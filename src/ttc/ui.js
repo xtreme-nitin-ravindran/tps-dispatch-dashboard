@@ -57,7 +57,7 @@ export function renderTtc(data,map=currentMap,context=latest?.context || {}) {
   clearTimeout(expiryTimer);
   // Expiry still runs if incident fetches fail or the tab remains idle.
   expiryTimer=setTimeout(()=>renderTtc(latest.data,latest.map),30000);
-  const model=ttcPresentation(data?.ttcAlerts,data?.ttcDiversions,Date.now(),context);
+  const model=ttcPresentation(data?.ttcAlerts,data?.ttcDiversions,Date.now(),{...context,advisories:data?.transit});
   if(map !== currentMap) {controller?.destroy();controller=null;currentMap=map;lastSignature=null;}
   if(map && !controller) controller=createTtcLayer(map,globalThis.L,(item,layer)=>selectTtc(item,layer,true));
   currentItems=model.items;

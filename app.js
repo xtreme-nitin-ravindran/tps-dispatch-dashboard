@@ -799,7 +799,7 @@ async function fetchSnapshot() {
     const finishNormalization = uxAudit.begin('incident-normalization');
     const snapshot = {
       calls: payload.incidents.map(row => normalizeCall(row)).sort((a, b) => b.timestamp - a.timestamp),
-      disruptions: mergeTtcDisruptions(payload.disruptions,ttcFixture?.ttcAlerts,ttcFixture?.ttcDiversions),
+      disruptions: mergeTtcDisruptions(payload.disruptions,ttcFixture?.ttcAlerts,ttcFixture?.ttcDiversions,ttcFixture?.transit),
       feeds: payload.feeds,
       fetchedAt: payload.fetchedAt,
       updatedAt: payload.sourceUpdatedAt
