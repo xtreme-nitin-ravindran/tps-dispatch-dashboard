@@ -42,7 +42,7 @@ import { createPoliceBoundaryLifecycleScheduler } from './src/police-boundary-li
 uxAudit.mark('app-bootstrap-begins');
 
 const CONFIG = {
-  snapshotUrl: "https://raw.githubusercontent.com/xtreme-nitin-ravindran/tps-dispatch-dashboard/data/data/current.json",
+  snapshotUrl: "https://data-sirento.nitin.run/data/current.json",
   refreshCheckMs: 30_000
 };
 
