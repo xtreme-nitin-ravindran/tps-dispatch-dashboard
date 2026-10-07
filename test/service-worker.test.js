@@ -82,9 +82,9 @@ test("worker precaches the static app shell without live incident data", async (
 test("worker ignores live API and incident snapshot requests", () => {
   const { listeners, calls } = loadWorker();
   const liveUrls = [
-    "https://raw.githubusercontent.com/example/data/current.json?ts=1",
+    "https://data-sirento.nitin.run/data/current.json?ts=1",
     "https://example.test/sirento/data/ttc-diversions.json?ts=1",
-    "https://raw.githubusercontent.com/example/data/ttc-diversions.json?ts=1",
+    "https://data-sirento.nitin.run/data/ttc-diversions.json?ts=1",
     "https://services.arcgis.com/example/FeatureServer/0/query",
     "https://www.toronto.ca/data/fire/livecad.xml",
     "https://gtfsrt.ttc.ca/alerts/all",
