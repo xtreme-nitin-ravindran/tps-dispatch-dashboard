@@ -6,11 +6,12 @@
 // bounded TTC vehicle observation and geometry projection run. A slow or failed
 // TTC stage therefore cannot block or roll back the incident publication.
 //
-// The push itself is owned by the scheduler, not this script:
-//   - Concourse publishes with the git resource's `put` (`rebase: true`).
-//   - GitHub Actions runs `git pull --rebase && git push` in the workflow.
-// Both writers commit only their own file, so a rebase onto the other writer's
-// tip cannot conflict. This script therefore never pushes.
+// The sink decides where the artifact lands. The production sink is Cloudflare
+// R2 (S3-compatible), which publishes directly, so no scheduler push step is
+// needed. The git sink remains available for the transition and local runs; when
+// it is used the push is owned by the scheduler (Concourse `put` with
+// `rebase: true`; GitHub Actions `git pull --rebase && git push`). Either way the
+// two datasets use different keys/files, so they cannot conflict.
 //
 // GitHub Actions and Concourse both invoke this script, so the freshness/skip
 // policy, per-feed failure/retention, history input, timestamp meaning,
@@ -32,7 +33,7 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { runTfsEtl } from './tfs-etl.js';
 import { needsUpdate } from './lib/data-publication.js';
-import { createGitSink } from './lib/publication-sink.js';
+import { createSinkFromEnv } from './lib/publication-sink.js';
 import { fetchTpsSource } from '../src/tps/source.js';
 import { updateDisruptions } from '../src/disruptions/source.js';
 import { updateTtcBackend } from '../src/ttc/backend.js';
@@ -55,7 +56,7 @@ export async function publishIncidents({
   now = new Date(),
   repoDir = process.env.DATA_REPO_DIR || process.cwd(),
   etl = runTfsEtl,
-  sink = createGitSink({ repoDir, message: INCIDENT_MESSAGE }),
+  sink = createSinkFromEnv({ message: INCIDENT_MESSAGE, repoDir }),
   log = entry => console.log(JSON.stringify(entry))
 } = {}) {
   let snapshot;

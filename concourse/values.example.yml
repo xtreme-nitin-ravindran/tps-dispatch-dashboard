@@ -4,3 +4,12 @@ repo_uri: git@github.com:xtreme-nitin-ravindran/tps-dispatch-dashboard.git
 # Never commit the populated values.yml or an actual private key.
 repo_private_key: |
   REPLACE_WITH_PRIVATE_SSH_KEY
+
+# Cloudflare R2 publication target. The pipeline publishes data/current.json and
+# data/ttc-diversions.json to this bucket over the S3 API (SigV4). Supply these
+# through the Concourse credential manager (or a local values file) and never
+# commit real credentials.
+r2_endpoint: https://<account-id>.r2.cloudflarestorage.com
+r2_bucket: sirento
+r2_access_key_id: REPLACE_WITH_R2_ACCESS_KEY_ID
+r2_secret_access_key: REPLACE_WITH_R2_SECRET_ACCESS_KEY

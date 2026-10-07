@@ -1064,32 +1064,41 @@ A successful JSON request alone does not mean the data is current.
 
 - **Concourse** runs `scripts/tfs-etl.js` approximately every five minutes to fetch feeds, merge history, and prepare map locations. Road and TTC feeds are checked at most once every five minutes.
 - **GitHub Actions fallback** checks every five minutes and runs the updater if the snapshot or either incident feed is at least ten minutes old or unavailable. Scheduled runs may be delayed.
-- Both use code from **`main`** and publish `data/current.json` and `data/ttc-diversions.json` to the **`data`** branch. The site reads those files directly, so data updates do not require a Pages deployment.
+- Both use code from **`main`**. Concourse publishes `data/current.json` and `data/ttc-diversions.json` to **Cloudflare R2**; the GitHub Actions fallback still publishes them to the **`data`** branch until Story 55C mirrors the R2 sink. The site reads those files directly, so data updates do not require a Pages deployment.
 - Failed sources retain their last successful data and are marked unavailable. If both incident feeds fail, the existing snapshot is preserved.
 
-### Single data-branch writer
+### Published data and the R2 sink
 
-The `data` branch is a single Git ref, so any two writers that push to it can race a
-fast-forward push: whichever finishes second is based on an older commit and is
-rejected. SirenTO avoids this by using **exactly one writer per pipeline** rather than
-serializing two writers with a shared lock.
+The published snapshot and TTC geometry live in a **Cloudflare R2** bucket
+(S3-compatible object storage), not on a Git branch. Each publication phase writes a
+different object key (`data/current.json` and `data/ttc-diversions.json`), and R2 is
+last-writer-wins per key, so the two datasets cannot conflict and no lock or serial
+group is needed.
 
 - **Concourse** runs one `update-sirento` job. The incident ETL and the bounded TTC
-  vehicle burst are sequential steps in that job, and a single `put: snapshots` step
-  publishes both `data/current.json` and `data/ttc-diversions.json` in one push.
-- **GitHub Actions** runs one `update-sirento` workflow (`.github/workflows/update-sirento.yml`)
-  with the same sequential steps and a single `git push origin HEAD:data`.
+  vehicle burst are sequential steps in that job. The incident phase publishes
+  `data/current.json` first; the TTC geometry phase publishes `data/ttc-diversions.json`
+  afterwards. Both publish through the shared sink in
+  [`scripts/lib/publication-sink.js`](scripts/lib/publication-sink.js), which uploads
+  directly over the S3 API (SigV4, Node built-ins only), so there is no scheduler push
+  step. The incident task seeds the ETL history input from the published snapshot with
+  [`scripts/r2-fetch.js`](scripts/r2-fetch.js); a missing object is tolerated so the ETL
+  can start fresh.
+- **GitHub Actions** runs one `update-sirento` workflow
+  (`.github/workflows/update-sirento.yml`) with the same sequential steps. It still
+  publishes to the `data` branch through the git sink; mirroring the R2 sink there is
+  Story 55C.
 
-Because there is only one writer, no `serial_groups` lock is needed. The trade-off is
-deliberate: a TTC failure fails the whole build, so the next timer tick or scheduled
-run retries both the incident snapshot and the TTC geometry together. This is preferred
-over a shared serial group, which previously deadlocked the pipeline when a resource
-check stalled and no build could start.
+Because there is only one writer per scheduler, no `serial_groups` lock is needed. The
+trade-off is deliberate: a TTC failure fails the whole build, so the next timer tick or
+scheduled run retries both the incident snapshot and the TTC geometry together. This is
+preferred over a shared serial group, which previously deadlocked the pipeline when a
+resource check stalled and no build could start.
 
 Keep generated snapshots out of code commits. The snapshot on `dev` and `main` is a
-fixture; the live snapshot is on `data`. Pipeline configuration is in
-[`concourse/pipeline.yml`](concourse/pipeline.yml), with example settings in
-[`concourse/values.example.yml`](concourse/values.example.yml).
+fixture; the live snapshot is in R2. Pipeline configuration is in
+[`concourse/pipeline.yml`](concourse/pipeline.yml), with example settings (including the
+R2 credentials) in [`concourse/values.example.yml`](concourse/values.example.yml).
 
 Before updating the data branch, Concourse builds `Dockerfile.test` with the supported
 OCI build task and uses that artifact as its task image. It enforces the same gates as

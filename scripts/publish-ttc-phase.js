@@ -6,12 +6,13 @@
 // diversion geometry and publishes it as `data/ttc-diversions.json` through the
 // shared publication sink.
 //
-// The push itself is owned by the scheduler, not this script:
-//   - Concourse publishes with the git resource's `put` (`rebase: true`).
-//   - GitHub Actions runs `git pull --rebase && git push` in the workflow.
-// Both writers commit only their own file, so a rebase onto the other writer's
-// tip cannot conflict. This script therefore never pushes. A no-change geometry
-// artifact produces no commit.
+// The sink decides where the artifact lands. The production sink is Cloudflare
+// R2 (S3-compatible), which publishes directly, so no scheduler push step is
+// needed. The git sink remains available for the transition and local runs; when
+// it is used the push is owned by the scheduler (Concourse `put` with
+// `rebase: true`; GitHub Actions `git pull --rebase && git push`). Either way the
+// two datasets use different keys/files, so they cannot conflict. A no-change
+// geometry artifact produces no commit.
 //
 // Environment:
 //   TTC_DIVERSION_OUTPUT  source diversions artifact (default .cache/ttc/diversions.json)
@@ -21,7 +22,7 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { readFile } from 'node:fs/promises';
 import { publicTtcGeometry } from './publish-ttc-geometry.js';
-import { createGitSink } from './lib/publication-sink.js';
+import { createSinkFromEnv } from './lib/publication-sink.js';
 
 const TTC_KEY = 'data/ttc-diversions.json';
 const TTC_MESSAGE = 'chore: refresh public TTC geometry';
@@ -32,7 +33,7 @@ const TTC_MESSAGE = 'chore: refresh public TTC geometry';
 export async function publishTtcPhase({
   sourcePath = process.env.TTC_DIVERSION_OUTPUT || '.cache/ttc/diversions.json',
   repoDir = process.env.DATA_REPO_DIR || process.cwd(),
-  sink = createGitSink({ repoDir, message: TTC_MESSAGE }),
+  sink = createSinkFromEnv({ message: TTC_MESSAGE, repoDir }),
   log = entry => console.log(JSON.stringify(entry))
 } = {}) {
   const geometry = publicTtcGeometry(JSON.parse(await readFile(sourcePath, 'utf8')));
