@@ -1064,7 +1064,7 @@ A successful JSON request alone does not mean the data is current.
 
 - **Concourse** runs `scripts/tfs-etl.js` approximately every five minutes to fetch feeds, merge history, and prepare map locations. Road and TTC feeds are checked at most once every five minutes.
 - **GitHub Actions fallback** checks every five minutes and runs the updater if the snapshot or either incident feed is at least ten minutes old or unavailable. Scheduled runs may be delayed.
-- Both use code from **`main`**. Concourse publishes `data/current.json` and `data/ttc-diversions.json` to **Cloudflare R2**; the GitHub Actions fallback still publishes them to the **`data`** branch until Story 55C mirrors the R2 sink. The site reads those files directly, so data updates do not require a Pages deployment.
+- Both use code from **`main`**. Concourse and the GitHub Actions fallback both publish `data/current.json` and `data/ttc-diversions.json` to **Cloudflare R2**. The site reads those files directly, so data updates do not require a Pages deployment.
 - Failed sources retain their last successful data and are marked unavailable. If both incident feeds fail, the existing snapshot is preserved.
 
 ### Published data and the R2 sink
@@ -1085,9 +1085,9 @@ group is needed.
   [`scripts/r2-fetch.js`](scripts/r2-fetch.js); a missing object is tolerated so the ETL
   can start fresh.
 - **GitHub Actions** runs one `update-sirento` workflow
-  (`.github/workflows/update-sirento.yml`) with the same sequential steps. It still
-  publishes to the `data` branch through the git sink; mirroring the R2 sink there is
-  Story 55C.
+  (`.github/workflows/update-sirento.yml`) with the same sequential steps. It publishes
+  to R2 through the same shared sink, with the four R2 values supplied as repository
+  secrets (`R2_ENDPOINT`, `R2_BUCKET`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`).
 
 Because there is only one writer per scheduler, no `serial_groups` lock is needed. The
 trade-off is deliberate: a TTC failure fails the whole build, so the next timer tick or

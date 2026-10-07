@@ -141,3 +141,55 @@ test('the pipeline needs no serial group because the datasets use different keys
   assert.doesNotMatch(pipeline, /serial_groups:/);
   assert.match(pipeline, /max_in_flight: 1/);
 });
+
+// ---------------------------------------------------------------------------
+// Story 55C — GitHub Actions R2 Writer.
+//
+// The GitHub Actions fallback previously published to the `data` branch through
+// the git sink. It now mirrors Concourse: both publication phases run their
+// shared scripts with the R2 credentials in the environment, so the sink uploads
+// directly and there is no data-branch push. The advisory-context ordering is
+// preserved: the incident phase writes data/current.json before the vehicle step
+// reads it as --advisory.
+// ---------------------------------------------------------------------------
+
+const workflow = await readFile(new URL('../.github/workflows/update-sirento.yml', import.meta.url), 'utf8');
+
+test('the GitHub workflow publishes both phases to R2 through the shared sink', () => {
+  // Both phases run their shared script with the R2 credentials in the environment.
+  assert.match(workflow, /node scripts\/publish-incidents\.js/);
+  assert.match(workflow, /node scripts\/publish-ttc-phase\.js/);
+  const endpoints = [...workflow.matchAll(/R2_ENDPOINT: \$\{\{ secrets\.R2_ENDPOINT \}\}/g)];
+  assert.equal(endpoints.length, 2, 'both phases must receive the R2 endpoint');
+  for (const name of ['R2_BUCKET', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY']) {
+    const matches = [...workflow.matchAll(new RegExp(`${name}: \\$\\{\\{ secrets\\.${name} \\}\\}`, 'g'))];
+    assert.equal(matches.length, 2, `both phases must receive ${name} from repository secrets`);
+  }
+});
+
+test('the GitHub workflow no longer writes the data branch', () => {
+  // The data-branch checkout, the fast-forward rebase push, and the git sink
+  // environment are all gone; R2 is the only publication target.
+  assert.doesNotMatch(workflow, /ref: data/, 'the data-branch checkout must be gone');
+  assert.doesNotMatch(workflow, /snapshot-data/, 'the snapshot-data checkout must be gone');
+  assert.doesNotMatch(workflow, /git push origin HEAD:data/, 'no data-branch push may remain');
+  assert.doesNotMatch(workflow, /git pull --rebase origin data/, 'no data-branch rebase may remain');
+  assert.doesNotMatch(workflow, /DATA_REPO_DIR/, 'the git sink repo dir must be gone');
+  assert.doesNotMatch(workflow, /GIT_AUTHOR_NAME/, 'the git sink author must be gone');
+});
+
+test('the GitHub workflow preserves the advisory-context ordering', () => {
+  // The incident phase writes data/current.json before the vehicle step reads it,
+  // so the advisory input is the already-updated snapshot.
+  const incidentIndex = workflow.indexOf('node scripts/publish-incidents.js');
+  const vehicleIndex = workflow.indexOf('--advisory data/current.json');
+  assert.ok(incidentIndex >= 0 && vehicleIndex > incidentIndex, 'snapshot must be published before the vehicle step');
+});
+
+test('the GitHub workflow keeps its triggers, permissions, and concurrency', () => {
+  assert.match(workflow, /cron: "2-59\/5 \* \* \* \*"/);
+  assert.match(workflow, /workflow_dispatch:/);
+  assert.match(workflow, /permissions:\s*\n\s*contents: read/);
+  assert.match(workflow, /group: sirento-data-writer/);
+  assert.match(workflow, /cancel-in-progress: false/);
+});
