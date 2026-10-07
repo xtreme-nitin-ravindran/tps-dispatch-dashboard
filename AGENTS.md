@@ -72,7 +72,7 @@ is a dependency/tooling snapshot, not a source snapshot.
   label) and, when appropriate, rebuild with `scripts/docker-test.sh --build`
   before suspecting the environment.
 - Keep the image self-contained; do not rely on host Node or host tooling.
-- For changes affecting a Concourse task, also verify the affected task with `fly execute` against the working tree on the real worker. Extract its inline config from `concourse/pipeline.yml` (or the live pipeline when reproducing a deployed failure); do not maintain a duplicate task YAML. Local Docker validation does not reproduce task params, history inputs, or worker image access. See README for worker-image considerations.
+- For changes affecting a Concourse task, also verify the affected task with `fly execute` against the working tree on the real worker. Extract its inline config from `concourse/pipeline.yml` (or the live pipeline when reproducing a deployed failure); do not maintain a duplicate task YAML. Local Docker validation does not reproduce task params, history inputs, or worker image access. See `docs/concourse.md` for worker-image considerations.
 
 ## Required tests and coverage
 
@@ -82,8 +82,8 @@ is a dependency/tooling snapshot, not a source snapshot.
   - 100.00% branches
   - 100.00% functions
 - Do not treat passing tests as sufficient when coverage is below 100%.
-- Run `npm run verify` (the canonical full-verification command) before push or promotion when a change can affect covered code; it includes the README Docker coverage command.
-- `npm run verify:fast` does not satisfy the 100/100/100 coverage requirement; only `npm run verify` (or the README Docker coverage command) does.
+- Run `npm run verify` (the canonical full-verification command) before push or promotion when a change can affect covered code; it includes the `docs/validation.md` Docker coverage command.
+- `npm run verify:fast` does not satisfy the 100/100/100 coverage requirement; only `npm run verify` (or the `docs/validation.md` Docker coverage command) does.
 - Files under `test/fixtures/` are helpers and are not selected as standalone tests by the canonical runner. Imported fixture modules may still appear in Node's coverage accounting; do not infer final coverage from a targeted test run. The full Docker coverage gate is authoritative.
 - If coverage is below 100%, identify and report the exact file, uncovered line(s), branch(es), or function(s).
 - If the branch gate fails intermittently, inspect short-circuit `||`/`&&` operands for missing deterministic tests. V8 coverage accounting can vary for an unexercised operand; add a meaningful regression for the reachable behavior rather than rerunning until the gate passes.
@@ -112,7 +112,7 @@ is a dependency/tooling snapshot, not a source snapshot.
 ## Mobile and browser validation
 
 - Playwright Chromium regression testing is required when a change affects rendered layout, geometry, stacking, hit targets, pointer/touch interaction, responsive breakpoints, or browser-driven UI state transitions. Node DOM/string tests and JavaScript syntax checks do not replace it.
-- Use `npm run test:browser` for applicable story-completion validation. It discovers every `test:*:browser` package script (excluding itself), starts and readiness-checks the deterministic loopback server on port `8765`, runs the suites sequentially in deterministic order, and tears down its server and child processes on success, failure, or interruption. Do not leave a manual port-8765 server running. A targeted `test:*:browser` script may be used during implementation. The browser suites are not part of the default Docker, CI, `npm run verify`, or `npm run verify:fast` suites; do not probe the Docker test image for Playwright or Chromium. Follow the README browser-test setup instead.
+- Use `npm run test:browser` for applicable story-completion validation. It discovers every `test:*:browser` package script (excluding itself), starts and readiness-checks the deterministic loopback server on port `8765`, runs the suites sequentially in deterministic order, and tears down its server and child processes on success, failure, or interruption. Do not leave a manual port-8765 server running. A targeted `test:*:browser` script may be used during implementation. The browser suites are not part of the default Docker, CI, `npm run verify`, or `npm run verify:fast` suites; do not probe the Docker test image for Playwright or Chromium. Follow the `docs/browser-tests.md` setup instead.
 - `npm run test:browser` includes the TTC UI suite, whose deliberate wait makes that suite take a little over one minute. Missing local Playwright or Chromium is an outstanding validation requirement, not permission to mark a browser-relevant story `DONE`.
 - If a relevant browser regression does not yet have a Playwright script, add or extend a deterministic rendered-browser regression that asserts DOM state, geometry, and interaction rather than relying only on screenshots.
 - Automated Chromium success does not replace physical-device validation when the reported defect is specific to iPhone Safari, Brave, WebKit, or another browser/device environment.

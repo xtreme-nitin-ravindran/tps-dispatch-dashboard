@@ -26,7 +26,7 @@
 # directly, since its config already lives in a real file.
 #
 # The worker/registry setup needed to supply the built test image is
-# installation-specific (see README "Verify an affected Concourse task"); this
+# installation-specific (see docs/concourse.md "Verify an affected Concourse task"); this
 # helper does not configure it. Credentials are never read or printed here: the
 # caller supplies them through the environment or `fly` vars.
 #

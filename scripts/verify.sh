@@ -1,7 +1,7 @@
 #!/bin/sh
 # Single, versioned entry point for all required SirenTO repository verification.
 #
-# Full mode (`npm run verify`) runs the same checks as the README "Run all
+# Full mode (`npm run verify`) runs the same checks as the docs/validation.md "Run all
 # required checks" workflow: Docker image preparation, both linters, the
 # America/Los_Angeles unit suite, the Python tests, the live-source integration
 # suite, the CI-equivalent 100/100/100 coverage gate (which is also the UTC
