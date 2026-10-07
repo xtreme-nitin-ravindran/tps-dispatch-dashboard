@@ -45,18 +45,22 @@ test('Concourse XML input merges separate history without modifying input', asyn
     assert.deepEqual(JSON.parse(await readFile(outputPath, 'utf8')), result);
 });
 
-test('failed fetch, malformed XML, stale feed and invalid history preserve published output', async t => {
+test('failed fetch, malformed XML, stale feed and malformed history preserve published output', async t => {
     const dir = await workspace(t);
     const outputPath = join(dir, 'current.json');
     const xmlPath = join(dir, 'bad.xml');
+    const malformedPath = join(dir, 'malformed.json');
     const original = JSON.stringify({ source: 'TFS', sourceUpdatedAt: now.toISOString(), incidents: [] });
     await writeFile(outputPath, original);
     await writeFile(xmlPath, '<error>Unavailable</error>');
+    // A present-but-malformed history object (for example a stray R2 object) must
+    // fail clearly rather than crash later on an undefined `incidents` array.
+    await writeFile(malformedPath, '{"smoke":2}');
     for (const options of [
         { fetchSource: async () => { throw new Error('network failed'); } },
         { xmlPath },
         { fetchSource: async () => ({ ...source, updatedAt: '2026-09-15T12:00:00Z' }) },
-        { previousPath: join(dir, 'missing.json') }
+        { previousPath: malformedPath }
     ]) {
         await assert.rejects(runTfsEtl({ outputPath, now, ...options }));
         assert.equal(await readFile(outputPath, 'utf8'), original);
@@ -64,6 +68,19 @@ test('failed fetch, malformed XML, stale feed and invalid history preserve publi
     await writeFile(outputPath, 'broken JSON');
     await assert.rejects(runTfsEtl({ outputPath, now, fetchSource: assert.fail }));
     assert.equal(await readFile(outputPath, 'utf8'), 'broken JSON');
+});
+
+test('a missing explicit history file starts a fresh snapshot', async t => {
+    // The Concourse task seeds TFS_PREVIOUS from R2; an absent object must start
+    // fresh, exactly as an empty git checkout did, rather than fail the run.
+    const dir = await workspace(t);
+    const outputPath = join(dir, 'current.json');
+    const result = await runTfsEtl({
+        outputPath, previousPath: join(dir, 'missing.json'), now,
+        fetchSource: async () => ({ ...source, incidents: [{ event_id: 'F1', time: now.toISOString() }] })
+    });
+    assert.deepEqual(result.incidents.map(i => i.id), ['F1']);
+    assert.deepEqual(JSON.parse(await readFile(outputPath, 'utf8')), result);
 });
 
 test('combined updater keeps each feed when the other fails and preserves output if both fail', async t => {

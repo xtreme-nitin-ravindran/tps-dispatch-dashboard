@@ -11,7 +11,10 @@ import { fetchTpsSource, mergePolice } from "../src/tps/source.js";
 import { enrichLocations } from "../src/pipeline/location-enrichment.js";
 import { createOpenLocationResolver } from "../src/pipeline/open-locations.js";
 
-// Explicit history inputs must exist: a missing Concourse artifact must not erase history.
+// The history input is optional. A missing file (for example an absent R2 object
+// seeded by the Concourse task) starts a fresh snapshot, exactly as an empty git
+// checkout did. A present-but-malformed history object fails clearly instead of
+// crashing later on an undefined `incidents` array.
 export async function runTfsEtl({
     outputPath = "data/current.json", previousPath, xmlPath,
     fetchSource = fetchTfsSource, fetchPolice = null, fetchTravel = null, fetchTtc = null, now = new Date(), updatedBy = "manual"
@@ -21,8 +24,9 @@ export async function runTfsEtl({
     try {
         previous = JSON.parse(await readFile(previousPath || outputPath, "utf8"));
     } catch (error) {
-        if (error.code !== "ENOENT" || previousPath) throw error;
+        if (error.code !== "ENOENT") throw error;
     }
+    if (previous && !Array.isArray(previous.incidents)) throw new Error("Invalid previous snapshot: missing incidents array");
     const tfsPrevious = previous ? {...previous, incidents:previous.incidents.filter(row=>row.source!=="TPS")} : null;
     let snapshot;
     let tfsError = false;
