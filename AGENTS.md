@@ -72,6 +72,7 @@ is a dependency/tooling snapshot, not a source snapshot.
   label) and, when appropriate, rebuild with `scripts/docker-test.sh --build`
   before suspecting the environment.
 - Keep the image self-contained; do not rely on host Node or host tooling.
+- For changes affecting a Concourse task, also verify the affected task with `fly execute` against the working tree on the real worker. Extract its inline config from `concourse/pipeline.yml` (or the live pipeline when reproducing a deployed failure); do not maintain a duplicate task YAML. Local Docker validation does not reproduce task params, history inputs, or worker image access. See README for worker-image considerations.
 
 ## Required tests and coverage
 
@@ -85,6 +86,7 @@ is a dependency/tooling snapshot, not a source snapshot.
 - `npm run verify:fast` does not satisfy the 100/100/100 coverage requirement; only `npm run verify` (or the README Docker coverage command) does.
 - Files under `test/fixtures/` are helpers and are not selected as standalone tests by the canonical runner. Imported fixture modules may still appear in Node's coverage accounting; do not infer final coverage from a targeted test run. The full Docker coverage gate is authoritative.
 - If coverage is below 100%, identify and report the exact file, uncovered line(s), branch(es), or function(s).
+- If the branch gate fails intermittently, inspect short-circuit `||`/`&&` operands for missing deterministic tests. V8 coverage accounting can vary for an unexercised operand; add a meaningful regression for the reachable behavior rather than rerunning until the gate passes.
 - Add meaningful tests for reachable behavior.
 - Remove only genuinely dead or unreachable code.
 - Do not add artificial execution paths solely to satisfy coverage.
