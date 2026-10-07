@@ -95,6 +95,7 @@ is a dependency/tooling snapshot, not a source snapshot.
 - Features or bugs involving external, live, timing-sensitive, browser-specific, or otherwise nondeterministic state must have a deterministic local fixture or test path when practical.
 - Keep fixture/test-only behavior clearly separated from production behavior.
 - Guard test-only fixtures so they cannot accidentally activate in production.
+- Tests that exercise a publication phase's **default** sink must be environment-independent: strip the `R2_*` credentials from the environment (or inject a deterministic sink) so the phase does not silently resolve to the R2 sink. The Concourse task supplies those credentials as task params, so a test that assumes the git sink will pass locally and fail in CI (or vice versa).
 - Cover meaningful states such as:
   - normal data
   - zero results
