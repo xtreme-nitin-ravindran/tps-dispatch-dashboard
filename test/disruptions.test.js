@@ -236,6 +236,12 @@ test('roads isolate malformed records, retain valid siblings in order, and repor
  // A non-array envelope is a feed-level failure and still throws.
  assert.throws(()=>normalizeRoads({error:'bad'}));
  assert.throws(()=>normalizeRoads(null));
+ // A non-object row (null or a primitive) is skipped with the missing-id reason
+ // and never discards a valid sibling.
+ const nonObjects=normalizeRoads({Closure:[null,'row',42,{...road,id:'kept'}]});
+ assert.deepEqual(nonObjects.items.map(item=>item.id),['kept']);
+ assert.equal(nonObjects.rejected,3);
+ assert.deepEqual(nonObjects.rejectedReasons,{missing_id:3,missing_name:0,invalid_dates:0});
 });
 
 test('roads refresh logs bounded rejection diagnostics and preserves unavailable retention',async()=>{
