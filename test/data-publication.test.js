@@ -101,7 +101,7 @@ test('the incident phase skips a fresh snapshot without running the ETL', async 
   }));
   const result = await publishIncidents({
     outputPath, now,
-    etl: assert.fail, commit: assert.fail, log: () => {}
+    etl: assert.fail, sink: assert.fail, log: () => {}
   });
   assert.deepEqual(result, { updated: false, committed: false });
 });
@@ -115,11 +115,11 @@ test('the incident phase runs the ETL and commits a stale snapshot', async t => 
   const result = await publishIncidents({
     outputPath, now, updatedBy: 'concourse', repoDir: dir,
     etl: async options => { calls.push(['etl', options.updatedBy]); },
-    commit: cwd => { calls.push(['commit', cwd]); return true; },
+    sink: async ({ key, body }) => { calls.push(['publish', key, body]); return { changed: true }; },
     log: () => {}
   });
   assert.deepEqual(result, { updated: true, committed: true });
-  assert.deepEqual(calls, [['etl', 'concourse'], ['commit', dir]]);
+  assert.deepEqual(calls, [['etl', 'concourse'], ['publish', 'data/current.json', '{"fetchedAt":"2026-10-06T11:00:00Z"}']]);
 });
 
 test('the incident phase reports an unchanged snapshot without a commit', async t => {
@@ -129,7 +129,7 @@ test('the incident phase reports an unchanged snapshot without a commit', async 
   await writeFile(outputPath, JSON.stringify({ fetchedAt: '2026-10-06T11:00:00Z' }));
   const result = await publishIncidents({
     outputPath, now, repoDir: dir,
-    etl: async () => {}, commit: () => false, log: () => {}
+    etl: async () => {}, sink: async () => ({ changed: false }), log: () => {}
   });
   assert.deepEqual(result, { updated: true, committed: false });
 });
@@ -141,7 +141,10 @@ test('the incident phase treats a missing snapshot as needing an update', async 
   let ran = false;
   const result = await publishIncidents({
     outputPath, now, repoDir: dir,
-    etl: async () => { ran = true; }, commit: () => true, log: () => {}
+    // The real ETL writes the snapshot; the stub must too, because the phase
+    // reads the produced bytes and hands them to the sink.
+    etl: async () => { ran = true; await writeFile(outputPath, '{"fetchedAt":"2026-10-06T12:00:00Z"}'); },
+    sink: async () => ({ changed: true }), log: () => {}
   });
   assert.equal(ran, true);
   assert.equal(result.updated, true);
