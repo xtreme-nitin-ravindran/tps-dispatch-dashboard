@@ -689,7 +689,11 @@ To diagnose a failure:
 - Inspect its uncovered lines and branches.
 - Add meaningful tests for reachable behavior.
 - Remove code only when it is genuinely dead.
-- Rerun the coverage command until lines, branches, and functions are all 100.00%.
+- For an intermittent branch failure, inspect short-circuit `||`/`&&` operands for
+  missing deterministic tests. V8 coverage accounting can vary for an unexercised
+  operand; add a meaningful regression for the reachable behavior.
+- After fixing the gap, rerun the coverage command and require 100.00% lines,
+  branches, and functions. A lucky rerun is not a fix.
 
 100% line, branch, and function coverage does not replace regression-contract testing.
 Critical product invariants must have explicit assertions even when ordinary coverage is
@@ -1083,7 +1087,8 @@ group is needed.
   directly over the S3 API (SigV4, Node built-ins only), so there is no scheduler push
   step. The incident task seeds the ETL history input from the published snapshot with
   [`scripts/r2-fetch.js`](scripts/r2-fetch.js); a missing object is tolerated so the ETL
-  can start fresh.
+  can start fresh even when `TFS_PREVIOUS` explicitly names the absent file. A
+  present-but-malformed history snapshot fails rather than silently discarding history.
 - **GitHub Actions** runs one `update-sirento` workflow
   (`.github/workflows/update-sirento.yml`) with the same sequential steps. It publishes
   to R2 through the same shared sink, with the four R2 values supplied as repository
@@ -1100,12 +1105,33 @@ fixture; the live snapshot is in R2. Pipeline configuration is in
 [`concourse/pipeline.yml`](concourse/pipeline.yml), with example settings (including the
 R2 credentials) in [`concourse/values.example.yml`](concourse/values.example.yml).
 
-Before updating the data branch, Concourse builds `Dockerfile.test` with the supported
+Before publishing to R2, Concourse builds `Dockerfile.test` with the supported
 OCI build task and uses that artifact as its task image. It enforces the same gates as
 the protected GitHub Actions workflow: the canonical offline suite in
 America/Los_Angeles, Python tests, ESLint and Ruff, browser JavaScript syntax checks,
 and the canonical UTC suite with the 100/100/100 coverage thresholds. The structural
 CI-strategy regression fails if either pipeline drops one of those shared checks.
+
+### Verify an affected Concourse task
+
+For changes affecting a Concourse task, run the affected task with `fly execute`
+against the working tree on the real worker as well as local Docker verification.
+Extract the named inline task config from `concourse/pipeline.yml`; when reproducing
+a deployed failure, inspect the live pipeline config too. Keep the extracted config
+in scratch storage rather than adding a duplicate `concourse/*.yml` task definition.
+Use the actual task inputs, params, and pinned image so history-file and
+credential-dependent behavior are exercised. A publication task can write to R2;
+choose its publication destination deliberately and keep credentials out of Git and logs.
+
+In the October 7, 2026 verification, the worker ran in minikube with containerd and
+could not use an image available only in the host Docker daemon. The image built
+from `Dockerfile.test` was pushed to the in-cluster registry
+(`registry.kube-system.svc.cluster.local`), and the worker temporarily received
+`CONCOURSE_INSECURE_REGISTRIES` for that plain-HTTP registry. This is an
+installation-specific setup, not a default requirement: confirm the current worker
+and registry configuration before using it, then remove temporary worker settings
+and test images after verification. A reusable inline-task extraction/execution
+helper remains a separate roadmap chore; no such helper is provided yet.
 
 ## Run locally
 
