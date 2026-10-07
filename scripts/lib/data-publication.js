@@ -4,7 +4,7 @@
 // snapshot needs refreshing: the same freshness/skip threshold, the same
 // per-feed failure and history semantics, and the same timestamp meaning. This
 // module is the single source of truth for that policy. The ETL itself lives in
-// `scripts/tfs-etl.js` and the snapshot-only commit in `scripts/commit-tfs.js`.
+// `scripts/tfs-etl.js` and the snapshot-only commit in `scripts/lib/publication-sink.js`.
 //
 // Publication (the push to the `data` branch) is deliberately *not* handled
 // here. Each scheduler already owns a safe fast-forward push:

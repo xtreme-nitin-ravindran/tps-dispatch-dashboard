@@ -1,10 +1,10 @@
 // Shared incident-publication phase for both schedulers.
 //
 // This is the first of two publication phases. It runs the incident ETL (when
-// the shared freshness policy says the snapshot needs it) and commits
-// `data/current.json` in the data-branch checkout — all *before* the bounded TTC
-// vehicle observation and geometry projection run. A slow or failed TTC stage
-// therefore cannot block or roll back the incident publication.
+// the shared freshness policy says the snapshot needs it) and publishes
+// `data/current.json` through the shared publication sink — all *before* the
+// bounded TTC vehicle observation and geometry projection run. A slow or failed
+// TTC stage therefore cannot block or roll back the incident publication.
 //
 // The push itself is owned by the scheduler, not this script:
 //   - Concourse publishes with the git resource's `put` (`rebase: true`).
@@ -31,11 +31,14 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { runTfsEtl } from './tfs-etl.js';
-import { commitTfsSnapshot } from './commit-tfs.js';
 import { needsUpdate } from './lib/data-publication.js';
+import { createGitSink } from './lib/publication-sink.js';
 import { fetchTpsSource } from '../src/tps/source.js';
 import { updateDisruptions } from '../src/disruptions/source.js';
 import { updateTtcBackend } from '../src/ttc/backend.js';
+
+const INCIDENT_KEY = 'data/current.json';
+const INCIDENT_MESSAGE = 'chore: refresh SirenTO incidents';
 
 // Run the incident phase. Returns a bounded, deterministic result describing
 // what happened so callers and tests can assert on it without parsing logs.
@@ -52,7 +55,7 @@ export async function publishIncidents({
   now = new Date(),
   repoDir = process.env.DATA_REPO_DIR || process.cwd(),
   etl = runTfsEtl,
-  commit = commitTfsSnapshot,
+  sink = createGitSink({ repoDir, message: INCIDENT_MESSAGE }),
   log = entry => console.log(JSON.stringify(entry))
 } = {}) {
   let snapshot;
@@ -68,9 +71,10 @@ export async function publishIncidents({
     outputPath, previousPath, xmlPath, now, updatedBy,
     fetchPolice: fetchTpsSource, fetchTravel: updateDisruptions, fetchTtc: updateTtcBackend
   });
-  const committed = commit(repoDir);
-  log({ source: 'incident-publication', status: committed ? 'committed' : 'unchanged', updatedBy });
-  return { updated: true, committed };
+  const body = await readFile(outputPath, 'utf8');
+  const { changed } = await sink({ key: INCIDENT_KEY, body });
+  log({ source: 'incident-publication', status: changed ? 'committed' : 'unchanged', updatedBy });
+  return { updated: true, committed: changed };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
