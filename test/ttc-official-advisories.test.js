@@ -429,11 +429,11 @@ test('the GitHub workflow reuses the updated snapshot as advisory context and dr
   const workflow = await readFile(new URL('../.github/workflows/update-sirento.yml', import.meta.url), 'utf8');
   assert.match(workflow, /--advisory data\/current\.json/);
   assert.doesNotMatch(workflow, /Fresh state per run/);
-  // The snapshot is copied into place before the vehicle step, so the advisory
-  // input is the already-updated data/current.json.
-  const copyIndex = workflow.indexOf('cp snapshot-data/data/current.json data/current.json');
+  // The incident phase writes data/current.json before the vehicle step reads it,
+  // so the advisory input is the already-updated snapshot.
+  const incidentIndex = workflow.indexOf('node scripts/publish-incidents.js');
   const vehicleIndex = workflow.indexOf('--advisory data/current.json');
-  assert.ok(copyIndex >= 0 && vehicleIndex > copyIndex, 'snapshot must be copied before the vehicle step');
+  assert.ok(incidentIndex >= 0 && vehicleIndex > incidentIndex, 'snapshot must be published before the vehicle step');
 });
 
 test('the Concourse vehicle task receives the preceding incident snapshot as advisory input', async () => {

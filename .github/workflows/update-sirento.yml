@@ -4,13 +4,12 @@ on:
     - cron: "2-59/5 * * * *"
   workflow_dispatch:
 permissions:
-  contents: write
-# Single writer for the `data` branch. The incident snapshot is committed first,
-# then the bounded TTC vehicle burst and geometry projection run as later steps.
-# A TTC failure cannot block or roll back the already-committed incident snapshot;
-# the next scheduled run retries the TTC stage. Each phase commits only its own
-# file and the push is a plain fast-forward rebase, so the two datasets never
-# conflict on the shared branch.
+  contents: read
+# Single writer for the published data. The incident snapshot is published to R2
+# first, then the bounded TTC vehicle burst and geometry projection run as later
+# steps. A TTC failure cannot block or roll back the already-published incident
+# snapshot; the next scheduled run retries the TTC stage. Each phase writes a
+# different R2 key, so the two datasets cannot conflict and no lock is needed.
 concurrency:
   group: sirento-data-writer
   cancel-in-progress: false
@@ -22,15 +21,6 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: main
-      - uses: actions/checkout@v6
-        with:
-          ref: data
-          path: snapshot-data
-          # Full history so the fast-forward publication can rebase onto a tip
-          # another writer advanced while this run was in progress.
-          fetch-depth: 0
-      - name: Read the current data-branch snapshot
-        run: cp snapshot-data/data/current.json data/current.json
       - uses: actions/setup-node@v6
         with:
           node-version: "22"
@@ -41,48 +31,31 @@ jobs:
           key: ttc-static-v1-${{ github.run_id }}
           restore-keys: ttc-static-v1-
       - run: npm ci --omit=dev
-      - name: Commit incident snapshot before TTC vehicle work
-        # Shared freshness/skip policy and snapshot-only commit. The ETL writes
-        # directly into the data-branch checkout, which is committed here, before
-        # the TTC stage, so a slow or failed TTC run cannot delay or roll back the
-        # incident update.
+      - name: Publish incident snapshot before TTC vehicle work
+        # Shared freshness/skip policy and R2 publication. The R2 sink uploads
+        # directly, so there is no scheduler push step. The ETL writes
+        # data/current.json, which the TTC stage reuses as official-advisory
+        # context, before the TTC stage runs, so a slow or failed TTC run cannot
+        # delay or roll back the incident update.
         env:
           TFS_UPDATED_BY: github-actions
-          TFS_OUTPUT: snapshot-data/data/current.json
-          DATA_REPO_DIR: snapshot-data
-          GIT_AUTHOR_NAME: github-actions[bot]
-          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
-        run: |
-          node scripts/publish-incidents.js
-          # The TTC stage reuses the committed snapshot as official-advisory context.
-          cp snapshot-data/data/current.json data/current.json
-      - name: Publish incident snapshot
-        # Fast-forward only: rebase the incident commit onto the latest data tip
-        # (another writer may have advanced it) and push. Only data/current.json
-        # changed, so the rebase cannot conflict with the TTC geometry file.
-        working-directory: snapshot-data
-        run: |
-          git pull --rebase origin data
-          git push origin HEAD:data
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: node scripts/publish-incidents.js
       - name: Observe TTC vehicle deviations
         # Bounded burst of four polls supplies actual timestamped evidence. The
-        # already-committed data/current.json is reused as official-advisory context;
+        # already-published data/current.json is reused as official-advisory context;
         # the TTC website is never fetched again here.
         run: npm run update:ttc:vehicles -- --polls 4 --interval-ms 30000 --advisory data/current.json
-      - name: Commit compact TTC geometry
-        # Starts from the latest data branch (the incident phase may have just
-        # advanced it). A no-change artifact produces no commit.
+      - name: Publish compact TTC geometry
+        # Projects the confirmed geometry and publishes it to R2 through the shared
+        # sink. A no-change artifact produces no upload.
         env:
           TTC_DIVERSION_OUTPUT: .cache/ttc/diversions.json
-          DATA_REPO_DIR: snapshot-data
-          GIT_AUTHOR_NAME: github-actions[bot]
-          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: node scripts/publish-ttc-phase.js
-      - name: Publish TTC geometry
-        # Fast-forward only: rebase the geometry commit onto the latest data tip
-        # and push. Only data/ttc-diversions.json changed, so the rebase cannot
-        # conflict with the incident snapshot file.
-        working-directory: snapshot-data
-        run: |
-          git pull --rebase origin data
-          git push origin HEAD:data
