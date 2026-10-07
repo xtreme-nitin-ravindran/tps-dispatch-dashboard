@@ -14,6 +14,36 @@ import { inferDiversions } from '../src/ttc/diversion-inference.js';
 
 const now = new Date('2026-10-06T12:00:00Z');
 
+// The publication phases select their sink from the environment: when the R2
+// credentials are present the R2 sink is used, otherwise the git sink. The
+// Concourse task sets the R2 credentials as task params, so tests that assert
+// the git-sink behavior must strip them to stay environment-independent.
+const R2_ENV_KEYS = ['R2_ENDPOINT', 'R2_BUCKET', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_REGION'];
+
+// Return a copy of `env` with the R2 credentials removed, so the default sink
+// deterministically resolves to the git sink.
+function withoutR2Env(env) {
+  const copy = { ...env };
+  for (const key of R2_ENV_KEYS) delete copy[key];
+  return copy;
+}
+
+// Run `fn` with the R2 credentials removed from `process.env`, restoring the
+// previous values afterward. Used by the in-process phase tests that exercise
+// the default sink.
+async function withGitSinkEnv(fn) {
+  const saved = R2_ENV_KEYS.map(key => [key, process.env[key]]);
+  for (const key of R2_ENV_KEYS) delete process.env[key];
+  try {
+    return await fn();
+  } finally {
+    for (const [key, value] of saved) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+}
+
 // Build a valid confirmed diversion output by running the real inference over a
 // deterministic two-vehicle fixture, so the TTC phase tests exercise the same
 // artifact shape production publishes.
@@ -196,7 +226,7 @@ test('the TTC phase commits changed geometry', async t => {
   await writeFile(join(repoDir, 'data/current.json'), '{}\n');
   git('add', '-A');
   git('commit', '-q', '-m', 'seed');
-  const result = await publishTtcPhase({ sourcePath, repoDir, log: () => {} });
+  const result = await withGitSinkEnv(() => publishTtcPhase({ sourcePath, repoDir, log: () => {} }));
   assert.deepEqual(result, { committed: true });
   const written = JSON.parse(await readFile(join(repoDir, 'data/ttc-diversions.json'), 'utf8'));
   assert.equal(written.diversions.length, 1);
@@ -220,7 +250,7 @@ test('the TTC phase makes no commit when the geometry is unchanged', async t => 
   git('add', '-A');
   git('commit', '-q', '-m', 'seed');
   const before = git('rev-parse', 'HEAD');
-  const result = await publishTtcPhase({ sourcePath, repoDir, log: () => {} });
+  const result = await withGitSinkEnv(() => publishTtcPhase({ sourcePath, repoDir, log: () => {} }));
   assert.deepEqual(result, { committed: false });
   assert.equal(git('rev-parse', 'HEAD'), before);
 });
@@ -243,7 +273,7 @@ test('the TTC phase defaults its source path and repo dir when called with no ar
   const previous = process.cwd();
   process.chdir(dir);
   try {
-    const result = await publishTtcPhase();
+    const result = await withGitSinkEnv(() => publishTtcPhase());
     assert.deepEqual(result, { committed: false });
   } finally {
     process.chdir(previous);
@@ -318,7 +348,7 @@ test('the incident CLI commits a stale snapshot and reports it', async t => {
   const preload = join(dir, 'fetch.mjs');
   await writeFile(preload, fetchPreload);
   const script = join(process.cwd(), 'scripts/publish-incidents.js');
-  const env = { ...process.env, TFS_OUTPUT: join(dir, 'data/current.json'), DATA_REPO_DIR: dir, TFS_UPDATED_BY: 'concourse' };
+  const env = withoutR2Env({ ...process.env, TFS_OUTPUT: join(dir, 'data/current.json'), DATA_REPO_DIR: dir, TFS_UPDATED_BY: 'concourse' });
   const out = execFileSync(process.execPath, ['--import', preload, script], { cwd: dir, encoding: 'utf8', env });
   assert.match(out, /Incident snapshot updated/);
   assert.equal(git('log', '-1', '--format=%s'), 'chore: refresh SirenTO incidents');
@@ -338,7 +368,7 @@ test('the TTC CLI commits changed geometry and reports it', async t => {
   git('add', '-A');
   git('commit', '-q', '-m', 'seed');
   const script = join(process.cwd(), 'scripts/publish-ttc-phase.js');
-  const env = { ...process.env, TTC_DIVERSION_OUTPUT: sourcePath, DATA_REPO_DIR: dir };
+  const env = withoutR2Env({ ...process.env, TTC_DIVERSION_OUTPUT: sourcePath, DATA_REPO_DIR: dir });
   const out = execFileSync(process.execPath, [script], { cwd: dir, encoding: 'utf8', env });
   assert.match(out, /TTC geometry committed/);
   assert.equal(git('log', '-1', '--format=%s'), 'chore: refresh public TTC geometry');
@@ -360,7 +390,7 @@ test('the TTC CLI uses default paths and reports no change', async t => {
   git('add', '-A');
   git('commit', '-q', '-m', 'seed');
   const script = join(process.cwd(), 'scripts/publish-ttc-phase.js');
-  const env = { ...process.env };
+  const env = withoutR2Env(process.env);
   delete env.TTC_DIVERSION_OUTPUT;
   delete env.DATA_REPO_DIR;
   const out = execFileSync(process.execPath, [script], { cwd: dir, encoding: 'utf8', env });
