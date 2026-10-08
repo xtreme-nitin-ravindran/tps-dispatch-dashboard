@@ -20,6 +20,6 @@ Source credits and licensing information are listed in [Attribution](attribution
 ## Malformed source data
 
 > [!WARNING]
-> Source feeds can contain malformed data. SirenTO currently marks an unparseable feed unavailable and retains its last successful data where available; this does not mean there are zero results.
+> Source feeds can contain malformed data. SirenTO marks an unparseable feed unavailable and retains its last successful data where available; this does not mean there are zero results.
 >
-> Encoding repair is planned, but is not implemented. If SirenTO repairs malformed source data, it must clearly identify the alteration and affected-record count. Such a repair is made by SirenTO, not the source provider, and must preserve the source content without inventing information. Data that cannot be repaired safely must remain unavailable.
+> The City road-restrictions feed can contain an illegal JSON escape (for example a raw backslash-space inside a description), which makes the whole document fail to parse. When that happens, SirenTO repairs only the illegal escape so the feed can be read, and states in the disruptions panel and map-layer status that the source JSON was malformed and SirenTO repaired the encoding, with a bounded affected-record count. This repair is made by SirenTO, not the source provider; it preserves the source content verbatim and never invents information. Data that cannot be repaired safely remains unavailable.

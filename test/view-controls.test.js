@@ -64,7 +64,7 @@ test('preferences are validated, exclude private session data and tolerate block
   assert.doesNotThrow(()=>savePreferences(blocked,filterDefaults,{}));
 });
 
-import { relativeUpdateAge, sourceStatus, sourceStatusText } from '../src/source-status.js?v=source-states-1';
+import { relativeUpdateAge, sourceStatus, sourceStatusText, repairedSourceNote } from '../src/source-status.js?v=source-states-1';
 test('source lines distinguish published times from successful checks', () => {
   const now=Date.parse('2026-09-22T18:00:00Z');
   const feed={fetchedAt:'2026-09-22T18:00:00Z',sourceUpdatedAt:'2026-09-22T17:58:00Z'};
@@ -84,6 +84,15 @@ test('source lines distinguish published times from successful checks', () => {
   assert.equal(sourceStatusText('Road restriction',{fetchedAt:'2026-09-22T17:42:00Z'},now),'Last successfully updated 18 min ago. Data may be stale.');
   assert.equal(sourceStatusText('Road restriction',{fetchedAt:'2026-09-22T17:42:00Z',status:'unavailable'},now),'Road restriction data is temporarily unavailable. Last successfully updated 18 min ago.');
   assert.equal(sourceStatusText('Road restriction',null,now),'Road restriction data has not been checked yet.');
+});
+
+test('repaired source note is bounded, privacy-safe, and empty without a repair', () => {
+  assert.equal(repairedSourceNote({repaired:1}),' source JSON was malformed; SirenTO repaired the encoding (1 record).');
+  assert.equal(repairedSourceNote({repaired:3}),' source JSON was malformed; SirenTO repaired the encoding (3 records).');
+  assert.equal(repairedSourceNote({repaired:0}),'');
+  assert.equal(repairedSourceNote({}),'');
+  assert.equal(repairedSourceNote(null),'');
+  assert.equal(repairedSourceNote({repaired:'nope'}),'');
 });
 
 import { reconcileIncidentSelection } from '../src/incident-selection.js';

@@ -19,6 +19,12 @@
 - Do not make speculative fixes before identifying the actual failure or root cause when reproduction is practical.
 - Small changes should produce small diffs. Unexpected large diffs are a stop condition and must be investigated before continuing.
 
+## UI design confirmation and visible acceptance
+
+- Before implementing UI changes, show concise ASCII line-art sketches of the proposed layout, labels, and relevant states so the developer can confirm what they want. When alternatives matter, label them clearly and explain any effect on existing layout or measured stacking. Wait for the developer's selection before implementing; an already selected sketch satisfies this step unless the design changes materially.
+- For acceptance criteria that surface information in a map-layer status or other UI element, inspect the existing CSS and verify the cue is actually visible in the rendered browser at applicable breakpoints. Updating DOM text alone does not establish visible acceptance; check clipping, dimensions, overflow, and stacking.
+- Story 53B precedent: Story 41A clips `#roadOverlayStatus` to 1×1 via `.map-layer-toggle .map-layer-status`. The B2 repair disclosure belongs in the visible `#roadOverlayLabel` (for example, `Road closures · source repaired`), preserving the existing control stack and accessible status. Confirm the current markup and styles before reusing this pattern.
+
 ## Docker and local validation
 
 - Use Docker for repository validation commands.
