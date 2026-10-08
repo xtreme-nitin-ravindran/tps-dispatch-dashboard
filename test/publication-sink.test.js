@@ -1,10 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, writeFile, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { execFileSync } from 'node:child_process';
-import { createGitSink, createLocalSink, createR2Sink, createR2SignedFetch, createSinkFromEnv, fetchR2Object, signS3Request } from '../scripts/lib/publication-sink.js';
+import { createLocalSink, createR2Sink, createR2SignedFetch, createSinkFromEnv, fetchR2Object, signS3Request } from '../scripts/lib/publication-sink.js';
 
 // --- Local sink -------------------------------------------------------------
 
@@ -47,71 +46,6 @@ test('the local sink creates nested directories and defaults to the current dire
     const defaultSink = createLocalSink();
     await defaultSink({ key: 'default.json', body: 'y' });
     assert.equal(await readFile(join(dir, 'default.json'), 'utf8'), 'y');
-  } finally {
-    process.chdir(previous);
-  }
-});
-
-// --- Git sink ---------------------------------------------------------------
-
-async function seededRepo(t) {
-  const dir = await mkdtemp(join(tmpdir(), 'git-sink-'));
-  t.after(() => rm(dir, { recursive: true, force: true }));
-  const git = (...args) => execFileSync('git', args, { cwd: dir, encoding: 'utf8' }).trim();
-  execFileSync('git', ['init', '-q', dir]);
-  git('config', 'user.name', 'test');
-  git('config', 'user.email', 'test@example.com');
-  await mkdir(join(dir, 'data'), { recursive: true });
-  await writeFile(join(dir, 'data/current.json'), '{}\n');
-  git('add', '-A');
-  git('commit', '-q', '-m', 'seed');
-  return { dir, git };
-}
-
-test('the git sink writes, stages, and commits only the given key', async t => {
-  const { dir, git } = await seededRepo(t);
-  const sink = createGitSink({ repoDir: dir, message: 'chore: refresh SirenTO incidents' });
-  const result = await sink({ key: 'data/current.json', body: '{"retentionHours":168}\n' });
-  assert.deepEqual(result, { changed: true });
-  assert.equal(await readFile(join(dir, 'data/current.json'), 'utf8'), '{"retentionHours":168}\n');
-  assert.equal(git('diff-tree', '--no-commit-id', '--name-only', '-r', 'HEAD'), 'data/current.json');
-  assert.equal(git('log', '-1', '--format=%s'), 'chore: refresh SirenTO incidents');
-});
-
-test('the git sink makes no commit when the body is unchanged', async t => {
-  const { dir, git } = await seededRepo(t);
-  const sink = createGitSink({ repoDir: dir, message: 'chore: refresh SirenTO incidents' });
-  const before = git('rev-parse', 'HEAD');
-  assert.deepEqual(await sink({ key: 'data/current.json', body: '{}\n' }), { changed: false });
-  assert.equal(git('rev-parse', 'HEAD'), before);
-});
-
-test('the git sink refuses to commit when the index already has staged changes', async t => {
-  const { dir, git } = await seededRepo(t);
-  await writeFile(join(dir, 'unrelated.txt'), 'do not commit');
-  git('add', 'unrelated.txt');
-  const sink = createGitSink({ repoDir: dir, message: 'chore: refresh SirenTO incidents' });
-  await assert.rejects(sink({ key: 'data/current.json', body: '{"a":1}\n' }), /Index must be clean/);
-});
-
-test('the git sink honors a custom author and email', async t => {
-  const { dir, git } = await seededRepo(t);
-  const sink = createGitSink({
-    repoDir: dir, message: 'chore: refresh public TTC geometry',
-    author: 'github-actions[bot]', email: '41898282+github-actions[bot]@users.noreply.github.com'
-  });
-  await sink({ key: 'data/current.json', body: '{"a":1}\n' });
-  assert.equal(git('log', '-1', '--format=%an <%ae>'), 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>');
-});
-
-test('the git sink defaults its repo dir, author, and email', async t => {
-  const { dir, git } = await seededRepo(t);
-  const previous = process.cwd();
-  process.chdir(dir);
-  try {
-    const sink = createGitSink({ message: 'chore: refresh SirenTO incidents' });
-    await sink({ key: 'data/current.json', body: '{"a":1}\n' });
-    assert.equal(git('log', '-1', '--format=%an <%ae>'), 'SirenTO updater <sirento-updater@localhost>');
   } finally {
     process.chdir(previous);
   }
@@ -230,7 +164,6 @@ test('fetchR2Object returns the body, undefined for a missing object, and throws
 test('createSinkFromEnv selects the R2 sink when the credentials are present', async () => {
   const { store, fetchImpl } = fakeR2();
   const sink = createSinkFromEnv({
-    message: 'm',
     env: { R2_ENDPOINT: r2Config.endpoint, R2_BUCKET: 'sirento', R2_ACCESS_KEY_ID: 'a', R2_SECRET_ACCESS_KEY: 's' }
   });
   // The default fetch is the global one; swap it by rebuilding with the fake.
@@ -240,18 +173,20 @@ test('createSinkFromEnv selects the R2 sink when the credentials are present', a
   assert.equal(typeof sink, 'function');
 });
 
-test('createSinkFromEnv falls back to the git sink without R2 credentials', async t => {
-  const { dir, git } = await seededRepo(t);
-  const sink = createSinkFromEnv({ message: 'chore: refresh SirenTO incidents', repoDir: dir, env: {} });
-  await sink({ key: 'data/current.json', body: '{"a":1}\n' });
-  assert.equal(git('log', '-1', '--format=%s'), 'chore: refresh SirenTO incidents');
+test('createSinkFromEnv requires every R2 credential and never falls back to git', () => {
+  // The git `data` branch was retired in Story 55E, so a missing credential must
+  // fail loudly instead of silently writing to a branch that no longer exists.
+  assert.throws(() => createSinkFromEnv({ env: {} }), /R2 publication requires/);
+  assert.throws(
+    () => createSinkFromEnv({ env: { R2_ENDPOINT: 'https://x', R2_BUCKET: 'b', R2_ACCESS_KEY_ID: 'a' } }),
+    /R2 publication requires/
+  );
 });
 
-test('createSinkFromEnv defaults the git repo dir from the environment', async t => {
-  const { dir, git } = await seededRepo(t);
-  const sink = createSinkFromEnv({ message: 'chore: refresh SirenTO incidents', env: { DATA_REPO_DIR: dir } });
-  await sink({ key: 'data/current.json', body: '{"a":1}\n' });
-  assert.equal(git('log', '-1', '--format=%s'), 'chore: refresh SirenTO incidents');
+test('createSinkFromEnv honors R2_REGION and defaults it to auto', () => {
+  const base = { R2_ENDPOINT: r2Config.endpoint, R2_BUCKET: 'sirento', R2_ACCESS_KEY_ID: 'a', R2_SECRET_ACCESS_KEY: 's' };
+  assert.equal(typeof createSinkFromEnv({ env: base }), 'function');
+  assert.equal(typeof createSinkFromEnv({ env: { ...base, R2_REGION: 'wnam' } }), 'function');
 });
 
 test('createR2SignedFetch defaults its region, fetch, and clock', async () => {
@@ -306,17 +241,4 @@ test('createR2Sink defaults its region, fetch, and clock', async () => {
     globalThis.fetch = original;
   }
   assert.deepEqual(requests.map(r => r.method), ['GET', 'PUT']);
-});
-
-test('createSinkFromEnv falls back to the current directory when no repo dir is given', async t => {
-  const { dir, git } = await seededRepo(t);
-  const previous = process.cwd();
-  process.chdir(dir);
-  try {
-    const sink = createSinkFromEnv({ message: 'chore: refresh SirenTO incidents', env: {} });
-    await sink({ key: 'data/current.json', body: '{"a":1}\n' });
-    assert.equal(git('log', '-1', '--format=%s'), 'chore: refresh SirenTO incidents');
-  } finally {
-    process.chdir(previous);
-  }
 });

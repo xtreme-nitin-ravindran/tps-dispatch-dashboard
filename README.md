@@ -152,7 +152,7 @@ Automation validates code changes and keeps the dashboard’s public data curren
 
 ### Data storage
 
-- Both data pipelines use code from **`main`** and publish to Cloudflare R2, an **S3-compatible object store**.
+- Both data pipelines use code from **`main`** and publish to Cloudflare R2, an **S3-compatible object store**. R2 is the only publication target; the git `data` branch was retired.
 - The dashboard reads the published incident and TTC data directly; data refreshes do not require a site deployment.
 - Failed sources retain their last successful data and are marked unavailable. Keep generated snapshots out of code commits.
 - See [storage and publication details](docs/data-pipeline.md#published-data-and-the-r2-sink).

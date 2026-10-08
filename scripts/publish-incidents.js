@@ -6,12 +6,9 @@
 // bounded TTC vehicle observation and geometry projection run. A slow or failed
 // TTC stage therefore cannot block or roll back the incident publication.
 //
-// The sink decides where the artifact lands. The production sink is Cloudflare
-// R2 (S3-compatible), which publishes directly, so no scheduler push step is
-// needed. The git sink remains available for the transition and local runs; when
-// it is used the push is owned by the scheduler (Concourse `put` with
-// `rebase: true`; GitHub Actions `git pull --rebase && git push`). Either way the
-// two datasets use different keys/files, so they cannot conflict.
+// The sink is Cloudflare R2 (S3-compatible), which publishes directly, so no
+// scheduler push step is needed. The git `data` branch was retired in Story 55E.
+// The two datasets use different keys, so they cannot conflict.
 //
 // GitHub Actions and Concourse both invoke this script, so the freshness/skip
 // policy, per-feed failure/retention, history input, timestamp meaning,
@@ -23,7 +20,7 @@
 //   TFS_PREVIOUS     optional explicit history input (Concourse)
 //   TFS_OUTPUT       output path (default data/current.json)
 //   TFS_XML          optional XML fixture input
-//   DATA_REPO_DIR    data-branch checkout (default current directory)
+//   R2_*             R2 publication credentials (required)
 //
 // Exit status is 0 when the snapshot is committed or already fresh, and nonzero
 // only when the incident phase itself fails. A TTC failure never reaches here.
@@ -39,24 +36,19 @@ import { updateDisruptions } from '../src/disruptions/source.js';
 import { updateTtcBackend } from '../src/ttc/backend.js';
 
 const INCIDENT_KEY = 'data/current.json';
-const INCIDENT_MESSAGE = 'chore: refresh SirenTO incidents';
 
 // Run the incident phase. Returns a bounded, deterministic result describing
 // what happened so callers and tests can assert on it without parsing logs.
 //
-// `outputPath` is where the ETL writes the snapshot. `repoDir` is the data-branch
-// checkout where the commit happens; it defaults to the current directory, but
-// GitHub Actions keeps the data checkout in a subdirectory while the ETL writes
-// to the workspace root, so the two are separate.
+// `outputPath` is where the ETL writes the snapshot.
 export async function publishIncidents({
   outputPath = process.env.TFS_OUTPUT || 'data/current.json',
   previousPath = process.env.TFS_PREVIOUS || undefined,
   xmlPath = process.env.TFS_XML || undefined,
   updatedBy = process.env.TFS_UPDATED_BY || 'manual',
   now = new Date(),
-  repoDir = process.env.DATA_REPO_DIR || process.cwd(),
   etl = runTfsEtl,
-  sink = createSinkFromEnv({ message: INCIDENT_MESSAGE, repoDir }),
+  sink,
   log = entry => console.log(JSON.stringify(entry))
 } = {}) {
   let snapshot;
@@ -73,7 +65,9 @@ export async function publishIncidents({
     fetchPolice: fetchTpsSource, fetchTravel: updateDisruptions, fetchTtc: updateTtcBackend
   });
   const body = await readFile(outputPath, 'utf8');
-  const { changed } = await sink({ key: INCIDENT_KEY, body });
+  // Build the R2 sink lazily so a fresh skip never requires credentials.
+  const publish = sink || createSinkFromEnv();
+  const { changed } = await publish({ key: INCIDENT_KEY, body });
   log({ source: 'incident-publication', status: changed ? 'committed' : 'unchanged', updatedBy });
   return { updated: true, committed: changed };
 }

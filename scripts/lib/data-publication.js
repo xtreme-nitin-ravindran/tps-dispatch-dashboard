@@ -1,21 +1,18 @@
-// Shared data-branch publication policy for both schedulers.
+// Shared publication policy for both schedulers.
 //
 // GitHub Actions and Concourse must decide identically whether the incident
 // snapshot needs refreshing: the same freshness/skip threshold, the same
 // per-feed failure and history semantics, and the same timestamp meaning. This
 // module is the single source of truth for that policy. The ETL itself lives in
-// `scripts/tfs-etl.js` and the snapshot-only commit in `scripts/lib/publication-sink.js`.
+// `scripts/tfs-etl.js` and the write to Cloudflare R2 in
+// `scripts/lib/publication-sink.js`.
 //
-// Publication (the push to the `data` branch) is deliberately *not* handled
-// here. Each scheduler already owns a safe fast-forward push:
-//
-//   - Concourse uses the git resource's `put` with `rebase: true`, which
-//     re-reads the latest remote tip and rebases the local commit onto it.
-//   - GitHub Actions runs `git pull --rebase && git push` in the workflow.
-//
-// Both writers commit only their own file (`data/current.json` for incidents,
-// `data/ttc-diversions.json` for TTC geometry), so a rebase onto the other
-// writer's tip cannot conflict. No lock and no custom retry loop are needed.
+// Publication (the write to R2) is deliberately *not* handled here. Each
+// scheduler runs the shared phase scripts, which publish directly to R2 through
+// the sink; the git `data` branch was retired in Story 55E. Both writers use
+// different object keys (`data/current.json` for incidents,
+// `data/ttc-diversions.json` for TTC geometry), so they cannot conflict. No
+// lock and no custom retry loop are needed.
 
 // The schedule runs every five minutes and the browser marks a feed stale after
 // ten minutes (`src/source-status.js`). A five-minute threshold keeps each

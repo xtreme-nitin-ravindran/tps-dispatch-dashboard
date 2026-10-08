@@ -3,8 +3,8 @@
 // The publication *policy* (when to refresh) lives in `data-publication.js`. This
 // module owns the *sink*: where a produced artifact is written and how its change
 // is detected. The production sink is Cloudflare R2 (S3-compatible object
-// storage); the git `data` branch remains available as a sink for the transition
-// and for local runs.
+// storage); the git `data` branch was retired in Story 55E, so R2 is the only
+// publication target.
 //
 // A sink is a function:
 //
@@ -15,53 +15,21 @@
 // observed a difference from what was already published, so the caller can log
 // committed/unchanged without re-deriving it.
 //
-// Three sinks are provided:
+// Two sinks are provided:
 //
 //   - `createR2Sink` PUTs the body to a Cloudflare R2 bucket over the S3 API
 //     (SigV4, Node built-ins only). It is the production sink. R2 has no object
 //     versioning, so it is last-writer-wins per key; the two datasets use
 //     different keys and therefore cannot conflict.
-//   - `createGitSink` writes the body into a data-branch checkout and commits
-//     only that key. It preserves the exact behavior of the previous inline git
-//     logic (stage one path, commit only when it changed, require a clean index)
-//     and is retained for the transition and local runs.
 //   - `createLocalSink` writes the body into a plain directory with no git. It is
 //     deterministic and dependency-free, so tests can assert published bytes
 //     without a repository.
 //
-// The git sink does not push; the push is owned by the scheduler. The R2 sink
-// publishes directly, so no scheduler push step is needed.
+// The R2 sink publishes directly, so no scheduler push step is needed.
 
-import { execFileSync } from 'node:child_process';
 import { createHash, createHmac } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
-
-// A git-backed sink that writes `key` into `repoDir` and commits only that path.
-//
-// `message` is the commit subject. `author`/`email` default to the shared updater
-// identity used by the previous inline logic. The sink refuses to commit when the
-// index already has staged changes, so it can never accidentally include another
-// task's work.
-export function createGitSink({
-  repoDir = process.cwd(),
-  message,
-  author = process.env.GIT_AUTHOR_NAME || 'SirenTO updater',
-  email = process.env.GIT_AUTHOR_EMAIL || 'sirento-updater@localhost'
-} = {}) {
-  const git = (...args) => execFileSync('git', args, { cwd: repoDir, encoding: 'utf8' }).trim();
-  return async function publish({ key, body }) {
-    const target = resolve(repoDir, key);
-    await mkdir(dirname(target), { recursive: true });
-    await writeFile(target, body);
-    // Fail rather than accidentally include changes staged by another task.
-    if (git('diff', '--cached', '--name-only')) throw new Error('Index must be clean before snapshot commit');
-    git('add', '--', key);
-    if (!git('diff', '--cached', '--name-only')) return { changed: false };
-    git('-c', `user.name=${author}`, '-c', `user.email=${email}`, 'commit', '-m', message);
-    return { changed: true };
-  };
-}
 
 // A plain-directory sink with no git. Writes `key` under `dir` and reports
 // whether the bytes differ from what was already there. Deterministic and
@@ -181,22 +149,23 @@ export async function fetchR2Object({
   return response.text();
 }
 
-// Select the production sink from the environment. When the R2 credentials are
-// present the R2 sink is used; otherwise the git sink is used, so local runs and
-// the GitHub Actions fallback keep working unchanged until 55C mirrors R2 there.
+// Select the production sink from the environment. R2 is the only publication
+// target since the git `data` branch was retired in Story 55E, so the four R2
+// credentials are required; a missing value fails loudly rather than silently
+// writing to a branch that no longer exists.
 //
 // R2 env: R2_ENDPOINT, R2_BUCKET, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY
-// (optional R2_REGION, default `auto`). Git env: DATA_REPO_DIR, GIT_AUTHOR_NAME,
-// GIT_AUTHOR_EMAIL.
-export function createSinkFromEnv({ message, repoDir, env = process.env } = {}) {
-  if (env.R2_ENDPOINT && env.R2_BUCKET && env.R2_ACCESS_KEY_ID && env.R2_SECRET_ACCESS_KEY) {
-    return createR2Sink({
-      endpoint: env.R2_ENDPOINT,
-      bucket: env.R2_BUCKET,
-      accessKeyId: env.R2_ACCESS_KEY_ID,
-      secretAccessKey: env.R2_SECRET_ACCESS_KEY,
-      region: env.R2_REGION || 'auto'
-    });
+// (optional R2_REGION, default `auto`).
+export function createSinkFromEnv({ env = process.env } = {}) {
+  const { R2_ENDPOINT, R2_BUCKET, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY } = env;
+  if (!R2_ENDPOINT || !R2_BUCKET || !R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY) {
+    throw new Error('R2 publication requires R2_ENDPOINT, R2_BUCKET, R2_ACCESS_KEY_ID, and R2_SECRET_ACCESS_KEY');
   }
-  return createGitSink({ repoDir: repoDir || env.DATA_REPO_DIR || process.cwd(), message });
+  return createR2Sink({
+    endpoint: R2_ENDPOINT,
+    bucket: R2_BUCKET,
+    accessKeyId: R2_ACCESS_KEY_ID,
+    secretAccessKey: R2_SECRET_ACCESS_KEY,
+    region: env.R2_REGION || 'auto'
+  });
 }
