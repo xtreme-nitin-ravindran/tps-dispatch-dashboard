@@ -36,7 +36,7 @@ emergency decisions or real-time safety guidance.**
 - Finds recent calls nearby with **Hear sirens?** and **Near me** quick searches.
 - Uses [public data sources](docs/product-and-sources.md#data-sources) from Toronto services and geographic reference providers.
 
-**Malformed source data:** Any future repair of malformed source data must be clearly identified as a SirenTO alteration. See the [source warning](docs/product-and-sources.md#malformed-source-data).
+**Malformed source data:** When the City road-restrictions feed contains an illegal JSON escape, SirenTO repairs only that escape so the feed can be read, and clearly identifies the repair as a SirenTO alteration. See the [source warning](docs/product-and-sources.md#malformed-source-data).
 
 ## Run locally
 

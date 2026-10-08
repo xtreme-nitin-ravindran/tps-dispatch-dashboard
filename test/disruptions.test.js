@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {normalizeRoads,normalizeTransit,parseTextProto,updateDisruptions,fetchDisruptionSource} from '../src/disruptions/source.js';
+import {normalizeRoads,normalizeTransit,parseTextProto,updateDisruptions,fetchDisruptionSource,repairIllegalJsonEscapes} from '../src/disruptions/source.js';
 import {currentDisruptions,roadDistance,transitGeographicMatch} from '../src/disruptions/view.js';
 import {disruptionPresentation,nearbyTransitPresentation,renderDisruptions} from '../src/disruptions/ui.js';
 import {referenceCoordinates} from '../src/saved-locations.js';
@@ -110,7 +110,7 @@ test('sources refresh independently, cache five minutes, and preserve successful
  assert.equal(calls,2);assert.equal(updated.roads.status,'unavailable');assert.equal(updated.roads.fetchedAt,previous.roads.fetchedAt);
  assert.equal(updated.transit.status,'ok');assert.deepEqual(updated.transit.items,[]);
  await assert.rejects(fetchDisruptionSource('roads',async()=>({ok:false,status:503}),now));
- const roads=await fetchDisruptionSource('roads',async()=>({ok:true,json:async()=>({Closure:[]})}),now);
+ const roads=await fetchDisruptionSource('roads',async()=>({ok:true,text:async()=>JSON.stringify({Closure:[]})}),now);
  assert.deepEqual(roads.items,[]);
  const transit=await fetchDisruptionSource('transit',async()=>({ok:true,text:async()=>proto.split('entity')[0]}),now);
  assert.deepEqual(transit.items,[]);
@@ -273,7 +273,7 @@ test('failed initial disruption refresh publishes unavailable empty sources and 
 test('disruption presentation distinguishes empty, unavailable, stale and filtered cached data',()=>{
  const fresh={fetchedAt:new Date(now).toISOString(),status:'ok'};
  assert.deepEqual(disruptionPresentation('roads',fresh,[],[],false,now),{
-  count:'0',empty:'No road restrictions currently reported.',freshness:'Last successfully updated just now.',status:'ok'
+  count:'0',empty:'No road restrictions currently reported.',freshness:'Last successfully updated just now.',status:'ok',repaired:0
  });
  const unavailable={fetchedAt:new Date(now-18*60000).toISOString(),status:'unavailable'};
  const failed=disruptionPresentation('roads',unavailable,[],[],false,now);
@@ -402,4 +402,76 @@ test('disruption renderer updates lists and optional map layers',()=>{
   globalThis.document=originalDocument;
   globalThis.L=originalLeaflet;
  }
+});
+
+test('illegal JSON escapes are repaired only where needed and source text is preserved verbatim',()=>{
+ // A raw backslash-space is not a legal JSON escape; the frozen live case.
+ const frozen='{"Closure":[{"id":"r","name":"Road A","description":"Toronto-TMC: Water \\ Sewer"}]}';
+ assert.throws(()=>JSON.parse(frozen));
+ const repaired=repairIllegalJsonEscapes(frozen);
+ assert.equal(repaired.repaired,1);
+ const parsed=JSON.parse(repaired.text);
+ assert.equal(parsed.Closure[0].description,'Toronto-TMC: Water \\ Sewer');
+ // Valid escapes and every other byte are untouched.
+ const valid='{"a":"line\\nbreak","b":"quote\\"x","c":"slash\\/y","d":"tab\\t","e":"uni\\u00e9","f":"back\\\\slash"}';
+ const untouched=repairIllegalJsonEscapes(valid);
+ assert.equal(untouched.repaired,0);
+ assert.equal(untouched.text,valid);
+ assert.deepEqual(JSON.parse(untouched.text),JSON.parse(valid));
+ // A malformed \u (not four hex digits) is repaired; a valid one is not.
+ assert.equal(repairIllegalJsonEscapes('{"a":"\\uZZZZ"}').repaired,1);
+ assert.equal(repairIllegalJsonEscapes('{"a":"\\u00e9"}').repaired,0);
+ // Bounded count: multiple illegal escapes are each counted, never raw text.
+ assert.equal(repairIllegalJsonEscapes('{"a":"x \\ y \\ z"}').repaired,2);
+ assert.equal(repairIllegalJsonEscapes('').repaired,0);
+ assert.equal(repairIllegalJsonEscapes(null).repaired,0);
+});
+
+test('a malformed record among valid siblings loads with a bounded repair count',async()=>{
+ const body='{"Closure":[{"id":"ok","name":"Road A","latitude":"43.7","longitude":"-79.4"},{"id":"bad","name":"Road B","description":"Water \\ Sewer","latitude":"43.8","longitude":"-79.5"}]}';
+ const result=await fetchDisruptionSource('roads',async()=>({ok:true,text:async()=>body}),now);
+ assert.equal(result.repaired,1);
+ assert.deepEqual(result.items.map(item=>item.id),['ok','bad']);
+ assert.equal(result.items[1].description,'Water \\ Sewer');
+});
+
+test('a zero-repair payload reports no repair signal',async()=>{
+ const body=JSON.stringify({Closure:[{id:'ok',name:'Road A',latitude:'43.7',longitude:'-79.4'}]});
+ const result=await fetchDisruptionSource('roads',async()=>({ok:true,text:async()=>body}),now);
+ assert.equal(result.repaired,0);
+ assert.deepEqual(result.items.map(item=>item.id),['ok']);
+});
+
+test('a fully unparseable feed stays unavailable and retains the previous snapshot',async()=>{
+ const previous={roads:{items:[{id:'kept'}],sourceUpdatedAt:null,fetchedAt:new Date(now).toISOString(),checkedAt:new Date(now).toISOString(),status:'ok'}};
+ const logs=[];
+ const updated=await updateDisruptions(previous,new Date(now+300000),async(kind)=>kind==='roads'
+   ? fetchDisruptionSource('roads',async()=>({ok:true,text:async()=>'{"Closure":[{"id":"x","name":"y"}'}),now)
+   : {items:[]},entry=>logs.push(entry));
+ assert.equal(updated.roads.status,'unavailable');
+ assert.deepEqual(updated.roads.items,[{id:'kept'}]);
+ assert.deepEqual(logs,[]);
+});
+
+test('a repaired roads refresh logs a bounded repair diagnostic',async()=>{
+ const logs=[];
+ const body='{"Closure":[{"id":"ok","name":"Road A","description":"Water \\ Sewer","latitude":"43.7","longitude":"-79.4"}]}';
+ const updated=await updateDisruptions({},new Date(now),async(kind)=>kind==='roads'
+   ? fetchDisruptionSource('roads',async()=>({ok:true,text:async()=>body}),now)
+   : {items:[]},entry=>logs.push(entry));
+ assert.equal(updated.roads.status,'ok');
+ assert.equal(updated.roads.repaired,1);
+ assert.deepEqual(logs,[{source:'toronto-roads',status:'ok',count:1,repaired:1}]);
+});
+
+test('the disruptions freshness line and map-layer status disclose a SirenTO repair',()=>{
+ const repairedFeed={items:[road],fetchedAt:new Date(now).toISOString(),status:'ok',repaired:2};
+ const presentation=disruptionPresentation('roads',repairedFeed,[road],[road],false,now);
+ assert.match(presentation.freshness,/source JSON was malformed; SirenTO repaired the encoding \(2 records\)\./);
+ assert.equal(presentation.repaired,2);
+ const single=disruptionPresentation('roads',{...repairedFeed,repaired:1},[road],[road],false,now);
+ assert.match(single.freshness,/\(1 record\)\./);
+ const clean=disruptionPresentation('roads',{items:[road],fetchedAt:new Date(now).toISOString(),status:'ok'},[road],[road],false,now);
+ assert.doesNotMatch(clean.freshness,/repaired/);
+ assert.equal(clean.repaired,0);
 });

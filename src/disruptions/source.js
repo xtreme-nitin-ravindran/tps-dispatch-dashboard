@@ -152,10 +152,46 @@ export function normalizeRoads(payload) {
   const rejectedCount = ROAD_REJECTION_REASONS.reduce((total, reason) => total + rejected[reason], 0);
   return {items, rejected:rejectedCount, rejectedReasons:rejected};
 }
+// A bounded pre-parse repair for the roads feed. The City feed can emit a raw
+// backslash that is not a legal JSON escape (for example `\ ` inside a
+// description), which makes the whole document fail JSON.parse before any
+// per-record validation can run. This escapes only an illegal backslash so the
+// document parses; valid escapes and every other byte are left untouched, and the
+// decoded source text is preserved verbatim (no content is invented). Returns the
+// repaired text and the bounded count of repaired escapes (never raw upstream text).
+export function repairIllegalJsonEscapes(text) {
+  const source = String(text ?? '');
+  let repaired = 0;
+  let output = '';
+  for (let i = 0; i < source.length; i++) {
+    const char = source[i];
+    if (char !== '\\') { output += char; continue; }
+    const next = source[i + 1];
+    if (next === 'u') {
+      const hex = source.slice(i + 2, i + 6);
+      if (/^[0-9a-fA-F]{4}$/.test(hex)) { output += `\\u${hex}`; i += 5; continue; }
+    } else if (next !== undefined && '"\\/bfnrt'.includes(next)) {
+      output += char + next; i++; continue;
+    }
+    // Illegal escape: escape the backslash itself so the document parses.
+    output += '\\\\';
+    repaired++;
+  }
+  return { text: output, repaired };
+}
 export async function fetchDisruptionSource(kind, fetchImpl = fetch, now = Date.now()) {
   const response = await fetchImpl(kind === 'roads' ? ROAD_FEED : TTC_FEED, {signal:AbortSignal.timeout(12000)});
   if (!response.ok) throw new Error(`Disruption feed HTTP ${response.status}`);
-  return kind === 'roads' ? normalizeRoads(await response.json()) : normalizeTransit(await response.text(), now);
+  if (kind !== 'roads') return normalizeTransit(await response.text(), now);
+  const body = await response.text();
+  try {
+    return {...normalizeRoads(JSON.parse(body)), repaired:0};
+  } catch {
+    // The whole document failed to parse. Attempt the bounded illegal-escape
+    // repair once; if it still fails, the source stays unavailable.
+    const attempt = repairIllegalJsonEscapes(body);
+    return {...normalizeRoads(JSON.parse(attempt.text)), repaired:attempt.repaired};
+  }
 }
 export async function updateDisruptions(previous = {}, now = new Date(), fetchSource = fetchDisruptionSource, log = entry => console.log(JSON.stringify(entry))) {
   const entries = await Promise.all(['roads','transit'].map(async kind => {
@@ -166,6 +202,7 @@ export async function updateDisruptions(previous = {}, now = new Date(), fetchSo
       const result = await fetchSource(kind, undefined, now.getTime());
       // Bounded, privacy-safe diagnostics: counts and fixed reason keys only, never raw upstream text.
       if (result.rejected > 0) log({source:kind === 'roads' ? 'toronto-roads' : 'ttc-transit',status:'ok',count:result.items.length,rejected:result.rejected,rejectedReasons:result.rejectedReasons});
+      if (result.repaired > 0) log({source:'toronto-roads',status:'ok',count:result.items.length,repaired:result.repaired});
       return [kind,{...result,status:'ok',checkedAt:now.toISOString(),fetchedAt:now.toISOString()}];
     } catch {
       return [kind,{items:old?.items || [],sourceUpdatedAt:old?.sourceUpdatedAt || null,fetchedAt:old?.fetchedAt || null,checkedAt:now.toISOString(),status:'unavailable'}];

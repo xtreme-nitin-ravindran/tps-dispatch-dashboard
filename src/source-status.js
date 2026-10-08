@@ -41,3 +41,12 @@ export function sourceStatusText(subject, feed, now = Date.now(), staleAfterMs =
   if (info.status === 'stale') return `Last successfully updated ${info.age}. Data may be stale.`;
   return `Last successfully updated ${info.age}.`;
 }
+
+// A bounded, privacy-safe disclosure that SirenTO altered the source encoding.
+// The count is a number only; raw upstream text is never surfaced. Returns an
+// empty string when no repair occurred so callers can append it unconditionally.
+export function repairedSourceNote(feed) {
+  const count = Number(feed?.repaired);
+  if (!Number.isFinite(count) || count <= 0) return '';
+  return ` source JSON was malformed; SirenTO repaired the encoding (${count} record${count === 1 ? '' : 's'}).`;
+}

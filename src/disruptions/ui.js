@@ -1,7 +1,7 @@
 import { activeTtcAlerts, claimedAdvisoryIds } from '../ttc/presentation.js';
 import { currentDisruptions, roadDistance, transitGeographicMatch } from './view.js';
 import { distanceLabel } from '../nearby.js';
-import { sourceStatus, sourceStatusText } from '../source-status.js?v=source-states-1';
+import { sourceStatus, sourceStatusText, repairedSourceNote } from '../source-status.js?v=source-states-1';
 let roadLayer;
 let roadMap;
 let roadItems=[];
@@ -207,7 +207,8 @@ export function disruptionPresentation(kind, feed, items, baseItems, hasOrigin, 
   const count=items.length || info.status === 'ok'
     ? String(items.length)
     : info.status === 'stale' ? 'Stale' : 'Unavailable';
-  return {count,empty,freshness:sourceStatusText(definition.subject,feed,now),status:info.status};
+  const repaired=Number(feed?.repaired) > 0 ? Number(feed.repaired) : 0;
+  return {count,empty,freshness:sourceStatusText(definition.subject,feed,now)+repairedSourceNote(feed),status:info.status,repaired};
 }
 export function nearbyTransitPresentation(feed, items, now = Date.now()) {
   const info=sourceStatus(definitions.transit.subject,feed,now);
@@ -251,11 +252,16 @@ export function renderDisruptions(data, origin, radius, map) {
   document.querySelector('#roadCount').textContent=presentations.roads.count;
   const overlayStatus=document.querySelector('#roadOverlayStatus');
   if (overlayStatus) {
-    overlayStatus.textContent=presentations.roads.status === 'ok'
+    overlayStatus.textContent=presentations.roads.status === 'ok' && !presentations.roads.repaired
       ? `${presentations.roads.count} current`
       : `${presentations.roads.count} · ${presentations.roads.freshness}`;
     overlayStatus.className=`map-layer-status source-state-${presentations.roads.status}`;
   }
+  // Story 53B: the map-layer status is clipped (Story 41A), so a SirenTO encoding
+  // repair is surfaced on the visible "Road closures" label instead. The label
+  // keeps its box height, so the measured layer-control stack is unaffected.
+  const overlayLabel=document.querySelector('#roadOverlayLabel');
+  if (overlayLabel) overlayLabel.textContent=presentations.roads.repaired ? 'Road closures · source repaired' : 'Road closures';
   document.querySelector('#transitCount').textContent=presentations.transit.count;
   const nearbyTransitSection=document.querySelector('#nearbyTransit');
   if (nearbyTransitSection) {

@@ -13,7 +13,7 @@ const mobileRules = css.slice(mobileStart, css.indexOf('\n}', mobileStart) + 2);
 const desktopRules = css.slice(0, mobileStart);
 
 test('mobile overlay controls stack with full labels and 44px targets', () => {
-  assert.match(html, /class="road-overlay-toggle map-layer-toggle"[\s\S]*?<span>Road closures<\/span>/);
+  assert.match(html, /class="road-overlay-toggle map-layer-toggle"[\s\S]*?<span id="roadOverlayLabel">Road closures<\/span>/);
   assert.match(app, /"Police Divisions": divisionLayer/);
   assert.equal([...html.matchAll(/id="roadOverlay"/g)].length, 1);
   assert.equal([...app.matchAll(/L\.control\.layers\(/g)].length, 1);

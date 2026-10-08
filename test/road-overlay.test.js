@@ -16,7 +16,7 @@ class FakeElement {
 
 function harness(zoom=12) {
  const nodes=new Map();
- for(const selector of ['#disruptions','#roadOverlay','#roadOverlayStatus','#roadScope','#roadsFreshness','#transitFreshness','#roadCount','#transitCount','#roadsList','#transitList']) nodes.set(selector,new FakeElement());
+ for(const selector of ['#disruptions','#roadOverlay','#roadOverlayStatus','#roadOverlayLabel','#roadScope','#roadsFreshness','#transitFreshness','#roadCount','#transitCount','#roadsList','#transitList']) nodes.set(selector,new FakeElement());
  nodes.get('#roadOverlay').checked=true;
  globalThis.document={createElement:tag=>new FakeElement(tag),querySelector:selector=>nodes.get(selector) || null};
  const groups=[];const created=[];const frames=[];
@@ -155,6 +155,24 @@ test('overlay status distinguishes a valid empty feed from an unavailable source
  assert.equal(nodes.get('#roadOverlayStatus').className,'map-layer-status source-state-unavailable');
 });
 
+test('overlay status discloses a SirenTO encoding repair even when the source is healthy',()=>{
+ const {nodes,map}=harness();
+ const repaired={roads:{status:'ok',fetchedAt:new Date().toISOString(),items:[],repaired:2},transit:data.transit};
+ renderDisruptions(repaired,null,10,map);
+ assert.match(nodes.get('#roadOverlayStatus').textContent,/0 · Last successfully updated just now\. source JSON was malformed; SirenTO repaired the encoding \(2 records\)\./);
+ assert.equal(nodes.get('#roadOverlayStatus').className,'map-layer-status source-state-ok');
+});
+
+test('the visible Road closures label discloses a SirenTO encoding repair and resets when clean',()=>{
+ const {nodes,map}=harness();
+ const repaired={roads:{status:'ok',fetchedAt:new Date().toISOString(),items:[],repaired:2},transit:data.transit};
+ renderDisruptions(repaired,null,10,map);
+ assert.equal(nodes.get('#roadOverlayLabel').textContent,'Road closures · source repaired');
+ const clean={roads:{status:'ok',fetchedAt:new Date().toISOString(),items:[]},transit:data.transit};
+ renderDisruptions(clean,null,10,map);
+ assert.equal(nodes.get('#roadOverlayLabel').textContent,'Road closures');
+});
+
 test('closure detail includes available normalized fields and official attribution',()=>{
  const item={id:'road-1',street:'King St W',restrictionType:'ROAD CLOSED',startLocation:'Bathurst St',endLocation:'Spadina Ave',start:Date.UTC(2026,8,25,12),end:Date.UTC(2026,8,25,18),status:'Active',source:{name:'City of Toronto Road Restrictions',url:'https://example.test/official'}};
  const detail=createClosureDetail(item);
@@ -263,7 +281,7 @@ test('road-closure count is hidden beneath the label at every breakpoint',()=>{
  const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
  // The count stays in the DOM for assistive technology and the disruptions panel.
  assert.match(html,/<small id="roadOverlayStatus" class="map-layer-status">/);
- assert.match(html,/<span>Road closures<\/span>/);
+ assert.match(html,/<span id="roadOverlayLabel">Road closures<\/span>/);
  assert.match(html,/<span aria-hidden="true" class="road-key"><\/span>/);
  // The base (desktop) rule clips the count to a non-visible box.
  const baseStart=css.indexOf('.map-layer-toggle .map-layer-status {');
