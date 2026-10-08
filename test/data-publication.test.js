@@ -6,7 +6,8 @@ import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { FRESHNESS_THRESHOLD_MS, needsUpdate } from '../scripts/lib/data-publication.js';
 import { publishIncidents } from '../scripts/publish-incidents.js';
-import { publishTtcPhase } from '../scripts/publish-ttc-phase.js';
+import { publishTtcPhase, isDirectInvocation, runTtcPhaseCli } from '../scripts/publish-ttc-phase.js';
+import { createLocalSink } from '../scripts/lib/publication-sink.js';
 import { at, vehicle, protobuf, staticIndex } from './fixtures/ttc-vehicles/builders.js';
 import { parseTtcVehicles } from '../src/ttc/vehicle-feed.js';
 import { detectVehicles } from '../src/ttc/vehicle-detector.js';
@@ -14,35 +15,10 @@ import { inferDiversions } from '../src/ttc/diversion-inference.js';
 
 const now = new Date('2026-10-06T12:00:00Z');
 
-// The publication phases select their sink from the environment: when the R2
-// credentials are present the R2 sink is used, otherwise the git sink. The
-// Concourse task sets the R2 credentials as task params, so tests that assert
-// the git-sink behavior must strip them to stay environment-independent.
-const R2_ENV_KEYS = ['R2_ENDPOINT', 'R2_BUCKET', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_REGION'];
-
-// Return a copy of `env` with the R2 credentials removed, so the default sink
-// deterministically resolves to the git sink.
-function withoutR2Env(env) {
-  const copy = { ...env };
-  for (const key of R2_ENV_KEYS) delete copy[key];
-  return copy;
-}
-
-// Run `fn` with the R2 credentials removed from `process.env`, restoring the
-// previous values afterward. Used by the in-process phase tests that exercise
-// the default sink.
-async function withGitSinkEnv(fn) {
-  const saved = R2_ENV_KEYS.map(key => [key, process.env[key]]);
-  for (const key of R2_ENV_KEYS) delete process.env[key];
-  try {
-    return await fn();
-  } finally {
-    for (const [key, value] of saved) {
-      if (value === undefined) delete process.env[key];
-      else process.env[key] = value;
-    }
-  }
-}
+// The publication phases publish to Cloudflare R2 (the git `data` branch was
+// retired in Story 55E). The in-process phase tests inject a deterministic local
+// sink so they never touch the network; the CLI tests stub `globalThis.fetch`
+// with a minimal in-memory R2 stand-in.
 
 // Build a valid confirmed diversion output by running the real inference over a
 // deterministic two-vehicle fixture, so the TTC phase tests exercise the same
@@ -131,35 +107,35 @@ test('the incident phase skips a fresh snapshot without running the ETL', async 
   }));
   const result = await publishIncidents({
     outputPath, now,
-    etl: assert.fail, sink: assert.fail, log: () => {}
+    etl: assert.fail, sink: assert.fail, log: () => { }
   });
   assert.deepEqual(result, { updated: false, committed: false });
 });
 
-test('the incident phase runs the ETL and commits a stale snapshot', async t => {
+test('the incident phase runs the ETL and publishes a stale snapshot', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'incident-phase-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const outputPath = join(dir, 'current.json');
   await writeFile(outputPath, JSON.stringify({ fetchedAt: '2026-10-06T11:00:00Z' }));
   const calls = [];
   const result = await publishIncidents({
-    outputPath, now, updatedBy: 'concourse', repoDir: dir,
+    outputPath, now, updatedBy: 'concourse',
     etl: async options => { calls.push(['etl', options.updatedBy]); },
     sink: async ({ key, body }) => { calls.push(['publish', key, body]); return { changed: true }; },
-    log: () => {}
+    log: () => { }
   });
   assert.deepEqual(result, { updated: true, committed: true });
   assert.deepEqual(calls, [['etl', 'concourse'], ['publish', 'data/current.json', '{"fetchedAt":"2026-10-06T11:00:00Z"}']]);
 });
 
-test('the incident phase reports an unchanged snapshot without a commit', async t => {
+test('the incident phase reports an unchanged snapshot without a write', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'incident-phase-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const outputPath = join(dir, 'current.json');
   await writeFile(outputPath, JSON.stringify({ fetchedAt: '2026-10-06T11:00:00Z' }));
   const result = await publishIncidents({
-    outputPath, now, repoDir: dir,
-    etl: async () => {}, sink: async () => ({ changed: false }), log: () => {}
+    outputPath, now,
+    etl: async () => { }, sink: async () => ({ changed: false }), log: () => { }
   });
   assert.deepEqual(result, { updated: true, committed: false });
 });
@@ -170,19 +146,19 @@ test('the incident phase treats a missing snapshot as needing an update', async 
   const outputPath = join(dir, 'missing.json');
   let ran = false;
   const result = await publishIncidents({
-    outputPath, now, repoDir: dir,
+    outputPath, now,
     // The real ETL writes the snapshot; the stub must too, because the phase
     // reads the produced bytes and hands them to the sink.
     etl: async () => { ran = true; await writeFile(outputPath, '{"fetchedAt":"2026-10-06T12:00:00Z"}'); },
-    sink: async () => ({ changed: true }), log: () => {}
+    sink: async () => ({ changed: true }), log: () => { }
   });
   assert.equal(ran, true);
   assert.equal(result.updated, true);
 });
 
 test('the incident phase defaults every option when called with no arguments', async t => {
-  // Exercises the default output path, repo dir, updater identity, clock, and
-  // logger. A fresh default snapshot returns early.
+  // Exercises the default output path, updater identity, clock, and logger. A
+  // fresh default snapshot returns early, so the default R2 sink is never built.
   const dir = await mkdtemp(join(tmpdir(), 'incident-defaults-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   await mkdir(join(dir, 'data'), { recursive: true });
@@ -207,86 +183,124 @@ test('the incident phase surfaces a non-missing read error', async t => {
   // A directory at the output path makes readFile fail with EISDIR, not ENOENT.
   const outputPath = join(dir, 'current.json');
   await mkdir(outputPath);
-  await assert.rejects(publishIncidents({ outputPath, now, repoDir: dir, log: () => {} }));
+  await assert.rejects(publishIncidents({ outputPath, now, log: () => { } }));
 });
 
 // --- TTC geometry publication phase -----------------------------------------
 
-test('the TTC phase commits changed geometry', async t => {
+test('the TTC phase publishes changed geometry through the sink', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'ttc-phase-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const sourcePath = join(dir, 'diversions.json');
   await writeFile(sourcePath, JSON.stringify(confirmedDiversionOutput()));
-  const repoDir = join(dir, 'repo');
-  await mkdir(join(repoDir, 'data'), { recursive: true });
-  const git = (...args) => execFileSync('git', args, { cwd: repoDir, encoding: 'utf8' }).trim();
-  execFileSync('git', ['init', '-q', repoDir]);
-  git('config', 'user.name', 'test');
-  git('config', 'user.email', 'test@example.com');
-  await writeFile(join(repoDir, 'data/current.json'), '{}\n');
-  git('add', '-A');
-  git('commit', '-q', '-m', 'seed');
-  const result = await withGitSinkEnv(() => publishTtcPhase({ sourcePath, repoDir, log: () => {} }));
+  const sink = createLocalSink({ dir });
+  const result = await publishTtcPhase({ sourcePath, sink, log: () => { } });
   assert.deepEqual(result, { committed: true });
-  const written = JSON.parse(await readFile(join(repoDir, 'data/ttc-diversions.json'), 'utf8'));
+  const written = JSON.parse(await readFile(join(dir, 'data/ttc-diversions.json'), 'utf8'));
   assert.equal(written.diversions.length, 1);
   assert.equal(written.diversions[0].status, 'confirmed');
   assert.equal(written.diversions[0].geometrySource, 'sirento-observed');
-  assert.equal(git('log', '-1', '--format=%s'), 'chore: refresh public TTC geometry');
 });
 
-test('the TTC phase makes no commit when the geometry is unchanged', async t => {
+test('the TTC phase reports no change when the geometry is unchanged', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'ttc-phase-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const sourcePath = join(dir, 'diversions.json');
   await writeFile(sourcePath, JSON.stringify({ schemaVersion: 1, staticVersion: staticIndex().version, status: 'ok', checkedAt: now.toISOString(), diversions: [] }));
-  const repoDir = join(dir, 'repo');
-  await mkdir(join(repoDir, 'data'), { recursive: true });
-  const git = (...args) => execFileSync('git', args, { cwd: repoDir, encoding: 'utf8' }).trim();
-  execFileSync('git', ['init', '-q', repoDir]);
-  git('config', 'user.name', 'test');
-  git('config', 'user.email', 'test@example.com');
-  await writeFile(join(repoDir, 'data/ttc-diversions.json'), `${JSON.stringify({ schemaVersion: 1, status: 'ok', checkedAt: now.toISOString(), diversions: [] })}\n`);
-  git('add', '-A');
-  git('commit', '-q', '-m', 'seed');
-  const before = git('rev-parse', 'HEAD');
-  const result = await withGitSinkEnv(() => publishTtcPhase({ sourcePath, repoDir, log: () => {} }));
+  const sink = createLocalSink({ dir });
+  // Seed the identical published artifact so the second write is unchanged.
+  await sink({ key: 'data/ttc-diversions.json', body: `${JSON.stringify({ schemaVersion: 1, status: 'ok', checkedAt: now.toISOString(), diversions: [] })}\n` });
+  const result = await publishTtcPhase({ sourcePath, sink, log: () => { } });
   assert.deepEqual(result, { committed: false });
-  assert.equal(git('rev-parse', 'HEAD'), before);
 });
 
-test('the TTC phase defaults its source path and repo dir when called with no arguments', async t => {
-  // No TTC_DIVERSION_OUTPUT/DATA_REPO_DIR: the phase falls back to the cache path
-  // and cwd. Seed both so the default source and repo are exercised.
+test('the TTC phase builds the default R2 sink from the environment', async t => {
+  // No injected sink: the phase must build the R2 sink from the environment. Stub
+  // the global fetch with an in-memory R2 stand-in so no network is touched.
+  const dir = await mkdtemp(join(tmpdir(), 'ttc-r2-default-'));
+  t.after(() => rm(dir, { recursive: true, force: true }));
+  const sourcePath = join(dir, 'diversions.json');
+  await writeFile(sourcePath, JSON.stringify({ schemaVersion: 1, staticVersion: staticIndex().version, status: 'ok', checkedAt: now.toISOString(), diversions: [] }));
+  const store = new Map();
+  const original = globalThis.fetch;
+  globalThis.fetch = async (url, options = {}) => {
+    const method = options.method || 'GET';
+    const { pathname } = new URL(url);
+    if (method === 'GET') {
+      if (!store.has(pathname)) return { ok: false, status: 404, async text() { return ''; } };
+      return { ok: true, status: 200, async text() { return store.get(pathname); } };
+    }
+    store.set(pathname, options.body);
+    return { ok: true, status: 200, async text() { return ''; } };
+  };
+  const saved = {};
+  for (const [key, value] of Object.entries(r2Env)) { saved[key] = process.env[key]; process.env[key] = value; }
+  try {
+    const result = await publishTtcPhase({ sourcePath, log: () => { } });
+    assert.deepEqual(result, { committed: true });
+    assert.ok(store.has('/sirento/data/ttc-diversions.json'));
+  } finally {
+    globalThis.fetch = original;
+    for (const [key, value] of Object.entries(saved)) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+});
+
+test('the TTC phase defaults its source path when called with no arguments', async t => {
+  // No TTC_DIVERSION_OUTPUT: the phase falls back to the cache path. The sink is
+  // injected so the default R2 sink is never built.
   const dir = await mkdtemp(join(tmpdir(), 'ttc-defaults-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   await mkdir(join(dir, '.cache/ttc'), { recursive: true });
-  await mkdir(join(dir, 'data'), { recursive: true });
   await writeFile(join(dir, '.cache/ttc/diversions.json'), JSON.stringify({ schemaVersion: 1, staticVersion: staticIndex().version, status: 'ok', checkedAt: now.toISOString(), diversions: [] }));
-  await writeFile(join(dir, 'data/ttc-diversions.json'), `${JSON.stringify({ schemaVersion: 1, status: 'ok', checkedAt: now.toISOString(), diversions: [] })}\n`);
-  const git = (...args) => execFileSync('git', args, { cwd: dir, encoding: 'utf8' }).trim();
-  execFileSync('git', ['init', '-q', dir]);
-  git('config', 'user.name', 'test');
-  git('config', 'user.email', 'test@example.com');
-  git('add', '-A');
-  git('commit', '-q', '-m', 'seed');
   const previous = process.cwd();
   process.chdir(dir);
   try {
-    const result = await withGitSinkEnv(() => publishTtcPhase());
-    assert.deepEqual(result, { committed: false });
+    const result = await publishTtcPhase({ sink: createLocalSink({ dir }), log: () => { } });
+    assert.deepEqual(result, { committed: true });
   } finally {
     process.chdir(previous);
   }
 });
 
+test('isDirectInvocation detects the process entry point', () => {
+  const moduleUrl = 'file:///workspace/scripts/publish-ttc-phase.js';
+  assert.equal(isDirectInvocation({ argv1: '/workspace/scripts/publish-ttc-phase.js', moduleUrl }), true);
+  assert.equal(isDirectInvocation({ argv1: '/workspace/scripts/other.js', moduleUrl }), false);
+  assert.equal(isDirectInvocation({ argv1: '', moduleUrl }), false);
+  assert.equal(isDirectInvocation({ argv1: undefined, moduleUrl }), false);
+});
+
+test('runTtcPhaseCli prints the committed and no-change verdicts', async () => {
+  const lines = [];
+  const log = line => lines.push(line);
+  assert.deepEqual(await runTtcPhaseCli({ publish: async () => ({ committed: true }), log }), { committed: true });
+  assert.deepEqual(await runTtcPhaseCli({ publish: async () => ({ committed: false }), log }), { committed: false });
+  assert.deepEqual(lines, ['TTC geometry committed', 'No TTC geometry changes to commit']);
+});
+
 // --- CLI entry points -------------------------------------------------------
 
-// Stub the network so the real ETL runs against deterministic empty sources.
-// Each upstream feed needs a shape its parser accepts: valid TFS XML, the TPS
-// ArcGIS id/feature pages, the road-restriction JSON envelope, and a fresh TTC
-// text-proto header.
-const fetchPreload = `globalThis.fetch = async url => {
+// Stub the network so the real ETL runs against deterministic empty sources and
+// the R2 sink talks to an in-memory stand-in. Each upstream feed needs a shape
+// its parser accepts: valid TFS XML, the TPS ArcGIS id/feature pages, the
+// road-restriction JSON envelope, and a fresh TTC text-proto header. The R2
+// stand-in answers GET with 404 (so the first write is always "changed") and PUT
+// with 200.
+const fetchPreload = `const store = new Map();
+globalThis.fetch = async (url, options = {}) => {
+  const method = options.method || 'GET';
+  if (url.includes('r2.cloudflarestorage.com')) {
+    const { pathname } = new URL(url);
+    if (method === 'GET') {
+      if (!store.has(pathname)) return { ok: false, status: 404, async text() { return ''; } };
+      return { ok: true, status: 200, async text() { return store.get(pathname); } };
+    }
+    store.set(pathname, options.body);
+    return { ok: true, status: 200, async text() { return ''; } };
+  }
   const now = Math.floor(Date.now() / 1000);
   const body = {
     xml: '<tfs_active_incidents><update_from_db_time></update_from_db_time></tfs_active_incidents>',
@@ -301,6 +315,13 @@ const fetchPreload = `globalThis.fetch = async url => {
   return { ok: true, status: 200, async text() { return text; }, async json() { return JSON.parse(text); } };
 };`;
 
+const r2Env = {
+  R2_ENDPOINT: 'https://account.r2.cloudflarestorage.com',
+  R2_BUCKET: 'sirento',
+  R2_ACCESS_KEY_ID: 'AKIDEXAMPLE',
+  R2_SECRET_ACCESS_KEY: 'secret'
+};
+
 test('the incident CLI reports a fresh skip', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'incident-cli-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
@@ -311,13 +332,13 @@ test('the incident CLI reports a fresh skip', async t => {
     feeds: { TFS: { status: 'ok', fetchedAt: live }, TPS: { status: 'ok', fetchedAt: live } }
   }));
   const script = join(process.cwd(), 'scripts/publish-incidents.js');
-  const env = { ...process.env, TFS_OUTPUT: join(dir, 'data/current.json'), DATA_REPO_DIR: dir };
+  const env = { ...process.env, ...r2Env, TFS_OUTPUT: join(dir, 'data/current.json') };
   const out = execFileSync(process.execPath, [script], { cwd: dir, encoding: 'utf8', env });
   assert.match(out, /fresh; skipped/);
 });
 
 test('the incident CLI uses default paths and reports a fresh skip', async t => {
-  // No TFS_OUTPUT/DATA_REPO_DIR: the CLI falls back to data/current.json and cwd.
+  // No TFS_OUTPUT: the CLI falls back to data/current.json and cwd.
   const dir = await mkdtemp(join(tmpdir(), 'incident-cli-default-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   await mkdir(join(dir, 'data'), { recursive: true });
@@ -327,72 +348,64 @@ test('the incident CLI uses default paths and reports a fresh skip', async t => 
     feeds: { TFS: { status: 'ok', fetchedAt: live }, TPS: { status: 'ok', fetchedAt: live } }
   }));
   const script = join(process.cwd(), 'scripts/publish-incidents.js');
-  const env = { ...process.env };
+  const env = { ...process.env, ...r2Env };
   delete env.TFS_OUTPUT;
-  delete env.DATA_REPO_DIR;
   const out = execFileSync(process.execPath, [script], { cwd: dir, encoding: 'utf8', env });
   assert.match(out, /fresh; skipped/);
 });
 
-test('the incident CLI commits a stale snapshot and reports it', async t => {
+test('the incident CLI publishes a stale snapshot to R2 and reports it', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'incident-cli-commit-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   await mkdir(join(dir, 'data'), { recursive: true });
   await writeFile(join(dir, 'data/current.json'), JSON.stringify({ fetchedAt: '2026-10-06T11:00:00Z', incidents: [] }));
-  const git = (...args) => execFileSync('git', args, { cwd: dir, encoding: 'utf8' }).trim();
-  execFileSync('git', ['init', '-q', dir]);
-  git('config', 'user.name', 'test');
-  git('config', 'user.email', 'test@example.com');
-  git('add', '-A');
-  git('commit', '-q', '-m', 'seed');
   const preload = join(dir, 'fetch.mjs');
   await writeFile(preload, fetchPreload);
   const script = join(process.cwd(), 'scripts/publish-incidents.js');
-  const env = withoutR2Env({ ...process.env, TFS_OUTPUT: join(dir, 'data/current.json'), DATA_REPO_DIR: dir, TFS_UPDATED_BY: 'concourse' });
+  const env = { ...process.env, ...r2Env, TFS_OUTPUT: join(dir, 'data/current.json'), TFS_UPDATED_BY: 'concourse' };
   const out = execFileSync(process.execPath, ['--import', preload, script], { cwd: dir, encoding: 'utf8', env });
   assert.match(out, /Incident snapshot updated/);
-  assert.equal(git('log', '-1', '--format=%s'), 'chore: refresh SirenTO incidents');
 });
 
-test('the TTC CLI commits changed geometry and reports it', async t => {
+test('the incident CLI fails loudly without R2 credentials', async t => {
+  const dir = await mkdtemp(join(tmpdir(), 'incident-cli-nocreds-'));
+  t.after(() => rm(dir, { recursive: true, force: true }));
+  await mkdir(join(dir, 'data'), { recursive: true });
+  await writeFile(join(dir, 'data/current.json'), JSON.stringify({ fetchedAt: '2026-10-06T11:00:00Z', incidents: [] }));
+  const script = join(process.cwd(), 'scripts/publish-incidents.js');
+  const env = { ...process.env, TFS_OUTPUT: join(dir, 'data/current.json') };
+  for (const key of Object.keys(r2Env)) delete env[key];
+  assert.throws(
+    () => execFileSync(process.execPath, [script], { cwd: dir, encoding: 'utf8', env, stdio: 'pipe' }),
+    /R2 publication requires/
+  );
+});
+
+test('the TTC CLI publishes changed geometry to R2 and reports it', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'ttc-cli-commit-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const sourcePath = join(dir, 'diversions.json');
   await writeFile(sourcePath, JSON.stringify(confirmedDiversionOutput()));
-  await mkdir(join(dir, 'data'), { recursive: true });
-  await writeFile(join(dir, 'data/current.json'), '{}\n');
-  const git = (...args) => execFileSync('git', args, { cwd: dir, encoding: 'utf8' }).trim();
-  execFileSync('git', ['init', '-q', dir]);
-  git('config', 'user.name', 'test');
-  git('config', 'user.email', 'test@example.com');
-  git('add', '-A');
-  git('commit', '-q', '-m', 'seed');
+  const preload = join(dir, 'fetch.mjs');
+  await writeFile(preload, fetchPreload);
   const script = join(process.cwd(), 'scripts/publish-ttc-phase.js');
-  const env = withoutR2Env({ ...process.env, TTC_DIVERSION_OUTPUT: sourcePath, DATA_REPO_DIR: dir });
-  const out = execFileSync(process.execPath, [script], { cwd: dir, encoding: 'utf8', env });
+  const env = { ...process.env, ...r2Env, TTC_DIVERSION_OUTPUT: sourcePath };
+  const out = execFileSync(process.execPath, ['--import', preload, script], { cwd: dir, encoding: 'utf8', env });
   assert.match(out, /TTC geometry committed/);
-  assert.equal(git('log', '-1', '--format=%s'), 'chore: refresh public TTC geometry');
 });
 
-test('the TTC CLI uses default paths and reports no change', async t => {
-  // No TTC_DIVERSION_OUTPUT/DATA_REPO_DIR: the CLI falls back to the cache path
-  // and cwd. Seed both so the default source and repo are exercised.
+test('the TTC CLI uses the default source path and publishes to R2', async t => {
+  // No TTC_DIVERSION_OUTPUT: the CLI falls back to the cache path. The R2
+  // stand-in is a fresh process, so the first write is always "changed".
   const dir = await mkdtemp(join(tmpdir(), 'ttc-cli-default-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   await mkdir(join(dir, '.cache/ttc'), { recursive: true });
-  await mkdir(join(dir, 'data'), { recursive: true });
   await writeFile(join(dir, '.cache/ttc/diversions.json'), JSON.stringify({ schemaVersion: 1, staticVersion: staticIndex().version, status: 'ok', checkedAt: now.toISOString(), diversions: [] }));
-  await writeFile(join(dir, 'data/ttc-diversions.json'), `${JSON.stringify({ schemaVersion: 1, status: 'ok', checkedAt: now.toISOString(), diversions: [] })}\n`);
-  const git = (...args) => execFileSync('git', args, { cwd: dir, encoding: 'utf8' }).trim();
-  execFileSync('git', ['init', '-q', dir]);
-  git('config', 'user.name', 'test');
-  git('config', 'user.email', 'test@example.com');
-  git('add', '-A');
-  git('commit', '-q', '-m', 'seed');
+  const preload = join(dir, 'fetch.mjs');
+  await writeFile(preload, fetchPreload);
   const script = join(process.cwd(), 'scripts/publish-ttc-phase.js');
-  const env = withoutR2Env(process.env);
+  const env = { ...process.env, ...r2Env };
   delete env.TTC_DIVERSION_OUTPUT;
-  delete env.DATA_REPO_DIR;
-  const out = execFileSync(process.execPath, [script], { cwd: dir, encoding: 'utf8', env });
-  assert.match(out, /No TTC geometry changes to commit/);
+  const out = execFileSync(process.execPath, ['--import', preload, script], { cwd: dir, encoding: 'utf8', env });
+  assert.match(out, /TTC geometry committed/);
 });

@@ -12,10 +12,12 @@
 ### Published data and the R2 sink
 
 The published snapshot and TTC geometry live in a **Cloudflare R2** bucket
-(S3-compatible object storage), not on a Git branch. Each publication phase writes a
-different object key (`data/current.json` and `data/ttc-diversions.json`), and R2 is
-last-writer-wins per key, so the two datasets cannot conflict and no lock or serial
-group is needed.
+(S3-compatible object storage). R2 is the only publication target: the git `data`
+branch was retired in Story 55E, so neither scheduler writes a branch and the
+publication sink fails loudly when the R2 credentials are missing. Each publication
+phase writes a different object key (`data/current.json` and `data/ttc-diversions.json`),
+and R2 is last-writer-wins per key, so the two datasets cannot conflict and no lock or
+serial group is needed.
 
 - **Concourse** runs one `update-sirento` job. The incident ETL and the bounded TTC
   vehicle burst are sequential steps in that job. The incident phase publishes

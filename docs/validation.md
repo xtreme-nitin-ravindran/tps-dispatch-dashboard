@@ -143,7 +143,7 @@ verify. It is not the executable list and may lag the suite; run
 | `tfs-snapshot.test.js` | Snapshot metadata, history retention, incident updates, expiry, and removal of ongoing status when calls leave the active feed. |
 | `tfs-etl.test.js` | Initial and subsequent snapshot generation, separate XML/history inputs, safe handling of bad inputs or failed feeds, independent incident/disruption data, CLI environment wiring, the compatibility entry point, and fallback GitHub output. |
 | `tfs-fallback.test.js` | Fallback freshness thresholds, unchanged fresh snapshots, updater identity, and refusal to overwrite corrupt history. |
-| `publication-sink.test.js` | The shared publication sink: git-backed write/stage/commit of a single key, no-change detection, the clean-index guard, custom and default author identity, and the deterministic local-filesystem sink. |
+| `publication-sink.test.js` | The shared publication sink: the R2 SigV4 write/read path, no-change detection, credential validation, environment-driven sink selection, and the deterministic local-filesystem sink. |
 | `tps-source.test.js` | TPS normalization, stable IDs, complete fetch batches, history retention, unit-code labels, and nearby distances. |
 | `disruptions.test.js` | Road geometry and schedules, TTC alert parsing, active/stale filtering, nearby road segments, refresh caching, preserving data after failures, malformed payload rejection, and open-ended disruption periods. |
 | `open-locations.test.js` | Bundled postal and street-segment resolution, missing cross streets, and rejection of ambiguous intersections. |
