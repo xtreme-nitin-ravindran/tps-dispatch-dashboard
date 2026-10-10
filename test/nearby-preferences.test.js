@@ -12,7 +12,7 @@ function memoryStorage(initial = null) {
   };
 }
 
-test('saved radius, filters, history, and Map / Calls view are restored', () => {
+test('[STORY-20] saved radius, filters, history, and Map / Calls view are restored', () => {
   const storage = memoryStorage();
   savePreferences(storage, {
     ...filterDefaults,
@@ -33,7 +33,7 @@ test('saved radius, filters, history, and Map / Calls view are restored', () => 
   });
 });
 
-test('invalid and stale stored options fall back to current defaults', () => {
+test('[STORY-20] invalid and stale stored options fall back to current defaults', () => {
   const storage = memoryStorage(JSON.stringify({
     radiusKm: 10,
     mobileView: 'globe',
@@ -47,11 +47,11 @@ test('invalid and stale stored options fall back to current defaults', () => {
   assert.deepEqual(saved.filters, filterDefaults);
 });
 
-test('missing preferences preserve existing defaults', () => {
+test('[STORY-20] missing preferences preserve existing defaults', () => {
   assert.equal(loadPreferences(memoryStorage()), null);
 });
 
-test('preference changes are written without exact coordinates or transient state', () => {
+test('[STORY-20] preference changes are written without exact coordinates or transient state', () => {
   const storage = memoryStorage();
   savePreferences(storage, {
     ...filterDefaults,
@@ -73,7 +73,7 @@ test('preference changes are written without exact coordinates or transient stat
   assert.ok(!storage.raw().includes('-79.3832'));
 });
 
-test('UI changes persist through the existing state update paths', async () => {
+test('[STORY-20] UI changes persist through the existing state update paths', async () => {
   const app = await readFile(new URL('../src/app/app.js', import.meta.url), 'utf8');
   assert.match(app, /function setMobileView\([\s\S]*?scheduleViewMaintenance\(\{ view, mobile, focusSelection, persist \}\)/);
   assert.match(app, /function scheduleViewMaintenance\([\s\S]*?if \(persist\) \{[\s\S]*?rememberPreferences\(\)/);
