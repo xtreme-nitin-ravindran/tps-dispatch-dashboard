@@ -24,4 +24,4 @@ run:
     - -ec
     - |
       npm ci --prefix repo --omit=dev
-      node repo/scripts/ttc-vehicles.js --polls 4 --interval-ms 30000 --advisory incident-repo/data/current.json
+      node repo/scripts/ttc-vehicles.js --polls 10 --interval-ms 30000 --advisory incident-repo/data/current.json
