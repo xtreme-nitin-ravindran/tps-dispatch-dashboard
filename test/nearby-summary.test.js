@@ -62,7 +62,7 @@ test("[MUST-1][MUST-3][STORY-1] nearby summary formats hour, day, plural-day, an
   assert.match(nearbySummary([call("TPS", "other", -5)], 10, now), /Latest just now · Last 24h\.$/);
 });
 
-test("[MUST-1][MUST-3][STORY-1] nearby summary calculates the closest filtered incident with the card distance formatter", () => {
+test("[MUST-1][MUST-3][MUST-4][STORY-1] nearby summary calculates the closest filtered incident with the card distance formatter", () => {
   const origin = [43.65, -79.38];
   const calls = [
     locatedCall("TFS", "fire", 4, [43.66, -79.38]),
@@ -76,7 +76,7 @@ test("[MUST-1][MUST-3][STORY-1] nearby summary calculates the closest filtered i
   );
 });
 
-test("[MUST-1][STORY-1] nearby summary recalculates closest distance and preserves counts as filtered calls and radius change", () => {
+test("[MUST-1][MUST-4][STORY-1] nearby summary recalculates closest distance and preserves counts as filtered calls and radius change", () => {
   const origin = [43.65, -79.38];
   const calls = [
     locatedCall("TFS", "fire", 4, [43.66, -79.38]),
@@ -87,7 +87,7 @@ test("[MUST-1][STORY-1] nearby summary recalculates closest distance and preserv
   assert.match(nearbySummary(calls.slice(0, 1), 1, now, origin), /^1 recent call within 1 km · 1 Fire · Closest 1\.1 km ·/);
 });
 
-test("[MUST-1][MUST-3][STORY-1] nearby summary omits closest distance with no incidents or no user location", () => {
+test("[MUST-1][MUST-3][MUST-4][STORY-1] nearby summary omits closest distance with no incidents or no user location", () => {
   assert.equal(nearbySummary([], 2, now, [43.65, -79.38]), "0 recent calls within 2 km · Last 24h.");
   assert.equal(
     nearbySummary([locatedCall("TPS", "other", 0, [43.652, -79.38])], 2, now),
@@ -95,7 +95,7 @@ test("[MUST-1][MUST-3][STORY-1] nearby summary omits closest distance with no in
   );
 });
 
-test("[MUST-1][MUST-3][STORY-1] mobile summary keeps only count, closest, latest, and Toronto-wide context", () => {
+test("[MUST-1][MUST-3][MUST-4][STORY-1] mobile summary keeps only count, closest, latest, and Toronto-wide context", () => {
   const origin = [43.65, -79.38];
   const calls = [
     locatedCall("TFS", "fire", 4, [43.66, -79.38]),
@@ -115,7 +115,7 @@ test("[MUST-1][MUST-3][STORY-1] mobile summary always shows the active history w
   assert.equal(mobileNearbySummary([], 2, now, null, undefined, 168), "No calls match in this area · Last 7 days.");
 });
 
-test("[MUST-1][MUST-3][STORY-1] mobile summary formats singular, hour, day, plural-day, future, and custom-coordinate ages", () => {
+test("[MUST-1][MUST-3][MUST-4][STORY-1] mobile summary formats singular, hour, day, plural-day, future, and custom-coordinate ages", () => {
   const origin = [43.65, -79.38];
   assert.equal(mobileNearbySummary([locatedCall("TFS", "fire", 60, [43.652, -79.38])], 2, now, origin), "1 call · Closest 0.2 km · Latest 1 hr ago · Last 24h");
   assert.equal(mobileNearbySummary([call("TFS", "fire", 1_440)], null, now), "1 Toronto call · Latest 1 day ago · Last 24h");
