@@ -16,10 +16,10 @@ never hand-copied:
 
 ```bash
 # Extract the named task from concourse/pipeline.yml and run it with fly execute.
-scripts/fly-exec-task.sh test-update-and-publish
+scripts/fly-exec-task.sh update-and-publish
 
 # Choose a fly target and forward extra fly execute arguments after `--`.
-scripts/fly-exec-task.sh test-update-and-publish --target main -- \
+scripts/fly-exec-task.sh update-and-publish --target main -- \
   --input repo=. --output incident-repo=./out
 ```
 
@@ -28,15 +28,17 @@ The helper extracts the task's config from the pipeline, writes it to a scratch 
 A task defined with `file:` is passed to `fly execute` directly, since its config
 already lives in a real file. The scratch file is removed on success, failure, and
 signals. The helper never reads or prints credentials: supply them through the
-environment or `fly` vars. It does not configure the worker/registry setup below.
+environment or `fly` vars. The task config supplies its worker image.
 
-In the October 7, 2026 verification, the worker ran in minikube with containerd and
-could not use an image available only in the host Docker daemon. The image built
-from `docker/Dockerfile.test` was pushed to the in-cluster registry
-(`registry.kube-system.svc.cluster.local`), and the worker temporarily received
-`CONCOURSE_INSECURE_REGISTRIES` for that plain-HTTP registry. This is an
-installation-specific setup, not a default requirement: confirm the current worker
-and registry configuration before using it, then remove temporary worker settings
-and test images after verification. `scripts/fly-exec-task.sh` provides the reusable
-inline-task extraction/execution helper described above.
+The scheduled pipeline consumes `main`, which has passed the protected promotion
+checks. Its `update-and-publish` task uses `node:24-bookworm-slim`, installs only
+runtime dependencies with `npm ci --omit=dev`, and runs the incident update and R2
+publication. It does not build the test image or rerun tests, lint, syntax, or
+coverage checks. Those remain required in local verification and the promotion gate.
 
+Concourse inputs and outputs are rooted in the task's initial working directory.
+Capture the declared `incident-repo` output path before changing into `repo` so
+the vehicle task receives the snapshot. Use the extracted task's registry image
+for worker validation; no locally built test image or temporary worker registry
+configuration is needed. Redact credentials before displaying live pipeline
+configuration, since `fly get-pipeline` can return resolved secrets.

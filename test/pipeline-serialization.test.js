@@ -106,7 +106,7 @@ test('no two jobs can publish the same resource concurrently', () => {
 test('the data publisher publishes incidents before TTC vehicle work', () => {
   // The incident phase must precede the TTC vehicle task, and the geometry phase
   // must follow it, so a slow or failed TTC stage cannot block the incident update.
-  const incidentPublish = pipeline.indexOf('node /workspace/scripts/publish-incidents.js');
+  const incidentPublish = pipeline.indexOf('node scripts/publish-incidents.js');
   const observe = pipeline.indexOf('task: observe-vehicles');
   const geometryPublish = pipeline.indexOf('node scripts/publish-ttc-phase.js');
   assert.ok(incidentPublish !== -1 && observe !== -1 && geometryPublish !== -1, 'all phases must be present');
@@ -131,7 +131,7 @@ test('both publication phases publish to R2 through the shared sink', () => {
 test('the incident phase seeds its history input from the published snapshot', () => {
   // The ETL history input must come from R2, not a git checkout, and a missing
   // object must be tolerated so the ETL can start fresh.
-  assert.match(pipeline, /node \/workspace\/scripts\/r2-fetch\.js data\/current\.json/);
+  assert.match(pipeline, /node scripts\/r2-fetch\.js data\/current\.json/);
   assert.match(pipeline, /TFS_PREVIOUS=\/tmp\/history\/current\.json/);
 });
 
