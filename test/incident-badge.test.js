@@ -7,7 +7,7 @@ import { applyIncidentLifecycle, hasMeaningfulIncidentChange } from "../src/inci
 const firstSeenAt = "2026-09-24T12:00:00.000Z";
 const firstSeen = Date.parse(firstSeenAt);
 
-test("NEW lasts for the configured window and exposes its exact expiry", () => {
+test("[MUST-7][STORY-11] NEW lasts for the configured window and exposes its exact expiry", () => {
   const incident = { firstSeenAt };
   assert.equal(INCIDENT_BADGE_CONFIG.newWindowMs, 300_000);
   assert.equal(incidentBadge(incident, firstSeen), "NEW");
@@ -19,7 +19,7 @@ test("NEW lasts for the configured window and exposes its exact expiry", () => {
   assert.equal(incidentBadge({ firstSeenAt: "invalid" }, firstSeen), null);
 });
 
-test("UPDATED takes precedence and persists after the NEW window", () => {
+test("[MUST-7][STORY-11] UPDATED takes precedence and persists after the NEW window", () => {
   const incident = { firstSeenAt, lastMeaningfulUpdateAt: new Date(firstSeen + 1_000) };
   assert.equal(incidentBadge(incident, firstSeen + 2_000), "UPDATED");
   assert.equal(incidentBadgeExpiry(incident, firstSeen + 2_000), null);
@@ -27,7 +27,7 @@ test("UPDATED takes precedence and persists after the NEW window", () => {
   assert.equal(incidentBadge({ firstSeenAt, lastMeaningfulUpdateAt: firstSeenAt }, firstSeen), "NEW");
 });
 
-test("lifecycle metadata survives refreshes and records only meaningful changes", () => {
+test("[MUST-7][STORY-11] lifecycle metadata survives refreshes and records only meaningful changes", () => {
   const now = new Date(firstSeenAt);
   const original = applyIncidentLifecycle({ id: "F1", description: "Fire", vehicles: [] }, null, now);
   assert.equal(original.firstSeenAt, firstSeenAt);
@@ -49,7 +49,7 @@ test("lifecycle metadata survives refreshes and records only meaningful changes"
   assert.equal(legacy.firstSeenAt, "2026-09-24T11:00:00.000Z");
 });
 
-test("cards render compact change badges and schedule NEW expiry", async () => {
+test("[MUST-7][STORY-11] cards render compact change badges and schedule NEW expiry", async () => {
   const [app, html, css] = await Promise.all([
     readFile(new URL("../src/app/app.js", import.meta.url), "utf8"),
     readFile(new URL("../index.html", import.meta.url), "utf8"),
