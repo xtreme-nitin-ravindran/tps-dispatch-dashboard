@@ -15,7 +15,11 @@ const advisoryRef=id=>`${ADVISORY_REF_PREFIX}${id}`;
 // A confirmed observed path is usable only when it is fresh, unexpired, and a
 // valid line. This mirrors the GTFS-RT attachment filter exactly.
 const usableDiversion=(d,now)=>d.status === 'confirmed' && ['sirento-observed','ttc-official'].includes(d.geometrySource) && fresh(d.lastObservedAt,now,1800000) && (!d.expiresAt || Date.parse(d.expiresAt)>now) && validLine(d.geometry);
-const diversionPart=d=>({id:d.id,routeId:d.routeId,geometry:d.geometry,kind:'diversion',observedAt:d.lastObservedAt,source:d.geometrySource,label:d.geometrySource === 'ttc-official' ? 'TTC-published diversion' : 'Observed by SirenTO'});
+// Earned persistence may outlive the two-minute publication gate, but never its
+// original evidence expiry. A delayed artifact is disclosed as retained/unknown.
+const artifactFresh=(observed,now)=>observed?.status==='ok'&&fresh(observed.checkedAt,now,120000);
+const availableDiversions=(observed,now)=>(observed?.diversions || []).filter(d=>usableDiversion(d,now)&&(artifactFresh(observed,now)||(d.persistenceEarned===true&&d.geometrySource==='sirento-observed'&&fresh(observed.checkedAt,now,1800000)))).map(d=>({...d,retained:d.retained===true||!artifactFresh(observed,now),sourceUnavailable:!artifactFresh(observed,now)}));
+const diversionPart=d=>({id:d.id,routeId:d.routeId,geometry:d.geometry,kind:'diversion',observedAt:d.lastObservedAt,expiresAt:d.expiresAt,retained:d.retained===true,sourceUnavailable:d.sourceUnavailable===true,source:d.geometrySource,label:d.geometrySource === 'ttc-official' ? 'TTC-published diversion' : 'Observed by SirenTO'});
 // Shared geography wording for both GTFS-RT alerts and official advisories.
 const geographyFor=(nearest,origin,radius)=>!origin ? 'Citywide TTC disruption' : !Number.isFinite(nearest) ? 'Location not mapped · citywide alert' : `${radius !== null && nearest <= radius ? 'Within selected radius' : 'Citywide alert'} · ${nearest.toFixed(1)} km from selected area`;
 // Normalized transit periods are epoch milliseconds; GTFS-RT periods are ISO.
@@ -32,17 +36,16 @@ export function activeOfficialAdvisories(feed,now=Date.now()) {
 // `relatedAdvisoryRefs`. The general transit list uses this to avoid rendering an
 // advisory twice: once in the Story 30 presentation and once in the citywide list.
 export function claimedAdvisoryIds(observed,advisories,now=Date.now()) {
-  const observedUsable=observed?.status === 'ok' && fresh(observed.checkedAt,now,120000);
-  if (!observedUsable) return new Set();
+  const diversions=availableDiversions(observed,now);
   const claimed=new Set();
-  for (const d of observed.diversions || []) {
-    if (!usableDiversion(d,now)) continue;
+  for (const d of diversions) {
     for (const ref of d.relatedAdvisoryRefs || []) if (typeof ref === 'string' && ref.startsWith(ADVISORY_REF_PREFIX)) claimed.add(ref.slice(ADVISORY_REF_PREFIX.length));
   }
   return claimed;
 }
 export function ttcPresentation(feed, observed, now = Date.now(), {origin=null,radius=null,advisories=null} = {}) {
-  const observedUsable = observed?.status === 'ok' && fresh(observed.checkedAt,now,120000);
+  const observedUsable=artifactFresh(observed,now);
+  const available=availableDiversions(observed,now);
   const patterns = feed?.staticCorrelation?.patterns || {};
   const items = new Map();
   for (const alert of activeTtcAlerts(feed,now)) {
@@ -57,7 +60,7 @@ export function ttcPresentation(feed, observed, now = Date.now(), {origin=null,r
       if (candidate.affectedSegment?.geometryStatus !== 'projected' || !validLine(candidate.affectedSegment.geometry)) continue;
       scheduled.push({id:candidate.patternId,routeId:pattern.routeId,geometry:candidate.affectedSegment.geometry,kind:'scheduled'});
     }
-    const diversions = (observedUsable ? observed.diversions || [] : []).filter(d => usableDiversion(d,now) && d.relatedAlertIds?.includes(alert.id)).map(diversionPart);
+    const diversions = available.filter(d => d.relatedAlertIds?.includes(alert.id)).map(diversionPart);
     const nearest=origin ? Math.min(...stops.map(stop=>roadDistance({coordinates:stop.coordinates},origin)),...[...scheduled,...diversions].map(part=>roadDistance({line:part.geometry.map(([lng,lat])=>[lat,lng])},origin))) : Infinity;
     const geography=geographyFor(nearest,origin,radius);
     items.set(alert.id,{id:alert.id,title:alert.header || 'TTC service disruption',description:alert.description || '',routes,stops,scheduled,diversions,
@@ -73,7 +76,7 @@ export function ttcPresentation(feed, observed, now = Date.now(), {origin=null,r
     if (!claimed.has(advisory.id) || items.has(advisory.id)) continue;
     const routes=(advisory.routes || []).map(routeId=>({id:routeId,label:routeId}));
     // The loop only runs for a claimed advisory, which requires observed.diversions.
-    const diversions=observed.diversions.filter(d => usableDiversion(d,now) && d.relatedAdvisoryRefs?.includes(advisoryRef(advisory.id))).map(diversionPart);
+    const diversions=available.filter(d => d.relatedAdvisoryRefs?.includes(advisoryRef(advisory.id))).map(diversionPart);
     const nearest=origin ? Math.min(...diversions.map(part=>roadDistance({line:part.geometry.map(([lng,lat])=>[lat,lng])},origin))) : Infinity;
     items.set(advisory.id,{id:advisory.id,title:advisory.title || 'TTC service disruption',description:advisory.description || '',routes,stops:[],scheduled:[],diversions,
       geography:geographyFor(nearest,origin,radius),nearestDistance:Number.isFinite(nearest)?nearest:null,cause:advisory.effect ? advisory.effect.replaceAll('_',' ').toLowerCase() : '',periods:advisoryPeriods(advisory.periods),
@@ -81,14 +84,14 @@ export function ttcPresentation(feed, observed, now = Date.now(), {origin=null,r
   }
   // Independently confirmed observations can exist without an official alert.
   // Empty association lists must not discard otherwise usable public geometry.
-  for (const d of observedUsable ? observed.diversions || [] : []) {
-    if (!usableDiversion(d,now) || d.geometrySource !== 'sirento-observed' || d.relatedAlertIds?.length || d.relatedAdvisoryRefs?.length) continue;
+  for (const d of available) {
+    if (d.geometrySource !== 'sirento-observed' || [...items.values()].some(item=>item.diversions.some(part=>part.id===d.id)) || (!d.persistenceEarned&&(d.relatedAlertIds?.length || d.relatedAdvisoryRefs?.length))) continue;
     const diversions=[diversionPart(d)];
     const nearest=origin ? roadDistance({line:d.geometry.map(([lng,lat])=>[lat,lng])},origin) : Infinity;
     const id=`sirento-observed:${d.id}`;
     items.set(id,{id,source:'sirento-observed',title:'Observed TTC diversion',description:'',routes:[{id:d.routeId,label:d.routeId}],stops:[],scheduled:[],diversions,
       geography:geographyFor(nearest,origin,radius),nearestDistance:Number.isFinite(nearest)?nearest:null,cause:'',periods:[],
-      freshness:sourceStatusText('TTC diversion',{status:observed.status,fetchedAt:observed.checkedAt},now),observedUnavailable:false});
+      freshness:sourceStatusText('TTC diversion',{status:observed.status,fetchedAt:observed.checkedAt},now),observedUnavailable:!observedUsable});
   }
   return {items:[...items.values()].sort((a,b)=>(a.nearestDistance ?? Infinity)-(b.nearestDistance ?? Infinity)),status:sourceStatus('TTC disruption',feed,now).status,freshness:sourceStatusText('TTC disruption',feed,now)};
 }

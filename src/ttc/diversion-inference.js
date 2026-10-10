@@ -7,6 +7,7 @@ import { validateOfficialAdvisories } from './official-advisories.js';
 
 export const DIVERSION_POLICY=Object.freeze({maxEpisodes:500,maxPoints:120,maxClustersPerRoute:12,maxClusters:200,
   maxMembers:24,maxGeometryPoints:122,evidenceMs:1800000,maxEpisodeMs:1800000,endpointMeters:150,corridorMeters:100,
+  confirmationCaptures:2,absenceCaptures:8,freshEvidenceMs:120000,
   simplificationMeters:8,maxArtifactBytes:16*1024*1024,returnedMs:300000,endedAlertMs:600000});
 const iso=s=>typeof s==='string'&&Number.isFinite(Date.parse(s))&&new Date(s).toISOString()===s;
 const id=s=>typeof s==='string'&&s.length>0;
@@ -227,7 +228,7 @@ export function inferDiversions(previous,vehicles,index,now,alerts,{simplificati
     records.push(record);
   }
   report.expiredClusters=(previous?.records||[]).filter(r=>!records.some(n=>n.id===r.id)).length;
-  const state={schemaVersion:1,staticVersion:index.version,status:vehicles.status,checkedAt:now.toISOString(),episodes:episodes.filter(e=>!retired.has(e.id)),records};
+  const state={schemaVersion:1,staticVersion:index.version,status:vehicles.status,checkedAt:now.toISOString(),...(previous?.persistence?{persistence:previous.persistence}:{}),episodes:episodes.filter(e=>!retired.has(e.id)),records};
   report.episodesRetained=state.episodes.length;
   report.episodesClosed=state.episodes.filter(e=>e.closed).length;
   Object.assign(report,{candidate:records.filter(r=>r.status==='candidate').length,likely:records.filter(r=>r.status==='likely').length,confirmed:records.filter(r=>r.status==='confirmed').length,
@@ -240,9 +241,65 @@ export function inferDiversions(previous,vehicles,index,now,alerts,{simplificati
   return {state,output:diversionOutput(state),report};
 }
 
+// Publication persistence is reconciled once per completed capture, never per poll.
+// Snapshots are independent of the bounded episodes; compatibility reuses the same
+// context, endpoint and corridor checks as inference rather than ids or exact hashes.
+const recordOutput=({identityAnchor,episodeIds,retirementMs,...r})=>{
+  void identityAnchor;void episodeIds;
+  return {...r,expiresAt:new Date(Date.parse(r.lastObservedAt)+(retirementMs ?? DIVERSION_POLICY.evidenceMs)).toISOString()};
+};
+const compatible=(a,b)=>trajectorySimilarity(a,b)<=DIVERSION_POLICY.corridorMeters;
+export function completeDiversionCapture(state,{healthy,sourceHealthy=healthy}) {
+  validateDiversionState(state);
+  const now=Date.parse(state.checkedAt),claimed=new Set(),persistence=[];
+  const current=state.records.map(recordOutput);
+  for (const old of state.persistence || []) {
+    const match=current.find(r=>!claimed.has(r.id)&&compatible(old.record,r));
+    // An id collision with a different path must never reuse its confirmation.
+    if (!match&&current.some(r=>r.id===old.record.id)) continue;
+    const entry=structuredClone(old);
+    const fresh=healthy&&match?.status==='confirmed'&&match.lastObservedAt>entry.record.lastObservedAt&&now-Date.parse(match.lastObservedAt)<=DIVERSION_POLICY.freshEvidenceMs;
+    if (Date.parse(entry.record.expiresAt)<=now&&(!fresh||Date.parse(match.lastObservedAt)-Date.parse(entry.record.lastObservedAt)>DIVERSION_POLICY.evidenceMs)) continue;
+    if (fresh) {
+      entry.confirmedCaptures=Math.min(DIVERSION_POLICY.confirmationCaptures,entry.confirmedCaptures+1);
+      entry.healthyAbsences=0;
+      entry.record={...match,id:entry.record.id,expiresAt:new Date(Date.parse(match.lastObservedAt)+DIVERSION_POLICY.evidenceMs).toISOString()};
+    } else if (healthy&&entry.confirmedCaptures===DIVERSION_POLICY.confirmationCaptures) {
+      entry.healthyAbsences=Math.min(DIVERSION_POLICY.absenceCaptures,entry.healthyAbsences+1);
+    }
+    if (match) claimed.add(match.id);
+    persistence.push(entry);
+  }
+  if (healthy) for (const r of current) {
+    if (claimed.has(r.id)||r.status!=='confirmed'||now-Date.parse(r.lastObservedAt)>DIVERSION_POLICY.freshEvidenceMs) continue;
+    persistence.push({confirmedCaptures:1,healthyAbsences:0,record:{...r,expiresAt:new Date(Date.parse(r.lastObservedAt)+DIVERSION_POLICY.evidenceMs).toISOString()}});
+  }
+  // Inference and persistence share the existing public capacity bounds. Older
+  // compatible latches take precedence; removed latches are bounded tombstones
+  // until evidence expiry so a cached confirmed record cannot resurrect on run 9.
+  const routes=new Map();
+  state={...state,status:sourceHealthy?'ok':'unavailable',captureHealthy:healthy,persistence:persistence.filter(e=>{
+    const count=routes.get(e.record.routeId)||0;routes.set(e.record.routeId,count+1);
+    return count<DIVERSION_POLICY.maxClustersPerRoute;
+  }).slice(0,DIVERSION_POLICY.maxClusters)};
+  validateDiversionState(state);
+  return {state,output:diversionOutput(state)};
+}
 export function diversionOutput(state) {
-  const output={schemaVersion:1,staticVersion:state.staticVersion,status:state.status,checkedAt:state.checkedAt,
-    diversions:state.status==='ok'?state.records.map(({identityAnchor,episodeIds,retirementMs,...r})=>{void identityAnchor;void episodeIds;return {...r,expiresAt:new Date(Date.parse(r.lastObservedAt)+(retirementMs ?? DIVERSION_POLICY.evidenceMs)).toISOString()};}):[]};
+  const earned=(state.persistence || []).filter(e=>e.confirmedCaptures===DIVERSION_POLICY.confirmationCaptures);
+  const now=Date.parse(state.checkedAt);
+  const diversions=state.status==='ok'?state.records.map(recordOutput).filter(r=>!earned.some(e=>compatible(e.record,r))):[];
+  for (const e of earned) {
+    if (e.healthyAbsences>=DIVERSION_POLICY.absenceCaptures||Date.parse(e.record.expiresAt)<=now) continue;
+    const r=e.record;
+    diversions.unshift({...r,persistenceEarned:true,retained:state.status!=='ok'||state.captureHealthy===false||e.healthyAbsences>0});
+  }
+  const routes=new Map();
+  const bounded=diversions.filter(r=>{
+    const count=routes.get(r.routeId)||0;routes.set(r.routeId,count+1);
+    return count<DIVERSION_POLICY.maxClustersPerRoute;
+  }).slice(0,DIVERSION_POLICY.maxClusters);
+  const output={schemaVersion:1,staticVersion:state.staticVersion,status:state.status,checkedAt:state.checkedAt,diversions:bounded};
   validateDiversionOutput(output);return output;
 }
 function validateBoundary(b,shape) {
@@ -265,11 +322,11 @@ function header(s,index) {
 }
 export function validateDiversionOutput(s,index) {
   const fail=()=>{throw new Error('Invalid TTC diversion output');};
-  if (!header(s,index)||!Array.isArray(s.diversions)||s.diversions.length>DIVERSION_POLICY.maxClusters||(s.status==='unavailable'&&s.diversions.length)) fail();
+  if (!header(s,index)||!Array.isArray(s.diversions)||s.diversions.length>DIVERSION_POLICY.maxClusters) fail();
   const ids=new Set(),routes=new Map();
   for (const r of s.diversions) {
     const e=r.evidence,shape=index?.shapes.get(r.shapeId);
-    if ((r.expiresAt!==undefined&&(!iso(r.expiresAt)||r.expiresAt<r.lastObservedAt))||!id(r.id)||ids.has(r.id)||!context(r,index)||r.geometrySource!=='sirento-observed'||!['candidate','likely','confirmed'].includes(r.status)||
+    if ((s.status==='unavailable'&&(!r.persistenceEarned||!r.retained))||(r.persistenceEarned!==undefined&&typeof r.persistenceEarned!=='boolean')||(r.retained!==undefined&&typeof r.retained!=='boolean')||(r.retained&&!r.persistenceEarned)||(r.persistenceEarned&&(r.status!=='confirmed'||Date.parse(r.expiresAt)!==Date.parse(r.lastObservedAt)+DIVERSION_POLICY.evidenceMs))||(r.expiresAt!==undefined&&(!iso(r.expiresAt)||r.expiresAt<r.lastObservedAt))||!id(r.id)||ids.has(r.id)||!context(r,index)||r.geometrySource!=='sirento-observed'||!['candidate','likely','confirmed'].includes(r.status)||
       !iso(r.firstObservedAt)||!iso(r.lastObservedAt)||r.firstObservedAt>r.lastObservedAt||Date.parse(r.lastObservedAt)>Date.parse(s.checkedAt)+30000||
       !validateBoundary(r.departure,shape)||(r.rejoin&&(!validateBoundary(r.rejoin,shape)||r.rejoin.progressMeters<=r.departure.progressMeters))||
       !Array.isArray(r.geometry)||r.geometry.length<2||r.geometry.length>DIVERSION_POLICY.maxGeometryPoints||!r.geometry.every(coord)||
@@ -293,6 +350,16 @@ export function validateDiversionState(s,index) {
   const fail=()=>{throw new Error('Invalid TTC diversion state');};
   if (!header(s,index)||!Array.isArray(s.episodes)||s.episodes.length>DIVERSION_POLICY.maxEpisodes||!Array.isArray(s.records)) fail();
   validateDiversionOutput({...s,status:'ok',diversions:s.records},index);
+  if (s.captureHealthy!==undefined&&typeof s.captureHealthy!=='boolean') fail();
+  if (s.captureComplete!==undefined&&typeof s.captureComplete!=='boolean') fail();
+  if (s.persistence!==undefined) {
+    if (!Array.isArray(s.persistence)||s.persistence.length>DIVERSION_POLICY.maxClusters) fail();
+    for (const e of s.persistence) {
+      if (!e||![1,DIVERSION_POLICY.confirmationCaptures].includes(e.confirmedCaptures)||!integer(e.healthyAbsences)||e.healthyAbsences>DIVERSION_POLICY.absenceCaptures||
+        (e.confirmedCaptures===1&&e.healthyAbsences!==0)||e.record?.status!=='confirmed'||Date.parse(e.record.expiresAt)!==Date.parse(e.record.lastObservedAt)+DIVERSION_POLICY.evidenceMs) fail();
+    }
+    validateDiversionOutput({...s,status:'ok',diversions:s.persistence.map(e=>e.record)},index);
+  }
   const ids=new Set();
   for (const e of s.episodes) {
     if (!id(e.id)||ids.has(e.id)||!id(e.vehicleId)||!id(e.assignment)||!context(e,index)||!iso(e.startedAt)||!iso(e.lastObservedAt)||!iso(e.lastOffAt)||Date.parse(e.lastObservedAt)-Date.parse(e.startedAt)>DIVERSION_POLICY.maxEpisodeMs||e.startedAt>e.lastOffAt||e.lastOffAt>e.lastObservedAt||Date.parse(e.lastObservedAt)>Date.parse(s.checkedAt)+30000||

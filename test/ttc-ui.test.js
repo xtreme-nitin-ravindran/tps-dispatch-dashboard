@@ -395,3 +395,51 @@ test('unassociated real public geometry renders independently with observed prov
   assert.equal(ttcPresentation(feed,legacy,now).items.length,1);
   assert.equal(ttcPresentation(feed,{status:'ok',checkedAt:output.checkedAt},now).items.length,0);
 });
+
+test('Story 57: retained evidence survives the artifact gate with visible availability metadata, then expires independently',()=>{
+  const output=structuredClone(fixture.ttcDiversions);
+  output.diversions[0].persistenceEarned=true;output.diversions[0].retained=true;
+  const healthy=present(undefined,output).items[0].diversions[0];
+  assert.equal(healthy.retained,true);assert.equal(healthy.sourceUnavailable,false);
+  for(const observed of [{...output,status:'unavailable'},{...output,checkedAt:new Date(fixture.now-120001).toISOString()}]) {
+    const [item]=present(undefined,observed).items;assert.equal(item.diversions.length,1);
+    assert.equal(item.diversions[0].retained,true);assert.equal(item.diversions[0].sourceUnavailable,true);
+    assert.equal(item.diversions[0].observedAt,output.diversions[0].lastObservedAt);
+    assert.equal(item.diversions[0].expiresAt,output.diversions[0].expiresAt);
+  }
+  const unassociated=structuredClone(output);unassociated.status='unavailable';unassociated.diversions[0].relatedAlertIds=[];
+  const noAlerts={...fixture.ttcAlerts,items:[]};
+  const [independent]=ttcPresentation(noAlerts,unassociated,fixture.now).items;
+  assert.equal(independent.source,'sirento-observed');assert.equal(independent.diversions[0].sourceUnavailable,true);
+  const expired={...output,diversions:output.diversions.map(d=>({...d,expiresAt:new Date(fixture.now).toISOString()}))};
+  const official=present(undefined,expired).items;assert.equal(official.length,1);assert.equal(official[0].diversions.length,0);assert.ok(official[0].title);
+  const tooOld=structuredClone(output);tooOld.diversions[0].lastObservedAt=new Date(fixture.now-1800001).toISOString();
+  assert.equal(present(undefined,tooOld).items[0].diversions.length,0);
+});
+
+test('Story 57: retained official-advisory attachment expires without removing official text, and an ended notice cannot remove unexpired earned geometry',()=>{
+  const c=officialAdvisoryCase();
+  const output=structuredClone(c.ttcDiversions);output.status='unavailable';
+  output.diversions[0].persistenceEarned=true;output.diversions[0].retained=true;
+  const model=ttcPresentation(c.ttcAlerts,output,c.now,{advisories:c.transit});
+  assert.equal(model.items.length,1);assert.equal(model.items[0].id,'102');assert.equal(model.items[0].diversions[0].retained,true);
+  assert.deepEqual([...claimedAdvisoryIds(output,c.transit,c.now)],['102']);
+  output.diversions[0].expiresAt=new Date(c.now).toISOString();
+  assert.equal(ttcPresentation(c.ttcAlerts,output,c.now,{advisories:c.transit}).items.length,0);
+  const claims=claimedAdvisoryIds(output,c.transit,c.now);
+  assert.equal(activeOfficialAdvisories(c.transit,c.now).filter(a=>!claims.has(a.id)).length,1);
+  output.diversions[0].expiresAt=c.ttcDiversions.diversions[0].expiresAt;
+  const ended={...c.transit,items:[]};
+  const observed=ttcPresentation(c.ttcAlerts,output,c.now,{advisories:ended});
+  assert.equal(observed.items.length,1);assert.equal(observed.items[0].source,'sirento-observed');
+  assert.equal(observed.items[0].diversions.length,1);
+});
+
+test('Story 57: official-advisory fixture shifts numeric active-period bounds as well as ISO source and evidence times',async()=>{
+  const c=officialAdvisoryCase(),now=c.now+7*86400000;
+  const source={now:c.now,transit:c.transit,ttcAlerts:c.ttcAlerts,ttcDiversions:c.ttcDiversions};
+  const shifted=await loadTtcUiFixture({hostname:'127.0.0.1',search:'?ttcFixture=official-advisory'},async()=>({ok:true,json:async()=>structuredClone(source)}),now);
+  assert.equal(shifted.transit.items[0].periods[0].start,c.transit.items[0].periods[0].start+7*86400000);
+  assert.equal(shifted.transit.items[0].periods[0].end,c.transit.items[0].periods[0].end+7*86400000);
+  assert.equal(ttcPresentation(shifted.ttcAlerts,shifted.ttcDiversions,now,{advisories:shifted.transit}).items[0].id,'102');
+});

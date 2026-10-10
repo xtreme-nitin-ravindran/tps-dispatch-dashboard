@@ -8,6 +8,7 @@ export function publicTtcGeometry(output) {
   return {schemaVersion:1,status:output.status,checkedAt:output.checkedAt,diversions:output.diversions.filter(d=>d.status==='confirmed').map(d=>({
     id:d.id,routeId:d.routeId,directionId:d.directionId,status:d.status,geometrySource:d.geometrySource,
     geometry:d.geometry,relatedAlertIds:d.relatedAlertIds,relatedAdvisoryRefs:d.relatedAdvisoryRefs,lastObservedAt:d.lastObservedAt,
+    persistenceEarned:d.persistenceEarned===true,retained:d.retained===true,
     expiresAt:d.expiresAt || new Date(Date.parse(d.lastObservedAt)+1800000).toISOString()
   }))};
 }
