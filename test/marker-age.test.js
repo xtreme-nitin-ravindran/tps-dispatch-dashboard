@@ -6,7 +6,7 @@ import { markerAgeLabel, markerAgeTier, markerGlyph } from "../src/marker-age.js
 const now = Date.parse("2026-09-24T16:00:00Z");
 const minutesAgo = minutes => new Date(now - minutes * 60_000).toISOString();
 
-test("marker age tiers change at the 10, 30, and 60 minute boundaries", () => {
+test("[MUST-8][STORY-10] marker age tiers change at the 10, 30, and 60 minute boundaries", () => {
   assert.equal(markerAgeTier(minutesAgo(0), now), "recent");
   assert.equal(markerAgeTier(minutesAgo(9.99), now), "recent");
   assert.equal(markerAgeTier(minutesAgo(10), now), "current");
@@ -17,12 +17,12 @@ test("marker age tiers change at the 10, 30, and 60 minute boundaries", () => {
   assert.equal(markerAgeTier(minutesAgo(240), now), "old");
 });
 
-test("future times are treated as just reported and invalid times are neutral", () => {
+test("[MUST-8][STORY-10] future times are treated as just reported and invalid times are neutral", () => {
   assert.equal(markerAgeTier(new Date(now + 60_000), now), "recent");
   assert.equal(markerAgeTier("not-a-time", now), "unknown");
 });
 
-test("age labels describe freshness without implying incident status", () => {
+test("[MUST-8][STORY-10] age labels describe freshness without implying incident status", () => {
   assert.equal(markerAgeLabel("recent"), "reported less than 10 minutes ago");
   assert.equal(markerAgeLabel("current"), "reported 10 to 30 minutes ago");
   assert.equal(markerAgeLabel("aging"), "reported 30 to 60 minutes ago");
@@ -31,14 +31,14 @@ test("age labels describe freshness without implying incident status", () => {
   assert.equal(markerAgeLabel("unexpected"), "report time unavailable");
 });
 
-test("glyphs retain category and service cues independently of opacity", () => {
+test("[MUST-8][STORY-10] glyphs retain category and service cues independently of opacity", () => {
   assert.equal(markerGlyph("TFS", "medical"), "+");
   assert.equal(markerGlyph("TFS", "fire"), "F");
   assert.equal(markerGlyph("TPS", "other"), "P");
   assert.equal(markerGlyph("TFS", "other"), "T");
 });
 
-test("map wiring refreshes age styles and preserves non-opacity cues and selection", async () => {
+test("[MUST-8][STORY-10] map wiring refreshes age styles and preserves non-opacity cues and selection", async () => {
   const [app, css, html] = await Promise.all([
     readFile(new URL("../src/app/app.js", import.meta.url), "utf8"),
     readFile(new URL("../assets/css/styles.css", import.meta.url), "utf8"),
