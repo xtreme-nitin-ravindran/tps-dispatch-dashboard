@@ -124,6 +124,7 @@ The checks and test suites are outlined below:
 - **Linting and syntax:** ESLint, Ruff, and JavaScript syntax checks catch code errors. See [linting](docs/validation.md#individual-linters) and [syntax checks](docs/validation.md#javascript-syntax-checks).
 - **Before pushing:** `npm run verify` runs the required full checks. Applicable browser tests run separately and must also pass. See [full verification](docs/validation.md#run-all-required-checks) and the [pre-push checklist](#pre-push-checklist).
 - **Test inventory:** Browse the [test inventory](docs/validation.md#test-inventory) for what the suites cover and how test membership is determined.
+- **Requirement traceability:** Every test is classified as either a PRD requirement (`MUST-*`/`SHOULD-*`/`COULD-*`/`STORY-*`) or an explicit `INFRA-*` area, with the ID in the test name and in `test/requirements.map.json`. `scripts/check-requirement-coverage.js` enforces this as part of `npm run verify`.
 - **Development snapshot:** Generate local data for manual testing. This is not a validation check. See [snapshot generation](docs/validation.md#generate-a-development-snapshot).
 - **Concourse worker validation:** Test affected tasks against the working tree on the real worker using `fly execute`, in addition to local Docker checks. See [worker validation](docs/concourse.md).
 
