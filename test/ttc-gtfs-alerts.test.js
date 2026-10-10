@@ -43,7 +43,7 @@ test('[STORY-30A] ordering deterministic across selector and translation orderin
   const a = {...relevant,informedEntity:[{routeId:'2'},{routeId:'1'}]};
   assert.deepEqual(parseTtcAlerts(encode([a]),now),parseTtcAlerts(encode([{...a,informedEntity:[...a.informedEntity].reverse()}]),now));
 });
-test('[STORY-30A] network, HTTP and decode failures are controlled; last good result retained distinctly from empty success', async () => {
+test('[STORY-30A][STORY-30B] network, HTTP and decode failures are controlled; last good result retained distinctly from empty success', async () => {
   const previous = {...parseTtcAlerts(encode([relevant]),now),fetchedAt:now.toISOString()};
   const logs = [];
   for (const fetchImpl of [async () => {throw new Error('offline');},async () => ({ok:false,status:503}),async () => ({ok:true,arrayBuffer:async () => new Uint8Array([255])})]) {
@@ -90,7 +90,7 @@ test('[STORY-30A] stable ties order texts, open periods, and multiple alert reco
   assert.equal(result.items[0].header,'A');
 });
 
-test('[STORY-30A] lifecycle reconciles versions, additions, removal, empty, failure and recovery', async () => {
+test('[STORY-30A][STORY-30B] lifecycle reconciles versions, additions, removal, empty, failure and recovery', async () => {
   const refresh = (prior, alerts, at = now) => updateTtcAlerts(prior,at,async () => parseTtcAlerts(encode(alerts),at),() => {});
   const first = await refresh(null,[relevant]);
   assert.deepEqual(first.changes.new,['alert-0']);
@@ -125,7 +125,7 @@ test('[STORY-30A] period evaluation covers boundaries, open bounds, overlap, gap
   }
 });
 
-test('[STORY-30A] fallback IDs ignore timestamps, distinct content differs, conflicting duplicate IDs rejected', () => {
+test('[STORY-30A][STORY-30B] fallback IDs ignore timestamps, distinct content differs, conflicting duplicate IDs rejected', () => {
   const raw = alerts => FeedMessage.encode(FeedMessage.create({header:{gtfsRealtimeVersion:'2.0'},entity:alerts})).finish();
   const bytes = raw([{id:'',alert:relevant}]);
   assert.equal(parseTtcAlerts(bytes,now).items[0].id,parseTtcAlerts(bytes,new Date(now.getTime()+1000)).items[0].id);
@@ -133,7 +133,7 @@ test('[STORY-30A] fallback IDs ignore timestamps, distinct content differs, conf
   assert.throws(() => parseTtcAlerts(raw([{id:'a',alert:relevant},{id:'a',alert:{...relevant,effect:1}}]),now),/Conflicting/);
 });
 
-test('[STORY-30A] lifecycle schema rejects malformed state and content', async () => {
+test('[STORY-30A][STORY-30B] lifecycle schema rejects malformed state and content', async () => {
   const {validateTtcAlerts} = await import('../src/ttc/alerts.js');
   const good = await updateTtcAlerts(null,now,async () => parseTtcAlerts(encode([relevant]),now),() => {});
   for (const patch of [{status:'available'},{checkedAt:null},{fetchedAt:null},{changes:{}},{lifecycleVersion:2},
@@ -142,7 +142,7 @@ test('[STORY-30A] lifecycle schema rejects malformed state and content', async (
   }
 });
 
-test('[STORY-30A] content changes cover all persisted TTC fields; expiration and bounded removals', async () => {
+test('[STORY-30A][STORY-30B] content changes cover all persisted TTC fields; expiration and bounded removals', async () => {
   const {alertContentHash} = await import('../src/ttc/lifecycle.js');
   const {validateTtcAlerts} = await import('../src/ttc/alerts.js');
   const original = parseTtcAlerts(encode([relevant]),now);
@@ -165,7 +165,7 @@ test('[STORY-30A] content changes cover all persisted TTC fields; expiration and
   assert.deepEqual(next.changes.removed,[]);
 });
 
-test('[STORY-30A] lifecycle rejects invalid clocks and distinguishes future bounded periods from expired windows',async()=>{
+test('[STORY-30A][STORY-30B] lifecycle rejects invalid clocks and distinguishes future bounded periods from expired windows',async()=>{
   const {alertState,reconcileAlerts}=await import('../src/ttc/lifecycle.js');
   const now=new Date('2026-09-28T16:00:00Z');
   assert.throws(()=>alertState({activePeriods:[]},'bad'),/reference time/);
