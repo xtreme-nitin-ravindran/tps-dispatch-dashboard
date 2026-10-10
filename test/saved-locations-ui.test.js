@@ -25,7 +25,7 @@ function memoryStorage() {
   };
 }
 
-test('save action opens a compact, labelled dialog with save and cancel controls', () => {
+test('[SHOULD-9][STORY-28] save action opens a compact, labelled dialog with save and cancel controls', () => {
   assert.match(html, /<button id="saveLocation"[^>]*>Save location<\/button>/);
   assert.match(html, /<dialog id="savedLocationsDialog"[^>]*aria-labelledby="savedLocationsTitle"/);
   assert.match(html, /id="savedLocationLabel"[^>]*maxlength="60"/);
@@ -35,7 +35,7 @@ test('save action opens a compact, labelled dialog with save and cancel controls
   assert.match(app, /savedLocationsDialog\.showModal\(\)/);
 });
 
-test('valid save is immediate, blank labels show helper validation, and cancel does not persist', () => {
+test('[SHOULD-9][STORY-28] valid save is immediate, blank labels show helper validation, and cancel does not persist', () => {
   const storage = memoryStorage();
   let state = loadSavedLocationState(storage);
   state = addSavedLocation(storage, state, { label: 'Home', latitude: 43.65, longitude: -79.38 }, () => 'home');
@@ -47,13 +47,13 @@ test('valid save is immediate, blank labels show helper validation, and cancel d
   assert.doesNotMatch(cancelHandler, /addSavedLocation|renameSavedLocation|deleteSavedLocation|setItem/);
 });
 
-test('five-location maximum is visible and prevents another save', () => {
+test('[SHOULD-9][STORY-28] five-location maximum is visible and prevents another save', () => {
   assert.match(app, /state\.savedLocations\.length >= MAX_SAVED_LOCATIONS/);
   assert.match(app, /saveLocationButton\.disabled = !state\.nearby \|\| atLimit/);
   assert.match(app, /You can save up to \$\{MAX_SAVED_LOCATIONS\} locations\./);
 });
 
-test('rename preserves identity and coordinates, delete targets one entry, and active deletion falls back', () => {
+test('[SHOULD-9][STORY-28] rename preserves identity and coordinates, delete targets one entry, and active deletion falls back', () => {
   const storage = memoryStorage();
   let state = addSavedLocation(storage, loadSavedLocationState(storage), { label: 'Home', latitude: 43.65, longitude: -79.38 }, () => 'home');
   state = addSavedLocation(storage, state, { label: 'Office', latitude: 43.66, longitude: -79.39 }, () => 'office');
@@ -67,7 +67,7 @@ test('rename preserves identity and coordinates, delete targets one entry, and a
   assert.match(app, /button\.textContent = 'Confirm delete'/);
 });
 
-test('management renders labels only, preserves stable order, and never displays coordinates', () => {
+test('[SHOULD-9][STORY-28] management renders labels only, preserves stable order, and never displays coordinates', () => {
   const renderBlock = app.slice(app.indexOf('function renderSavedLocations()'), app.indexOf('function openSavedLocations'));
   assert.match(renderBlock, /state\.savedLocations\.map\(location =>/);
   assert.match(renderBlock, /label\.textContent = location\.label/);
@@ -75,7 +75,7 @@ test('management renders labels only, preserves stable order, and never displays
   assert.match(html, /id="manageSavedLocations"[^>]*hidden>Manage saved locations/);
 });
 
-test('desktop and mobile controls remain usable without changing map toolbar controls', () => {
+test('[SHOULD-9][STORY-28] desktop and mobile controls remain usable without changing map toolbar controls', () => {
   assert.match(css, /\.saved-locations-dialog \{ width: min\(92vw, 460px\)/);
   assert.match(css, /@media \(max-width: 480px\)[^{]*\{[^}]*\.saved-locations-dialog/);
   assert.match(css, /\.saved-location-item-actions button \{ min-height: 44px; \}/);

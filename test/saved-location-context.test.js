@@ -17,7 +17,7 @@ const origin = referenceCoordinates(savedState, [43.8, -79.5]);
 const call = (id, coordinates, timestamp = Date.now()) => ({ id, timestamp, geography: { coordinates } });
 const coordinatesForCall = item => item.geography.coordinates;
 
-test('saved context resolves its coordinates without replacing live coordinates', () => {
+test('[SHOULD-9][STORY-28] saved context resolves its coordinates without replacing live coordinates', () => {
   const live = [43.8, -79.5];
   assert.deepEqual(origin, [43.65, -79.38]);
   assert.deepEqual(live, [43.8, -79.5]);
@@ -25,7 +25,7 @@ test('saved context resolves its coordinates without replacing live coordinates'
   assert.deepEqual(referenceCoordinates({ ...savedState, locationContext: { type: 'current' } }, live), live);
 });
 
-test('radius, distance, nearest sort, summary, and empty fallback use the saved origin', () => {
+test('[SHOULD-9][STORY-28] radius, distance, nearest sort, summary, and empty fallback use the saved origin', () => {
   const near = call('near', [43.651, -79.38], Date.now() - 1_000);
   const far = call('far', [43.7, -79.4], Date.now());
   assert.equal(withinGeographicScope(origin, 2, near.geography.coordinates), true);
@@ -36,7 +36,7 @@ test('radius, distance, nearest sort, summary, and empty fallback use the saved 
   assert.match(nearbyEmptyState({ radiusKm: 0.5, origin, matchingCalls: [far], coordinatesForCall }).message, /Closest recent call/);
 });
 
-test('selector, recenter, current-location restoration, and preserved state use existing paths', () => {
+test('[SHOULD-9][STORY-28] selector, recenter, current-location restoration, and preserved state use existing paths', () => {
   assert.match(html, /id="locationContext"[\s\S]*Current location/);
   assert.match(app, /locationContextStatus\.textContent = selected \? `Showing near \$\{selected\.label\}`/);
   assert.match(app, /state\.nearby = referenceCoordinates\(state, liveLocation\)/);
@@ -48,7 +48,7 @@ test('selector, recenter, current-location restoration, and preserved state use 
   assert.doesNotMatch(app.slice(app.indexOf('function useSavedLocation'), app.indexOf('function useCurrentLocation')), /radiusKm\s*=|serviceFilter\s*=|eventFilter\s*=|nearbySort\s*=|roadOverlay/);
 });
 
-test('selection reconciliation, clustering, road visibility, stale fallback, and privacy remain intact', () => {
+test('[SHOULD-9][STORY-28] selection reconciliation, clustering, road visibility, stale fallback, and privacy remain intact', () => {
   assert.match(app, /focusedCallId = reconcileIncidentSelection\(focusedCallId, state\.filtered\)/);
   assert.match(app, /const groups = clusterPoints\(locatedCalls,/);
   assert.match(app, /renderDisruptions\(state\.disruptions, radiusFilterOrigin\(\), state\.radiusKm, dispatchMap\)/);

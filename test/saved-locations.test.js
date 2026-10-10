@@ -23,7 +23,7 @@ function memoryStorage(initial = null) {
 const place = (label, latitude, longitude) => ({ label, latitude, longitude });
 const add = (storage, state, input, id) => addSavedLocation(storage, state, input, () => id);
 
-test('valid saved locations persist and restore with only the supported data shape', () => {
+test('[SHOULD-9][STORY-28] valid saved locations persist and restore with only the supported data shape', () => {
   const storage = memoryStorage();
   let state = add(storage, loadSavedLocationState(storage), place('Home', 43.65, -79.38), 'home');
   assert.deepEqual(state.locations, [{ id: 'home', label: 'Home', latitude: 43.65, longitude: -79.38 }]);
@@ -32,7 +32,7 @@ test('valid saved locations persist and restore with only the supported data sha
   assert.deepEqual(Object.keys(JSON.parse(storage.raw()).locations[0]), ['id', 'label', 'latitude', 'longitude']);
 });
 
-test('blank labels and invalid coordinates are rejected before storage', () => {
+test('[SHOULD-9][STORY-28] blank labels and invalid coordinates are rejected before storage', () => {
   const storage = memoryStorage();
   const state = loadSavedLocationState(storage);
   assert.throws(() => add(storage, state, place('  ', 43.65, -79.38), 'blank'), /label/);
@@ -42,7 +42,7 @@ test('blank labels and invalid coordinates are rejected before storage', () => {
   assert.equal(storage.raw(), undefined);
 });
 
-test('a maximum of five locations and obvious coordinate duplicates are enforced', () => {
+test('[SHOULD-9][STORY-28] a maximum of five locations and obvious coordinate duplicates are enforced', () => {
   const storage = memoryStorage();
   let state = loadSavedLocationState(storage);
   for (let index = 0; index < 5; index++) state = add(storage, state, place(`Place ${index}`, 43 + index / 100, -79), `id-${index}`);
@@ -51,7 +51,7 @@ test('a maximum of five locations and obvious coordinate duplicates are enforced
   assert.throws(() => add(storage, four, place('Duplicate', 43, -79), 'duplicate'), /already saved/);
 });
 
-test('invalid persisted records are ignored and a stale selection falls back safely', () => {
+test('[SHOULD-9][STORY-28] invalid persisted records are ignored and a stale selection falls back safely', () => {
   const storage = memoryStorage(JSON.stringify({
     locations: [
       { id: 'valid', label: ' Work ', latitude: 43.7, longitude: -79.4, extra: 'discarded' },
@@ -67,7 +67,7 @@ test('invalid persisted records are ignored and a stale selection falls back saf
   });
 });
 
-test('rename and delete update only the requested record', () => {
+test('[SHOULD-9][STORY-28] rename and delete update only the requested record', () => {
   const storage = memoryStorage();
   let state = add(storage, loadSavedLocationState(storage), place('Home', 43.65, -79.38), 'home');
   state = add(storage, state, place('Office', 43.66, -79.39), 'office');
@@ -78,7 +78,7 @@ test('rename and delete update only the requested record', () => {
   assert.deepEqual(state.locations.map(location => location.id), ['office']);
 });
 
-test('deleting the selected location and selecting a stale ID fall back to Current location', () => {
+test('[SHOULD-9][STORY-28] deleting the selected location and selecting a stale ID fall back to Current location', () => {
   const storage = memoryStorage();
   let state = add(storage, loadSavedLocationState(storage), place('Home', 43.65, -79.38), 'home');
   state = selectSavedLocation(storage, state, 'home');
@@ -90,7 +90,7 @@ test('deleting the selected location and selecting a stale ID fall back to Curre
   assert.deepEqual(selectCurrentLocation(storage, state).locationContext, { type: 'current' });
 });
 
-test('selecting a saved location neither overwrites live geolocation nor calls backend APIs', () => {
+test('[SHOULD-9][STORY-28] selecting a saved location neither overwrites live geolocation nor calls backend APIs', () => {
   const storage = memoryStorage();
   const appState = { nearby: [43.6532, -79.3832] };
   let savedState = add(storage, loadSavedLocationState(storage), place('Home', 43.7, -79.4), 'home');
@@ -99,7 +99,7 @@ test('selecting a saved location neither overwrites live geolocation nor calls b
   assert.deepEqual(appState.nearby, [43.6532, -79.3832]);
 });
 
-test('default IDs work with UUID support and its local fallback', () => {
+test('[SHOULD-9][STORY-28] default IDs work with UUID support and its local fallback', () => {
   const storage = memoryStorage();
   const cryptoDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'crypto');
   try {
@@ -115,7 +115,7 @@ test('default IDs work with UUID support and its local fallback', () => {
   }
 });
 
-test('blocked or malformed storage falls back safely while keeping usable in-memory state', () => {
+test('[SHOULD-9][STORY-28] blocked or malformed storage falls back safely while keeping usable in-memory state', () => {
   const blockedRead = { getItem: () => { throw new Error('blocked'); } };
   assert.deepEqual(loadSavedLocationState(blockedRead), { locations: [], locationContext: { type: 'current' } });
   assert.deepEqual(loadSavedLocationState(memoryStorage('{bad json')), { locations: [], locationContext: { type: 'current' } });
@@ -128,7 +128,7 @@ test('blocked or malformed storage falls back safely while keeping usable in-mem
   assert.deepEqual(state.locations, [{ id: 'home', label: 'Home', latitude: 43.65, longitude: -79.38 }]);
 });
 
-test('persisted normalization removes duplicates, caps records, and preserves only a valid selection', () => {
+test('[SHOULD-9][STORY-28] persisted normalization removes duplicates, caps records, and preserves only a valid selection', () => {
   const records = [
     { id: 'one', label: 'One', latitude: -90, longitude: -180 },
     { id: 'one', label: 'Duplicate ID', latitude: 1, longitude: 1 },
@@ -147,7 +147,7 @@ test('persisted normalization removes duplicates, caps records, and preserves on
   assert.deepEqual(state.locationContext, { type: 'saved', id: 'six' });
 });
 
-test('invalid IDs and absent records are rejected or ignored without changing saved data', () => {
+test('[SHOULD-9][STORY-28] invalid IDs and absent records are rejected or ignored without changing saved data', () => {
   const storage = memoryStorage();
   let state = add(storage, loadSavedLocationState(storage), place('Home', 43.65, -79.38), 'home');
   assert.throws(() => add(storage, state, place('Blank ID', 43.66, -79.39), ' '), /ID/);
