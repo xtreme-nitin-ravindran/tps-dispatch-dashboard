@@ -78,7 +78,7 @@ test("a debug script in tmp/ cannot break eslint .", async () => {
 test("required repository inputs remain linted", async () => {
   const eslint = new ESLint({ cwd: new URL(".", root).pathname });
   const required = [
-    "app.js",
+    "src/app/app.js",
     "service-worker.js",
     "eslint.config.js",
     "src/ttc/ttc-alerts.js",

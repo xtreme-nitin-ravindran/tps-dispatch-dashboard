@@ -34,11 +34,11 @@ FINGERPRINT_LABEL="org.sirento.test-fingerprint"
 # Changing any of these requires a rebuild. The Dockerfile embeds the pinned
 # Ruff version and base images, so hashing it covers the tooling pin.
 #
-# .dockerignore is included because it controls which files reach the build
+# docker/Dockerfile.test.dockerignore is included because it controls which files reach the build
 # context: a rule that excludes a copied path (for example test/) would change
 # the resulting image while leaving the other inputs unchanged, so it must
 # invalidate the fingerprint too.
-FINGERPRINT_INPUTS="Dockerfile.test .dockerignore package.json package-lock.json"
+FINGERPRINT_INPUTS="docker/Dockerfile.test docker/Dockerfile.test.dockerignore package.json package-lock.json"
 
 # --- Portable SHA-256 ------------------------------------------------------
 sha256_of_files() {
@@ -95,7 +95,7 @@ build_image() {
   echo "==> Building Docker test image ($IMAGE)"
   echo "    fingerprint: $fp"
   docker build \
-    -f "$ROOT/Dockerfile.test" \
+    -f "$ROOT/docker/Dockerfile.test" \
     --build-arg "TEST_FINGERPRINT=$fp" \
     -t "$IMAGE" \
     "$ROOT"
@@ -154,8 +154,8 @@ check_fresh() {
 # Directories are mounted as directories; files as files. Missing optional paths
 # are skipped so the wrapper stays usable on a partial checkout, but the core
 # validation inputs must exist.
-MOUNT_DIRS="src scripts test data concourse .github"
-MOUNT_FILES="app.js index.html service-worker.js manifest.webmanifest styles.css eslint.config.js ruff.toml Dockerfile.test .dockerignore package.json package-lock.json _config.yml"
+MOUNT_DIRS="src scripts test data concourse .github assets docker"
+MOUNT_FILES="index.html service-worker.js manifest.webmanifest eslint.config.js ruff.toml package.json package-lock.json _config.yml"
 
 mount_args() {
   for d in $MOUNT_DIRS; do

@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 
 const [html, css] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
-  readFile(new URL('../styles.css', import.meta.url), 'utf8')
+  readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8')
 ]);
 
 const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)';

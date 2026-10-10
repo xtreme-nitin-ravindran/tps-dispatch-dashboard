@@ -23,8 +23,8 @@ test("manifest and declared icons are served as static app assets", async (t) =>
   const server = createServer(async (request, response) => {
     const assets = {
       "/manifest.webmanifest": ["manifest.webmanifest", "application/manifest+json"],
-      "/icon-192.png": ["icon-192.png", "image/png"],
-      "/icon-512.png": ["icon-512.png", "image/png"]
+      "/assets/images/icon-192.png": ["assets/images/icon-192.png", "image/png"],
+      "/assets/images/icon-512.png": ["assets/images/icon-512.png", "image/png"]
     };
     const asset = assets[request.url];
     if (!asset) {
@@ -54,11 +54,11 @@ test("manifest and declared icons are served as static app assets", async (t) =>
 
 test("app shell links install metadata without changing its entry behavior", () => {
   assert.match(html, /<link rel="manifest" href="\.\/manifest\.webmanifest" \/>/);
-  assert.match(html, /<link rel="apple-touch-icon" sizes="192x192" href="\.\/icon-192\.png" \/>/);
+  assert.match(html, /<link rel="apple-touch-icon" sizes="192x192" href="\.\/assets\/images\/icon-192\.png" \/>/);
   assert.match(html, /<meta name="apple-mobile-web-app-title" content="SirenTO" \/>/);
   assert.match(html, /<main>/);
   assert.match(html, /<section class="map-stage" id="mapView">/);
-  assert.match(html, /<script type="module" src="\.\/app\.js\?v=story-58-1"><\/script>/);
+  assert.match(html, /<script type="module" src="\.\/src\/app\/app\.js\?v=housekeeping-60-1"><\/script>/);
   assert.match(html, /"serviceWorker" in navigator/);
   assert.match(html, /navigator\.serviceWorker\.register\("\.\/service-worker\.js"\)/);
 });

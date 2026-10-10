@@ -54,7 +54,7 @@ is a dependency/tooling snapshot, not a source snapshot.
   `npm run verify`. Do not call `docker run` directly for validation; a bare
   `docker run` uses the image's baked-in source and can silently validate old code.
 - Rebuilding remains mandatory when the Dockerfile or the dependency/tooling
-  fingerprint inputs change: `Dockerfile.test`, `.dockerignore`, `package.json`,
+  fingerprint inputs change: `docker/Dockerfile.test`, `docker/Dockerfile.test.dockerignore`, `package.json`,
   and `package-lock.json`. Build with the canonical path:
   `scripts/docker-test.sh --build`.
 - The wrapper computes a SHA-256 fingerprint of those inputs and compares it with
@@ -64,13 +64,13 @@ is a dependency/tooling snapshot, not a source snapshot.
   only when the image is missing or stale.
 - A commit-derived image tag alone does **not** detect uncommitted dependency
   changes, because the commit hash does not change. The fingerprint is
-  content-derived, so uncommitted `package.json`/`package-lock.json`/`Dockerfile.test`/
-  `.dockerignore` edits are detected.
+  content-derived, so uncommitted `package.json`/`package-lock.json`/`docker/Dockerfile.test`/
+  `docker/Dockerfile.test.dockerignore` edits are detected.
 - Keep the image cheap to rebuild: `npm ci` must stay in its own layer with only
   the manifests copied before it, and repository content must be copied from
   relatively stable to relatively volatile (`concourse`, `.github`, `data`,
-  `scripts`, `src`, `test`, then the root frontend files). Do not add a broad `COPY . .`.
-  `.dockerignore` must exclude only non-build inputs and must never exclude a
+  `scripts`, `src`, `test`, `assets`, then the root hosting entry files). Do not add a broad `COPY . .`.
+  `docker/Dockerfile.test.dockerignore` must exclude only non-build inputs and must never exclude a
   path the Dockerfile copies. `test/docker-image-layout.test.js` enforces these
   properties structurally.
 - When a local Docker result disagrees with CI, first run the wrapper's
@@ -178,7 +178,7 @@ Preserve these product semantics in both logic and UI:
 ## Safe file editing
 
 - **Mandatory prompt instruction:** Use only `perl -0pi -e` or `python3` heredocs for source/test edits. Never use `single_find_and_replace` or `edit_existing_file` on source or test files; they can reformat the whole file and waste implementation cycles before the changes must be reverted.
-- The canonical roadmap is `SirenTO-Development-Roadmap.md` in the Continue rules directory. Generic edit tools cannot reach it, so roadmap changes must use a `python3` heredoc with the resolved path.
+- The canonical roadmap is `.continue/rules/SirenTO-Development-Roadmap.md` in this repository. Update that existing file using a `python3` heredoc; do not create a duplicate in `~/.continue/rules/`.
 - Avoid editor-based or generic edit tools that may open files in VS Code or trigger automatic formatting.
 - Do not use `single_find_and_replace`, `edit_file`, or similar tools on source/test files if they may rewrite formatting outside the intended change.
 - Prefer surgical, non-formatting edits using:
@@ -200,7 +200,7 @@ Preserve these product semantics in both logic and UI:
 - Do not mark a story `DONE` while a required production, CI, browser, or physical-device acceptance step is still outstanding.
 - Use an intermediate status such as `IMPLEMENTED / AWAITING VALIDATION` when appropriate.
 - When a SirenTO story is completed, update the canonical roadmap:
-  `SirenTO-Development-Roadmap.md` (in the Continue rules directory, `~/.continue/rules/`)
+  `.continue/rules/SirenTO-Development-Roadmap.md` (in this repository)
 - For a numbered roadmap increment, update its status-table row, detailed section heading/status, and completion handoff in one pass. The handoff must give the next task enough context to start without chat history.
 - Every story retrospective/completion handoff must explicitly assess: (1) out-of-band chore or cleanup stories that should be created rather than expanding the current scope, and (2) durable workflow lessons that should refine `AGENTS.md` or `README.md`. Write `None` when no follow-up is warranted; do not silently omit either assessment.
 - At the end of every story, print a clearly labelled **Retrospective** in the final response. Summarize what made the work smoother, what was missing or caused rework, verified local facts that should be carried into the next prompt, proposed out-of-band chore/cleanup stories, and recommended `AGENTS.md`/`README.md` refinements. Write `None` for sections with no findings.

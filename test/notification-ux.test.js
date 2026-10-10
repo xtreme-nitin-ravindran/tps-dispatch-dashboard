@@ -6,7 +6,7 @@ import { incidentArrivalState, MISSING_INCIDENT_MESSAGE } from '../src/incident-
 import { pushFixtureOptions } from '../src/push-subscription.js';
 import { incidentDeepLink, readSharedIncident } from '../src/view-controls.js';
 
-const app = await readFile(new URL('../app.js', import.meta.url), 'utf8');
+const app = await readFile(new URL('../src/app/app.js', import.meta.url), 'utf8');
 
 test('production wording is concise, source-aware, and differs for the two supported kinds', () => {
   const base = { notificationKind: 'new:v1', incident: { source: 'TFS', description: 'Residential Fire Alarm', distanceKm: 0.84 } };

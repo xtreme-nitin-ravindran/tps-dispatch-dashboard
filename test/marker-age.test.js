@@ -40,8 +40,8 @@ test("glyphs retain category and service cues independently of opacity", () => {
 
 test("map wiring refreshes age styles and preserves non-opacity cues and selection", async () => {
   const [app, css, html] = await Promise.all([
-    readFile(new URL("../app.js", import.meta.url), "utf8"),
-    readFile(new URL("../styles.css", import.meta.url), "utf8"),
+    readFile(new URL("../src/app/app.js", import.meta.url), "utf8"),
+    readFile(new URL("../assets/css/styles.css", import.meta.url), "utf8"),
     readFile(new URL("../index.html", import.meta.url), "utf8")
   ]);
 

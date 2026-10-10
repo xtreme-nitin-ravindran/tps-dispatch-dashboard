@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 const [app, css, worker] = await Promise.all([
-  readFile(new URL('../app.js', import.meta.url), 'utf8'),
-  readFile(new URL('../styles.css', import.meta.url), 'utf8'),
+  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
+  readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8'),
   readFile(new URL('../service-worker.js', import.meta.url), 'utf8')
 ]);
 

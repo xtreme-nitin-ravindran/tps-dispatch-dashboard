@@ -51,9 +51,9 @@ test("lifecycle metadata survives refreshes and records only meaningful changes"
 
 test("cards render compact change badges and schedule NEW expiry", async () => {
   const [app, html, css] = await Promise.all([
-    readFile(new URL("../app.js", import.meta.url), "utf8"),
+    readFile(new URL("../src/app/app.js", import.meta.url), "utf8"),
     readFile(new URL("../index.html", import.meta.url), "utf8"),
-    readFile(new URL("../styles.css", import.meta.url), "utf8")
+    readFile(new URL("../assets/css/styles.css", import.meta.url), "utf8")
   ]);
   assert.match(html, /class="incident-change-badge" hidden/);
   assert.match(app, /incidentBadge\(call\)/);

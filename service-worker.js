@@ -1,15 +1,15 @@
-const CACHE_VERSION = "sirento-shell-v61";
+const CACHE_VERSION = "sirento-shell-v62";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./styles.css",
-  "./app.js",
+  "./assets/css/styles.css",
+  "./src/app/app.js",
   "./manifest.webmanifest",
-  "./favicon.png",
-  "./icon-192.png",
-  "./icon-512.png",
-  "./brand-spaghetti.jpg",
-  "./brand-doberman.jpg",
+  "./assets/images/favicon.png",
+  "./assets/images/icon-192.png",
+  "./assets/images/icon-512.png",
+  "./assets/images/brand-spaghetti.jpg",
+  "./assets/images/brand-doberman.jpg",
   "./data/police-divisions.geojson",
   "./src/ttc/presentation.js",
   "./src/ttc/fixture.js",
@@ -129,8 +129,8 @@ async function renderPushNotification(data) {
   if (!payload) return false;
   await self.registration.showNotification(payload.title, {
     body: payload.body,
-    icon: "./icon-192.png",
-    badge: "./favicon.png",
+    icon: "./assets/images/icon-192.png",
+    badge: "./assets/images/favicon.png",
     tag: `sirento-incident-${payload.id}`,
     data: { url: payload.url, incidentId: payload.id }
   });

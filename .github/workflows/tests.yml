@@ -45,7 +45,7 @@ jobs:
       - name: Build test image
         id: build
         if: needs.changes.outputs.docs_only != 'true'
-        run: docker build -f Dockerfile.test -t toronto-dispatch-tests .
+        run: docker build -f docker/Dockerfile.test -t toronto-dispatch-tests .
 
       - name: Run unit tests (America/Los_Angeles)
         if: needs.changes.outputs.docs_only != 'true'
@@ -62,7 +62,7 @@ jobs:
       - name: Check browser JavaScript syntax
         if: needs.changes.outputs.docs_only != 'true'
         run: |
-          node --check app.js
+          node --check src/app/app.js
           find src scripts -name "*.js" -exec node --check {} \;
 
       - name: Run canonical offline suite with coverage (TZ=UTC)

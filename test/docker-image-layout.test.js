@@ -17,14 +17,14 @@ import { readFile } from "node:fs/promises";
 //     cache of the stable layers copied before it;
 //   - every path the tests, linters, fixtures, or fingerprinting require is
 //     copied explicitly, so the image stays self-contained;
-//   - .dockerignore excludes only non-build inputs and never a copied path.
+//   - docker/Dockerfile.test.dockerignore excludes only non-build inputs and never a copied path.
 //
 // These tests parse the files structurally; they never invoke Docker.
 
 const root = new URL("../", import.meta.url);
 const [dockerfile, dockerignore] = await Promise.all([
-  readFile(new URL("Dockerfile.test", root), "utf8"),
-  readFile(new URL(".dockerignore", root), "utf8")
+  readFile(new URL("docker/Dockerfile.test", root), "utf8"),
+  readFile(new URL("docker/Dockerfile.test.dockerignore", root), "utf8")
 ]);
 
 // The repository paths the image must contain. These are the paths the
@@ -35,21 +35,17 @@ const REQUIRED_COPY_PATHS = [
   "data",
   "scripts",
   "src",
+  "assets",
+  "docker",
   "test",
-  "app.js",
   "index.html",
   "service-worker.js",
   "manifest.webmanifest",
-  "icon-192.png",
-  "icon-512.png",
-  "styles.css",
   "eslint.config.js",
   "ruff.toml",
   "_config.yml",
   "package.json",
-  "package-lock.json",
-  "Dockerfile.test",
-  ".dockerignore"
+  "package-lock.json"
 ];
 
 // Parse the Dockerfile into ordered instructions, ignoring comments and blanks.
@@ -140,39 +136,39 @@ test("the Dockerfile default command runs the canonical test suite", () => {
   assert.match(dockerfile, /^CMD \["npm", "test"\]$/m);
 });
 
-// --- .dockerignore ---------------------------------------------------------
+// --- docker/Dockerfile.test.dockerignore ---------------------------------------------------------
 
-// Parse .dockerignore into non-comment, non-blank patterns.
+// Parse docker/Dockerfile.test.dockerignore into non-comment, non-blank patterns.
 const ignorePatterns = dockerignore
   .split("\n")
   .map(line => line.trim())
   .filter(line => line && !line.startsWith("#"));
 
-test(".dockerignore excludes version control and host dependencies", () => {
+test("docker/Dockerfile.test.dockerignore excludes version control and host dependencies", () => {
   for (const pattern of [".git", "node_modules"]) {
-    assert.ok(ignorePatterns.includes(pattern), `.dockerignore must exclude ${pattern}`);
+    assert.ok(ignorePatterns.includes(pattern), `docker/Dockerfile.test.dockerignore must exclude ${pattern}`);
   }
 });
 
-test(".dockerignore excludes local caches, coverage, and debug artifacts", () => {
+test("docker/Dockerfile.test.dockerignore excludes local caches, coverage, and debug artifacts", () => {
   for (const pattern of [".cache", "coverage", "coverage-badges", "*.log"]) {
-    assert.ok(ignorePatterns.includes(pattern), `.dockerignore must exclude ${pattern}`);
+    assert.ok(ignorePatterns.includes(pattern), `docker/Dockerfile.test.dockerignore must exclude ${pattern}`);
   }
 });
 
-test(".dockerignore excludes local environment and deployment secrets", () => {
+test("docker/Dockerfile.test.dockerignore excludes local environment and deployment secrets", () => {
   for (const pattern of [".env", ".env.*", ".dev.vars", "wrangler.toml", ".wrangler"]) {
-    assert.ok(ignorePatterns.includes(pattern), `.dockerignore must exclude ${pattern}`);
+    assert.ok(ignorePatterns.includes(pattern), `docker/Dockerfile.test.dockerignore must exclude ${pattern}`);
   }
 });
 
-test(".dockerignore excludes editor and OS files", () => {
+test("docker/Dockerfile.test.dockerignore excludes editor and OS files", () => {
   for (const pattern of [".DS_Store", ".vscode", ".idea"]) {
-    assert.ok(ignorePatterns.includes(pattern), `.dockerignore must exclude ${pattern}`);
+    assert.ok(ignorePatterns.includes(pattern), `docker/Dockerfile.test.dockerignore must exclude ${pattern}`);
   }
 });
 
-test(".dockerignore never excludes a path the Dockerfile copies", () => {
+test("docker/Dockerfile.test.dockerignore never excludes a path the Dockerfile copies", () => {
   // A rule that excluded a copied path would silently change the image while
   // leaving the fingerprint inputs unchanged. Guard the required paths.
   const required = [
@@ -181,30 +177,27 @@ test(".dockerignore never excludes a path the Dockerfile copies", () => {
     "data",
     "scripts",
     "src",
+    "assets",
+    "docker",
     "test",
-    "app.js",
     "index.html",
     "service-worker.js",
     "manifest.webmanifest",
-    "icon-192.png",
-    "icon-512.png",
-    "styles.css",
     "eslint.config.js",
     "ruff.toml",
     "_config.yml",
     "package.json",
-    "package-lock.json",
-    "Dockerfile.test"
+    "package-lock.json"
   ];
   for (const path of required) {
     assert.ok(
       !ignorePatterns.includes(path),
-      `.dockerignore must not exclude the copied path ${path}`
+      `docker/Dockerfile.test.dockerignore must not exclude the copied path ${path}`
     );
   }
 });
 
-test(".dockerignore does not exclude the whole repository", () => {
-  assert.ok(!ignorePatterns.includes("."), ".dockerignore must not exclude the whole context");
-  assert.ok(!ignorePatterns.includes("*"), ".dockerignore must not exclude everything");
+test("docker/Dockerfile.test.dockerignore does not exclude the whole repository", () => {
+  assert.ok(!ignorePatterns.includes("."), "docker/Dockerfile.test.dockerignore must not exclude the whole context");
+  assert.ok(!ignorePatterns.includes("*"), "docker/Dockerfile.test.dockerignore must not exclude everything");
 });

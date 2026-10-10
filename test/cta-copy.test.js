@@ -5,7 +5,7 @@ import { nearbyCtaCopy } from '../src/cta-copy.js';
 
 const [html, app] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
-  readFile(new URL('../app.js', import.meta.url), 'utf8')
+  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8')
 ]);
 
 test('nearby entry points use clear, accessible action labels', () => {

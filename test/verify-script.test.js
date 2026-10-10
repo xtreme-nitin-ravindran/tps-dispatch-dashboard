@@ -37,7 +37,7 @@ const manifest = JSON.parse(pkg);
 const requiredChecks = [
   "scripts/docker-test.sh\" --ensure-image",
   "npm run lint",
-  "node --check app.js",
+  "node --check src/app/app.js",
   'find src scripts -name "*.js" -exec node --check {} +',
   "env TZ=UTC",
   "env TZ=America/Los_Angeles",
@@ -94,7 +94,7 @@ test("the verify script runs the required checks in the documented order", () =>
   // and the Git/snapshot checks must follow it.
   const jobOrder = [
     "npm run lint",
-    "node --check app.js",
+    "node --check src/app/app.js",
     'find src scripts -name "*.js" -exec node --check {} +',
     "env TZ=America/Los_Angeles",
     "npm run test:python",
@@ -166,7 +166,7 @@ test("the full-mode job table contains every required check exactly once", () =>
 test("each full-mode job runs through the Docker wrapper with the expected command", () => {
   const byName = Object.fromEntries(fullJobs.map(job => [job.name, job.args]));
   assert.equal(byName.lint, "npm run lint");
-  assert.equal(byName["javascript-syntax"], 'sh -c node --check app.js && find src scripts -name "*.js" -exec node --check {} +');
+  assert.equal(byName["javascript-syntax"], 'sh -c node --check src/app/app.js && find src scripts -name "*.js" -exec node --check {} +');
   assert.equal(byName["unit-los-angeles"], "env TZ=America/Los_Angeles npm test");
   assert.equal(byName.python, "npm run test:python");
   assert.equal(byName.integration, "npm run test:integration");
@@ -286,7 +286,7 @@ test("fast mode ensures the image, lints, and checks browser syntax", () => {
   // These shared steps run before the fast-mode branch and therefore apply to both modes.
   const ensureIndex = script.indexOf("scripts/docker-test.sh\" --ensure-image");
   const lintIndex = script.indexOf("npm run lint");
-  const syntaxIndex = script.indexOf("node --check app.js");
+  const syntaxIndex = script.indexOf("node --check src/app/app.js");
   assert.ok(ensureIndex !== -1 && lintIndex !== -1 && syntaxIndex !== -1);
   assert.ok(ensureIndex < fastBranchStart, "fast mode must ensure the image");
   assert.ok(lintIndex < fastBranchStart, "fast mode must run full lint");

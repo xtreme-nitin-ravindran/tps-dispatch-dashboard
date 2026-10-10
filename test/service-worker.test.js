@@ -69,9 +69,9 @@ test("worker precaches the static app shell without live incident data", async (
   await installation;
 
   assert.ok(calls.added.includes("./index.html"));
-  assert.ok(calls.added.includes("./styles.css"));
-  assert.ok(calls.added.includes("./app.js"));
-  assert.ok(calls.added.includes("./icon-192.png"));
+  assert.ok(calls.added.includes("./assets/css/styles.css"));
+  assert.ok(calls.added.includes("./src/app/app.js"));
+  assert.ok(calls.added.includes("./assets/images/icon-192.png"));
   assert.ok(calls.added.includes("./src/disruptions/ttc-nearby-fixture.js"));
   assert.ok(calls.added.includes("./src/disruptions/ttc-stops.js"));
   assert.ok(calls.added.includes("./src/disruptions/ui.js"));
@@ -102,7 +102,7 @@ test("worker ignores live API and incident snapshot requests", () => {
 
 test("worker serves listed assets from cache and leaves other online requests alone", async () => {
   const { listeners, calls } = loadWorker();
-  const asset = fetchEvent("https://example.test/sirento/app.js?v=deploy-2");
+  const asset = fetchEvent("https://example.test/sirento/src/app/app.js?v=deploy-2");
   listeners.fetch(asset.event);
   assert.deepEqual(await asset.response(), { source: "cache" });
   assert.equal(calls.matched[0].options.ignoreSearch, true);

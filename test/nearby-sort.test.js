@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { sortNearbyCalls } from '../src/nearby-sort.js';
 
 const [app, html] = await Promise.all([
-  readFile(new URL('../app.js', import.meta.url), 'utf8'),
+  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
   readFile(new URL('../index.html', import.meta.url), 'utf8')
 ]);
 

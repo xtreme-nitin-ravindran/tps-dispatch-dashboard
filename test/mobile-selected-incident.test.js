@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { reconcileIncidentSelection } from '../src/incident-selection.js';
 
-const app = await readFile(new URL('../app.js', import.meta.url), 'utf8');
+const app = await readFile(new URL('../src/app/app.js', import.meta.url), 'utf8');
 
 test('tapping a mobile marker opens the sheet and reveals its matching shared card', () => {
   const markerClickMatch = app.match(/\.on\("click", event => \{[\s\S]*?\n {6}\}\);/);

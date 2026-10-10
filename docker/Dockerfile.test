@@ -3,7 +3,7 @@ FROM ghcr.io/astral-sh/ruff:0.17.0 AS ruff
 FROM node:24-bookworm
 
 # The canonical build path (scripts/docker-test.sh --build) passes a fingerprint
-# of the image-defining inputs (Dockerfile.test, .dockerignore, package.json,
+# of the image-defining inputs (docker/Dockerfile.test, docker/Dockerfile.test.dockerignore, package.json,
 # package-lock.json) so the wrapper can detect a stale image without relying on
 # the commit hash.
 ARG TEST_FINGERPRINT=unknown
@@ -25,7 +25,8 @@ RUN npm ci
 # The docs-only classifier also requires the Pages configuration in CI.
 # Keep them in the self-contained CI image; the local wrapper also bind-mounts
 # the current working-tree versions over these copies.
-COPY Dockerfile.test .dockerignore _config.yml ./
+COPY docker ./docker
+COPY _config.yml ./
 
 # Repository content, ordered from relatively stable to relatively volatile so
 # an edit to a volatile path (for example test/) does not invalidate the cache
@@ -40,6 +41,7 @@ COPY data ./data
 COPY scripts ./scripts
 COPY src ./src
 COPY test ./test
-COPY app.js index.html service-worker.js manifest.webmanifest icon-192.png icon-512.png styles.css eslint.config.js ruff.toml ./
+COPY assets ./assets
+COPY index.html service-worker.js manifest.webmanifest eslint.config.js ruff.toml ./
 
 CMD ["npm", "test"]

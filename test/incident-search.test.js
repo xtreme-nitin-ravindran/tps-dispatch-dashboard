@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 import { incidentMatchesSearch } from "../src/incident-search.js";
 
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
-const app = await readFile(new URL("../app.js", import.meta.url), "utf8");
+const app = await readFile(new URL("../src/app/app.js", import.meta.url), "utf8");
 
 function listenerFor(start, end = "\n});") {
   const offset = app.indexOf(start);

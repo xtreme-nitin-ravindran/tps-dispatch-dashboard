@@ -261,14 +261,14 @@ test('symbols regenerate only when zoom crosses a density tier',()=>{
 });
 
 test('closure styling uses theme variables defined for light and dark map modes',()=>{
- const css=readFileSync(new URL('../styles.css',import.meta.url),'utf8');
+ const css=readFileSync(new URL('../assets/css/styles.css',import.meta.url),'utf8');
  assert.match(css,/:root\s*{[\s\S]*?--road-marker:/);assert.match(css,/:root\[data-theme="light"\]\s*{[\s\S]*?--road-marker:/);
  assert.match(css,/\.road-closure-line\s*{[\s\S]*?stroke: var\(--road-marker\)/);
 });
 
 test('map control is mobile-accessible and closure selection stays separate from incident selection',()=>{
  const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
- const app=readFileSync(new URL('../app.js',import.meta.url),'utf8');
+ const app=readFileSync(new URL('../src/app/app.js',import.meta.url),'utf8');
  assert.match(html,/<div class="map-wrap">[\s\S]*?id="roadOverlay"[\s\S]*?Road closures/);
  assert.match(html,/id="mobileClosureDetail"/);
  assert.match(app,/roadclosureselect[\s\S]*?selectClosure/);
@@ -277,7 +277,7 @@ test('map control is mobile-accessible and closure selection stays separate from
 });
 
 test('road-closure count is hidden beneath the label at every breakpoint',()=>{
- const css=readFileSync(new URL('../styles.css',import.meta.url),'utf8');
+ const css=readFileSync(new URL('../assets/css/styles.css',import.meta.url),'utf8');
  const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
  // The count stays in the DOM for assistive technology and the disruptions panel.
  assert.match(html,/<small id="roadOverlayStatus" class="map-layer-status">/);

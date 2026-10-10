@@ -15,7 +15,7 @@ import {
 import { validateWatch } from '../src/watch-matcher.js';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const app = readFileSync(new URL('../app.js', import.meta.url), 'utf8');
+const app = readFileSync(new URL('../src/app/app.js', import.meta.url), 'utf8');
 const moduleSource = readFileSync(new URL('../src/watch-config.js', import.meta.url), 'utf8');
 const memoryStorage = () => {
   const values = new Map();

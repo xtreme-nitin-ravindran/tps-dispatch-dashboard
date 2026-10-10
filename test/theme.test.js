@@ -4,8 +4,8 @@ import { readFile } from 'node:fs/promises';
 import { applyTheme, normalizeThemePreference, resolveTheme, themePreferences } from '../src/theme.js';
 
 const [css, app] = await Promise.all([
-  readFile(new URL('../styles.css', import.meta.url), 'utf8'),
-  readFile(new URL('../app.js', import.meta.url), 'utf8')
+  readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8'),
+  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8')
 ]);
 
 test('theme preferences validate and resolve explicit and system choices', () => {

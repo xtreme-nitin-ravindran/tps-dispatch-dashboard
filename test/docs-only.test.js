@@ -215,7 +215,7 @@ test("listToolingFiles excludes the classifier's own files", () => {
   const files = listToolingFiles();
   assert.ok(!files.includes("scripts/docs-only.js"));
   assert.ok(!files.includes("test/docs-only.test.js"));
-  assert.ok(files.includes("app.js"));
+  assert.ok(files.includes("src/app/app.js"));
 });
 
 test("listFilesUnder returns no files for an unreadable directory", () => {

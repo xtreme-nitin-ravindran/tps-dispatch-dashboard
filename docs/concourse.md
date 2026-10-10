@@ -32,7 +32,7 @@ environment or `fly` vars. It does not configure the worker/registry setup below
 
 In the October 7, 2026 verification, the worker ran in minikube with containerd and
 could not use an image available only in the host Docker daemon. The image built
-from `Dockerfile.test` was pushed to the in-cluster registry
+from `docker/Dockerfile.test` was pushed to the in-cluster registry
 (`registry.kube-system.svc.cluster.local`), and the worker temporarily received
 `CONCOURSE_INSECURE_REGISTRIES` for that plain-HTTP registry. This is an
 installation-specific setup, not a default requirement: confirm the current worker

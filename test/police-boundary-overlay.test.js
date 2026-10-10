@@ -268,13 +268,13 @@ test('ring counts remain isolated for Polygon and MultiPolygon features', () => 
 });
 
 test('the boundary class cannot override Leaflet and fill the map', () => {
-  const css = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
+  const css = readFileSync(new URL('../assets/css/styles.css', import.meta.url), 'utf8');
   assert.match(css, /\.police-boundary\s*{[^}]*fill:\s*none\s*!important/s);
   assert.doesNotMatch(css, /\.police-boundary\s*{[^}]*fill:\s*var\(--boundary-marker\)/s);
 });
 
 test('application lazily creates and reuses an isolated Canvas boundary layer after visible-map paint', () => {
-  const app = readFileSync(new URL('../app.js', import.meta.url), 'utf8');
+  const app = readFileSync(new URL('../src/app/app.js', import.meta.url), 'utf8');
   assert.equal([...app.matchAll(/createPoliceBoundaryLayer\(/g)].length, 1);
   assert.match(app, /L\.svg\(\{ padding: 0\.5, pane: 'policeBoundaryPane' \}\)/);
   assert.match(app, /L\.canvas\(\{ padding: 0\.5, pane: 'policeBoundaryPane' \}\)/);

@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { incidentGroupKey, reconcileIncidentLayers } from '../src/incident-layer-diff.js';
 import { clusterPoints } from '../src/map-clusters.js';
 
-const app = readFileSync(new URL('../app.js', import.meta.url), 'utf8');
+const app = readFileSync(new URL('../src/app/app.js', import.meta.url), 'utf8');
 const item = (id, coordinates) => ({call:{id,timestamp:1},coordinates});
 
 test('unchanged incident representations are retained without additions or removals', () => {

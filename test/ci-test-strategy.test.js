@@ -13,9 +13,9 @@ const [github, concourse] = await Promise.all([
 ]);
 
 test("GitHub Actions and Concourse build the shared Docker test image", () => {
-  assert.match(github, /docker build -f Dockerfile\.test -t toronto-dispatch-tests \./);
+  assert.match(github, /docker build -f docker\/Dockerfile\.test -t toronto-dispatch-tests \./);
   assert.match(concourse, /repository: concourse\/oci-build-task/);
-  assert.match(concourse, /DOCKERFILE: repo\/Dockerfile\.test/);
+  assert.match(concourse, /DOCKERFILE: repo\/docker\/Dockerfile\.test/);
   assert.match(concourse, /UNPACK_ROOTFS: "true"/);
   assert.match(concourse, /image: test-image/);
 });
@@ -25,7 +25,7 @@ test("GitHub Actions and Concourse enforce the same test gates", () => {
     "npm test",
     "npm run test:python",
     "npm run lint",
-    "node --check app.js",
+    "node --check src/app/app.js",
     "find src scripts",
     "npm run test:coverage"
   ];
