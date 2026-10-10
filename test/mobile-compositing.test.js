@@ -20,7 +20,7 @@ function declaration(selector, rules = mobileRules) {
   return rules.match(new RegExp(`(?:^|\\n)\\s*${escapedSelector}\\s*\\{([^}]*)\\}`))[1];
 }
 
-test('[STORY-29A] mobile fixed and sticky surfaces use opaque theme backgrounds without backdrop blur', () => {
+test('[STORY-29A][STORY-29C] mobile fixed and sticky surfaces use opaque theme backgrounds without backdrop blur', () => {
   for (const selector of ['.radius-controls', '.mobile-bottom-sheet']) {
     const rules = declaration(selector);
     assert.match(rules, /background: var\(--panel\)/);
@@ -30,7 +30,7 @@ test('[STORY-29A] mobile fixed and sticky surfaces use opaque theme backgrounds 
   }
 });
 
-test('[STORY-29A] mobile map overlay containers avoid backdrop blur without changing alignment', () => {
+test('[STORY-29A][STORY-29C] mobile map overlay containers avoid backdrop blur without changing alignment', () => {
   for (const selector of ['.map-layer-toggle', '.map-panel .leaflet-top.leaflet-right .leaflet-control-layers']) {
     const rules = declaration(selector);
     assert.match(rules, /background: var\(--panel\)/);
@@ -43,24 +43,24 @@ test('[STORY-29A] mobile map overlay containers avoid backdrop blur without chan
   assert.match(declaration('.map-panel .leaflet-top.leaflet-right'), /left: auto/);
 });
 
-test('[STORY-29A] long mobile incident lists skip offscreen paint without dropping cards from the DOM', () => {
+test('[STORY-29A][STORY-29C] long mobile incident lists skip offscreen paint without dropping cards from the DOM', () => {
   assert.match(mobileRules, /\.incident-card--list \{[\s\S]*?content-visibility: auto;[\s\S]*?contain-intrinsic-block-size: auto 190px/);
   assert.doesNotMatch(app, /state\.filtered\.slice\(/);
 });
 
-test('[STORY-29A] mobile search controls avoid blur while desktop glass styling remains available', () => {
+test('[STORY-29A][STORY-29C] mobile search controls avoid blur while desktop glass styling remains available', () => {
   assert.match(declaration('.controls-card', portraitRules), /background: var\(--panel\)/);
   assert.match(declaration('.controls-card', portraitRules), /backdrop-filter: none/);
   assert.match(declaration('.controls-card', desktopRules), /backdrop-filter: blur\(18px\)/);
   assert.match(declaration('.map-layer-toggle', desktopRules), /backdrop-filter: blur\(12px\)/);
 });
 
-test('[STORY-29A] opaque mobile surfaces resolve to readable light and dark theme pairs', () => {
+test('[STORY-29A][STORY-29C] opaque mobile surfaces resolve to readable light and dark theme pairs', () => {
   assert.match(css, /:root\s*\{[\s\S]*?--panel: #0f1926;[\s\S]*?--text: #f4f7fb;/);
   assert.match(css, /:root\[data-theme="light"\]\s*\{[\s\S]*?--panel: #ffffff;[\s\S]*?--text: #10242a;/);
 });
 
-test('[STORY-29A] the revised mobile stylesheet replaces the cached app-shell asset', () => {
+test('[STORY-29A][STORY-29C] the revised mobile stylesheet replaces the cached app-shell asset', () => {
   assert.match(html, /styles\.css\?v=housekeeping-60-1/);
   assert.match(serviceWorker, /CACHE_VERSION = "sirento-shell-v62"/);
 });
