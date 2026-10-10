@@ -22,7 +22,7 @@ function trackerHarness(start = 1_000_000) {
   };
 }
 
-test('freshness stays hidden before success and stops its timer on cleanup', () => {
+test('[STORY-13] freshness stays hidden before success and stops its timer on cleanup', () => {
   const harness = trackerHarness();
   harness.tick();
   assert.equal(harness.latest(), '');
@@ -30,14 +30,14 @@ test('freshness stays hidden before success and stops its timer on cleanup', () 
   assert.equal(harness.cancelled(), 1);
 });
 
-test('successful refresh records its completion time', () => {
+test('[STORY-13] successful refresh records its completion time', () => {
   const harness = trackerHarness();
   harness.tracker.complete(true);
   assert.equal(harness.tracker.lastSuccessfulAt, 1_000_000);
   assert.equal(harness.latest(), 'Updated just now');
 });
 
-test('freshness progresses without another refresh request', () => {
+test('[STORY-13] freshness progresses without another refresh request', () => {
   const harness = trackerHarness();
   harness.tracker.complete(true);
   harness.advance(18_000);
@@ -46,7 +46,7 @@ test('freshness progresses without another refresh request', () => {
   assert.equal(harness.latest(), 'Updated 1 min ago');
 });
 
-test('a later successful refresh resets freshness', () => {
+test('[STORY-13] a later successful refresh resets freshness', () => {
   const harness = trackerHarness();
   harness.tracker.complete(true);
   harness.advance(18_000);
@@ -55,7 +55,7 @@ test('a later successful refresh resets freshness', () => {
   assert.equal(harness.latest(), 'Updated just now');
 });
 
-test('a failed refresh preserves the previous successful timestamp', () => {
+test('[STORY-13] a failed refresh preserves the previous successful timestamp', () => {
   const harness = trackerHarness();
   harness.tracker.complete(true);
   harness.advance(18_000);
