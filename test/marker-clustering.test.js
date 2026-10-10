@@ -16,7 +16,7 @@ const projectAtZoom = zoom => ([lat, lng]) => {
   return { x: lng * scale, y: lat * scale };
 };
 
-test('dense incidents cluster at wide zoom and split as zoom increases', () => {
+test('[SHOULD-2][STORY-26] dense incidents cluster at wide zoom and split as zoom increases', () => {
   const incidents = [
     item('a', [1, 1]),
     item('b', [1.01, 1.01]),
@@ -27,7 +27,7 @@ test('dense incidents cluster at wide zoom and split as zoom increases', () => {
   assert.deepEqual(clusterPoints(incidents, projectAtZoom(14)).map(group => group.length), [1, 1, 1]);
 });
 
-test('cluster counts contain only the current filtered incident set', () => {
+test('[SHOULD-2][STORY-26] cluster counts contain only the current filtered incident set', () => {
   const calls = [
     item('fire', [1, 1], { source: 'TFS', eventCategory: 'fire' }),
     item('medical', [1.01, 1.01], { source: 'TFS', eventCategory: 'medical' }),
@@ -45,7 +45,7 @@ test('cluster counts contain only the current filtered incident set', () => {
   assert.equal(clusterPoints(inRadius, project)[0].length, 2);
 });
 
-test('expanded clusters preserve incident identity and individual marker selection', () => {
+test('[SHOULD-2][STORY-26] expanded clusters preserve incident identity and individual marker selection', () => {
   const incidents = [item('a', [1, 1]), item('b', [1.01, 1.01])];
   const group = focusGroup(incidents, 'b', projectAtZoom(5));
   const expanded = group.map((incident, index) => ({
@@ -59,7 +59,7 @@ test('expanded clusters preserve incident identity and individual marker selecti
   assert.match(app, /\.on\("click", event => \{[\s\S]*?selectCall\(call\.id, \{ pan: false, revealRow: true \}\)/);
 });
 
-test('cluster expansion is bounded and cannot produce city-spanning connector fans', () => {
+test('[SHOULD-2][STORY-26] cluster expansion is bounded and cannot produce city-spanning connector fans', () => {
   assert.equal(MAX_EXPANDED_CLUSTER_SIZE,12);
   assert.equal(MAX_FAN_OUT_RADIUS_PX,96);
   assert.equal(canExpandCluster(new Array(12).fill(null)),true);
@@ -82,14 +82,14 @@ test('cluster expansion is bounded and cannot produce city-spanning connector fa
   assert.doesNotMatch(app,/L\.polyline\(\[item\.coordinates,position\]/);
 });
 
-test('connector cleanup is coupled to every state transition that can invalidate a fan', () => {
+test('[SHOULD-2][STORY-26] connector cleanup is coupled to every state transition that can invalidate a fan', () => {
   assert.match(app,/view === 'calls' && expandedCluster\.size[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?renderMapMarkers\(\)/);
   assert.match(app,/function clearIncidentForTtc[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?renderMapMarkers\(\)/);
   assert.match(app,/focusedCallId = reconcileIncidentSelection[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?render\(map\)/);
   assert.match(app,/dispatchMap\.on\("zoomend", \(\) => \{[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?scheduleMapMarkerRender\(\)/);
 });
 
-test('incident clustering excludes road closures, user location, and unrelated overlays', () => {
+test('[SHOULD-2][STORY-26] incident clustering excludes road closures, user location, and unrelated overlays', () => {
   assert.match(app, /const locatedCalls = state\.filtered[\s\S]*?clusterPoints\(locatedCalls/);
   assert.match(app, /callLayer = L\.layerGroup\(\)\.addTo\(dispatchMap\);[\s\S]*?nearbyOriginLayer = L\.layerGroup\(\)\.addTo\(dispatchMap\)/);
   assert.match(app, /L\.circleMarker\(state\.nearby[\s\S]*?\.addTo\(nearbyOriginLayer\)/);
@@ -97,7 +97,7 @@ test('incident clustering excludes road closures, user location, and unrelated o
   assert.match(disruptions, /roadLayer=L\.layerGroup\(\)/);
 });
 
-test('filter, search, radius, and Toronto-wide changes rebuild clusters from state.filtered', () => {
+test('[SHOULD-2][STORY-26] filter, search, radius, and Toronto-wide changes rebuild clusters from state.filtered', () => {
   assert.match(app, /function applyFilters[\s\S]*?withinGeographicScope\(state\.nearby, state\.radiusKm/);
   assert.match(app, /state\.serviceFilter !== "all"/);
   assert.match(app, /state\.eventFilter !== "all"/);
@@ -106,7 +106,7 @@ test('filter, search, radius, and Toronto-wide changes rebuild clusters from sta
   assert.match(app, /const groups = clusterPoints\(locatedCalls/);
 });
 
-test('cluster click zooms before expanding and redraws reconcile incident layers', () => {
+test('[SHOULD-2][STORY-26] cluster click zooms before expanding and redraws reconcile incident layers', () => {
   assert.doesNotMatch(app, /callLayer\.clearLayers\(\)/);
   assert.match(app, /reconcileIncidentLayers\(renderedIncidentLayers, desiredKeys\)/);
   assert.match(app, /dispatchMap\.on\("zoomend",[\s\S]*?expandedCluster\.clear\(\);[\s\S]*?scheduleMapMarkerRender\(\)/);
