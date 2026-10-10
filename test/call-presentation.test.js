@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { reportedAge, compactAge, compactReportedAge, callExplanation, locationConfidence, callStatus, sourceName } from '../src/call-presentation.js';
-test('[MUST-2][MUST-3][STORY-2][STORY-3] report age covers boundaries, invalid times and clock skew', () => {
+test('[MUST-2][MUST-3][STORY-2][STORY-3][STORY-7] report age covers boundaries, invalid times and clock skew', () => {
  const now = Date.UTC(2026,8,22);
  assert.equal(reportedAge(now-60000,now),'Reported 1 minute ago');
  assert.equal(reportedAge(now-120000,now),'Reported 2 minutes ago');
@@ -13,7 +13,7 @@ test('[MUST-2][MUST-3][STORY-2][STORY-3] report age covers boundaries, invalid t
  assert.equal(reportedAge('invalid',now),'Report time unavailable');
 });
 
-test('[MUST-2][MUST-3][STORY-2][STORY-3] compact report age fits beside incident distance', () => {
+test('[MUST-2][MUST-3][STORY-2][STORY-3][STORY-7] compact report age fits beside incident distance', () => {
  const now = Date.UTC(2026,8,22);
  assert.equal(compactReportedAge(now-420000,now),'7 min ago');
  assert.equal(compactReportedAge(now-7200000,now),'2 hr ago');
@@ -23,20 +23,20 @@ test('[MUST-2][MUST-3][STORY-2][STORY-3] compact report age fits beside incident
  assert.equal(compactReportedAge('invalid',now),'Time unavailable');
 });
 
-test('[MUST-2][MUST-3][STORY-2][STORY-3] compact age can label incident update times', () => {
+test('[MUST-2][MUST-3][STORY-2][STORY-3][STORY-7] compact age can label incident update times', () => {
  const now = Date.UTC(2026,8,22);
  assert.equal(compactAge(now-120000,now),'2 min ago');
  assert.equal(compactAge('invalid',now),'Time unavailable');
 });
 
-test('[MUST-2][STORY-2] explanations preserve uncertainty and leave unfamiliar types unexplained', () => {
+test('[MUST-2][STORY-2][STORY-7] explanations preserve uncertainty and leave unfamiliar types unexplained', () => {
  assert.match(callExplanation(' personal injury collision '), /reported to involve an injury/);
  assert.equal(callExplanation('NEW DISPATCH CODE'), '');
  assert.equal(callExplanation(null), '');
  assert.equal(callExplanation('constructor'), '');
 });
 
-test('[MUST-2][STORY-2] confidence distinguishes unmapped, postal, resolved and approximate locations', () => {
+test('[MUST-2][STORY-2][STORY-7] confidence distinguishes unmapped, postal, resolved and approximate locations', () => {
  assert.equal(locationConfidence({}), 'Location not mapped');
  const geography = {coordinates:[43.7,-79.4],approximate:false};
  assert.match(locationConfidence({location:'M5A',geography}), /Broad postal area/);
@@ -44,7 +44,7 @@ test('[MUST-2][STORY-2] confidence distinguishes unmapped, postal, resolved and 
  assert.equal(locationConfidence({geography:{...geography,approximate:true}}), 'Approximate location');
 });
 
-test('[MUST-2][STORY-2] status only labels active calls when the TFS feed supports it', () => {
+test('[MUST-2][STORY-2][STORY-7] status only labels active calls when the TFS feed supports it', () => {
  assert.equal(callStatus({source:'TPS',isOngoing:false}), null);
  assert.equal(callStatus({source:'TPS',isOngoing:true}), null);
  assert.equal(callStatus({source:'TFS',isOngoing:true}), 'ONGOING');
@@ -52,7 +52,7 @@ test('[MUST-2][STORY-2] status only labels active calls when the TFS feed suppor
  assert.equal(callStatus({source:'TFS'}), null);
 });
 
-test('[MUST-2][STORY-2] source names are expanded for card attribution', () => {
+test('[MUST-2][STORY-2][STORY-7] source names are expanded for card attribution', () => {
  assert.equal(sourceName('TPS'), 'Toronto Police Service');
  assert.equal(sourceName('TFS'), 'Toronto Fire Services');
 });
