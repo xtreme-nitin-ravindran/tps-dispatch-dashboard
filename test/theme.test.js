@@ -8,7 +8,7 @@ const [css, app] = await Promise.all([
   readFile(new URL('../src/app/app.js', import.meta.url), 'utf8')
 ]);
 
-test('theme preferences validate and resolve explicit and system choices', () => {
+test('[MUST-11][STORY-12] theme preferences validate and resolve explicit and system choices', () => {
   assert.deepEqual(themePreferences, ['system', 'light', 'dark']);
   assert.equal(normalizeThemePreference('light'), 'light');
   assert.equal(normalizeThemePreference('dark'), 'dark');
@@ -18,7 +18,7 @@ test('theme preferences validate and resolve explicit and system choices', () =>
   assert.equal(resolveTheme('dark', false), 'dark');
 });
 
-test('applying a theme updates reusable document and browser chrome hooks', () => {
+test('[MUST-11][STORY-12] applying a theme updates reusable document and browser chrome hooks', () => {
   const root = {dataset:{}};
   const meta = {content:''};
   assert.equal(applyTheme(root, meta, 'system', false), 'light');
@@ -29,7 +29,7 @@ test('applying a theme updates reusable document and browser chrome hooks', () =
   assert.equal(meta.content, '#0c1320');
 });
 
-test('map appearance follows live document theme without changing map layers', () => {
+test('[MUST-11][STORY-12] map appearance follows live document theme without changing map layers', () => {
   const darkTheme = css.slice(css.indexOf(':root {'), css.indexOf(':root[data-theme="light"]'));
   const lightTheme = css.slice(css.indexOf(':root[data-theme="light"]'), css.indexOf('* { box-sizing'));
   assert.match(darkTheme, /--map-tile-opacity: \.46/);
@@ -40,7 +40,7 @@ test('map appearance follows live document theme without changing map layers', (
   assert.match(css, /\.leaflet-control-attribution[\s\S]*?background: var\(--map-attribution-background\)/);
 });
 
-test('incident pins and road restrictions remain distinct and prominent in both themes', () => {
+test('[MUST-11][STORY-12] incident pins and road restrictions remain distinct and prominent in both themes', () => {
   const darkTheme = css.slice(css.indexOf(':root {'), css.indexOf(':root[data-theme="light"]'));
   const lightTheme = css.slice(css.indexOf(':root[data-theme="light"]'), css.indexOf('* { box-sizing'));
   assert.match(darkTheme, /--marker-other: #cbd5e1/);
@@ -54,7 +54,7 @@ test('incident pins and road restrictions remain distinct and prominent in both 
   assert.match(css, /\.road-key\s*{[^}]*border-top: 4px dashed var\(--road-marker\)/);
 });
 
-test('audited UI states use shared theme tokens', () => {
+test('[MUST-11][STORY-12] audited UI states use shared theme tokens', () => {
   assert.match(css, /\.dispatch-marker\s*{[\s\S]*?border: 2px solid var\(--marker-border\)[\s\S]*?background: var\(--marker-default\)/);
   assert.match(css, /\.dispatch-marker\.selected\s*{[\s\S]*?var\(--marker-selected-ring\)/);
   assert.match(css, /\.incident-change-badge\s*{[\s\S]*?var\(--warning-line\)[\s\S]*?var\(--warning-soft\)/);
@@ -66,7 +66,7 @@ test('audited UI states use shared theme tokens', () => {
   assert.match(css, /\.event-filters select\s*{[\s\S]*?color: var\(--text\)[\s\S]*?background: var\(--control-bg\)/);
 });
 
-test('explicit and system theme changes update the document theme live', () => {
+test('[MUST-11][STORY-12] explicit and system theme changes update the document theme live', () => {
   assert.match(app, /const systemTheme = window\.matchMedia\("\(prefers-color-scheme: dark\)"\)/);
   assert.match(app, /function syncTheme\(\) {\s*applyTheme\(document\.documentElement, themeColorMeta, themePreference, systemTheme\.matches\);[\s\S]*?if \(!mapAllowsBoundaryWork\(\)\) {[\s\S]*?boundaryDirty = true;[\s\S]*?divisionGeometryLayer\.setStyle\(\{ color: boundaryColor \}\);\s*}/);
   assert.match(app, /systemTheme\.addEventListener\('change', syncTheme\)/);
