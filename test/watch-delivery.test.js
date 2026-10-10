@@ -36,7 +36,7 @@ async function setup({ results = [201], maxAttempts = 3, maxDeliveries = 100, ca
   return { database, notifications, watches, sender, waits, controller, candidates };
 }
 
-test('payload is compact, versioned, and excludes private watch and subscription data', () => {
+test('[SHOULD-7][STORY-33] payload is compact, versioned, and excludes private watch and subscription data', () => {
   const payload = buildPushPayload(deliveryCandidate());
   assert.deepEqual(payload, { schema: 'sirento.push', version: 1, incident: {
     id: 'incident-delivery-1', title: 'SirenTO — New incident nearby', body: 'Alarm · Toronto Fire Services',
@@ -45,7 +45,7 @@ test('payload is compact, versioned, and excludes private watch and subscription
   assert.doesNotMatch(JSON.stringify(payload), /push\.example|p256dh|auth|latitude|possession/i);
 });
 
-test('payload wording distinguishes updates and includes only a reliable derived distance', () => {
+test('[SHOULD-7][STORY-33] payload wording distinguishes updates and includes only a reliable derived distance', () => {
   const withDistance = buildPushPayload(deliveryCandidate({
     notificationKind: 'updated:2026-09-25T12:05:45.000Z',
     incident: { source: 'TPS', description: 'Robbery', location: 'Published location',
@@ -60,7 +60,7 @@ test('payload wording distinguishes updates and includes only a reliable derived
   })), /invalid/);
 });
 
-test('successful delivery is persisted and a duplicate run sends nothing', async () => {
+test('[SHOULD-7][STORY-33] successful delivery is persisted and a duplicate run sends nothing', async () => {
   const fixture = await setup();
   assert.equal((await fixture.controller.deliver(fixture.candidates)).delivered, 1);
   assert.equal(fixture.sender.calls.length, 1);
@@ -69,7 +69,7 @@ test('successful delivery is persisted and a duplicate run sends nothing', async
   assert.equal(fixture.sender.calls.length, 1);
 });
 
-for (const status of [404, 410]) test(`permanent ${status} deactivates only the current failed subscription`, async () => {
+for (const status of [404, 410]) test(`[SHOULD-7][STORY-33] permanent ${status} deactivates only the current failed subscription`, async () => {
   const fixture = await setup({ results: [status] });
   assert.equal((await fixture.controller.deliver(fixture.candidates)).permanentFailed, 1);
   const row = fixture.database.notifications.get('dedupe-delivery-1');
@@ -79,7 +79,7 @@ for (const status of [404, 410]) test(`permanent ${status} deactivates only the 
   assert.equal(fixture.sender.calls.length, 1);
 });
 
-test('a replaced endpoint is not deactivated by an old permanent failure', async () => {
+test('[SHOULD-7][STORY-33] a replaced endpoint is not deactivated by an old permanent failure', async () => {
   const fixture = await setup({ results: [410] });
   const replacement = await fixture.watches.getWatch('watch-delivery-1');
   replacement.subscription.endpoint = 'https://push.example/send/replacement';
@@ -88,7 +88,7 @@ test('a replaced endpoint is not deactivated by an old permanent failure', async
   assert.equal((await fixture.watches.getWatch(replacement.id)).active, true);
 });
 
-test('429 honors bounded Retry-After and succeeds on the second attempt', async () => {
+test('[SHOULD-7][STORY-33] 429 honors bounded Retry-After and succeeds on the second attempt', async () => {
   const fixture = await setup({ results: [{ status: 429, retryAfter: '30' }, 201] });
   const result = await fixture.controller.deliver(fixture.candidates);
   assert.equal(result.delivered, 1);
@@ -98,7 +98,7 @@ test('429 honors bounded Retry-After and succeeds on the second attempt', async 
   assert.equal(fixture.database.notifications.get('dedupe-delivery-1').attempt_count, 2);
 });
 
-for (const status of [408, 500, 503]) test(`transient ${status} exhausts bounded retries`, async () => {
+for (const status of [408, 500, 503]) test(`[SHOULD-7][STORY-33] transient ${status} exhausts bounded retries`, async () => {
   const fixture = await setup({ results: [status, status, status] });
   assert.equal((await fixture.controller.deliver(fixture.candidates)).retryExhausted, 1);
   assert.equal(fixture.sender.calls.length, 3);
@@ -106,20 +106,20 @@ for (const status of [408, 500, 503]) test(`transient ${status} exhausts bounded
   assert.equal(fixture.database.notifications.get('dedupe-delivery-1').delivery_status, 'retry_exhausted');
 });
 
-test('network failure retries and can succeed', async () => {
+test('[SHOULD-7][STORY-33] network failure retries and can succeed', async () => {
   const fixture = await setup({ results: [new Error('private transport detail'), 201] });
   assert.equal((await fixture.controller.deliver(fixture.candidates)).delivered, 1);
   assert.equal(fixture.sender.calls.length, 2);
 });
 
-test('delivery fixture falls back after configured responses and exposes non-retry headers', async () => {
+test('[SHOULD-7][STORY-33] delivery fixture falls back after configured responses and exposes non-retry headers', async () => {
   const sender = new FakePushSender([]);
   const response = await sender.sendPush(deliveryCandidate().subscription, buildPushPayload(deliveryCandidate()));
   assert.equal(response.status, 201);
   assert.equal(response.headers.get('content-type'), null);
 });
 
-test('pending and expired sending leases can retry, while delivered candidates cannot', async () => {
+test('[SHOULD-7][STORY-33] pending and expired sending leases can retry, while delivered candidates cannot', async () => {
   const fixture = await setup();
   const row = fixture.database.notifications.get('dedupe-delivery-1');
   row.delivery_status = 'sending'; row.lease_expires_at = '2026-09-25T12:05:00.000Z';
@@ -153,7 +153,7 @@ test('pending and expired sending leases can retry, while delivered candidates c
   }), true);
 });
 
-test('a due retryable row can be reclaimed for the same logical notification', async () => {
+test('[SHOULD-7][STORY-33] a due retryable row can be reclaimed for the same logical notification', async () => {
   const fixture = await setup();
   const row = fixture.database.notifications.get('dedupe-delivery-1');
   row.delivery_status = 'retryable'; row.next_attempt_at = '2026-09-25T12:05:00.000Z';
@@ -161,7 +161,7 @@ test('a due retryable row can be reclaimed for the same logical notification', a
   assert.equal(fixture.sender.calls.length, 1);
 });
 
-test('one failed candidate does not block another and the ceiling is deterministic', async () => {
+test('[SHOULD-7][STORY-33] one failed candidate does not block another and the ceiling is deterministic', async () => {
   const candidates = [deliveryCandidate({ dedupeKey: 'b', watchId: 'watch-b' }), deliveryCandidate({ dedupeKey: 'a', watchId: 'watch-a' })];
   const fixture = await setup({ candidates, results: [410], maxAttempts: 1, maxDeliveries: 1 });
   const summary = await fixture.controller.deliver(candidates);
@@ -170,7 +170,7 @@ test('one failed candidate does not block another and the ceiling is determinist
   assert.equal(fixture.database.notifications.get('b').delivery_status, 'pending');
 });
 
-test('already-delivered rows do not consume the send ceiling or starve pending rows', async () => {
+test('[SHOULD-7][STORY-33] already-delivered rows do not consume the send ceiling or starve pending rows', async () => {
   const candidates = [deliveryCandidate({ dedupeKey: 'a', watchId: 'watch-a' }), deliveryCandidate({ dedupeKey: 'b', watchId: 'watch-b' })];
   const fixture = await setup({ candidates, results: [201, 201], maxDeliveries: 1 });
   await fixture.controller.deliver([candidates[0]]);
@@ -179,7 +179,7 @@ test('already-delivered rows do not consume the send ceiling or starve pending r
   assert.equal(fixture.database.notifications.get('b').delivery_status, 'delivered');
 });
 
-test('a permanent failure does not prevent the remaining batch from succeeding', async () => {
+test('[SHOULD-7][STORY-33] a permanent failure does not prevent the remaining batch from succeeding', async () => {
   const candidates = [deliveryCandidate({ dedupeKey: 'a', watchId: 'watch-a' }), deliveryCandidate({ dedupeKey: 'b', watchId: 'watch-b' })];
   const fixture = await setup({ candidates, results: [410, 201], maxAttempts: 1 });
   const summary = await fixture.controller.deliver(candidates);
@@ -187,7 +187,7 @@ test('a permanent failure does not prevent the remaining batch from succeeding',
   assert.equal(fixture.sender.calls.length, 2);
 });
 
-test('malformed candidates and subscriptions are isolated without a send', async () => {
+test('[SHOULD-7][STORY-33] malformed candidates and subscriptions are isolated without a send', async () => {
   const fixture = await setup();
   const malformed = [null, {}, deliveryCandidate({ incidentUrl: 'http://unsafe.example/' }), deliveryCandidate({ subscription: {} })];
   const summary = await fixture.controller.deliver(malformed);
@@ -210,7 +210,7 @@ test('malformed candidates and subscriptions are isolated without a send', async
   for (const candidate of invalid) assert.equal(validateNotificationCandidate(candidate), false);
 });
 
-test('response classification separates success, permanent, and transient outcomes', () => {
+test('[SHOULD-7][STORY-33] response classification separates success, permanent, and transient outcomes', () => {
   assert.equal(classifyPushResult({ status: 201 }).kind, 'delivered');
   assert.equal(classifyPushResult({ status: 404 }).kind, 'permanent');
   assert.equal(classifyPushResult({ status: 410 }).kind, 'permanent');
@@ -221,7 +221,7 @@ test('response classification separates success, permanent, and transient outcom
   assert.deepEqual(classifyPushResult({ status: 400 }), { kind: 'permanent', statusCode: 400 });
 });
 
-test('delivery validates dependencies and limits, handles non-arrays, and parses Retry-After dates', async () => {
+test('[SHOULD-7][STORY-33] delivery validates dependencies and limits, handles non-arrays, and parses Retry-After dates', async () => {
   assert.throws(() => createNotificationDeliveryController(), /dependencies/);
   const dependencies = { notificationRepository: {}, watchRepository: {}, sender: { sendPush: assert.fail } };
   for (const maxAttempts of [0, 6, 1.5]) {
@@ -248,7 +248,7 @@ test('delivery validates dependencies and limits, handles non-arrays, and parses
   assert.deepEqual(invalidDate.waits, [100]);
 });
 
-test('default delivery clock and wait adapters are reachable without external services', async () => {
+test('[SHOULD-7][STORY-33] default delivery clock and wait adapters are reachable without external services', async () => {
   const candidate = deliveryCandidate({ dedupeKey: 'default-adapters' });
   const attempts = [];
   const controller = createNotificationDeliveryController({
@@ -265,13 +265,13 @@ test('default delivery clock and wait adapters are reachable without external se
   assert.equal(attempts.length, 1);
 });
 
-test('non-endpoint permanent errors do not deactivate the subscription', async () => {
+test('[SHOULD-7][STORY-33] non-endpoint permanent errors do not deactivate the subscription', async () => {
   const fixture = await setup({ results: [400] });
   assert.equal((await fixture.controller.deliver(fixture.candidates)).permanentFailed, 1);
   assert.equal((await fixture.watches.getWatch('watch-delivery-1')).active, true);
 });
 
-test('production sender creates encrypted aes128gcm Web Push with VAPID authorization', async () => {
+test('[SHOULD-7][STORY-33] production sender creates encrypted aes128gcm Web Push with VAPID authorization', async () => {
   const vapidKeys = await crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify']);
   const vapidPublic = new Uint8Array(await crypto.subtle.exportKey('raw', vapidKeys.publicKey));
   const vapidPrivate = await crypto.subtle.exportKey('jwk', vapidKeys.privateKey);
@@ -316,7 +316,7 @@ test('production sender creates encrypted aes128gcm Web Push with VAPID authoriz
   }, {}), /Subscription key material/);
 });
 
-test('scheduled delivery default adapters can complete an empty deterministic run', async () => {
+test('[SHOULD-7][STORY-33] scheduled delivery default adapters can complete an empty deterministic run', async () => {
   const database = new FakeD1Database();
   const scheduled = createScheduledWatchDelivery({
     sender: new FakePushSender(),
@@ -330,7 +330,7 @@ test('scheduled delivery default adapters can complete an empty deterministic ru
   assert.equal(result.delivery.processed, 0);
 });
 
-test('scheduled production sender stays deterministic behind an injected transport', async () => {
+test('[SHOULD-7][STORY-33] scheduled production sender stays deterministic behind an injected transport', async () => {
   const vapidKeys = await crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify']);
   const vapidPublic = new Uint8Array(await crypto.subtle.exportKey('raw', vapidKeys.publicKey));
   const vapidPrivate = await crypto.subtle.exportKey('jwk', vapidKeys.privateKey);
@@ -372,7 +372,7 @@ test('scheduled production sender stays deterministic behind an injected transpo
   assert.equal(defaultClockResult.delivery.processed, 0);
 });
 
-test('production sender rejects malformed VAPID keys before transport', () => {
+test('[SHOULD-7][STORY-33] production sender rejects malformed VAPID keys before transport', () => {
   assert.throws(() => createWebPushSender(), /Complete VAPID/);
   assert.throws(() => createWebPushSender({ config: { vapidPublicKey: 'public' } }), /Complete VAPID/);
   assert.throws(() => createWebPushSender({ config: { vapidPublicKey: 'public', vapidPrivateKey: 'private' } }), /Complete VAPID/);
@@ -392,7 +392,7 @@ test('production sender rejects malformed VAPID keys before transport', () => {
   }), /key material/);
 });
 
-test('scheduled production delivery requires VAPID secrets before changing dedupe state', async () => {
+test('[SHOULD-7][STORY-33] scheduled production delivery requires VAPID secrets before changing dedupe state', async () => {
   const database = new FakeD1Database();
   await new D1WatchRepository(database).createWatch(structuredClone(matchingWatch));
   const scheduled = createScheduledWatchDelivery({ fetchImpl: assert.fail, now: clock });
@@ -404,7 +404,7 @@ test('scheduled production delivery requires VAPID secrets before changing dedup
   await assert.rejects(createScheduledWatchDelivery()({}), /WATCH_ALLOWED_ORIGINS/);
 });
 
-test('scheduled delivery sends once and a duplicate snapshot does not send again', async () => {
+test('[SHOULD-7][STORY-33] scheduled delivery sends once and a duplicate snapshot does not send again', async () => {
   const database = new FakeD1Database();
   await new D1WatchRepository(database).createWatch(structuredClone(matchingWatch));
   const sender = new FakePushSender([201]);
@@ -420,7 +420,7 @@ test('scheduled delivery sends once and a duplicate snapshot does not send again
   assert.equal(sender.calls.length, 1);
 });
 
-test('delivery source has no console logging and worker logs aggregate fields only', async () => {
+test('[SHOULD-7][STORY-33] delivery source has no console logging and worker logs aggregate fields only', async () => {
   const source = await readFile(new URL('../src/notification-delivery.js', import.meta.url), 'utf8');
   const worker = await readFile(new URL('../src/watch-worker.js', import.meta.url), 'utf8');
   assert.doesNotMatch(source, /console\./);

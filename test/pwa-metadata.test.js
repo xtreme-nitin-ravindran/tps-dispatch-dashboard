@@ -8,7 +8,7 @@ const root = new URL("../", import.meta.url);
 const html = await readFile(new URL("index.html", root), "utf8");
 const manifest = JSON.parse(await readFile(new URL("manifest.webmanifest", root), "utf8"));
 
-test("web app manifest contains SirenTO install metadata", () => {
+test("[SHOULD-8][STORY-23] web app manifest contains SirenTO install metadata", () => {
   assert.equal(manifest.name, "SirenTO");
   assert.equal(manifest.short_name, "SirenTO");
   assert.equal(manifest.start_url, "./");
@@ -19,7 +19,7 @@ test("web app manifest contains SirenTO install metadata", () => {
   assert.deepEqual(manifest.icons.map(({ sizes }) => sizes), ["192x192", "512x512"]);
 });
 
-test("manifest and declared icons are served as static app assets", async (t) => {
+test("[SHOULD-8][STORY-23] manifest and declared icons are served as static app assets", async (t) => {
   const server = createServer(async (request, response) => {
     const assets = {
       "/manifest.webmanifest": ["manifest.webmanifest", "application/manifest+json"],
@@ -52,7 +52,7 @@ test("manifest and declared icons are served as static app assets", async (t) =>
   }
 });
 
-test("app shell links install metadata without changing its entry behavior", () => {
+test("[SHOULD-8][STORY-23] app shell links install metadata without changing its entry behavior", () => {
   assert.match(html, /<link rel="manifest" href="\.\/manifest\.webmanifest" \/>/);
   assert.match(html, /<link rel="apple-touch-icon" sizes="192x192" href="\.\/assets\/images\/icon-192\.png" \/>/);
   assert.match(html, /<meta name="apple-mobile-web-app-title" content="SirenTO" \/>/);

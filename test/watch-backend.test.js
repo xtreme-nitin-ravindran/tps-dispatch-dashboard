@@ -31,7 +31,7 @@ function fixtureService(repository = new InMemoryWatchRepository(), overrides = 
   };
 }
 
-test('valid creation stores the minimal backend record and returns only client-safe data', async () => {
+test('[SHOULD-7][STORY-33] valid creation stores the minimal backend record and returns only client-safe data', async () => {
   const { repository, service } = fixtureService();
   const result = await service.createWatch(validWatchSubscriptionRequest);
   assert.equal(result.watch.id, deterministicWatchId);
@@ -55,7 +55,7 @@ test('valid creation stores the minimal backend record and returns only client-s
   assert.equal(JSON.stringify(stored).includes('client-local-watch-id'), false);
 });
 
-test('validation rejects malformed coordinates, radii, filters, subscriptions, and active state', () => {
+test('[SHOULD-7][STORY-33] validation rejects malformed coordinates, radii, filters, subscriptions, and active state', () => {
   const invalidRequests = [
     null,
     [],
@@ -83,7 +83,7 @@ test('validation rejects malformed coordinates, radii, filters, subscriptions, a
   assert.throws(() => normalizeWatchSubscriptionRequest(invalidRequests[0]), WatchRequestValidationError);
 });
 
-test('schema versions, unknown fields, and oversized payloads are rejected explicitly', () => {
+test('[SHOULD-7][STORY-33] schema versions, unknown fields, and oversized payloads are rejected explicitly', () => {
   assert.match(validateWatchSubscriptionRequest(backendFixtureRequest({ schema: 'wrong' })).errors.join(' '), /schema/);
   assert.match(validateWatchSubscriptionRequest(backendFixtureRequest({ version: 2 })).errors.join(' '), /version/);
   assert.match(validateWatchSubscriptionRequest(backendFixtureRequest({ watch: { schema: 'wrong', version: 2 } })).errors.join(' '), /watch.schema/);
@@ -94,14 +94,14 @@ test('schema versions, unknown fields, and oversized payloads are rejected expli
   assert.match(validateWatchSubscriptionRequest(circular).errors.join(' '), /16384 bytes/);
 });
 
-test('coordinate minimization uses four decimals without mutating the request', () => {
+test('[SHOULD-7][STORY-33] coordinate minimization uses four decimals without mutating the request', () => {
   const centre = { latitude: 43.6532267, longitude: -79.3831843 };
   assert.equal(WATCH_COORDINATE_DECIMALS, 4);
   assert.deepEqual(minimizeWatchCentre(centre), { latitude: 43.6532, longitude: -79.3832 });
   assert.deepEqual(centre, { latitude: 43.6532267, longitude: -79.3831843 });
 });
 
-test('opaque ID and possession token generators are injectable and deterministic', async () => {
+test('[SHOULD-7][STORY-33] opaque ID and possession token generators are injectable and deterministic', async () => {
   const { repository, service } = fixtureService();
   const created = await service.createWatch(validWatchSubscriptionRequest);
   const stored = await repository.getWatch(created.watch.id);
@@ -111,7 +111,7 @@ test('opaque ID and possession token generators are injectable and deterministic
   assert.match(stored.possessionTokenHash, /^[a-f0-9]{64}$/);
 });
 
-test('service rejects broken generators and handles absent or malformed authorization state', async () => {
+test('[SHOULD-7][STORY-33] service rejects broken generators and handles absent or malformed authorization state', async () => {
   assert.throws(() => createWatchService(), /repository/);
   for (const overrides of [
     { idGenerator: () => '' },
@@ -136,7 +136,7 @@ test('service rejects broken generators and handles absent or malformed authoriz
   assert.equal('vapidKeyVersion' in created.watch, false);
 });
 
-test('authorized update replaces mutable domain data and preserves internal fields', async () => {
+test('[SHOULD-7][STORY-33] authorized update replaces mutable domain data and preserves internal fields', async () => {
   const { repository, service } = fixtureService(undefined, { now: (() => {
     const values = [fixtureTimestamp, '2026-09-25T15:00:00.000Z'];
     return () => values.shift();
@@ -155,7 +155,7 @@ test('authorized update replaces mutable domain data and preserves internal fiel
   assert.equal(stored.id, deterministicWatchId);
 });
 
-test('wrong possession token cannot update or delete an existing watch', async () => {
+test('[SHOULD-7][STORY-33] wrong possession token cannot update or delete an existing watch', async () => {
   const { service } = fixtureService();
   await service.createWatch(validWatchSubscriptionRequest);
   await assert.rejects(service.updateWatch(deterministicWatchId, 'wrong-token', validWatchSubscriptionRequest), WatchAuthorizationError);
@@ -163,7 +163,7 @@ test('wrong possession token cannot update or delete an existing watch', async (
   assert.ok(await service.getWatch(deterministicWatchId));
 });
 
-test('delete is authorized and duplicate deletion is idempotent', async () => {
+test('[SHOULD-7][STORY-33] delete is authorized and duplicate deletion is idempotent', async () => {
   const { service } = fixtureService();
   await service.createWatch(validWatchSubscriptionRequest);
   assert.deepEqual(await service.deleteWatch(deterministicWatchId, deterministicPossessionToken), { deleted: true });
@@ -171,7 +171,7 @@ test('delete is authorized and duplicate deletion is idempotent', async () => {
   assert.equal(await service.getWatch(deterministicWatchId), null);
 });
 
-test('repository supports multiple watches, active filtering, defensive copies, and reset', async () => {
+test('[SHOULD-7][STORY-33] repository supports multiple watches, active filtering, defensive copies, and reset', async () => {
   const repository = new InMemoryWatchRepository();
   const first = fixtureService(repository, { idGenerator: () => 'opaque-active' }).service;
   const second = fixtureService(repository, { idGenerator: () => 'opaque-disabled' }).service;
@@ -193,13 +193,13 @@ test('repository supports multiple watches, active filtering, defensive copies, 
   assert.deepEqual(await repository.listActiveWatches(), []);
 });
 
-test('expired subscription metadata is retained for later reconciliation', async () => {
+test('[SHOULD-7][STORY-33] expired subscription metadata is retained for later reconciliation', async () => {
   const { repository, service } = fixtureService();
   await service.createWatch(backendFixtureRequest({ subscription: { expirationTime: 1 } }));
   assert.equal((await repository.getWatch(deterministicWatchId)).subscription.expirationTime, 1);
 });
 
-test('validation and authorization errors never echo sensitive request values', async () => {
+test('[SHOULD-7][STORY-33] validation and authorization errors never echo sensitive request values', async () => {
   const malformed = backendFixtureRequest({ subscription: { p256dh: 'secret-malformed-key' } });
   const validation = validateWatchSubscriptionRequest(malformed);
   const rendered = JSON.stringify(validation);
@@ -213,7 +213,7 @@ test('validation and authorization errors never echo sensitive request values', 
   });
 });
 
-test('process-local fixture repository requires an explicit switch and loopback host', () => {
+test('[SHOULD-7][STORY-33] process-local fixture repository requires an explicit switch and loopback host', () => {
   assert.throws(() => createLoopbackWatchRepository({ enabled: true, hostname: 'sirento.example' }), /loopback/);
   assert.throws(() => createLoopbackWatchRepository({ enabled: false, hostname: '127.0.0.1' }), /explicit switch/);
   assert.ok(createLoopbackWatchRepository({ enabled: true, hostname: 'localhost' }) instanceof InMemoryWatchRepository);

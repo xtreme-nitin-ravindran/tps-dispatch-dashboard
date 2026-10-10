@@ -11,14 +11,14 @@ import {
 } from "../src/watch-matcher.js";
 import { fixtureIncidents, fixtureWatch } from "./fixtures/watch-matcher.js";
 
-test("valid watches normalize to the minimal versioned schema", () => {
+test("[SHOULD-7][STORY-33] valid watches normalize to the minimal versioned schema", () => {
   const normalized = normalizeWatch({ ...fixtureWatch, id: "  local-1  ", ignoredUiState: "map" });
   assert.deepEqual(normalized, { ...fixtureWatch, id: "local-1" });
   assert.equal(validateWatch(normalized).valid, true);
   assert.equal("ignoredUiState" in normalized, false);
 });
 
-test("watch validation rejects invalid schema, coordinates, radius, filters, and active state", () => {
+test("[SHOULD-7][STORY-33] watch validation rejects invalid schema, coordinates, radius, filters, and active state", () => {
   for (const value of [null, [], 'watch']) assert.equal(validateWatch(value).valid, false);
   for (const patch of [
     { schema: 'wrong' }, { version: 2 }, { id: '' }, { centre: null }, { centre: [] },
@@ -32,13 +32,13 @@ test("watch validation rejects invalid schema, coordinates, radius, filters, and
   assert.throws(() => normalizeWatch(null), /Invalid watch/);
 });
 
-test("geographic matching includes a point immediately inside the boundary", () => {
+test("[SHOULD-7][STORY-33] geographic matching includes a point immediately inside the boundary", () => {
   assert.equal(watchMatchesIncident(fixtureWatch, fixtureIncidents.inside), true);
   assert.equal(watchMatchesIncident(fixtureWatch, fixtureIncidents.nearBoundary), true);
   assert.equal(watchMatchesIncident(fixtureWatch, fixtureIncidents.outside), false);
 });
 
-test("service and category filters use existing SirenTO semantics", () => {
+test("[SHOULD-7][STORY-33] service and category filters use existing SirenTO semantics", () => {
   assert.equal(evaluateWatchMatch(fixtureWatch, fixtureIncidents.wrongService).reason, "service-filter");
   assert.equal(evaluateWatchMatch(fixtureWatch, fixtureIncidents.wrongCategory).reason, "category-filter");
   assert.equal(watchMatchesIncident({ ...fixtureWatch, service: "all", category: "all" }, fixtureIncidents.wrongService), true);
@@ -49,7 +49,7 @@ test("service and category filters use existing SirenTO semantics", () => {
   assert.equal(watchMatchesIncident(fixtureWatch, withoutPrecomputedCategory), true);
 });
 
-test("lifecycle eligibility distinguishes new, meaningful updates, and routine refreshes", () => {
+test("[SHOULD-7][STORY-33] lifecycle eligibility distinguishes new, meaningful updates, and routine refreshes", () => {
   assert.equal(incidentNotificationKind(null), null);
   assert.equal(incidentNotificationKind({ firstSeenAt: undefined, lastMeaningfulUpdateAt: '2026-09-25T12:06:00.000Z' }), "updated:2026-09-25T12:06:00.000Z");
   assert.equal(incidentNotificationKind(fixtureIncidents.inside), "new:v1");
@@ -59,7 +59,7 @@ test("lifecycle eligibility distinguishes new, meaningful updates, and routine r
   assert.equal(evaluateWatchMatch(fixtureWatch, { ...fixtureIncidents.inside, firstSeenAt: undefined }).reason, "ineligible-lifecycle");
 });
 
-test("dedupe keys are stable across refreshes and change for meaningful updates", () => {
+test("[SHOULD-7][STORY-33] dedupe keys are stable across refreshes and change for meaningful updates", () => {
   const first = evaluateWatchMatch(fixtureWatch, fixtureIncidents.inside);
   const refreshed = evaluateWatchMatch(fixtureWatch, fixtureIncidents.refreshed);
   const updated = evaluateWatchMatch(fixtureWatch, fixtureIncidents.updated);
@@ -70,7 +70,7 @@ test("dedupe keys are stable across refreshes and change for meaningful updates"
   assert.equal(evaluateWatchMatch(fixtureWatch, fixtureIncidents.inside, { notifiedKeys: [first.dedupeKey] }).reason, "duplicate");
 });
 
-test("stale and unavailable sources suppress matching without invalidating the watch", () => {
+test("[SHOULD-7][STORY-33] stale and unavailable sources suppress matching without invalidating the watch", () => {
   for (const sourceState of ["stale", "unavailable"]) {
     const result = evaluateWatchMatch(fixtureWatch, fixtureIncidents.inside, { sourceState });
     assert.equal(result.matches, false);
@@ -81,7 +81,7 @@ test("stale and unavailable sources suppress matching without invalidating the w
   assert.equal(sourceAllowsNotification("fresh"), true);
 });
 
-test("test-only fixtures exercise invalid and unsupported matcher paths deterministically", () => {
+test("[SHOULD-7][STORY-33] test-only fixtures exercise invalid and unsupported matcher paths deterministically", () => {
   assert.equal(evaluateWatchMatch({ ...fixtureWatch, schema: "test-invalid" }, fixtureIncidents.inside).reason, "invalid-watch");
   assert.equal(evaluateWatchMatch({ ...fixtureWatch, radiusKm: null }, fixtureIncidents.inside).reason, "invalid-watch");
   assert.equal(evaluateWatchMatch(fixtureWatch, fixtureIncidents.inside, { sourceState: "unknown" }).reason, "invalid-source-state");

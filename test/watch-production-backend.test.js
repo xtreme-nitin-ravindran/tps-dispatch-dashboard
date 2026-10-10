@@ -51,7 +51,7 @@ function request(path, { method = 'POST', origin = productionOrigin, body = vali
   return new Request(`https://watch-api.example.test${path}`, init);
 }
 
-test('real API and durable adapter create, update, sanitize, delete, and idempotently re-delete', async () => {
+test('[SHOULD-7][STORY-33] real API and durable adapter create, update, sanitize, delete, and idempotently re-delete', async () => {
   const { api, repository } = fixtureApi();
   const createdResponse = await api(request('/watches'));
   assert.equal(createdResponse.status, 201);
@@ -90,7 +90,7 @@ test('real API and durable adapter create, update, sanitize, delete, and idempot
   assert.equal(await repository.getWatch(deterministicWatchId), null);
 });
 
-test('API enforces routes, methods, JSON media type, size, parsing, validation, token, and origin', async () => {
+test('[SHOULD-7][STORY-33] API enforces routes, methods, JSON media type, size, parsing, validation, token, and origin', async () => {
   const { api, repository } = fixtureApi();
   assert.equal((await api(request('/watches', { method: 'GET', body: null }))).status, 405);
   assert.equal((await api(request('/watches/not.valid', { method: 'PATCH' }))).status, 404);
@@ -130,7 +130,7 @@ test('API enforces routes, methods, JSON media type, size, parsing, validation, 
   assert.equal((await api(request(`/watches/${deterministicWatchId}`, { method: 'GET', body: null }))).status, 405);
 });
 
-test('watch creation fails closed without the Cloudflare limiter and returns a bounded 429', async () => {
+test('[SHOULD-7][STORY-33] watch creation fails closed without the Cloudflare limiter and returns a bounded 429', async () => {
   const unavailable = fixtureApi(new FakeD1Database(), null);
   assert.equal((await unavailable.api(request('/watches'))).status, 503);
   assert.equal(await unavailable.repository.getWatch(deterministicWatchId), null);
@@ -153,7 +153,7 @@ test('watch creation fails closed without the Cloudflare limiter and returns a b
   assert.equal((await nullResult.api(request('/watches'))).status, 429);
 });
 
-test('D1 failures become small non-sensitive service failures and corrupt rows are rejected', async () => {
+test('[SHOULD-7][STORY-33] D1 failures become small non-sensitive service failures and corrupt rows are rejected', async () => {
   const failing = fixtureApi(new FakeD1Database({ fail: true }));
   const response = await failing.api(request('/watches'));
   assert.equal(response.status, 503);
@@ -177,7 +177,7 @@ test('D1 failures become small non-sensitive service failures and corrupt rows a
   await assert.rejects(database.prepare('UNEXPECTED').bind().run(), /Unexpected/);
 });
 
-test('VAPID config keeps sending secrets server-side and fails clearly when required values are absent', () => {
+test('[SHOULD-7][STORY-33] VAPID config keeps sending secrets server-side and fails clearly when required values are absent', () => {
   const base = { WATCH_ALLOWED_ORIGINS: `${productionOrigin},${localOrigin}` };
   const prepared = loadWatchBackendConfig(base);
   assert.equal(prepared.vapidPublicKey, '');
@@ -202,7 +202,7 @@ test('VAPID config keeps sending secrets server-side and fails clearly when requ
   }, { requireSendingSecrets: true }), /VAPID_SUBJECT/);
 });
 
-test('API and D1 adapters reject missing dependencies and preserve empty mutation results', async () => {
+test('[SHOULD-7][STORY-33] API and D1 adapters reject missing dependencies and preserve empty mutation results', async () => {
   assert.throws(() => createWatchApi({}), /service/);
   const noOrigins = createWatchApi({ service: {}, allowedOrigins: undefined });
   assert.equal((await noOrigins(new Request('https://watch.example/watches'))).status, 403);
@@ -231,7 +231,7 @@ test('API and D1 adapters reject missing dependencies and preserve empty mutatio
   assert.deepEqual(await new D1WatchRepository(emptyDatabase).listActiveWatches(), []);
 });
 
-test('production D1 fixture covers reachable write conflicts and storage failures', async () => {
+test('[SHOULD-7][STORY-33] production D1 fixture covers reachable write conflicts and storage failures', async () => {
   const database = new FakeD1Database();
   const repository = new D1WatchRepository(database);
   const record = { id: 'fixture-coverage', active: true, updatedAt: fixtureTimestamp };
@@ -245,7 +245,7 @@ test('production D1 fixture covers reachable write conflicts and storage failure
   await assert.rejects(new D1WatchRepository(new FakeD1Database({ fail: true })).listActiveWatches(), /storage failure/);
 });
 
-test('HTTP client adapter creates, updates, deletes, and stores credentials only in browser storage', async () => {
+test('[SHOULD-7][STORY-33] HTTP client adapter creates, updates, deletes, and stores credentials only in browser storage', async () => {
   const storage = memoryStorage();
   const calls = [];
   const fetchImpl = async (url, options) => {
@@ -280,7 +280,7 @@ test('HTTP client adapter creates, updates, deletes, and stores credentials only
   assert.equal(watchApiBaseUrlFrom({ querySelector: () => ({ content: 'https://watch.example///' }) }), 'https://watch.example');
 });
 
-test('HTTP client recreates a watch when retention removed its stale backend credential', async () => {
+test('[SHOULD-7][STORY-33] HTTP client recreates a watch when retention removed its stale backend credential', async () => {
   const storage = memoryStorage();
   storage.setItem(WATCH_BACKEND_CREDENTIAL_STORAGE_KEY, JSON.stringify({
     version: 1, watchId: deterministicWatchId, possessionToken: deterministicPossessionToken
@@ -301,7 +301,7 @@ test('HTTP client recreates a watch when retention removed its stale backend cre
   });
 });
 
-test('production fixture query parameters have no effect', () => {
+test('[SHOULD-7][STORY-33] production fixture query parameters have no effect', () => {
   assert.equal(pushFixtureOptions({
     hostname: 'sirento.nitin.run', search: '?watchFixture=current&permission=granted&subscribe=success'
   }), null);

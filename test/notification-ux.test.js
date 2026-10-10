@@ -8,7 +8,7 @@ import { incidentDeepLink, readSharedIncident } from '../src/view-controls.js';
 
 const app = await readFile(new URL('../src/app/app.js', import.meta.url), 'utf8');
 
-test('production wording is concise, source-aware, and differs for the two supported kinds', () => {
+test('[SHOULD-7][STORY-33] production wording is concise, source-aware, and differs for the two supported kinds', () => {
   const base = { notificationKind: 'new:v1', incident: { source: 'TFS', description: 'Residential Fire Alarm', distanceKm: 0.84 } };
   assert.deepEqual(formatNotificationContent(base), {
     title: 'SirenTO — New incident nearby',
@@ -23,7 +23,7 @@ test('production wording is concise, source-aware, and differs for the two suppo
   });
 });
 
-test('notification content omits invalid distance and private watch context', () => {
+test('[SHOULD-7][STORY-33] notification content omits invalid distance and private watch context', () => {
   const candidate = {
     notificationKind: 'new:v1', watchId: 'private-watch', possessionToken: 'private-token',
     incident: { source: 'TFS', description: 'Alarm', distanceKm: NaN },
@@ -41,7 +41,7 @@ test('notification content omits invalid distance and private watch context', ()
   assert.ok(shortened.body.length <= 180);
 });
 
-test('canonical incident links reuse the established parser and contain only allowlisted context', () => {
+test('[SHOULD-7][STORY-33] canonical incident links reuse the established parser and contain only allowlisted context', () => {
   const url = new URL(incidentDeepLink('https://sirento.example/app/?secret=x#private', 'TPS/42'));
   assert.equal(url.href, 'https://sirento.example/app/?view=1&incident=TPS%2F42');
   assert.equal(readSharedIncident(url.searchParams), 'TPS/42');
@@ -51,7 +51,7 @@ test('canonical incident links reuse the established parser and contain only all
   assert.throws(() => incidentDeepLink('https://sirento.example/', 'x'.repeat(301)), /incidentId/);
 });
 
-test('arrival restoration distinguishes visible, filtered, missing, mobile, and desktop states', () => {
+test('[SHOULD-7][STORY-33] arrival restoration distinguishes visible, filtered, missing, mobile, and desktop states', () => {
   const incidents = [{ id: 'present' }];
   assert.deepEqual(incidentArrivalState('present', incidents, incidents), {
     id: 'present', found: true, missing: false, needsReveal: false, mobileView: null, mobileSheetState: null
@@ -68,7 +68,7 @@ test('arrival restoration distinguishes visible, filtered, missing, mobile, and 
   assert.match(app, /restorePendingIncident\(\)[\s\S]*?state\.calls, state\.filtered[\s\S]*?setMobileSheetState/);
 });
 
-test('manual notification fixtures are loopback-only production guards', () => {
+test('[SHOULD-7][STORY-33] manual notification fixtures are loopback-only production guards', () => {
   const search = '?push=new-tfs&arrival=present&click=existing-client';
   assert.deepEqual(pushFixtureOptions({ hostname: '127.0.0.1', search }), {
     push: 'new-tfs', arrival: 'present', click: 'existing-client'

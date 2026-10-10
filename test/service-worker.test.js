@@ -62,7 +62,7 @@ function fetchEvent(url, { mode = "cors", method = "GET" } = {}) {
   };
 }
 
-test("worker precaches the static app shell without live incident data", async () => {
+test("[SHOULD-8][STORY-23] worker precaches the static app shell without live incident data", async () => {
   const { listeners, calls } = loadWorker();
   let installation;
   listeners.install({ waitUntil(value) { installation = value; } });
@@ -79,7 +79,7 @@ test("worker precaches the static app shell without live incident data", async (
   assert.ok(!calls.added.some(asset => asset.includes("current.json")));
 });
 
-test("worker ignores live API and incident snapshot requests", () => {
+test("[SHOULD-8][STORY-23] worker ignores live API and incident snapshot requests", () => {
   const { listeners, calls } = loadWorker();
   const liveUrls = [
     "https://data-sirento.nitin.run/data/current.json?ts=1",
@@ -100,7 +100,7 @@ test("worker ignores live API and incident snapshot requests", () => {
   assert.deepEqual(calls.fetched, []);
 });
 
-test("worker serves listed assets from cache and leaves other online requests alone", async () => {
+test("[SHOULD-8][STORY-23] worker serves listed assets from cache and leaves other online requests alone", async () => {
   const { listeners, calls } = loadWorker();
   const asset = fetchEvent("https://example.test/sirento/src/app/app.js?v=deploy-2");
   listeners.fetch(asset.event);
@@ -112,7 +112,7 @@ test("worker serves listed assets from cache and leaves other online requests al
   assert.equal(ordinaryRequest.response(), undefined);
 });
 
-test("navigations remain network-first and fall back to the cached shell", async () => {
+test("[SHOULD-8][STORY-23] navigations remain network-first and fall back to the cached shell", async () => {
   const online = loadWorker();
   const onlineNavigation = fetchEvent("https://example.test/sirento/", { mode: "navigate" });
   online.listeners.fetch(onlineNavigation.event);
@@ -125,7 +125,7 @@ test("navigations remain network-first and fall back to the cached shell", async
   assert.deepEqual(await navigation.response(), { source: "cache" });
 });
 
-test("activation removes old SirenTO shell versions only", async () => {
+test("[SHOULD-8][STORY-23] activation removes old SirenTO shell versions only", async () => {
   const { listeners, calls } = loadWorker();
   let activation;
   listeners.activate({ waitUntil(value) { activation = value; } });
@@ -133,7 +133,7 @@ test("activation removes old SirenTO shell versions only", async () => {
   assert.deepEqual(calls.deleted, ["sirento-shell-old"]);
 });
 
-test("valid versioned push payload renders a concise user-visible notification", async () => {
+test("[SHOULD-7][STORY-33] valid versioned push payload renders a concise user-visible notification", async () => {
   const { listeners, calls } = loadWorker();
   let work;
   listeners.push({
@@ -152,7 +152,7 @@ test("valid versioned push payload renders a concise user-visible notification",
   assert.deepEqual(Object.keys(calls.notifications[0].options.data), ["url", "incidentId"]);
 });
 
-test("malformed, cross-origin, and coordinate-only push payloads are ignored", async () => {
+test("[SHOULD-7][STORY-33] malformed, cross-origin, and coordinate-only push payloads are ignored", async () => {
   for (const value of [
     () => { throw new Error("bad json"); },
     () => ({ schema: "sirento.push", version: 1, incident: { id: "1", title: "Title", body: "Body", url: "https://evil.test/?incident=1" } }),
@@ -166,7 +166,7 @@ test("malformed, cross-origin, and coordinate-only push payloads are ignored", a
   }
 });
 
-test("notification click focuses and navigates an existing SirenTO client", async () => {
+test("[SHOULD-7][STORY-33] notification click focuses and navigates an existing SirenTO client", async () => {
   const events = [];
   const existing = {
     url: "https://example.test/sirento/",
@@ -188,7 +188,7 @@ test("notification click focuses and navigates an existing SirenTO client", asyn
   assert.equal(worker.calls.opened.length, 0);
 });
 
-test("notification click opens the canonical incident URL when no client exists", async () => {
+test("[SHOULD-7][STORY-33] notification click opens the canonical incident URL when no client exists", async () => {
   const { listeners, calls } = loadWorker();
   let work;
   let closed = false;
@@ -202,7 +202,7 @@ test("notification click opens the canonical incident URL when no client exists"
   assert.deepEqual(calls.opened, [url]);
 });
 
-test("notification click reselects an incident in an already canonical client without a duplicate window", async () => {
+test("[SHOULD-7][STORY-33] notification click reselects an incident in an already canonical client without a duplicate window", async () => {
   const events = [];
   const url = "https://example.test/sirento/?view=1&incident=TFS-2";
   const existing = {
@@ -223,7 +223,7 @@ test("notification click reselects an incident in an already canonical client wi
   assert.deepEqual(worker.calls.opened, []);
 });
 
-test("notification click closes but rejects malformed and non-allowlisted destinations", async () => {
+test("[SHOULD-7][STORY-33] notification click closes but rejects malformed and non-allowlisted destinations", async () => {
   for (const data of [
     { url: "https://evil.test/?view=1&incident=x", incidentId: "x" },
     { url: "https://example.test/sirento/?view=1&incident=x&token=private", incidentId: "x" },
