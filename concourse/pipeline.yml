@@ -2,10 +2,10 @@ resources:
   - name: refresh
     type: time
     source:
-      # The single update-sirento job runs the incident ETL plus a 4.5-minute TTC
-      # vehicle burst. Five-minute ticks minimize sampling gaps; max_in_flight
+      # The single update-sirento job runs the incident ETL plus a 2.5-minute TTC
+      # vehicle burst. Three-minute ticks minimize sampling gaps; max_in_flight
       # prevents overlapping publications if a run exceeds the timer interval.
-      interval: 5m
+      interval: 3m
   - name: repo
     type: git
     source:
