@@ -22,7 +22,7 @@ const memoryStorage = () => {
   return { getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value) };
 };
 
-test('watch surface has an entry point, close control, exact matcher choices, and no Toronto-wide option', () => {
+test('[SHOULD-7][STORY-33] watch surface has an entry point, close control, exact matcher choices, and no Toronto-wide option', () => {
   assert.match(html, /id="openWatch"[^>]*>Watch this area</);
   assert.match(html, /id="watchDialog"/);
   assert.match(html, /id="closeWatch"/);
@@ -32,7 +32,7 @@ test('watch surface has an entry point, close control, exact matcher choices, an
   for (const value of ['all', 'TFS', 'TPS', 'medical', 'fire', 'ongoing', 'other']) assert.match(dialog, new RegExp(`value="${value}"`));
 });
 
-test('watch object maps UI values to the exact Story 33B schema and persists locally', () => {
+test('[SHOULD-7][STORY-33] watch object maps UI values to the exact Story 33B schema and persists locally', () => {
   const watch = createLocalWatch({
     id: 'local-watch', location: { label: 'Home', latitude: 43.65, longitude: -79.38 },
     radiusKm: 0.5, service: 'TFS', category: 'medical'
@@ -55,7 +55,7 @@ test('watch object maps UI values to the exact Story 33B schema and persists loc
   assert.equal(loadLocalWatch(storage), null);
 });
 
-test('selected current, saved, map, and missing location contexts are deterministic', () => {
+test('[SHOULD-7][STORY-33] selected current, saved, map, and missing location contexts are deterministic', () => {
   assert.deepEqual(watchLocationContext({ fixture: 'current' }), { label: 'Current location', latitude: 43.7001, longitude: -79.42 });
   assert.deepEqual(watchLocationContext({ fixture: 'saved' }), { label: 'Home', latitude: 43.6532, longitude: -79.3832 });
   assert.equal(watchLocationContext({ fixture: 'none', coordinates: [43.7, -79.4] }), null);
@@ -68,7 +68,7 @@ test('selected current, saved, map, and missing location contexts are determinis
   assert.equal(watchLocationContext({ coordinates: [43.7, 'west'] }), null);
 });
 
-test('radius defaults only to matcher-supported values', () => {
+test('[SHOULD-7][STORY-33] radius defaults only to matcher-supported values', () => {
   assert.equal(defaultWatchRadius(0.5), 0.5);
   assert.equal(defaultWatchRadius(5), 5);
   assert.equal(defaultWatchRadius(null), 2);
@@ -76,7 +76,7 @@ test('radius defaults only to matcher-supported values', () => {
   assert.throws(() => createLocalWatch({ id: 'bad', location: null, radiusKm: 1, service: 'all', category: 'all' }), /Invalid watch/);
 });
 
-test('support states cover supported, unsupported, denied, and iOS installation guidance', () => {
+test('[SHOULD-7][STORY-33] support states cover supported, unsupported, denied, and iOS installation guidance', () => {
   const fixtureEnvironment = value => ({ location: { hostname: 'localhost', search: `?watchFixture=${value}` } });
   assert.equal(watchSupportState(fixtureEnvironment('supported')).kind, 'supported');
   assert.equal(watchSupportState(fixtureEnvironment('unsupported')).kind, 'unsupported');
@@ -94,7 +94,7 @@ test('support states cover supported, unsupported, denied, and iOS installation 
   assert.equal(watchSupportState({ Notification: { permission: 'default' }, PushManager: class {} }).kind, 'unsupported');
 });
 
-test('fixtures require an explicit valid state on a loopback hostname', () => {
+test('[SHOULD-7][STORY-33] fixtures require an explicit valid state on a loopback hostname', () => {
   for (const fixture of WATCH_FIXTURE_STATES) assert.equal(watchFixtureState({ hostname: 'localhost', search: `?watchFixture=${fixture}` }), fixture);
   assert.equal(watchFixtureState({ hostname: '127.0.0.1', search: '?watchFixture=current' }), 'current');
   assert.equal(watchFixtureState({ hostname: '::1', search: '?watchFixture=saved' }), 'saved');
@@ -105,7 +105,7 @@ test('fixtures require an explicit valid state on a loopback hostname', () => {
   assert.equal(watchFixtureState({ hostname: 'localhost' }), null);
 });
 
-test('watch implementation requests permission and subscribes only through the explicit submit flow', () => {
+test('[SHOULD-7][STORY-33] watch implementation requests permission and subscribes only through the explicit submit flow', () => {
   const source = `${app}\n${moduleSource}`;
   assert.doesNotMatch(source, /fetch\s*\([^)]*watch/i);
   assert.match(app, /watchDialog\.showModal\(\)/);

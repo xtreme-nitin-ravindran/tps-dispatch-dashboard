@@ -54,7 +54,7 @@ function runtime({ permission = 'granted', existing = null, subscribeError = nul
   return { environment, calls };
 }
 
-test('capability detection covers secure context, APIs, denial, and detectable iOS installation', () => {
+test('[SHOULD-7][STORY-33] capability detection covers secure context, APIs, denial, and detectable iOS installation', () => {
   const supported = runtime().environment;
   assert.equal(pushCapability(supported).kind, 'supported');
   assert.equal(pushCapability({ ...supported, isSecureContext: false }).kind, 'unsupported');
@@ -63,7 +63,7 @@ test('capability detection covers secure context, APIs, denial, and detectable i
   assert.equal(pushCapability({ isSecureContext: true, navigator: { userAgent: 'iPhone' }, matchMedia: () => ({ matches: false }) }).kind, 'ios-install');
 });
 
-test('permission is never requested without an explicit user action', async () => {
+test('[SHOULD-7][STORY-33] permission is never requested without an explicit user action', async () => {
   const fixture = runtime({ permission: 'default' });
   const controller = createPushSubscriptionController({ environment: fixture.environment, vapidPublicKey: vapidKey });
   assert.equal((await controller.activate(watch)).kind, 'gesture-required');
@@ -72,7 +72,7 @@ test('permission is never requested without an explicit user action', async () =
   assert.equal(controller.capability().kind, 'supported');
 });
 
-test('granted permission subscribes with userVisibleOnly and converted public VAPID key', async () => {
+test('[SHOULD-7][STORY-33] granted permission subscribes with userVisibleOnly and converted public VAPID key', async () => {
   const fixture = runtime();
   let saved;
   const adapter = { async saveWatchSubscription(payload) { saved = payload; return { ok: true }; } };
@@ -87,7 +87,7 @@ test('granted permission subscribes with userVisibleOnly and converted public VA
   assert.equal(saved.subscription.endpoint, 'https://push.example/sub/secret');
 });
 
-test('explicit activation replaces a subscription created with an old VAPID key', async () => {
+test('[SHOULD-7][STORY-33] explicit activation replaces a subscription created with an old VAPID key', async () => {
   const fixture = createPushFixtureRuntime({ hostname: 'localhost', search: '?permission=granted&subscription=valid&subscribe=success' });
   const calls = { deleted: 0 };
   const existing = await (await fixture.environment.navigator.serviceWorker.ready).pushManager.getSubscription();
@@ -107,7 +107,7 @@ test('explicit activation replaces a subscription created with an old VAPID key'
   assert.equal(fixture.calls.subscribe, 1);
 });
 
-test('denied and dismissed permission never subscribe or repeatedly prompt', async () => {
+test('[SHOULD-7][STORY-33] denied and dismissed permission never subscribe or repeatedly prompt', async () => {
   const denied = runtime({ permission: 'denied' });
   const deniedResult = await createPushSubscriptionController({ environment: denied.environment, vapidPublicKey: vapidKey })
     .activate(watch, { explicitUserAction: true });
@@ -123,7 +123,7 @@ test('denied and dismissed permission never subscribe or repeatedly prompt', asy
   assert.equal(dismissed.calls.subscribe, 0);
 });
 
-test('subscription serializer and pairing contain only backend fields', () => {
+test('[SHOULD-7][STORY-33] subscription serializer and pairing contain only backend fields', () => {
   const serialized = serializePushSubscription(subscription({ expirationTime: 123 }));
   assert.deepEqual(serialized, {
     endpoint: 'https://push.example/sub/secret', expirationTime: 123,
@@ -134,14 +134,14 @@ test('subscription serializer and pairing contain only backend fields', () => {
   assert.equal(JSON.stringify(payload).includes('label'), false);
 });
 
-test('subscribe failures are contained and reported', async () => {
+test('[SHOULD-7][STORY-33] subscribe failures are contained and reported', async () => {
   const fixture = runtime({ subscribeError: new Error('offline') });
   const result = await createPushSubscriptionController({ environment: fixture.environment, vapidPublicKey: vapidKey })
     .activate(watch, { explicitUserAction: true });
   assert.equal(result.kind, 'subscribe-failed');
 });
 
-test('foreground reconciliation trusts actual subscription state', async () => {
+test('[SHOULD-7][STORY-33] foreground reconciliation trusts actual subscription state', async () => {
   const valid = createPushSubscriptionController({ environment: runtime({ existing: subscription() }).environment });
   assert.equal((await valid.reconcile(watch)).kind, 'active');
   assert.equal((await valid.reconcile(null)).kind, 'orphaned');
@@ -151,7 +151,7 @@ test('foreground reconciliation trusts actual subscription state', async () => {
   assert.equal((await expired.reconcile(watch, { now: 2 })).kind, 'expired');
 });
 
-test('unsubscribe invokes backend deletion before browser unsubscribe', async () => {
+test('[SHOULD-7][STORY-33] unsubscribe invokes backend deletion before browser unsubscribe', async () => {
   const events = [];
   const existing = subscription({ events });
   const adapter = { async deleteWatchSubscription() { events.push('delete'); return { ok: true }; } };
@@ -160,7 +160,7 @@ test('unsubscribe invokes backend deletion before browser unsubscribe', async ()
   assert.deepEqual(events, ['delete', 'unsubscribe']);
 });
 
-test('loopback fixtures are deterministic and cannot activate on production hosts', async () => {
+test('[SHOULD-7][STORY-33] loopback fixtures are deterministic and cannot activate on production hosts', async () => {
   const url = { hostname: '127.0.0.1', search: '?permission=granted&subscription=missing&subscribe=success&unsubscribe=success&push=sample&click=existing-client' };
   assert.deepEqual(pushFixtureOptions(url), {
     permission: 'granted', subscription: 'missing', subscribe: 'success', unsubscribe: 'success', push: 'sample', click: 'existing-client'
@@ -177,7 +177,7 @@ test('loopback fixtures are deterministic and cannot activate on production host
   assert.equal(fixture.calls.unsubscribe, 1);
 });
 
-test('push helpers reject malformed state and tolerate absent optional browser plumbing', async () => {
+test('[SHOULD-7][STORY-33] push helpers reject malformed state and tolerate absent optional browser plumbing', async () => {
   assert.equal(pushFixtureOptions({ hostname: 'localhost', search: '' }), null);
   assert.equal(pushFixtureOptions({ hostname: 'localhost' }), null);
   assert.equal(pushFixtureOptions(null), null);
@@ -202,7 +202,7 @@ test('push helpers reject malformed state and tolerate absent optional browser p
   assert.equal((await disabled.deleteWatchSubscription()).kind, 'adapter-disabled');
 });
 
-test('activation, reconciliation, and unsubscribe cover safe fallback outcomes', async () => {
+test('[SHOULD-7][STORY-33] activation, reconciliation, and unsubscribe cover safe fallback outcomes', async () => {
   const unsupported = createPushSubscriptionController({ environment: {} });
   assert.equal((await unsupported.activate(watch, { explicitUserAction: true })).kind, 'unsupported');
   assert.equal((await unsupported.reconcile(watch)).kind, 'unsupported');
@@ -270,7 +270,7 @@ test('activation, reconciliation, and unsubscribe cover safe fallback outcomes',
   assert.equal(noWatchResult.backendDeleted, false);
 });
 
-test('activation storage and HTTP adapter contain corrupt credentials and backend failures', async () => {
+test('[SHOULD-7][STORY-33] activation storage and HTTP adapter contain corrupt credentials and backend failures', async () => {
   const values = new Map();
   const storage = {
     getItem: key => values.get(key) ?? null,
@@ -320,7 +320,7 @@ test('activation storage and HTTP adapter contain corrupt credentials and backen
 
 });
 
-test('loopback runtime variants exercise permission, expiry, failure, and cleanup deterministically', async () => {
+test('[SHOULD-7][STORY-33] loopback runtime variants exercise permission, expiry, failure, and cleanup deterministically', async () => {
   assert.equal(createPushFixtureRuntime({ hostname: 'example.test', search: '' }), null);
   const unsupported = createPushFixtureRuntime({ hostname: 'example.test', search: '' }, { unsupported: true });
   assert.equal(pushCapability(unsupported.environment).kind, 'unsupported');

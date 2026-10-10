@@ -33,7 +33,7 @@ async function fixture(overrides = {}) {
   return { database, watchRepository, pipeline };
 }
 
-test('matching creates the minimal candidate and one durable private dedupe row', async () => {
+test('[SHOULD-7][STORY-33] matching creates the minimal candidate and one durable private dedupe row', async () => {
   const { database, pipeline } = await fixture();
   const result = await pipeline.evaluateSnapshot(matchingSnapshot());
   assert.equal(result.candidates.length, 1);
@@ -55,7 +55,7 @@ test('matching creates the minimal candidate and one durable private dedupe row'
   assert.equal(Number.isFinite(blankResult.candidates[0].incident.distanceKm), true);
 });
 
-test('radius, service, category, and inactive watch filtering reuse backend matcher behavior', async () => {
+test('[SHOULD-7][STORY-33] radius, service, category, and inactive watch filtering reuse backend matcher behavior', async () => {
   const cases = [
     { watch: matchingWatch, incident: matchingIncident('outside', 1.5) },
     { watch: matchingWatch, incident: matchingIncident('service', 0.5, { source: 'TPS' }) },
@@ -68,7 +68,7 @@ test('radius, service, category, and inactive watch filtering reuse backend matc
   }
 });
 
-test('fresh feeds may match while stale and unavailable feeds preserve watches without candidates', async () => {
+test('[SHOULD-7][STORY-33] fresh feeds may match while stale and unavailable feeds preserve watches without candidates', async () => {
   for (const status of ['stale', 'unavailable']) {
     const { pipeline, watchRepository } = await fixture();
     assert.equal((await pipeline.evaluateSnapshot(matchingSnapshot({ status }))).candidates.length, 0);
@@ -80,7 +80,7 @@ test('fresh feeds may match while stale and unavailable feeds preserve watches w
   assert.equal((await (await fixture()).pipeline.evaluateSnapshot(old)).candidates.length, 0);
 });
 
-test('first sighting, routine refresh, and meaningful update follow stable lifecycle dedupe semantics', async () => {
+test('[SHOULD-7][STORY-33] first sighting, routine refresh, and meaningful update follow stable lifecycle dedupe semantics', async () => {
   const { database, pipeline } = await fixture();
   assert.equal((await pipeline.evaluateSnapshot(matchingSnapshot())).candidates.length, 1);
   const refreshed = matchingIncident('incident-1', 0.5, { lastSeenAt: '2026-09-25T12:05:30.000Z' });
@@ -92,7 +92,7 @@ test('first sighting, routine refresh, and meaningful update follow stable lifec
   assert.equal(database.notifications.size, 2);
 });
 
-test('duplicate and overlapping processing atomically produce exactly one candidate', async () => {
+test('[SHOULD-7][STORY-33] duplicate and overlapping processing atomically produce exactly one candidate', async () => {
   const database = new FakeD1Database();
   const first = await fixture({ database });
   const second = await fixture({ database, watches: [] });
@@ -105,7 +105,7 @@ test('duplicate and overlapping processing atomically produce exactly one candid
   assert.equal((await first.pipeline.evaluateSnapshot(matchingSnapshot())).candidates.length, 0);
 });
 
-test('multiple watches and incidents create one candidate for each eligible pair', async () => {
+test('[SHOULD-7][STORY-33] multiple watches and incidents create one candidate for each eligible pair', async () => {
   const watches = [matchingWatch, { ...matchingWatch, id: 'watch-second' }];
   const incidents = [matchingIncident('incident-1'), matchingIncident('incident-2', 0.7)];
   const { database, pipeline } = await fixture({ watches });
@@ -113,7 +113,7 @@ test('multiple watches and incidents create one candidate for each eligible pair
   assert.equal(database.notifications.size, 4);
 });
 
-test('corrupt stored watches are skipped independently and expired dedupe rows are cleaned deterministically', async () => {
+test('[SHOULD-7][STORY-33] corrupt stored watches are skipped independently and expired dedupe rows are cleaned deterministically', async () => {
   const { database, pipeline } = await fixture();
   database.records.set('corrupt-json', { id: 'corrupt-json', active: 1, record_json: '{private broken' });
   database.records.set('invalid-watch', {
@@ -132,7 +132,7 @@ test('corrupt stored watches are skipped independently and expired dedupe rows a
   assert.equal(row.expires_at, '2026-10-25T12:06:00.000Z');
 });
 
-test('inactive watches expire after 30 days while active and recently disabled watches remain', async () => {
+test('[SHOULD-7][STORY-33] inactive watches expire after 30 days while active and recently disabled watches remain', async () => {
   const expired = { ...structuredClone(matchingWatch), id: 'inactive-expired', active: false,
     updatedAt: '2026-08-25T12:05:59.000Z' };
   const boundary = { ...structuredClone(matchingWatch), id: 'inactive-boundary', active: false,
@@ -149,7 +149,7 @@ test('inactive watches expire after 30 days while active and recently disabled w
   assert.ok(await watchRepository.getWatch(matchingWatch.id));
 });
 
-test('malformed snapshots fail before watches or dedupe are changed', async () => {
+test('[SHOULD-7][STORY-33] malformed snapshots fail before watches or dedupe are changed', async () => {
   const { database, pipeline } = await fixture();
   for (const snapshot of [null, {}, matchingSnapshot({ incidents: [{ id: 'bad' }] })]) {
     assert.equal(validateIncidentSnapshot(snapshot).valid, false);
@@ -159,7 +159,7 @@ test('malformed snapshots fail before watches or dedupe are changed', async () =
   assert.equal(database.records.size, 1);
 });
 
-test('snapshot validation covers malformed feeds, timestamps, and incident shapes', () => {
+test('[SHOULD-7][STORY-33] snapshot validation covers malformed feeds, timestamps, and incident shapes', () => {
   const malformed = [
     { ...matchingSnapshot(), schemaVersion: 2 },
     { ...matchingSnapshot(), fetchedAt: 'never' },
@@ -177,7 +177,7 @@ test('snapshot validation covers malformed feeds, timestamps, and incident shape
   assert.equal(matcherContractWatch().schema, 'sirento.watch');
 });
 
-test('pipeline rejects unsafe configuration and invalid clocks without touching storage', async () => {
+test('[SHOULD-7][STORY-33] pipeline rejects unsafe configuration and invalid clocks without touching storage', async () => {
   const database = new FakeD1Database();
   const dependencies = {
     watchRepository: new D1WatchRepository(database),
@@ -203,7 +203,7 @@ test('pipeline rejects unsafe configuration and invalid clocks without touching 
   assert.equal((await loopback.evaluateSnapshot(currentSnapshot)).candidates.length, 0);
 });
 
-test('invalid subscriptions are skipped independently before durable claims', async () => {
+test('[SHOULD-7][STORY-33] invalid subscriptions are skipped independently before durable claims', async () => {
   for (const subscription of [null, {}, { endpoint: 'not a url', p256dh: 'key', auth: 'auth' },
     { endpoint: 'http://push.example/send', p256dh: 'key', auth: 'auth' },
     { endpoint: 'https://user:pass@push.example/send', p256dh: 'key', auth: 'auth' },
@@ -216,7 +216,7 @@ test('invalid subscriptions are skipped independently before durable claims', as
   }
 });
 
-test('scheduled handler fetches the normalized snapshot and has no public fixture or push path', async () => {
+test('[SHOULD-7][STORY-33] scheduled handler fetches the normalized snapshot and has no public fixture or push path', async () => {
   const database = new FakeD1Database();
   await new D1WatchRepository(database).createWatch(structuredClone(matchingWatch));
   const calls = [];
@@ -240,7 +240,7 @@ test('scheduled handler fetches the normalized snapshot and has no public fixtur
   assert.doesNotMatch(worker, /fixture|pushManager|webpush/i);
 });
 
-test('scheduled snapshot loading rejects unavailable, oversized, and malformed sources', async () => {
+test('[SHOULD-7][STORY-33] scheduled snapshot loading rejects unavailable, oversized, and malformed sources', async () => {
   const environment = {
     WATCH_DB: new FakeD1Database(),
     WATCH_SNAPSHOT_URL: 'https://sirento.example/data/current.json',
