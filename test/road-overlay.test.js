@@ -94,7 +94,7 @@ test('[SHOULD-11][STORY-25] point-only closures render one marker and select the
  const selection=fired.find(event=>event.name==='roadclosureselect');assert.equal(selection.payload.closureId,'point-1');assert.equal(selection.payload.item,data.roads.items[1]);
 });
 
-test('[SHOULD-11][STORY-25] road diagnostic reports layer ownership, renderer kind, and queued redraw state',()=>{
+test('[SHOULD-11][STORY-25][STORY-29E] road diagnostic reports layer ownership, renderer kind, and queued redraw state',()=>{
  const {groups,map}=harness();renderDisruptions(data,null,12,map);
  const overlay=groups.at(-1);const line=overlay.items.find(item=>item.kind==='line');
  map.panes.roadClosurePane.style.transform='translate3d(2px, 3px, 0)';
@@ -122,7 +122,7 @@ test('[SHOULD-11][STORY-25] toggle hides and restores every closure element with
  assert.deepEqual(map.center,[43.7,-79.4]);assert.deepEqual(map.filterState,{service:'TPS'});assert.equal(map.selectedIncident,'incident-7');assert.equal(map.zoom,12);
 });
 
-test('[SHOULD-11][STORY-25] overlay-only toggles preserve rendered layers and defer first-time creation',()=>{
+test('[SHOULD-11][STORY-25][STORY-29E] overlay-only toggles preserve rendered layers and defer first-time creation',()=>{
  const {groups,map,created,flush}=harness();
  renderDisruptions(data,null,10,map);
  const overlay=groups.at(-1);const layers=[...overlay.items];const createdCount=created.length;
@@ -133,7 +133,7 @@ test('[SHOULD-11][STORY-25] overlay-only toggles preserve rendered layers and de
  flush();assert.deepEqual(overlay.items,layers);assert.equal(created.length,createdCount);
 });
 
-test('[SHOULD-11][STORY-25] viewport scheduling falls back safely when requestAnimationFrame is unavailable',async()=>{
+test('[SHOULD-11][STORY-25][STORY-29E] viewport scheduling falls back safely when requestAnimationFrame is unavailable',async()=>{
  const {groups,map}=harness();
  globalThis.requestAnimationFrame=undefined;
  renderDisruptions(data,null,10,map);
@@ -212,7 +212,7 @@ test('[SHOULD-11][STORY-25] defensive map branches neither fabricate geometry no
  renderDisruptions(variants,null,10,null);
 });
 
-test('[SHOULD-11][STORY-25] no-op viewport updates reuse closure layers and coalesce move and zoom events',()=>{
+test('[SHOULD-11][STORY-25][STORY-29E] no-op viewport updates reuse closure layers and coalesce move and zoom events',()=>{
  const {groups,map,created,flush}=harness();renderDisruptions(data,null,12,map);
  const overlay=groups.at(-1);const initialLayers=[...overlay.items];const initialCreated=created.length;
  map.trigger('moveend');map.trigger('zoomend');
@@ -221,14 +221,14 @@ test('[SHOULD-11][STORY-25] no-op viewport updates reuse closure layers and coal
  assert.ok(initialLayers.every(layer=>layer.listenerCount===1));
 });
 
-test('[SHOULD-11][STORY-25] a stale scheduled viewport render is ignored after the map changes',()=>{
+test('[SHOULD-11][STORY-25][STORY-29E] a stale scheduled viewport render is ignored after the map changes',()=>{
  const first=harness();renderDisruptions(data,null,12,first.map);first.map.trigger('moveend');
  const second=harness();renderDisruptions(data,null,12,second.map);
  first.flush();
  assert.equal(first.groups.length,1);assert.equal(second.groups.length,1);
 });
 
-test('[SHOULD-11][STORY-25] viewport deltas remove departed closures and add newly visible closures without duplicates',()=>{
+test('[SHOULD-11][STORY-25][STORY-29E] viewport deltas remove departed closures and add newly visible closures without duplicates',()=>{
  const {groups,map,flush}=harness();renderDisruptions(data,null,12,map);
  const overlay=groups.at(-1);const retained=overlay.items.find(item=>item.options.closureId==='point-1');
  map.bounds={contains:point=>point[0]===44 || point[0]===46,pad(){return this;}};
@@ -240,7 +240,7 @@ test('[SHOULD-11][STORY-25] viewport deltas remove departed closures and add new
  data.roads.items.pop();
 });
 
-test('[SHOULD-11][STORY-25] changed geometry replaces only the affected closure representation',()=>{
+test('[SHOULD-11][STORY-25][STORY-29E] changed geometry replaces only the affected closure representation',()=>{
  const {groups,map}=harness();renderDisruptions(data,null,12,map);
  const overlay=groups.at(-1);const oldLine=overlay.items.find(item=>item.options.closureId==='line-1' && item.kind==='line');
  const changed={...data,roads:{...data.roads,items:data.roads.items.map(item=>item.id==='line-1' ? {...item,line:[[43,-79],[43,-76]]} : item)}};
@@ -250,7 +250,7 @@ test('[SHOULD-11][STORY-25] changed geometry replaces only the affected closure 
  assert.equal(overlay.items.filter(item=>item.options.closureId==='point-1').length,1);
 });
 
-test('[SHOULD-11][STORY-25] symbols regenerate only when zoom crosses a density tier',()=>{
+test('[SHOULD-11][STORY-25][STORY-29E] symbols regenerate only when zoom crosses a density tier',()=>{
  const {groups,map,created,flush}=harness(12);renderDisruptions(data,null,12,map);
  const overlay=groups.at(-1);const line=overlay.items.find(item=>item.kind==='line');const point=overlay.items.find(item=>item.options.closureId==='point-1');
  const initialCreated=created.length;map.zoom=13;map.trigger('zoomend');flush();
