@@ -15,7 +15,7 @@ const call = (id, minutes, coordinates) => ({
   coordinates
 });
 
-test('Nearest orders calls by distance ascending with deterministic time and id ties', () => {
+test('[STORY-18] Nearest orders calls by distance ascending with deterministic time and id ties', () => {
   const calls = [
     call('far', 59, [43.67, -79.38]),
     call('tie-b', 20, [43.651, -79.38]),
@@ -25,12 +25,12 @@ test('Nearest orders calls by distance ascending with deterministic time and id 
   assert.deepEqual(sortNearbyCalls(calls, 'nearest', origin).map(item => item.id), ['near-newer', 'tie-a', 'tie-b', 'far']);
 });
 
-test('Newest orders calls by reported time descending with deterministic id ties', () => {
+test('[STORY-18] Newest orders calls by reported time descending with deterministic id ties', () => {
   const calls = [call('older', 10, origin), call('same-b', 30, origin), call('same-a', 30, origin)];
   assert.deepEqual(sortNearbyCalls(calls, 'newest', origin).map(item => item.id), ['same-a', 'same-b', 'older']);
 });
 
-test('sorting handles unavailable locations, timestamp fallbacks, and stable anonymous ties', () => {
+test('[STORY-18] sorting handles unavailable locations, timestamp fallbacks, and stable anonymous ties', () => {
   const timestampOnly = { id: 'timestamp', timestamp: '2026-09-24T12:30:00Z' };
   const invalidTime = { id: 'invalid', time: 'not-a-date' };
   const anonymousA = { timestamp: 'not-a-date' };
@@ -45,7 +45,7 @@ test('sorting handles unavailable locations, timestamp fallbacks, and stable ano
   assert.deepEqual(sortNearbyCalls([invalidTime, timestampOnly], 'nearest'), [timestampOnly, invalidTime]);
 });
 
-test('sort control has only the requested modes and Nearest follows location availability', () => {
+test('[STORY-18] sort control has only the requested modes and Nearest follows location availability', () => {
   const controlMatch = html.match(/<select id="nearbySort"[\s\S]*?<\/select>/);
   assert.ok(controlMatch);
   const control = controlMatch[0];
@@ -53,7 +53,7 @@ test('sort control has only the requested modes and Nearest follows location ava
   assert.match(app, /querySelector\('\[value="nearest"\]'\)\.disabled = !state\.nearby/);
 });
 
-test('sort changes rerender loaded calls without fetching or changing filters, radius, or selection', () => {
+test('[STORY-18] sort changes rerender loaded calls without fetching or changing filters, radius, or selection', () => {
   const start = app.indexOf("nearbySort.addEventListener('change'");
   const handler = app.slice(start, app.indexOf("\n});", start) + 4);
   assert.match(handler, /state\.nearbySort =/);
@@ -62,7 +62,7 @@ test('sort changes rerender loaded calls without fetching or changing filters, r
   assert.match(app, /focusedCallId = reconcileIncidentSelection\(focusedCallId, state\.filtered\)/);
 });
 
-test('mobile view switching preserves the session sort selection', () => {
+test('[STORY-18] mobile view switching preserves the session sort selection', () => {
   const start = app.indexOf('function setMobileView(');
   const setter = app.slice(start, app.indexOf('\nmobileViewToggles.forEach', start));
   assert.doesNotMatch(setter, /nearbySort/);

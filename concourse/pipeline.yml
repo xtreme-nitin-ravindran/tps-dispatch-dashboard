@@ -2,9 +2,9 @@ resources:
   - name: refresh
     type: time
     source:
-      # The single update-sirento job runs the incident ETL plus a 90-second TTC
-      # vehicle burst and typically takes 2-4 minutes. A 5-minute interval keeps
-      # the timer above the worst-case job duration so builds do not queue.
+      # The single update-sirento job runs the incident ETL plus a 4.5-minute TTC
+      # vehicle burst. Five-minute ticks minimize sampling gaps; max_in_flight
+      # prevents overlapping publications if a run exceeds the timer interval.
       interval: 5m
   - name: repo
     type: git
@@ -71,7 +71,7 @@ jobs:
                   TFS_PREVIOUS=/tmp/history/current.json \
                   TFS_OUTPUT="$INCIDENT_OUTPUT" \
                   node scripts/publish-incidents.js
-      # Bounded 90-second vehicle burst; never runs the heavy incident ETL.
+      # Bounded 4.5-minute vehicle burst; never runs the heavy incident ETL.
       - task: observe-vehicles
         timeout: 6m
         file: repo/concourse/ttc-vehicles.yml
