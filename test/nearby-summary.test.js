@@ -16,7 +16,7 @@ const locatedCall = (source, eventCategory, minutesAgo, coordinates) => ({
   geography: { coordinates }
 });
 
-test("[MUST-1][MUST-3][STORY-1] nearby summary counts filtered calls by service and incident category", () => {
+test("[MUST-1][MUST-3][STORY-3][STORY-1] nearby summary counts filtered calls by service and incident category", () => {
   const calls = [
     call("TFS", "fire", 3),
     call("TFS", "fire", 20),
@@ -31,7 +31,7 @@ test("[MUST-1][MUST-3][STORY-1] nearby summary counts filtered calls by service 
   );
 });
 
-test("[MUST-1][MUST-3][STORY-1] nearby summary handles empty and singular results", () => {
+test("[MUST-1][MUST-3][STORY-3][STORY-1] nearby summary handles empty and singular results", () => {
   assert.equal(nearbySummary([], 2, now), "0 recent calls within 2 km · Last 24h.");
   assert.equal(
     nearbySummary([call("TPS", "other", 0)], 5, now),
@@ -39,7 +39,7 @@ test("[MUST-1][MUST-3][STORY-1] nearby summary handles empty and singular result
   );
 });
 
-test("[MUST-1][MUST-3][STORY-1] Toronto-wide summary does not imply a radius", () => {
+test("[MUST-1][MUST-3][STORY-3][STORY-1] Toronto-wide summary does not imply a radius", () => {
   assert.equal(
     nearbySummary([call("TFS", "fire", 2), call("TPS", "other", 8)], null, now),
     "2 recent calls across Toronto · 1 Fire · 1 Police · Latest 2 min ago · Last 24h."
@@ -55,14 +55,14 @@ test("[MUST-1][STORY-1] nearby summary always shows the active history window", 
   assert.match(nearbySummary([], 2, now, null, undefined, 168), /· Last 7 days\.$/);
 });
 
-test("[MUST-1][MUST-3][STORY-1] nearby summary formats hour, day, plural-day, and future ages", () => {
+test("[MUST-1][MUST-3][STORY-3][STORY-1] nearby summary formats hour, day, plural-day, and future ages", () => {
   assert.match(nearbySummary([call("TFS", "medical", 60)], 10, now), /Latest 1 hr ago · Last 24h\.$/);
   assert.match(nearbySummary([call("TFS", "fire", 1_440)], 10, now), /Latest 1 day ago · Last 24h\.$/);
   assert.match(nearbySummary([call("TFS", "other", 2_880)], 10, now), /Latest 2 days ago · Last 24h\.$/);
   assert.match(nearbySummary([call("TPS", "other", -5)], 10, now), /Latest just now · Last 24h\.$/);
 });
 
-test("[MUST-1][MUST-3][MUST-4][STORY-1] nearby summary calculates the closest filtered incident with the card distance formatter", () => {
+test("[MUST-1][MUST-3][MUST-4][STORY-3][STORY-1] nearby summary calculates the closest filtered incident with the card distance formatter", () => {
   const origin = [43.65, -79.38];
   const calls = [
     locatedCall("TFS", "fire", 4, [43.66, -79.38]),
@@ -87,7 +87,7 @@ test("[MUST-1][MUST-4][STORY-1] nearby summary recalculates closest distance and
   assert.match(nearbySummary(calls.slice(0, 1), 1, now, origin), /^1 recent call within 1 km · 1 Fire · Closest 1\.1 km ·/);
 });
 
-test("[MUST-1][MUST-3][MUST-4][STORY-1] nearby summary omits closest distance with no incidents or no user location", () => {
+test("[MUST-1][MUST-3][MUST-4][STORY-3][STORY-1] nearby summary omits closest distance with no incidents or no user location", () => {
   assert.equal(nearbySummary([], 2, now, [43.65, -79.38]), "0 recent calls within 2 km · Last 24h.");
   assert.equal(
     nearbySummary([locatedCall("TPS", "other", 0, [43.652, -79.38])], 2, now),
@@ -95,7 +95,7 @@ test("[MUST-1][MUST-3][MUST-4][STORY-1] nearby summary omits closest distance wi
   );
 });
 
-test("[MUST-1][MUST-3][MUST-4][STORY-1] mobile summary keeps only count, closest, latest, and Toronto-wide context", () => {
+test("[MUST-1][MUST-3][MUST-4][STORY-3][STORY-1] mobile summary keeps only count, closest, latest, and Toronto-wide context", () => {
   const origin = [43.65, -79.38];
   const calls = [
     locatedCall("TFS", "fire", 4, [43.66, -79.38]),
@@ -108,14 +108,14 @@ test("[MUST-1][MUST-3][MUST-4][STORY-1] mobile summary keeps only count, closest
   assert.equal(mobileNearbySummary([], null, now), "No recent Toronto calls · Last 24h.");
 });
 
-test("[MUST-1][MUST-3][STORY-1] mobile summary always shows the active history window", () => {
+test("[MUST-1][MUST-3][STORY-3][STORY-1] mobile summary always shows the active history window", () => {
   assert.equal(mobileNearbySummary([call("TFS", "fire", 2)], 2, now, null, undefined, 1), "1 call · Latest 2 min ago · Last 1h");
   assert.equal(mobileNearbySummary([call("TFS", "fire", 2)], 2, now, null, undefined, 72), "1 call · Latest 2 min ago · Last 3 days");
   assert.equal(mobileNearbySummary([call("TFS", "fire", 2)], 2, now, null, undefined, 168), "1 call · Latest 2 min ago · Last 7 days");
   assert.equal(mobileNearbySummary([], 2, now, null, undefined, 168), "No calls match in this area · Last 7 days.");
 });
 
-test("[MUST-1][MUST-3][MUST-4][STORY-1] mobile summary formats singular, hour, day, plural-day, future, and custom-coordinate ages", () => {
+test("[MUST-1][MUST-3][MUST-4][STORY-3][STORY-1] mobile summary formats singular, hour, day, plural-day, future, and custom-coordinate ages", () => {
   const origin = [43.65, -79.38];
   assert.equal(mobileNearbySummary([locatedCall("TFS", "fire", 60, [43.652, -79.38])], 2, now, origin), "1 call · Closest 0.2 km · Latest 1 hr ago · Last 24h");
   assert.equal(mobileNearbySummary([call("TFS", "fire", 1_440)], null, now), "1 Toronto call · Latest 1 day ago · Last 24h");
