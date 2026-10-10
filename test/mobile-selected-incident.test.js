@@ -5,7 +5,7 @@ import { reconcileIncidentSelection } from '../src/incident-selection.js';
 
 const app = await readFile(new URL('../src/app/app.js', import.meta.url), 'utf8');
 
-test('tapping a mobile marker opens the sheet and reveals its matching shared card', () => {
+test('[MUST-6][STORY-9] tapping a mobile marker opens the sheet and reveals its matching shared card', () => {
   const markerClickMatch = app.match(/\.on\("click", event => \{[\s\S]*?\n {6}\}\);/);
   assert.ok(markerClickMatch);
   const markerClick = markerClickMatch[0];
@@ -16,7 +16,7 @@ test('tapping a mobile marker opens the sheet and reveals its matching shared ca
   assert.match(app, /if \(revealRow && selectedRow\) \{[\s\S]*?focus\(\{ preventScroll: true \}\)[\s\S]*?scrollIntoView\([\s\S]*?pin-highlight/);
 });
 
-test('card selection persists into Map and highlights the same marker without changing zoom', () => {
+test('[MUST-6][STORY-9] card selection persists into Map and highlights the same marker without changing zoom', () => {
   assert.match(app, /selectCall\(row\.dataset\.callId, \{ pan: !isMobileViewLayout\(\) \|\| mobileView === "map" \}\)/);
   assert.match(app, /setMobileView\(toggle\.dataset\.mobileView, \{ focusSelection: toggle\.dataset\.mobileView === "map" \}\)/);
   assert.match(app, /focusSelection && mobile && view === "map" && focusedCallId[\s\S]*?selectCall\(focusedCallId, \{ panIfNeeded: true \}\)/);
@@ -25,7 +25,7 @@ test('card selection persists into Map and highlights the same marker without ch
   assert.doesNotMatch(app, /setView\(coordinates/);
 });
 
-test('selection clears whenever filtering or refreshed data removes the incident', () => {
+test('[MUST-6][STORY-9] selection clears whenever filtering or refreshed data removes the incident', () => {
   assert.equal(reconcileIncidentSelection('kept', [{ id: 'kept' }]), 'kept');
   assert.equal(reconcileIncidentSelection('filtered-out', [{ id: 'other' }]), null);
   assert.equal(reconcileIncidentSelection('disappeared', []), null);
@@ -33,7 +33,7 @@ test('selection clears whenever filtering or refreshed data removes the incident
   assert.match(app, /state\.calls = snapshot\.calls;[\s\S]*?if \(callsChanged \|\| firstSnapshot\) \{[\s\S]*?applyFilters\(\)/);
 });
 
-test('mobile behavior reuses the desktop selection model and leaves desktop marker behavior intact', () => {
+test('[MUST-6][STORY-9] mobile behavior reuses the desktop selection model and leaves desktop marker behavior intact', () => {
   assert.equal([...app.matchAll(/let focusedCallId = null/g)].length, 1);
   assert.doesNotMatch(app, /mobileSelected|selectedMobile|mobileSelection/);
   assert.match(app, /if \(!mobile\) setTimeout\(\(\) => event\.target\.openPopup\(\), 0\)/);
@@ -41,7 +41,7 @@ test('mobile behavior reuses the desktop selection model and leaves desktop mark
   assert.match(app, /row\.classList\.toggle\("selected", selected\)[\s\S]*?setAttribute\("aria-pressed", String\(selected\)\)/);
 });
 
-test('desktop list and layout remain the default outside the mobile media query', () => {
+test('[MUST-6][STORY-9] desktop list and layout remain the default outside the mobile media query', () => {
   assert.match(app, /const host = mobile && mobileView === "map" \? mobileSheetCallList : callsListHome/);
   assert.match(app, /\[els\.callList\][\s\S]*?handleIncidentListClick/);
   assert.match(app, /if \(!mobile\) setTimeout\(\(\) => event\.target\.openPopup\(\), 0\)/);
