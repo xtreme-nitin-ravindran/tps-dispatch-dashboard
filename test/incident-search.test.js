@@ -14,7 +14,7 @@ function listenerFor(start, end = "\n});") {
 const incident = location => ({ id: "TPS-123", source: "TPS",
   description: "Medical Emergency", location, division: "Division 53" });
 
-test("existing incident fields support case-insensitive partial matching", () => {
+test("[SHOULD-5][STORY-22] existing incident fields support case-insensitive partial matching", () => {
   const call = { ...incident("Queen St & Bay St"), divisionId: "D53", keyword: "Rescue" };
   for (const query of ["medical", "EMERG", "queen", "division 5", "d53", "tps-12", "RESC"])
     assert.equal(incidentMatchesSearch(call, query), true, query);
@@ -22,26 +22,26 @@ test("existing incident fields support case-insensitive partial matching", () =>
   assert.equal(incidentMatchesSearch(call, "unrelated place"), false);
 });
 
-test("display locations and missing optional fields are handled safely", () => {
+test("[SHOULD-5][STORY-22] display locations and missing optional fields are handled safely", () => {
   assert.equal(incidentMatchesSearch({}, "harbour", "Harbourfront"), true);
   assert.equal(incidentMatchesSearch({}, null), true);
   assert.equal(incidentMatchesSearch({}, "harbour"), false);
 });
 
-test("common intersection separators match the existing location", () => {
+test("[SHOULD-5][STORY-22] common intersection separators match the existing location", () => {
   const call = incident("Yonge & Bloor");
   for (const query of ["Yonge & Bloor", "Yonge and Bloor", "Yonge/Bloor", "Yonge - Bloor"]) {
     assert.equal(incidentMatchesSearch(call, query), true, query);
   }
 });
 
-test("street order is ignored for unseparated intersection queries", () => {
+test("[SHOULD-5][STORY-22] street order is ignored for unseparated intersection queries", () => {
   const call = incident("Yonge St & Bloor St W");
   assert.equal(incidentMatchesSearch(call, "Yonge Bloor"), true);
   assert.equal(incidentMatchesSearch(call, "Bloor Yonge"), true);
 });
 
-test("common street suffix variants are equivalent", () => {
+test("[SHOULD-5][STORY-22] common street suffix variants are equivalent", () => {
   for (const [location, query] of [
     ["King St & Bay Street", "King Street and Bay St"],
     ["Avenue Rd / Bloor St", "Avenue Road & Bloor Street"],
@@ -49,7 +49,7 @@ test("common street suffix variants are equivalent", () => {
   ]) assert.equal(incidentMatchesSearch(incident(location), query), true, `${location} / ${query}`);
 });
 
-test("street punctuation, whitespace, accents, and directions normalize without broadening matches", () => {
+test("[SHOULD-5][STORY-22] street punctuation, whitespace, accents, and directions normalize without broadening matches", () => {
   assert.equal(incidentMatchesSearch(incident("St. Clair Ave W & Bathurst St"), "  bathurst / st clair w  "), true);
   assert.equal(incidentMatchesSearch(incident("Églinton Avenue E & Mount Pleasant Road"),
     "Mount-Pleasant & Eglinton Ave E"), true);
@@ -59,7 +59,7 @@ test("street punctuation, whitespace, accents, and directions normalize without 
   assert.equal(incidentMatchesSearch(incident("Yonge St N & Bloor St W"), "Bloor W Yonge N"), true);
 });
 
-test("malformed or incomplete intersections fall back without false positives", () => {
+test("[SHOULD-5][STORY-22] malformed or incomplete intersections fall back without false positives", () => {
   const call = incident("Yonge St & Bloor St");
   for (const query of ["Yonge &", "Yonge & Bloor & Bay", "Yonge Bloor Bay", "!!!"])
     assert.equal(incidentMatchesSearch(call, query), false, query);
@@ -67,21 +67,21 @@ test("malformed or incomplete intersections fall back without false positives", 
   assert.equal(incidentMatchesSearch(incident("Yonge Street"), "Bloor & Yonge"), false);
 });
 
-test("intersection normalization does not match unrelated locations", () => {
+test("[SHOULD-5][STORY-22] intersection normalization does not match unrelated locations", () => {
   const call = incident("Yonge St & Bloor St");
   for (const query of ["Yonge & College", "Bloor & Bay", "Yonge Boulevard", "Kingston Bloor"]) {
     assert.equal(incidentMatchesSearch(call, query), false, query);
   }
 });
 
-test("search input reuses loaded data without refetching", async () => {
+test("[SHOULD-5][STORY-22] search input reuses loaded data without refetching", async () => {
   const listenerStart = app.indexOf('els.searchInput.addEventListener("input"');
   const listener = app.slice(listenerStart, app.indexOf("\n});", listenerStart) + 4);
   assert.match(listener, /state\.search = e\.target\.value;\s*applyFilters\(\);/);
   assert.doesNotMatch(listener, /fetch|loadData|checkForChanges|refreshLoop/);
 });
 
-test("search control explains its scope and has explicit accessible labels", () => {
+test("[SHOULD-5][STORY-22] search control explains its scope and has explicit accessible labels", () => {
   const search = html.slice(html.indexOf('<div class="search-wrap">'), html.indexOf('<div class="control-group">'));
   assert.match(search, /<label[^>]+for="searchInput"[^>]*>Search dispatch calls<\/label>/);
   assert.match(search, /placeholder="Search call type, street, intersection, or division…"/);
@@ -90,12 +90,12 @@ test("search control explains its scope and has explicit accessible labels", () 
   assert.match(search, /id="clearSearch"[^>]+aria-label="Clear search"/);
 });
 
-test("a search with no matches renders a clear search-specific empty state", () => {
+test("[SHOULD-5][STORY-22] a search with no matches renders a clear search-specific empty state", () => {
   assert.match(app, /state\.search\.trim\(\) \? 'No calls match your search\.'/);
   assert.match(app, /Clear the search or try a different call type, street, intersection, or division\./);
 });
 
-test("clear search removes only the query and reapplies the current filters", () => {
+test("[SHOULD-5][STORY-22] clear search removes only the query and reapplies the current filters", () => {
   const listener = listenerFor('els.clearSearch.addEventListener("click"');
   assert.match(listener, /state\.search = "";\s*applyFilters\(\);\s*els\.searchInput\.focus\(\);/);
   assert.doesNotMatch(listener, /state\.(?:hours|division|serviceFilter|eventFilter|radiusKm|nearby)\s*=/);
@@ -107,7 +107,7 @@ test("clear search removes only the query and reapplies the current filters", ()
   assert.match(app, /populateDivisionFilter\(eligibleCalls\);\s*state\.filtered = eligibleCalls\.filter\(call =>\s*\(state\.division[^;]+incidentMatchesSearch/);
 });
 
-test("filter and radius changes preserve and resync the current query", () => {
+test("[SHOULD-5][STORY-22] filter and radius changes preserve and resync the current query", () => {
   for (const listener of [
     listenerFor("document.querySelector('#historyHours').addEventListener('change'"),
     listenerFor('els.divisionSelect.addEventListener("change"'),
