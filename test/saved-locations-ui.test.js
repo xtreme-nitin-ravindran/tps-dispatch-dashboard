@@ -12,8 +12,8 @@ import {
 
 const [html, css, app] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
-  readFile(new URL('../styles.css', import.meta.url), 'utf8'),
-  readFile(new URL('../app.js', import.meta.url), 'utf8')
+  readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8'),
+  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8')
 ]);
 
 function memoryStorage() {

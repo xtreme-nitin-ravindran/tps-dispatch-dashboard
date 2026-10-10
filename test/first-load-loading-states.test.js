@@ -6,8 +6,8 @@ import { uxReliabilityFixtureOptions } from '../src/ux-reliability-audit.js';
 
 const [html, css, app] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
-  readFile(new URL('../styles.css', import.meta.url), 'utf8'),
-  readFile(new URL('../app.js', import.meta.url), 'utf8')
+  readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8'),
+  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8')
 ]);
 
 test('map has an immediate non-blocking status until the first tile is usable', () => {

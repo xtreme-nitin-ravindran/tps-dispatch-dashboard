@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-const app = await readFile(new URL('../app.js', import.meta.url), 'utf8');
+const app = await readFile(new URL('../src/app/app.js', import.meta.url), 'utf8');
 
 const R2_HOST = 'data-sirento.nitin.run';
 const SNAPSHOT_URL = `https://${R2_HOST}/data/current.json`;
@@ -24,7 +24,7 @@ test('snapshotUrl no longer references the retired git data branch', () => {
 });
 
 test('the ttc-diversions.json derivation yields the R2 geometry URL', () => {
-  // app.js derives the geometry URL by replacing the literal "current.json"
+  // src/app/app.js derives the geometry URL by replacing the literal "current.json"
   // substring, so the base URL must keep that substring intact.
   const derived = snapshotUrlLiteral().replace('current.json', 'ttc-diversions.json');
   assert.equal(derived, GEOMETRY_URL);

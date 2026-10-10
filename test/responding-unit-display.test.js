@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { respondingUnitLabel } from '../src/call-presentation.js';
 
-const app = await readFile(new URL('../app.js', import.meta.url), 'utf8');
+const app = await readFile(new URL('../src/app/app.js', import.meta.url), 'utf8');
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 
 test('responding-unit wording is singular or plural as appropriate', () => {

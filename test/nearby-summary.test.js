@@ -129,7 +129,7 @@ test("mobile summary formats singular, hour, day, plural-day, future, and custom
 
 test("nearby summary render derives non-empty details from loaded filtered calls without fetching", async () => {
   const { readFile } = await import("node:fs/promises");
-  const app = await readFile(new URL("../app.js", import.meta.url), "utf8");
+  const app = await readFile(new URL("../src/app/app.js", import.meta.url), "utf8");
   const start = app.indexOf("function renderNearbySummary()");
   const body = app.slice(start, app.indexOf("\n}\n\nfunction renderStats", start) + 2);
 

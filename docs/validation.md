@@ -39,17 +39,17 @@ ESLint, or Ruff commands. If a host-only failure uses a Node version allowed by
 canonical Docker gate passes.
 
 The wrapper computes a SHA-256 fingerprint of the image-defining inputs
-(`Dockerfile.test`, `.dockerignore`, `package.json`, `package-lock.json`) and compares it
+(`docker/Dockerfile.test`, `docker/Dockerfile.test.dockerignore`, `package.json`, `package-lock.json`) and compares it
 with the `org.sirento.test-fingerprint` label baked into the image. On mismatch it fails
 before testing with a clear rebuild command, so a stale image cannot silently validate old
 code. A commit-derived tag alone cannot detect uncommitted dependency changes; the
-fingerprint is content-derived, so it can. `.dockerignore` is included because it controls
+fingerprint is content-derived, so it can. `docker/Dockerfile.test.dockerignore` is included because it controls
 which files reach the build context: a rule that excluded a copied path would change the
 image while leaving the other inputs unchanged.
 
 The image is a dependency/tooling snapshot, not a source snapshot. Rebuilds reuse
 the dependency and tooling layers when only source changes. Build inputs must include
-every path copied by `Dockerfile.test`; `.dockerignore` must never exclude those paths.
+every path copied by `docker/Dockerfile.test`; `docker/Dockerfile.test.dockerignore` must never exclude those paths.
 Keep dependency installation separate from source copies, and copy stable content before
 volatile content so ordinary source changes do not reinstall dependencies.
 
@@ -226,7 +226,7 @@ It runs:
 - Docker image preparation (`scripts/docker-test.sh --ensure-image`, which builds only when the image is missing or its dependency/tooling fingerprint changed) — always sequential, before any container check
 - the independent validation jobs, scheduled concurrently with bounded concurrency:
   - full ESLint and Ruff linting (`npm run lint`)
-  - browser JavaScript syntax checks (`app.js` and every `src`/`scripts` `.js` file)
+  - browser JavaScript syntax checks (`src/app/app.js` and every `src`/`scripts` `.js` file)
   - the canonical offline unit suite in `TZ=America/Los_Angeles` (`npm test`)
   - Python tests (`npm run test:python`)
   - live-source integration tests (`npm run test:integration`)
@@ -267,7 +267,7 @@ rejected before any Docker work begins.
 
 Prerequisites:
 
-- Docker must be available and able to build `Dockerfile.test`.
+- Docker must be available and able to build `docker/Dockerfile.test`.
 - Live internet access is required for the integration suite. Source outages, rate
   limits, or incompatible responses fail that suite; empty valid feeds are allowed.
 - The snapshot checks compare against the locally fetched `origin/main` reference.
@@ -306,7 +306,7 @@ Fast mode runs, in order:
 
 - Docker image preparation (`scripts/docker-test.sh --ensure-image`, which builds only when the image is missing or its dependency/tooling fingerprint changed)
 - full ESLint and Ruff linting (`npm run lint`)
-- browser JavaScript syntax checks (`app.js` and every `src`/`scripts` `.js` file)
+- browser JavaScript syntax checks (`src/app/app.js` and every `src`/`scripts` `.js` file)
 - offline JavaScript unit tests under `TZ=UTC` — the canonical `npm test` suite with
   no arguments, or exactly the supplied `test/*.test.js` files with Node's test runner
 
@@ -343,7 +343,7 @@ simplest way to reproduce CI without installing Ruff on the host.
 
 ### JavaScript syntax checks
 
-Full and fast verification parse `app.js` and every JavaScript file under `src/` and `scripts/` to catch syntax errors. This does not execute the application or verify browser rendering; use the relevant unit and browser suites for those behaviors.
+Full and fast verification parse `src/app/app.js` and every JavaScript file under `src/` and `scripts/` to catch syntax errors. This does not execute the application or verify browser rendering; use the relevant unit and browser suites for those behaviors.
 
 ### Generate a development snapshot
 
@@ -352,7 +352,7 @@ Create local data for development or manual testing. This generates a snapshot; 
 Build the current SirenTO incident snapshot with:
 
 ```bash
-docker build -f Dockerfile.test -t toronto-dispatch-tests .
+docker build -f docker/Dockerfile.test -t toronto-dispatch-tests .
 docker run --rm -v "$PWD/data:/workspace/data" toronto-dispatch-tests npm run update:tfs
 ```
 

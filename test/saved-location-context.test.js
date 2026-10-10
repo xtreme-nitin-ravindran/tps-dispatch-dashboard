@@ -8,7 +8,7 @@ import { sortNearbyCalls } from '../src/nearby-sort.js';
 import { referenceCoordinates, savedLocationForContext } from '../src/saved-locations.js';
 
 const [app, html] = await Promise.all([
-  readFile(new URL('../app.js', import.meta.url), 'utf8'),
+  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
   readFile(new URL('../index.html', import.meta.url), 'utf8')
 ]);
 const home = { id: 'home', label: 'Home', latitude: 43.65, longitude: -79.38 };

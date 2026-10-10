@@ -35,9 +35,9 @@ test('online state removes the offline warning and leaves live behavior unchange
 
 test('app reacts to connectivity changes and exposes one shared responsive warning', async () => {
   const [app, html, css] = await Promise.all([
-    readFile(new URL('../app.js', import.meta.url), 'utf8'),
+    readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
     readFile(new URL('../index.html', import.meta.url), 'utf8'),
-    readFile(new URL('../styles.css', import.meta.url), 'utf8')
+    readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8')
   ]);
   assert.match(app, /window\.addEventListener\('offline',[\s\S]*renderOfflineStatus\(\)[\s\S]*render\(\)/);
   assert.match(app, /window\.addEventListener\('online',[\s\S]*renderOfflineStatus\(\)/);

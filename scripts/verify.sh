@@ -37,7 +37,7 @@
 #   npm run verify:fast -- test/file-a.test.js test/file-b.test.js
 #
 # Requirements:
-# - Docker must be available and able to build Dockerfile.test.
+# - Docker must be available and able to build docker/Dockerfile.test.
 # - Full mode requires live internet access for the integration suite.
 # - Full mode's snapshot checks compare against the locally fetched origin/main ref.
 #
@@ -154,7 +154,7 @@ resolve_jobs() {
 #
 # Format: <name>|<wrapper args...>
 FULL_JOBS='lint|npm run lint
-javascript-syntax|sh -c node --check app.js && find src scripts -name "*.js" -exec node --check {} +
+javascript-syntax|sh -c node --check src/app/app.js && find src scripts -name "*.js" -exec node --check {} +
 unit-los-angeles|env TZ=America/Los_Angeles npm test
 python|npm run test:python
 integration|npm run test:integration
@@ -437,7 +437,7 @@ if [ "$FAST" -eq 1 ]; then
   sh "$ROOT/scripts/docker-test.sh" npm run lint
 
   echo "==> Checking browser JavaScript syntax"
-  sh "$ROOT/scripts/docker-test.sh" node --check app.js
+  sh "$ROOT/scripts/docker-test.sh" node --check src/app/app.js
   sh "$ROOT/scripts/docker-test.sh" sh -c 'find src scripts -name "*.js" -exec node --check {} +'
 
   if [ "$#" -gt 0 ]; then

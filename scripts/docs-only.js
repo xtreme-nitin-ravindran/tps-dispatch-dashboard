@@ -50,13 +50,13 @@ export const TOOLING_GLOBS = [
   '.github',
   'package.json',
   'package-lock.json',
-  'Dockerfile.test',
-  '.dockerignore',
+  'docker/Dockerfile.test',
+  'docker/Dockerfile.test.dockerignore',
   'eslint.config.js',
   'ruff.toml',
   '_config.yml',
   'index.html',
-  'app.js',
+  'src/app/app.js',
   'service-worker.js',
   'manifest.webmanifest'
 ];

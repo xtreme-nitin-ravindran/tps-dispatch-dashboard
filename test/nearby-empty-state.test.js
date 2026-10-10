@@ -78,7 +78,7 @@ test("global empty dataset has a clean message and no expand action", () => {
 });
 
 test("fallback and radius expansion use loaded data without fetching or resetting filters", async () => {
-  const app = await readFile(new URL("../app.js", import.meta.url), "utf8");
+  const app = await readFile(new URL("../src/app/app.js", import.meta.url), "utf8");
   const renderStart = app.indexOf("function renderNearbySummary()");
   const renderBody = app.slice(renderStart, app.indexOf("\n}\n\nfunction callsMatchingNonGeographicFilters", renderStart) + 2);
   assert.match(renderBody, /matchingCalls: callsMatchingNonGeographicFilters\(\)/);

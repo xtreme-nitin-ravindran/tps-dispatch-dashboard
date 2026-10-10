@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { MAX_EXPANDED_CLUSTER_SIZE, MAX_FAN_OUT_RADIUS_PX, connectorFan, canExpandCluster, clusterPoints, focusGroup, spreadPoint } from '../src/map-clusters.js';
 
-const app = readFileSync(new URL('../app.js', import.meta.url), 'utf8');
+const app = readFileSync(new URL('../src/app/app.js', import.meta.url), 'utf8');
 const disruptions = readFileSync(new URL('../src/disruptions/ui.js', import.meta.url), 'utf8');
 
 const item = (id, coordinates, properties = {}) => ({

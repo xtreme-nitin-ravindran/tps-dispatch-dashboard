@@ -67,7 +67,7 @@ test('a new after-paint redraw cancels the stale animation frame', () => {
 });
 
 test('Story 38G suppresses police redraw until final invalidation without rebuilding roads', () => {
-  const app=readFileSync(new URL('../app.js',import.meta.url),'utf8');
+  const app=readFileSync(new URL('../src/app/app.js',import.meta.url),'utf8');
   const sheet=app.slice(app.indexOf('function setMobileSheetState('),app.indexOf('\nmobileSheetToggle?.addEventListener'));
   assert.match(sheet,/afterLayoutTransition/);
   assert.match(sheet,/layout-settled[\s\S]*?invalidateSize[\s\S]*?invalidate-size-complete[\s\S]*?queuePoliceBoundaryWork/);
@@ -77,7 +77,7 @@ test('Story 38G suppresses police redraw until final invalidation without rebuil
 });
 
 test('physical debug export is explicit and omits user location data', () => {
-  const app=readFileSync(new URL('../app.js',import.meta.url),'utf8');
+  const app=readFileSync(new URL('../src/app/app.js',import.meta.url),'utf8');
   assert.match(app,/initialParams\.get\('policeBoundaryDebug'\) === '1'/);
   assert.match(app,/userLocationIncluded: false/);
   assert.match(app,/navigator\.clipboard\.writeText/);

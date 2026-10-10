@@ -6,10 +6,10 @@
 #
 # Do NOT add a rule that excludes a path the Dockerfile copies or that the
 # tests, linters, fixtures, or fingerprinting require: concourse/, .github/,
-# data/, scripts/, src/, test/, app.js, index.html, service-worker.js,
-# manifest.webmanifest, icon-192.png, icon-512.png, styles.css,
+# data/, scripts/, src/, test/, src/app/app.js, index.html, service-worker.js,
+# manifest.webmanifest, assets/images/icon-192.png, assets/images/icon-512.png, assets/css/styles.css,
 # eslint.config.js, ruff.toml, package.json, package-lock.json, and
-# Dockerfile.test and _config.yml must all remain in the context.
+# docker/Dockerfile.test and _config.yml must all remain in the context.
 
 # Version control and host-installed dependencies.
 .git
@@ -44,10 +44,6 @@ wrangler.toml
 # Documentation, roadmap, and attachment artifacts that are not build inputs.
 docs
 *.md
-brand-doberman.jpg
-brand-spaghetti.jpg
-curious-cat.jpg
-favicon.png
 renovate.json
 CNAME
 LICENSE

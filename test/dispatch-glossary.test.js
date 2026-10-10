@@ -5,7 +5,7 @@ import { DISPATCH_GLOSSARY_FOOTER, glossaryDefinition } from "../src/dispatch-gl
 
 const [html, app] = await Promise.all([
   readFile(new URL("../index.html", import.meta.url), "utf8"),
-  readFile(new URL("../app.js", import.meta.url), "utf8")
+  readFile(new URL("../src/app/app.js", import.meta.url), "utf8")
 ]);
 
 test("known terms have a plain-language glossary definition and unknown terms do not", () => {

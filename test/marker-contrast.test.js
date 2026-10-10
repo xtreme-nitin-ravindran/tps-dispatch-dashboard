@@ -5,8 +5,8 @@ import { applyTheme } from '../src/theme.js';
 import { clusterPoints } from '../src/map-clusters.js';
 
 const [css, app, disruptions] = await Promise.all([
-  readFile(new URL('../styles.css', import.meta.url), 'utf8'),
-  readFile(new URL('../app.js', import.meta.url), 'utf8'),
+  readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8'),
+  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
   readFile(new URL('../src/disruptions/ui.js', import.meta.url), 'utf8')
 ]);
 

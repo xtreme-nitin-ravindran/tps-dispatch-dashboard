@@ -40,7 +40,7 @@ fixture; the live snapshot is in R2. Pipeline configuration is in
 [`concourse/pipeline.yml`](../concourse/pipeline.yml), with example settings (including the
 R2 credentials) in [`concourse/values.example.yml`](../concourse/values.example.yml).
 
-Before publishing to R2, Concourse builds `Dockerfile.test` with the supported
+Before publishing to R2, Concourse builds `docker/Dockerfile.test` with the supported
 OCI build task and uses that artifact as its task image. It enforces the same gates as
 the protected GitHub Actions workflow: the canonical offline suite in
 America/Los_Angeles, Python tests, ESLint and Ruff, browser JavaScript syntax checks,

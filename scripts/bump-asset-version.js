@@ -16,8 +16,8 @@ const RULES = [
   {
     file: 'index.html',
     replacements: [
-      { pattern: /(\.\/styles\.css\?v=)[^"'<>\s]+/g, value: 'assetTag' },
-      { pattern: /(\.\/app\.js\?v=)[^"'<>\s]+/g, value: 'assetTag' }
+      { pattern: /(\.\/assets\/css\/styles\.css\?v=)[^"'<>\s]+/g, value: 'assetTag' },
+      { pattern: /(\.\/src\/app\/app\.js\?v=)[^"'<>\s]+/g, value: 'assetTag' }
     ]
   },
   {

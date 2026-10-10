@@ -60,6 +60,17 @@ Then open:
 http://localhost:4173
 ```
 
+## Repository layout
+
+- `index.html`, `manifest.webmanifest`, and `service-worker.js` stay at root for the site entry URL and offline/install scope.
+- `CNAME` stays at root because GitHub Pages uses it for the custom domain `sirento.nitin.run`.
+- `src/app/app.js` is the browser startup/controller; reusable modules remain under `src/`.
+- `assets/css/styles.css` contains the application styles; `assets/images/` contains branding and install icons.
+- `docker/Dockerfile.test` and `docker/Dockerfile.test.dockerignore` define the test image and its build-context exclusions. The ignore file uses Docker's Dockerfile-specific naming convention; the build context remains the repository root. Use `scripts/docker-test.sh --ensure-image` or `--build`.
+- `scripts/`, `test/`, `docs/`, and `concourse/` contain tooling, regressions, documentation, and pipeline definitions.
+
+Splitting the browser controller and stylesheet into smaller files is deferred to a separate task.
+
 ## Development
 
 For contributions to this repository:

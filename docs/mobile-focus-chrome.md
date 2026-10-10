@@ -196,7 +196,7 @@ Cluster expansion is bounded in `src/map-clusters.js`:
 - `MAX_EXPANDED_CLUSTER_SIZE = 12` — at most 12 incidents expand from one cluster.
 - `MAX_FAN_OUT_RADIUS_PX = 96` — fan-out radius never exceeds 96 px.
 
-`app.js` enforces the same bounds at render time: it throws if more than
+`src/app/app.js` enforces the same bounds at render time: it throws if more than
 `MAX_EXPANDED_CLUSTER_SIZE` `.cluster-connector` paths are rendered, and a large
 cluster surfaces only the selected incident marker instead of fanning out every
 incident. Connectors must remain within their owning cluster control: each

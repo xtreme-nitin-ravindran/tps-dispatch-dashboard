@@ -3,10 +3,10 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
 const [css, html, serviceWorker, app] = await Promise.all([
-  readFile(new URL('../styles.css', import.meta.url), 'utf8'),
+  readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8'),
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../service-worker.js', import.meta.url), 'utf8'),
-  readFile(new URL('../app.js', import.meta.url), 'utf8')
+  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8')
 ]);
 const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)';
 const mobileStart = css.indexOf(mobileQuery);
@@ -61,6 +61,6 @@ test('opaque mobile surfaces resolve to readable light and dark theme pairs', ()
 });
 
 test('the revised mobile stylesheet replaces the cached app-shell asset', () => {
-  assert.match(html, /styles\.css\?v=story-58-1/);
-  assert.match(serviceWorker, /CACHE_VERSION = "sirento-shell-v61"/);
+  assert.match(html, /styles\.css\?v=housekeeping-60-1/);
+  assert.match(serviceWorker, /CACHE_VERSION = "sirento-shell-v62"/);
 });
