@@ -8,7 +8,8 @@ export async function loadTtcUiFixture(locationLike=globalThis.location,fetchImp
     const response=await fetchImpl('./test/fixtures/ttc-official-advisory/frontend.json');
     if(!response.ok) throw new Error('Generate the TTC UI fixture first');
     const fixture=await response.json(),shift=now-fixture.now;
-    const rebase=value=>Array.isArray(value)?value.map(rebase):value && typeof value==='object'?Object.fromEntries(Object.entries(value).map(([k,v])=>[k,rebase(v)])):typeof value==='string' && /^2026-\d\d-\d\dT/.test(value)?new Date(Date.parse(value)+shift).toISOString():value;
+    // Official active periods use epoch milliseconds; shift them along with ISO times.
+    const rebase=(value,field)=>Array.isArray(value)?value.map(v=>rebase(v)):value && typeof value==='object'?Object.fromEntries(Object.entries(value).map(([k,v])=>[k,rebase(v,k)])):Number.isFinite(value)&&['start','end'].includes(field)?value+shift:typeof value==='string' && /^2026-\d\d-\d\dT/.test(value)?new Date(Date.parse(value)+shift).toISOString():value;
     return rebase(fixture);
   }
   const response=await fetchImpl('./test/fixtures/ttc-diversions/frontend.json');

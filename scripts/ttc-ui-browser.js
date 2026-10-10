@@ -1,4 +1,4 @@
-/* global window, document */
+/* global window, document, getComputedStyle */
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
 import { mkdir,writeFile } from 'node:fs/promises';
@@ -68,6 +68,31 @@ for(const width of [320,375,390,430,768,1440]) {
    for(let i=0;i<20;i++) ui.renderTtc(f);
  });
  assert.equal((await diag()).layers,4);
+ // Story 57: current, retained and unavailable/retained share the same selected
+ // path; visible disclosures survive mobile detail and desktop list layouts.
+ for(const outage of [false,true]) {
+  await page.evaluate(async outage=>{
+   const f=structuredClone(window.ttcBrowserFixture);
+   f.ttcDiversions.diversions.forEach(d=>{d.persistenceEarned=true;d.retained=true;});
+   if(outage) {f.ttcDiversions.status='unavailable';f.ttcDiversions.checkedAt=new Date(Date.now()-180000).toISOString();}
+   (await import('./src/ttc/ui.js')).renderTtc(f);
+  },outage);
+  await page.waitForFunction(()=>document.querySelector('.ttc-evidence-status')?.textContent.includes('Retained evidence'));
+  assert.equal((await diag()).selected,'fixture-detour');assert.equal((await diag()).layers,4);
+  const cue=page.locator(width<=430?'#mobileClosureDetail .ttc-evidence-status':'.ttc-disruption .ttc-evidence-status').first();
+  await cue.scrollIntoViewIfNeeded();assert.equal(await cue.isVisible(),true);
+  const geometry=await cue.evaluate(el=>{const r=el.getBoundingClientRect(),style=getComputedStyle(el);return {width:r.width,height:r.height,overflow:style.overflow,clip:style.clip,color:style.color,background:style.backgroundColor};});
+  assert.ok(geometry.width>100&&geometry.height>=16);assert.equal(geometry.clip,'auto');
+  assert.match(await cue.textContent(),outage?/Vehicle feed unavailable/:/Retained evidence/);
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
+ }
+ await page.evaluate(async()=>{
+  const f=structuredClone(window.ttcBrowserFixture);f.ttcDiversions.status='unavailable';
+  f.ttcDiversions.diversions.forEach(d=>{d.persistenceEarned=true;d.retained=true;d.expiresAt=new Date(Date.now()).toISOString();});
+  (await import('./src/ttc/ui.js')).renderTtc(f);
+ });
+ await page.waitForFunction(()=>!document.querySelector('.ttc-evidence-status'));
+ assert.equal((await diag()).layers,2);assert.equal((await diag()).selected,'fixture-detour');
  await page.evaluate(async()=>{const f=structuredClone(window.ttcBrowserFixture);f.ttcDiversions.diversions=[];(await import('./src/ttc/ui.js')).renderTtc(f);});
  assert.equal((await diag()).layers,2);assert.equal(await page.locator('.ttc-disruption').count(),1);
  assert.equal((await diag()).selected,'fixture-detour');

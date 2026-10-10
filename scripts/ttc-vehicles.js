@@ -7,7 +7,7 @@ import { buildStaticIndex } from '../src/ttc/static-gtfs.js';
 import { updateTtcAlerts } from '../src/ttc/alerts.js';
 import { correlateState } from '../src/ttc/correlation.js';
 import { refreshVehicles, deviationOutput, validateVehicleState, VEHICLE_POLICY } from '../src/ttc/vehicle-detector.js';
-import { inferDiversions, validateDiversionState, diversionOutput, diversionGeoJson, DIVERSION_POLICY } from '../src/ttc/diversion-inference.js';
+import { inferDiversions, completeDiversionCapture, validateDiversionState, diversionOutput, diversionGeoJson, DIVERSION_POLICY } from '../src/ttc/diversion-inference.js';
 import { parseTtcVehicles } from '../src/ttc/vehicle-feed.js';
 import { loadOfficialAdvisories, officialAdvisories } from '../src/ttc/official-advisories.js';
 
@@ -20,13 +20,14 @@ async function atomicJson(path,value) {
 // diversion evidence was found and whether anything is publishable.
 export function diversionSummary(state) {
   const records=state?.records||[];
-  const confirmed=records.filter(r=>r.status==='confirmed').length;
+  const published=state?.persistence?diversionOutput(state).diversions:records;
+  const confirmed=published.filter(r=>r.status==='confirmed').length;
   const likely=records.filter(r=>r.status==='likely').length;
   const candidate=records.filter(r=>r.status==='candidate').length;
   return {source:'ttc-diversions-summary',status:state?.status||'unavailable',
-    found:records.length>0,publishable:confirmed>0,confirmed,likely,candidate,
+    found:records.length>0||published.length>0,publishable:confirmed>0,confirmed,likely,candidate,
     advisorySupported:records.filter(r=>r.confidence?.advisorySupported).length,
-    routes:[...new Set(records.map(r=>r.routeId))].sort(),
+    routes:[...new Set([...records,...published].map(r=>r.routeId))].sort(),
     message:confirmed>0?`${confirmed} confirmed diversion(s) published`
       :records.length>0?`${records.length} diversion candidate(s) observed, none confirmed yet`
       :'No diversion evidence observed'};
@@ -53,8 +54,6 @@ export function cacheSummary(source,disposition,{staticVersion=null,loaded=0}={}
 // vehicle history, cache contents, episode collections, or advisory text.
 export function continuitySummary({vehicleState,vehicleReport,vehicleCache,inferenceCache,inferenceReport,advisories,state}={}) {
   const v=vehicleReport||{},i=inferenceReport||{};
-  const records=state?.records||[];
-  const confirmed=records.filter(r=>r.status==='confirmed').length;
   return {source:'ttc-continuity',
     vehicleCache:vehicleCache?.status||'missing',inferenceCache:inferenceCache?.status||'missing',
     vehicleStaticVersion:vehicleCache?.staticVersion??null,inferenceStaticVersion:inferenceCache?.staticVersion??null,
@@ -64,7 +63,7 @@ export function continuitySummary({vehicleState,vehicleReport,vehicleCache,infer
     graceRefusedAbsent:v.graceRefusedAbsent||0,graceRefusedConflict:v.graceRefusedConflict||0,graceRefusedStale:v.graceRefusedStale||0,graceRefusedIncompatible:v.graceRefusedIncompatible||0,
     episodesLoaded:i.episodesLoaded||0,episodesCreated:i.episodesCreated||0,episodesRetained:i.episodesRetained||0,episodesClosed:i.episodesClosed||0,episodesExpired:i.episodesExpired||0,
     advisoryCount:advisories?.advisories?.length||0,advisoryAssociated:i.advisoryAssociated||0,advisoryAmbiguous:i.advisoryAmbiguous||0,
-    candidate:i.candidate||0,likely:i.likely||0,confirmed:i.confirmed||0,published:confirmed};
+    candidate:i.candidate||0,likely:i.likely||0,confirmed:i.confirmed||0,published:diversionSummary(state).confirmed};
 }
 export async function runVehiclePolling({polls=1,intervalMs=30000,statePath='.cache/ttc/vehicle-state.json',outputPath='.cache/ttc/deviations.json',
   inferenceStatePath=resolve(dirname(statePath),'diversion-state.json'),inferenceOutputPath=resolve(dirname(outputPath),'diversions.json'),geoJsonPath,inferOnly=false,freshState=false,
@@ -101,10 +100,11 @@ export async function runVehiclePolling({polls=1,intervalMs=30000,statePath='.ca
   let loaded;
   try { loaded=await loadStatic({now:clock(),log}); }
   catch (error) {
-    // No trustworthy index: erase evidence, and replace yesterday's output visibly.
+    // Static outage pauses capture counters; earned evidence keeps its original expiry.
     const state={schemaVersion:1,staticVersion:previous?.staticVersion||'unavailable',status:'unavailable',reason:'static-unavailable',checkedAt:clock().toISOString(),fetchedAt:null,sourceUpdatedAt:null,tracks:[]};
     await atomicJson(statePath,state); await atomicJson(outputPath,deviationOutput(state));
-    const empty={schemaVersion:1,staticVersion:state.staticVersion,status:'unavailable',checkedAt:state.checkedAt,episodes:[],records:[]};
+    const prior=inference || {schemaVersion:1,staticVersion:state.staticVersion,status:'unavailable',episodes:[],records:[]};
+    const {state:empty}=completeDiversionCapture({...prior,checkedAt:state.checkedAt},{healthy:false});
     await atomicJson(inferenceStatePath,empty);await atomicJson(inferenceOutputPath,diversionOutput(empty));
     if (geoJsonPath) await atomicJson(geoJsonPath,{type:'FeatureCollection',features:[]});
     log({source:'ttc-vehicles',status:'unavailable',reason:'static-unavailable',error:error.message}); return state;
@@ -120,7 +120,8 @@ export async function runVehiclePolling({polls=1,intervalMs=30000,statePath='.ca
     const now=clock();
     // No alert refresh in offline diagnostics: unavailable context cannot boost confidence.
     const current={...previous,checkedAt:now.toISOString(),status:Date.parse(previous.checkedAt)+120000>=+now?previous.status:'unavailable'};
-    const result=inferDiversions(inference,current,loaded.index,now,undefined,{advisories});
+    const inferred=inferDiversions(inference,current,loaded.index,now,undefined,{advisories});
+    const result={...inferred,...completeDiversionCapture(inferred.state,{healthy:false,sourceHealthy:current.status==='ok'})};
     await atomicJson(inferenceStatePath,result.state);await atomicJson(inferenceOutputPath,result.output);
     if (geoJsonPath) await atomicJson(geoJsonPath,diversionGeoJson(result.state,loaded.index));
     log({source:'ttc-diversions',status:result.state.status,...result.report});
@@ -130,6 +131,8 @@ export async function runVehiclePolling({polls=1,intervalMs=30000,statePath='.ca
   }
   const geometryCache=new Map();
   let alerts,vehicleReport,inferenceReport;
+  let sourceHealthy=loaded.metadata?.status!=='stale';
+  const archiveHealthy=vehicleCache.status==='restored'&&inferenceCache.status==='restored'&&inference?.captureComplete!==false;
   for (let i=0;i<polls;i++) {
     if (i) await wait(intervalMs);
     const now=fixture?new Date(fixture[i].now):clock();
@@ -139,11 +142,15 @@ export async function runVehiclePolling({polls=1,intervalMs=30000,statePath='.ca
     const fetchSource=fixture?async()=>parseTtcVehicles(Buffer.from(fixture[i].protobufBase64,'base64'),now):undefined;
     const result=await refresh(previous,loaded.index,now,alerts,{geometryCache,fetchSource,log});
     previous=result.state;vehicleReport=result.report;
+    const sourceAge=+now-Date.parse(previous.sourceUpdatedAt);
+    sourceHealthy &&= previous.status==='ok'&&sourceAge>=-30000&&sourceAge<=120000;
     const inferred=inferDiversions(inference,previous,loaded.index,now,alerts,{advisories});
-    inference=inferred.state;inferenceReport=inferred.report;
-    await atomicJson(inferenceStatePath,inference);await atomicJson(inferenceOutputPath,inferred.output);
+    inferred.state.captureComplete=i===polls-1;
+    const completed=i===polls-1?completeDiversionCapture(inferred.state,{healthy:archiveHealthy&&sourceHealthy,sourceHealthy}):inferred;
+    inference=completed.state;inferenceReport=inferred.report;
+    await atomicJson(inferenceStatePath,inference);await atomicJson(inferenceOutputPath,completed.output);
     if (geoJsonPath) await atomicJson(geoJsonPath,diversionGeoJson(inference,loaded.index));
-    log({source:'ttc-diversions',status:inference.status,...inferred.report,artifactBytes:Buffer.byteLength(JSON.stringify(inferred.output))});
+    log({source:'ttc-diversions',status:inference.status,...inferred.report,artifactBytes:Buffer.byteLength(JSON.stringify(completed.output))});
     await atomicJson(statePath,previous); await atomicJson(outputPath,deviationOutput(previous));
   }
   log(diversionSummary(inference));

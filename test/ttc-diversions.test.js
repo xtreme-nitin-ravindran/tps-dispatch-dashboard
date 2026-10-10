@@ -1,16 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import bindings from 'gtfs-realtime-bindings';
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { at, vehicle, protobuf, staticIndex } from './fixtures/ttc-vehicles/builders.js';
 import { parseTtcVehicles } from '../src/ttc/vehicle-feed.js';
 import { detectVehicles, VEHICLE_POLICY } from '../src/ttc/vehicle-detector.js';
 import { parseTtcAlerts, updateTtcAlerts } from '../src/ttc/alerts.js';
 import { correlateState } from '../src/ttc/correlation.js';
-import { inferDiversions, trajectorySimilarity, validateDiversionState, validateDiversionOutput, diversionGeoJson, DIVERSION_POLICY } from '../src/ttc/diversion-inference.js';
+import { inferDiversions, completeDiversionCapture, diversionOutput, trajectorySimilarity, validateDiversionState, validateDiversionOutput, diversionGeoJson, DIVERSION_POLICY } from '../src/ttc/diversion-inference.js';
 import { simplifyGeometry, corridorDistance } from '../src/ttc/diversion-geometry.js';
-import { runVehiclePolling } from '../scripts/ttc-vehicles.js';
+import { publicTtcGeometry } from '../scripts/publish-ttc-geometry.js';
+import { runVehiclePolling, diversionSummary, continuitySummary } from '../scripts/ttc-vehicles.js';
 const index=staticIndex();
 const path=[[43.65,-79.404],[43.652,-79.403],[43.652,-79.402],[43.652,-79.400],[43.65,-79.398],[43.65,-79.397],[43.65,-79.396]];
 function run({paths=[path,path],alerts,advisories,start=0,step=30,previous,detector}={}) {
@@ -213,7 +214,7 @@ test('polling persists inference between invocations; cold fallback never fabric
     assert.equal(JSON.parse(await readFile(`${dir}/diversions.json`)).diversions[0].evidence.trajectoryCount,2);
     await runVehiclePolling({...options,inferOnly:true,clock:()=>at(500)});
     assert.equal(JSON.parse(await readFile(`${dir}/diversions.json`)).status,'unavailable');
-    await runVehiclePolling({...options,loadStatic:async()=>{throw new Error('offline');}});
+    await runVehiclePolling({...options,clock:()=>at(510),loadStatic:async()=>{throw new Error('offline');}});
     out=JSON.parse(await readFile(`${dir}/diversions.json`));assert.equal(out.status,'unavailable');assert.deepEqual(out.diversions,[]);
   } finally {await rm(dir,{recursive:true,force:true});}
 });
@@ -362,4 +363,174 @@ test('newly ambiguous static correlation withdraws alert support from retained v
   const a=await alerts(),r=run({alerts:a});a.items[0].correlation.status='ambiguous';
   const next=inferDiversions(r.state,r.vehicles,index,at(180),a);
   assert.equal(only(next).status,'confirmed');assert.deepEqual(only(next).relatedAlertIds,[]);assert.equal(only(next).confidence.alertSupported,false);
+});
+
+// Story 57: real detector/inference trajectories seed lifecycle captures; no
+// fabricated confirmation evidence or production-only fixture switches.
+function earnedCapture() {
+  const first=completeDiversionCapture(run().state,{healthy:true});
+  const second=run({start:210,previous:first.state});
+  return completeDiversionCapture(second.state,{healthy:true});
+}
+const captureAt=(state,seconds,healthy=true)=>completeDiversionCapture({...state,checkedAt:at(seconds).toISOString(),records:[],episodes:[]},{healthy});
+test('Story 57: two advancing fresh captures earn persistence; cached and old first-seen evidence do not',()=>{
+  const r=run(),first=completeDiversionCapture(r.state,{healthy:true});
+  assert.equal(first.state.persistence[0].confirmedCaptures,1);
+  assert.equal(first.output.diversions[0].persistenceEarned,undefined);
+  const repeat=completeDiversionCapture(first.state,{healthy:true});
+  assert.equal(repeat.state.persistence[0].confirmedCaptures,1);
+  const old=completeDiversionCapture({...r.state,checkedAt:at(300).toISOString()},{healthy:true});
+  assert.deepEqual(old.state.persistence,[]);
+  const earned=earnedCapture();assert.equal(earned.output.diversions[0].persistenceEarned,true);
+  assert.equal(earned.output.diversions[0].retained,false);
+  assert.equal(earned.state.persistence[0].confirmedCaptures,2);
+  assert.equal(Date.parse(earned.output.diversions[0].expiresAt),Date.parse(earned.output.diversions[0].lastObservedAt)+1800000);
+  const before=earned.output.diversions[0].expiresAt;
+  const third=run({start:420,previous:earned.state});
+  const renewed=completeDiversionCapture(third.state,{healthy:true});
+  assert.ok(renewed.output.diversions[0].expiresAt>before);
+  assert.equal(renewed.state.persistence[0].confirmedCaptures,2);
+});
+test('Story 57: seven healthy misses retain the path; eight remove it and cached confirmation cannot resurrect it',()=>{
+  let r=earnedCapture();const original=structuredClone(r.output.diversions[0]);
+  // Cached confirmed records count as healthy absences even while inference agrees.
+  for(let i=1;i<=8;i++) {
+    r=completeDiversionCapture({...r.state,checkedAt:at(390+i*30).toISOString()},{healthy:true});
+    assert.equal(r.state.persistence[0].healthyAbsences,i);
+    assert.equal(r.output.diversions.length,i<8?1:0);
+    if(i<8) {assert.equal(r.output.diversions[0].retained,true);assert.equal(r.output.diversions[0].expiresAt,original.expiresAt);}
+  }
+  r=completeDiversionCapture(r.state,{healthy:true});assert.deepEqual(r.output.diversions,[]);
+  const renewed=completeDiversionCapture(run({start:660,previous:r.state}).state,{healthy:true});
+  assert.equal(renewed.output.diversions.length,1);assert.equal(renewed.state.persistence[0].healthyAbsences,0);
+});
+test('Story 57: confidence downgrade and compatible geometry refinement preserve earned state through restart',()=>{
+  const r=earnedCapture(),latch=JSON.parse(JSON.stringify(r.state));
+  const downgraded=fromEpisodes(latch.episodes.slice(0,1),420).state;
+  downgraded.persistence=latch.persistence;
+  const retained=completeDiversionCapture(downgraded,{healthy:true});
+  assert.equal(retained.state.records[0].status,'candidate');
+  assert.equal(retained.output.diversions[0].status,'confirmed');
+  assert.deepEqual(retained.output.diversions[0].geometry,r.output.diversions[0].geometry);
+  assert.equal(retained.state.persistence[0].healthyAbsences,1);
+  const noisy=path.map(([lat,lon])=>[lat,lon+.00005]);
+  const sameTime=run({paths:[noisy,noisy],start:210}).state;sameTime.persistence=r.state.persistence;
+  const hashOnly=completeDiversionCapture(sameTime,{healthy:true});
+  assert.equal(hashOnly.state.persistence[0].healthyAbsences,1);assert.equal(hashOnly.output.diversions[0].expiresAt,r.output.diversions[0].expiresAt);
+  assert.deepEqual(hashOnly.output.diversions[0].geometry,r.output.diversions[0].geometry);
+  const refined=completeDiversionCapture(run({paths:[noisy,noisy],start:450,previous:retained.state}).state,{healthy:true});
+  assert.equal(refined.output.diversions[0].id,r.output.diversions[0].id);
+  assert.equal(refined.state.persistence[0].healthyAbsences,0);
+  // Matching is spatial/contextual; a changed output id alone is not incompatible.
+  const renamed=structuredClone(refined.state);renamed.records[0].id='new-inference-id';
+  const next=completeDiversionCapture(renamed,{healthy:true});assert.equal(next.output.diversions[0].id,r.output.diversions[0].id);
+});
+test('Story 57: outages pause counters and expiry continues; healthy-empty is distinct from unavailable',()=>{
+  const earned=earnedCapture();
+  let r=captureAt(earned.state,450,false);
+  assert.equal(r.output.status,'unavailable');assert.equal(r.output.diversions[0].retained,true);
+  assert.equal(diversionSummary(r.state).confirmed,1);assert.equal(diversionSummary(r.state).found,true);
+  assert.equal(continuitySummary({state:r.state}).published,1);
+  const publicOutput=publicTtcGeometry(r.output);assert.equal(publicOutput.status,'unavailable');
+  assert.equal(publicOutput.diversions[0].persistenceEarned,true);assert.equal(publicOutput.diversions[0].retained,true);
+  assert.doesNotMatch(JSON.stringify(publicOutput),/rawEvidence|confidence|vehicleId|episodeIds/);
+  assert.equal(r.state.persistence[0].healthyAbsences,0);
+  const expiry=Date.parse(r.output.diversions[0].expiresAt);
+  r=completeDiversionCapture({...r.state,checkedAt:new Date(expiry).toISOString()},{healthy:false});
+  assert.deepEqual(r.output.diversions,[]);assert.deepEqual(r.state.persistence,[]);
+  assert.equal(captureAt(earned.state,2400).output.status,'ok');
+  assert.deepEqual(captureAt(earned.state,2400).output.diversions,[]);
+  assert.equal(captureAt(earned.state,2400,false).output.status,'unavailable');
+});
+test('Story 57: incompatible static/context/path never inherits confirmations, including identical ids',()=>{
+  const r=earnedCapture();
+  const switched=inferDiversions(r.state,{...empty(450),staticVersion:'new-version'},{...index,version:'new-version'},at(450));
+  assert.equal(switched.state.persistence,undefined);
+  const south=path.map(([lat,lon])=>[43.65-(lat-43.65),lon]);
+  const changed=run({paths:[south,south],start:450}).state;
+  changed.records[0].id=r.state.persistence[0].record.id;changed.persistence=r.state.persistence;
+  const next=completeDiversionCapture(changed,{healthy:true});
+  assert.equal(next.state.persistence.length,1);assert.equal(next.state.persistence[0].confirmedCaptures,1);
+  assert.equal(next.output.diversions[0].persistenceEarned,undefined);
+  const separate=run({paths:[south,south],start:450}).state;separate.persistence=r.state.persistence;
+  assert.equal(completeDiversionCapture(separate,{healthy:true}).state.persistence.length,2);
+});
+test('Story 57: persistence schema validates bounded counts, snapshots and retained output contracts',()=>{
+  const r=earnedCapture();validateDiversionState(r.state,index);validateDiversionOutput(r.output,index);
+  for(const mutate of [s=>s.persistence={},s=>s.persistence=[null],s=>s.captureHealthy='yes',s=>s.captureComplete='yes',s=>s.persistence[0].confirmedCaptures=3,
+    s=>s.persistence[0].healthyAbsences=9,s=>{s.persistence[0].confirmedCaptures=1;s.persistence[0].healthyAbsences=1;},
+    s=>s.persistence[0].record.status='candidate',s=>s.persistence[0].record.expiresAt=at(1).toISOString(),s=>s.persistence.push(structuredClone(s.persistence[0]))]) {
+    const bad=structuredClone(r.state);mutate(bad);assert.throws(()=>validateDiversionState(bad,index));
+  }
+  for(const mutate of [o=>o.diversions[0].persistenceEarned='yes',o=>o.diversions[0].retained='yes',o=>{o.diversions[0].persistenceEarned=false;o.diversions[0].retained=true;},o=>o.diversions[0].expiresAt=at(1).toISOString(),o=>o.status='unavailable']) {
+    const bad=structuredClone(r.output);mutate(bad);assert.throws(()=>validateDiversionOutput(bad,index));
+  }
+  const legacy=run().state;assert.equal(diversionOutput(legacy).diversions.length,1);
+});
+
+test('Story 57: a completed polling burst counts once and recovered failures, stale feeds and missing/incomplete archives pause it',async()=>{
+  const dir=await mkdtemp(`${tmpdir()}/ttc-captures-`);
+  const options={statePath:`${dir}/vehicles.json`,outputPath:`${dir}/deviations.json`,loadStatic:async()=>({index}),clock:()=>at(420),wait:async()=>{},log:()=>{},updateAlerts:async()=>undefined};
+  const saved=earnedCapture().state;
+  const seed=async(state=saved)=>{
+    await writeFile(`${dir}/vehicles.json`,JSON.stringify(empty(390)));
+    await writeFile(`${dir}/diversion-state.json`,JSON.stringify(state));
+  };
+  const load=async()=>JSON.parse(await readFile(`${dir}/diversion-state.json`));
+  try {
+    for(const failure of ['none','recovered','stale','missing','incomplete','static-stale']) {
+      await seed(failure==='incomplete'?{...saved,captureComplete:false}:saved);
+      if(failure==='missing') await rm(`${dir}/vehicles.json`);
+      let poll=0;
+      await runVehiclePolling({...options,polls:4,loadStatic:async()=>({index,metadata:{status:failure==='static-stale'?'stale':'ok'}}),refresh:async()=>{
+        const state=empty(420);if(poll++===0) {
+          if(failure==='recovered') state.status='unavailable';
+          if(failure==='stale') state.sourceUpdatedAt=at(0).toISOString();
+        }
+        return {state,report:{}};
+      }});
+      const s=await load(),out=JSON.parse(await readFile(`${dir}/diversions.json`));
+      assert.equal(s.persistence[0].healthyAbsences,failure==='none'?1:0,failure);
+      assert.equal(s.captureComplete,true);
+      assert.equal(out.status,['recovered','stale','static-stale'].includes(failure)?'unavailable':'ok');
+      assert.equal(out.diversions[0].retained,true);assert.equal(out.diversions[0].lastObservedAt,saved.persistence[0].record.lastObservedAt);
+    }
+    await seed();
+    await runVehiclePolling({...options,loadStatic:async()=>{throw new Error('static outage');}});
+    const outage=await load();assert.equal(outage.persistence[0].healthyAbsences,0);
+    assert.equal(JSON.parse(await readFile(`${dir}/diversions.json`)).diversions.length,1);
+    // Offline re-inference cannot turn a cached observation into a capture.
+    await seed();await runVehiclePolling({...options,inferOnly:true});
+    assert.equal((await load()).persistence[0].healthyAbsences,0);
+  } finally {await rm(dir,{recursive:true,force:true});}
+});
+test('Story 57: multiple distinct confirmed observations within one capture earn only its first confirmation',async()=>{
+  const dir=await mkdtemp(`${tmpdir()}/ttc-one-capture-`);
+  try {
+    const statePath=`${dir}/vehicles.json`,outputPath=`${dir}/deviations.json`;
+    await writeFile(statePath,JSON.stringify(empty(0)));
+    await writeFile(`${dir}/diversion-state.json`,JSON.stringify({schemaVersion:1,staticVersion:index.version,status:'ok',checkedAt:at(0).toISOString(),episodes:[],records:[]}));
+    const fixture=[...path,...path].map((p,i)=>{const seconds=30+i*30;return {now:at(seconds).toISOString(),protobufBase64:Buffer.from(protobuf([0,1].map(j=>vehicle(seconds,{vehicle:{id:String(j)},position:{latitude:p[0],longitude:p[1]}})),seconds)).toString('base64')};});
+    await runVehiclePolling({statePath,outputPath,polls:fixture.length,fixture,loadStatic:async()=>({index}),clock:()=>at(0),wait:async()=>{},log:()=>{}});
+    const state=JSON.parse(await readFile(`${dir}/diversion-state.json`));
+    assert.equal(state.persistence[0].confirmedCaptures,1);
+    assert.equal(JSON.parse(await readFile(`${dir}/diversions.json`)).diversions[0].persistenceEarned,undefined);
+  } finally {await rm(dir,{recursive:true,force:true});}
+});
+
+test('Story 57: rolling expiry follows 10:03 to 10:33 and renewed 10:20 to 10:50 evidence, including capture completion after prior expiry',()=>{
+  const first=completeDiversionCapture(run({start:-90}).state,{healthy:true});
+  const confirmed=completeDiversionCapture(run({start:90,previous:first.state}).state,{healthy:true});
+  assert.equal(confirmed.output.diversions[0].lastObservedAt,at(180).toISOString());
+  assert.equal(confirmed.output.diversions[0].expiresAt,at(1980).toISOString());
+  const renewed=completeDiversionCapture(run({start:1110,previous:confirmed.state}).state,{healthy:true});
+  assert.equal(renewed.output.diversions[0].lastObservedAt,at(1200).toISOString());
+  assert.equal(renewed.output.diversions[0].expiresAt,at(3000).toISOString());
+  const earned=earnedCapture();
+  // Evidence arrives within the rolling 30 minutes, although completion is later.
+  const late=completeDiversionCapture(run({start:2000,previous:earned.state}).state,{healthy:true});
+  assert.equal(late.state.persistence[0].confirmedCaptures,2);
+  // Evidence beyond that window starts a new first confirmation.
+  const beyond=completeDiversionCapture(run({start:2110,previous:earned.state}).state,{healthy:true});
+  assert.equal(beyond.state.persistence[0].confirmedCaptures,1);
 });

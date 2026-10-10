@@ -28,6 +28,8 @@ export function createTtcDetail(item) {
   if(item.diversions.length) for(const [index,part] of item.diversions.entries()) {
     const route=item.routes.find(r=>r.id===part.routeId)?.label;
     article.append(node('h5',[part.source === 'sirento-observed' ? 'Observed diversion · Observed by SirenTO' : part.label,item.diversions.length>1 && `Path ${index+1}`,route].filter(Boolean).join(' · ')),node('p',part.source === 'sirento-observed' ? 'Based on repeated TTC vehicle movements. This is not an official TTC-published route.' : 'Temporary route published by TTC.'));
+    if(part.retained) article.append(node('p',part.sourceUnavailable ? 'Vehicle feed unavailable · Retained evidence' : 'Retained evidence','disruption-note ttc-evidence-status'));
+    if(part.expiresAt) article.append(node('p',`Evidence expires ${new Intl.DateTimeFormat('en-CA',{hour:'2-digit',minute:'2-digit',timeZone:'America/Toronto'}).format(new Date(part.expiresAt))} (Toronto time).`,'disruption-note'));
     if(part.observedAt) article.append(node('p',`Last observed ${relativeUpdateAge(Date.parse(part.observedAt))}.`,'disruption-note'));
   } else article.append(node('p','No observed diversion route available yet.','disruption-note'));
   const freshness=node('p',item.freshness,'disruption-note');freshness.dataset.ttcFreshness=item.id;article.append(freshness);
