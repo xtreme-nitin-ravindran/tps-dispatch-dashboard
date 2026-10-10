@@ -3,20 +3,20 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { offlineStatus } from '../src/offline-status.js';
 
-test('offline state displays a live-data warning', () => {
+test('[MUST-9][STORY-23] offline state displays a live-data warning', () => {
   assert.deepEqual(offlineStatus({ online: false }), {
     hidden: false,
     text: "You’re offline. Live incident data is unavailable."
   });
 });
 
-test('offline state marks previously loaded incident data as potentially stale', () => {
+test('[MUST-9][STORY-23] offline state marks previously loaded incident data as potentially stale', () => {
   const status = offlineStatus({ online: false, hasPreviouslyLoadedData: true });
   assert.match(status.text, /Previously loaded incident data remains visible and may be stale\./);
   assert.doesNotMatch(status.text, /active/);
 });
 
-test('offline state preserves the last successful update when available', () => {
+test('[MUST-9][STORY-23] offline state preserves the last successful update when available', () => {
   const status = offlineStatus({
     online: false,
     hasPreviouslyLoadedData: true,
@@ -25,7 +25,7 @@ test('offline state preserves the last successful update when available', () => 
   assert.match(status.text, /Last successful update: Sep 24 · 14:05 Toronto time\./);
 });
 
-test('online state removes the offline warning and leaves live behavior unchanged', () => {
+test('[MUST-9][STORY-23] online state removes the offline warning and leaves live behavior unchanged', () => {
   assert.deepEqual(offlineStatus({
     online: true,
     hasPreviouslyLoadedData: true,
@@ -33,7 +33,7 @@ test('online state removes the offline warning and leaves live behavior unchange
   }), { hidden: true, text: '' });
 });
 
-test('app reacts to connectivity changes and exposes one shared responsive warning', async () => {
+test('[MUST-9][STORY-23] app reacts to connectivity changes and exposes one shared responsive warning', async () => {
   const [app, html, css] = await Promise.all([
     readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
     readFile(new URL('../index.html', import.meta.url), 'utf8'),
