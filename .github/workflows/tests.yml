@@ -59,6 +59,10 @@ jobs:
         if: needs.changes.outputs.docs_only != 'true'
         run: docker run --rm toronto-dispatch-tests npm run lint
 
+      - name: Check test-to-requirement traceability
+        if: needs.changes.outputs.docs_only != 'true'
+        run: docker run --rm toronto-dispatch-tests node scripts/check-requirement-coverage.js
+
       - name: Check browser JavaScript syntax
         if: needs.changes.outputs.docs_only != 'true'
         run: |

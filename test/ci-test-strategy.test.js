@@ -25,6 +25,7 @@ test("GitHub Actions and Concourse enforce the same test gates", () => {
     "npm test",
     "npm run test:python",
     "npm run lint",
+    "node scripts/check-requirement-coverage.js",
     "node --check src/app/app.js",
     "find src scripts",
     "npm run test:coverage"

@@ -37,6 +37,7 @@ const manifest = JSON.parse(pkg);
 const requiredChecks = [
   "scripts/docker-test.sh\" --ensure-image",
   "npm run lint",
+  "node scripts/check-requirement-coverage.js",
   "node --check src/app/app.js",
   'find src scripts -name "*.js" -exec node --check {} +',
   "env TZ=UTC",
@@ -94,6 +95,7 @@ test("the verify script runs the required checks in the documented order", () =>
   // and the Git/snapshot checks must follow it.
   const jobOrder = [
     "npm run lint",
+    "node scripts/check-requirement-coverage.js",
     "node --check src/app/app.js",
     'find src scripts -name "*.js" -exec node --check {} +',
     "env TZ=America/Los_Angeles",
@@ -154,6 +156,7 @@ test("the full-mode job table contains every required check exactly once", () =>
   const names = fullJobs.map(job => job.name);
   assert.deepEqual(names, [
     "lint",
+    "requirement-coverage",
     "javascript-syntax",
     "unit-los-angeles",
     "python",
@@ -166,6 +169,7 @@ test("the full-mode job table contains every required check exactly once", () =>
 test("each full-mode job runs through the Docker wrapper with the expected command", () => {
   const byName = Object.fromEntries(fullJobs.map(job => [job.name, job.args]));
   assert.equal(byName.lint, "npm run lint");
+  assert.equal(byName["requirement-coverage"], "node scripts/check-requirement-coverage.js");
   assert.equal(byName["javascript-syntax"], 'sh -c node --check src/app/app.js && find src scripts -name "*.js" -exec node --check {} +');
   assert.equal(byName["unit-los-angeles"], "env TZ=America/Los_Angeles npm test");
   assert.equal(byName.python, "npm run test:python");
@@ -291,6 +295,10 @@ test("fast mode ensures the image, lints, and checks browser syntax", () => {
   assert.ok(ensureIndex < fastBranchStart, "fast mode must ensure the image");
   assert.ok(lintIndex < fastBranchStart, "fast mode must run full lint");
   assert.ok(syntaxIndex < fastBranchStart, "fast mode must run browser syntax checks");
+});
+
+test("fast mode runs the test-to-requirement traceability check", () => {
+  assert.match(fastBranch, /scripts\/docker-test\.sh" node scripts\/check-requirement-coverage\.js/);
 });
 
 test("fast mode with no file arguments runs the canonical offline unit suite", () => {

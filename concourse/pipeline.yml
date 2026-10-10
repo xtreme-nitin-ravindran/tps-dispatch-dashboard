@@ -79,6 +79,7 @@ jobs:
                 TZ=America/Los_Angeles npm test
                 npm run test:python
                 npm run lint
+                node scripts/check-requirement-coverage.js
                 node --check src/app/app.js
                 find src scripts -name "*.js" -exec node --check {} \;
                 TZ=UTC NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage

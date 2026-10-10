@@ -5,8 +5,9 @@
 # required checks" workflow: Docker image preparation, both linters, the
 # America/Los_Angeles unit suite, the Python tests, the live-source integration
 # suite, the CI-equivalent 100/100/100 coverage gate (which is also the UTC
-# unit-suite execution), browser JavaScript syntax checks, whitespace checks,
-# and the generated-snapshot exclusion checks.
+# unit-suite execution), the test-to-requirement traceability check, browser
+# JavaScript syntax checks, whitespace checks, and the generated-snapshot
+# exclusion checks.
 #
 # Full mode runs its independent checks concurrently. Preparation (image
 # ensure) and the final Git/snapshot checks stay sequential; only the
@@ -17,11 +18,12 @@
 #
 # Fast mode (`npm run verify:fast`) is a deliberately reduced inner-loop check.
 # It ensures the Docker test image exists and is current, runs full lint, runs
-# the browser JavaScript syntax checks, and runs offline JavaScript unit tests
-# under TZ=UTC. It omits the America/Los_Angeles suite, the Python tests, the
-# live-source integration suite, the coverage gate, and the Git
-# publication/snapshot checks. Fast mode never satisfies final, pre-push, or
-# promotion verification. Fast mode is always sequential.
+# the test-to-requirement traceability check, runs the browser JavaScript syntax
+# checks, and runs offline JavaScript unit tests under TZ=UTC. It omits the
+# America/Los_Angeles suite, the Python tests, the live-source integration
+# suite, the coverage gate, and the Git publication/snapshot checks. Fast mode
+# never satisfies final, pre-push, or promotion verification. Fast mode is
+# always sequential.
 #
 # Both modes run every container command through scripts/docker-test.sh, which
 # mounts the current working tree read-only over the image's /workspace while
@@ -154,6 +156,7 @@ resolve_jobs() {
 #
 # Format: <name>|<wrapper args...>
 FULL_JOBS='lint|npm run lint
+requirement-coverage|node scripts/check-requirement-coverage.js
 javascript-syntax|sh -c node --check src/app/app.js && find src scripts -name "*.js" -exec node --check {} +
 unit-los-angeles|env TZ=America/Los_Angeles npm test
 python|npm run test:python
@@ -435,6 +438,9 @@ sh "$ROOT/scripts/docker-test.sh" --ensure-image
 if [ "$FAST" -eq 1 ]; then
   echo "==> Running linters (ESLint and Ruff)"
   sh "$ROOT/scripts/docker-test.sh" npm run lint
+
+  echo "==> Checking test-to-requirement traceability"
+  sh "$ROOT/scripts/docker-test.sh" node scripts/check-requirement-coverage.js
 
   echo "==> Checking browser JavaScript syntax"
   sh "$ROOT/scripts/docker-test.sh" node --check src/app/app.js
