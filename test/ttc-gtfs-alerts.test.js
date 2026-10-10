@@ -10,7 +10,7 @@ const string = (text, language) => ({text,...(language ? {language} : {})});
 const encode = (alerts = [], header = {}) => FeedMessage.encode(FeedMessage.create({header:{gtfsRealtimeVersion:'2.0',timestamp:seconds,...header},entity:alerts.map((alert,i) => ({id:`alert-${i}`,alert}))})).finish();
 const relevant = {cause:bindings.transit_realtime.Alert.Cause.CONSTRUCTION,effect:bindings.transit_realtime.Alert.Effect.DETOUR,headerText:{translation:[string('Construction detour','en')]}};
 
-test('construction/detour preserves selectors, exact IDs, unique routes/stops and periods', () => {
+test('[STORY-30A] construction/detour preserves selectors, exact IDs, unique routes/stops and periods', () => {
   const a = {...relevant,informedEntity:[{routeId:'0501',stopId:'001',routeType:0},{routeId:'0501',stopId:'002'},{routeId:'0501',stopId:'001'},{trip:{routeId:'29',tripId:'trip'}}],activePeriod:[{start:seconds-100,end:seconds+100},{start:seconds+500}]};
   const result = parseTtcAlerts(encode([a]),now).items[0];
   assert.equal(result.cause,'CONSTRUCTION'); assert.equal(result.effect,'DETOUR');
@@ -19,7 +19,7 @@ test('construction/detour preserves selectors, exact IDs, unique routes/stops an
   assert.equal(result.activePeriods[0].start,new Date((seconds-100)*1000).toISOString());
   assert.equal(result.source,'ttc-gtfs-rt'); assert.equal(result.id,'alert-0');
 });
-test('missing optional fields and text fallback; English, unlabeled and other translations retained', () => {
+test('[STORY-30A] missing optional fields and text fallback; English, unlabeled and other translations retained', () => {
   const a = {headerText:{translation:[string('Déviation','fr'),string(' Detour original text ','en-CA'),string('Detour')]}};
   const item = parseTtcAlerts(encode([a]),now).items[0];
   assert.equal(item.header,' Detour original text '); assert.equal(item.headerTranslations.length,3);
@@ -27,23 +27,23 @@ test('missing optional fields and text fallback; English, unlabeled and other tr
   assert.equal(parseTtcAlerts(encode([{headerText:{translation:[string('Detour')]}}]),now).items[0].header,'Detour');
   assert.equal(parseTtcAlerts(encode([{...relevant,headerText:{translation:[string('Déviation','fr')]}}]),now).items[0].header,'Déviation');
 });
-test('unknown enums survive without defaults or crashes', () => {
+test('[STORY-30A] unknown enums survive without defaults or crashes', () => {
   const item = parseTtcAlerts(encode([{...relevant,cause:999,severityLevel:888}]),now).items[0];
   assert.equal(item.cause,'UNKNOWN_999'); assert.equal(item.severity,'UNKNOWN_888');
 });
-test('irrelevant and subway-only excluded; timed alerts retained; empty feed valid', () => {
+test('[STORY-30A] irrelevant and subway-only excluded; timed alerts retained; empty feed valid', () => {
   const alerts = [{effect:3},{...relevant,informedEntity:[{routeType:1}]},{...relevant,activePeriod:[{end:seconds}]},{...relevant,activePeriod:[{start:seconds+1}]}];
   assert.equal(parseTtcAlerts(encode(alerts),now).items.length,2);
   assert.deepEqual(parseTtcAlerts(encode(),now).items,[]);
 });
-test('malformed, empty bytes, differential, stale and invalid windows rejected', () => {
+test('[STORY-30A] malformed, empty bytes, differential, stale and invalid windows rejected', () => {
   for (const bytes of [new Uint8Array([255]),new Uint8Array(),encode([],{incrementality:1}),encode([],{timestamp:seconds-7200}),encode([{...relevant,activePeriod:[{start:seconds,end:seconds-1}]}])]) assert.throws(() => parseTtcAlerts(bytes,now));
 });
-test('ordering deterministic across selector and translation ordering', () => {
+test('[STORY-30A] ordering deterministic across selector and translation ordering', () => {
   const a = {...relevant,informedEntity:[{routeId:'2'},{routeId:'1'}]};
   assert.deepEqual(parseTtcAlerts(encode([a]),now),parseTtcAlerts(encode([{...a,informedEntity:[...a.informedEntity].reverse()}]),now));
 });
-test('network, HTTP and decode failures are controlled; last good result retained distinctly from empty success', async () => {
+test('[STORY-30A] network, HTTP and decode failures are controlled; last good result retained distinctly from empty success', async () => {
   const previous = {...parseTtcAlerts(encode([relevant]),now),fetchedAt:now.toISOString()};
   const logs = [];
   for (const fetchImpl of [async () => {throw new Error('offline');},async () => ({ok:false,status:503}),async () => ({ok:true,arrayBuffer:async () => new Uint8Array([255])})]) {
@@ -55,7 +55,7 @@ test('network, HTTP and decode failures are controlled; last good result retaine
   assert.equal(result.status,'ok'); assert.deepEqual(result.items,[]);
 });
 
-test('optional headers, selectors, dates and deleted entities', () => {
+test('[STORY-30A] optional headers, selectors, dates and deleted entities', () => {
   const raw = value => FeedMessage.encode(FeedMessage.create(value)).finish();
   assert.throws(() => parseTtcAlerts(raw({header:{gtfsRealtimeVersion:''}}),now));
   assert.throws(() => parseTtcAlerts(encode([],{timestamp:seconds+600}),now));
@@ -68,7 +68,7 @@ test('optional headers, selectors, dates and deleted entities', () => {
   assert.deepEqual(parseTtcAlerts(raw({header:{gtfsRealtimeVersion:'2.0'}})).items,[]);
 });
 
-test('default fetch, default logger, first failure and artifact validation', async t => {
+test('[STORY-30A] default fetch, default logger, first failure and artifact validation', async t => {
   const {validateTtcAlerts} = await import('../src/ttc/alerts.js');
   t.mock.method(globalThis,'fetch',async () => ({ok:true,arrayBuffer:async () => encode([],{timestamp:Math.floor(Date.now()/1000)})}));
   t.mock.method(console,'log',() => {});
@@ -82,7 +82,7 @@ test('default fetch, default logger, first failure and artifact validation', asy
     {...good,items:[good.items[0],good.items[0]]}]) assert.throws(() => validateTtcAlerts(value));
 });
 
-test('stable ties order texts, open periods, and multiple alert records', () => {
+test('[STORY-30A] stable ties order texts, open periods, and multiple alert records', () => {
   const alert = {...relevant,headerText:{translation:[string('Z'),string('A'),string('B','en'),string('A','en')]},
     activePeriod:[{start:seconds-1,end:seconds+2},{start:seconds-1},{start:seconds-1,end:seconds+1}]};
   const result = parseTtcAlerts(encode([alert,relevant]),now);
@@ -90,7 +90,7 @@ test('stable ties order texts, open periods, and multiple alert records', () => 
   assert.equal(result.items[0].header,'A');
 });
 
-test('lifecycle reconciles versions, additions, removal, empty, failure and recovery', async () => {
+test('[STORY-30A] lifecycle reconciles versions, additions, removal, empty, failure and recovery', async () => {
   const refresh = (prior, alerts, at = now) => updateTtcAlerts(prior,at,async () => parseTtcAlerts(encode(alerts),at),() => {});
   const first = await refresh(null,[relevant]);
   assert.deepEqual(first.changes.new,['alert-0']);
@@ -111,7 +111,7 @@ test('lifecycle reconciles versions, additions, removal, empty, failure and reco
   assert.deepEqual(recovered.changes.new,['alert-0']);
 });
 
-test('period evaluation covers boundaries, open bounds, overlap, gaps and no periods', async () => {
+test('[STORY-30A] period evaluation covers boundaries, open bounds, overlap, gaps and no periods', async () => {
   const {alertState,isAlertActive} = await import('../src/ttc/lifecycle.js');
   const start = now.toISOString(), end = new Date(now.getTime()+1000).toISOString();
   for (const [periods, at, expected] of [
@@ -125,7 +125,7 @@ test('period evaluation covers boundaries, open bounds, overlap, gaps and no per
   }
 });
 
-test('fallback IDs ignore timestamps, distinct content differs, conflicting duplicate IDs rejected', () => {
+test('[STORY-30A] fallback IDs ignore timestamps, distinct content differs, conflicting duplicate IDs rejected', () => {
   const raw = alerts => FeedMessage.encode(FeedMessage.create({header:{gtfsRealtimeVersion:'2.0'},entity:alerts})).finish();
   const bytes = raw([{id:'',alert:relevant}]);
   assert.equal(parseTtcAlerts(bytes,now).items[0].id,parseTtcAlerts(bytes,new Date(now.getTime()+1000)).items[0].id);
@@ -133,7 +133,7 @@ test('fallback IDs ignore timestamps, distinct content differs, conflicting dupl
   assert.throws(() => parseTtcAlerts(raw([{id:'a',alert:relevant},{id:'a',alert:{...relevant,effect:1}}]),now),/Conflicting/);
 });
 
-test('lifecycle schema rejects malformed state and content', async () => {
+test('[STORY-30A] lifecycle schema rejects malformed state and content', async () => {
   const {validateTtcAlerts} = await import('../src/ttc/alerts.js');
   const good = await updateTtcAlerts(null,now,async () => parseTtcAlerts(encode([relevant]),now),() => {});
   for (const patch of [{status:'available'},{checkedAt:null},{fetchedAt:null},{changes:{}},{lifecycleVersion:2},
@@ -142,7 +142,7 @@ test('lifecycle schema rejects malformed state and content', async () => {
   }
 });
 
-test('content changes cover all persisted TTC fields; expiration and bounded removals', async () => {
+test('[STORY-30A] content changes cover all persisted TTC fields; expiration and bounded removals', async () => {
   const {alertContentHash} = await import('../src/ttc/lifecycle.js');
   const {validateTtcAlerts} = await import('../src/ttc/alerts.js');
   const original = parseTtcAlerts(encode([relevant]),now);
@@ -165,7 +165,7 @@ test('content changes cover all persisted TTC fields; expiration and bounded rem
   assert.deepEqual(next.changes.removed,[]);
 });
 
-test('lifecycle rejects invalid clocks and distinguishes future bounded periods from expired windows',async()=>{
+test('[STORY-30A] lifecycle rejects invalid clocks and distinguishes future bounded periods from expired windows',async()=>{
   const {alertState,reconcileAlerts}=await import('../src/ttc/lifecycle.js');
   const now=new Date('2026-09-28T16:00:00Z');
   assert.throws(()=>alertState({activePeriods:[]},'bad'),/reference time/);
