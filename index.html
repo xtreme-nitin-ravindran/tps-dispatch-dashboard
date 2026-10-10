@@ -52,7 +52,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./styles.css?v=story-57-1" />
+  <link rel="stylesheet" href="./styles.css?v=story-58-1" />
 </head>
 
 <body>
@@ -310,7 +310,20 @@
               <span class="mobile-map-focus-icon" aria-hidden="true">⛶</span>
             </button>
             <p id="mobileFocusFilterSummary" class="mobile-focus-filter-summary" role="status" aria-live="polite"
-              aria-label="Applied filters" hidden></p>
+              aria-label="Applied filters and source status" hidden></p>
+            <button id="mobileMapLayersToggle" class="mobile-map-panel-toggle" type="button"
+              aria-label="Map layers" aria-controls="mobileMapLayersPanel" aria-expanded="false">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="m3 8 9-5 9 5-9 5-9-5Zm0 5 9 5 9-5M3 18l9 5 9-5" />
+              </svg>
+            </button>
+            <button id="mobileMapInfoToggle" class="mobile-map-panel-toggle" type="button"
+              aria-label="Map info" aria-controls="mapInfo" aria-expanded="false"><span aria-hidden="true">ⓘ</span></button>
+            <section id="mobileMapLayersPanel" class="mobile-map-controls-panel" aria-labelledby="mobileMapLayersTitle" hidden>
+              <div class="mobile-map-panel-heading"><strong id="mobileMapLayersTitle">Map layers</strong>
+                <button type="button" id="mobileMapLayersClose" aria-label="Close map layers">×</button></div>
+              <div id="mobileMapLayersBody"></div>
+            </section>
             <div id="dispatchMap" aria-label="Interactive map of Toronto dispatch calls" aria-busy="true"></div>
             <div id="mapLoadStatus" class="map-load-status" role="status" aria-live="polite">
               <span class="loader loader--small" aria-hidden="true"></span>
@@ -441,6 +454,8 @@
           <span class="mobile-map-info-label">Map info</span>
           <span class="map-status" id="mapStatus">—</span>
         </summary>
+        <div class="mobile-map-panel-heading mobile-map-info-heading"><strong>Map info &amp; legend</strong>
+          <button type="button" id="mobileMapInfoClose" aria-label="Close map info">×</button></div>
         <div class="map-info-body">
           <p class="mobile-map-located"><strong>Mapped calls:</strong> <span id="mobileMapStatus">—</span></p>
           <div class="map-info-heading">
@@ -578,7 +593,7 @@
   </script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./app.js?v=story-57-1"></script>
+  <script type="module" src="./app.js?v=story-58-1"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", async () => {

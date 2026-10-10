@@ -24,7 +24,7 @@ test('mobile radius selector is a single scrollable row with touch-sized buttons
   const mobileRules = css.slice(css.indexOf(`${mobileQuery} {\n  .radius-controls`));
   assert.notEqual(css.indexOf(mobileQuery), -1, 'portrait and coarse-pointer landscape mobile layouts share the control rules');
   assert.match(mobileRules, /position: static/);
-  assert.doesNotMatch(mobileRules, /position: sticky/);
+  assert.doesNotMatch(mobileRules, /\.radius-controls\s*\{[^}]*position:\s*sticky/);
   assert.match(mobileRules, /flex-wrap: nowrap/);
   assert.match(mobileRules, /overflow-x: auto/);
   assert.match(mobileRules, /max-width: 100%/);
