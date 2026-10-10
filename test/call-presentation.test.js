@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { reportedAge, compactAge, compactReportedAge, callExplanation, locationConfidence, callStatus, sourceName } from '../src/call-presentation.js';
-test('[MUST-2][MUST-3][STORY-2] report age covers boundaries, invalid times and clock skew', () => {
+test('[MUST-2][MUST-3][STORY-2][STORY-3] report age covers boundaries, invalid times and clock skew', () => {
  const now = Date.UTC(2026,8,22);
  assert.equal(reportedAge(now-60000,now),'Reported 1 minute ago');
  assert.equal(reportedAge(now-120000,now),'Reported 2 minutes ago');
@@ -13,7 +13,7 @@ test('[MUST-2][MUST-3][STORY-2] report age covers boundaries, invalid times and 
  assert.equal(reportedAge('invalid',now),'Report time unavailable');
 });
 
-test('[MUST-2][MUST-3][STORY-2] compact report age fits beside incident distance', () => {
+test('[MUST-2][MUST-3][STORY-2][STORY-3] compact report age fits beside incident distance', () => {
  const now = Date.UTC(2026,8,22);
  assert.equal(compactReportedAge(now-420000,now),'7 min ago');
  assert.equal(compactReportedAge(now-7200000,now),'2 hr ago');
@@ -23,7 +23,7 @@ test('[MUST-2][MUST-3][STORY-2] compact report age fits beside incident distance
  assert.equal(compactReportedAge('invalid',now),'Time unavailable');
 });
 
-test('[MUST-2][MUST-3][STORY-2] compact age can label incident update times', () => {
+test('[MUST-2][MUST-3][STORY-2][STORY-3] compact age can label incident update times', () => {
  const now = Date.UTC(2026,8,22);
  assert.equal(compactAge(now-120000,now),'2 min ago');
  assert.equal(compactAge('invalid',now),'Time unavailable');
