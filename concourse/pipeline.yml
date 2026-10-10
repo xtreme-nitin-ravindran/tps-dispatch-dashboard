@@ -30,35 +30,15 @@ jobs:
       - get: refresh
         trigger: true
       - get: repo
-      # Build the same pinned test image used by GitHub Actions. UNPACK_ROOTFS
-      # exposes it as a task image for the following verification/update step.
-      - task: build-test-image
-        timeout: 5m
-        privileged: true
-        output_mapping:
-          image: test-image
+      # main has already passed the protected promotion gate; this task only
+      # installs runtime dependencies, updates the snapshot, and publishes it.
+      - task: update-and-publish
+        timeout: 10m
         config:
           platform: linux
           image_resource:
             type: registry-image
-            source: { repository: concourse/oci-build-task }
-          inputs:
-            - name: repo
-          outputs:
-            - name: image
-          caches:
-            - path: cache
-          params:
-            CONTEXT: repo
-            DOCKERFILE: repo/docker/Dockerfile.test
-            UNPACK_ROOTFS: "true"
-          run:
-            path: build
-      - task: test-update-and-publish
-        timeout: 10m
-        image: test-image
-        config:
-          platform: linux
+            source: { repository: node, tag: 24-bookworm-slim }
           inputs:
             - name: repo
           outputs:
@@ -73,21 +53,15 @@ jobs:
             args:
               - -ec
               - |
-                # Match the GitHub Actions test gate using the same image and
-                # canonical offline-suite selector.
-                cd /workspace
-                TZ=America/Los_Angeles npm test
-                npm run test:python
-                npm run lint
-                node scripts/check-requirement-coverage.js
-                node --check src/app/app.js
-                find src scripts -name "*.js" -exec node --check {} \;
-                TZ=UTC NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage
+                # Capture the declared Concourse output before changing directory.
+                INCIDENT_OUTPUT="$PWD/incident-repo/data/current.json"
+                cd repo
+                npm ci --omit=dev
 
                 # Seed the ETL history input from the published snapshot. A
                 # missing object is not an error: the ETL starts fresh, exactly
                 # as it did when the git checkout was empty.
-                node /workspace/scripts/r2-fetch.js data/current.json /tmp/history/current.json
+                node scripts/r2-fetch.js data/current.json /tmp/history/current.json
 
                 # Shared freshness/skip policy and R2 publication. The R2 sink
                 # uploads directly, so there is no scheduler push step. The
@@ -95,8 +69,8 @@ jobs:
                 # following vehicle task can reuse it as advisory context.
                 TFS_UPDATED_BY=concourse \
                   TFS_PREVIOUS=/tmp/history/current.json \
-                  TFS_OUTPUT="$PWD/incident-repo/data/current.json" \
-                  node /workspace/scripts/publish-incidents.js
+                  TFS_OUTPUT="$INCIDENT_OUTPUT" \
+                  node scripts/publish-incidents.js
       # Bounded 90-second vehicle burst; never runs the heavy incident ETL.
       - task: observe-vehicles
         timeout: 6m

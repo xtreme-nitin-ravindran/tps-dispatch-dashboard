@@ -19,7 +19,7 @@
 #   -h, --help          Show this help
 #
 # Everything after `--` is forwarded to `fly execute` unchanged, for example:
-#   scripts/fly-exec-task.sh test-update-and-publish -- \
+#   scripts/fly-exec-task.sh update-and-publish -- \
 #     --input repo=. --output incident-repo=./out
 #
 # A task defined with `file:` (not inline `config:`) is passed to `fly execute`

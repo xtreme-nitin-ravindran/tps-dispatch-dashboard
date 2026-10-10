@@ -457,7 +457,7 @@ test("the CLI entry-point guard runs runCli when invoked directly", async () => 
 
 test("the real pipeline's inline tasks extract with their run blocks intact", async () => {
   const text = await readFile(pipelinePath, "utf8");
-  const publish = extractTaskConfig(text, "test-update-and-publish");
+  const publish = extractTaskConfig(text, "update-and-publish");
   assert.equal(publish.kind, "inline");
   // The run block and the four R2 params must survive extraction.
   assert.match(publish.config, /^run:/m);
@@ -468,9 +468,9 @@ test("the real pipeline's inline tasks extract with their run blocks intact", as
   // The multi-line script body must be preserved, not truncated.
   assert.match(publish.config, /publish-incidents\.js/);
 
-  const build = extractTaskConfig(text, "build-test-image");
-  assert.equal(build.kind, "inline");
-  assert.match(build.config, /path: build/);
+  assert.match(publish.config, /repository: node, tag: 24-bookworm-slim/);
+  assert.match(publish.config, /npm ci --omit=dev/);
+  assert.throws(() => extractTaskConfig(text, "build-test-image"), /task not found/);
 
   const geometry = extractTaskConfig(text, "publish-ttc-geometry");
   assert.equal(geometry.kind, "inline");
@@ -541,7 +541,7 @@ test("the wrapper is POSIX sh and does not use eval", async () => {
 test("the wrapper extracts an inline task and runs fly execute with -c", async () => {
   const stub = await makeStubEnv();
   try {
-    const result = runWrapper(["test-update-and-publish"], stub);
+    const result = runWrapper(["update-and-publish"], stub);
     assert.equal(result.status, 0, result.stderr);
     const calls = await readLog(stub.log);
     assert.equal(calls.length, 1);
@@ -550,7 +550,7 @@ test("the wrapper extracts an inline task and runs fly execute with -c", async (
     const cIndex = argv.indexOf("-c");
     assert.notEqual(cIndex, -1, "fly execute must receive -c");
     const configPath = argv[cIndex + 1];
-    assert.match(configPath, /test-update-and-publish\.yml$/);
+    assert.match(configPath, /update-and-publish\.yml$/);
   } finally {
     await rm(stub.dir, { recursive: true, force: true });
   }
@@ -559,7 +559,7 @@ test("the wrapper extracts an inline task and runs fly execute with -c", async (
 test("the wrapper forwards --target as fly -t", async () => {
   const stub = await makeStubEnv();
   try {
-    const result = runWrapper(["test-update-and-publish", "--target", "main"], stub);
+    const result = runWrapper(["update-and-publish", "--target", "main"], stub);
     assert.equal(result.status, 0, result.stderr);
     const argv = (await readLog(stub.log))[0];
     const tIndex = argv.indexOf("-t");
@@ -575,7 +575,7 @@ test("the wrapper forwards args after -- unchanged and in order", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(
-      ["test-update-and-publish", "--", "--input", "repo=.", "--output", "incident-repo=./out"],
+      ["update-and-publish", "--", "--input", "repo=.", "--output", "incident-repo=./out"],
       stub
     );
     assert.equal(result.status, 0, result.stderr);
@@ -608,7 +608,7 @@ test("the wrapper resolves a file: task to the repository-root path", async () =
 test("the wrapper propagates fly's exit status", async () => {
   const stub = await makeStubEnv();
   try {
-    const result = runWrapper(["test-update-and-publish"], {
+    const result = runWrapper(["update-and-publish"], {
       ...stub,
       env: { STUB_FLY_EXIT: "7" }
     });
@@ -621,9 +621,9 @@ test("the wrapper propagates fly's exit status", async () => {
 test("the wrapper removes the scratch config after a successful run", async () => {
   const stub = await makeStubEnv();
   try {
-    const result = runWrapper(["test-update-and-publish"], stub);
+    const result = runWrapper(["update-and-publish"], stub);
     assert.equal(result.status, 0, result.stderr);
-    const scratch = join(root, ".cache", "fly-exec", "test-update-and-publish.yml");
+    const scratch = join(root, ".cache", "fly-exec", "update-and-publish.yml");
     await assert.rejects(readFile(scratch, "utf8"), /ENOENT/);
   } finally {
     await rm(stub.dir, { recursive: true, force: true });
@@ -633,12 +633,12 @@ test("the wrapper removes the scratch config after a successful run", async () =
 test("the wrapper removes the scratch config after a failed run", async () => {
   const stub = await makeStubEnv();
   try {
-    const result = runWrapper(["test-update-and-publish"], {
+    const result = runWrapper(["update-and-publish"], {
       ...stub,
       env: { STUB_FLY_EXIT: "1" }
     });
     assert.equal(result.status, 1);
-    const scratch = join(root, ".cache", "fly-exec", "test-update-and-publish.yml");
+    const scratch = join(root, ".cache", "fly-exec", "update-and-publish.yml");
     await assert.rejects(readFile(scratch, "utf8"), /ENOENT/);
   } finally {
     await rm(stub.dir, { recursive: true, force: true });
@@ -649,7 +649,7 @@ test("the wrapper resolves the repository root independent of the caller's cwd",
   const stub = await makeStubEnv();
   const elsewhere = await mkdtemp(join(tmpdir(), "fly-exec-cwd-"));
   try {
-    const result = runWrapper(["test-update-and-publish"], { ...stub, cwd: elsewhere });
+    const result = runWrapper(["update-and-publish"], { ...stub, cwd: elsewhere });
     assert.equal(result.status, 0, result.stderr);
     const argv = (await readLog(stub.log))[0];
     const cIndex = argv.indexOf("-c");
@@ -696,7 +696,7 @@ test("the wrapper fails clearly for an unknown task name", async () => {
 test("the wrapper rejects an unknown option", async () => {
   const stub = await makeStubEnv();
   try {
-    const result = runWrapper(["test-update-and-publish", "--bogus"], stub);
+    const result = runWrapper(["update-and-publish", "--bogus"], stub);
     assert.equal(result.status, 2);
     assert.match(result.stderr, /unknown option: --bogus/);
   } finally {
@@ -718,7 +718,7 @@ test("the wrapper fails clearly when fly is unavailable", async () => {
         await symlink(path, join(bin, tool));
       }
     }
-    const result = spawnSync(join(bin, "sh"), [wrapperPath, "test-update-and-publish"], {
+    const result = spawnSync(join(bin, "sh"), [wrapperPath, "update-and-publish"], {
       cwd: root,
       encoding: "utf8",
       env: { ...process.env, PATH: bin }
@@ -734,7 +734,7 @@ test("the wrapper fails clearly when the pipeline file is missing", async () => 
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(
-      ["test-update-and-publish", "--pipeline", "/nonexistent/pipeline.yml"],
+      ["update-and-publish", "--pipeline", "/nonexistent/pipeline.yml"],
       stub
     );
     assert.notEqual(result.status, 0);

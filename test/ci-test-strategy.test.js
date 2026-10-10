@@ -2,9 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
-// GitHub Actions and Concourse must exercise the same test image and gates.
-// These structural checks prevent the scheduled Concourse updater from quietly
-// falling behind the protected dev-branch workflow as the test strategy evolves.
+// The protected GitHub promotion gate validates main before the scheduled
+// Concourse updater consumes it. Concourse only needs the publication runtime.
 
 const root = new URL("../", import.meta.url);
 const [github, concourse] = await Promise.all([
@@ -12,15 +11,16 @@ const [github, concourse] = await Promise.all([
   readFile(new URL("concourse/pipeline.yml", root), "utf8")
 ]);
 
-test("GitHub Actions and Concourse build the shared Docker test image", () => {
+test("GitHub Actions builds the shared Docker test image while Concourse uses a runtime image", () => {
   assert.match(github, /docker build -f docker\/Dockerfile\.test -t toronto-dispatch-tests \./);
-  assert.match(concourse, /repository: concourse\/oci-build-task/);
-  assert.match(concourse, /DOCKERFILE: repo\/docker\/Dockerfile\.test/);
-  assert.match(concourse, /UNPACK_ROOTFS: "true"/);
-  assert.match(concourse, /image: test-image/);
+  assert.match(concourse, /task: update-and-publish/);
+  assert.match(concourse, /repository: node, tag: 24-bookworm-slim/);
+  assert.match(concourse, /npm ci --omit=dev/);
+  assert.match(concourse, /branch: main/);
+  assert.doesNotMatch(concourse, /build-test-image|test-update-and-publish|test-image|oci-build-task|privileged:/);
 });
 
-test("GitHub Actions and Concourse enforce the same test gates", () => {
+test("GitHub Actions enforces the promotion gates without repeating them in Concourse", () => {
   const required = [
     "npm test",
     "npm run test:python",
@@ -32,10 +32,17 @@ test("GitHub Actions and Concourse enforce the same test gates", () => {
   ];
   for (const command of required) {
     assert.ok(github.includes(command), `GitHub Actions must run ${command}`);
-    assert.ok(concourse.includes(command), `Concourse must run ${command}`);
+    assert.ok(!concourse.includes(command), `Concourse must not repeat ${command}`);
   }
   assert.match(github, /TZ=America\/Los_Angeles/);
-  assert.match(concourse, /TZ=America\/Los_Angeles/);
   assert.match(github, /TZ=UTC[^\n]*NODE_V8_COVERAGE=\/tmp\/coverage/);
-  assert.match(concourse, /TZ=UTC NODE_V8_COVERAGE=\/tmp\/coverage/);
+});
+
+test("the incident output stays rooted in the declared task output before changing directory", () => {
+  const capture = concourse.indexOf('INCIDENT_OUTPUT="$PWD/incident-repo/data/current.json"');
+  const changeDirectory = concourse.indexOf('cd repo', capture);
+  assert.ok(capture >= 0 && changeDirectory > capture);
+  assert.match(concourse, /TFS_OUTPUT="\$INCIDENT_OUTPUT"/);
+  assert.match(concourse, /node scripts\/r2-fetch\.js data\/current\.json \/tmp\/history\/current\.json/);
+  assert.match(concourse, /node scripts\/publish-incidents\.js/);
 });
