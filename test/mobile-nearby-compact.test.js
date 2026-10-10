@@ -41,5 +41,5 @@ test('mobile compaction is scoped and preserves readable controls', () => {
 test('unavailable and denied fixtures reuse the production fallback path without expanding options', () => {
   assert.match(app, /locationState === 'unavailable'[\s\S]*?showLocationFallback\('Location is unavailable in this browser\.'\)/);
   assert.match(app, /locationState === 'denied'[\s\S]*?showLocationFallback\('Location permission was denied\.'\)/);
-  assert.doesNotMatch(app, /nearby-options['"]\)\.open|\.open = true/);
+  assert.doesNotMatch(app, /nearby-options['"]\)\.open|nearbyOptions\.open = true/);
 });

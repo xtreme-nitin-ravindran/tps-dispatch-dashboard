@@ -115,9 +115,9 @@ test('focused map respects safe-area insets on every edge and avoids horizontal 
   assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \{\s*\/\*[\s\S]*?\*\/\s*--mobile-map-height: 100vh;\s*--mobile-map-height: 100dvh;\s*overflow-x: hidden;/);
 });
 
-test('focused map keeps the existing bottom sheet and its overlap path', () => {
-  // The sheet is not hidden or duplicated in focus mode.
-  assert.doesNotMatch(mobileRules, /data-mobile-focus="on"[\s\S]{0,200}\.mobile-bottom-sheet \{ display: none; \}/);
+test('focused map hides the existing bottom sheet and retains its normal overlap path', () => {
+  // Fullscreen hides auxiliary calls chrome; the existing sheet is restored on exit.
+  assert.match(mobileRules, /data-mobile-focus="on"[\s\S]{0,200}\.mobile-bottom-sheet,[\s\S]{0,250}\{ display: none; \}/);
   assert.equal(html.match(/id="mobileBottomSheet"/g)?.length, 1);
   assert.equal(html.match(/id="mobileSheetCallList"/g)?.length, 1);
   // Map controls still clear the sheet through the existing overlap variable.
@@ -167,7 +167,7 @@ const viewToggleHandler = app.slice(
 );
 const disruptionsHandler = app.slice(
   app.indexOf("mobileDisruptionsControl?.addEventListener('click'"),
-  app.indexOf('\nfunction setMobileFocusMode(', app.indexOf("mobileDisruptionsControl?.addEventListener('click'"))
+  app.indexOf('// Fullscreen panels reuse', app.indexOf("mobileDisruptionsControl?.addEventListener('click'"))
 );
 
 test('focus mode keeps the existing Map / Calls / Disruptions navigation reachable', () => {
@@ -265,7 +265,7 @@ const focusSummaryStart = app.indexOf('function focusFilterSummaryText(');
 const focusSummaryFn = app.slice(focusSummaryStart, app.indexOf('\nfunction setMobileFiltersOpen(', focusSummaryStart));
 
 test('the floating filter summary is a read-only, accessible status element', () => {
-  assert.match(html, /<p id="mobileFocusFilterSummary" class="mobile-focus-filter-summary" role="status" aria-live="polite"\s*\n?\s*aria-label="Applied filters" hidden><\/p>/);
+  assert.match(html, /<p id="mobileFocusFilterSummary" class="mobile-focus-filter-summary" role="status" aria-live="polite"\s*\n?\s*aria-label="Applied filters and source status" hidden><\/p>/);
   assert.equal(html.match(/id="mobileFocusFilterSummary"/g)?.length, 1);
   // It is a paragraph, not an interactive control.
   assert.doesNotMatch(html, /<button[^>]*id="mobileFocusFilterSummary"/);
@@ -274,7 +274,7 @@ test('the floating filter summary is a read-only, accessible status element', ()
 test('the floating filter summary is hidden outside focus mode and shown inside it', () => {
   assert.match(focusSummaryFn, /const visible = mobileFocusMode && isMobileViewLayout\(\);/);
   assert.match(focusSummaryFn, /mobileFocusFilterSummary\.hidden = !visible;/);
-  assert.match(focusSummaryFn, /if \(visible\) mobileFocusFilterSummary\.textContent = focusFilterSummaryText\(\);/);
+  assert.match(focusSummaryFn, /if \(visible\) \{[\s\S]*?mobileFocusFilterSummary\.textContent = \[focusFilterSummaryText\(\), \.\.\.warnings\]\.join/);
   // The element starts hidden in the markup and is only revealed by focus mode.
   assert.match(html, /id="mobileFocusFilterSummary"[\s\S]*?hidden><\/p>/);
 });

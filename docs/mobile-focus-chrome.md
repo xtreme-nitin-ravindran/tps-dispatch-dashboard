@@ -1,7 +1,7 @@
 # Mobile Focus-Mode Chrome Contract
 
 Authoritative reference for the mobile full-screen map ("focus mode") chrome
-layout. It describes the behavior that the current production code, the
+layout. It describes the behavior that the current implementation, the
 rendered-browser regressions, and completed Stories 39A, 40E, 42, 43, 44, and 49
 already implement. It is descriptive, not aspirational: if the code or tests
 contradict this document, the code and tests win and the discrepancy should be
@@ -9,6 +9,40 @@ reported rather than silently reconciled.
 
 All selectors, CSS custom properties, and script names below were verified
 against the current repository.
+
+## Story 58: current fullscreen layout
+
+Story 58 supersedes the fullscreen positioning, collapsed-info, and sheet
+contracts recorded in sections 8–12 below; those sections describe the previous
+layout. Normal mobile and desktop contracts remain unchanged.
+
+- Close and Map / Calls / Disruptions share the top safe-area row. Applied-filter
+  context sits below the measured navigation bottom, capped and scrollable for
+  long labels. Source-unavailable/stale cues remain visible in that context;
+  zero results do not create an outage cue. Hidden layer rows do not contribute
+  to fullscreen offsets.
+- Two separate 44 × 44 px round launchers sit at the upper right below the
+  measured filter summary: stacked layers, then ⓘ. Accessible names are
+  `Map layers` and `Map info`; `aria-expanded` tracks their respective panels.
+- Both panels start closed. Each has an explicit close button; opening one
+  closes the other. Escape closes a panel and returns focus to its launcher.
+  These are nonmodal panels: navigation and map controls remain available.
+- The layers panel rehomes the existing Road/TTC labels and Leaflet control
+  without cloning inputs or handlers, then restores their original DOM positions
+  on fullscreen exit. Late Leaflet initialization uses the same ownership path.
+- Map info uses the existing details/content. In fullscreen its normal summary
+  is hidden; the ⓘ launcher controls it. The panel appears below filter context,
+  beside the round launchers, and scrolls within the attribution clearance.
+  The previous normal-flow disclosure state is restored on exit.
+- The calls sheet is hidden in fullscreen and contributes zero map overlap.
+  Calls and Disruptions navigation still reveal their existing surfaces.
+  Zoom and OpenStreetMap attribution remain reachable at the lower right.
+- The updated panel regression checks six portrait/landscape viewports, real
+  hit targets, mutually exclusive panels, checked-state persistence, two/three
+  available controls, visible repair disclosure, long context, rotation, exit,
+  re-entry, and navigation. A conservative area calculation requires more than
+  half the usable viewport to remain interactive map space with panels closed.
+  Physical iPhone Brave/Safari acceptance remains required.
 
 ## 1. Purpose and boundaries
 

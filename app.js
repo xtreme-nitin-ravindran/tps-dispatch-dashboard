@@ -298,6 +298,7 @@ function syncMapAttributionPosition() {
 }
 
 let mapMaintenanceFrame = null;
+let mapSheetObserver = null;
 let mapSizeInvalidationPending = false;
 const viewTransitionScheduler = createViewTransitionScheduler();
 function syncMapSheetOverlap() {
@@ -306,7 +307,7 @@ function syncMapSheetOverlap() {
   const overlap = mobileMapSheetOverlap(
     els.dispatchMap.getBoundingClientRect(),
     sheetRect,
-    isMobileViewLayout() && mobileView === "map"
+    isMobileViewLayout() && mobileView === "map" && !mobileFocusMode
   );
   els.dispatchMap.style.setProperty("--mobile-map-sheet-overlap", `${overlap}px`);
   // Story 42: the collapsed sheet grows to fit a wrapped summary, so the
@@ -348,6 +349,10 @@ function syncMobileLayerRowOffset() {
   const wrap = els.dispatchMap?.closest?.(".map-wrap");
   const layerRow = wrap?.querySelector?.(".map-layer-toggle");
   if (!wrap || !layerRow) return;
+  if (mobileFocusMode) {
+    syncMobileFocusChromeMetrics();
+    return;
+  }
   const wrapTop = wrap.getBoundingClientRect().top;
   const policeControl = wrap.querySelector(".leaflet-top.leaflet-right .leaflet-control-layers");
   if (policeControl) {
@@ -493,6 +498,7 @@ function setMobileView(view, { focusSelection = false, persist = true } = {}) {
   if (view === mobileView && view === presentedMobileView && mobile === presentedMobileLayout) return;
   const finishState = uxAudit.begin('view-toggle:state-update', { target: view });
   mobileView = view;
+  if (mobileFocusMode && view !== 'map') closeFullscreenPanels();
   if (mobile && view === 'calls' && expandedCluster.size) {
     expandedCluster.clear();
     if (dispatchMap) renderMapMarkers();
@@ -560,10 +566,83 @@ mobileDisruptionsControl?.addEventListener('click', auditInteraction('mobile:dis
     disruptions?.focus({ preventScroll: true });
   });
 }));
+// Fullscreen panels reuse the live controls, including Leaflet's own checkbox.
+// Remember their homes so normal mobile/desktop layout and handlers are restored.
+const mapInfoPanel = document.querySelector('#mapInfo');
+const mapLayersPanel = document.querySelector('#mobileMapLayersPanel');
+const mapLayersBody = document.querySelector('#mobileMapLayersBody');
+const mapLayersToggle = document.querySelector('#mobileMapLayersToggle');
+const mapInfoToggle = document.querySelector('#mobileMapInfoToggle');
+const mapLayersClose = document.querySelector('#mobileMapLayersClose');
+const mapInfoClose = document.querySelector('#mobileMapInfoClose');
+const mapControlHomes = new Map();
+let normalMapInfoOpen = false;
+
+function syncFullscreenLayerControls() {
+  if (mobileFocusMode) {
+    const controls = [wrapQuery('.leaflet-control-layers'), ...document.querySelectorAll('.map-layer-toggle')];
+    for (const control of controls) {
+      if (!control || mapControlHomes.has(control)) continue;
+      const home = document.createComment('fullscreen layer control home');
+      control.before(home);
+      mapControlHomes.set(control, home);
+      mapLayersBody.append(control);
+    }
+  } else {
+    for (const [control, home] of mapControlHomes) {
+      home.replaceWith(control);
+    }
+    mapControlHomes.clear();
+  }
+}
+
+function closeFullscreenPanels({ restoreFocus = false } = {}) {
+  const launcher = mapInfoPanel.open ? mapInfoToggle : !mapLayersPanel.hidden ? mapLayersToggle : null;
+  mapLayersPanel.hidden = true;
+  mapInfoPanel.open = false;
+  mapLayersToggle.setAttribute('aria-expanded', 'false');
+  mapInfoToggle.setAttribute('aria-expanded', 'false');
+  if (restoreFocus) launcher?.focus({ preventScroll: true });
+}
+
+function toggleFullscreenPanel(kind) {
+  if (!mobileFocusMode || mobileView !== 'map') return;
+  const layers = kind === 'layers';
+  const wasOpen = layers ? !mapLayersPanel.hidden : mapInfoPanel.open;
+  closeFullscreenPanels();
+  if (wasOpen) {
+    (layers ? mapLayersToggle : mapInfoToggle).focus({ preventScroll: true });
+    return;
+  }
+  if (layers) mapLayersPanel.hidden = false;
+  else mapInfoPanel.open = true;
+  (layers ? mapLayersToggle : mapInfoToggle).setAttribute('aria-expanded', 'true');
+  (layers ? mapLayersClose : mapInfoClose).focus({ preventScroll: true });
+  scheduleMapMaintenance();
+}
+
+mapLayersToggle.addEventListener('click', () => toggleFullscreenPanel('layers'));
+mapInfoToggle.addEventListener('click', () => toggleFullscreenPanel('info'));
+mapLayersClose.addEventListener('click', () => closeFullscreenPanels({ restoreFocus: true }));
+mapInfoClose.addEventListener('click', () => closeFullscreenPanels({ restoreFocus: true }));
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape' || !mobileFocusMode || (mapLayersPanel.hidden && !mapInfoPanel.open)) return;
+  event.preventDefault();
+  closeFullscreenPanels({ restoreFocus: true });
+});
+
 function setMobileFocusMode(on) {
   const next = Boolean(on) && isMobileViewLayout();
   if (next === mobileFocusMode) return;
+  if (next) normalMapInfoOpen = mapInfoPanel.open;
+  closeFullscreenPanels();
   mobileFocusMode = next;
+  for (const chrome of [mobileFocusFilterSummary, document.querySelector('.radius-controls')]) {
+    if (next) mapSheetObserver?.observe(chrome);
+    else mapSheetObserver?.unobserve(chrome);
+  }
+  syncFullscreenLayerControls();
+  if (!next) mapInfoPanel.open = normalMapInfoOpen;
   document.documentElement.dataset.mobileFocus = next ? "on" : "off";
   mobileMapFocusToggle?.setAttribute("aria-pressed", String(next));
   mobileMapFocusToggle?.setAttribute("aria-label", next ? "Exit full screen map" : "Full screen map");
@@ -669,7 +748,7 @@ document.addEventListener("touchmove", scheduleMapMaintenance, { passive: true }
 document.addEventListener("touchend", scheduleMapMaintenance, { passive: true });
 window.addEventListener("pageshow", scheduleMapMaintenance);
 if (globalThis.ResizeObserver) {
-  const mapSheetObserver = new ResizeObserver(scheduleMapMaintenance);
+  mapSheetObserver = new ResizeObserver(scheduleMapMaintenance);
   mapSheetObserver.observe(els.dispatchMap);
   mapSheetObserver.observe(mobileBottomSheet);
   const layerRow = els.dispatchMap?.closest?.(".map-wrap")?.querySelector?.(".map-layer-toggle");
@@ -1903,6 +1982,7 @@ function setupDivisionOverlay() {
   const boundaryControlLabel = dispatchMap.getContainer()
     .querySelector('.leaflet-control-layers-overlays label');
   boundaryControlLabel?.setAttribute('data-mobile-label', 'Police Divisions');
+  syncFullscreenLayerControls();
   if (boundaryVisible) {
     divisionLayer.addTo(dispatchMap);
     queuePoliceBoundaryWork('initial-visible-map');
@@ -3038,7 +3118,15 @@ function syncFocusFilterSummary() {
   if (!mobileFocusFilterSummary) return;
   const visible = mobileFocusMode && isMobileViewLayout();
   mobileFocusFilterSummary.hidden = !visible;
-  if (visible) mobileFocusFilterSummary.textContent = focusFilterSummaryText();
+  if (visible) {
+    const availability = incidentAvailability();
+    const warnings = [
+      ...availability.unavailable.map(feed => `${feed.name} data unavailable`),
+      ...availability.stale.map(feed => `${feed.name} data may be stale`)
+    ];
+    if (availability.unavailable.length && availability.hasRelevantCachedData) warnings.push('Previously loaded calls remain visible');
+    mobileFocusFilterSummary.textContent = [focusFilterSummaryText(), ...warnings].join(' · ');
+  }
 }
 function setMobileFiltersOpen(open) {
   document.documentElement.classList.toggle('mobile-filters-open', open);

@@ -53,7 +53,7 @@ const WRAPPED_ATTRIBUTION_CSS = `
 const FOCUS_SELECTORS = {
   focus: '#mobileMapFocusToggle',
   road: '.map-layer-toggle',
-  police: '.map-panel .leaflet-top.leaflet-right .leaflet-control-layers',
+  police: '.map-panel .leaflet-control-layers',
   nav: '.mobile-view-toggle',
   summary: '#mobileFocusFilterSummary',
   mapInfo: '#mapInfo',
@@ -136,7 +136,7 @@ function assertLayout(state, viewport, mode) {
 
   // The layer controls keep their 44px targets.
   for (const [name, box] of [['Road closures', state.road], ['Police divisions', state.police]]) {
-    if (!box) continue;
+    if (!box || box.height === 0) continue;
     assert.ok(box.height >= MIN_TARGET - 0.5, `${label}: ${name} target ${box.height} < ${MIN_TARGET}`);
   }
 }
@@ -211,7 +211,7 @@ const CALLS_SELECTORS = {
   disruptions: '#disruptions',
   focus: '#mobileMapFocusToggle',
   road: '.map-layer-toggle',
-  police: '.map-panel .leaflet-top.leaflet-right .leaflet-control-layers',
+  police: '.map-panel .leaflet-control-layers',
   summary: '#mobileFocusFilterSummary',
   mapInfo: '#mapInfo'
 };
