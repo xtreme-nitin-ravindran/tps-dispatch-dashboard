@@ -13,7 +13,7 @@ const portraitRules = css.slice(portraitStart, sharedMobileStart);
 const sharedMobileRules = css.slice(sharedMobileStart);
 const finalMobileRules = css.slice(css.lastIndexOf('@media (max-width: 680px) {'));
 
-test('mobile filters and actions use aligned grids with usable touch targets', () => {
+test('[STORY-29B] mobile filters and actions use aligned grids with usable touch targets', () => {
   assert.match(portraitRules, /\.event-toggle-group\s*{[\s\S]*?grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);[\s\S]*?gap: 8px;/);
   assert.match(portraitRules, /\.event-toggle:first-child\s*{[\s\S]*?grid-column: 1 \/ -1;/);
   assert.match(portraitRules, /\.event-toggle\s*{[\s\S]*?min-height: 44px;/);
@@ -21,7 +21,7 @@ test('mobile filters and actions use aligned grids with usable touch targets', (
   assert.match(finalMobileRules, /\.view-actions button\s*{ width: 100%; min-height: 44px; \}/);
 });
 
-test('radius choices stay on one bounded row above the mobile navigation controls', () => {
+test('[STORY-29B] radius choices stay on one bounded row above the mobile navigation controls', () => {
   assert.match(sharedMobileRules, /\.radius-toggle-group\s*{[\s\S]*?flex-wrap: nowrap;[\s\S]*?gap: 4px;[\s\S]*?max-width: 100%;[\s\S]*?overflow-x: auto;/);
   assert.match(sharedMobileRules, /\.radius-toggle-group button\s*{[\s\S]*?flex: 0 0 auto;[\s\S]*?white-space: nowrap;/);
   assert.match(sharedMobileRules, /\.mobile-view-toggle\s*{ display: grid; grid-template-columns: repeat\(3, minmax\(0, 1fr\)\); gap: 4px; width: 100%; max-width: 100%; \}/);
@@ -29,7 +29,7 @@ test('radius choices stay on one bounded row above the mobile navigation control
   assert.match(sharedMobileRules, /\.mobile-view-toggle button\s*{ min-height: 44px;/);
 });
 
-test('road and police boundary controls stack in aligned mobile map columns', () => {
+test('[STORY-29B] road and police boundary controls stack in aligned mobile map columns', () => {
   assert.match(html, /class="road-overlay-toggle map-layer-toggle"[\s\S]*?Road closures/);
   // Story 41: Police Divisions sits first, with Road closures directly below it.
   // Both controls shrink-wrap and share the same right inset.
@@ -39,7 +39,7 @@ test('road and police boundary controls stack in aligned mobile map columns', ()
   assert.match(sharedMobileRules, /\.leaflet-control-layers-overlays label\s*{[\s\S]*?min-height: 44px;/);
 });
 
-test('desktop control layouts remain outside the mobile overrides', () => {
+test('[STORY-29B] desktop control layouts remain outside the mobile overrides', () => {
   const desktopRules = css.slice(0, portraitStart);
   assert.match(desktopRules, /\.event-toggle-group\s*{[\s\S]*?display: flex;[\s\S]*?flex-wrap: wrap;/);
   assert.match(css, /\.view-actions \{ display: flex; flex-wrap: wrap;/);
@@ -47,7 +47,7 @@ test('desktop control layouts remain outside the mobile overrides', () => {
   assert.match(css, /\.mobile-view-toggle \{ display: none; \}/);
 });
 
-test('mobile controls remain in flow and bottom-sheet safe-area behavior is preserved', () => {
+test('[STORY-29B] mobile controls remain in flow and bottom-sheet safe-area behavior is preserved', () => {
   assert.match(sharedMobileRules, /\.radius-controls\s*\{[\s\S]*?position: static;/);
   assert.match(sharedMobileRules, /\.mobile-bottom-sheet\s*{[\s\S]*?position: fixed;[\s\S]*?height: var\(--mobile-sheet-height\);/);
   assert.match(sharedMobileRules, /padding-bottom: env\(safe-area-inset-bottom, 0px\)/);
