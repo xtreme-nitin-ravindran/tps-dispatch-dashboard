@@ -7,21 +7,21 @@ import { clusterPoints } from '../src/map-clusters.js';
 const app = readFileSync(new URL('../src/app/app.js', import.meta.url), 'utf8');
 const item = (id, coordinates) => ({call:{id,timestamp:1},coordinates});
 
-test('unchanged incident representations are retained without additions or removals', () => {
+test('[STORY-29F] unchanged incident representations are retained without additions or removals', () => {
   const current = new Map([['marker:a:v1',{}],['cluster:b|c:v1',{}]]);
   assert.deepEqual(reconcileIncidentLayers(current,['marker:a:v1','cluster:b|c:v1']),{
     remove:[],add:[],keep:['marker:a:v1','cluster:b|c:v1']
   });
 });
 
-test('filters remove stale incidents and add newly visible incidents', () => {
+test('[STORY-29F] filters remove stale incidents and add newly visible incidents', () => {
   const current = new Map([['marker:a:v1',{}],['marker:b:v1',{}]]);
   assert.deepEqual(reconcileIncidentLayers(current,['marker:b:v1','marker:c:v1']),{
     remove:['marker:a:v1'],add:['marker:c:v1'],keep:['marker:b:v1']
   });
 });
 
-test('changed marker state replaces only that incident representation', () => {
+test('[STORY-29F] changed marker state replaces only that incident representation', () => {
   const current = new Map([['marker:a:normal',{}],['marker:b:normal',{}]]);
   const changes = reconcileIncidentLayers(current,['marker:a:normal','marker:b:selected']);
   assert.deepEqual(changes.remove,['marker:b:normal']);
@@ -29,7 +29,7 @@ test('changed marker state replaces only that incident representation', () => {
   assert.deepEqual(changes.keep,['marker:a:normal']);
 });
 
-test('zoom grouping changes reconcile without duplicate representations', () => {
+test('[STORY-29F] zoom grouping changes reconcile without duplicate representations', () => {
   const incidents=[item('a',[1,1]),item('b',[1.01,1.01])];
   const wide=clusterPoints(incidents,()=>({x:1,y:1}));
   const close=clusterPoints(incidents,([lat,lng])=>({x:lat*10000,y:lng*10000}));
@@ -42,7 +42,7 @@ test('zoom grouping changes reconcile without duplicate representations', () => 
   assert.equal(incidentGroupKey(incidents,true),'expanded:a|b:');
 });
 
-test('map rendering is incremental, selection-targeted, and zoom-coalesced', () => {
+test('[STORY-29F] map rendering is incremental, selection-targeted, and zoom-coalesced', () => {
   assert.doesNotMatch(app,/callLayer\.clearLayers\(\)/);
   assert.match(app,/reconcileIncidentLayers\(renderedIncidentLayers, desiredKeys\)/);
   assert.match(app,/renderedIncidentLayers\.get\(key\)\.layers\.forEach\(layer => callLayer\.removeLayer\(layer\)\)/);
@@ -53,7 +53,7 @@ test('map rendering is incremental, selection-targeted, and zoom-coalesced', () 
   assert.match(app,/const clusterChanged = [\s\S]*?if \(clusterChanged \|\| largeClusterSelectionChanged\) \{[\s\S]*?renderMapMarkers\(\)/);
 });
 
-test('popup clicks and unaffected overlays retain their established paths', () => {
+test('[STORY-29F] popup clicks and unaffected overlays retain their established paths', () => {
   assert.match(app,/bindPopup\(createIncidentCard\(call,[\s\S]*?selectCall\(call\.id, \{ pan: false, revealRow: true \}\)/);
   assert.match(app,/renderDisruptions\(state\.disruptions/);
   assert.match(app,/nearbyOriginLayer\?\.clearLayers\(\)/);
