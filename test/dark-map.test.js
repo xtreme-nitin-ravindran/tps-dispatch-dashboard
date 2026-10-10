@@ -13,7 +13,7 @@ const darkTheme = css.slice(css.indexOf(':root {'), css.indexOf(':root[data-them
 const lightTheme = css.slice(css.indexOf(':root[data-theme="light"]'), css.indexOf('* { box-sizing'));
 const tilePaneRule = css.match(/\.leaflet-tile-pane\s*{([^}]*)}/)[1];
 
-test('dark map dims the existing tiles without a full-pane filter or overlay', () => {
+test('[MUST-11][STORY-12][STORY-29D] dark map dims the existing tiles without a full-pane filter or overlay', () => {
   assert.match(darkTheme, /--map-background: #101d2b/);
   assert.match(darkTheme, /--map-tile-opacity: \.46/);
   assert.match(tilePaneRule, /opacity: var\(--map-tile-opacity\)/);
@@ -21,13 +21,13 @@ test('dark map dims the existing tiles without a full-pane filter or overlay', (
   assert.doesNotMatch(css, /--map-tile-filter/);
 });
 
-test('light map retains fully opaque standard OpenStreetMap tiles', () => {
+test('[MUST-11][STORY-12][STORY-29D] light map retains fully opaque standard OpenStreetMap tiles', () => {
   assert.match(lightTheme, /--map-background: #e2eaec/);
   assert.match(lightTheme, /--map-tile-opacity: 1/);
   assert.match(app, /L\.tileLayer\("https:\/\/\{s\}\.tile\.openstreetmap\.org\/\{z\}\/\{x\}\/\{y\}\.png"/);
 });
 
-test('explicit and system theme changes retarget map CSS without a reload', () => {
+test('[MUST-11][STORY-12][STORY-29D] explicit and system theme changes retarget map CSS without a reload', () => {
   const root = { dataset: {} };
   const meta = { content: '' };
   const syncTheme = app.match(/function syncTheme\(\)\s*{([^}]*)}/)[1];
@@ -39,14 +39,14 @@ test('explicit and system theme changes retarget map CSS without a reload', () =
   assert.doesNotMatch(syncTheme, /(?:location\.reload|tileLayer)/);
 });
 
-test('theme switching keeps one tile layer and existing map interactions', () => {
+test('[MUST-11][STORY-12][STORY-29D] theme switching keeps one tile layer and existing map interactions', () => {
   assert.equal(app.match(/L\.tileLayer\(/g).length, 1);
   assert.match(app, /dispatchMap\.on\("zoomend", \(\) => \{[\s\S]*?expandedCluster\.clear\(\);[\s\S]*?scheduleMapMarkerRender\(\);[\s\S]*?\}\)/);
   assert.match(app, /dispatchMap\.on\("click", event =>/);
   assert.match(app, /dispatchMap\.on\('roadclosureselect', event => \{ clearTtcSelection\(\); selectClosure/);
 });
 
-test('markers and vector overlays remain above and readable on the dimmed tiles', () => {
+test('[MUST-11][STORY-12][STORY-29D] markers and vector overlays remain above and readable on the dimmed tiles', () => {
   assert.match(css, /\.dispatch-marker\s*{[^}]*border: 2px solid var\(--marker-border\)[^}]*box-shadow:/s);
   assert.match(css, /\.call-cluster\s*{[^}]*border: 2px solid var\(--cluster-border\)[^}]*color: var\(--cluster-text\)[^}]*text-shadow:/s);
   assert.match(css, /\.road-closure-line\s*{[^}]*stroke: var\(--road-marker\) !important/s);
