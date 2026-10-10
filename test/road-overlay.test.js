@@ -51,13 +51,13 @@ const data={roads:{status:'ok',fetchedAt:new Date(now).toISOString(),items:[
  {...base,id:'none-1',geometryKind:'none',line:[],coordinates:null}
 ]},transit:{status:'ok',fetchedAt:new Date(now).toISOString(),items:[]}};
 
-test('road diagnostic is empty before the overlay is constructed',()=>{
+test('[SHOULD-11][STORY-25] road diagnostic is empty before the overlay is constructed',()=>{
  const capture=captureRoadClosureRenderState(null);
  assert.equal(capture.visible,false);assert.equal(capture.layerId,null);assert.equal(capture.paneTransform,null);
  assert.deepEqual(capture.lineLayerIds,[]);assert.deepEqual(capture.rendererIds,[]);assert.equal(capture.redrawScheduled,false);
 });
 
-test('line closures render below incident markers with repeated identifiable symbols',()=>{
+test('[SHOULD-11][STORY-25] line closures render below incident markers with repeated identifiable symbols',()=>{
  const {groups,map,fired}=harness();
  const incidentLayer={removed:false,items:[{id:'incident'}]};
  renderDisruptions(data,null,10,map);
@@ -70,7 +70,7 @@ test('line closures render below incident markers with repeated identifiable sym
  const selections=fired.filter(event=>event.name==='roadclosureselect');assert.equal(selections[1].payload.closureId,'line-1');assert.equal(selections[1].payload.item,data.roads.items[0]);
 });
 
-test('symbol density increases with zoom and positions remain on the authoritative segment',()=>{
+test('[SHOULD-11][STORY-25] symbol density increases with zoom and positions remain on the authoritative segment',()=>{
  const {map}=harness(10); const line=[[43,-79],[43,-77]];
  const low=closureSymbolPositions(line,map);map.zoom=16;const high=closureSymbolPositions(line,map);
  assert.ok(high.length>low.length);assert.ok(roadClosureSymbolSpacing(16)<roadClosureSymbolSpacing(10));
@@ -84,7 +84,7 @@ test('symbol density increases with zoom and positions remain on the authoritati
  assert.ok(closureSymbolPositions(line,leafletMap).length>0);
 });
 
-test('point-only closures render one marker and select their normalized record',()=>{
+test('[SHOULD-11][STORY-25] point-only closures render one marker and select their normalized record',()=>{
  const {groups,map,fired}=harness();renderDisruptions(data,null,11,map);
  const overlay=groups.at(-1);
  assert.equal(overlay.items.filter(item=>item.options.closureId==='point-1').length,1);
@@ -94,7 +94,7 @@ test('point-only closures render one marker and select their normalized record',
  const selection=fired.find(event=>event.name==='roadclosureselect');assert.equal(selection.payload.closureId,'point-1');assert.equal(selection.payload.item,data.roads.items[1]);
 });
 
-test('road diagnostic reports layer ownership, renderer kind, and queued redraw state',()=>{
+test('[SHOULD-11][STORY-25] road diagnostic reports layer ownership, renderer kind, and queued redraw state',()=>{
  const {groups,map}=harness();renderDisruptions(data,null,12,map);
  const overlay=groups.at(-1);const line=overlay.items.find(item=>item.kind==='line');
  map.panes.roadClosurePane.style.transform='translate3d(2px, 3px, 0)';
@@ -108,7 +108,7 @@ test('road diagnostic reports layer ownership, renderer kind, and queued redraw 
  assert.equal(capture.visible,false);assert.deepEqual(capture.lineLayerIds,[null]);assert.deepEqual(capture.rendererIds,[]);assert.deepEqual(capture.rendererKinds,[]);assert.equal(capture.redrawScheduled,false);
 });
 
-test('toggle hides and restores every closure element without changing unrelated map state',()=>{
+test('[SHOULD-11][STORY-25] toggle hides and restores every closure element without changing unrelated map state',()=>{
  const {nodes,groups,map,flush}=harness();
  map.center=[43.7,-79.4];map.filterState={service:'TPS'};map.selectedIncident='incident-7';
  renderDisruptions(data,null,10,map);
@@ -122,7 +122,7 @@ test('toggle hides and restores every closure element without changing unrelated
  assert.deepEqual(map.center,[43.7,-79.4]);assert.deepEqual(map.filterState,{service:'TPS'});assert.equal(map.selectedIncident,'incident-7');assert.equal(map.zoom,12);
 });
 
-test('overlay-only toggles preserve rendered layers and defer first-time creation',()=>{
+test('[SHOULD-11][STORY-25] overlay-only toggles preserve rendered layers and defer first-time creation',()=>{
  const {groups,map,created,flush}=harness();
  renderDisruptions(data,null,10,map);
  const overlay=groups.at(-1);const layers=[...overlay.items];const createdCount=created.length;
@@ -133,7 +133,7 @@ test('overlay-only toggles preserve rendered layers and defer first-time creatio
  flush();assert.deepEqual(overlay.items,layers);assert.equal(created.length,createdCount);
 });
 
-test('viewport scheduling falls back safely when requestAnimationFrame is unavailable',async()=>{
+test('[SHOULD-11][STORY-25] viewport scheduling falls back safely when requestAnimationFrame is unavailable',async()=>{
  const {groups,map}=harness();
  globalThis.requestAnimationFrame=undefined;
  renderDisruptions(data,null,10,map);
@@ -143,7 +143,7 @@ test('viewport scheduling falls back safely when requestAnimationFrame is unavai
  assert.deepEqual(overlay.items,initialLayers);
 });
 
-test('overlay status distinguishes a valid empty feed from an unavailable source',()=>{
+test('[SHOULD-11][STORY-25] overlay status distinguishes a valid empty feed from an unavailable source',()=>{
  const {nodes,map}=harness();
  const empty={roads:{status:'ok',fetchedAt:new Date().toISOString(),items:[]},transit:data.transit};
  renderDisruptions(empty,null,10,map);
@@ -155,7 +155,7 @@ test('overlay status distinguishes a valid empty feed from an unavailable source
  assert.equal(nodes.get('#roadOverlayStatus').className,'map-layer-status source-state-unavailable');
 });
 
-test('overlay status discloses a SirenTO encoding repair even when the source is healthy',()=>{
+test('[SHOULD-11][STORY-25] overlay status discloses a SirenTO encoding repair even when the source is healthy',()=>{
  const {nodes,map}=harness();
  const repaired={roads:{status:'ok',fetchedAt:new Date().toISOString(),items:[],repaired:2},transit:data.transit};
  renderDisruptions(repaired,null,10,map);
@@ -163,7 +163,7 @@ test('overlay status discloses a SirenTO encoding repair even when the source is
  assert.equal(nodes.get('#roadOverlayStatus').className,'map-layer-status source-state-ok');
 });
 
-test('the visible Road closures label discloses a SirenTO encoding repair and resets when clean',()=>{
+test('[SHOULD-11][STORY-25] the visible Road closures label discloses a SirenTO encoding repair and resets when clean',()=>{
  const {nodes,map}=harness();
  const repaired={roads:{status:'ok',fetchedAt:new Date().toISOString(),items:[],repaired:2},transit:data.transit};
  renderDisruptions(repaired,null,10,map);
@@ -173,7 +173,7 @@ test('the visible Road closures label discloses a SirenTO encoding repair and re
  assert.equal(nodes.get('#roadOverlayLabel').textContent,'Road closures');
 });
 
-test('closure detail includes available normalized fields and official attribution',()=>{
+test('[SHOULD-11][STORY-25] closure detail includes available normalized fields and official attribution',()=>{
  const item={id:'road-1',street:'King St W',restrictionType:'ROAD CLOSED',startLocation:'Bathurst St',endLocation:'Spadina Ave',start:Date.UTC(2026,8,25,12),end:Date.UTC(2026,8,25,18),status:'Active',source:{name:'City of Toronto Road Restrictions',url:'https://example.test/official'}};
  const detail=createClosureDetail(item);
  const text=node=>[node.textContent,...node.children.flatMap(text)].filter(Boolean).join(' ');
@@ -181,7 +181,7 @@ test('closure detail includes available normalized fields and official attributi
  const link=detail.children.find(child=>child.tag==='a');assert.equal(link.href,'https://example.test/official');assert.match(link.textContent,/City of Toronto Road Restrictions/);
 });
 
-test('closure detail omits unavailable optional fields without inventing values',()=>{
+test('[SHOULD-11][STORY-25] closure detail omits unavailable optional fields without inventing values',()=>{
  const detail=createClosureDetail({id:'road-2',street:'Queen St',restrictionType:'Lane restriction',source:{name:'City of Toronto',url:'https://example.test'}});
  const text=node=>[node.textContent,...node.children.flatMap(text)].filter(Boolean).join(' ');
  assert.doesNotMatch(text(detail),/Start location|End location|Started \/ reported|Expected end|Status/);
@@ -192,7 +192,7 @@ test('closure detail omits unavailable optional fields without inventing values'
  assert.match(text(createClosureDetail({})),/Road closure/);
 });
 
-test('defensive map branches neither fabricate geometry nor require optional Leaflet methods',()=>{
+test('[SHOULD-11][STORY-25] defensive map branches neither fabricate geometry nor require optional Leaflet methods',()=>{
  const {groups,map}=harness();
  assert.equal(globalThis.document.querySelector('#missing'),null);
  map.bounds={contains:()=>true};delete map.getPane;delete map.createPane;delete map.fire;delete map.off;
@@ -212,7 +212,7 @@ test('defensive map branches neither fabricate geometry nor require optional Lea
  renderDisruptions(variants,null,10,null);
 });
 
-test('no-op viewport updates reuse closure layers and coalesce move and zoom events',()=>{
+test('[SHOULD-11][STORY-25] no-op viewport updates reuse closure layers and coalesce move and zoom events',()=>{
  const {groups,map,created,flush}=harness();renderDisruptions(data,null,12,map);
  const overlay=groups.at(-1);const initialLayers=[...overlay.items];const initialCreated=created.length;
  map.trigger('moveend');map.trigger('zoomend');
@@ -221,14 +221,14 @@ test('no-op viewport updates reuse closure layers and coalesce move and zoom eve
  assert.ok(initialLayers.every(layer=>layer.listenerCount===1));
 });
 
-test('a stale scheduled viewport render is ignored after the map changes',()=>{
+test('[SHOULD-11][STORY-25] a stale scheduled viewport render is ignored after the map changes',()=>{
  const first=harness();renderDisruptions(data,null,12,first.map);first.map.trigger('moveend');
  const second=harness();renderDisruptions(data,null,12,second.map);
  first.flush();
  assert.equal(first.groups.length,1);assert.equal(second.groups.length,1);
 });
 
-test('viewport deltas remove departed closures and add newly visible closures without duplicates',()=>{
+test('[SHOULD-11][STORY-25] viewport deltas remove departed closures and add newly visible closures without duplicates',()=>{
  const {groups,map,flush}=harness();renderDisruptions(data,null,12,map);
  const overlay=groups.at(-1);const retained=overlay.items.find(item=>item.options.closureId==='point-1');
  map.bounds={contains:point=>point[0]===44 || point[0]===46,pad(){return this;}};
@@ -240,7 +240,7 @@ test('viewport deltas remove departed closures and add newly visible closures wi
  data.roads.items.pop();
 });
 
-test('changed geometry replaces only the affected closure representation',()=>{
+test('[SHOULD-11][STORY-25] changed geometry replaces only the affected closure representation',()=>{
  const {groups,map}=harness();renderDisruptions(data,null,12,map);
  const overlay=groups.at(-1);const oldLine=overlay.items.find(item=>item.options.closureId==='line-1' && item.kind==='line');
  const changed={...data,roads:{...data.roads,items:data.roads.items.map(item=>item.id==='line-1' ? {...item,line:[[43,-79],[43,-76]]} : item)}};
@@ -250,7 +250,7 @@ test('changed geometry replaces only the affected closure representation',()=>{
  assert.equal(overlay.items.filter(item=>item.options.closureId==='point-1').length,1);
 });
 
-test('symbols regenerate only when zoom crosses a density tier',()=>{
+test('[SHOULD-11][STORY-25] symbols regenerate only when zoom crosses a density tier',()=>{
  const {groups,map,created,flush}=harness(12);renderDisruptions(data,null,12,map);
  const overlay=groups.at(-1);const line=overlay.items.find(item=>item.kind==='line');const point=overlay.items.find(item=>item.options.closureId==='point-1');
  const initialCreated=created.length;map.zoom=13;map.trigger('zoomend');flush();
@@ -260,13 +260,13 @@ test('symbols regenerate only when zoom crosses a density tier',()=>{
  assert.ok(created.length>initialCreated);assert.equal(overlay.items.filter(item=>item.options.closureId==='line-1' && item.kind==='line').length,1);
 });
 
-test('closure styling uses theme variables defined for light and dark map modes',()=>{
+test('[SHOULD-11][STORY-25] closure styling uses theme variables defined for light and dark map modes',()=>{
  const css=readFileSync(new URL('../assets/css/styles.css',import.meta.url),'utf8');
  assert.match(css,/:root\s*{[\s\S]*?--road-marker:/);assert.match(css,/:root\[data-theme="light"\]\s*{[\s\S]*?--road-marker:/);
  assert.match(css,/\.road-closure-line\s*{[\s\S]*?stroke: var\(--road-marker\)/);
 });
 
-test('map control is mobile-accessible and closure selection stays separate from incident selection',()=>{
+test('[SHOULD-11][STORY-25] map control is mobile-accessible and closure selection stays separate from incident selection',()=>{
  const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
  const app=readFileSync(new URL('../src/app/app.js',import.meta.url),'utf8');
  assert.match(html,/<div class="map-wrap">[\s\S]*?id="roadOverlay"[\s\S]*?Road closures/);
@@ -276,7 +276,7 @@ test('map control is mobile-accessible and closure selection stays separate from
  assert.match(app,/callLayer = L\.layerGroup\(\)\.addTo\(dispatchMap\)/);
 });
 
-test('road-closure count is hidden beneath the label at every breakpoint',()=>{
+test('[SHOULD-11][STORY-25] road-closure count is hidden beneath the label at every breakpoint',()=>{
  const css=readFileSync(new URL('../assets/css/styles.css',import.meta.url),'utf8');
  const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
  // The count stays in the DOM for assistive technology and the disruptions panel.

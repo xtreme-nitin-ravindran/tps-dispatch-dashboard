@@ -44,7 +44,7 @@ test('TTC normalization preserves affected entities and resolves only structured
  assert.deepEqual(official.affectedEntities[0],{routeId:null,stopId:'662',coordinates:[43.714379,-79.260939],name:'Danforth Rd at Kennedy Rd'});
 });
 
-test('TTC geographic matching handles radius boundaries, closest stops and unknown geography',()=>{
+test('[SHOULD-10][STORY-32] TTC geographic matching handles radius boundaries, closest stops and unknown geography',()=>{
  const origin=[43.65,-79.38];
  const boundary=[43.65+1/111.195,-79.38];
  const alert={affectedEntities:[
@@ -68,7 +68,7 @@ test('TTC geographic matching handles radius boundaries, closest stops and unkno
  assert.equal(transitGeographicMatch({affectedEntities:[null,{stopId:'bad',coordinates:['x','y']}]},origin,5).geographicStatus,'unknown');
 });
 
-test('TTC matching uses the same current and saved-location reference and Toronto-wide retains alerts',()=>{
+test('[SHOULD-10][STORY-32] TTC matching uses the same current and saved-location reference and Toronto-wide retains alerts',()=>{
  const coordinates=[43.65,-79.38];
  const alert={affectedEntities:[{routeId:'1',stopId:'100',coordinates}]};
  const live=referenceCoordinates({locationContext:{type:'current'},locations:[]},coordinates);
@@ -81,7 +81,7 @@ test('TTC matching uses the same current and saved-location reference and Toront
  assert.equal(unknownCitywide.geographicStatus,'unknown');
 });
 
-test('inactive TTC alerts remain excluded before geographic matching',()=>{
+test('[SHOULD-10][STORY-32] inactive TTC alerts remain excluded before geographic matching',()=>{
  const active={periods:[{start:now-1,end:now+1}],affectedEntities:[{stopId:'100',coordinates:[43.65,-79.38]}]};
  const inactive={periods:[{start:now+1,end:null}],affectedEntities:[{stopId:'100',coordinates:[43.65,-79.38]}]};
  const current=currentDisruptions(feed([active,inactive]),'transit',now);
@@ -270,7 +270,7 @@ test('failed initial disruption refresh publishes unavailable empty sources and 
  assert.equal(calls,2);
 });
 
-test('disruption presentation distinguishes empty, unavailable, stale and filtered cached data',()=>{
+test('[SHOULD-10][STORY-32] disruption presentation distinguishes empty, unavailable, stale and filtered cached data',()=>{
  const fresh={fetchedAt:new Date(now).toISOString(),status:'ok'};
  assert.deepEqual(disruptionPresentation('roads',fresh,[],[],false,now),{
   count:'0',empty:'No road restrictions currently reported.',freshness:'Last successfully updated just now.',status:'ok',repaired:0

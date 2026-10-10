@@ -8,7 +8,7 @@ import {
 } from '../src/disruptions/ttc-nearby-fixture.js';
 import { transitGeographicMatch } from '../src/disruptions/view.js';
 
-test('fixture switch requires an explicit flag on a loopback host', () => {
+test('[SHOULD-10][STORY-32] fixture switch requires an explicit flag on a loopback host', () => {
   assert.equal(ttcNearbyFixtureEnabled({hostname:'localhost',search:'?ttcNearbyFixture=1'}),true);
   assert.equal(ttcNearbyFixtureEnabled({hostname:'127.0.0.1',search:'?ttcNearbyFixture=1'}),true);
   assert.equal(ttcNearbyFixtureEnabled({hostname:'localhost',search:''}),false);
@@ -18,13 +18,13 @@ test('fixture switch requires an explicit flag on a loopback host', () => {
   assert.equal(ttcNearbyFixtureEnabled(null),false);
 });
 
-test('disabled fixture preserves the production disruptions object', () => {
+test('[SHOULD-10][STORY-32] disabled fixture preserves the production disruptions object', () => {
   const disruptions={transit:{items:[{id:'real'}]}};
   assert.equal(withTtcNearbyFixture(disruptions,{hostname:'example.com',search:'?ttcNearbyFixture=1'}),disruptions);
   assert.equal(withTtcNearbyFixture(disruptions,{hostname:'localhost',search:''}),disruptions);
 });
 
-test('fixture alerts use normalized shape and merge without replacing real alerts', () => {
+test('[SHOULD-10][STORY-32] fixture alerts use normalized shape and merge without replacing real alerts', () => {
   const real={id:'real',title:'Real alert'};
   const result=withTtcNearbyFixture(
     {roads:{items:[]},transit:{items:[real],status:'ok'}},
@@ -46,7 +46,7 @@ test('fixture alerts use normalized shape and merge without replacing real alert
   assert.equal(repeated.transit.items.length,5);
 });
 
-test('fixture exercises TTC radius boundaries, closest entity, unresolved, and citywide behavior', () => {
+test('[SHOULD-10][STORY-32] fixture exercises TTC radius boundaries, closest entity, unresolved, and citywide behavior', () => {
   const [nearby,mid,multi,unresolved]=ttcNearbyFixtureAlerts();
   const relevantAt = (alert, radius) => transitGeographicMatch(alert,TTC_FIXTURE_ORIGIN,radius).relevant;
   assert.deepEqual([0.5,1,2,5].map(radius => relevantAt(nearby,radius)),[false,true,true,true]);
