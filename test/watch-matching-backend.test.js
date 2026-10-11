@@ -216,7 +216,7 @@ test('[SHOULD-7][STORY-33] invalid subscriptions are skipped independently befor
   }
 });
 
-test('[SHOULD-7][STORY-33] scheduled handler fetches the normalized snapshot and has no public fixture or push path', async () => {
+test('[SHOULD-7][STORY-33][STORY-33V] scheduled handler fetches the normalized snapshot and has no public fixture or push path', async () => {
   const database = new FakeD1Database();
   await new D1WatchRepository(database).createWatch(structuredClone(matchingWatch));
   const calls = [];
@@ -240,7 +240,7 @@ test('[SHOULD-7][STORY-33] scheduled handler fetches the normalized snapshot and
   assert.doesNotMatch(worker, /fixture|pushManager|webpush/i);
 });
 
-test('[SHOULD-7][STORY-33] scheduled snapshot loading rejects unavailable, oversized, and malformed sources', async () => {
+test('[SHOULD-7][STORY-33][STORY-33V] scheduled snapshot loading rejects unavailable, oversized, and malformed sources', async () => {
   const environment = {
     WATCH_DB: new FakeD1Database(),
     WATCH_SNAPSHOT_URL: 'https://sirento.example/data/current.json',
