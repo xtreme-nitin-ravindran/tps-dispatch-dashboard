@@ -58,7 +58,7 @@ function instructions(text) {
 
 const lines = instructions(dockerfile);
 
-test("the Dockerfile installs dependencies in an isolated layer", () => {
+test("[STORY-48] the Dockerfile installs dependencies in an isolated layer", () => {
   const ciIndex = lines.findIndex(line => line === "RUN npm ci");
   assert.notEqual(ciIndex, -1, "the Dockerfile must run `npm ci`");
   // Only the manifests and multi-stage tooling copies (for example the pinned
@@ -82,7 +82,7 @@ test("the Dockerfile installs dependencies in an isolated layer", () => {
   );
 });
 
-test("the Dockerfile copies repository content from stable to volatile", () => {
+test("[STORY-48] the Dockerfile copies repository content from stable to volatile", () => {
   // The relative order of the content COPY layers must be stable-first so an
   // edit to a volatile path does not invalidate the stable layers before it.
   const order = ["concourse", ".github", "data", "scripts", "src", "test"];
@@ -99,7 +99,7 @@ test("the Dockerfile copies repository content from stable to volatile", () => {
   );
 });
 
-test("the Dockerfile copies every required repository path", () => {
+test("[STORY-48] the Dockerfile copies every required repository path", () => {
   const copied = lines
     .filter(line => line.startsWith("COPY "))
     .join("\n");
@@ -111,7 +111,7 @@ test("the Dockerfile copies every required repository path", () => {
   }
 });
 
-test("the Dockerfile copies the pinned Ruff binary before repository content", () => {
+test("[STORY-48] the Dockerfile copies the pinned Ruff binary before repository content", () => {
   const ruffIndex = lines.findIndex(line => line.startsWith("COPY --from=ruff"));
   const firstContentIndex = lines.findIndex(line => line === "COPY concourse ./concourse");
   assert.notEqual(ruffIndex, -1, "the Dockerfile must copy the Ruff binary");
@@ -119,12 +119,12 @@ test("the Dockerfile copies the pinned Ruff binary before repository content", (
   assert.ok(ruffIndex < firstContentIndex, "Ruff must be copied before repository content");
 });
 
-test("the Dockerfile keeps the fingerprint label and build arg", () => {
+test("[STORY-48] the Dockerfile keeps the fingerprint label and build arg", () => {
   assert.match(dockerfile, /^ARG TEST_FINGERPRINT=/m);
   assert.match(dockerfile, /^LABEL org\.sirento\.test-fingerprint=\$TEST_FINGERPRINT$/m);
 });
 
-test("the Dockerfile does not use a broad `COPY . .`", () => {
+test("[STORY-48] the Dockerfile does not use a broad `COPY . .`", () => {
   assert.doesNotMatch(
     dockerfile,
     /^COPY\s+\.\s+\./m,
@@ -132,7 +132,7 @@ test("the Dockerfile does not use a broad `COPY . .`", () => {
   );
 });
 
-test("the Dockerfile default command runs the canonical test suite", () => {
+test("[STORY-48] the Dockerfile default command runs the canonical test suite", () => {
   assert.match(dockerfile, /^CMD \["npm", "test"\]$/m);
 });
 
@@ -144,31 +144,31 @@ const ignorePatterns = dockerignore
   .map(line => line.trim())
   .filter(line => line && !line.startsWith("#"));
 
-test("docker/Dockerfile.test.dockerignore excludes version control and host dependencies", () => {
+test("[STORY-48] docker/Dockerfile.test.dockerignore excludes version control and host dependencies", () => {
   for (const pattern of [".git", "node_modules"]) {
     assert.ok(ignorePatterns.includes(pattern), `docker/Dockerfile.test.dockerignore must exclude ${pattern}`);
   }
 });
 
-test("docker/Dockerfile.test.dockerignore excludes local caches, coverage, and debug artifacts", () => {
+test("[STORY-48] docker/Dockerfile.test.dockerignore excludes local caches, coverage, and debug artifacts", () => {
   for (const pattern of [".cache", "coverage", "coverage-badges", "*.log"]) {
     assert.ok(ignorePatterns.includes(pattern), `docker/Dockerfile.test.dockerignore must exclude ${pattern}`);
   }
 });
 
-test("docker/Dockerfile.test.dockerignore excludes local environment and deployment secrets", () => {
+test("[STORY-48] docker/Dockerfile.test.dockerignore excludes local environment and deployment secrets", () => {
   for (const pattern of [".env", ".env.*", ".dev.vars", "wrangler.toml", ".wrangler"]) {
     assert.ok(ignorePatterns.includes(pattern), `docker/Dockerfile.test.dockerignore must exclude ${pattern}`);
   }
 });
 
-test("docker/Dockerfile.test.dockerignore excludes editor and OS files", () => {
+test("[STORY-48] docker/Dockerfile.test.dockerignore excludes editor and OS files", () => {
   for (const pattern of [".DS_Store", ".vscode", ".idea"]) {
     assert.ok(ignorePatterns.includes(pattern), `docker/Dockerfile.test.dockerignore must exclude ${pattern}`);
   }
 });
 
-test("docker/Dockerfile.test.dockerignore never excludes a path the Dockerfile copies", () => {
+test("[STORY-48] docker/Dockerfile.test.dockerignore never excludes a path the Dockerfile copies", () => {
   // A rule that excluded a copied path would silently change the image while
   // leaving the fingerprint inputs unchanged. Guard the required paths.
   const required = [
@@ -197,7 +197,7 @@ test("docker/Dockerfile.test.dockerignore never excludes a path the Dockerfile c
   }
 });
 
-test("docker/Dockerfile.test.dockerignore does not exclude the whole repository", () => {
+test("[STORY-48] docker/Dockerfile.test.dockerignore does not exclude the whole repository", () => {
   assert.ok(!ignorePatterns.includes("."), "docker/Dockerfile.test.dockerignore must not exclude the whole context");
   assert.ok(!ignorePatterns.includes("*"), "docker/Dockerfile.test.dockerignore must not exclude everything");
 });

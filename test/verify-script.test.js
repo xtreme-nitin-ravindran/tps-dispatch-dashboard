@@ -55,7 +55,7 @@ test("[STORY-45A] package.json exposes a verify script that runs scripts/verify.
   assert.equal(manifest.scripts.verify, "sh scripts/verify.sh");
 });
 
-test("package.json exposes a verify:fast script that runs scripts/verify.sh --fast", () => {
+test("[STORY-45B] package.json exposes a verify:fast script that runs scripts/verify.sh --fast", () => {
   assert.equal(manifest.scripts["verify:fast"], "sh scripts/verify.sh --fast");
 });
 
@@ -177,13 +177,13 @@ test("[STORY-39C] each full-mode job runs through the Docker wrapper with the ex
   assert.equal(byName.coverage, "env TZ=UTC NODE_V8_COVERAGE=/tmp/coverage npm run test:coverage");
 });
 
-test("the scheduler launches every job through the wrapper", () => {
+test("[STORY-46] the scheduler launches every job through the wrapper", () => {
   // launch_job must invoke the wrapper, never a bare command.
   assert.match(script, /launch_job\(\)/);
   assert.match(script, /sh "\$ROOT\/scripts\/docker-test\.sh" "\$@"/);
 });
 
-test("the scheduler bounds concurrency with VERIFY_JOBS and a hard maximum", () => {
+test("[STORY-46] the scheduler bounds concurrency with VERIFY_JOBS and a hard maximum", () => {
   assert.match(script, /DEFAULT_JOBS=4/);
   assert.match(script, /MAX_JOBS=8/);
   assert.match(script, /VERIFY_JOBS/);
@@ -191,7 +191,7 @@ test("the scheduler bounds concurrency with VERIFY_JOBS and a hard maximum", () 
   assert.match(script, /running_count\)" -lt "\$JOBS"/);
 });
 
-test("the scheduler validates VERIFY_JOBS before any Docker work", () => {
+test("[STORY-46] the scheduler validates VERIFY_JOBS before any Docker work", () => {
   const resolveIndex = script.indexOf("resolve_jobs()");
   const ensureIndex = script.indexOf("scripts/docker-test.sh\" --ensure-image");
   assert.ok(resolveIndex !== -1, "verify.sh must define resolve_jobs");
@@ -203,21 +203,21 @@ test("the scheduler validates VERIFY_JOBS before any Docker work", () => {
   assert.ok(dispatchIndex < ensureIndex, "VERIFY_JOBS must be validated before Docker work");
 });
 
-test("the scheduler rejects invalid VERIFY_JOBS values with a nonzero exit", () => {
+test("[STORY-46] the scheduler rejects invalid VERIFY_JOBS values with a nonzero exit", () => {
   assert.match(script, /VERIFY_JOBS must be a positive integer/);
   assert.match(script, /VERIFY_JOBS must be at least 1/);
   assert.match(script, /VERIFY_JOBS must be at most \$MAX_JOBS/);
   assert.match(script, /VERIFY_JOBS must be a positive integer \(got: empty\)/);
 });
 
-test("VERIFY_JOBS=1 selects a fully sequential runner", () => {
+test("[STORY-46] VERIFY_JOBS=1 selects a fully sequential runner", () => {
   assert.match(script, /run_full_sequential\(\)/);
   assert.match(script, /if \[ "\$JOBS" -eq 1 \]; then/);
   assert.match(script, /run_full_sequential/);
   assert.match(script, /run_full_parallel/);
 });
 
-test("the sequential runner runs the same job table in order", () => {
+test("[STORY-46] the sequential runner runs the same job table in order", () => {
   const seqStart = script.indexOf("run_full_sequential()");
   const seqEnd = script.indexOf("# --- Preparation");
   const seq = script.slice(seqStart, seqEnd);
@@ -225,7 +225,7 @@ test("the sequential runner runs the same job table in order", () => {
   assert.match(seq, /sh "\$ROOT\/scripts\/docker-test\.sh" \$args/);
 });
 
-test("the scheduler stops launching queued jobs after a failure", () => {
+test("[STORY-46] the scheduler stops launching queued jobs after a failure", () => {
   // The launch loop is guarded by `failed -eq 0`, and the outer loop breaks once
   // a failure is known and no sibling is still running.
   assert.match(script, /while \[ "\$failed" -eq 0 \]/);
@@ -233,25 +233,25 @@ test("the scheduler stops launching queued jobs after a failure", () => {
   assert.match(script, /break/);
 });
 
-test("the scheduler reports the failing job and exits nonzero", () => {
+test("[STORY-46] the scheduler reports the failing job and exits nonzero", () => {
   assert.match(script, /FAILED \(exit \$JOB_STATUS\)/);
   assert.match(script, /full verification failed; failing job\(s\)/);
   assert.match(script, /exit 1/);
 });
 
-test("the scheduler captures each job's output to its own log", () => {
+test("[STORY-46] the scheduler captures each job's output to its own log", () => {
   assert.match(script, /LOG_DIR=\$\(mktemp -d/);
   assert.match(script, /log="\$LOG_DIR\/\$name\.log"/);
   assert.match(script, /print_job_output/);
 });
 
-test("the scheduler reaps every child and removes its log directory", () => {
+test("[STORY-46] the scheduler reaps every child and removes its log directory", () => {
   assert.match(script, /cleanup\(\)/);
   assert.match(script, /wait "\$pid"/);
   assert.match(script, /rm -rf "\$LOG_DIR"/);
 });
 
-test("the scheduler terminates a job's whole process tree on cleanup", () => {
+test("[STORY-46] the scheduler terminates a job's whole process tree on cleanup", () => {
   // Descendants are collected and killed so no grandchild (for example a
   // `docker run` client) is orphaned.
   assert.match(script, /descendants_of\(\)/);
@@ -259,7 +259,7 @@ test("the scheduler terminates a job's whole process tree on cleanup", () => {
   assert.match(script, /kill "\$child"/);
 });
 
-test("the scheduler traps INT, TERM, and HUP and exits 130 on interruption", () => {
+test("[STORY-46] the scheduler traps INT, TERM, and HUP and exits 130 on interruption", () => {
   assert.match(script, /trap 'on_signal' INT TERM HUP/);
   assert.match(script, /exit 130/);
   assert.match(script, /interrupted; terminating running jobs/);
@@ -281,12 +281,12 @@ const fastBranchStart = script.indexOf('if [ "$FAST" -eq 1 ]; then');
 const fastBranchEnd = script.indexOf("# --- Full mode: parallel or sequential independent jobs");
 const fastBranch = script.slice(fastBranchStart, fastBranchEnd);
 
-test("the verify script parses a leading --fast flag", () => {
+test("[STORY-45B] the verify script parses a leading --fast flag", () => {
   assert.match(script, /if \[ "\$\{1:-\}" = "--fast" \]; then/);
   assert.match(script, /FAST=1/);
 });
 
-test("fast mode ensures the image, lints, and checks browser syntax", () => {
+test("[STORY-45B] fast mode ensures the image, lints, and checks browser syntax", () => {
   // These shared steps run before the fast-mode branch and therefore apply to both modes.
   const ensureIndex = script.indexOf("scripts/docker-test.sh\" --ensure-image");
   const lintIndex = script.indexOf("npm run lint");
@@ -297,19 +297,19 @@ test("fast mode ensures the image, lints, and checks browser syntax", () => {
   assert.ok(syntaxIndex < fastBranchStart, "fast mode must run browser syntax checks");
 });
 
-test("fast mode runs the test-to-requirement traceability check", () => {
+test("[STORY-45B] fast mode runs the test-to-requirement traceability check", () => {
   assert.match(fastBranch, /scripts\/docker-test\.sh" node scripts\/check-requirement-coverage\.js/);
 });
 
-test("fast mode with no file arguments runs the canonical offline unit suite", () => {
+test("[STORY-45B] fast mode with no file arguments runs the canonical offline unit suite", () => {
   assert.match(fastBranch, /scripts\/docker-test\.sh" env TZ=UTC npm test/);
 });
 
-test("fast mode with explicit files runs exactly those files in order", () => {
+test("[STORY-45B] fast mode with explicit files runs exactly those files in order", () => {
   assert.match(fastBranch, /scripts\/docker-test\.sh" env TZ=UTC node --test "\$@"/);
 });
 
-test("fast mode exits before the full-mode checks", () => {
+test("[STORY-45B] fast mode exits before the full-mode checks", () => {
   assert.match(fastBranch, /exit 0/);
   // The fast branch must end before the full-mode dispatch, so fast mode never
   // reaches the parallel/sequential runners or the coverage gate.
@@ -321,7 +321,7 @@ test("fast mode exits before the full-mode checks", () => {
   );
 });
 
-test("fast mode omits the LA suite, Python, integration, coverage, and snapshot checks", () => {
+test("[STORY-45B] fast mode omits the LA suite, Python, integration, coverage, and snapshot checks", () => {
   assert.doesNotMatch(fastBranch, /TZ=America\/Los_Angeles/);
   assert.doesNotMatch(fastBranch, /npm run test:python/);
   assert.doesNotMatch(fastBranch, /npm run test:integration/);
@@ -329,18 +329,18 @@ test("fast mode omits the LA suite, Python, integration, coverage, and snapshot 
   assert.doesNotMatch(fastBranch, /git diff/);
 });
 
-test("fast mode never claims to satisfy final, pre-push, or promotion verification", () => {
+test("[STORY-45B] fast mode never claims to satisfy final, pre-push, or promotion verification", () => {
   assert.match(fastBranch, /not final, pre-push, or promotion verification/);
 });
 
-test("fast mode validates explicit file arguments before Docker execution", () => {
+test("[STORY-45B] fast mode validates explicit file arguments before Docker execution", () => {
   const validationIndex = script.indexOf("Validate explicit fast-mode test file arguments");
   const ensureIndex = script.indexOf("scripts/docker-test.sh\" --ensure-image");
   assert.ok(validationIndex !== -1, "fast mode must validate arguments");
   assert.ok(validationIndex < ensureIndex, "validation must precede the Docker image work");
 });
 
-test("fast mode rejects invalid file arguments with a nonzero exit", () => {
+test("[STORY-45B] fast mode rejects invalid file arguments with a nonzero exit", () => {
   // Each rejection path must print a diagnostic and exit nonzero.
   const rejections = [
     /empty test file argument/,
@@ -358,7 +358,7 @@ test("fast mode rejects invalid file arguments with a nonzero exit", () => {
   assert.match(script, /exit 2/, "invalid input must exit nonzero");
 });
 
-test("fast mode accepts only repository-relative test/*.test.js files", () => {
+test("[STORY-45B] fast mode accepts only repository-relative test/*.test.js files", () => {
   assert.match(script, /test\/\*\.test\.js\)/);
   assert.match(script, /if \[ ! -f "\$arg" \]; then/);
 });
