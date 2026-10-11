@@ -23,7 +23,7 @@ const pipelinePath = join(root, "concourse", "pipeline.yml");
 
 // --- Node helper: extractTaskConfig ---------------------------------------
 
-test("extractTaskConfig extracts an inline config and de-indents it", () => {
+test("[STORY-55F] extractTaskConfig extracts an inline config and de-indents it", () => {
   const pipeline = [
     "jobs:",
     "  - name: j",
@@ -42,7 +42,7 @@ test("extractTaskConfig extracts an inline config and de-indents it", () => {
   assert.equal(result.config, "platform: linux\nrun:\n  path: echo\n");
 });
 
-test("extractTaskConfig returns a file reference for a file: task", () => {
+test("[STORY-55F] extractTaskConfig returns a file reference for a file: task", () => {
   const pipeline = [
     "jobs:",
     "  - name: j",
@@ -54,7 +54,7 @@ test("extractTaskConfig returns a file reference for a file: task", () => {
   assert.deepEqual(result, { kind: "file", path: "repo/concourse/thing.yml" });
 });
 
-test("extractTaskConfig strips surrounding quotes from a task name", () => {
+test("[STORY-55F] extractTaskConfig strips surrounding quotes from a task name", () => {
   const pipeline = [
     "jobs:",
     "  - name: j",
@@ -68,7 +68,7 @@ test("extractTaskConfig strips surrounding quotes from a task name", () => {
   assert.equal(result.config, "platform: linux\n");
 });
 
-test("extractTaskConfig stops at the next task item", () => {
+test("[STORY-55F] extractTaskConfig stops at the next task item", () => {
   const pipeline = [
     "jobs:",
     "  - name: j",
@@ -84,7 +84,7 @@ test("extractTaskConfig stops at the next task item", () => {
   assert.equal(extractTaskConfig(pipeline, "second").config, "platform: darwin\n");
 });
 
-test("extractTaskConfig preserves a multi-line block scalar verbatim", () => {
+test("[STORY-55F] extractTaskConfig preserves a multi-line block scalar verbatim", () => {
   const pipeline = [
     "jobs:",
     "  - name: j",
@@ -103,7 +103,7 @@ test("extractTaskConfig preserves a multi-line block scalar verbatim", () => {
   assert.match(result.config, /- \|\n {6}echo one\n {6}echo two\n$/);
 });
 
-test("extractTaskConfig strips single quotes from a task name", () => {
+test("[STORY-55F] extractTaskConfig strips single quotes from a task name", () => {
   const pipeline = [
     "jobs:",
     "  - name: j",
@@ -117,7 +117,7 @@ test("extractTaskConfig strips single quotes from a task name", () => {
   assert.equal(result.config, "platform: linux\n");
 });
 
-test("extractTaskConfig leaves an unbalanced quote in a task name intact", () => {
+test("[STORY-55F] extractTaskConfig leaves an unbalanced quote in a task name intact", () => {
   // A name that starts with a quote but does not end with one must not be
   // stripped: the compound quote check must fall through to the raw value.
   const pipeline = [
@@ -133,7 +133,7 @@ test("extractTaskConfig leaves an unbalanced quote in a task name intact", () =>
   assert.equal(result.config, "platform: linux\n");
 });
 
-test("extractTaskConfig handles a single-character task name", () => {
+test("[STORY-55F] extractTaskConfig handles a single-character task name", () => {
   // A one-character name is shorter than the two-character quote check, so the
   // length guard must short-circuit before indexing the ends.
   const pipeline = [
@@ -147,7 +147,7 @@ test("extractTaskConfig handles a single-character task name", () => {
   assert.equal(extractTaskConfig(pipeline, "x").config, "platform: linux\n");
 });
 
-test("extractTaskConfig stops at the next task item when the first has no config", () => {
+test("[STORY-55F] extractTaskConfig stops at the next task item when the first has no config", () => {
   // A task with no config/file key, followed by another `- task:` at the same
   // indentation, must stop at that next task rather than borrowing its config.
   const pipeline = [
@@ -164,7 +164,7 @@ test("extractTaskConfig stops at the next task item when the first has no config
   assert.equal(extractTaskConfig(pipeline, "real").config, "platform: linux\n");
 });
 
-test("extractTaskConfig stops at a sibling list item before any config key", () => {
+test("[STORY-55F] extractTaskConfig stops at a sibling list item before any config key", () => {
   // A task item with no config/file key, followed by a sibling `- get:` item at
   // the same dash indentation, must not borrow the next task's config.
   const pipeline = [
@@ -182,7 +182,7 @@ test("extractTaskConfig stops at a sibling list item before any config key", () 
   assert.equal(extractTaskConfig(pipeline, "real").config, "platform: linux\n");
 });
 
-test("extractTaskConfig de-indents a line shallower than key+2 but deeper than key", () => {
+test("[STORY-55F] extractTaskConfig de-indents a line shallower than key+2 but deeper than key", () => {
   // A config child indented by only one space (less than the usual two) must be
   // de-indented by its own indentation, not over-trimmed.
   const pipeline = [
@@ -197,11 +197,11 @@ test("extractTaskConfig de-indents a line shallower than key+2 but deeper than k
   assert.equal(result.config, "platform: linux\n");
 });
 
-test("extractTaskConfig throws clearly when the task is missing", () => {
+test("[STORY-55F] extractTaskConfig throws clearly when the task is missing", () => {
   assert.throws(() => extractTaskConfig("jobs: []\n", "nope"), /task not found: nope/);
 });
 
-test("extractTaskConfig throws when the task has no config or file key", () => {
+test("[STORY-55F] extractTaskConfig throws when the task has no config or file key", () => {
   const pipeline = [
     "jobs:",
     "  - name: j",
@@ -212,7 +212,7 @@ test("extractTaskConfig throws when the task has no config or file key", () => {
   assert.throws(() => extractTaskConfig(pipeline, "t"), /no config: or file: key: t/);
 });
 
-test("extractTaskConfig throws when the config block is empty", () => {
+test("[STORY-55F] extractTaskConfig throws when the config block is empty", () => {
   const pipeline = [
     "jobs:",
     "  - name: j",
@@ -226,7 +226,7 @@ test("extractTaskConfig throws when the config block is empty", () => {
   assert.throws(() => extractTaskConfig(pipeline, "t"), /config: block is empty: t/);
 });
 
-test("extractTaskConfig throws when a file: path is empty", () => {
+test("[STORY-55F] extractTaskConfig throws when a file: path is empty", () => {
   const pipeline = [
     "jobs:",
     "  - name: j",
@@ -239,7 +239,7 @@ test("extractTaskConfig throws when a file: path is empty", () => {
 
 // --- Node helper: runCli ---------------------------------------------------
 
-test("runCli writes an inline config and prints inline:<path>", async () => {
+test("[STORY-55F] runCli writes an inline config and prints inline:<path>", async () => {
   const dir = await mkdtemp(join(tmpdir(), "extract-cli-"));
   try {
     const pipeline = join(dir, "pipeline.yml");
@@ -258,7 +258,7 @@ test("runCli writes an inline config and prints inline:<path>", async () => {
   }
 });
 
-test("runCli prints file:<path> for a file: task without writing", async () => {
+test("[STORY-55F] runCli prints file:<path> for a file: task without writing", async () => {
   const dir = await mkdtemp(join(tmpdir(), "extract-cli-file-"));
   try {
     const pipeline = join(dir, "pipeline.yml");
@@ -275,7 +275,7 @@ test("runCli prints file:<path> for a file: task without writing", async () => {
   }
 });
 
-test("runCli exits 2 on a usage error", async () => {
+test("[STORY-55F] runCli exits 2 on a usage error", async () => {
   const codes = [];
   const errs = [];
   await runCli({
@@ -287,7 +287,7 @@ test("runCli exits 2 on a usage error", async () => {
   assert.match(errs[0], /usage:/);
 });
 
-test("runCli exits 3 with a clear message when extraction fails", async () => {
+test("[STORY-55F] runCli exits 3 with a clear message when extraction fails", async () => {
   const dir = await mkdtemp(join(tmpdir(), "extract-cli-fail-"));
   try {
     const pipeline = join(dir, "pipeline.yml");
@@ -306,7 +306,7 @@ test("runCli exits 3 with a clear message when extraction fails", async () => {
   }
 });
 
-test("runCli exits 3 when the pipeline file cannot be read", async () => {
+test("[STORY-55F] runCli exits 3 when the pipeline file cannot be read", async () => {
   const codes = [];
   const errs = [];
   await runCli({
@@ -318,7 +318,7 @@ test("runCli exits 3 when the pipeline file cannot be read", async () => {
   assert.match(errs[0], /extract-task:/);
 });
 
-test("runCli uses the default console output and exit handlers", async () => {
+test("[STORY-55F] runCli uses the default console output and exit handlers", async () => {
   const dir = await mkdtemp(join(tmpdir(), "extract-cli-defaults-"));
   const originalLog = console.log;
   const originalError = console.error;
@@ -357,7 +357,7 @@ test("runCli uses the default console output and exit handlers", async () => {
   }
 });
 
-test("isMainModule is true only when the module is the process entry point", () => {
+test("[STORY-55F] isMainModule is true only when the module is the process entry point", () => {
   const moduleUrl = "file:///repo/scripts/lib/extract-task.js";
   // Direct invocation: argv[1] resolves to the module URL.
   assert.equal(isMainModule(["node", "/repo/scripts/lib/extract-task.js"], moduleUrl), true);
@@ -367,7 +367,7 @@ test("isMainModule is true only when the module is the process entry point", () 
   assert.equal(isMainModule(["node"], moduleUrl), false);
 });
 
-test("main runs the CLI only when the module is the entry point", async () => {
+test("[STORY-55F] main runs the CLI only when the module is the entry point", async () => {
   const dir = await mkdtemp(join(tmpdir(), "extract-main-"));
   try {
     const pipeline = join(dir, "pipeline.yml");
@@ -391,7 +391,7 @@ test("main runs the CLI only when the module is the entry point", async () => {
   }
 });
 
-test("extractTaskConfig ignores a nested task item deeper than the task dash", () => {
+test("[STORY-55F] extractTaskConfig ignores a nested task item deeper than the task dash", () => {
   // A `- task:` line nested deeper than the outer task's dash (for example a
   // task step inside a `params:`/`on_success:` block) must not be mistaken for
   // the end of the outer task; the outer task's own config: key still wins.
@@ -415,7 +415,7 @@ test("extractTaskConfig ignores a nested task item deeper than the task dash", (
   assert.equal(extractTaskConfig(pipeline, "after").config, "platform: darwin\n");
 });
 
-test("extractTaskConfig skips blank and comment lines before the config key", () => {
+test("[STORY-55F] extractTaskConfig skips blank and comment lines before the config key", () => {
   const pipeline = [
     "jobs:",
     "  - name: j",
@@ -431,7 +431,7 @@ test("extractTaskConfig skips blank and comment lines before the config key", ()
   assert.equal(result.config, "platform: linux\n");
 });
 
-test("the CLI entry-point guard runs runCli when invoked directly", async () => {
+test("[STORY-55F] the CLI entry-point guard runs runCli when invoked directly", async () => {
   // Spawn the helper as a subprocess so the `import.meta.url === argv[1]` guard
   // is exercised. The subprocess writes the extracted config and prints the
   // inline marker.
@@ -455,7 +455,7 @@ test("the CLI entry-point guard runs runCli when invoked directly", async () => 
 
 // --- Real pipeline: extraction is faithful --------------------------------
 
-test("the real pipeline's inline tasks extract with their run blocks intact", async () => {
+test("[STORY-55F] the real pipeline's inline tasks extract with their run blocks intact", async () => {
   const text = await readFile(pipelinePath, "utf8");
   const publish = extractTaskConfig(text, "update-and-publish");
   assert.equal(publish.kind, "inline");
@@ -525,7 +525,7 @@ async function readLog(log) {
     .map(line => line.split("\t").slice(1));
 }
 
-test("the wrapper is POSIX sh and does not use eval", async () => {
+test("[STORY-55F] the wrapper is POSIX sh and does not use eval", async () => {
   const script = await readFile(wrapperPath, "utf8");
   assert.match(script, /^#!\/bin\/sh$/m, "fly-exec-task.sh must use a POSIX sh shebang");
   assert.match(script, /^set -eu$/m, "fly-exec-task.sh must use `set -eu`");
@@ -538,7 +538,7 @@ test("the wrapper is POSIX sh and does not use eval", async () => {
   assert.doesNotMatch(code, /\btimeout\b/, "fly-exec-task.sh must not rely on GNU timeout");
 });
 
-test("the wrapper extracts an inline task and runs fly execute with -c", async () => {
+test("[STORY-55F] the wrapper extracts an inline task and runs fly execute with -c", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(["update-and-publish"], stub);
@@ -556,7 +556,7 @@ test("the wrapper extracts an inline task and runs fly execute with -c", async (
   }
 });
 
-test("the wrapper forwards --target as fly -t", async () => {
+test("[STORY-55F] the wrapper forwards --target as fly -t", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(["update-and-publish", "--target", "main"], stub);
@@ -571,7 +571,7 @@ test("the wrapper forwards --target as fly -t", async () => {
   }
 });
 
-test("the wrapper forwards args after -- unchanged and in order", async () => {
+test("[STORY-55F] the wrapper forwards args after -- unchanged and in order", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(
@@ -592,7 +592,7 @@ test("the wrapper forwards args after -- unchanged and in order", async () => {
   }
 });
 
-test("the wrapper resolves a file: task to the repository-root path", async () => {
+test("[STORY-55F] the wrapper resolves a file: task to the repository-root path", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(["observe-vehicles"], stub);
@@ -605,7 +605,7 @@ test("the wrapper resolves a file: task to the repository-root path", async () =
   }
 });
 
-test("the wrapper propagates fly's exit status", async () => {
+test("[STORY-55F] the wrapper propagates fly's exit status", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(["update-and-publish"], {
@@ -618,7 +618,7 @@ test("the wrapper propagates fly's exit status", async () => {
   }
 });
 
-test("the wrapper removes the scratch config after a successful run", async () => {
+test("[STORY-55F] the wrapper removes the scratch config after a successful run", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(["update-and-publish"], stub);
@@ -630,7 +630,7 @@ test("the wrapper removes the scratch config after a successful run", async () =
   }
 });
 
-test("the wrapper removes the scratch config after a failed run", async () => {
+test("[STORY-55F] the wrapper removes the scratch config after a failed run", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(["update-and-publish"], {
@@ -645,7 +645,7 @@ test("the wrapper removes the scratch config after a failed run", async () => {
   }
 });
 
-test("the wrapper resolves the repository root independent of the caller's cwd", async () => {
+test("[STORY-55F] the wrapper resolves the repository root independent of the caller's cwd", async () => {
   const stub = await makeStubEnv();
   const elsewhere = await mkdtemp(join(tmpdir(), "fly-exec-cwd-"));
   try {
@@ -667,7 +667,7 @@ test("the wrapper resolves the repository root independent of the caller's cwd",
   }
 });
 
-test("the wrapper reports a usage error with no task name", async () => {
+test("[STORY-55F] the wrapper reports a usage error with no task name", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper([], stub);
@@ -680,7 +680,7 @@ test("the wrapper reports a usage error with no task name", async () => {
   }
 });
 
-test("the wrapper fails clearly for an unknown task name", async () => {
+test("[STORY-55F] the wrapper fails clearly for an unknown task name", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(["no-such-task"], stub);
@@ -693,7 +693,7 @@ test("the wrapper fails clearly for an unknown task name", async () => {
   }
 });
 
-test("the wrapper rejects an unknown option", async () => {
+test("[STORY-55F] the wrapper rejects an unknown option", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(["update-and-publish", "--bogus"], stub);
@@ -704,7 +704,7 @@ test("the wrapper rejects an unknown option", async () => {
   }
 });
 
-test("the wrapper fails clearly when fly is unavailable", async () => {
+test("[STORY-55F] the wrapper fails clearly when fly is unavailable", async () => {
   const dir = await mkdtemp(join(tmpdir(), "fly-exec-nofly-"));
   try {
     const bin = join(dir, "bin");
@@ -730,7 +730,7 @@ test("the wrapper fails clearly when fly is unavailable", async () => {
   }
 });
 
-test("the wrapper fails clearly when the pipeline file is missing", async () => {
+test("[STORY-55F] the wrapper fails clearly when the pipeline file is missing", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(

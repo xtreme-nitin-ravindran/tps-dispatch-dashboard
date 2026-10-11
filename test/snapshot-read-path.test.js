@@ -14,16 +14,16 @@ function snapshotUrlLiteral() {
   return match[1];
 }
 
-test('CONFIG.snapshotUrl points at the R2-backed public read path', () => {
+test('[STORY-55D] CONFIG.snapshotUrl points at the R2-backed public read path', () => {
   assert.equal(snapshotUrlLiteral(), SNAPSHOT_URL);
 });
 
-test('snapshotUrl no longer references the retired git data branch', () => {
+test('[STORY-55D] snapshotUrl no longer references the retired git data branch', () => {
   assert.doesNotMatch(app, /raw\.githubusercontent\.com/);
   assert.doesNotMatch(app, /\/data\/data\/current\.json/);
 });
 
-test('the ttc-diversions.json derivation yields the R2 geometry URL', () => {
+test('[STORY-55D] the ttc-diversions.json derivation yields the R2 geometry URL', () => {
   // src/app/app.js derives the geometry URL by replacing the literal "current.json"
   // substring, so the base URL must keep that substring intact.
   const derived = snapshotUrlLiteral().replace('current.json', 'ttc-diversions.json');
@@ -31,7 +31,7 @@ test('the ttc-diversions.json derivation yields the R2 geometry URL', () => {
   assert.match(app, /CONFIG\.snapshotUrl\.replace\('current\.json','ttc-diversions\.json'\)/);
 });
 
-test('snapshot and geometry fetches keep cache-busting against the new host', () => {
+test('[STORY-55D] snapshot and geometry fetches keep cache-busting against the new host', () => {
   assert.match(app, /`\?ts=\$\{Date\.now\(\)\}`/);
   assert.match(app, /cache:\s*['"]no-store['"]/);
 });

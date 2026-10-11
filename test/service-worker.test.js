@@ -79,7 +79,7 @@ test("[SHOULD-8][STORY-23] worker precaches the static app shell without live in
   assert.ok(!calls.added.some(asset => asset.includes("current.json")));
 });
 
-test("[SHOULD-8][STORY-23] worker ignores live API and incident snapshot requests", () => {
+test("[SHOULD-8][STORY-23][STORY-55D] worker ignores live API and incident snapshot requests", () => {
   const { listeners, calls } = loadWorker();
   const liveUrls = [
     "https://data-sirento.nitin.run/data/current.json?ts=1",
