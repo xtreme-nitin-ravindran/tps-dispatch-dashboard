@@ -83,13 +83,13 @@ test("the verify script does not use bash-only `wait -n`", () => {
   assert.doesNotMatch(scriptCode, /wait\s+-n/, "verify.sh must not use bash-only `wait -n`");
 });
 
-test("the verify script runs every required check", () => {
+test("[STORY-39C] the verify script runs every required check", () => {
   for (const check of requiredChecks) {
     assert.ok(script.includes(check), `verify.sh must run: ${check}`);
   }
 });
 
-test("the verify script runs the required checks in the documented order", () => {
+test("[STORY-39C] the verify script runs the required checks in the documented order", () => {
   // The full-mode job commands live in the FULL_JOBS table, so assert their
   // order there. Preparation (image ensure) must precede the full-mode stage,
   // and the Git/snapshot checks must follow it.
@@ -134,7 +134,7 @@ test("the verify script runs every container command through the wrapper", () =>
   assert.match(script, /scripts\/docker-test\.sh/);
 });
 
-test("the verify script runs the coverage gate with the CI coverage environment", () => {
+test("[STORY-39C] the verify script runs the coverage gate with the CI coverage environment", () => {
   assert.match(script, /env TZ=UTC NODE_V8_COVERAGE=\/tmp\/coverage/);
 });
 
@@ -152,7 +152,7 @@ const fullJobs = jobsBlockMatch[1]
     return { name: line.slice(0, sep), args: line.slice(sep + 1) };
   });
 
-test("the full-mode job table contains every required check exactly once", () => {
+test("[STORY-39C] the full-mode job table contains every required check exactly once", () => {
   const names = fullJobs.map(job => job.name);
   assert.deepEqual(names, [
     "lint",
@@ -166,7 +166,7 @@ test("the full-mode job table contains every required check exactly once", () =>
   assert.equal(new Set(names).size, names.length, "job names must be unique");
 });
 
-test("each full-mode job runs through the Docker wrapper with the expected command", () => {
+test("[STORY-39C] each full-mode job runs through the Docker wrapper with the expected command", () => {
   const byName = Object.fromEntries(fullJobs.map(job => [job.name, job.args]));
   assert.equal(byName.lint, "npm run lint");
   assert.equal(byName["requirement-coverage"], "node scripts/check-requirement-coverage.js");
@@ -265,7 +265,7 @@ test("the scheduler traps INT, TERM, and HUP and exits 130 on interruption", () 
   assert.match(script, /interrupted; terminating running jobs/);
 });
 
-test("the final Git/snapshot checks stay sequential after the parallel stage", () => {
+test("[STORY-39C] the final Git/snapshot checks stay sequential after the parallel stage", () => {
   const parallelCall = script.indexOf("run_full_parallel");
   const gitCheck = script.indexOf("git diff --check");
   assert.ok(parallelCall !== -1 && gitCheck !== -1);
