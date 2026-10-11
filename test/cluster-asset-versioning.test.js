@@ -8,7 +8,7 @@ const [app, html, worker] = await Promise.all([
   readFile(new URL('../service-worker.js', import.meta.url), 'utf8')
 ]);
 
-test('Story 39A app and cluster module asset versions cannot drift backwards', () => {
+test('[INFRA-ASSETS] Story 39A app and cluster module asset versions cannot drift backwards', () => {
   assert.match(html, /app\.js\?v=housekeeping-60-1/);
   assert.match(app, /map-clusters\.js\?v=story-39a-1/);
   assert.match(worker, /CACHE_VERSION = "sirento-shell-v62"/);

@@ -16,7 +16,7 @@ const [github, concourse] = await Promise.all([
   readFile(new URL("concourse/pipeline.yml", root), "utf8")
 ]);
 
-test("GitHub Actions builds the shared Docker test image while Concourse uses a runtime image", () => {
+test("[INFRA-CI] GitHub Actions builds the shared Docker test image while Concourse uses a runtime image", () => {
   assert.match(github, /docker build -f docker\/Dockerfile\.test -t toronto-dispatch-tests \./);
   assert.match(concourse, /task: update-and-publish/);
   assert.match(concourse, /repository: node, tag: 24-bookworm-slim/);
@@ -25,7 +25,7 @@ test("GitHub Actions builds the shared Docker test image while Concourse uses a 
   assert.doesNotMatch(concourse, /build-test-image|test-update-and-publish|test-image|oci-build-task|privileged:/);
 });
 
-test("GitHub Actions enforces the promotion gates without repeating them in Concourse", () => {
+test("[INFRA-CI] GitHub Actions enforces the promotion gates without repeating them in Concourse", () => {
   const required = [
     "npm test",
     "npm run test:python",
@@ -43,7 +43,7 @@ test("GitHub Actions enforces the promotion gates without repeating them in Conc
   assert.match(github, /TZ=UTC[^\n]*NODE_V8_COVERAGE=\/tmp\/coverage/);
 });
 
-test("the incident output stays rooted in the declared task output before changing directory", () => {
+test("[INFRA-CI] the incident output stays rooted in the declared task output before changing directory", () => {
   const capture = concourse.indexOf('INCIDENT_OUTPUT="$PWD/incident-repo/data/current.json"');
   const changeDirectory = concourse.indexOf('cd repo', capture);
   assert.ok(capture >= 0 && changeDirectory > capture);
@@ -52,7 +52,7 @@ test("the incident output stays rooted in the declared task output before changi
   assert.match(concourse, /node scripts\/publish-incidents\.js/);
 });
 
-test("the scheduled vehicle burst captures an off-route confirmation and rejoin across three-minute ticks", async () => {
+test("[INFRA-CI] the scheduled vehicle burst captures an off-route confirmation and rejoin across three-minute ticks", async () => {
   const task = await readFile(new URL("concourse/ttc-vehicles.yml", root), "utf8");
   const polls = Number(task.match(/--polls (\d+)/)[1]);
   const intervalMs = Number(task.match(/--interval-ms (\d+)/)[1]);

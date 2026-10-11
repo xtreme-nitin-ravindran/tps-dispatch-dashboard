@@ -4,7 +4,7 @@ import { readFile, stat } from 'node:fs/promises';
 
 const root = new URL('../', import.meta.url);
 
-test('relocated browser entry resolves every static and deferred local module', async () => {
+test('[INFRA-ASSETS] relocated browser entry resolves every static and deferred local module', async () => {
   const entry = new URL('src/app/app.js', root);
   const source = await readFile(entry, 'utf8');
   const imports = [...source.matchAll(/(?:from\s*|import\s*\()(["'])(\.[^"']+)\1/g)];
@@ -16,7 +16,7 @@ test('relocated browser entry resolves every static and deferred local module', 
   }
 });
 
-test('local app-shell styles, scripts, and images resolve from root and project URLs', async () => {
+test('[INFRA-ASSETS] local app-shell styles, scripts, and images resolve from root and project URLs', async () => {
   const html = await readFile(new URL('index.html', root), 'utf8');
   const paths = [...html.matchAll(/(?:src|href)="(\.\/[^"?#]+)(?:[?#][^"]*)?"/g)].map(match => match[1]);
   assert.ok(paths.includes('./src/app/app.js'));

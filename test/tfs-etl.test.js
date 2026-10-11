@@ -13,7 +13,7 @@ async function workspace(t) {
     return dir;
 }
 
-test('ETL bootstraps, persists and merges fetched incidents across runs', async t => {
+test('[DATA-ETL] ETL bootstraps, persists and merges fetched incidents across runs', async t => {
     const outputPath = join(await workspace(t), 'data/current.json');
     const fetchSource = async () => ({ ...source, incidents: [
         { event_id: 'F1', time: '2026-09-16T11:00:00Z', cad: 1 }
@@ -26,7 +26,7 @@ test('ETL bootstraps, persists and merges fetched incidents across runs', async 
     assert.deepEqual(JSON.parse(await readFile(outputPath, 'utf8')), snapshot);
 });
 
-test('Concourse XML input merges separate history without modifying input', async t => {
+test('[DATA-ETL] Concourse XML input merges separate history without modifying input', async t => {
     const dir = await workspace(t);
     const previousPath = join(dir, 'previous.json');
     const xmlPath = join(dir, 'feed.xml');
@@ -45,7 +45,7 @@ test('Concourse XML input merges separate history without modifying input', asyn
     assert.deepEqual(JSON.parse(await readFile(outputPath, 'utf8')), result);
 });
 
-test('failed fetch, malformed XML, stale feed and malformed history preserve published output', async t => {
+test('[DATA-ETL] failed fetch, malformed XML, stale feed and malformed history preserve published output', async t => {
     const dir = await workspace(t);
     const outputPath = join(dir, 'current.json');
     const xmlPath = join(dir, 'bad.xml');
@@ -70,7 +70,7 @@ test('failed fetch, malformed XML, stale feed and malformed history preserve pub
     assert.equal(await readFile(outputPath, 'utf8'), 'broken JSON');
 });
 
-test('a missing explicit history file starts a fresh snapshot', async t => {
+test('[DATA-ETL] a missing explicit history file starts a fresh snapshot', async t => {
     // The Concourse task seeds TFS_PREVIOUS from R2; an absent object must start
     // fresh, exactly as an empty git checkout did, rather than fail the run.
     const dir = await workspace(t);
@@ -83,7 +83,7 @@ test('a missing explicit history file starts a fresh snapshot', async t => {
     assert.deepEqual(JSON.parse(await readFile(outputPath, 'utf8')), result);
 });
 
-test('combined updater keeps each feed when the other fails and preserves output if both fail', async t => {
+test('[DATA-ETL] combined updater keeps each feed when the other fails and preserves output if both fail', async t => {
     const outputPath = join(await workspace(t), 'current.json');
     const police = {id:'TPS-test',source:'TPS',timestamp:now.toISOString(),description:'HAZARD',location:'A - B',geography:{division:'Division 33',coordinates:[43.7,-79.4],approximate:true}};
     const fetchSource = async () => ({...source,incidents:[{event_id:'F1',time:now.toISOString(),location:'M5A'}]});
@@ -101,7 +101,7 @@ test('combined updater keeps each feed when the other fails and preserves output
     assert.equal(await readFile(outputPath,'utf8'),saved);
 });
 
-test('disruption snapshots are separate from incidents and receive previous cache', async t => {
+test('[DATA-ETL] disruption snapshots are separate from incidents and receive previous cache', async t => {
     const outputPath = join(await workspace(t), 'current.json');
     const disruptions = {roads:{items:[],status:'ok'},transit:{items:[],status:'unavailable'}};
     await runTfsEtl({outputPath,now,fetchSource:async()=>source,fetchTravel:async()=>disruptions});
@@ -113,7 +113,7 @@ test('disruption snapshots are separate from incidents and receive previous cach
     assert.deepEqual(JSON.parse(await readFile(outputPath,'utf8')).disruptions,disruptions);
 });
 
-test('ETL validates updater identity and fills unavailable-feed defaults without history', async t => {
+test('[DATA-ETL] ETL validates updater identity and fills unavailable-feed defaults without history', async t => {
     const outputPath = join(await workspace(t), 'current.json');
     await assert.rejects(runTfsEtl({outputPath, updatedBy:'other'}), /Invalid updater identity/);
     const fail = async () => { throw new Error('offline'); };
@@ -123,7 +123,7 @@ test('ETL validates updater identity and fills unavailable-feed defaults without
     assert.equal(result.feeds.TPS.status, 'ok');
 });
 
-test('ETL carries prior disruptions and legacy feed timestamps through failures', async t => {
+test('[DATA-ETL] ETL carries prior disruptions and legacy feed timestamps through failures', async t => {
     const outputPath = join(await workspace(t), 'current.json');
     const fetchedAt = '2026-09-16T11:00:00.000Z';
     const previous = {schemaVersion:1,source:'TFS',fetchedAt,sourceUpdatedAt:fetchedAt,
@@ -138,7 +138,7 @@ test('ETL carries prior disruptions and legacy feed timestamps through failures'
     assert.equal(withoutHistory.feeds.TPS.fetchedAt, null);
 });
 
-test('CLI entry points honor environment paths and fallback writes GitHub output', async t => {
+test('[DATA-ETL] CLI entry points honor environment paths and fallback writes GitHub output', async t => {
  const {execFileSync}=await import('node:child_process');
  const dir=await workspace(t), outputPath=join(dir,'data/current.json'), xmlPath=join(dir,'source.xml'), preload=join(dir,'fetch.mjs');
  const current=new Date().toISOString();
@@ -161,7 +161,7 @@ test('CLI entry points honor environment paths and fallback writes GitHub output
  assert.match(fallbackStdout,/Updated stale snapshot/);
 });
 
-test('TTC artifact survives optional source failure and uses the shared atomic snapshot', async t => {
+test('[DATA-ETL] TTC artifact survives optional source failure and uses the shared atomic snapshot', async t => {
     const {updateTtcAlerts} = await import('../src/ttc/alerts.js');
     const outputPath = join(await workspace(t), 'current.json');
     const old = await updateTtcAlerts(null,now,async () => ({schemaVersion:1,items:[],sourceUpdatedAt:null}),() => {});
@@ -173,7 +173,7 @@ test('TTC artifact survives optional source failure and uses the shared atomic s
     assert.deepEqual(JSON.parse(await readFile(outputPath,'utf8')).ttcAlerts,result.ttcAlerts);
 });
 
-test('protobuf to lifecycle to published JSON reader; invalid TTC cannot replace output', async t => {
+test('[DATA-ETL] protobuf to lifecycle to published JSON reader; invalid TTC cannot replace output', async t => {
     const {default:bindings} = await import('gtfs-realtime-bindings');
     const {parseTtcAlerts,updateTtcAlerts} = await import('../src/ttc/alerts.js');
     const outputPath = join(await workspace(t),'current.json');

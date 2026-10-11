@@ -17,9 +17,9 @@ for (const [input, expected] of [
     [1789507683, '2026-09-15T21:28:03.000Z'],
     ['2026-02-30T01:00:00', null],
     ['', null], [null, null], ['invalid', null], ['invalidZ', null]
-]) test(`Toronto timestamp: ${input}`, () => assert.equal(parseTfsTimestamp(input), expected));
+]) test(`[DATA-ETL] Toronto timestamp: ${input}`, () => assert.equal(parseTfsTimestamp(input), expected));
 
-test('official XML preserves beat and Toronto timestamps through snapshot generation', () => {
+test('[DATA-ETL] official XML preserves beat and Toronto timestamps through snapshot generation', () => {
     const source = parseTfsXml(`<tfs_active_incidents><update_from_db_time>2026-09-16 01:15:01</update_from_db_time><event><event_num>F26146740</event_num><dispatch_time>2026-09-16T01:07:11</dispatch_time><event_type>MEDICAL</event_type><prime_street>M5M</prime_street><cross_streets/><beat>131</beat><units_disp>P131</units_disp></event></tfs_active_incidents>`);
     const snapshot = buildTfsSnapshot(source, new Date("2026-09-16T05:16:00Z"));
     assert.equal(snapshot.sourceUpdatedAt, '2026-09-16T05:15:01.000Z');
@@ -28,7 +28,7 @@ test('official XML preserves beat and Toronto timestamps through snapshot genera
     assert.equal(snapshot.incidents[0].location, 'M5M');
 });
 
-test('freshness detects stalled source, stalled updater, and missing metadata', () => {
+test('[DATA-ETL] freshness detects stalled source, stalled updater, and missing metadata', () => {
     const now = Date.parse('2026-09-16T05:20:00Z');
     assert.equal(snapshotIsStale('2026-09-16T05:15:01Z', '2026-09-16T05:16:00Z', now), false);
     assert.equal(snapshotIsStale('2026-09-16T05:00:00Z', '2026-09-16T05:19:00Z', now), true);
@@ -36,7 +36,7 @@ test('freshness detects stalled source, stalled updater, and missing metadata', 
     assert.equal(snapshotIsStale(null, '2026-09-16T05:19:00Z', now), true);
 });
 
-test('history selections include the cutoff and exclude older or future calls', async () => {
+test('[DATA-ETL] history selections include the cutoff and exclude older or future calls', async () => {
     const { isWithinHistoryWindow } = await import('../src/tfs/time.js');
     const now = Date.parse('2026-09-16T12:00:00Z');
     for (const hours of [1, 3, 6, 12, 24, 72, 168]) {

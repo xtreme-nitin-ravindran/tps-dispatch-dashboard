@@ -26,7 +26,7 @@ import { ESLint } from "eslint";
 
 const root = new URL("../", import.meta.url);
 
-test("eslint.config.js globally ignores the git-ignored root tmp/ directory", async () => {
+test("[INFRA-LINT] eslint.config.js globally ignores the git-ignored root tmp/ directory", async () => {
   const eslint = new ESLint({ cwd: new URL(".", root).pathname });
   assert.equal(
     await eslint.isPathIgnored("tmp/debug-script.js"),
@@ -40,7 +40,7 @@ test("eslint.config.js globally ignores the git-ignored root tmp/ directory", as
   );
 });
 
-test("a debug script in tmp/ cannot break eslint .", async () => {
+test("[INFRA-LINT] a debug script in tmp/ cannot break eslint .", async () => {
   const repoRoot = new URL(".", root).pathname;
   const scratchDir = join(repoRoot, "tmp", "eslint-ignore-regression");
   const debugScript = join(scratchDir, "debug-script.js");
@@ -75,7 +75,7 @@ test("a debug script in tmp/ cannot break eslint .", async () => {
   }
 });
 
-test("required repository inputs remain linted", async () => {
+test("[INFRA-LINT] required repository inputs remain linted", async () => {
   const eslint = new ESLint({ cwd: new URL(".", root).pathname });
   const required = [
     "src/app/app.js",
@@ -94,7 +94,7 @@ test("required repository inputs remain linted", async () => {
   }
 });
 
-test("the tmp/** ignore is scoped to the root and does not hide nested fixture paths", async () => {
+test("[INFRA-LINT] the tmp/** ignore is scoped to the root and does not hide nested fixture paths", async () => {
   const eslint = new ESLint({ cwd: new URL(".", root).pathname });
   // A nested path that merely contains "tmp" as a segment must not be ignored.
   assert.equal(

@@ -19,7 +19,7 @@ function mock({head='tested',reject=false,files=[{}]}={}) {
   };
   return {api,calls};
 }
-test('GitHub API wrapper serializes requests and retry delays use the supplied timer',async()=>{
+test('[INFRA-CI] GitHub API wrapper serializes requests and retry delays use the supplied timer',async()=>{
   const calls=[];
   const result=githubApi('owner/repo','pulls','POST',{head:'dev'},(...args)=>{
     calls.push(args);
@@ -42,25 +42,25 @@ test('GitHub API wrapper serializes requests and retry delays use the supplied t
   });
   assert.deepEqual(requests,[{repo:'owner/repo',path:'git/ref/heads/dev'}]);
 });
-test('only tested dev SHA can be promoted without a duplicate Pages request',async()=>{
+test('[INFRA-CI] only tested dev SHA can be promoted without a duplicate Pages request',async()=>{
   const {api,calls}=mock(); await promote({...defaults,api});
   assert.equal(calls.find(c=>c.path==='pulls/1/merge').body.sha,'tested');
   assert.deepEqual(calls.find(c=>c.path==='git/refs/heads/dev').body,{sha:'merged',force:false});
   assert.ok(!calls.some(c=>c.path.startsWith('pages/')), 'branch publishing must be the only Pages trigger');
 });
-test('superseded dev, empty diffs and other branches cannot promote',async()=>{
+test('[INFRA-CI] superseded dev, empty diffs and other branches cannot promote',async()=>{
   for(const options of [{head:'newer'},{files:[]}]) {
     const {api,calls}=mock(options); await promote({...defaults,api});
     assert.ok(calls.every(c=>c.method==='GET'));
   }
   const {api}=mock(); await assert.rejects(promote({...defaults,api,ref:'refs/heads/main'}));
 });
-test('branch protection rejection never updates branches or deploys',async()=>{
+test('[INFRA-CI] branch protection rejection never updates branches or deploys',async()=>{
   const {api,calls}=mock({reject:true}); await assert.rejects(promote({...defaults,api}));
   assert.ok(!calls.some(c=>c.path==='pages/builds'||c.method==='PATCH'));
 });
 
-test('reuses existing PR, retries a transient rejection and protects concurrent dev changes', async()=>{
+test('[INFRA-CI] reuses existing PR, retries a transient rejection and protects concurrent dev changes', async()=>{
  const calls=[]; let reads=0, merges=0, sleeps=0;
  const api=(path,method,body)=>{
   calls.push({path,method,body});
@@ -76,7 +76,7 @@ test('reuses existing PR, retries a transient rejection and protects concurrent 
  assert.throws(()=>api('unexpected'), /Unexpected mutation unexpected/);
 });
 
-test('unsuccessful merge responses never advance dev; concurrent fast-forward rejection is safe',async()=>{
+test('[INFRA-CI] unsuccessful merge responses never advance dev; concurrent fast-forward rejection is safe',async()=>{
  for(const merged of [false,true]) {
   const base=mock(), writes=[];
   const api=(path,method,body)=>{
@@ -90,7 +90,7 @@ test('unsuccessful merge responses never advance dev; concurrent fast-forward re
  }
 });
 
-test('promotion CLI rejects runs outside dev',()=>{
+test('[INFRA-CI] promotion CLI rejects runs outside dev',()=>{
  const result=spawnSync(process.execPath,['scripts/promote-dev.js'],{
   encoding:'utf8',env:{...process.env,GITHUB_REPOSITORY:'owner/repo',GITHUB_SHA:'tested',GITHUB_REF:'refs/heads/main'}
  });
@@ -98,7 +98,7 @@ test('promotion CLI rejects runs outside dev',()=>{
  assert.match(result.stderr,/Promotion requires dev/);
 });
 
-test('promotion CLI completes a successful dev promotion',()=>{
+test('[INFRA-CI] promotion CLI completes a successful dev promotion',()=>{
  const bin=mkdtempSync(join(tmpdir(),'promotion-cli-'));
  try {
   const gh=join(bin,'gh');
