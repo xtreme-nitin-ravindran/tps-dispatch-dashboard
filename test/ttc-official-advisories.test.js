@@ -306,7 +306,7 @@ test('[STORY-51B] runVehiclePolling passes advisory context into infer-only infe
 // cache contents, episode collections, or advisory text.
 // ---------------------------------------------------------------------------
 
-test('cacheSummary reports a fixed disposition and bounded counts only', () => {
+test('[STORY-51E] cacheSummary reports a fixed disposition and bounded counts only', () => {
   assert.deepEqual(CACHE_DISPOSITIONS, ['restored', 'missing', 'rejected', 'incompatible']);
   assert.deepEqual(cacheSummary('ttc-vehicles-cache', 'restored', { staticVersion: 'v1', loaded: 3 }),
     { source: 'ttc-vehicles-cache', status: 'restored', staticVersion: 'v1', loaded: 3 });
@@ -315,7 +315,7 @@ test('cacheSummary reports a fixed disposition and bounded counts only', () => {
     { source: 'ttc-diversions-cache', status: 'missing', staticVersion: null, loaded: 0 });
 });
 
-test('continuitySummary reports bounded lifecycle counts and fixed reason keys', () => {
+test('[STORY-51E] continuitySummary reports bounded lifecycle counts and fixed reason keys', () => {
   const summary = continuitySummary({
     vehicleState: { status: 'ok' },
     vehicleReport: { tracksLoaded: 2, tracksCreated: 1, tracksRetained: 3, resets: 1, expired: 0, graceStarted: 1, graceContinued: 2, graceCleared: 1, graceExpired: 0, graceRefusedAbsent: 0, graceRefusedConflict: 1, graceRefusedStale: 0, graceRefusedIncompatible: 1 },
@@ -350,7 +350,7 @@ test('continuitySummary reports bounded lifecycle counts and fixed reason keys',
   assert.equal(empty.advisorySource, 'not-loaded');
 });
 
-test('runVehiclePolling logs cache disposition and a continuity summary without raw evidence', async () => {
+test('[STORY-51E] runVehiclePolling logs cache disposition and a continuity summary without raw evidence', async () => {
   const dir = await mkdtemp(`${tmpdir()}/ttc-continuity-`);
   try {
     const fixture = [0, 30, 60].map(s => ({ now: at(s).toISOString(), protobufBase64: Buffer.from(protobuf([vehicle(s)], s)).toString('base64') }));
@@ -380,7 +380,7 @@ test('runVehiclePolling logs cache disposition and a continuity summary without 
   }
 });
 
-test('runVehiclePolling reports an incompatible cache when the static version changes', async () => {
+test('[STORY-51E] runVehiclePolling reports an incompatible cache when the static version changes', async () => {
   const dir = await mkdtemp(`${tmpdir()}/ttc-incompatible-`);
   try {
     const fixture = [0, 30, 60].map(s => ({ now: at(s).toISOString(), protobufBase64: Buffer.from(protobuf([vehicle(s)], s)).toString('base64') }));
@@ -406,7 +406,7 @@ test('runVehiclePolling reports an incompatible cache when the static version ch
   }
 });
 
-test('runVehiclePolling reports a rejected cache without crashing', async () => {
+test('[STORY-51E] runVehiclePolling reports a rejected cache without crashing', async () => {
   const dir = await mkdtemp(`${tmpdir()}/ttc-rejected-`);
   try {
     const fixture = [0, 30, 60].map(s => ({ now: at(s).toISOString(), protobufBase64: Buffer.from(protobuf([vehicle(s)], s)).toString('base64') }));
@@ -611,7 +611,7 @@ test('[STORY-51C] validation rejects a forged advisory association', () => {
 // geometry, and leave unmatched advisories in the citywide list.
 // ---------------------------------------------------------------------------
 
-test('the public geometry artifact carries advisory refs but never raw advisory text', async () => {
+test('[STORY-51D] the public geometry artifact carries advisory refs but never raw advisory text', async () => {
   const { publicTtcGeometry } = await import('../scripts/publish-ttc-geometry.js');
   const { result } = inferWithAdvisories(advisoryContract());
   const published = publicTtcGeometry(result.output);
@@ -625,7 +625,7 @@ test('the public geometry artifact carries advisory refs but never raw advisory 
   assert.doesNotMatch(serialized, /vehicleId|episodeIds|rawEvidence|confidence|identityAnchor/);
 });
 
-test('the public geometry artifact omits advisory refs when none are claimed', async () => {
+test('[STORY-51D] the public geometry artifact omits advisory refs when none are claimed', async () => {
   const { publicTtcGeometry } = await import('../scripts/publish-ttc-geometry.js');
   const { result } = inferWithAdvisories(officialAdvisories(undefined));
   const published = publicTtcGeometry(result.output);

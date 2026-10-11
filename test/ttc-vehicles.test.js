@@ -239,7 +239,7 @@ test('[STORY-30D][STORY-30G] a single transient ambiguous observation preserves 
   const stale=detectVehicles(confirmed,parse(staleAt,{trip:{routeId:'0504'}}),index,at(staleAt)).state;
   assert.equal(stale.tracks.length,0);
 });
-test('[STORY-30D][STORY-30G] Story 51E: bounded continuity counters explain track lifecycle and grace reasons',()=>{
+test('[STORY-30D][STORY-30G][STORY-51E] Story 51E: bounded continuity counters explain track lifecycle and grace reasons',()=>{
   // Track lifecycle: the first cycle creates a track; later cycles load and retain it.
   const cycles=sequence([0,30,60]);
   assert.equal(cycles[0].report.tracksLoaded,0);assert.equal(cycles[0].report.tracksCreated,1);assert.equal(cycles[0].report.tracksRetained,1);
