@@ -108,7 +108,7 @@ async function currentFingerprint() {
   return hash.digest("hex");
 }
 
-test("the wrapper is POSIX sh and does not use eval", async () => {
+test("[STORY-45] the wrapper is POSIX sh and does not use eval", async () => {
   const script = await readFile(wrapperPath, "utf8");
   assert.match(script, /^#!\/bin\/sh$/m, "docker-test.sh must use a POSIX sh shebang");
   assert.match(script, /^set -eu$/m, "docker-test.sh must use `set -eu`");
@@ -121,7 +121,7 @@ test("the wrapper is POSIX sh and does not use eval", async () => {
   assert.doesNotMatch(code, /\btimeout\b/, "docker-test.sh must not rely on GNU timeout");
 });
 
-test("the wrapper preserves command arguments separately and in order", async () => {
+test("[STORY-45] the wrapper preserves command arguments separately and in order", async () => {
   const stub = await makeStubEnv();
   try {
     const fp = await currentFingerprint();
@@ -149,7 +149,7 @@ test("the wrapper preserves command arguments separately and in order", async ()
   }
 });
 
-test("the wrapper does not corrupt option-like command arguments", async () => {
+test("[STORY-45] the wrapper does not corrupt option-like command arguments", async () => {
   const stub = await makeStubEnv();
   try {
     const fp = await currentFingerprint();
@@ -173,7 +173,7 @@ test("the wrapper does not corrupt option-like command arguments", async () => {
   }
 });
 
-test("the wrapper resolves the repository root independent of the caller's cwd", async () => {
+test("[STORY-45] the wrapper resolves the repository root independent of the caller's cwd", async () => {
   const stub = await makeStubEnv();
   const elsewhere = await mkdtemp(join(tmpdir(), "docker-test-cwd-"));
   try {
@@ -199,7 +199,7 @@ test("the wrapper resolves the repository root independent of the caller's cwd",
   }
 });
 
-test("the wrapper mounts working-tree paths read-only and never mounts node_modules", async () => {
+test("[STORY-45] the wrapper mounts working-tree paths read-only and never mounts node_modules", async () => {
   const stub = await makeStubEnv();
   try {
     const fp = await currentFingerprint();
@@ -234,7 +234,7 @@ test("the wrapper mounts working-tree paths read-only and never mounts node_modu
   }
 });
 
-test("the wrapper runs the command in /workspace", async () => {
+test("[STORY-45] the wrapper runs the command in /workspace", async () => {
   const stub = await makeStubEnv();
   try {
     const fp = await currentFingerprint();
@@ -250,7 +250,7 @@ test("the wrapper runs the command in /workspace", async () => {
   }
 });
 
-test("the wrapper propagates the wrapped command's exit status", async () => {
+test("[STORY-45] the wrapper propagates the wrapped command's exit status", async () => {
   const stub = await makeStubEnv();
   try {
     const fp = await currentFingerprint();
@@ -264,7 +264,7 @@ test("the wrapper propagates the wrapped command's exit status", async () => {
   }
 });
 
-test("the wrapper fails clearly when the image is missing", async () => {
+test("[STORY-45] the wrapper fails clearly when the image is missing", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(["npm", "test"], {
@@ -281,7 +281,7 @@ test("the wrapper fails clearly when the image is missing", async () => {
   }
 });
 
-test("the wrapper fails clearly when the image fingerprint is stale", async () => {
+test("[STORY-45] the wrapper fails clearly when the image fingerprint is stale", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(["npm", "test"], {
@@ -298,7 +298,7 @@ test("the wrapper fails clearly when the image fingerprint is stale", async () =
   }
 });
 
-test("the wrapper fails clearly when the image has no fingerprint label", async () => {
+test("[STORY-45] the wrapper fails clearly when the image has no fingerprint label", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(["npm", "test"], { ...stub, env: { STUB_FP: "" } });
@@ -310,7 +310,7 @@ test("the wrapper fails clearly when the image has no fingerprint label", async 
   }
 });
 
-test("the wrapper runs when the image fingerprint matches", async () => {
+test("[STORY-45] the wrapper runs when the image fingerprint matches", async () => {
   const stub = await makeStubEnv();
   try {
     const fp = await currentFingerprint();
@@ -323,7 +323,7 @@ test("the wrapper runs when the image fingerprint matches", async () => {
   }
 });
 
-test("--build passes the current fingerprint as a build arg and tags the image", async () => {
+test("[STORY-45] --build passes the current fingerprint as a build arg and tags the image", async () => {
   const stub = await makeStubEnv();
   try {
     const fp = await currentFingerprint();
@@ -343,7 +343,7 @@ test("--build passes the current fingerprint as a build arg and tags the image",
   }
 });
 
-test("--ensure-image builds only when the image is missing or stale", async () => {
+test("[STORY-45] --ensure-image builds only when the image is missing or stale", async () => {
   const stub = await makeStubEnv();
   try {
     const fp = await currentFingerprint();
@@ -372,7 +372,7 @@ test("--ensure-image builds only when the image is missing or stale", async () =
   }
 });
 
-test("--ensure-image prints one concise readiness line when the image is current", async () => {
+test("[STORY-45] --ensure-image prints one concise readiness line when the image is current", async () => {
   const stub = await makeStubEnv();
   try {
     const fp = await currentFingerprint();
@@ -392,7 +392,7 @@ test("--ensure-image prints one concise readiness line when the image is current
   }
 });
 
-test("--ensure-image reports a successful rebuild for a missing image", async () => {
+test("[STORY-45] --ensure-image reports a successful rebuild for a missing image", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(["--ensure-image"], {
@@ -412,7 +412,7 @@ test("--ensure-image reports a successful rebuild for a missing image", async ()
   }
 });
 
-test("--ensure-image reports a successful rebuild for a stale image", async () => {
+test("[STORY-45] --ensure-image reports a successful rebuild for a stale image", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(["--ensure-image"], { ...stub, env: { STUB_FP: "stale" } });
@@ -427,7 +427,7 @@ test("--ensure-image reports a successful rebuild for a stale image", async () =
   }
 });
 
-test("--ensure-image rebuilds an unlabelled image and reports success", async () => {
+test("[STORY-45] --ensure-image rebuilds an unlabelled image and reports success", async () => {
   const stub = await makeStubEnv();
   try {
     // An existing image with no fingerprint label is treated as stale and rebuilt.
@@ -442,7 +442,7 @@ test("--ensure-image rebuilds an unlabelled image and reports success", async ()
   }
 });
 
-test("--ensure-image propagates a build failure and prints no readiness line", async () => {
+test("[STORY-45] --ensure-image propagates a build failure and prints no readiness line", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper(["--ensure-image"], {
@@ -456,7 +456,7 @@ test("--ensure-image propagates a build failure and prints no readiness line", a
   }
 });
 
-test("--ensure-image fails clearly when docker is unavailable", async () => {
+test("[STORY-45] --ensure-image fails clearly when docker is unavailable", async () => {
   const dir = await mkdtemp(join(tmpdir(), "docker-test-ensure-nodocker-"));
   try {
     const bin = join(dir, "bin");
@@ -479,7 +479,7 @@ test("--ensure-image fails clearly when docker is unavailable", async () => {
   }
 });
 
-test("ordinary wrapped commands print no readiness line", async () => {
+test("[STORY-45] ordinary wrapped commands print no readiness line", async () => {
   const stub = await makeStubEnv();
   try {
     const fp = await currentFingerprint();
@@ -491,7 +491,7 @@ test("ordinary wrapped commands print no readiness line", async () => {
   }
 });
 
-test("the wrapper reports a clear usage error with no command", async () => {
+test("[STORY-45] the wrapper reports a clear usage error with no command", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runWrapper([], { ...stub });
@@ -502,7 +502,7 @@ test("the wrapper reports a clear usage error with no command", async () => {
   }
 });
 
-test("the wrapper fails clearly when docker is unavailable", async () => {
+test("[STORY-45] the wrapper fails clearly when docker is unavailable", async () => {
   const dir = await mkdtemp(join(tmpdir(), "docker-test-nodocker-"));
   try {
     // Keep the shell utilities the wrapper needs reachable, but omit docker.
@@ -525,7 +525,7 @@ test("the wrapper fails clearly when docker is unavailable", async () => {
   }
 });
 
-test("the wrapper uses --rm so no container remains after a run", async () => {
+test("[STORY-45] the wrapper uses --rm so no container remains after a run", async () => {
   const stub = await makeStubEnv();
   try {
     const fp = await currentFingerprint();
@@ -539,7 +539,7 @@ test("the wrapper uses --rm so no container remains after a run", async () => {
   }
 });
 
-test("the wrapper's fingerprint changes when a dependency input changes", async () => {
+test("[STORY-45] the wrapper's fingerprint changes when a dependency input changes", async () => {
   // Copy the wrapper and its fingerprint inputs into a scratch repo, then mutate
   // package.json and confirm the reported fingerprint changes. This proves the
   // fingerprint is content-derived, not commit-derived.
@@ -573,7 +573,7 @@ test("the wrapper's fingerprint changes when a dependency input changes", async 
   }
 });
 
-test("the wrapper's fingerprint is stable for unchanged inputs", async () => {
+test("[STORY-45] the wrapper's fingerprint is stable for unchanged inputs", async () => {
   const a = spawnSync("sh", [wrapperPath, "--fingerprint"], { encoding: "utf8" });
   const b = spawnSync("sh", [wrapperPath, "--fingerprint"], { encoding: "utf8" });
   assert.equal(a.status, 0, a.stderr);
