@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mobileAuditFixtureFilters, mobileAuditFixtureOptions, mobileAuditFixtureSnapshot, mobileAuditFixtureState } from '../src/mobile-audit-fixture.js';
 
-test('mobile audit fixture is explicit and loopback-only', () => {
+test('[STORY-37A] mobile audit fixture is explicit and loopback-only', () => {
   assert.equal(mobileAuditFixtureState(),null);
   assert.equal(mobileAuditFixtureState(null),null);
   assert.equal(mobileAuditFixtureState({hostname:'localhost'}),null);
@@ -14,7 +14,7 @@ test('mobile audit fixture is explicit and loopback-only', () => {
   assert.equal(mobileAuditFixtureState({hostname:'localhost',search:'?mobileAuditFixture=unknown'}),null);
 });
 
-test('fixture options expose deterministic mobile view and sheet states', () => {
+test('[STORY-37A] fixture options expose deterministic mobile view and sheet states', () => {
   assert.equal(mobileAuditFixtureOptions(),null);
   assert.deepEqual(mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditView=calls&mobileAuditSheet=expanded'}),{
     state:'many',view:'calls',sheet:'expanded',location:'none',filters:'none',radius:null,roads:true,boundaries:true,boundaryRenderer:'canvas',boundaryDebug:false
@@ -24,21 +24,21 @@ test('fixture options expose deterministic mobile view and sheet states', () => 
   });
 });
 
-test('fixture independently controls road and boundary overlays only on loopback', () => {
+test('[STORY-37A] fixture independently controls road and boundary overlays only on loopback', () => {
   const off = mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditRoads=off&mobileAuditBoundaries=off'});
   assert.equal(off.roads, false);
   assert.equal(off.boundaries, false);
   assert.equal(mobileAuditFixtureOptions({hostname:'sirento.ca',search:'?mobileAuditFixture=many&mobileAuditRoads=off'}), null);
 });
 
-test('fixture exposes a loopback-only SVG comparison and projected-geometry capture mode', () => {
+test('[STORY-37A] fixture exposes a loopback-only SVG comparison and projected-geometry capture mode', () => {
   const options = mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditBoundaryRenderer=svg&policeBoundaryDebug=1'});
   assert.equal(options.boundaryRenderer, 'svg');
   assert.equal(options.boundaryDebug, true);
   assert.equal(mobileAuditFixtureOptions({hostname:'sirento.ca',search:'?mobileAuditFixture=many&mobileAuditBoundaryRenderer=svg&policeBoundaryDebug=1'}), null);
 });
 
-test('fixture exposes every radius and rejects arbitrary values', () => {
+test('[STORY-37A] fixture exposes every radius and rejects arbitrary values', () => {
   for (const radius of ['0.5','1','2','5','toronto']) {
     assert.equal(mobileAuditFixtureOptions({hostname:'localhost',search:`?mobileAuditFixture=many&mobileAuditRadius=${radius}`}).radius,radius);
   }
@@ -46,7 +46,7 @@ test('fixture exposes every radius and rejects arbitrary values', () => {
   assert.equal(mobileAuditFixtureOptions({hostname:'sirento.ca',search:'?mobileAuditFixture=many&mobileAuditRadius=2'}),null);
 });
 
-test('fixture exposes deterministic secondary filter states with safe defaults', () => {
+test('[STORY-37A] fixture exposes deterministic secondary filter states with safe defaults', () => {
   for (const filters of ['none','one','multiple','long','service','event','division','history','search','zero']) {
     assert.equal(mobileAuditFixtureOptions({hostname:'localhost',search:`?mobileAuditFixture=many&mobileAuditFilters=${filters}`}).filters,filters);
   }
@@ -59,14 +59,14 @@ test('fixture exposes deterministic secondary filter states with safe defaults',
   assert.equal(mobileAuditFixtureOptions({hostname:'sirento.ca',search:'?mobileAuditFixture=many&mobileAuditFilters=multiple'}),null);
 });
 
-test('fixture exposes every compact Nearby location state without enabling arbitrary values', () => {
+test('[STORY-37A] fixture exposes every compact Nearby location state without enabling arbitrary values', () => {
   for (const location of ['none','current','unavailable','denied','saved','manual']) {
     assert.equal(mobileAuditFixtureOptions({hostname:'localhost',search:`?mobileAuditFixture=many&mobileAuditLocation=${location}`}).location,location);
   }
   assert.equal(mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditLocation=other'}).location,'none');
 });
 
-test('Story 38 fixture dimensions compose without leaving the production render path', () => {
+test('[STORY-37A] Story 38 fixture dimensions compose without leaving the production render path', () => {
   const options = mobileAuditFixtureOptions({
     hostname:'127.0.0.1',
     search:'?mobileAuditFixture=stale&mobileAuditLocation=saved&mobileAuditFilters=search&mobileAuditRadius=5&mobileAuditRoads=off&mobileAuditBoundaries=on&mobileAuditView=calls&mobileAuditSheet=expanded&policeBoundaryDebug=1'
@@ -89,7 +89,7 @@ test('Story 38 fixture dimensions compose without leaving the production render 
   }), null);
 });
 
-test('fixture covers multiple, zero, stale, unavailable, unresolved, and long TTC states', () => {
+test('[STORY-37A] fixture covers multiple, zero, stale, unavailable, unresolved, and long TTC states', () => {
   const now=Date.UTC(2026,8,26,12);
   assert.ok(mobileAuditFixtureSnapshot().incidents.length >= 10);
   const many=mobileAuditFixtureSnapshot('many',now);
