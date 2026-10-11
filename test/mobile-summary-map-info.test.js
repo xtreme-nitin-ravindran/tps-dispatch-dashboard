@@ -11,7 +11,7 @@ const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-heig
 const mobileRules = css.slice(css.indexOf(mobileQuery));
 const desktopRules = css.slice(0, css.indexOf(mobileQuery));
 
-test('mobile uses one concise production-rendered summary per active view', () => {
+test('[STORY-37I] mobile uses one concise production-rendered summary per active view', () => {
   assert.match(html, /id="nearbySummaryText" class="desktop-nearby-summary-text"/);
   assert.match(html, /id="mobileNearbySummaryText" class="mobile-nearby-summary-text"/);
   assert.match(app, /mobileNearbySummary\([\s\S]*?state\.filtered, state\.radiusKm/);
@@ -21,7 +21,7 @@ test('mobile uses one concise production-rendered summary per active view', () =
   assert.doesNotMatch(desktopRules, /desktop-nearby-summary-text \{ display: none/);
 });
 
-test('secondary located count, source times, marker shapes, ages, and resolution guide stay in Map info', () => {
+test('[STORY-37I] secondary located count, source times, marker shapes, ages, and resolution guide stay in Map info', () => {
   const info = html.match(/<details class="panel map-info"[\s\S]*?<\/details>/)[0];
   assert.match(info, /<span class="mobile-map-info-label">Map info<\/span>/);
   assert.match(info, /id="mobileMapStatus"/);
@@ -35,7 +35,7 @@ test('secondary located count, source times, marker shapes, ages, and resolution
   assert.match(mobileRules, /\.map-info > summary \.map-status \{ display: none; \}/);
 });
 
-test('critical stale and unavailable incident warnings remain outside Map info', () => {
+test('[STORY-37I] critical stale and unavailable incident warnings remain outside Map info', () => {
   assert.match(html, /id="mobileMapDataWarning"[\s\S]*?role="status" aria-live="polite"/);
   assert.ok(html.indexOf('id="mobileMapDataWarning"') < html.indexOf('id="mapView"'));
   assert.match(app, /mobileMapDataWarning\.textContent=messages\.join\(' '\)/);
@@ -44,14 +44,14 @@ test('critical stale and unavailable incident warnings remain outside Map info',
   assert.match(mobileRules, /\.mobile-map-data-warning\[hidden\] \{ display: none; \}/);
 });
 
-test('Calls mode reserves no Map info or warning space and desktop disclosure is unchanged', () => {
+test('[STORY-37I] Calls mode reserves no Map info or warning space and desktop disclosure is unchanged', () => {
   assert.match(mobileRules, /data-mobile-view="calls"\] \.map-stage,[\s\S]*?\.map-info,[\s\S]*?\.mobile-bottom-sheet \{ display: none; \}/);
   assert.match(mobileRules, /data-mobile-view="calls"\] \.mobile-map-data-warning \{ display: none; \}/);
   assert.match(html, /<span class="desktop-map-info-label">Map info &amp; legend<\/span>/);
   assert.match(desktopRules, /\.map-info > summary \{[\s\S]*?min-height: 54px/);
 });
 
-test('mobile collapsed density is bounded and keeps a 44px disclosure target', () => {
+test('[STORY-37I] mobile collapsed density is bounded and keeps a 44px disclosure target', () => {
   assert.match(mobileRules, /\.nearby-summary \{[\s\S]*?padding: 8px 12px/);
   assert.match(mobileRules, /\.map-info > summary \{ min-height: 44px; padding: 0 12px; \}/);
   assert.match(mobileRules, /\.mobile-nearby-summary-text \{[\s\S]*?font-size: 14px;[\s\S]*?line-height: 1\.3/);
