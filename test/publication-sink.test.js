@@ -173,7 +173,7 @@ test('[STORY-55][STORY-55A] createSinkFromEnv selects the R2 sink when the crede
   assert.equal(typeof sink, 'function');
 });
 
-test('[STORY-55][STORY-55A] createSinkFromEnv requires every R2 credential and never falls back to git', () => {
+test('[STORY-55][STORY-55A][STORY-55E] createSinkFromEnv requires every R2 credential and never falls back to git', () => {
   // The git `data` branch was retired in Story 55E, so a missing credential must
   // fail loudly instead of silently writing to a branch that no longer exists.
   assert.throws(() => createSinkFromEnv({ env: {} }), /R2 publication requires/);

@@ -214,7 +214,7 @@ test('[STORY-54] the TTC phase reports no change when the geometry is unchanged'
   assert.deepEqual(result, { committed: false });
 });
 
-test('[STORY-54] the TTC phase builds the default R2 sink from the environment', async t => {
+test('[STORY-54][STORY-55E] the TTC phase builds the default R2 sink from the environment', async t => {
   // No injected sink: the phase must build the R2 sink from the environment. Stub
   // the global fetch with an in-memory R2 stand-in so no network is touched.
   const dir = await mkdtemp(join(tmpdir(), 'ttc-r2-default-'));
@@ -367,7 +367,7 @@ test('[STORY-54] the incident CLI publishes a stale snapshot to R2 and reports i
   assert.match(out, /Incident snapshot updated/);
 });
 
-test('[STORY-54] the incident CLI fails loudly without R2 credentials', async t => {
+test('[STORY-54][STORY-55E] the incident CLI fails loudly without R2 credentials', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'incident-cli-nocreds-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   await mkdir(join(dir, 'data'), { recursive: true });
