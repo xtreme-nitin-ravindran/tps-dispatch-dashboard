@@ -41,7 +41,7 @@ const tooling = collectToolingFiles(
   })[file]
 );
 
-test("documentation candidates require an allowed extension and location", () => {
+test("[STORY-52D] documentation candidates require an allowed extension and location", () => {
   assert.equal(isDocumentationCandidate("README.md"), true);
   assert.equal(isDocumentationCandidate("docs/guide.md"), true);
   assert.equal(isDocumentationCandidate("docs/notes.txt"), true);
@@ -56,7 +56,7 @@ test("documentation candidates require an allowed extension and location", () =>
   assert.equal(isDocumentationCandidate(undefined), false);
 });
 
-test("a documentation file consumed by tooling keeps full validation", () => {
+test("[STORY-52D] a documentation file consumed by tooling keeps full validation", () => {
   // AGENTS.md is a bare path token in a configuration file: a real reference.
   assert.equal(isReferencedByTooling("AGENTS.md", tooling), true);
   // docs/consumed.md is a quoted literal in a script: a real reference.
@@ -67,7 +67,7 @@ test("a documentation file consumed by tooling keeps full validation", () => {
   assert.equal(isReferencedByTooling("", tooling), false);
 });
 
-test("documentation-only, mixed, workflow-only, configuration-only and generated-snapshot changes", () => {
+test("[STORY-52D] documentation-only, mixed, workflow-only, configuration-only and generated-snapshot changes", () => {
   // Documentation-only: every path is inert documentation.
   assert.equal(classifyChanges(["README.md", "docs/guide.md"], tooling).docsOnly, true);
   // Mixed: one application file forces full validation.
@@ -87,7 +87,7 @@ test("documentation-only, mixed, workflow-only, configuration-only and generated
   assert.equal(classifyChanges(undefined, tooling).docsOnly, false);
 });
 
-test("renames and deletions are handled conservatively", () => {
+test("[STORY-52D] renames and deletions are handled conservatively", () => {
   // A rename contributes both the old and the new path.
   assert.deepEqual(
     parseNameStatus("R100\tdocs/old.md\tdocs/new.md\n"),
@@ -126,13 +126,13 @@ test("renames and deletions are handled conservatively", () => {
   );
 });
 
-test("classifyPath reports a reason for every outcome", () => {
+test("[STORY-52D] classifyPath reports a reason for every outcome", () => {
   assert.match(classifyPath("app.js", tooling).reason, /not documentation/);
   assert.match(classifyPath("AGENTS.md", tooling).reason, /consumed by tooling/);
   assert.match(classifyPath("docs/guide.md", tooling).reason, /documentation-only/);
 });
 
-test("the real repository tooling corpus classifies documentation safely", () => {
+test("[STORY-52D] the real repository tooling corpus classifies documentation safely", () => {
   const realTooling = readToolingFiles();
   // README.md is only mentioned in prose, so it is documentation-only.
   assert.equal(classifyPath("README.md", realTooling).docsOnly, true);
@@ -142,7 +142,7 @@ test("the real repository tooling corpus classifies documentation safely", () =>
   assert.equal(classifyPath("docs/work-log.md", realTooling).docsOnly, true);
 });
 
-test("the workflow keeps every required context terminal for documentation-only changes", () => {
+test("[STORY-52D] the workflow keeps every required context terminal for documentation-only changes", () => {
   // The classifier runs in its own job and exposes a docs_only output.
   assert.match(workflow, /name: Classify change/);
   assert.match(workflow, /docs_only: \$\{\{ steps\.classify\.outputs\.docs_only \}\}/);
@@ -175,7 +175,7 @@ test("the workflow keeps every required context terminal for documentation-only 
   assert.match(workflow, /name: Promote tested dev\n\s+needs: tests/);
 });
 
-test("the workflow never skips an entire required workflow for documentation-only changes", () => {
+test("[STORY-52D] the workflow never skips an entire required workflow for documentation-only changes", () => {
   // A workflow-level paths-ignore would leave promotion waiting indefinitely.
   assert.doesNotMatch(workflow, /paths-ignore/);
   assert.doesNotMatch(workflow, /paths:/);
@@ -183,7 +183,7 @@ test("the workflow never skips an entire required workflow for documentation-onl
   assert.doesNotMatch(workflow, /name: All tests \(Docker\)[\s\S]{0,200}if: needs\.changes/);
 });
 
-test("collectToolingFiles tolerates an unreadable tooling file", () => {
+test("[STORY-52D] collectToolingFiles tolerates an unreadable tooling file", () => {
   const collected = collectToolingFiles(["missing.js", "present.js"], file => {
     if (file === "missing.js") throw new Error("ENOENT");
     return "const x = 1;";
@@ -191,7 +191,7 @@ test("collectToolingFiles tolerates an unreadable tooling file", () => {
   assert.deepEqual(collected, [{ file: "present.js", text: "const x = 1;" }]);
 });
 
-test("listToolingFiles skips absent globs and walks present directories", () => {
+test("[STORY-52D] listToolingFiles skips absent globs and walks present directories", () => {
   const dir = mkdtempSync(join(tmpdir(), "docs-only-list-"));
   try {
     // A cwd with none of the tooling globs yields no files (covers the statSync
@@ -211,19 +211,19 @@ test("listToolingFiles skips absent globs and walks present directories", () => 
   }
 });
 
-test("listToolingFiles excludes the classifier's own files", () => {
+test("[STORY-52D] listToolingFiles excludes the classifier's own files", () => {
   const files = listToolingFiles();
   assert.ok(!files.includes("scripts/docs-only.js"));
   assert.ok(!files.includes("test/docs-only.test.js"));
   assert.ok(files.includes("src/app/app.js"));
 });
 
-test("listFilesUnder returns no files for an unreadable directory", () => {
+test("[STORY-52D] listFilesUnder returns no files for an unreadable directory", () => {
   // A directory that cannot be read contributes no files rather than throwing.
   assert.deepEqual(listFilesUnder("/nonexistent-root", "missing-dir"), []);
 });
 
-test("listFilesUnder handles an empty relative prefix", () => {
+test("[STORY-52D] listFilesUnder handles an empty relative prefix", () => {
   const dir = mkdtempSync(join(tmpdir(), "docs-only-root-"));
   try {
     writeFileSync(join(dir, "top.js"), "top");
@@ -236,7 +236,7 @@ test("listFilesUnder handles an empty relative prefix", () => {
   }
 });
 
-test("changedPaths and classifyRepository read a real git diff", () => {
+test("[STORY-52D] changedPaths and classifyRepository read a real git diff", () => {
   const dir = mkdtempSync(join(tmpdir(), "docs-only-git-"));
   const git = (...args) => spawnSync("git", args, { cwd: dir, encoding: "utf8" });
   try {
@@ -272,7 +272,7 @@ test("changedPaths and classifyRepository read a real git diff", () => {
   }
 });
 
-test("the CLI writes the docs_only output and exits zero", () => {
+test("[STORY-52D] the CLI writes the docs_only output and exits zero", () => {
   const dir = mkdtempSync(join(tmpdir(), "docs-only-cli-"));
   const output = join(dir, "github-output");
   const git = (...args) => spawnSync("git", args, { cwd: dir, encoding: "utf8" });
@@ -301,7 +301,7 @@ test("the CLI writes the docs_only output and exits zero", () => {
   }
 });
 
-test("the CLI accepts base and head as arguments", () => {
+test("[STORY-52D] the CLI accepts base and head as arguments", () => {
   const dir = mkdtempSync(join(tmpdir(), "docs-only-argv-"));
   const git = (...args) => spawnSync("git", args, { cwd: dir, encoding: "utf8" });
   try {
@@ -327,7 +327,7 @@ test("the CLI accepts base and head as arguments", () => {
   }
 });
 
-test("the CLI fails safe when classification throws", () => {
+test("[STORY-52D] the CLI fails safe when classification throws", () => {
   // An invalid git range makes classifyRepository throw; the CLI must keep full
   // validation rather than skip it, and must still exit zero.
   const dir = mkdtempSync(join(tmpdir(), "docs-only-fail-"));

@@ -155,7 +155,7 @@ test('[SHOULD-11][STORY-25] overlay status distinguishes a valid empty feed from
  assert.equal(nodes.get('#roadOverlayStatus').className,'map-layer-status source-state-unavailable');
 });
 
-test('[SHOULD-11][STORY-25] overlay status discloses a SirenTO encoding repair even when the source is healthy',()=>{
+test('[SHOULD-11][STORY-25][STORY-53B] overlay status discloses a SirenTO encoding repair even when the source is healthy',()=>{
  const {nodes,map}=harness();
  const repaired={roads:{status:'ok',fetchedAt:new Date().toISOString(),items:[],repaired:2},transit:data.transit};
  renderDisruptions(repaired,null,10,map);
@@ -163,7 +163,7 @@ test('[SHOULD-11][STORY-25] overlay status discloses a SirenTO encoding repair e
  assert.equal(nodes.get('#roadOverlayStatus').className,'map-layer-status source-state-ok');
 });
 
-test('[SHOULD-11][STORY-25] the visible Road closures label discloses a SirenTO encoding repair and resets when clean',()=>{
+test('[SHOULD-11][STORY-25][STORY-53B] the visible Road closures label discloses a SirenTO encoding repair and resets when clean',()=>{
  const {nodes,map}=harness();
  const repaired={roads:{status:'ok',fetchedAt:new Date().toISOString(),items:[],repaired:2},transit:data.transit};
  renderDisruptions(repaired,null,10,map);

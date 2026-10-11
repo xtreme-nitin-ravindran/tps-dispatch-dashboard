@@ -70,7 +70,7 @@ test('[STORY-40][STORY-40A][STORY-40E] the focus control sits beside the stacked
   assert.match(mobileRules, /\.map-layer-toggle \{[^}]*top: var\(--police-control-bottom, 56px\);[^}]*right: 8px;[^}]*left: auto;/);
 });
 
-test('[STORY-40][STORY-40A][STORY-40E] the focus control anchors to the layer row\'s measured bottom edge, not a fixed offset', () => {
+test('[STORY-40][STORY-40A][STORY-40E][STORY-51X] the focus control anchors to the layer row\'s measured bottom edge, not a fixed offset', () => {
   // The offset is measured from the real rendered row so a taller (wrapped) row
   // on iOS Safari cannot place the control underneath Road closures.
   assert.match(app, /function syncMobileLayerRowOffset\(\) \{/);

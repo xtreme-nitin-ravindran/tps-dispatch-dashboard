@@ -23,24 +23,24 @@ function fakeClock(values) {
 
 // --- resolveTimingFormat ---------------------------------------------------
 
-test("resolveTimingFormat defaults to text", () => {
+test("[STORY-52E] resolveTimingFormat defaults to text", () => {
   assert.equal(resolveTimingFormat({}), "text");
   assert.equal(resolveTimingFormat({ [TIMING_FORMAT_ENV]: "" }), "text");
   assert.equal(resolveTimingFormat({ [TIMING_FORMAT_ENV]: "text" }), "text");
   assert.equal(resolveTimingFormat({ [TIMING_FORMAT_ENV]: "verbose" }), "text");
 });
 
-test("resolveTimingFormat selects json only for an explicit json value", () => {
+test("[STORY-52E] resolveTimingFormat selects json only for an explicit json value", () => {
   assert.equal(resolveTimingFormat({ [TIMING_FORMAT_ENV]: "json" }), "json");
   assert.equal(resolveTimingFormat({ [TIMING_FORMAT_ENV]: "JSON" }), "json");
   assert.equal(resolveTimingFormat({ [TIMING_FORMAT_ENV]: "  json  " }), "json");
 });
 
-test("resolveTimingFormat tolerates a missing environment", () => {
+test("[STORY-52E] resolveTimingFormat tolerates a missing environment", () => {
   assert.equal(resolveTimingFormat(undefined), "text");
 });
 
-test("resolveTimingFormat defaults to the process environment when called with no argument", () => {
+test("[STORY-52E] resolveTimingFormat defaults to the process environment when called with no argument", () => {
   // Exercises the default-parameter branch (globalThis.process?.env || {}).
   const previous = process.env[TIMING_FORMAT_ENV];
   try {
@@ -54,7 +54,7 @@ test("resolveTimingFormat defaults to the process environment when called with n
   }
 });
 
-test("resolveTimingFormat falls back to an empty environment when process is absent", () => {
+test("[STORY-52E] resolveTimingFormat falls back to an empty environment when process is absent", () => {
   // Exercises the `|| {}` fallback branch: no process, so no env to read.
   const previous = globalThis.process;
   try {
@@ -67,14 +67,14 @@ test("resolveTimingFormat falls back to an empty environment when process is abs
 
 // --- time() ----------------------------------------------------------------
 
-test("time records a span with the elapsed duration", async () => {
+test("[STORY-52E] time records a span with the elapsed duration", async () => {
   const timing = createBrowserTiming({ now: fakeClock([100, 250]) });
   const result = await timing.time("server-ready", async () => "ok");
   assert.equal(result, "ok");
   assert.deepEqual(timing.entries(), [{ name: "server-ready", durationMs: 150, failed: false }]);
 });
 
-test("time records a failed span and rethrows the original error", async () => {
+test("[STORY-52E] time records a failed span and rethrows the original error", async () => {
   const timing = createBrowserTiming({ now: fakeClock([0, 40]) });
   const boom = new Error("did not become ready");
   await assert.rejects(
@@ -84,14 +84,14 @@ test("time records a failed span and rethrows the original error", async () => {
   assert.deepEqual(timing.entries(), [{ name: "fixture-ready", durationMs: 40, failed: true }]);
 });
 
-test("time records a span for a synchronous return value", async () => {
+test("[STORY-52E] time records a span for a synchronous return value", async () => {
   const timing = createBrowserTiming({ now: fakeClock([5, 5]) });
   const result = await timing.time("noop", () => 42);
   assert.equal(result, 42);
   assert.deepEqual(timing.entries(), [{ name: "noop", durationMs: 0, failed: false }]);
 });
 
-test("time records spans in completion order", async () => {
+test("[STORY-52E] time records spans in completion order", async () => {
   const timing = createBrowserTiming({ now: fakeClock([0, 10, 10, 30]) });
   await timing.time("first", async () => { });
   await timing.time("second", async () => { });
@@ -100,7 +100,7 @@ test("time records spans in completion order", async () => {
 
 // --- start() / end() -------------------------------------------------------
 
-test("start and end record a manual span", () => {
+test("[STORY-52E] start and end record a manual span", () => {
   const timing = createBrowserTiming({ now: fakeClock([1000, 1250]) });
   const startedAt = timing.start("chromium-launch");
   assert.equal(startedAt, 1000);
@@ -109,27 +109,27 @@ test("start and end record a manual span", () => {
   assert.deepEqual(timing.entries(), [span]);
 });
 
-test("end marks a manual span as failed", () => {
+test("[STORY-52E] end marks a manual span as failed", () => {
   const timing = createBrowserTiming({ now: fakeClock([0, 5]) });
   timing.start("page-goto");
   const span = timing.end("page-goto", { failed: true });
   assert.equal(span.failed, true);
 });
 
-test("end ignores a span that was never started", () => {
+test("[STORY-52E] end ignores a span that was never started", () => {
   const timing = createBrowserTiming({ now: fakeClock([0]) });
   assert.equal(timing.end("missing"), null);
   assert.deepEqual(timing.entries(), []);
 });
 
-test("end defaults to a non-failed span when no options are given", () => {
+test("[STORY-52E] end defaults to a non-failed span when no options are given", () => {
   const timing = createBrowserTiming({ now: fakeClock([0, 5]) });
   timing.start("a");
   const span = timing.end("a");
   assert.equal(span.failed, false);
 });
 
-test("createBrowserTiming defaults to a real clock when none is injected", async () => {
+test("[STORY-52E] createBrowserTiming defaults to a real clock when none is injected", async () => {
   // Exercises the default `now` and default-options branches.
   const timing = createBrowserTiming();
   await timing.time("a", async () => { });
@@ -140,7 +140,7 @@ test("createBrowserTiming defaults to a real clock when none is injected", async
 
 // --- summary() -------------------------------------------------------------
 
-test("summary reports ordered spans, total duration, and failed count", async () => {
+test("[STORY-52E] summary reports ordered spans, total duration, and failed count", async () => {
   const timing = createBrowserTiming({ now: fakeClock([0, 100, 100, 150, 150, 200]) });
   await timing.time("a", async () => { });
   await timing.time("b", async () => { });
@@ -151,12 +151,12 @@ test("summary reports ordered spans, total duration, and failed count", async ()
   assert.equal(summary.failed, 1);
 });
 
-test("summary of an empty recorder is empty and zeroed", () => {
+test("[STORY-52E] summary of an empty recorder is empty and zeroed", () => {
   const timing = createBrowserTiming();
   assert.deepEqual(timing.summary(), { spans: [], totalMs: 0, failed: 0 });
 });
 
-test("entries returns a copy that cannot mutate the recorder", async () => {
+test("[STORY-52E] entries returns a copy that cannot mutate the recorder", async () => {
   const timing = createBrowserTiming({ now: fakeClock([0, 10]) });
   await timing.time("a", async () => { });
   const copy = timing.entries();
@@ -166,7 +166,7 @@ test("entries returns a copy that cannot mutate the recorder", async () => {
 
 // --- format() --------------------------------------------------------------
 
-test("format renders a human-readable block by default", async () => {
+test("[STORY-52E] format renders a human-readable block by default", async () => {
   const timing = createBrowserTiming({ now: fakeClock([0, 150, 150, 190]) });
   await timing.time("server-ready", async () => { });
   await assert.rejects(() => timing.time("fixture-ready", async () => { throw new Error("x"); }));
@@ -176,7 +176,7 @@ test("format renders a human-readable block by default", async () => {
   assert.match(text, /fixture-ready: 40ms \(failed\)/);
 });
 
-test("format renders a single JSON line when requested", async () => {
+test("[STORY-52E] format renders a single JSON line when requested", async () => {
   const timing = createBrowserTiming({ now: fakeClock([0, 25]) });
   await timing.time("page-goto", async () => { });
   const line = timing.format({ format: "json", label: "suite" });
@@ -188,20 +188,20 @@ test("format renders a single JSON line when requested", async () => {
   assert.deepEqual(parsed.spans, [{ name: "page-goto", durationMs: 25, failed: false }]);
 });
 
-test("format omits the label prefix when none is given", async () => {
+test("[STORY-52E] format omits the label prefix when none is given", async () => {
   const timing = createBrowserTiming({ now: fakeClock([0, 5]) });
   await timing.time("a", async () => { });
   assert.match(timing.format(), /^timing: 1 span\(s\), total 5ms/);
 });
 
-test("format defaults the label when only the format is given", async () => {
+test("[STORY-52E] format defaults the label when only the format is given", async () => {
   const timing = createBrowserTiming({ now: fakeClock([0, 5]) });
   await timing.time("a", async () => { });
   const parsed = JSON.parse(timing.format({ format: "json" }));
   assert.equal(parsed.label, "");
 });
 
-test("format defaults the format when only the label is given", async () => {
+test("[STORY-52E] format defaults the format when only the label is given", async () => {
   const timing = createBrowserTiming({ now: fakeClock([0, 5]) });
   await timing.time("a", async () => { });
   assert.match(timing.format({ label: "suite" }), /^suite timing: 1 span\(s\), total 5ms/);

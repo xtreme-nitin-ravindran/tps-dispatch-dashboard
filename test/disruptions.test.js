@@ -116,7 +116,7 @@ test('sources refresh independently, cache five minutes, and preserve successful
  assert.deepEqual(transit.items,[]);
 });
 
-test('transit refresh logs bounded rejection diagnostics and preserves unavailable retention',async()=>{
+test('[STORY-53A] transit refresh logs bounded rejection diagnostics and preserves unavailable retention',async()=>{
  const header=proto.split('entity')[0];
  const malformed=header+'entity { id: "77559" alert { effect: NO_SERVICE } } entity { id: "ok" alert { header_text {translation {text:"Valid sibling"}} } }';
  const logs=[];
@@ -158,7 +158,7 @@ test('textproto rejects malformed fields, values, separators and excessive nesti
  assert.deepEqual({...parseTextProto('# comment\nvalue: -1.5')},{value:[-1.5],entity:[]});
 });
 
-test('TTC validates headers and rejects malformed feed-level input',()=>{
+test('[STORY-53A] TTC validates headers and rejects malformed feed-level input',()=>{
  const header=proto.split('entity')[0];
  for(const text of ['',header.replace(String(now/1000),String(now/1000+301))]) assert.throws(()=>normalizeTransit(text,now));
  assert.deepEqual(normalizeTransit(header+'entity {id:"gone" is_deleted:true alert {}} entity {id:"no-alert"}',now).items,[]);
@@ -169,7 +169,7 @@ test('TTC validates headers and rejects malformed feed-level input',()=>{
  assert.deepEqual(normalizeTransit(header,now).items,[]);
 });
 
-test('TTC skips spec-violating entities with bounded reasons and retains valid siblings',()=>{
+test('[STORY-53A] TTC skips spec-violating entities with bounded reasons and retains valid siblings',()=>{
  const header=proto.split('entity')[0];
  // GTFS-Realtime marks header_text Required; a missing title is skipped, never synthesized.
  const missingTitle=normalizeTransit(header+'entity { id: "77559" alert { effect: NO_SERVICE informed_entity {route_id:"2"} } }',now);
@@ -404,7 +404,7 @@ test('disruption renderer updates lists and optional map layers',()=>{
  }
 });
 
-test('illegal JSON escapes are repaired only where needed and source text is preserved verbatim',()=>{
+test('[STORY-53B] illegal JSON escapes are repaired only where needed and source text is preserved verbatim',()=>{
  // A raw backslash-space is not a legal JSON escape; the frozen live case.
  const frozen='{"Closure":[{"id":"r","name":"Road A","description":"Toronto-TMC: Water \\ Sewer"}]}';
  assert.throws(()=>JSON.parse(frozen));
@@ -427,7 +427,7 @@ test('illegal JSON escapes are repaired only where needed and source text is pre
  assert.equal(repairIllegalJsonEscapes(null).repaired,0);
 });
 
-test('a malformed record among valid siblings loads with a bounded repair count',async()=>{
+test('[STORY-53B] a malformed record among valid siblings loads with a bounded repair count',async()=>{
  const body='{"Closure":[{"id":"ok","name":"Road A","latitude":"43.7","longitude":"-79.4"},{"id":"bad","name":"Road B","description":"Water \\ Sewer","latitude":"43.8","longitude":"-79.5"}]}';
  const result=await fetchDisruptionSource('roads',async()=>({ok:true,text:async()=>body}),now);
  assert.equal(result.repaired,1);
@@ -435,14 +435,14 @@ test('a malformed record among valid siblings loads with a bounded repair count'
  assert.equal(result.items[1].description,'Water \\ Sewer');
 });
 
-test('a zero-repair payload reports no repair signal',async()=>{
+test('[STORY-53B] a zero-repair payload reports no repair signal',async()=>{
  const body=JSON.stringify({Closure:[{id:'ok',name:'Road A',latitude:'43.7',longitude:'-79.4'}]});
  const result=await fetchDisruptionSource('roads',async()=>({ok:true,text:async()=>body}),now);
  assert.equal(result.repaired,0);
  assert.deepEqual(result.items.map(item=>item.id),['ok']);
 });
 
-test('a fully unparseable feed stays unavailable and retains the previous snapshot',async()=>{
+test('[STORY-53B] a fully unparseable feed stays unavailable and retains the previous snapshot',async()=>{
  const previous={roads:{items:[{id:'kept'}],sourceUpdatedAt:null,fetchedAt:new Date(now).toISOString(),checkedAt:new Date(now).toISOString(),status:'ok'}};
  const logs=[];
  const updated=await updateDisruptions(previous,new Date(now+300000),async(kind)=>kind==='roads'
@@ -453,7 +453,7 @@ test('a fully unparseable feed stays unavailable and retains the previous snapsh
  assert.deepEqual(logs,[]);
 });
 
-test('a repaired roads refresh logs a bounded repair diagnostic',async()=>{
+test('[STORY-53B] a repaired roads refresh logs a bounded repair diagnostic',async()=>{
  const logs=[];
  const body='{"Closure":[{"id":"ok","name":"Road A","description":"Water \\ Sewer","latitude":"43.7","longitude":"-79.4"}]}';
  const updated=await updateDisruptions({},new Date(now),async(kind)=>kind==='roads'
@@ -464,7 +464,7 @@ test('a repaired roads refresh logs a bounded repair diagnostic',async()=>{
  assert.deepEqual(logs,[{source:'toronto-roads',status:'ok',count:1,repaired:1}]);
 });
 
-test('the disruptions freshness line and map-layer status disclose a SirenTO repair',()=>{
+test('[STORY-53B] the disruptions freshness line and map-layer status disclose a SirenTO repair',()=>{
  const repairedFeed={items:[road],fetchedAt:new Date(now).toISOString(),status:'ok',repaired:2};
  const presentation=disruptionPresentation('roads',repairedFeed,[road],[road],false,now);
  assert.match(presentation.freshness,/source JSON was malformed; SirenTO repaired the encoding \(2 records\)\./);
