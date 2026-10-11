@@ -35,7 +35,7 @@ test('[STORY-37F] mobile disclosure stays in document flow and desktop layouts r
   assert.match(app, /function syncMobileFilterIndicator\(\)[\s\S]*?activeSecondaryFilterCount\(state\)/);
 });
 
-test('[STORY-37F] mobile hides the redundant Police division and History labels while desktop keeps them', () => {
+test('[STORY-37F][STORY-37L] mobile hides the redundant Police division and History labels while desktop keeps them', () => {
   const mobileStart = css.indexOf('@media (max-width: 680px)');
   const mobileRules = css.slice(mobileStart);
   assert.match(mobileRules, /\.control-group\.secondary-filter-control \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\);/);
