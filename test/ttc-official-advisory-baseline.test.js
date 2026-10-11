@@ -30,7 +30,7 @@ import { validateDiversionOutput } from '../src/ttc/diversion-inference.js';
 
 const snapshot = baselineSnapshot();
 
-test('official Service Change for route 94 is active and visible in disruptions.transit', () => {
+test('[STORY-51A] official Service Change for route 94 is active and visible in disruptions.transit', () => {
   const items = currentDisruptions(snapshot.disruptions.transit, 'transit', BASELINE_EPOCH);
   assert.equal(items.length, 1);
   const [item] = items;
@@ -46,7 +46,7 @@ test('official Service Change for route 94 is active and visible in disruptions.
   assert.match(item.description, /eastbound/i);
 });
 
-test('official advisory text is preserved verbatim and never converted into geometry', () => {
+test('[STORY-51A] official advisory text is preserved verbatim and never converted into geometry', () => {
   const [item] = currentDisruptions(snapshot.disruptions.transit, 'transit', BASELINE_EPOCH);
   // The official text remains TTC-provided and unmodified.
   assert.equal(item.title, '94 Wellesley – Temporary route change due to Wellesley Street project');
@@ -60,7 +60,7 @@ test('official advisory text is preserved verbatim and never converted into geom
   assert.equal(item.affectedEntities[0].directionId, undefined);
 });
 
-test('route-only official geography cannot be resolved to a nearby match', () => {
+test('[STORY-51A] route-only official geography cannot be resolved to a nearby match', () => {
   const [item] = currentDisruptions(snapshot.disruptions.transit, 'transit', BASELINE_EPOCH);
   // No structured coordinates means the advisory cannot be classified as nearby.
   const match = transitGeographicMatch(item, [43.665, -79.38], 1);
@@ -70,7 +70,7 @@ test('route-only official geography cannot be resolved to a nearby match', () =>
   assert.equal(match.matchedEntity, null);
 });
 
-test('Story 30 GTFS-RT alert set is healthy but empty and distinct from unavailable', () => {
+test('[STORY-51A] Story 30 GTFS-RT alert set is healthy but empty and distinct from unavailable', () => {
   assert.equal(snapshot.ttcAlerts.status, 'ok');
   assert.deepEqual(snapshot.ttcAlerts.items, []);
   // A successful empty feed is not the same as an unavailable source.
@@ -80,7 +80,7 @@ test('Story 30 GTFS-RT alert set is healthy but empty and distinct from unavaila
   assert.notEqual(snapshot.ttcAlerts.status, unavailable.status);
 });
 
-test('confirmed direction-specific observed geometry exists for route 94 eastbound', () => {
+test('[STORY-51A] confirmed direction-specific observed geometry exists for route 94 eastbound', () => {
   const { output, public: published } = snapshot.observed;
   assert.equal(output.diversions.length, 1);
   const [diversion] = output.diversions;
@@ -98,12 +98,12 @@ test('confirmed direction-specific observed geometry exists for route 94 eastbou
   assert.doesNotMatch(JSON.stringify(published), /vehicleId|episodeIds|rawEvidence|confidence|identityAnchor/);
 });
 
-test('public geometry artifact validates against the Story 30 output contract', () => {
+test('[STORY-51A] public geometry artifact validates against the Story 30 output contract', () => {
   // The published artifact is a valid diversion output for the baseline index.
   assert.doesNotThrow(() => validateDiversionOutput(snapshot.observed.output, snapshot.index));
 });
 
-test('an unassociated observed path is independent of the official Service Change', () => {
+test('[STORY-51A] an unassociated observed path is independent of the official Service Change', () => {
   // Confirmed geometry renders separately; no official relationship is invented.
   const model = ttcPresentation(snapshot.ttcAlerts, snapshot.ttcDiversions, BASELINE_EPOCH);
   assert.equal(model.items.length, 1);
@@ -113,7 +113,7 @@ test('an unassociated observed path is independent of the official Service Chang
   assert.equal(model.items.some(item => item.id === '102'), false);
 });
 
-test('an unrelated GTFS-RT alert never adopts the independently rendered observed path', () => {
+test('[STORY-51A] an unrelated GTFS-RT alert never adopts the independently rendered observed path', () => {
   // A GTFS-RT alert for a different route/id must not adopt the route 94 path.
   const unrelated = {
     ...emptyGtfsAlerts(),
@@ -138,7 +138,7 @@ test('an unrelated GTFS-RT alert never adopts the independently rendered observe
   assert.equal(independent.diversions.length, 1);
 });
 
-test('the observed path attaches only when relatedAlertIds names the GTFS-RT alert', () => {
+test('[STORY-51A] the observed path attaches only when relatedAlertIds names the GTFS-RT alert', () => {
   // This documents the current attachment contract: geometry is keyed by the
   // GTFS-RT alert id, not by the official Service Change id.
   const alert = {
@@ -166,7 +166,7 @@ test('the observed path attaches only when relatedAlertIds names the GTFS-RT ale
   assert.equal(model.items[0].id, 'gtfs-detour');
 });
 
-test('baseline fixture is deterministic across repeated construction', () => {
+test('[STORY-51A] baseline fixture is deterministic across repeated construction', () => {
   const a = baselineSnapshot();
   const b = baselineSnapshot();
   assert.deepEqual(a.disruptions, b.disruptions);
@@ -175,7 +175,7 @@ test('baseline fixture is deterministic across repeated construction', () => {
   assert.equal(a.observed.output.diversions[0].id, b.observed.output.diversions[0].id);
 });
 
-test('baseline static index exposes both route 94 directions with distinct patterns', () => {
+test('[STORY-51A] baseline static index exposes both route 94 directions with distinct patterns', () => {
   const index = baselineStaticIndex();
   const patterns = [...index.patterns.values()].filter(p => p.routeId === '94');
   assert.equal(patterns.length, 2);
@@ -183,7 +183,7 @@ test('baseline static index exposes both route 94 directions with distinct patte
   assert.equal(new Set(patterns.map(p => p.patternId)).size, 2);
 });
 
-test('observed diversion is reproducible from the fixture pipeline alone', () => {
+test('[STORY-51A] observed diversion is reproducible from the fixture pipeline alone', () => {
   const direct = observedEastboundDiversion();
   assert.equal(direct.output.diversions.length, 1);
   assert.equal(direct.output.diversions[0].status, 'confirmed');
@@ -191,7 +191,7 @@ test('observed diversion is reproducible from the fixture pipeline alone', () =>
   assert.deepEqual(direct.public.diversions[0].relatedAlertIds, []);
 });
 
-test('official feed and empty GTFS-RT feed are independent sources with distinct status', () => {
+test('[STORY-51A] official feed and empty GTFS-RT feed are independent sources with distinct status', () => {
   const official = officialServiceChangeFeed();
   const gtfs = emptyGtfsAlerts();
   assert.equal(official.status, 'ok');

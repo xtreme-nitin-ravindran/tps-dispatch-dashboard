@@ -17,7 +17,7 @@ import {
 
 // --- normalizeRect ---------------------------------------------------------
 
-test("normalizeRect converts a DOMRect-like box into edge coordinates", () => {
+test("[STORY-49] normalizeRect converts a DOMRect-like box into edge coordinates", () => {
   assert.deepEqual(normalizeRect({ x: 10, y: 20, width: 30, height: 40 }), {
     left: 10,
     top: 20,
@@ -28,40 +28,40 @@ test("normalizeRect converts a DOMRect-like box into edge coordinates", () => {
   });
 });
 
-test("normalizeRect returns null for a missing box", () => {
+test("[STORY-49] normalizeRect returns null for a missing box", () => {
   assert.equal(normalizeRect(null), null);
   assert.equal(normalizeRect(undefined), null);
 });
 
 // --- intersects ------------------------------------------------------------
 
-test("touching edges do not intersect", () => {
+test("[STORY-49] touching edges do not intersect", () => {
   const a = { left: 0, top: 0, right: 10, bottom: 10 };
   const b = { left: 10, top: 0, right: 20, bottom: 10 };
   assert.equal(intersects(a, b), false);
   assert.equal(intersects(b, a), false);
 });
 
-test("actual intersections are detected", () => {
+test("[STORY-49] actual intersections are detected", () => {
   const a = { left: 0, top: 0, right: 10, bottom: 10 };
   const b = { left: 5, top: 5, right: 15, bottom: 15 };
   assert.equal(intersects(a, b), true);
   assert.equal(intersects(b, a), true);
 });
 
-test("a fully contained rectangle intersects", () => {
+test("[STORY-49] a fully contained rectangle intersects", () => {
   const outer = { left: 0, top: 0, right: 100, bottom: 100 };
   const inner = { left: 10, top: 10, right: 20, bottom: 20 };
   assert.equal(intersects(outer, inner), true);
 });
 
-test("separated rectangles do not intersect", () => {
+test("[STORY-49] separated rectangles do not intersect", () => {
   const a = { left: 0, top: 0, right: 10, bottom: 10 };
   const b = { left: 20, top: 20, right: 30, bottom: 30 };
   assert.equal(intersects(a, b), false);
 });
 
-test("clearance tolerance requires a real gap", () => {
+test("[STORY-49] clearance tolerance requires a real gap", () => {
   const a = { left: 0, top: 0, right: 10, bottom: 10 };
   // b starts 4px to the right of a's right edge.
   const b = { left: 14, top: 0, right: 24, bottom: 10 };
@@ -75,7 +75,7 @@ test("clearance tolerance requires a real gap", () => {
   assert.equal(intersects(a, b, 3), false);
 });
 
-test("touching edges count as overlapping once a clearance is required", () => {
+test("[STORY-49] touching edges count as overlapping once a clearance is required", () => {
   const a = { left: 0, top: 0, right: 10, bottom: 10 };
   const b = { left: 10, top: 0, right: 20, bottom: 10 };
   assert.equal(intersects(a, b), false);
@@ -104,7 +104,7 @@ function withStubDocument(elements, fn) {
   }
 }
 
-test("readChromeRects reads present elements and reports missing required ones", () => {
+test("[STORY-49] readChromeRects reads present elements and reports missing required ones", () => {
   const elements = {
     '#a': { getBoundingClientRect: () => ({ x: 1, y: 2, width: 3, height: 4 }) }
   };
@@ -116,7 +116,7 @@ test("readChromeRects reads present elements and reports missing required ones",
   assert.deepEqual(out.b, { missing: true, selector: '#b' });
 });
 
-test("readChromeRects reports a missing optional element as null", () => {
+test("[STORY-49] readChromeRects reports a missing optional element as null", () => {
   const out = withStubDocument({}, () => readChromeRects({
     b: { selector: '#b', optional: true }
   }));
@@ -142,13 +142,13 @@ function stubPage(rects) {
   };
 }
 
-test("measureChrome normalizes present rectangles", async () => {
+test("[STORY-49] measureChrome normalizes present rectangles", async () => {
   const page = stubPage({ '#a': { x: 1, y: 2, width: 3, height: 4 } });
   const state = await measureChrome(page, { a: '#a' });
   assert.deepEqual(state.a, { left: 1, top: 2, right: 4, bottom: 6, width: 3, height: 4 });
 });
 
-test("measureChrome fails clearly for a missing required element", async () => {
+test("[STORY-49] measureChrome fails clearly for a missing required element", async () => {
   const page = stubPage({});
   await assert.rejects(
     () => measureChrome(page, { a: '#a' }),
@@ -156,7 +156,7 @@ test("measureChrome fails clearly for a missing required element", async () => {
   );
 });
 
-test("measureChrome handles a missing optional element intentionally", async () => {
+test("[STORY-49] measureChrome handles a missing optional element intentionally", async () => {
   const page = stubPage({ '#a': { x: 0, y: 0, width: 1, height: 1 } });
   const state = await measureChrome(page, { a: '#a', b: { selector: '#b', optional: true } });
   assert.deepEqual(state.a, { left: 0, top: 0, right: 1, bottom: 1, width: 1, height: 1 });
@@ -165,7 +165,7 @@ test("measureChrome handles a missing optional element intentionally", async () 
 
 // --- assertNoOverlap -------------------------------------------------------
 
-test("assertNoOverlap passes for non-overlapping pairs", () => {
+test("[STORY-49] assertNoOverlap passes for non-overlapping pairs", () => {
   const state = {
     a: { left: 0, top: 0, right: 10, bottom: 10 },
     b: { left: 20, top: 0, right: 30, bottom: 10 }
@@ -173,7 +173,7 @@ test("assertNoOverlap passes for non-overlapping pairs", () => {
   assert.doesNotThrow(() => assertNoOverlap(state, [['a', 'b']], '390x844 normal'));
 });
 
-test("assertNoOverlap fails for overlapping pairs with a useful message", () => {
+test("[STORY-49] assertNoOverlap fails for overlapping pairs with a useful message", () => {
   const state = {
     a: { left: 0, top: 0, right: 10, bottom: 10 },
     b: { left: 5, top: 5, right: 15, bottom: 15 }
@@ -184,7 +184,7 @@ test("assertNoOverlap fails for overlapping pairs with a useful message", () => 
   );
 });
 
-test("assertNoOverlap skips pairs with a missing optional element", () => {
+test("[STORY-49] assertNoOverlap skips pairs with a missing optional element", () => {
   const state = {
     a: { left: 0, top: 0, right: 10, bottom: 10 },
     b: null
@@ -192,7 +192,7 @@ test("assertNoOverlap skips pairs with a missing optional element", () => {
   assert.doesNotThrow(() => assertNoOverlap(state, [['a', 'b']], 'label'));
 });
 
-test("assertNoOverlap respects a clearance tolerance", () => {
+test("[STORY-49] assertNoOverlap respects a clearance tolerance", () => {
   const state = {
     a: { left: 0, top: 0, right: 10, bottom: 10 },
     b: { left: 14, top: 0, right: 24, bottom: 10 }
@@ -207,12 +207,12 @@ test("assertNoOverlap respects a clearance tolerance", () => {
 
 // --- assertInViewport ------------------------------------------------------
 
-test("assertInViewport passes for a rectangle inside the viewport", () => {
+test("[STORY-49] assertInViewport passes for a rectangle inside the viewport", () => {
   const rect = { left: 0, top: 0, right: 100, bottom: 100 };
   assert.doesNotThrow(() => assertInViewport(rect, { width: 200, height: 200 }, 'label'));
 });
 
-test("assertInViewport reports right-edge overflow", () => {
+test("[STORY-49] assertInViewport reports right-edge overflow", () => {
   const rect = { left: 0, top: 0, right: 250, bottom: 100 };
   assert.throws(
     () => assertInViewport(rect, { width: 200, height: 200 }, 'label'),
@@ -220,7 +220,7 @@ test("assertInViewport reports right-edge overflow", () => {
   );
 });
 
-test("assertInViewport reports bottom-edge overflow", () => {
+test("[STORY-49] assertInViewport reports bottom-edge overflow", () => {
   const rect = { left: 0, top: 0, right: 100, bottom: 250 };
   assert.throws(
     () => assertInViewport(rect, { width: 200, height: 200 }, 'label'),
@@ -228,7 +228,7 @@ test("assertInViewport reports bottom-edge overflow", () => {
   );
 });
 
-test("assertInViewport reports a rectangle starting outside the viewport", () => {
+test("[STORY-49] assertInViewport reports a rectangle starting outside the viewport", () => {
   const rect = { left: -10, top: -10, right: 100, bottom: 100 };
   assert.throws(
     () => assertInViewport(rect, { width: 200, height: 200 }, 'label'),
@@ -236,7 +236,7 @@ test("assertInViewport reports a rectangle starting outside the viewport", () =>
   );
 });
 
-test("assertInViewport fails clearly for a missing rectangle", () => {
+test("[STORY-49] assertInViewport fails clearly for a missing rectangle", () => {
   assert.throws(
     () => assertInViewport(null, { width: 200, height: 200 }, 'label'),
     /label: rectangle is not rendered/
@@ -245,18 +245,18 @@ test("assertInViewport fails clearly for a missing rectangle", () => {
 
 // --- assertNoHorizontalOverflow --------------------------------------------
 
-test("assertNoHorizontalOverflow passes when the document fits", () => {
+test("[STORY-49] assertNoHorizontalOverflow passes when the document fits", () => {
   assert.doesNotThrow(() => assertNoHorizontalOverflow({ docScrollWidth: 390, docClientWidth: 390 }, 'label'));
 });
 
-test("assertNoHorizontalOverflow reports horizontal document overflow", () => {
+test("[STORY-49] assertNoHorizontalOverflow reports horizontal document overflow", () => {
   assert.throws(
     () => assertNoHorizontalOverflow({ docScrollWidth: 420, docClientWidth: 390 }, 'label'),
     /label: horizontal overflow \(420 > 390\)/
   );
 });
 
-test("assertNoHorizontalOverflow respects a tolerance", () => {
+test("[STORY-49] assertNoHorizontalOverflow respects a tolerance", () => {
   assert.doesNotThrow(() => assertNoHorizontalOverflow({ docScrollWidth: 391, docClientWidth: 390 }, 'label'));
   assert.throws(
     () => assertNoHorizontalOverflow({ docScrollWidth: 395, docClientWidth: 390 }, 'label', 1),

@@ -267,7 +267,7 @@ test('[STORY-30D][STORY-30G] Story 51E: bounded continuity counters explain trac
   assert.equal(expired.report.graceExpired,1);assert.equal(expired.report.graceRefusedStale,0);assert.equal(expired.state.tracks.length,0);
 });
 
-test('[STORY-30D][STORY-30G] diversion summary reports publishable, candidate and empty states and tolerates missing evidence',()=>{
+test('[STORY-30D][STORY-30G][STORY-51C] diversion summary reports publishable, candidate and empty states and tolerates missing evidence',()=>{
   // Confirmed evidence is publishable and names the affected routes.
   const confirmed=diversionSummary({status:'ok',records:[{routeId:'506',status:'confirmed',confidence:{advisorySupported:true}},{routeId:'501',status:'confirmed',confidence:{advisorySupported:false}}]});
   assert.equal(confirmed.publishable,true);assert.equal(confirmed.confirmed,2);assert.deepEqual(confirmed.routes,['501','506']);
