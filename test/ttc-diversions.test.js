@@ -30,7 +30,7 @@ function fromEpisodes(episodes,seconds=180,records=[]) {
   return inferDiversions({schemaVersion:1,staticVersion:index.version,status:'ok',checkedAt:at(seconds).toISOString(),episodes,records},empty(seconds),index,at(seconds));
 }
 const only=r=>{assert.equal(r.output.diversions.length,1);return r.output.diversions[0];};
-test('Story 51E: bounded episode lifecycle counters explain inference continuity',()=>{
+test('[STORY-30E] Story 51E: bounded episode lifecycle counters explain inference continuity',()=>{
   // The first cycle has no evidence yet; the second creates episodes; later cycles load them.
   const r=run();
   assert.equal(r.cycles[0].report.episodesLoaded,0);assert.equal(r.cycles[0].report.episodesCreated,0);assert.equal(r.cycles[0].report.episodesRetained,0);
@@ -49,11 +49,11 @@ test('Story 51E: bounded episode lifecycle counters explain inference continuity
   assert.equal(orphaned.report.episodesClosed,2);assert.equal(orphaned.report.episodesRetained,2);
 });
 
-test('one vehicle and repeated polling of one episode never confirm',()=>{
+test('[STORY-30E] one vehicle and repeated polling of one episode never confirm',()=>{
   const r=run({paths:[path]});assert.equal(only(r).status,'candidate');assert.equal(only(r).evidence.trajectoryCount,1);
   const repeated=inferDiversions(r.state,r.vehicles,index,at(180));assert.equal(only(repeated).evidence.trajectoryCount,1);assert.equal(only(repeated).id,only(r).id);
 });
-test('Story 51C: an active route-compatible advisory is associated without changing confirmation',()=>{
+test('[STORY-30E] Story 51C: an active route-compatible advisory is associated without changing confirmation',()=>{
   const advisories={schemaVersion:1,source:'ttc-service-change',status:'ok',checkedAt:at(0).toISOString(),sourceUpdatedAt:null,fetchedAt:null,
     advisories:[{ref:'ttc-service-change:0504',source:'ttc-service-change',sourceId:'0504',title:'504 detour',effect:'DETOUR',url:null,routeIds:['0504'],activePeriods:[]}]};
   const r=run({advisories}),d=only(r);
@@ -63,19 +63,19 @@ test('Story 51C: an active route-compatible advisory is associated without chang
   // Without the advisory context the same evidence produces no association.
   assert.deepEqual(only(run()).relatedAdvisoryRefs,[]);
 });
-test('Story 51C: an unrelated-route advisory is never associated with the observed path',()=>{
+test('[STORY-30E] Story 51C: an unrelated-route advisory is never associated with the observed path',()=>{
   const advisories={schemaVersion:1,source:'ttc-service-change',status:'ok',checkedAt:at(0).toISOString(),sourceUpdatedAt:null,fetchedAt:null,
     advisories:[{ref:'ttc-service-change:501',source:'ttc-service-change',sourceId:'501',title:'501 detour',effect:'DETOUR',url:null,routeIds:['501'],activePeriods:[]}]};
   assert.deepEqual(only(run({advisories})).relatedAdvisoryRefs,[]);
 });
-test('two independent complete vehicles confirm a path and preserve raw/projection evidence',()=>{
+test('[STORY-30E] two independent complete vehicles confirm a path and preserve raw/projection evidence',()=>{
   const r=run(),d=only(r);assert.equal(d.status,'confirmed');assert.equal(d.evidence.vehicleCount,2);assert.equal(d.geometrySource,'sirento-observed');
   assert.equal(d.departure.method,'on-route-projection');assert.ok(Math.abs(d.departure.point[0]+79.404)<.00001);assert.equal(d.departure.point[1],43.65);
   assert.ok(Math.abs(d.rejoin.point[0]+79.398)<.00001);assert.equal(d.departure.rawEvidence.length,2);
   assert.ok(d.geometry.some(p=>p[1]>43.6519));assert.ok(d.scheduledAffectedSegment.geometry.every(p=>p[1]===43.65));
   assert.equal(d.episodeIds,undefined);assert.equal(d.identityAnchor,undefined);
 });
-test('a single transient ambiguous observation does not demote a confirmed diversion',()=>{
+test('[STORY-30E] a single transient ambiguous observation does not demote a confirmed diversion',()=>{
   // Regression: deleting the track on one unmatched/ambiguous observation discarded a
   // confirmed deviation's history and anchor, so a single transient gap demoted a
   // confirmed diversion to candidate. The confirmed path must survive the gap.
@@ -100,61 +100,61 @@ test('a single transient ambiguous observation does not demote a confirmed diver
   assert.equal(interrupted.evidence.completedVehicleCount,2);
   assert.equal(interrupted.id,clean.id);
 });
-test('same vehicle separate completed episodes count independently; two are insufficient',()=>{
+test('[STORY-30E] same vehicle separate completed episodes count independently; two are insufficient',()=>{
   let r=run({paths:[path]});
   r=run({paths:[path],start:210,previous:r.state,detector:r.vehicles});assert.equal(only(r).status,'candidate');assert.equal(only(r).evidence.trajectoryCount,2);
   r=run({paths:[path],start:420,previous:r.state,detector:r.vehicles});assert.equal(only(r).status,'confirmed');assert.equal(only(r).evidence.vehicleCount,1);assert.equal(only(r).evidence.trajectoryCount,3);
 });
-test('incomplete repeated paths are likely with no rejoin and retain stable identity on completion',()=>{
+test('[STORY-30E] incomplete repeated paths are likely with no rejoin and retain stable identity on completion',()=>{
   const r=run();const partial=r.cycles[3];const d=only(partial);
   assert.equal(d.status,'likely');assert.equal(d.rejoin,undefined);assert.equal(d.scheduledAffectedSegment.geometry,null);
   assert.equal(only(r).id,d.id);
 });
-test('cold start without departure anchor cannot confirm a complete path',()=>{
+test('[STORY-30E] cold start without departure anchor cannot confirm a complete path',()=>{
   const r=run({paths:[path.slice(1),path.slice(1)]});assert.equal(only(r).status,'likely');assert.equal(only(r).departure.method,'off-route-projection');
 });
-test('small spatial noise and different sampling density tolerate lane variation and dwells',()=>{
+test('[STORY-30E] small spatial noise and different sampling density tolerate lane variation and dwells',()=>{
   const noisy=path.map(([lat,lon],i)=>[lat+(i>0&&i<4?.00008:0),lon+.00005]);
   assert.equal(only(run({paths:[path,noisy]})).status,'confirmed');
   const a=[[-79.404,43.65],[-79.404,43.652],[-79.4,43.652]];
   assert.ok(corridorDistance(a,[a[0],a[0],[-79.404,43.651],a[1],[-79.402,43.652],a[2]])<45);
 });
-test('opposite direction and different pattern/branch never merge',()=>{
+test('[STORY-30E] opposite direction and different pattern/branch never merge',()=>{
   const e=run({paths:[path]}).state.episodes[0];
   for (const change of [{directionId:1},{patternId:'other-branch'},{routeId:'other-route'}]) assert.equal(trajectorySimilarity(e,{...e,...change}),Infinity);
 });
-test('different corridors remain independent simultaneous clusters and material change gets new identity',()=>{
+test('[STORY-30E] different corridors remain independent simultaneous clusters and material change gets new identity',()=>{
   const south=path.map(([lat,lon])=>[43.65-(lat-43.65),lon]);
   const r=run({paths:[path,path,south,south]});assert.equal(r.output.diversions.length,2);assert.ok(r.output.diversions.every(d=>d.status==='confirmed'));
   assert.notEqual(r.output.diversions[0].id,r.output.diversions[1].id);
   const northOnly=run();const changed=run({paths:[south,south],start:210,previous:northOnly.state,detector:northOnly.vehicles});
   assert.equal(changed.output.diversions.length,2);assert.ok(changed.output.diversions.some(d=>d.id===only(northOnly).id));
 });
-test('different departure/rejoin regions and reversed travel order are incompatible',()=>{
+test('[STORY-30E] different departure/rejoin regions and reversed travel order are incompatible',()=>{
   const e=run({paths:[path]}).state.episodes[0];
   for (const boundary of ['departure','rejoin']) assert.equal(trajectorySimilarity(e,{...e,[boundary]:{...e[boundary],progressMeters:e[boundary].progressMeters+200}}),Infinity);
   const a=[[-79.4,43.65],[-79.4,43.652],[-79.396,43.652]];assert.ok(corridorDistance(a,[...a].reverse())>100);
 });
-test('GPS outlier is rejected by 30D and never distorts inference',()=>{
+test('[STORY-30E] GPS outlier is rejected by 30D and never distorts inference',()=>{
   const p=[path[0],path[1],[44,-79],path[2],path[3],...path.slice(4)];
   const r=run({paths:[p,p]});assert.equal(only(r).status,'confirmed');assert.ok(r.state.episodes.every(e=>e.points.every(p=>p.latitude<44)));
 });
-test('conservative simplification keeps turns/endpoints and never increases tolerance to force a size limit',()=>{
+test('[STORY-30E] conservative simplification keeps turns/endpoints and never increases tolerance to force a size limit',()=>{
   const p=[[-79.404,43.65],[-79.404,43.651],[-79.404,43.652],[-79.402,43.652],[-79.4,43.652],[-79.4,43.65]];
   const s=simplifyGeometry(p,8);assert.equal(s.length,4);assert.deepEqual(s,[p[0],p[2],p[4],p[5]]);
   assert.throws(()=>simplifyGeometry(p,100));
 });
-test('stable ID survives additional slightly noisy evidence and geometry refinement',()=>{
+test('[STORY-30E] stable ID survives additional slightly noisy evidence and geometry refinement',()=>{
   const r=run();const noisy=path.map(([lat,lon])=>[lat,lon+.00005]);
   const updated=run({paths:[noisy,noisy],start:210,previous:r.state,detector:r.vehicles});
   assert.equal(only(updated).id,only(r).id);assert.equal(only(updated).evidence.trajectoryCount,4);
 });
-test('stale evidence expires with injected time; unavailable feed suppresses output and cannot add paths',()=>{
+test('[STORY-30E] stale evidence expires with injected time; unavailable feed suppresses output and cannot add paths',()=>{
   const r=run();const failed=inferDiversions(r.state,{...empty(210),status:'unavailable'},index,at(210));
   assert.deepEqual(failed.output.diversions,[]);assert.equal(failed.state.episodes.length,2);
   const expired=inferDiversions(failed.state,empty(2100),index,at(2100));assert.equal(expired.output.diversions.length,0);assert.equal(expired.state.episodes.length,0);assert.equal(expired.report.expiredClusters,1);
 });
-test('route reassignment, gap and static version cannot join episodes or invent rejoin',()=>{
+test('[STORY-30E] route reassignment, gap and static version cannot join episodes or invent rejoin',()=>{
   const r=run({paths:[path.slice(0,4)]});
   // The gap must exceed the cadence-aware maxGapMs to be treated as discontinuous.
   const shifted=run({paths:[path],start:90+VEHICLE_POLICY.maxGapMs/1000+30,previous:r.state,detector:r.vehicles});
@@ -165,7 +165,7 @@ async function alerts() {
   const bytes=bindings.transit_realtime.FeedMessage.encode({header:{gtfsRealtimeVersion:'2.0',timestamp:+at(0)/1000},entity:[{id:'detour',alert:{effect:4,cause:3,informedEntity:[{routeId:'0504',trip:{tripId:'t1'},stopId:'A'},{routeId:'0504',trip:{tripId:'t1'},stopId:'D'}]}}]}).finish();
   return correlateState(await updateTtcAlerts(undefined,at(0),async()=>parseTtcAlerts(bytes,at(0)),()=>{}),index,at(0));
 }
-test('end-to-end protobuf alerts/lifecycle/static/vehicle detection/inference/compact artifact and GeoJSON',async()=>{
+test('[STORY-30E] end-to-end protobuf alerts/lifecycle/static/vehicle detection/inference/compact artifact and GeoJSON',async()=>{
   const before=JSON.stringify([...index.shapes]);const a=await alerts();const r=run({alerts:a});const d=only(r);
   assert.equal(d.status,'confirmed');assert.deepEqual(d.relatedAlertIds,['detour']);assert.equal(d.confidence.alertSupported,true);
   assert.equal(d.evidence.vehicleCount,2);assert.equal(JSON.stringify([...index.shapes]),before);
@@ -173,14 +173,14 @@ test('end-to-end protobuf alerts/lifecycle/static/vehicle detection/inference/co
   const kinds=new Set(diversionGeoJson(r.state,index).features.map(f=>f.properties.kind));
   assert.deepEqual(kinds,new Set(['inferred-diversion','scheduled-route','scheduled-affected-segment','departure','rejoin','trajectory']));
 });
-test('alert must be active, scoped and overlap; no alert never invents cause',async()=>{
+test('[STORY-30E] alert must be active, scoped and overlap; no alert never invents cause',async()=>{
   const a=await alerts();
   for (const change of [s=>s.status='unavailable',s=>s.items[0].activePeriods=[{end:at(-1).toISOString()}],s=>s.items[0].correlation.status='ambiguous',s=>s.items[0].correlation.candidates[0].affectedSegment.geometry=[[-79.41,43.65],[-79.409,43.65]]]) {
     const copy=structuredClone(a);change(copy);assert.deepEqual(only(run({alerts:copy})).relatedAlertIds,[]);
   }
   const d=only(run());assert.deepEqual(d.relatedAlertIds,[]);assert.equal(d.cause,undefined);assert.equal(d.status,'confirmed');
 });
-test('compact and restart schema reject corrupt coordinates, counts, confidence, references, ordering and bounds',()=>{
+test('[STORY-30E] compact and restart schema reject corrupt coordinates, counts, confidence, references, ordering and bounds',()=>{
   const r=run();
   for (const mutate of [d=>d.geometry=[[0,100],[0,0]],d=>d.geometry=[[0,0]],d=>d.geometry=Array(123).fill([0,0]),d=>d.evidence.vehicleCount=-1,d=>d.evidence.completedVehicleCount=0,d=>d.status='official',d=>d.patternId='bad',d=>d.rejoin.progressMeters=0,d=>d.geometrySource='ttc-official']) {
     const o=structuredClone(r.output);mutate(o.diversions[0]);assert.throws(()=>validateDiversionOutput(o,index));
@@ -189,18 +189,18 @@ test('compact and restart schema reject corrupt coordinates, counts, confidence,
     const s=structuredClone(r.state);mutate(s);assert.throws(()=>validateDiversionState(s,index));
   }
 });
-test('point/time bounds mark long episodes unusable instead of creating shortcuts',()=>{
+test('[STORY-30E] point/time bounds mark long episodes unusable instead of creating shortcuts',()=>{
   const long=Array.from({length:130},(_,i)=>i===0?path[0]:[43.652,-79.403+(i%10)*.0002]);
   const r=run({paths:[long],step:10});assert.ok(r.state.episodes.length>0);assert.ok(r.state.episodes.every(e=>e.points.length<=DIVERSION_POLICY.maxPoints));assert.equal(r.output.diversions.length,0);
 });
-test('cluster and episode capacity is explicit and deterministic',()=>{
+test('[STORY-30E] cluster and episode capacity is explicit and deterministic',()=>{
   const base=run({paths:[path]}).state.episodes[0];
   const many=Array.from({length:510},(_,i)=>({...structuredClone(base),id:`episode-${i}`,vehicleId:`vehicle-${i}`}));
   // Oversized persisted inputs are rejected before inference.
   assert.throws(()=>fromEpisodes(many));
   const r=fromEpisodes(many.slice(0,500));assert.ok(r.state.records.length<=12);assert.ok(r.state.records.every(c=>c.evidence.trajectoryCount<=24));
 });
-test('polling persists inference between invocations; cold fallback never fabricates complete evidence; static failure clears exports',async()=>{
+test('[STORY-30E] polling persists inference between invocations; cold fallback never fabricates complete evidence; static failure clears exports',async()=>{
   const dir=await mkdtemp(`${tmpdir()}/ttc-diversions-`);
   try {
     const fixture=path.map((p,i)=>({now:at(i*30).toISOString(),protobufBase64:Buffer.from(protobuf([0,1].map(j=>vehicle(i*30,{vehicle:{id:String(j)},position:{latitude:p[0],longitude:p[1]}})),i*30)).toString('base64')}));
@@ -218,7 +218,7 @@ test('polling persists inference between invocations; cold fallback never fabric
     out=JSON.parse(await readFile(`${dir}/diversions.json`));assert.equal(out.status,'unavailable');assert.deepEqual(out.diversions,[]);
   } finally {await rm(dir,{recursive:true,force:true});}
 });
-test('ended alert shortens stale lifetime across refreshes without resurrection',async()=>{
+test('[STORY-30E] ended alert shortens stale lifetime across refreshes without resurrection',async()=>{
   const r=run({alerts:await alerts()});
   let s=r.state;
   for (const seconds of [240,480,780,810]) {
@@ -226,7 +226,7 @@ test('ended alert shortens stale lifetime across refreshes without resurrection'
     assert.equal(next.output.diversions.length,seconds<780?1:0);
   }
 });
-test('three observed scheduled traversals retire old support; one vehicle rejoining does not',()=>{
+test('[STORY-30E] three observed scheduled traversals retire old support; one vehicle rejoining does not',()=>{
   const r=run();const template=r.vehicles.tracks[0];
   const tracks=Array.from({length:3},(_,i)=>({...structuredClone(template),vehicleId:`returned-${i}`,lastObservedAt:at(240).toISOString(),history:[
     {...template.history[0],observedAt:at(180).toISOString(),evidence:'on',progressMeters:100,longitude:-79.408},
@@ -238,7 +238,7 @@ test('three observed scheduled traversals retire old support; one vehicle rejoin
   const expired=inferDiversions(state,empty(420),index,at(420));assert.equal(expired.output.diversions.length,0);
   state=inferDiversions(expired.state,empty(450),index,at(450)).state;assert.equal(state.records.length,0);
 });
-test('ambiguous shared-prefix incomplete trajectory cannot vote for either divergent completed cluster',()=>{
+test('[STORY-30E] ambiguous shared-prefix incomplete trajectory cannot vote for either divergent completed cluster',()=>{
   const north=run({paths:[path]}).state.episodes[0];
   const variant=structuredClone(north);variant.id='variant';variant.vehicleId='variant';
   variant.points[2].latitude+=.004;
@@ -248,20 +248,20 @@ test('ambiguous shared-prefix incomplete trajectory cannot vote for either diver
   prefix.points.push({...prefix.points[1],observedAt:at(90).toISOString(),longitude:prefix.points[1].longitude+.00001});
   const r=fromEpisodes([north,variant,prefix]);assert.equal(r.output.diversions.length,2);assert.ok(r.output.diversions.every(d=>d.evidence.trajectoryCount===1));
 });
-test('restart rejects overlapping completed episodes from the same vehicle',()=>{
+test('[STORY-30E] restart rejects overlapping completed episodes from the same vehicle',()=>{
   const r=run({paths:[path]});const e=structuredClone(r.state.episodes[0]);e.id='forged-independent-episode';
   assert.throws(()=>fromEpisodes([...r.state.episodes,e]));
 });
-test('confirmation count cannot be forged in restart state',()=>{
+test('[STORY-30E] confirmation count cannot be forged in restart state',()=>{
   const r=run();r.state.records[0].evidence.trajectoryCount=3;r.state.records[0].episodeIds.push('fake');
   assert.throws(()=>validateDiversionState(r.state,index));
 });
-test('comparison geometry budget rejects oversized corridors without crashing or shortcutting',()=>{
+test('[STORY-30E] comparison geometry budget rejects oversized corridors without crashing or shortcutting',()=>{
   const oscillating=[path[0],...Array.from({length:50},(_,i)=>[i%2?43.652:43.654,-79.402])];
   const r=run({paths:[oscillating]});assert.equal(r.output.diversions.length,0);assert.ok(r.report.geometryRejected>0);
 });
 
-test('public geometry CLI publishes only confirmed allow-listed paths and replaces stale output with empty state',async()=>{
+test('[STORY-30E] public geometry CLI publishes only confirmed allow-listed paths and replaces stale output with empty state',async()=>{
   const {publicTtcGeometry}=await import('../scripts/publish-ttc-geometry.js');
   const {execFileSync}=await import('node:child_process');
   const {writeFile}=await import('node:fs/promises');
@@ -279,28 +279,28 @@ test('public geometry CLI publishes only confirmed allow-listed paths and replac
     }
   } finally {await rm(dir,{recursive:true,force:true});}
 });
-test('scheduled segment retains intermediate vertices and simplification handles closed paths',async()=>{
+test('[STORY-30E] scheduled segment retains intermediate vertices and simplification handles closed paths',async()=>{
   const {scheduledSegment}=await import('../src/ttc/diversion-geometry.js');
   const shape=[[0,43,-79],[1,43.1,-79.1],[2,43.2,-79.2]];
   assert.deepEqual(scheduledSegment(shape,{point:[-79,43],progressMeters:0,segmentIndex:0},{point:[-79.2,43.2],progressMeters:100,segmentIndex:1}),[[-79,43],[-79.1,43.1],[-79.2,43.2]]);
   const closed=[[-79,43],[-79.001,43.001],[-79,43]];assert.deepEqual(simplifyGeometry(closed),closed);
 });
 
-test('unequal vehicle journeys do not invent missing observations',()=>{
+test('[STORY-30E] unequal vehicle journeys do not invent missing observations',()=>{
   const r=run({paths:[path,path.slice(0,4)]});assert.equal(only(r).status,'likely');assert.equal(only(r).evidence.completedVehicleCount,1);
 });
-test('inference schema rejects invalid headers, boundary projection, scheduled segment and forged members',()=>{
+test('[STORY-30E] inference schema rejects invalid headers, boundary projection, scheduled segment and forged members',()=>{
   const r=run();
   for(const mutate of [o=>o.schemaVersion=2,o=>o.diversions[0].departure.segmentFraction=NaN,o=>o.diversions[0].scheduledAffectedSegment.shapeId='other',o=>o.diversions[0].geometry[0]=[-79.5,43.65],o=>o.diversions=Array.from({length:13},(_,i)=>({...o.diversions[0],id:`path-${i}`}))]) {
     const bad=structuredClone(r.output);mutate(bad);assert.throws(()=>validateDiversionOutput(bad,index),/diversion output/);
   }
   const bad=structuredClone(r.state);bad.episodes[0].vehicleId='same';bad.episodes[1].vehicleId='same';assert.throws(()=>validateDiversionState(bad,index),/diversion state/);
 });
-test('legacy output without retirement TTL gets bounded expiry',async()=>{
+test('[STORY-30E] legacy output without retirement TTL gets bounded expiry',async()=>{
   const {diversionOutput}=await import('../src/ttc/diversion-inference.js');const r=run();delete r.state.records[0].retirementMs;
   assert.equal(Date.parse(diversionOutput(r.state).diversions[0].expiresAt),Date.parse(only(r).lastObservedAt)+DIVERSION_POLICY.evidenceMs);
 });
-test('ambiguous departure and stale vehicle history cannot become observed geometry',async()=>{
+test('[STORY-30E] ambiguous departure and stale vehicle history cannot become observed geometry',async()=>{
   const {collectEpisodes}=await import('../src/ttc/diversion-inference.js');
   const r=run({paths:[path.slice(0,4)]}),vehicles=structuredClone(r.vehicles);
   vehicles.tracks[0].history.forEach(h=>h.projectionAmbiguous=true);
@@ -308,24 +308,24 @@ test('ambiguous departure and stale vehicle history cannot become observed geome
   const episodes=collectEpisodes(undefined,vehicles,at(90));assert.equal(episodes[0].departure,null);assert.equal(episodes[0].tripId,undefined);
   assert.deepEqual(collectEpisodes(undefined,vehicles,at(211)),[]);
 });
-test('related construction alert still requires supported pattern and projected affected segment',async()=>{
+test('[STORY-30E] related construction alert still requires supported pattern and projected affected segment',async()=>{
   const a=await alerts();
   for(const change of [s=>{s.items[0].effect='OTHER_EFFECT';s.items[0].cause='CONSTRUCTION';},s=>s.items[0].correlation.candidates[0].affectedSegment.geometryStatus='missing',s=>s.items[0].informedEntities.forEach(e=>e.trip.directionId=1)]) {
     const copy=structuredClone(a);change(copy);const d=only(run({alerts:copy}));
     assert.deepEqual(d.relatedAlertIds,copy.items[0].effect==='OTHER_EFFECT'?['detour']:[]);
   }
 });
-test('multiple prior identities merge deterministically into the oldest supported path',()=>{
+test('[STORY-30E] multiple prior identities merge deterministically into the oldest supported path',()=>{
   const r=run(),copy=structuredClone(r.state.records[0]);copy.id='other-id';
   r.state.records.push(copy);
   const merged=inferDiversions(r.state,r.vehicles,index,at(180));assert.equal(merged.output.diversions.length,1);assert.equal(merged.report.clustersMerged,1);
 });
 
-test('confirmed detector history can initialize inference without a prior inference cache',()=>{
+test('[STORY-30E] confirmed detector history can initialize inference without a prior inference cache',()=>{
   const r=run({paths:[path.slice(0,4),path.slice(0,4)]});
   const cold=inferDiversions(undefined,r.vehicles,index,at(90));assert.equal(only(cold).status,'likely');assert.equal(cold.report.clustersCreated,1);
 });
-test('lost departure history and discontinuous restored evidence fail safely',async()=>{
+test('[STORY-30E] lost departure history and discontinuous restored evidence fail safely',async()=>{
   const {collectEpisodes}=await import('../src/ttc/diversion-inference.js');
   const r=run({paths:[path.slice(0,4)]}),vehicles=structuredClone(r.vehicles);
   vehicles.tracks[0].history.forEach(h=>h.evidence='neutral');
@@ -334,11 +334,11 @@ test('lost departure history and discontinuous restored evidence fail safely',as
   old.points[0].latitude=44;
   const truncated=collectEpisodes([old],r.vehicles,at(90));assert.equal(truncated[0].truncated,true);
 });
-test('unrelated official selector cannot lend confidence to an inferred path',async()=>{
+test('[STORY-30E] unrelated official selector cannot lend confidence to an inferred path',async()=>{
   const a=await alerts();a.items[0].informedEntities.forEach(e=>e.trip.tripId='different-trip');
   const d=only(run({alerts:a}));assert.deepEqual(d.relatedAlertIds,[]);assert.equal(d.confidence.alertSupported,false);
 });
-test('thirteen independent route branches enforce the twelve-cluster publication bound',()=>{
+test('[STORY-30E] thirteen independent route branches enforce the twelve-cluster publication bound',()=>{
   const base=run({paths:[path]}).state.episodes[0],idx={...index,patterns:new Map(index.patterns)};
   const episodes=Array.from({length:13},(_,i)=>{
     const patternId=`branch-${i}`;idx.patterns.set(patternId,{...index.patterns.get(base.patternId),patternId});
@@ -347,7 +347,7 @@ test('thirteen independent route branches enforce the twelve-cluster publication
   const previous={schemaVersion:1,staticVersion:index.version,status:'ok',checkedAt:at(180).toISOString(),episodes,records:[]};
   const r=inferDiversions(previous,empty(180),idx,at(180));assert.equal(r.output.diversions.length,12);assert.equal(r.report.capacityDropped,1);
 });
-test('three complete but unanchored episodes from one vehicle remain likely, never confirmed',()=>{
+test('[STORY-30E] three complete but unanchored episodes from one vehicle remain likely, never confirmed',()=>{
   const base=run({paths:[path]}).state.episodes[0];
   const episodes=Array.from({length:3},(_,i)=>{
     const e=structuredClone(base),shift=i*210000;
@@ -359,7 +359,7 @@ test('three complete but unanchored episodes from one vehicle remain likely, nev
   const r=fromEpisodes(episodes,600);assert.equal(only(r).status,'likely');assert.equal(only(r).evidence.completedTrajectoryCount,3);assert.equal(only(r).evidence.anchoredCompletedCount,0);
 });
 
-test('newly ambiguous static correlation withdraws alert support from retained vehicle evidence',async()=>{
+test('[STORY-30E] newly ambiguous static correlation withdraws alert support from retained vehicle evidence',async()=>{
   const a=await alerts(),r=run({alerts:a});a.items[0].correlation.status='ambiguous';
   const next=inferDiversions(r.state,r.vehicles,index,at(180),a);
   assert.equal(only(next).status,'confirmed');assert.deepEqual(only(next).relatedAlertIds,[]);assert.equal(only(next).confidence.alertSupported,false);
@@ -373,7 +373,7 @@ function earnedCapture() {
   return completeDiversionCapture(second.state,{healthy:true});
 }
 const captureAt=(state,seconds,healthy=true)=>completeDiversionCapture({...state,checkedAt:at(seconds).toISOString(),records:[],episodes:[]},{healthy});
-test('Story 57: two advancing fresh captures earn persistence; cached and old first-seen evidence do not',()=>{
+test('[STORY-30E] Story 57: two advancing fresh captures earn persistence; cached and old first-seen evidence do not',()=>{
   const r=run(),first=completeDiversionCapture(r.state,{healthy:true});
   assert.equal(first.state.persistence[0].confirmedCaptures,1);
   assert.equal(first.output.diversions[0].persistenceEarned,undefined);
@@ -391,7 +391,7 @@ test('Story 57: two advancing fresh captures earn persistence; cached and old fi
   assert.ok(renewed.output.diversions[0].expiresAt>before);
   assert.equal(renewed.state.persistence[0].confirmedCaptures,2);
 });
-test('Story 57: seven healthy misses retain the path; eight remove it and cached confirmation cannot resurrect it',()=>{
+test('[STORY-30E] Story 57: seven healthy misses retain the path; eight remove it and cached confirmation cannot resurrect it',()=>{
   let r=earnedCapture();const original=structuredClone(r.output.diversions[0]);
   // Cached confirmed records count as healthy absences even while inference agrees.
   for(let i=1;i<=8;i++) {
@@ -404,7 +404,7 @@ test('Story 57: seven healthy misses retain the path; eight remove it and cached
   const renewed=completeDiversionCapture(run({start:660,previous:r.state}).state,{healthy:true});
   assert.equal(renewed.output.diversions.length,1);assert.equal(renewed.state.persistence[0].healthyAbsences,0);
 });
-test('Story 57: confidence downgrade and compatible geometry refinement preserve earned state through restart',()=>{
+test('[STORY-30E] Story 57: confidence downgrade and compatible geometry refinement preserve earned state through restart',()=>{
   const r=earnedCapture(),latch=JSON.parse(JSON.stringify(r.state));
   const downgraded=fromEpisodes(latch.episodes.slice(0,1),420).state;
   downgraded.persistence=latch.persistence;
@@ -425,7 +425,7 @@ test('Story 57: confidence downgrade and compatible geometry refinement preserve
   const renamed=structuredClone(refined.state);renamed.records[0].id='new-inference-id';
   const next=completeDiversionCapture(renamed,{healthy:true});assert.equal(next.output.diversions[0].id,r.output.diversions[0].id);
 });
-test('Story 57: outages pause counters and expiry continues; healthy-empty is distinct from unavailable',()=>{
+test('[STORY-30E] Story 57: outages pause counters and expiry continues; healthy-empty is distinct from unavailable',()=>{
   const earned=earnedCapture();
   let r=captureAt(earned.state,450,false);
   assert.equal(r.output.status,'unavailable');assert.equal(r.output.diversions[0].retained,true);
@@ -442,7 +442,7 @@ test('Story 57: outages pause counters and expiry continues; healthy-empty is di
   assert.deepEqual(captureAt(earned.state,2400).output.diversions,[]);
   assert.equal(captureAt(earned.state,2400,false).output.status,'unavailable');
 });
-test('Story 57: incompatible static/context/path never inherits confirmations, including identical ids',()=>{
+test('[STORY-30E] Story 57: incompatible static/context/path never inherits confirmations, including identical ids',()=>{
   const r=earnedCapture();
   const switched=inferDiversions(r.state,{...empty(450),staticVersion:'new-version'},{...index,version:'new-version'},at(450));
   assert.equal(switched.state.persistence,undefined);
@@ -455,7 +455,7 @@ test('Story 57: incompatible static/context/path never inherits confirmations, i
   const separate=run({paths:[south,south],start:450}).state;separate.persistence=r.state.persistence;
   assert.equal(completeDiversionCapture(separate,{healthy:true}).state.persistence.length,2);
 });
-test('Story 57: persistence schema validates bounded counts, snapshots and retained output contracts',()=>{
+test('[STORY-30E] Story 57: persistence schema validates bounded counts, snapshots and retained output contracts',()=>{
   const r=earnedCapture();validateDiversionState(r.state,index);validateDiversionOutput(r.output,index);
   for(const mutate of [s=>s.persistence={},s=>s.persistence=[null],s=>s.captureHealthy='yes',s=>s.captureComplete='yes',s=>s.persistence[0].confirmedCaptures=3,
     s=>s.persistence[0].healthyAbsences=9,s=>{s.persistence[0].confirmedCaptures=1;s.persistence[0].healthyAbsences=1;},
@@ -468,7 +468,7 @@ test('Story 57: persistence schema validates bounded counts, snapshots and retai
   const legacy=run().state;assert.equal(diversionOutput(legacy).diversions.length,1);
 });
 
-test('Story 57: a completed polling burst counts once and recovered failures, stale feeds and missing/incomplete archives pause it',async()=>{
+test('[STORY-30E] Story 57: a completed polling burst counts once and recovered failures, stale feeds and missing/incomplete archives pause it',async()=>{
   const dir=await mkdtemp(`${tmpdir()}/ttc-captures-`);
   const options={statePath:`${dir}/vehicles.json`,outputPath:`${dir}/deviations.json`,loadStatic:async()=>({index}),clock:()=>at(420),wait:async()=>{},log:()=>{},updateAlerts:async()=>undefined};
   const saved=earnedCapture().state;
@@ -504,7 +504,7 @@ test('Story 57: a completed polling burst counts once and recovered failures, st
     assert.equal((await load()).persistence[0].healthyAbsences,0);
   } finally {await rm(dir,{recursive:true,force:true});}
 });
-test('Story 57: multiple distinct confirmed observations within one capture earn only its first confirmation',async()=>{
+test('[STORY-30E] Story 57: multiple distinct confirmed observations within one capture earn only its first confirmation',async()=>{
   const dir=await mkdtemp(`${tmpdir()}/ttc-one-capture-`);
   try {
     const statePath=`${dir}/vehicles.json`,outputPath=`${dir}/deviations.json`;
@@ -518,7 +518,7 @@ test('Story 57: multiple distinct confirmed observations within one capture earn
   } finally {await rm(dir,{recursive:true,force:true});}
 });
 
-test('Story 57: rolling expiry follows 10:03 to 10:33 and renewed 10:20 to 10:50 evidence, including capture completion after prior expiry',()=>{
+test('[STORY-30E] Story 57: rolling expiry follows 10:03 to 10:33 and renewed 10:20 to 10:50 evidence, including capture completion after prior expiry',()=>{
   const first=completeDiversionCapture(run({start:-90}).state,{healthy:true});
   const confirmed=completeDiversionCapture(run({start:90,previous:first.state}).state,{healthy:true});
   assert.equal(confirmed.output.diversions[0].lastObservedAt,at(180).toISOString());
