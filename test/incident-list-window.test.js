@@ -4,7 +4,7 @@ import {
   INCIDENT_LIST_BATCH_SIZE, incidentFilterKey, incidentListKey, nextIncidentBatch
 } from '../src/incident-list-window.js';
 
-test('incident batches are bounded, ordered, and exhaustive without overlap', () => {
+test('[STORY-38C] incident batches are bounded, ordered, and exhaustive without overlap', () => {
   const calls = Array.from({length: 1212}, (_, id) => ({id}));
   const first = nextIncidentBatch(calls, 0);
   const second = nextIncidentBatch(calls, first.end);
@@ -18,7 +18,7 @@ test('incident batches are bounded, ordered, and exhaustive without overlap', ()
   assert.deepEqual(nextIncidentBatch(calls, -4, 0).items.map(call => call.id), [0]);
 });
 
-test('filter and list keys change only for inputs that invalidate their work', () => {
+test('[STORY-38C] filter and list keys change only for inputs that invalidate their work', () => {
   const filters = {datasetRevision: 3, radiusKm: null, nearby: [43.65, -79.38], search: 'alarm'};
   assert.equal(incidentFilterKey(filters), incidentFilterKey({...filters}));
   assert.notEqual(incidentFilterKey(filters), incidentFilterKey({...filters, radiusKm: 2}));
