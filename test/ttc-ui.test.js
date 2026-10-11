@@ -156,7 +156,7 @@ function officialAdvisoryCase() {
   };
 }
 
-test('51D: the presentation ref prefix matches the official-advisory contract', () => {
+test('[STORY-51D] 51D: the presentation ref prefix matches the official-advisory contract', () => {
   // The browser keeps a local prefix to avoid importing the Node contract module;
   // this guards against drift.
   assert.equal(advisoryRef('102'), 'ttc-service-change:102');
@@ -164,7 +164,7 @@ test('51D: the presentation ref prefix matches the official-advisory contract', 
   assert.deepEqual([...claimed], ['102']);
 });
 
-test('51D: a claimed official Service Change renders once with its observed geometry', () => {
+test('[STORY-51D] 51D: a claimed official Service Change renders once with its observed geometry', () => {
   const c = officialAdvisoryCase();
   const model = ttcPresentation(c.ttcAlerts, c.ttcDiversions, c.now, { advisories: c.transit });
   assert.equal(model.items.length, 1);
@@ -185,7 +185,7 @@ test('51D: a claimed official Service Change renders once with its observed geom
   assert.doesNotMatch(JSON.stringify(item), /vehicleId|tripId|shapeId|trajectoryCount|rawEvidence/);
 });
 
-test('51D: the official advisory is claimed by the observed path and deduped from the citywide list', () => {
+test('[STORY-51D] 51D: the official advisory is claimed by the observed path and deduped from the citywide list', () => {
   const c = officialAdvisoryCase();
   const claimed = claimedAdvisoryIds(c.ttcDiversions, c.transit, c.now);
   assert.deepEqual([...claimed], ['102']);
@@ -194,7 +194,7 @@ test('51D: the official advisory is claimed by the observed path and deduped fro
   assert.deepEqual(citywide, []);
 });
 
-test('51D: an unmatched official advisory stays visible in the citywide list with no path', () => {
+test('[STORY-51D] 51D: an unmatched official advisory stays visible in the citywide list with no path', () => {
   const c = officialAdvisoryCase();
   // No observed geometry claims the advisory.
   const model = ttcPresentation(c.ttcAlerts, { status: 'ok', checkedAt: new Date(c.now).toISOString(), diversions: [] }, c.now, { advisories: c.transit });
@@ -208,7 +208,7 @@ test('51D: an unmatched official advisory stays visible in the citywide list wit
   assert.equal(citywide[0].geometry, undefined);
 });
 
-test('51D: a stale or unconfirmed observed path never claims an official advisory', () => {
+test('[STORY-51D] 51D: a stale or unconfirmed observed path never claims an official advisory', () => {
   const c = officialAdvisoryCase();
   for (const mutate of [
     d => { d.diversions[0].status = 'likely'; },
@@ -224,7 +224,7 @@ test('51D: a stale or unconfirmed observed path never claims an official advisor
   }
 });
 
-test('51D: an expired official advisory is never presented even when a path claims it', () => {
+test('[STORY-51D] 51D: an expired official advisory is never presented even when a path claims it', () => {
   const c = officialAdvisoryCase();
   const transit = structuredClone(c.transit);
   transit.items[0].periods = [{ start: c.now - 10000000, end: c.now - 1000 }];
@@ -232,7 +232,7 @@ test('51D: an expired official advisory is never presented even when a path clai
   assert.equal(model.items.length, 0);
 });
 
-test('51D: a GTFS-RT alert and an official advisory with the same id never collide', () => {
+test('[STORY-51D] 51D: a GTFS-RT alert and an official advisory with the same id never collide', () => {
   const c = officialAdvisoryCase();
   // A GTFS-RT alert whose id equals the official advisory id must not be
   // overwritten by the official-advisory item (and vice versa).
@@ -248,7 +248,7 @@ test('51D: a GTFS-RT alert and an official advisory with the same id never colli
   assert.equal(model.items[0].title, 'GTFS-RT detour');
 });
 
-test('51D: nearby context uses the observed geometry for a claimed official advisory', () => {
+test('[STORY-51D] 51D: nearby context uses the observed geometry for a claimed official advisory', () => {
   const c = officialAdvisoryCase();
   const model = ttcPresentation(c.ttcAlerts, c.ttcDiversions, c.now, { advisories: c.transit, origin: [43.665, -79.38], radius: 1 });
   assert.equal(model.items.length, 1);
@@ -256,7 +256,7 @@ test('51D: nearby context uses the observed geometry for a claimed official advi
   assert.ok(Number.isFinite(model.items[0].nearestDistance));
 });
 
-test('51D: mergeTtcDisruptions applies an optional transit override without mutating the input', () => {
+test('[STORY-51D] 51D: mergeTtcDisruptions applies an optional transit override without mutating the input', () => {
   const data = { roads: { items: [] } };
   const transit = { items: [{ id: '102' }] };
   const result = mergeTtcDisruptions(data, { items: [] }, { diversions: [] }, transit);
@@ -268,7 +268,7 @@ test('51D: mergeTtcDisruptions applies an optional transit override without muta
   assert.equal(preserved.transit.items[0].id, 'x');
 });
 
-test('51D: the official-advisory browser fixture renders the Service Change once with observed geometry', async () => {
+test('[STORY-51D] 51D: the official-advisory browser fixture renders the Service Change once with observed geometry', async () => {
   const { readFile } = await import('node:fs/promises');
   const fixture = JSON.parse(await readFile(new URL('./fixtures/ttc-official-advisory/frontend.json', import.meta.url), 'utf8'));
   const fetch = async () => ({ ok: true, json: async () => structuredClone(fixture) });
@@ -287,7 +287,7 @@ test('51D: the official-advisory browser fixture renders the Service Change once
   assert.equal(claimedAdvisoryIds(loaded.ttcDiversions, loaded.transit, fixture.now).has('102'), true);
 });
 
-test('51D: the official-advisory fixture mode fails clearly when the fixture is missing', async () => {
+test('[STORY-51D] 51D: the official-advisory fixture mode fails clearly when the fixture is missing', async () => {
   const fetch = async () => ({ ok: false });
   await assert.rejects(
     loadTtcUiFixture({ hostname: 'localhost', search: '?ttcFixture=official-advisory' }, fetch, BASELINE_EPOCH),
@@ -295,7 +295,7 @@ test('51D: the official-advisory fixture mode fails clearly when the fixture is 
   );
 });
 
-test('51D: activeOfficialAdvisories accepts ISO-string periods and rejects a stale feed', () => {
+test('[STORY-51D] 51D: activeOfficialAdvisories accepts ISO-string periods and rejects a stale feed', () => {
   // ISO-string period bounds exercise the Date.parse fallback in periodBound.
   const isoFeed = { fetchedAt: new Date(BASELINE_EPOCH).toISOString(), items: [{ id: 'iso', periods: [{ start: new Date(BASELINE_EPOCH - 1000).toISOString(), end: new Date(BASELINE_EPOCH + 1000).toISOString() }] }] };
   assert.deepEqual(activeOfficialAdvisories(isoFeed, BASELINE_EPOCH).map(a => a.id), ['iso']);
@@ -306,7 +306,7 @@ test('51D: activeOfficialAdvisories accepts ISO-string periods and rejects a sta
   assert.deepEqual(activeOfficialAdvisories(undefined, BASELINE_EPOCH), []);
 });
 
-test('51D: claimedAdvisoryIds ignores non-string and foreign-namespace refs', () => {
+test('[STORY-51D] 51D: claimedAdvisoryIds ignores non-string and foreign-namespace refs', () => {
   const observed = {
     status: 'ok', checkedAt: new Date(BASELINE_EPOCH).toISOString(),
     diversions: [{ status: 'confirmed', geometrySource: 'sirento-observed', lastObservedAt: new Date(BASELINE_EPOCH).toISOString(), geometry: [[-79.38, 43.66], [-79.39, 43.66]], relatedAdvisoryRefs: [42, 'ttc-gtfs-rt:9', 'ttc-service-change:102'] }]
@@ -317,7 +317,7 @@ test('51D: claimedAdvisoryIds ignores non-string and foreign-namespace refs', ()
   assert.equal(claimedAdvisoryIds(noRefs, null, BASELINE_EPOCH).size, 0);
 });
 
-test('51D: a claimed advisory with no matching diversion is not presented', () => {
+test('[STORY-51D] 51D: a claimed advisory with no matching diversion is not presented', () => {
   const c = officialAdvisoryCase();
   // The advisory is claimed by a ref, but the diversion does not carry that ref.
   const observed = structuredClone(c.ttcDiversions);
@@ -326,7 +326,7 @@ test('51D: a claimed advisory with no matching diversion is not presented', () =
   assert.equal(model.items.length, 0);
 });
 
-test('51D: an advisory with missing title, description, effect and non-finite periods falls back safely', () => {
+test('[STORY-51D] 51D: an advisory with missing title, description, effect and non-finite periods falls back safely', () => {
   const c = officialAdvisoryCase();
   const transit = structuredClone(c.transit);
   transit.items[0].title = '';
@@ -341,7 +341,7 @@ test('51D: an advisory with missing title, description, effect and non-finite pe
   assert.deepEqual(model.items[0].periods, [{ start: null, end: null }]);
 });
 
-test('51D: a claimed advisory with an unmapped origin reports citywide geography', () => {
+test('[STORY-51D] 51D: a claimed advisory with an unmapped origin reports citywide geography', () => {
   const c = officialAdvisoryCase();
   // An origin far from the path yields a finite distance; a null origin yields citywide.
   const citywide = ttcPresentation(c.ttcAlerts, c.ttcDiversions, c.now, { advisories: c.transit });
@@ -349,7 +349,7 @@ test('51D: a claimed advisory with an unmapped origin reports citywide geography
   assert.equal(citywide.items[0].nearestDistance, null);
 });
 
-test('51D: sparse advisory and feed shapes fall back without throwing', () => {
+test('[STORY-51D] 51D: sparse advisory and feed shapes fall back without throwing', () => {
   const c = officialAdvisoryCase();
   // A feed with no items array yields no active advisories.
   assert.deepEqual(activeOfficialAdvisories({ fetchedAt: new Date(c.now).toISOString() }, c.now), []);

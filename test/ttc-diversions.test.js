@@ -30,7 +30,7 @@ function fromEpisodes(episodes,seconds=180,records=[]) {
   return inferDiversions({schemaVersion:1,staticVersion:index.version,status:'ok',checkedAt:at(seconds).toISOString(),episodes,records},empty(seconds),index,at(seconds));
 }
 const only=r=>{assert.equal(r.output.diversions.length,1);return r.output.diversions[0];};
-test('[STORY-30E][STORY-30G] Story 51E: bounded episode lifecycle counters explain inference continuity',()=>{
+test('[STORY-30E][STORY-30G][STORY-51E] Story 51E: bounded episode lifecycle counters explain inference continuity',()=>{
   // The first cycle has no evidence yet; the second creates episodes; later cycles load them.
   const r=run();
   assert.equal(r.cycles[0].report.episodesLoaded,0);assert.equal(r.cycles[0].report.episodesCreated,0);assert.equal(r.cycles[0].report.episodesRetained,0);
