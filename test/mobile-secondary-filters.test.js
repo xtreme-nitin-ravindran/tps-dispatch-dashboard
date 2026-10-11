@@ -9,7 +9,7 @@ const [html, css, app] = await Promise.all([
   readFile(new URL('../src/app/app.js', import.meta.url), 'utf8')
 ]);
 
-test('search remains visible while one mobile affordance owns secondary controls', () => {
+test('[STORY-37F] search remains visible while one mobile affordance owns secondary controls', () => {
   const controls = html.slice(html.indexOf('<section class="controls-card">'), html.indexOf('<p id="sharedIncidentStatus"'));
   assert.match(controls, /class="search-wrap"[\s\S]*?id="mobileFiltersToggle"/);
   assert.doesNotMatch(controls.slice(0, controls.indexOf('id="mobileFiltersToggle"')), /secondary-filter-control/);
@@ -19,14 +19,14 @@ test('search remains visible while one mobile affordance owns secondary controls
   }
 });
 
-test('meaningful secondary filters drive the count while search and radius do not', () => {
+test('[STORY-37F] meaningful secondary filters drive the count while search and radius do not', () => {
   assert.equal(activeSecondaryFilterCount(filterDefaults),0);
   assert.equal(activeSecondaryFilterCount({...filterDefaults,serviceFilter:'TFS'}),1);
   assert.equal(activeSecondaryFilterCount({...filterDefaults,serviceFilter:'TPS',eventFilter:'other',division:'Division 14',hours:12}),4);
   assert.equal(activeSecondaryFilterCount({...filterDefaults,search:'long query',radiusKm:2}),0);
 });
 
-test('mobile disclosure stays in document flow and desktop layouts remain visible', () => {
+test('[STORY-37F] mobile disclosure stays in document flow and desktop layouts remain visible', () => {
   assert.match(css, /\.mobile-filters-toggle \{ display: none; \}/);
   assert.match(css, /@media \(max-width: 680px\)[\s\S]*?\.mobile-filters-toggle \{[\s\S]*?display: flex;[\s\S]*?min-height: 44px;/);
   assert.match(css, /\.secondary-filter-control \{ display: none; \}[\s\S]*?\.mobile-filters-open \.secondary-filter-control \{ display: grid; \}/);
@@ -35,7 +35,7 @@ test('mobile disclosure stays in document flow and desktop layouts remain visibl
   assert.match(app, /function syncMobileFilterIndicator\(\)[\s\S]*?activeSecondaryFilterCount\(state\)/);
 });
 
-test('mobile hides the redundant Police division and History labels while desktop keeps them', () => {
+test('[STORY-37F] mobile hides the redundant Police division and History labels while desktop keeps them', () => {
   const mobileStart = css.indexOf('@media (max-width: 680px)');
   const mobileRules = css.slice(mobileStart);
   assert.match(mobileRules, /\.control-group\.secondary-filter-control \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\);/);
@@ -47,7 +47,7 @@ test('mobile hides the redundant Police division and History labels while deskto
   assert.match(html, /<label for="historyHours">History<\/label>/);
 });
 
-test('clear filters reuses existing semantics and refreshes the count', () => {
+test('[STORY-37F] clear filters reuses existing semantics and refreshes the count', () => {
   const clearHandler = app.slice(app.indexOf("document.querySelector('#clearFilters').addEventListener"), app.indexOf("document.querySelector('#shareView').addEventListener"));
   assert.match(clearHandler, /Object\.assign\(state, filterDefaults\)/);
   assert.match(clearHandler, /syncFilterControls\(\)/);
