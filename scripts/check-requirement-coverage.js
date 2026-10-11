@@ -1,11 +1,22 @@
 // Test-to-requirement traceability checker (Story 62).
 //
 // Every offline test file must be classified as either tied to a PRD
-// requirement or explicitly infrastructure. This is a traceability layer with
-// an explicit infrastructure bucket, not a forced 1:1 mapping: a large fraction
-// of tests are tooling (Docker wrapper, verify script, CI strategy, publication
-// sink, browser runner, asset versioning, PWA, watch backend, TTC pipeline,
-// lint), and forcing those under a product ID would be dishonest.
+// requirement, explicitly infrastructure, or production data processing. This
+// is a traceability layer with explicit non-PRD buckets, not a forced 1:1
+// mapping: a large fraction of tests are tooling (Docker wrapper, verify
+// script, CI strategy, publication sink, browser runner, asset versioning,
+// PWA, watch backend, TTC pipeline, lint), and forcing those under a product
+// ID would be dishonest.
+//
+// Three non-PRD buckets exist:
+//   - INFRA-*  tooling/delivery the running app does not need (Docker, verify,
+//              CI, publish, browser harness, assets, PWA plumbing, watch
+//              backend, TTC pipeline, lint).
+//   - DATA-*   production data-processing the app requires to function
+//              (ingestion/ETL, normalization, geocoding, enrichment,
+//              boundary matching). This is production code, not tooling, so it
+//              is a first-class category parallel to the PRD ids rather than an
+//              INFRA-* area.
 //
 // Two tracked files drive the check:
 //
@@ -62,6 +73,18 @@ export const INFRA_AREAS = [
   'INFRA-LINT'
 ];
 
+// The fixed data-processing allow-list. A test that exercises production data
+// logic the app requires (but is not a user-facing PRD capability and not
+// tooling) must carry exactly one of these areas. Adding a new area is a
+// deliberate change to this list.
+export const DATA_AREAS = [
+  'DATA-ETL',
+  'DATA-NORMALIZE',
+  'DATA-GEOCODING',
+  'DATA-ENRICHMENT',
+  'DATA-BOUNDARIES'
+];
+
 // Product requirement ID prefixes. A valid PRD ID is one of these prefixes
 // followed by a positive integer, optionally with a trailing uppercase letter
 // for a story increment (for example STORY-41A).
@@ -86,6 +109,10 @@ const PRD_ID = /^(MUST|SHOULD|COULD|STORY)-([1-9][0-9]*)([A-Z]?)$/;
 // area name.
 const INFRA_ID = /^INFRA-[A-Z][A-Z-]*$/;
 
+// A syntactically valid data-processing area: the DATA- prefix and an uppercase
+// area name.
+const DATA_ID = /^DATA-[A-Z][A-Z-]*$/;
+
 // True when the token is a syntactically valid PRD ID.
 export function isPrdId(token) {
   return typeof token === 'string' && PRD_ID.test(token);
@@ -96,9 +123,14 @@ export function isInfraId(token) {
   return typeof token === 'string' && INFRA_ID.test(token);
 }
 
-// True when the token is a syntactically valid requirement ID of either kind.
+// True when the token is a syntactically valid data-processing area.
+export function isDataId(token) {
+  return typeof token === 'string' && DATA_ID.test(token);
+}
+
+// True when the token is a syntactically valid requirement ID of any kind.
 export function isRequirementId(token) {
-  return isPrdId(token) || isInfraId(token);
+  return isPrdId(token) || isInfraId(token) || isDataId(token);
 }
 
 // Extract the leading bracket ID tokens from a test name. Only tokens at the
@@ -294,6 +326,9 @@ export function checkRequirements({ cwd = process.cwd(), map, pending, testFiles
       }
       if (isInfraId(id) && !INFRA_AREAS.includes(id)) {
         errors.push(`requirements.map.json maps ${path} to an unknown INFRA area: ${id}`);
+      }
+      if (isDataId(id) && !DATA_AREAS.includes(id)) {
+        errors.push(`requirements.map.json maps ${path} to an unknown DATA area: ${id}`);
       }
       if (idSet.has(id)) {
         errors.push(`requirements.map.json maps ${path} to a duplicate id: ${id}`);

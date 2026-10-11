@@ -17,7 +17,7 @@ const mapInfoMarkup = html.slice(infoStart, disruptionsStart);
 const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)';
 const mobileRules = css.slice(css.indexOf(mobileQuery));
 
-test('map immediately follows the filter summary controls without permanent metadata above it', () => {
+test('[STORY-37I] map immediately follows the filter summary controls without permanent metadata above it', () => {
   assert.ok(html.indexOf('class="radius-controls"') < mapStart);
   assert.ok(html.indexOf('class="nearby-summary"') < mapStart);
   assert.doesNotMatch(mapMarkup, /Toronto call map|Source updates|map-legend|id="mapStatus"/);
@@ -25,7 +25,7 @@ test('map immediately follows the filter summary controls without permanent meta
   assert.match(css, /\.map-stage\s*{\s*margin: 12px 0 18px;/);
 });
 
-test('results follow the map before map metadata and travel disruptions on desktop', () => {
+test('[STORY-37I] results follow the map before map metadata and travel disruptions on desktop', () => {
   assert.ok(mapStart < resultsStart);
   assert.ok(resultsStart < infoStart);
   assert.ok(infoStart < disruptionsStart);
@@ -33,7 +33,7 @@ test('results follow the map before map metadata and travel disruptions on deskt
   assert.doesNotMatch(css.slice(0, css.indexOf('@media (max-width: 1050px)')), /\.content-grid\s*{[^}]*display:\s*none/);
 });
 
-test('legend, located count, map heading, and source freshness remain accessible in collapsed map info', () => {
+test('[STORY-37I] legend, located count, map heading, and source freshness remain accessible in collapsed map info', () => {
   assert.match(mapInfoMarkup, /<summary>[\s\S]*Map info &amp; legend[\s\S]*id="mapStatus"/);
   assert.doesNotMatch(html.slice(infoStart, html.indexOf('>', infoStart) + 1), /\sopen(?:\s|>)/);
   for (const text of [
@@ -45,20 +45,20 @@ test('legend, located count, map heading, and source freshness remain accessible
   assert.match(app, /els\.mapStatus\.textContent/);
 });
 
-test('the map stays unobstructed when incident filters have no mapped calls', () => {
+test('[STORY-37I] the map stays unobstructed when incident filters have no mapped calls', () => {
   assert.doesNotMatch(mapMarkup, /id="mapEmpty"|class="map-empty"/);
   assert.doesNotMatch(app, /mapEmpty|map-empty/);
   assert.match(app, /locatedCalls\.length \? `\$\{locatedCalls\.length\}\/\$\{state\.filtered\.length\} LOCATED` : "NO MAPPED LOCATIONS"/);
 });
 
-test('mobile map/results switching and bottom sheet behavior remain intact', () => {
+test('[STORY-37I] mobile map/results switching and bottom sheet behavior remain intact', () => {
   assert.match(mobileRules, /html\[data-mobile-view="calls"\] \.map-stage,/);
   assert.match(mobileRules, /html\[data-mobile-view="map"\] \.content-grid,/);
   assert.match(mobileRules, /\.mobile-bottom-sheet \{[\s\S]*?position: fixed;[\s\S]*?display: grid;/);
   assert.match(app, /mobileSheetToggle\?\.addEventListener\("click"/);
 });
 
-test('filters remain earlier in normal document flow and map info uses theme tokens', () => {
+test('[STORY-37I] filters remain earlier in normal document flow and map info uses theme tokens', () => {
   for (const id of ['searchInput', 'divisionSelect', 'historyHours', 'serviceFilter']) {
     assert.ok(html.indexOf(`id="${id}"`) < mapStart, `${id} should remain before the map`);
   }

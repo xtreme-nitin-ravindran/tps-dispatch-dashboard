@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  DATA_AREAS,
   INFRA_AREAS,
   PRD_PREFIXES,
   checkRequirements,
@@ -13,6 +14,7 @@ import {
   extractIds,
   extractTestNames,
   formatReport,
+  isDataId,
   isInfraId,
   isMainModule,
   isPrdId,
@@ -83,9 +85,20 @@ test("[STORY-62] isInfraId accepts the INFRA- shape and rejects everything else"
   assert.equal(isInfraId(undefined), false);
 });
 
-test("[STORY-62] isRequirementId accepts either kind", () => {
+test("[STORY-62] isDataId accepts the DATA- shape and rejects everything else", () => {
+  assert.equal(isDataId("DATA-ETL"), true);
+  assert.equal(isDataId("DATA-GEOCODING"), true);
+  assert.equal(isDataId("DATA-"), false);
+  assert.equal(isDataId("DATA-lower"), false);
+  assert.equal(isDataId("INFRA-CI"), false);
+  assert.equal(isDataId("MUST-1"), false);
+  assert.equal(isDataId(undefined), false);
+});
+
+test("[STORY-62] isRequirementId accepts any kind", () => {
   assert.equal(isRequirementId("MUST-1"), true);
   assert.equal(isRequirementId("INFRA-CI"), true);
+  assert.equal(isRequirementId("DATA-ETL"), true);
   assert.equal(isRequirementId("nonsense"), false);
 });
 
@@ -242,6 +255,19 @@ test("[STORY-62] an infrastructure-tagged file passes", () => {
   }
 });
 
+test("[STORY-62] a data-tagged file passes", () => {
+  const dir = makeRepo({
+    files: { "a.test.js": 'test("[DATA-ETL] a", () => {});' },
+    map: { requirements: [], files: { "test/a.test.js": ["DATA-ETL"] } },
+    pending: []
+  });
+  try {
+    assert.deepEqual(checkRequirements({ cwd: dir }).errors, []);
+  } finally {
+    cleanup(dir);
+  }
+});
+
 test("[STORY-62] an untagged, unmapped file fails", () => {
   const dir = makeRepo({
     files: { "a.test.js": 'test("plain", () => {});' },
@@ -353,6 +379,20 @@ test("[STORY-62] a mapping to an unknown INFRA area fails", () => {
   try {
     const result = checkRequirements({ cwd: dir });
     assert.ok(result.errors.some(e => /unknown INFRA area: INFRA-NOPE/.test(e)));
+  } finally {
+    cleanup(dir);
+  }
+});
+
+test("[STORY-62] a mapping to an unknown DATA area fails", () => {
+  const dir = makeRepo({
+    files: { "a.test.js": 'test("[DATA-NOPE] a", () => {});' },
+    map: { requirements: [], files: { "test/a.test.js": ["DATA-NOPE"] } },
+    pending: []
+  });
+  try {
+    const result = checkRequirements({ cwd: dir });
+    assert.ok(result.errors.some(e => /unknown DATA area: DATA-NOPE/.test(e)));
   } finally {
     cleanup(dir);
   }
@@ -690,7 +730,7 @@ test("[STORY-62] isMainModule is false when imported by the test runner", () => 
   assert.equal(isMainModule(), false);
 });
 
-test("[STORY-62] the fixed infrastructure allow-list is stable", () => {
+test("[STORY-62] the fixed infrastructure and data allow-lists are stable", () => {
   assert.deepEqual(INFRA_AREAS, [
     "INFRA-DOCKER",
     "INFRA-VERIFY",
@@ -702,6 +742,13 @@ test("[STORY-62] the fixed infrastructure allow-list is stable", () => {
     "INFRA-WATCH",
     "INFRA-TTC-PIPELINE",
     "INFRA-LINT"
+  ]);
+  assert.deepEqual(DATA_AREAS, [
+    "DATA-ETL",
+    "DATA-NORMALIZE",
+    "DATA-GEOCODING",
+    "DATA-ENRICHMENT",
+    "DATA-BOUNDARIES"
   ]);
   assert.deepEqual(PRD_PREFIXES, ["MUST", "SHOULD", "COULD", "STORY"]);
 });

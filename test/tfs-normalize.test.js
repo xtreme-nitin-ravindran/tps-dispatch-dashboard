@@ -5,7 +5,7 @@ import { normalizeTfsIncident, parseDispatchedUnits } from "../src/tfs/normalize
 
 const fixture = JSON.parse(await readFile(new URL("./fixtures/tfs-incident.json", import.meta.url)));
 
-test("normalizes a TFS incident into the dashboard contract", () => {
+test("[DATA-NORMALIZE] normalizes a TFS incident into the dashboard contract", () => {
     assert.deepEqual(normalizeTfsIncident(fixture), {
         id: "F26146546",
         source: "TFS",
@@ -29,12 +29,12 @@ test("normalizes a TFS incident into the dashboard contract", () => {
     });
 });
 
-test("returns an empty vehicle list when TFS provides no assignments", () => {
+test("[DATA-NORMALIZE] returns an empty vehicle list when TFS provides no assignments", () => {
     assert.deepEqual(parseDispatchedUnits(""), []);
     assert.equal(normalizeTfsIncident({ timestamp: "2026-09-22T00:00:00Z", units: "" }).respondingUnitCount, undefined);
 });
 
-test("normalizes reliable TFS apparatus assignments without deriving severity", () => {
+test("[DATA-NORMALIZE] normalizes reliable TFS apparatus assignments without deriving severity", () => {
     const result = normalizeTfsIncident({
         timestamp: "2026-09-22T00:00:00Z",
         units: "P213, R214, C20"
@@ -44,7 +44,7 @@ test("normalizes reliable TFS apparatus assignments without deriving severity", 
     assert.equal("severity" in result, false);
 });
 
-test("ignores unusable TFS unit values instead of reporting zero", () => {
+test("[DATA-NORMALIZE] ignores unusable TFS unit values instead of reporting zero", () => {
     for (const units of [undefined, null, "", "  ", 42, {}, [], "Pumper, , Cmd. unit-"]) {
         const result = normalizeTfsIncident({ timestamp: "2026-09-22T00:00:00Z", units });
         assert.equal(result.respondingUnitCount, undefined);
@@ -52,20 +52,20 @@ test("ignores unusable TFS unit values instead of reporting zero", () => {
     }
 });
 
-test("preserves unknown apparatus as an Other Unit", () => {
+test("[DATA-NORMALIZE] preserves unknown apparatus as an Other Unit", () => {
     assert.deepEqual(parseDispatchedUnits("Foobar-9"), [
         { type: "Other Unit", numbers: ["Foobar-9"] }
     ]);
 });
 
-test('normalization rejects non-records and handles missing fields and unit identifiers', () => {
+test('[DATA-NORMALIZE] normalization rejects non-records and handles missing fields and unit identifiers', () => {
  for (const value of [null,undefined,'bad']) assert.throws(()=>normalizeTfsIncident(value), /must be an object/);
  const result=normalizeTfsIncident({timestamp:'2026-09-22T00:00:00Z',division:'D1',alarm_level:'bad',isOngoing:false,cad:1});
  assert.equal(result.description,'Fire incident');assert.equal(result.location,'Location not published');assert.equal(result.division,'D1');assert.equal(result.alarmLevel,null);assert.equal(result.isOngoing,false);
  assert.deepEqual(parseDispatchedUnits('Pumper, , REHAB, Z99'),[{type:'Rehab Unit',numbers:['unit']},{type:'Other Unit',numbers:['Z99']}]);
 });
 
-test('TFS XML isolates malformed events, retains valid siblings in order, and reports bounded reasons', async () => {
+test('[DATA-NORMALIZE] TFS XML isolates malformed events, retains valid siblings in order, and reports bounded reasons', async () => {
  const {parseTfsXml}=await import('../src/tfs/source.js');
  const header='<tfs_active_incidents><update_from_db_time>2026-09-22 00:00:00</update_from_db_time>';
  const event=(id,time)=>`<event>${id?`<event_num>${id}</event_num>`:''}${time?`<dispatch_time>${time}</dispatch_time>`:''}</event>`;
@@ -88,7 +88,7 @@ test('TFS XML isolates malformed events, retains valid siblings in order, and re
  assert.equal(allBad.rejected,2);
 });
 
-test('TFS fetch propagates HTTP failures and the supplied abort signal', async () => {
+test('[DATA-NORMALIZE] TFS fetch propagates HTTP failures and the supplied abort signal', async () => {
  const {fetchTfsSource}=await import('../src/tfs/source.js');
  const signal=new AbortController().signal;
  await assert.rejects(fetchTfsSource({signal,fetchImpl:async(url,options)=>{

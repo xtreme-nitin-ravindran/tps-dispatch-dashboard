@@ -8,12 +8,12 @@ import { needsUpdate, runFallback } from '../scripts/tfs-fallback.js';
 import { runTfsEtl } from '../scripts/tfs-etl.js';
 const now = new Date('2026-09-18T16:00:00Z');
 const fixturePath = join(dirname(fileURLToPath(import.meta.url)), 'fixtures/fresh-snapshot-stale-feed.json');
-test('freshness uses fetch time, including exact cutoff and invalid clocks', () => {
+test('[DATA-ETL] freshness uses fetch time, including exact cutoff and invalid clocks', () => {
   assert.equal(needsUpdate({fetchedAt:'2026-09-18T15:55:00.001Z'},now),false);
   assert.equal(needsUpdate({fetchedAt:'2026-09-18T15:55:00Z'},now),true);
   for (const fetchedAt of [undefined,'invalid','2026-09-19T00:00:00Z']) assert.equal(needsUpdate({fetchedAt},now),true);
 });
-test('fresh snapshot envelope does not hide stale or unavailable incident feeds', async () => {
+test('[DATA-ETL] fresh snapshot envelope does not hide stale or unavailable incident feeds', async () => {
   const snapshot = JSON.parse(await readFile(fixturePath, 'utf8'));
   assert.equal(needsUpdate(snapshot, now), true);
   snapshot.feeds.TFS.fetchedAt = snapshot.fetchedAt;
@@ -23,7 +23,7 @@ test('fresh snapshot envelope does not hide stale or unavailable incident feeds'
   delete snapshot.feeds.TPS;
   assert.equal(needsUpdate(snapshot, now), true);
 });
-test('fresh snapshot is untouched; stale snapshot records GitHub updater; corrupt history fails', async t => {
+test('[DATA-ETL] fresh snapshot is untouched; stale snapshot records GitHub updater; corrupt history fails', async t => {
   const dir = await mkdtemp(join(tmpdir(),'tfs-fallback-'));
   t.after(()=>rm(dir,{recursive:true,force:true}));
   const outputPath=join(dir,'current.json');
@@ -40,7 +40,7 @@ test('fresh snapshot is untouched; stale snapshot records GitHub updater; corrup
   assert.equal(await readFile(outputPath,'utf8'),'broken');
 });
 
-test('missing snapshots run the injected updater', async t => {
+test('[DATA-ETL] missing snapshots run the injected updater', async t => {
   const dir = await mkdtemp(join(tmpdir(),'tfs-fallback-missing-'));
   t.after(()=>rm(dir,{recursive:true,force:true}));
   const outputPath=join(dir,'current.json');
@@ -49,7 +49,7 @@ test('missing snapshots run the injected updater', async t => {
   assert.deepEqual(received,{outputPath,now,updatedBy:'github-actions'});
 });
 
-test('default fallback updater fetches all sources for a missing snapshot', async t => {
+test('[DATA-ETL] default fallback updater fetches all sources for a missing snapshot', async t => {
   const dir = await mkdtemp(join(tmpdir(),'tfs-fallback-default-'));
   t.after(()=>rm(dir,{recursive:true,force:true}));
   const outputPath=join(dir,'current.json');

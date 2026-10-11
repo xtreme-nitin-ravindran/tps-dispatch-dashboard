@@ -29,16 +29,16 @@ const stylesheetTag = matchOne(html, /styles\.css\?v=([^"'<>\s]+)/, "index.html 
 const appTag = matchOne(html, /app\.js\?v=([^"'<>\s]+)/, "index.html app module version");
 const cacheVersion = matchOne(worker, /CACHE_VERSION = "([^"]+)"/, "service-worker.js cache version");
 
-test("index.html stylesheet and app module share one asset version", () => {
+test("[INFRA-ASSETS] index.html stylesheet and app module share one asset version", () => {
   assert.equal(appTag, stylesheetTag);
 });
 
-test("service-worker cache version keeps the removable sirento-shell prefix", () => {
+test("[INFRA-ASSETS] service-worker cache version keeps the removable sirento-shell prefix", () => {
   assert.match(cacheVersion, /^sirento-shell-v\d+$/);
   assert.match(worker, /key\.startsWith\("sirento-shell-"\) && key !== CACHE_VERSION/);
 });
 
-test("every hardcoded asset-version reference agrees with the authoritative values", async () => {
+test("[INFRA-ASSETS] every hardcoded asset-version reference agrees with the authoritative values", async () => {
   const references = [
     ["test/cluster-asset-versioning.test.js", /app\\\.js\\\?v=([A-Za-z0-9._-]+)/, appTag],
     ["test/cluster-asset-versioning.test.js", /CACHE_VERSION = "([^"]+)"/, cacheVersion],
@@ -88,28 +88,28 @@ function assertBumped({ nextHtml, nextWorker, cluster, compositing, pwa }) {
   assert.match(pwa, /app\\\.js\\\?v=story-99-1/);
 }
 
-test("bump script validation accepts complete input and rejects partial input", () => {
+test("[INFRA-ASSETS] bump script validation accepts complete input and rejects partial input", () => {
   assert.deepEqual(validateAssetVersionInput({ assetTag: "story-99-1", cacheVersion: "sirento-shell-v99" }), []);
   assert.equal(validateAssetVersionInput({ assetTag: "bad tag!", cacheVersion: "sirento-shell-v99" }).length, 1);
   assert.equal(validateAssetVersionInput({ assetTag: "story-99-1", cacheVersion: "v99" }).length, 1);
   assert.equal(validateAssetVersionInput({}).length, 2);
 });
 
-test("bump script updates every reference together", async () => {
+test("[INFRA-ASSETS] bump script updates every reference together", async () => {
   await withSandbox(async dir => {
     await execFileAsync("node", [scriptPath, "--asset", "story-99-1", "--cache", "sirento-shell-v99", "--root", dir]);
     assertBumped(await readSandbox(dir));
   });
 });
 
-test("bump script defaults to the working directory when no root is given", async () => {
+test("[INFRA-ASSETS] bump script defaults to the working directory when no root is given", async () => {
   await withSandbox(async dir => {
     await execFileAsync("node", [scriptPath, "--asset", "story-99-1", "--cache", "sirento-shell-v99"], { cwd: dir });
     assertBumped(await readSandbox(dir));
   });
 });
 
-test("bump script reports no change when the requested versions already match", async () => {
+test("[INFRA-ASSETS] bump script reports no change when the requested versions already match", async () => {
   await withSandbox(async dir => {
     const { stdout } = await execFileAsync("node", [scriptPath, "--asset", stylesheetTag, "--cache", cacheVersion, "--root", dir]);
     assert.match(stdout, /No version references changed/);
@@ -118,7 +118,7 @@ test("bump script reports no change when the requested versions already match", 
   });
 });
 
-test("bump script prints usage for --help and -h without editing files", async () => {
+test("[INFRA-ASSETS] bump script prints usage for --help and -h without editing files", async () => {
   await withSandbox(async dir => {
     for (const flag of ["--help", "-h"]) {
       const { stdout } = await execFileAsync("node", [scriptPath, flag, "--root", dir]);
@@ -129,7 +129,7 @@ test("bump script prints usage for --help and -h without editing files", async (
   });
 });
 
-test("bump script rejects invalid input before touching any file", async () => {
+test("[INFRA-ASSETS] bump script rejects invalid input before touching any file", async () => {
   await withSandbox(async dir => {
     await assert.rejects(
       bumpAssetVersion({ assetTag: "bad tag!", cacheVersion, root: dir }),
@@ -138,7 +138,7 @@ test("bump script rejects invalid input before touching any file", async () => {
   });
 });
 
-test("bump script leaves every file unchanged on invalid or incomplete input", async () => {
+test("[INFRA-ASSETS] bump script leaves every file unchanged on invalid or incomplete input", async () => {
   await withSandbox(async dir => {
     const before = await readSandbox(dir);
     for (const args of [

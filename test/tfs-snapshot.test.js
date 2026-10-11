@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { buildTfsSnapshot } from "../src/pipeline/tfs-snapshot.js";
 
-test("builds a dashboard-ready TFS snapshot with freshness metadata", () => {
+test("[DATA-ETL] builds a dashboard-ready TFS snapshot with freshness metadata", () => {
     const snapshot = buildTfsSnapshot({
         updatedAt: "2026-09-16 12:00:00",
         incidents: [{
@@ -33,7 +33,7 @@ test("builds a dashboard-ready TFS snapshot with freshness metadata", () => {
     ]);
 });
 
-test('accumulates history, updates IDs, expires old calls and clears ongoing status', () => {
+test('[DATA-ETL] accumulates history, updates IDs, expires old calls and clears ongoing status', () => {
     const now = new Date('2026-09-16T12:00:00Z');
     const previous = {
         source: 'TFS', fetchedAt: '2026-09-16T11:00:00Z', sourceUpdatedAt: '2026-09-16T11:00:00Z',
@@ -71,7 +71,7 @@ for (const [label, rows] of [
     ['marked inactive by cad', [{ cad: 0 }]],
     ['explicitly not ongoing despite cad', [{ cad: 1, isOngoing: false }]]
 ]) {
-    test(`retained ongoing incident becomes inactive when ${label}`, () => {
+    test(`[DATA-ETL] retained ongoing incident becomes inactive when ${label}`, () => {
         const now = new Date('2026-09-16T12:00:00Z');
         const row = { event_id: 'F123', time: '2026-09-16T10:00:00Z', cad: 1 };
         const previous = buildTfsSnapshot({ updatedAt: '2026-09-16T11:00:00Z', incidents: [row] }, new Date('2026-09-16T11:00:00Z'));
@@ -89,7 +89,7 @@ for (const [label, rows] of [
     });
 }
 
-test('snapshot isolates non-normalizable rows, retains valid siblings, and reports a bounded count', () => {
+test('[DATA-ETL] snapshot isolates non-normalizable rows, retains valid siblings, and reports a bounded count', () => {
     const now = new Date('2026-09-16T20:00:00Z');
     const source = { updatedAt: '2026-09-16T20:00:00Z', incidents: [
         { event_id: 'F1', time: '2026-09-16T11:00:00' },
@@ -110,7 +110,7 @@ test('snapshot isolates non-normalizable rows, retains valid siblings, and repor
     assert.equal(allBad.rejected, 2);
 });
 
-test('snapshot rejects absent sources and non-array incidents', () => {
+test('[DATA-ETL] snapshot rejects absent sources and non-array incidents', () => {
  for (const source of [null, {}, {incidents:{}}]) assert.throws(()=>buildTfsSnapshot(source), /incidents array/);
  const result=buildTfsSnapshot({updatedAt:'2026-09-16T12:00:00Z',incidents:[{}]},new Date('2026-09-16T12:00:00Z'));
  assert.deepEqual(result.incidents,[]);
