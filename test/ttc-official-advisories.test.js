@@ -52,7 +52,7 @@ function transitFeed(overrides = {}) {
   };
 }
 
-test('advisory contract derives stable source-qualified identity and provenance', () => {
+test('[STORY-51B] advisory contract derives stable source-qualified identity and provenance', () => {
   const contract = officialAdvisories({ transit: transitFeed() });
   assert.equal(contract.schemaVersion, OFFICIAL_ADVISORY_SCHEMA_VERSION);
   assert.equal(contract.source, OFFICIAL_ADVISORY_SOURCE);
@@ -75,7 +75,7 @@ test('advisory contract derives stable source-qualified identity and provenance'
   assert.equal(advisory.activePeriods[0].end, new Date(BASELINE_EPOCH + 100000000).toISOString());
 });
 
-test('advisory contract never derives geometry or direction from prose', () => {
+test('[STORY-51B] advisory contract never derives geometry or direction from prose', () => {
   const contract = officialAdvisories({ transit: transitFeed() });
   const [advisory] = contract.advisories;
   assert.equal(advisory.geometry, undefined);
@@ -86,7 +86,7 @@ test('advisory contract never derives geometry or direction from prose', () => {
   assert.equal(advisory.description, undefined);
 });
 
-test('successful empty feed is distinct from unavailable and not-loaded', () => {
+test('[STORY-51B] successful empty feed is distinct from unavailable and not-loaded', () => {
   const empty = officialAdvisories({ transit: transitFeed({ items: [] }) });
   assert.equal(empty.status, 'ok');
   assert.deepEqual(empty.advisories, []);
@@ -101,7 +101,7 @@ test('successful empty feed is distinct from unavailable and not-loaded', () => 
   assert.equal(missing.checkedAt, null);
 });
 
-test('advisories are sorted deterministically and drop records without an id', () => {
+test('[STORY-51B] advisories are sorted deterministically and drop records without an id', () => {
   const feed = transitFeed({
     items: [
       { id: 'b', title: 'B', effect: 'DETOUR', routes: ['2'], periods: [], url: null },
@@ -113,7 +113,7 @@ test('advisories are sorted deterministically and drop records without an id', (
   assert.deepEqual(contract.advisories.map(a => a.ref), ['ttc-service-change:a', 'ttc-service-change:b']);
 });
 
-test('partial and malformed advisory fields fall back safely without inventing data', () => {
+test('[STORY-51B] partial and malformed advisory fields fall back safely without inventing data', () => {
   const feed = transitFeed({
     items: [
       // Missing periods, non-string title/effect, non-string url, invalid routes.
@@ -133,13 +133,13 @@ test('partial and malformed advisory fields fall back safely without inventing d
   assert.deepEqual(periods.activePeriods, [{ start: null, end: null }, { start: null, end: null }]);
 });
 
-test('advisory contract is deterministic across repeated construction', () => {
+test('[STORY-51B] advisory contract is deterministic across repeated construction', () => {
   const a = officialAdvisories({ transit: transitFeed() });
   const b = officialAdvisories({ transit: transitFeed() });
   assert.deepEqual(a, b);
 });
 
-test('validation accepts a well-formed contract and rejects malformed records', () => {
+test('[STORY-51B] validation accepts a well-formed contract and rejects malformed records', () => {
   const contract = officialAdvisories({ transit: transitFeed() });
   assert.equal(validateOfficialAdvisories(contract), contract);
   const mutations = [
@@ -166,13 +166,13 @@ test('validation accepts a well-formed contract and rejects malformed records', 
   }
 });
 
-test('validation rejects an oversized advisory artifact', () => {
+test('[STORY-51B] validation rejects an oversized advisory artifact', () => {
   const contract = officialAdvisories({ transit: transitFeed() });
   contract.advisories[0].title = 'x'.repeat(OFFICIAL_ADVISORY_POLICY.maxArtifactBytes + 1);
   assert.throws(() => validateOfficialAdvisories(contract), /official advisory/);
 });
 
-test('loadOfficialAdvisories reads a snapshot path and treats a missing file as not-loaded', async () => {
+test('[STORY-51B] loadOfficialAdvisories reads a snapshot path and treats a missing file as not-loaded', async () => {
   const dir = await mkdtemp(`${tmpdir()}/ttc-advisory-`);
   try {
     const path = `${dir}/current.json`;
@@ -193,7 +193,7 @@ test('loadOfficialAdvisories reads a snapshot path and treats a missing file as 
   }
 });
 
-test('advisorySummary reports bounded counts and routes without raw text', () => {
+test('[STORY-51B] advisorySummary reports bounded counts and routes without raw text', () => {
   const contract = officialAdvisories({ transit: transitFeed() });
   const summary = advisorySummary(contract);
   assert.equal(summary.source, 'ttc-official-advisories');
@@ -208,7 +208,7 @@ test('advisorySummary reports bounded counts and routes without raw text', () =>
   assert.deepEqual(missing.routes, []);
 });
 
-test('inferDiversions accepts and validates advisory context without associating geometry', () => {
+test('[STORY-51B] inferDiversions accepts and validates advisory context without associating geometry', () => {
   const contract = officialAdvisories({ transit: transitFeed() });
   // Build a real, schema-valid vehicle state through the detector.
   let vehicles;
@@ -222,12 +222,12 @@ test('inferDiversions accepts and validates advisory context without associating
   for (const record of result.state.records) assert.equal(record.relatedAlertIds.includes('ttc-service-change:102'), false);
 });
 
-test('inferDiversions rejects a malformed advisory contract', () => {
+test('[STORY-51B] inferDiversions rejects a malformed advisory contract', () => {
   const bad = { schemaVersion: 1, source: 'ttc-service-change', status: 'ok', checkedAt: null, sourceUpdatedAt: null, fetchedAt: null, advisories: [{ ref: 'x' }] };
   assert.throws(() => inferDiversions(undefined, { schemaVersion: 1, staticVersion: index.version, status: 'ok', checkedAt: at(0).toISOString(), fetchedAt: at(0).toISOString(), sourceUpdatedAt: null, tracks: [] }, index, at(0), undefined, { advisories: bad }), /official advisory/);
 });
 
-test('runVehiclePolling loads advisory context from a snapshot path and logs a bounded summary', async () => {
+test('[STORY-51B] runVehiclePolling loads advisory context from a snapshot path and logs a bounded summary', async () => {
   const dir = await mkdtemp(`${tmpdir()}/ttc-advisory-poll-`);
   try {
     const snapshotPath = `${dir}/current.json`;
@@ -249,7 +249,7 @@ test('runVehiclePolling loads advisory context from a snapshot path and logs a b
   }
 });
 
-test('runVehiclePolling tolerates a missing advisory input and a rejected contract', async () => {
+test('[STORY-51B] runVehiclePolling tolerates a missing advisory input and a rejected contract', async () => {
   const dir = await mkdtemp(`${tmpdir()}/ttc-advisory-missing-`);
   try {
     const logs = [];
@@ -277,7 +277,7 @@ test('runVehiclePolling tolerates a missing advisory input and a rejected contra
   }
 });
 
-test('runVehiclePolling passes advisory context into infer-only inference', async () => {
+test('[STORY-51B] runVehiclePolling passes advisory context into infer-only inference', async () => {
   const dir = await mkdtemp(`${tmpdir()}/ttc-advisory-infer-`);
   try {
     const snapshotPath = `${dir}/current.json`;
@@ -425,7 +425,7 @@ test('runVehiclePolling reports a rejected cache without crashing', async () => 
   }
 });
 
-test('the GitHub workflow reuses the updated snapshot as advisory context and drops the stale comment', async () => {
+test('[STORY-51B] the GitHub workflow reuses the updated snapshot as advisory context and drops the stale comment', async () => {
   const workflow = await readFile(new URL('../.github/workflows/update-sirento.yml', import.meta.url), 'utf8');
   assert.match(workflow, /--advisory data\/current\.json/);
   assert.doesNotMatch(workflow, /Fresh state per run/);
@@ -436,7 +436,7 @@ test('the GitHub workflow reuses the updated snapshot as advisory context and dr
   assert.ok(incidentIndex >= 0 && vehicleIndex > incidentIndex, 'snapshot must be published before the vehicle step');
 });
 
-test('the Concourse vehicle task receives the preceding incident snapshot as advisory input', async () => {
+test('[STORY-51B] the Concourse vehicle task receives the preceding incident snapshot as advisory input', async () => {
   const task = await readFile(new URL('../concourse/ttc-vehicles.yml', import.meta.url), 'utf8');
   assert.match(task, /- name: incident-repo/);
   assert.match(task, /--advisory incident-repo\/data\/current\.json/);
@@ -446,7 +446,7 @@ test('the Concourse vehicle task receives the preceding incident snapshot as adv
   assert.match(pipeline, /- task: observe-vehicles/);
 });
 
-test('the advisory contract is derived from the Story 51A baseline snapshot without inventing geometry', () => {
+test('[STORY-51B] the advisory contract is derived from the Story 51A baseline snapshot without inventing geometry', () => {
   const snapshot = { disruptions: { transit: officialServiceChangeFeed() } };
   const contract = officialAdvisories(snapshot.disruptions);
   assert.equal(contract.status, 'ok');
@@ -484,7 +484,7 @@ function advisoryContract(overrides = {}) {
   return officialAdvisories({ transit: transitFeed(overrides) });
 }
 
-test('an active route-compatible official advisory is associated with the observed path', () => {
+test('[STORY-51C] an active route-compatible official advisory is associated with the observed path', () => {
   const { result } = inferWithAdvisories(advisoryContract());
   assert.equal(result.output.diversions.length, 1);
   const [diversion] = result.output.diversions;
@@ -500,7 +500,7 @@ test('an active route-compatible official advisory is associated with the observ
   assert.equal(result.report.relatedAdvisoryCount, 1);
 });
 
-test('advisory association never lowers the confirmation threshold', () => {
+test('[STORY-51C] advisory association never lowers the confirmation threshold', () => {
   // A single incomplete vehicle with an advisory present must remain unconfirmed.
   const index = baselineStaticIndex();
   const advisories = advisoryContract();
@@ -519,7 +519,7 @@ test('advisory association never lowers the confirmation threshold', () => {
   assert.deepEqual(diversion.relatedAdvisoryRefs, ['ttc-service-change:102']);
 });
 
-test('an unrelated-route advisory is never associated', () => {
+test('[STORY-51C] an unrelated-route advisory is never associated', () => {
   const advisories = officialAdvisories({ transit: transitFeed({ items: [{ id: '501', title: '501 detour', effect: 'DETOUR', routes: ['501'], periods: [], url: null }] }) });
   const { result } = inferWithAdvisories(advisories);
   const [diversion] = result.output.diversions;
@@ -527,31 +527,31 @@ test('an unrelated-route advisory is never associated', () => {
   assert.equal(diversion.confidence.advisorySupported, false);
 });
 
-test('a non-detour effect is never associated', () => {
+test('[STORY-51C] a non-detour effect is never associated', () => {
   const advisories = officialAdvisories({ transit: transitFeed({ items: [{ id: '102', title: '94 reduced', effect: 'REDUCED SERVICE', routes: ['94'], periods: [], url: null }] }) });
   const { result } = inferWithAdvisories(advisories);
   assert.deepEqual(result.output.diversions[0].relatedAdvisoryRefs, []);
 });
 
-test('an expired advisory is never associated', () => {
+test('[STORY-51C] an expired advisory is never associated', () => {
   const advisories = officialAdvisories({ transit: transitFeed({ items: [{ id: '102', title: '94 detour', effect: 'DETOUR', routes: ['94'], periods: [{ start: BASELINE_EPOCH - 10000000, end: BASELINE_EPOCH - 1000 }], url: null }] }) });
   const { result } = inferWithAdvisories(advisories);
   assert.deepEqual(result.output.diversions[0].relatedAdvisoryRefs, []);
 });
 
-test('an advisory with an open-ended active period is associated', () => {
+test('[STORY-51C] an advisory with an open-ended active period is associated', () => {
   const advisories = officialAdvisories({ transit: transitFeed({ items: [{ id: '102', title: '94 detour', effect: 'DETOUR', routes: ['94'], periods: [{ start: BASELINE_EPOCH - 1000, end: null }], url: null }] }) });
   const { result } = inferWithAdvisories(advisories);
   assert.deepEqual(result.output.diversions[0].relatedAdvisoryRefs, ['ttc-service-change:102']);
 });
 
-test('an advisory with no active periods is treated as active', () => {
+test('[STORY-51C] an advisory with no active periods is treated as active', () => {
   const advisories = officialAdvisories({ transit: transitFeed({ items: [{ id: '102', title: '94 detour', effect: 'DETOUR', routes: ['94'], periods: [], url: null }] }) });
   const { result } = inferWithAdvisories(advisories);
   assert.deepEqual(result.output.diversions[0].relatedAdvisoryRefs, ['ttc-service-change:102']);
 });
 
-test('two indistinguishable same-route advisories claim no relationship', () => {
+test('[STORY-51C] two indistinguishable same-route advisories claim no relationship', () => {
   const advisories = officialAdvisories({ transit: transitFeed({ items: [
     { id: '102', title: '94 detour A', effect: 'DETOUR', routes: ['94'], periods: [], url: null },
     { id: '103', title: '94 detour B', effect: 'MODIFIED SERVICE', routes: ['94'], periods: [], url: null }
@@ -565,32 +565,32 @@ test('two indistinguishable same-route advisories claim no relationship', () => 
   assert.equal(result.report.advisoryAmbiguousCount, 1);
 });
 
-test('an unavailable advisory source never associates', () => {
+test('[STORY-51C] an unavailable advisory source never associates', () => {
   const advisories = { ...advisoryContract(), status: 'unavailable' };
   const { result } = inferWithAdvisories(advisories);
   assert.deepEqual(result.output.diversions[0].relatedAdvisoryRefs, []);
 });
 
-test('a not-loaded advisory context never associates', () => {
+test('[STORY-51C] a not-loaded advisory context never associates', () => {
   const { result } = inferWithAdvisories(officialAdvisories(undefined));
   assert.deepEqual(result.output.diversions[0].relatedAdvisoryRefs, []);
 });
 
-test('advisory association is deterministic across repeated inference', () => {
+test('[STORY-51C] advisory association is deterministic across repeated inference', () => {
   const a = inferWithAdvisories(advisoryContract()).result.output.diversions[0];
   const b = inferWithAdvisories(advisoryContract()).result.output.diversions[0];
   assert.deepEqual(a.relatedAdvisoryRefs, b.relatedAdvisoryRefs);
   assert.equal(a.confidence.advisorySupported, b.confidence.advisorySupported);
 });
 
-test('the published output carries advisory refs but never raw advisory text', () => {
+test('[STORY-51C] the published output carries advisory refs but never raw advisory text', () => {
   const { result } = inferWithAdvisories(advisoryContract());
   const serialized = JSON.stringify(result.output);
   assert.match(serialized, /ttc-service-change:102/);
   assert.doesNotMatch(serialized, /Wellesley|Jarvis|eastbound/i);
 });
 
-test('validation rejects a forged advisory association', () => {
+test('[STORY-51C] validation rejects a forged advisory association', () => {
   const { result } = inferWithAdvisories(advisoryContract());
   const output = structuredClone(result.output);
   // A ref that does not match the confidence flag is rejected.

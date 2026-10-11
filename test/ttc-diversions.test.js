@@ -53,7 +53,7 @@ test('[STORY-30E][STORY-30G] one vehicle and repeated polling of one episode nev
   const r=run({paths:[path]});assert.equal(only(r).status,'candidate');assert.equal(only(r).evidence.trajectoryCount,1);
   const repeated=inferDiversions(r.state,r.vehicles,index,at(180));assert.equal(only(repeated).evidence.trajectoryCount,1);assert.equal(only(repeated).id,only(r).id);
 });
-test('[STORY-30E][STORY-30G] Story 51C: an active route-compatible advisory is associated without changing confirmation',()=>{
+test('[STORY-30E][STORY-30G][STORY-51C] Story 51C: an active route-compatible advisory is associated without changing confirmation',()=>{
   const advisories={schemaVersion:1,source:'ttc-service-change',status:'ok',checkedAt:at(0).toISOString(),sourceUpdatedAt:null,fetchedAt:null,
     advisories:[{ref:'ttc-service-change:0504',source:'ttc-service-change',sourceId:'0504',title:'504 detour',effect:'DETOUR',url:null,routeIds:['0504'],activePeriods:[]}]};
   const r=run({advisories}),d=only(r);
@@ -63,7 +63,7 @@ test('[STORY-30E][STORY-30G] Story 51C: an active route-compatible advisory is a
   // Without the advisory context the same evidence produces no association.
   assert.deepEqual(only(run()).relatedAdvisoryRefs,[]);
 });
-test('[STORY-30E][STORY-30G] Story 51C: an unrelated-route advisory is never associated with the observed path',()=>{
+test('[STORY-30E][STORY-30G][STORY-51C] Story 51C: an unrelated-route advisory is never associated with the observed path',()=>{
   const advisories={schemaVersion:1,source:'ttc-service-change',status:'ok',checkedAt:at(0).toISOString(),sourceUpdatedAt:null,fetchedAt:null,
     advisories:[{ref:'ttc-service-change:501',source:'ttc-service-change',sourceId:'501',title:'501 detour',effect:'DETOUR',url:null,routeIds:['501'],activePeriods:[]}]};
   assert.deepEqual(only(run({advisories})).relatedAdvisoryRefs,[]);
