@@ -7,7 +7,7 @@ import { createLocalSink, createR2Sink, createR2SignedFetch, createSinkFromEnv, 
 
 // --- Local sink -------------------------------------------------------------
 
-test('the local sink writes the body and reports the first write as changed', async t => {
+test('[STORY-55][STORY-55A] the local sink writes the body and reports the first write as changed', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'local-sink-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const sink = createLocalSink({ dir });
@@ -16,7 +16,7 @@ test('the local sink writes the body and reports the first write as changed', as
   assert.equal(await readFile(join(dir, 'data/current.json'), 'utf8'), '{"a":1}\n');
 });
 
-test('the local sink reports an identical rewrite as unchanged', async t => {
+test('[STORY-55][STORY-55A] the local sink reports an identical rewrite as unchanged', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'local-sink-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const sink = createLocalSink({ dir });
@@ -24,7 +24,7 @@ test('the local sink reports an identical rewrite as unchanged', async t => {
   assert.deepEqual(await sink({ key: 'data/current.json', body: '{"a":1}\n' }), { changed: false });
 });
 
-test('the local sink reports a differing rewrite as changed', async t => {
+test('[STORY-55][STORY-55A] the local sink reports a differing rewrite as changed', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'local-sink-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const sink = createLocalSink({ dir });
@@ -33,7 +33,7 @@ test('the local sink reports a differing rewrite as changed', async t => {
   assert.equal(await readFile(join(dir, 'data/current.json'), 'utf8'), '{"a":2}\n');
 });
 
-test('the local sink creates nested directories and defaults to the current directory', async t => {
+test('[STORY-55][STORY-55A] the local sink creates nested directories and defaults to the current directory', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'local-sink-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const sink = createLocalSink({ dir });
@@ -84,12 +84,12 @@ const r2Config = {
   now: () => new Date('2026-10-06T12:00:00Z')
 };
 
-test('the R2 sink requires every credential', () => {
+test('[STORY-55][STORY-55A] the R2 sink requires every credential', () => {
   assert.throws(() => createR2Sink({}), /R2 sink requires/);
   assert.throws(() => createR2Sink({ endpoint: 'https://x', bucket: 'b', accessKeyId: 'a' }), /R2 sink requires/);
 });
 
-test('the R2 sink PUTs the body and reports a first write as changed', async () => {
+test('[STORY-55][STORY-55A] the R2 sink PUTs the body and reports a first write as changed', async () => {
   const { store, requests, fetchImpl } = fakeR2();
   const sink = createR2Sink({ ...r2Config, fetchImpl });
   assert.deepEqual(await sink({ key: 'data/current.json', body: '{"a":1}\n' }), { changed: true });
@@ -99,7 +99,7 @@ test('the R2 sink PUTs the body and reports a first write as changed', async () 
   assert.equal(requests[1].headers['content-type'], 'application/json');
 });
 
-test('the R2 sink reports an identical rewrite as unchanged and a differing one as changed', async () => {
+test('[STORY-55][STORY-55A] the R2 sink reports an identical rewrite as unchanged and a differing one as changed', async () => {
   const { fetchImpl } = fakeR2();
   const sink = createR2Sink({ ...r2Config, fetchImpl });
   await sink({ key: 'data/current.json', body: '{"a":1}\n' });
@@ -107,7 +107,7 @@ test('the R2 sink reports an identical rewrite as unchanged and a differing one 
   assert.deepEqual(await sink({ key: 'data/current.json', body: '{"a":2}\n' }), { changed: true });
 });
 
-test('the R2 sink signs each request with SigV4 and the configured bucket', async () => {
+test('[STORY-55][STORY-55A] the R2 sink signs each request with SigV4 and the configured bucket', async () => {
   const { requests, fetchImpl } = fakeR2();
   const sink = createR2Sink({ ...r2Config, fetchImpl });
   await sink({ key: 'data/ttc-diversions.json', body: 'x' });
@@ -118,7 +118,7 @@ test('the R2 sink signs each request with SigV4 and the configured bucket', asyn
   assert.equal(put.headers['x-amz-content-sha256'], '2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881');
 });
 
-test('the R2 sink surfaces a read or write failure', async () => {
+test('[STORY-55][STORY-55A] the R2 sink surfaces a read or write failure', async () => {
   const readFail = createR2Sink({ ...r2Config, fetchImpl: async () => ({ ok: false, status: 500, async text() { return ''; } }) });
   await assert.rejects(readFail({ key: 'k', body: 'b' }), /R2 read failed: 500/);
   const writeFail = createR2Sink({
@@ -130,14 +130,14 @@ test('the R2 sink surfaces a read or write failure', async () => {
   await assert.rejects(writeFail({ key: 'k', body: 'b' }), /R2 write failed: 403/);
 });
 
-test('the R2 sink strips a trailing slash from the endpoint', async () => {
+test('[STORY-55][STORY-55A] the R2 sink strips a trailing slash from the endpoint', async () => {
   const { requests, fetchImpl } = fakeR2();
   const sink = createR2Sink({ ...r2Config, endpoint: 'https://account.r2.cloudflarestorage.com/', fetchImpl });
   await sink({ key: '/data/current.json', body: 'x' });
   assert.match(requests[0].url, /^https:\/\/account\.r2\.cloudflarestorage\.com\/sirento\/data\/current\.json$/);
 });
 
-test('signS3Request produces a stable signature for fixed inputs', () => {
+test('[STORY-55][STORY-55A] signS3Request produces a stable signature for fixed inputs', () => {
   const authorization = signS3Request({
     method: 'PUT', host: 'account.r2.cloudflarestorage.com', path: '/sirento/data/current.json',
     accessKeyId: 'AKIDEXAMPLE', secretAccessKey: 'secret',
@@ -148,7 +148,7 @@ test('signS3Request produces a stable signature for fixed inputs', () => {
 
 // --- fetchR2Object ----------------------------------------------------------
 
-test('fetchR2Object returns the body, undefined for a missing object, and throws on failure', async () => {
+test('[STORY-55][STORY-55A] fetchR2Object returns the body, undefined for a missing object, and throws on failure', async () => {
   const { fetchImpl } = fakeR2({ objects: { '/sirento/data/current.json': '{"a":1}\n' } });
   const config = { ...r2Config, fetchImpl };
   assert.equal(await fetchR2Object({ ...config, key: 'data/current.json' }), '{"a":1}\n');
@@ -161,7 +161,7 @@ test('fetchR2Object returns the body, undefined for a missing object, and throws
 
 // --- Environment-driven sink selection --------------------------------------
 
-test('createSinkFromEnv selects the R2 sink when the credentials are present', async () => {
+test('[STORY-55][STORY-55A] createSinkFromEnv selects the R2 sink when the credentials are present', async () => {
   const { store, fetchImpl } = fakeR2();
   const sink = createSinkFromEnv({
     env: { R2_ENDPOINT: r2Config.endpoint, R2_BUCKET: 'sirento', R2_ACCESS_KEY_ID: 'a', R2_SECRET_ACCESS_KEY: 's' }
@@ -173,7 +173,7 @@ test('createSinkFromEnv selects the R2 sink when the credentials are present', a
   assert.equal(typeof sink, 'function');
 });
 
-test('createSinkFromEnv requires every R2 credential and never falls back to git', () => {
+test('[STORY-55][STORY-55A] createSinkFromEnv requires every R2 credential and never falls back to git', () => {
   // The git `data` branch was retired in Story 55E, so a missing credential must
   // fail loudly instead of silently writing to a branch that no longer exists.
   assert.throws(() => createSinkFromEnv({ env: {} }), /R2 publication requires/);
@@ -183,13 +183,13 @@ test('createSinkFromEnv requires every R2 credential and never falls back to git
   );
 });
 
-test('createSinkFromEnv honors R2_REGION and defaults it to auto', () => {
+test('[STORY-55][STORY-55A] createSinkFromEnv honors R2_REGION and defaults it to auto', () => {
   const base = { R2_ENDPOINT: r2Config.endpoint, R2_BUCKET: 'sirento', R2_ACCESS_KEY_ID: 'a', R2_SECRET_ACCESS_KEY: 's' };
   assert.equal(typeof createSinkFromEnv({ env: base }), 'function');
   assert.equal(typeof createSinkFromEnv({ env: { ...base, R2_REGION: 'wnam' } }), 'function');
 });
 
-test('createR2SignedFetch defaults its region, fetch, and clock', async () => {
+test('[STORY-55][STORY-55A] createR2SignedFetch defaults its region, fetch, and clock', async () => {
   // No region/fetchImpl/now: the defaults must produce a valid signed request
   // against the global fetch. Stub the global so no network is touched.
   const requests = [];
@@ -205,7 +205,7 @@ test('createR2SignedFetch defaults its region, fetch, and clock', async () => {
   assert.match(requests[0].options.headers.authorization, /\/auto\/s3\/aws4_request/);
 });
 
-test('fetchR2Object defaults its region, fetch, and clock', async () => {
+test('[STORY-55][STORY-55A] fetchR2Object defaults its region, fetch, and clock', async () => {
   const original = globalThis.fetch;
   globalThis.fetch = async () => ({ ok: true, status: 200, async text() { return 'body'; } });
   try {
@@ -215,7 +215,7 @@ test('fetchR2Object defaults its region, fetch, and clock', async () => {
   }
 });
 
-test('signS3Request defaults its region, service, and extra headers', () => {
+test('[STORY-55][STORY-55A] signS3Request defaults its region, service, and extra headers', () => {
   const authorization = signS3Request({
     method: 'GET', host: 'h', path: '/p', accessKeyId: 'a', secretAccessKey: 's',
     payloadHash: 'x', amzDate: '20261006T120000Z', dateStamp: '20261006'
@@ -224,7 +224,7 @@ test('signS3Request defaults its region, service, and extra headers', () => {
   assert.match(authorization, /SignedHeaders=host;x-amz-content-sha256;x-amz-date/);
 });
 
-test('createR2Sink defaults its region, fetch, and clock', async () => {
+test('[STORY-55][STORY-55A] createR2Sink defaults its region, fetch, and clock', async () => {
   // No region/fetchImpl/now: the defaults must produce a valid signed request
   // against the global fetch. Stub the global so no network is touched.
   const requests = [];
