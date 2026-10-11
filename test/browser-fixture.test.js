@@ -18,12 +18,12 @@ import {
 
 // --- constants -------------------------------------------------------------
 
-test("the readiness contract uses the documented dataset key and value", () => {
+test("[STORY-52E] the readiness contract uses the documented dataset key and value", () => {
   assert.equal(INCIDENT_LOAD_STATE_KEY, "incidentLoadState");
   assert.equal(INCIDENT_LOAD_READY, "ready");
 });
 
-test("the default timeout is longer than Playwright's 30s default", () => {
+test("[STORY-52E] the default timeout is longer than Playwright's 30s default", () => {
   assert.ok(DEFAULT_FIXTURE_READY_TIMEOUT_MS > 30000, `default timeout ${DEFAULT_FIXTURE_READY_TIMEOUT_MS} is not longer than 30000ms`);
 });
 
@@ -45,24 +45,24 @@ function withStubDocument(dataset, fn) {
   }
 }
 
-test("isFixtureReady is true only when the state is ready", () => {
+test("[STORY-52E] isFixtureReady is true only when the state is ready", () => {
   assert.equal(withStubDocument({ incidentLoadState: "ready" }, isFixtureReady), true);
   assert.equal(withStubDocument({ incidentLoadState: "loading" }, isFixtureReady), false);
   assert.equal(withStubDocument({}, isFixtureReady), false);
 });
 
-test("readIncidentLoadState returns the value or null when missing", () => {
+test("[STORY-52E] readIncidentLoadState returns the value or null when missing", () => {
   assert.equal(withStubDocument({ incidentLoadState: "stale" }, readIncidentLoadState), "stale");
   assert.equal(withStubDocument({}, readIncidentLoadState), null);
 });
 
 // --- describeFixtureState --------------------------------------------------
 
-test("describeFixtureState distinguishes a missing state", () => {
+test("[STORY-52E] describeFixtureState distinguishes a missing state", () => {
   assert.match(describeFixtureState(null), /state is missing/);
 });
 
-test("describeFixtureState reports the current non-ready value", () => {
+test("[STORY-52E] describeFixtureState reports the current non-ready value", () => {
   for (const value of ["loading", "stale", "unavailable", "error"]) {
     const message = describeFixtureState(value);
     assert.match(message, new RegExp(`state is "${value}"`));
@@ -118,7 +118,7 @@ function stubPage({
   };
 }
 
-test("awaitFixtureReady returns promptly when the fixture is already ready", async () => {
+test("[STORY-52E] awaitFixtureReady returns promptly when the fixture is already ready", async () => {
   const page = stubPage({ state: "ready" });
   await awaitFixtureReady(page);
   // Exactly one wait call, no retry, and no state read on success.
@@ -126,19 +126,19 @@ test("awaitFixtureReady returns promptly when the fixture is already ready", asy
   assert.equal(page.calls.evaluate, 0);
 });
 
-test("awaitFixtureReady forwards the documented default timeout", async () => {
+test("[STORY-52E] awaitFixtureReady forwards the documented default timeout", async () => {
   const page = stubPage({ state: "ready" });
   await awaitFixtureReady(page);
   assert.deepEqual(page.calls.waitForFunction[0], { timeout: DEFAULT_FIXTURE_READY_TIMEOUT_MS });
 });
 
-test("awaitFixtureReady forwards a caller-specified timeout", async () => {
+test("[STORY-52E] awaitFixtureReady forwards a caller-specified timeout", async () => {
   const page = stubPage({ state: "ready" });
   await awaitFixtureReady(page, { timeout: 1234 });
   assert.deepEqual(page.calls.waitForFunction[0], { timeout: 1234 });
 });
 
-test("awaitFixtureReady resolves after a loading -> ready transition", async () => {
+test("[STORY-52E] awaitFixtureReady resolves after a loading -> ready transition", async () => {
   // Playwright's waitForFunction polls internally: the predicate is false while
   // the fixture is loading and becomes true once it is ready. The helper issues
   // a single wait call and resolves when that wait succeeds.
@@ -148,7 +148,7 @@ test("awaitFixtureReady resolves after a loading -> ready transition", async () 
   assert.equal(page.calls.evaluate, 0);
 });
 
-test("awaitFixtureReady reports the URL and current state on timeout", async () => {
+test("[STORY-52E] awaitFixtureReady reports the URL and current state on timeout", async () => {
   const page = stubPage({ state: "loading", readyAfter: Infinity, url: "http://127.0.0.1:8765/?mobileAuditFixture=many" });
   await assert.rejects(
     () => awaitFixtureReady(page, { timeout: 5000, retries: 0 }),
@@ -161,7 +161,7 @@ test("awaitFixtureReady reports the URL and current state on timeout", async () 
   );
 });
 
-test("awaitFixtureReady distinguishes a missing dataset state on timeout", async () => {
+test("[STORY-52E] awaitFixtureReady distinguishes a missing dataset state on timeout", async () => {
   const page = stubPage({ state: null, readyAfter: Infinity });
   await assert.rejects(
     () => awaitFixtureReady(page, { retries: 0 }),
@@ -169,7 +169,7 @@ test("awaitFixtureReady distinguishes a missing dataset state on timeout", async
   );
 });
 
-test("awaitFixtureReady preserves the underlying error as the cause", async () => {
+test("[STORY-52E] awaitFixtureReady preserves the underlying error as the cause", async () => {
   const page = stubPage({ state: "error", readyAfter: Infinity });
   await assert.rejects(
     () => awaitFixtureReady(page, { retries: 0 }),
@@ -181,7 +181,7 @@ test("awaitFixtureReady preserves the underlying error as the cause", async () =
   );
 });
 
-test("awaitFixtureReady does not mask the readiness failure when the state read fails", async () => {
+test("[STORY-52E] awaitFixtureReady does not mask the readiness failure when the state read fails", async () => {
   const page = stubPage({ state: "loading", readyAfter: Infinity, evaluateError: new Error("page closed") });
   await assert.rejects(
     () => awaitFixtureReady(page, { retries: 0 }),
@@ -195,7 +195,7 @@ test("awaitFixtureReady does not mask the readiness failure when the state read 
   );
 });
 
-test("awaitFixtureReady reports an unknown url when the page exposes no url()", async () => {
+test("[STORY-52E] awaitFixtureReady reports an unknown url when the page exposes no url()", async () => {
   const page = stubPage({ state: "loading", readyAfter: Infinity });
   delete page.url;
   await assert.rejects(
@@ -210,11 +210,11 @@ test("awaitFixtureReady reports an unknown url when the page exposes no url()", 
 
 // --- bounded readiness handshake -------------------------------------------
 
-test("the default readiness handshake retries once", () => {
+test("[STORY-52E] the default readiness handshake retries once", () => {
   assert.equal(DEFAULT_FIXTURE_READY_RETRIES, 1);
 });
 
-test("awaitFixtureReady reloads and retries once when the first wait times out", async () => {
+test("[STORY-52E] awaitFixtureReady reloads and retries once when the first wait times out", async () => {
   // The first readiness wait times out; the reload makes the fixture ready.
   const page = stubPage({ state: "loading", readyAfter: Infinity, readyAfterReload: true });
   await awaitFixtureReady(page);
@@ -223,14 +223,14 @@ test("awaitFixtureReady reloads and retries once when the first wait times out",
   assert.deepEqual(page.calls.reload[0], { waitUntil: "domcontentloaded" });
 });
 
-test("awaitFixtureReady does not retry when retries is zero", async () => {
+test("[STORY-52E] awaitFixtureReady does not retry when retries is zero", async () => {
   const page = stubPage({ state: "loading", readyAfter: Infinity, readyAfterReload: true });
   await assert.rejects(() => awaitFixtureReady(page, { retries: 0 }), /did not become ready/);
   assert.equal(page.calls.waitForFunction.length, 1, "no retry may occur when retries is zero");
   assert.equal(page.calls.reload.length, 0, "no reload may occur when retries is zero");
 });
 
-test("awaitFixtureReady fails after the bounded retries are exhausted", async () => {
+test("[STORY-52E] awaitFixtureReady fails after the bounded retries are exhausted", async () => {
   // The fixture never becomes ready, even after the reload.
   const page = stubPage({ state: "loading", readyAfter: Infinity });
   await assert.rejects(
@@ -241,7 +241,7 @@ test("awaitFixtureReady fails after the bounded retries are exhausted", async ()
   assert.equal(page.calls.reload.length, 2, "one reload per retry");
 });
 
-test("awaitFixtureReady does not reload when the page exposes no reload()", async () => {
+test("[STORY-52E] awaitFixtureReady does not reload when the page exposes no reload()", async () => {
   const page = stubPage({ state: "loading", readyAfter: Infinity });
   delete page.reload;
   await assert.rejects(() => awaitFixtureReady(page), /did not become ready/);

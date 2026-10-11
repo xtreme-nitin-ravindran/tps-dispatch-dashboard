@@ -86,7 +86,7 @@ test('source lines distinguish published times from successful checks', () => {
   assert.equal(sourceStatusText('Road restriction',null,now),'Road restriction data has not been checked yet.');
 });
 
-test('repaired source note is bounded, privacy-safe, and empty without a repair', () => {
+test('[STORY-53B] repaired source note is bounded, privacy-safe, and empty without a repair', () => {
   assert.equal(repairedSourceNote({repaired:1}),' source JSON was malformed; SirenTO repaired the encoding (1 record).');
   assert.equal(repairedSourceNote({repaired:3}),' source JSON was malformed; SirenTO repaired the encoding (3 records).');
   assert.equal(repairedSourceNote({repaired:0}),'');

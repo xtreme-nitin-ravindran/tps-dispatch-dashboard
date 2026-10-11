@@ -284,7 +284,7 @@ test("[STORY-47A] runs every included suite exactly once in deterministic order"
   assert.ok(lines.some(l => l.includes("[2/2]")), "progress must show [current/total]");
 });
 
-test("[STORY-47A] records and prints a timing span for server readiness and each suite", async () => {
+test("[STORY-47A][STORY-52E] records and prints a timing span for server readiness and each suite", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -311,7 +311,7 @@ test("[STORY-47A] records and prints a timing span for server readiness and each
   assert.match(summary, /suite:test:zeta:browser: \d/);
 });
 
-test("[STORY-47A] prints the timing summary when the server never becomes ready", async () => {
+test("[STORY-47A][STORY-52E] prints the timing summary when the server never becomes ready", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -337,7 +337,7 @@ test("[STORY-47A] prints the timing summary when the server never becomes ready"
   );
 });
 
-test("[STORY-47A] prints the timing summary when a suite fails", async () => {
+test("[STORY-47A][STORY-52E] prints the timing summary when a suite fails", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -361,7 +361,7 @@ test("[STORY-47A] prints the timing summary when a suite fails", async () => {
   );
 });
 
-test("[STORY-47A] honors the JSON timing format when requested", async () => {
+test("[STORY-47A][STORY-52E] honors the JSON timing format when requested", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
