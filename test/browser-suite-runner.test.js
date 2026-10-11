@@ -40,7 +40,7 @@ const runnerPath = join(root, "scripts", "run-browser-suites.js");
 
 // --- Suite inventory -------------------------------------------------------
 
-test("discovers every test:*:browser script and excludes the aggregate", () => {
+test("[STORY-47A] discovers every test:*:browser script and excludes the aggregate", () => {
   const pkg = {
     scripts: {
       test: "sh scripts/run-unit-tests.sh",
@@ -63,7 +63,7 @@ test("discovers every test:*:browser script and excludes the aggregate", () => {
   assert.ok(!names.includes("test"), "non-browser scripts must be excluded");
 });
 
-test("discovery is deterministic and sorted", () => {
+test("[STORY-47A] discovery is deterministic and sorted", () => {
   const pkg = {
     scripts: {
       "test:zeta:browser": "node z.js",
@@ -77,7 +77,7 @@ test("discovery is deterministic and sorted", () => {
   assert.deepEqual(first, [...first].sort(), "discovery must be sorted");
 });
 
-test("a new browser script cannot be silently omitted", () => {
+test("[STORY-47A] a new browser script cannot be silently omitted", () => {
   const pkg = {
     scripts: {
       "test:story-39a:browser": "node a.js",
@@ -88,13 +88,13 @@ test("a new browser script cannot be silently omitted", () => {
   assert.ok(names.includes("test:brand-new:browser"), "a new browser script must be discovered");
 });
 
-test("discovery tolerates a missing package or scripts object", () => {
+test("[STORY-47A] discovery tolerates a missing package or scripts object", () => {
   assert.deepEqual(discoverBrowserSuites(null), [], "a null package must yield no suites");
   assert.deepEqual(discoverBrowserSuites(undefined), [], "an undefined package must yield no suites");
   assert.deepEqual(discoverBrowserSuites({}), [], "a package without scripts must yield no suites");
 });
 
-test("the real package.json exposes every supported browser suite", async () => {
+test("[STORY-47A] the real package.json exposes every supported browser suite", async () => {
   const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
   const names = discoverBrowserSuites(pkg).map(s => s.name);
   // Every real test:*:browser script (except the aggregate) must be discovered.
@@ -106,18 +106,18 @@ test("the real package.json exposes every supported browser suite", async () => 
   assert.ok(names.includes("test:ttc-ui:browser"), "the TTC suite must be exposed and included");
 });
 
-test("the aggregate script is not itself a test:*:browser suite", async () => {
+test("[STORY-47A] the aggregate script is not itself a test:*:browser suite", async () => {
   const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
   assert.equal(pkg.scripts["test:browser"], "node scripts/run-browser-suites.js");
   assert.ok(
-    !/^test:.*:browser$/.test("test:browser"),
+    !/^test:.*:browser$/.test("[STORY-47A] test:browser"),
     "the aggregate name must not match the discovery pattern"
   );
 });
 
 // --- Server readiness ------------------------------------------------------
 
-test("readiness polls the loopback server and resolves once it responds", async () => {
+test("[STORY-47A] readiness polls the loopback server and resolves once it responds", async () => {
   let calls = 0;
   const request = async () => {
     calls += 1;
@@ -127,14 +127,14 @@ test("readiness polls the loopback server and resolves once it responds", async 
   assert.equal(calls, 3, "readiness must poll until the server responds");
 });
 
-test("readiness does not use a fixed sleep: it resolves as soon as the server answers", async () => {
+test("[STORY-47A] readiness does not use a fixed sleep: it resolves as soon as the server answers", async () => {
   const start = Date.now();
   const request = async () => true; // ready immediately
   await waitForServerReady({ request, intervalMs: 100, timeoutMs: 5000 });
   assert.ok(Date.now() - start < 1000, "readiness must not wait a fixed interval when already up");
 });
 
-test("readiness times out clearly when the server never responds", async () => {
+test("[STORY-47A] readiness times out clearly when the server never responds", async () => {
   const request = async () => false;
   await assert.rejects(
     () => waitForServerReady({ request, intervalMs: 1, timeoutMs: 30 }),
@@ -142,7 +142,7 @@ test("readiness times out clearly when the server never responds", async () => {
   );
 });
 
-test("readiness rejects when the server exits early", async () => {
+test("[STORY-47A] readiness rejects when the server exits early", async () => {
   const request = async () => false;
   await assert.rejects(
     () => waitForServerReady({ request, intervalMs: 1, timeoutMs: 1000, isAlive: () => false }),
@@ -150,7 +150,7 @@ test("readiness rejects when the server exits early", async () => {
   );
 });
 
-test("readiness keeps polling when the request rejects", async () => {
+test("[STORY-47A] readiness keeps polling when the request rejects", async () => {
   let calls = 0;
   const request = async () => {
     calls += 1;
@@ -161,7 +161,7 @@ test("readiness keeps polling when the request rejects", async () => {
   assert.equal(calls, 3, "a rejected request must be retried, not fatal");
 });
 
-test("defaultExit calls process.exit with the given code", () => {
+test("[STORY-47A] defaultExit calls process.exit with the given code", () => {
   const original = process.exit;
   const seen = [];
   process.exit = code => {
@@ -176,19 +176,19 @@ test("defaultExit calls process.exit with the given code", () => {
   assert.deepEqual(seen, [7]);
 });
 
-test("an occupied port fails clearly without reusing the listener", async () => {
+test("[STORY-47A] an occupied port fails clearly without reusing the listener", async () => {
   const request = async () => true; // something already answers
   await assert.rejects(() => assertPortFree({ request }), /already in use/);
 });
 
-test("a free port passes the occupancy check", async () => {
+test("[STORY-47A] a free port passes the occupancy check", async () => {
   const request = async () => false;
   await assert.doesNotReject(() => assertPortFree({ request }));
 });
 
 // --- Process-tree helpers --------------------------------------------------
 
-test("descendantsOf returns the full transitive tree of a PID", () => {
+test("[STORY-47A] descendantsOf returns the full transitive tree of a PID", () => {
   const psOutput = [
     { pid: 10, ppid: 1 },
     { pid: 11, ppid: 10 },
@@ -200,7 +200,7 @@ test("descendantsOf returns the full transitive tree of a PID", () => {
   assert.ok(!tree.includes(99), "unrelated processes must never be returned");
 });
 
-test("terminateTree signals only the given tree and escalates after the grace period", async () => {
+test("[STORY-47A] terminateTree signals only the given tree and escalates after the grace period", async () => {
   const signals = [];
   const kill = (pid, signal) => {
     signals.push([pid, signal]);
@@ -258,7 +258,7 @@ function freeThenReady() {
   return async (baseUrl, path) => path !== "/";
 }
 
-test("runs every included suite exactly once in deterministic order", async () => {
+test("[STORY-47A] runs every included suite exactly once in deterministic order", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -284,7 +284,7 @@ test("runs every included suite exactly once in deterministic order", async () =
   assert.ok(lines.some(l => l.includes("[2/2]")), "progress must show [current/total]");
 });
 
-test("records and prints a timing span for server readiness and each suite", async () => {
+test("[STORY-47A] records and prints a timing span for server readiness and each suite", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -311,7 +311,7 @@ test("records and prints a timing span for server readiness and each suite", asy
   assert.match(summary, /suite:test:zeta:browser: \d/);
 });
 
-test("prints the timing summary when the server never becomes ready", async () => {
+test("[STORY-47A] prints the timing summary when the server never becomes ready", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -337,7 +337,7 @@ test("prints the timing summary when the server never becomes ready", async () =
   );
 });
 
-test("prints the timing summary when a suite fails", async () => {
+test("[STORY-47A] prints the timing summary when a suite fails", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -361,7 +361,7 @@ test("prints the timing summary when a suite fails", async () => {
   );
 });
 
-test("honors the JSON timing format when requested", async () => {
+test("[STORY-47A] honors the JSON timing format when requested", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -388,7 +388,7 @@ test("honors the JSON timing format when requested", async () => {
   assert.ok(parsed.spans.some(s => s.name === "suite:test:alpha:browser"));
 });
 
-test("stops on the first suite failure and preserves its exit status", async () => {
+test("[STORY-47A] stops on the first suite failure and preserves its exit status", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -414,7 +414,7 @@ test("stops on the first suite failure and preserves its exit status", async () 
   assert.ok(errors.some(l => l.includes("test:beta:browser")), "the failing suite must be reported");
 });
 
-test("passes environment overrides through to suite children", async () => {
+test("[STORY-47A] passes environment overrides through to suite children", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -440,7 +440,7 @@ test("passes environment overrides through to suite children", async () => {
   assert.equal(seen[0].CHROMIUM_EXECUTABLE, "/x");
 });
 
-test("fails clearly when the port is already occupied", async () => {
+test("[STORY-47A] fails clearly when the port is already occupied", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -462,7 +462,7 @@ test("fails clearly when the port is already occupied", async () => {
   assert.equal(calls.length, 0, "no server or suite may start when the port is occupied");
 });
 
-test("fails clearly when the server never becomes ready", async () => {
+test("[STORY-47A] fails clearly when the server never becomes ready", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -485,7 +485,7 @@ test("fails clearly when the server never becomes ready", async () => {
   assert.ok(!calls.some(c => c.cmd === "npm"), "no suite may run when the server is not ready");
 });
 
-test("fails clearly when the server exits early", async () => {
+test("[STORY-47A] fails clearly when the server exits early", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -507,7 +507,7 @@ test("fails clearly when the server exits early", async () => {
   assert.ok(errors.some(l => /exited before becoming ready/.test(l)));
 });
 
-test("fails clearly when no browser suites are discovered", async () => {
+test("[STORY-47A] fails clearly when no browser suites are discovered", async () => {
   const pkg = { scripts: { "test:browser": "node scripts/run-browser-suites.js" } };
   const { spawnFn, kill } = makeStubSpawn();
   const errors = [];
@@ -523,7 +523,7 @@ test("fails clearly when no browser suites are discovered", async () => {
   assert.ok(errors.some(l => /no test:\*:browser suites/.test(l)));
 });
 
-test("the TTC suite is not subject to an invalid sub-61-second timeout and its wait is surfaced", async () => {
+test("[STORY-47A] the TTC suite is not subject to an invalid sub-61-second timeout and its wait is surfaced", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -549,7 +549,7 @@ test("the TTC suite is not subject to an invalid sub-61-second timeout and its w
 
 // --- Cleanup ---------------------------------------------------------------
 
-test("stops the server after success", async () => {
+test("[STORY-47A] stops the server after success", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -572,7 +572,7 @@ test("stops the server after success", async () => {
   assert.ok(killed.some(([pid]) => pid === 4242), "the server must be terminated after success");
 });
 
-test("stops the server after a suite failure", async () => {
+test("[STORY-47A] stops the server after a suite failure", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -603,7 +603,7 @@ test("stops the server after a suite failure", async () => {
   assert.ok(killed.some(([pid]) => pid === 4242), "the server must be terminated after a failure");
 });
 
-test("stops the server after a readiness failure", async () => {
+test("[STORY-47A] stops the server after a readiness failure", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -636,7 +636,7 @@ test("stops the server after a readiness failure", async () => {
 
 // --- Real implementations (exercised against harmless inputs) --------------
 
-test("httpRequest resolves true for a 2xx response and false otherwise", async () => {
+test("[STORY-47A] httpRequest resolves true for a 2xx response and false otherwise", async () => {
   const http = await import("node:http");
   const server = http.createServer((req, res) => {
     if (req.url === "/ok") {
@@ -658,13 +658,13 @@ test("httpRequest resolves true for a 2xx response and false otherwise", async (
   }
 });
 
-test("httpRequest resolves false when the connection fails", async () => {
+test("[STORY-47A] httpRequest resolves false when the connection fails", async () => {
   // Nothing listens on this port; the request must resolve false, never throw.
   const result = await httpRequest("http://127.0.0.1:1/", "/");
   assert.equal(result, false);
 });
 
-test("readPsTable returns numeric pid/ppid rows from the real process table", () => {
+test("[STORY-47A] readPsTable returns numeric pid/ppid rows from the real process table", () => {
   const rows = readPsTable();
   assert.ok(Array.isArray(rows), "readPsTable must return an array");
   assert.ok(rows.length > 0, "the process table must not be empty");
@@ -676,17 +676,17 @@ test("readPsTable returns numeric pid/ppid rows from the real process table", ()
   assert.ok(rows.some(r => r.pid === process.pid), "the current process must be present");
 });
 
-test("terminateTree returns immediately for a falsy PID", async () => {
+test("[STORY-47A] terminateTree returns immediately for a falsy PID", async () => {
   await assert.doesNotReject(() => terminateTree(0));
   await assert.doesNotReject(() => terminateTree(undefined));
 });
 
-test("terminateTree with the real kill returns for a nonexistent PID", async () => {
+test("[STORY-47A] terminateTree with the real kill returns for a nonexistent PID", async () => {
   // A very high PID is not running; the real kill throws and is handled.
   await assert.doesNotReject(() => terminateTree(999999, { graceMs: 0 }));
 });
 
-test("runSuite resolves with the child's exit status", async () => {
+test("[STORY-47A] runSuite resolves with the child's exit status", async () => {
   const spawnFn = () => {
     const child = new EventEmitter();
     setImmediate(() => child.emit("exit", 3));
@@ -695,7 +695,7 @@ test("runSuite resolves with the child's exit status", async () => {
   assert.equal(await runSuite("test:x:browser", { spawnFn }), 3);
 });
 
-test("runSuite resolves 1 when the child emits an error", async () => {
+test("[STORY-47A] runSuite resolves 1 when the child emits an error", async () => {
   const spawnFn = () => {
     const child = new EventEmitter();
     setImmediate(() => child.emit("error", new Error("boom")));
@@ -704,7 +704,7 @@ test("runSuite resolves 1 when the child emits an error", async () => {
   assert.equal(await runSuite("test:x:browser", { spawnFn }), 1);
 });
 
-test("runSuite resolves 1 when the child exits with a null code", async () => {
+test("[STORY-47A] runSuite resolves 1 when the child exits with a null code", async () => {
   const spawnFn = () => {
     const child = new EventEmitter();
     setImmediate(() => child.emit("exit", null));
@@ -713,7 +713,7 @@ test("runSuite resolves 1 when the child exits with a null code", async () => {
   assert.equal(await runSuite("test:x:browser", { spawnFn }), 1);
 });
 
-test("startServer spawns python3 http.server on the loopback port", () => {
+test("[STORY-47A] startServer spawns python3 http.server on the loopback port", () => {
   const calls = [];
   const spawnFn = (cmd, args, opts) => {
     calls.push({ cmd, args, opts });
@@ -726,7 +726,7 @@ test("startServer spawns python3 http.server on the loopback port", () => {
   assert.equal(calls[0].opts.cwd, "/tmp");
 });
 
-test("httpRequest resolves false when the request times out", async () => {
+test("[STORY-47A] httpRequest resolves false when the request times out", async () => {
   const http = await import("node:http");
   // A server that accepts the connection but never responds.
   const server = http.createServer(() => { /* never respond */ });
@@ -741,7 +741,7 @@ test("httpRequest resolves false when the request times out", async () => {
   }
 });
 
-test("installSignalHandlers registers and removes the three handlers", () => {
+test("[STORY-47A] installSignalHandlers registers and removes the three handlers", () => {
   const registered = new Map();
   const target = {
     on: (signal, handler) => registered.set(signal, handler),
@@ -762,7 +762,7 @@ test("installSignalHandlers registers and removes the three handlers", () => {
   assert.equal(registered.size, 0, "all handlers must be removed");
 });
 
-test("a signal during a run terminates the server and exits with a signal status", async () => {
+test("[STORY-47A] a signal during a run terminates the server and exits with a signal status", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -801,7 +801,7 @@ test("a signal during a run terminates the server and exits with a signal status
   assert.ok(killed.some(([pid]) => pid === 4242), "the server must be terminated on signal");
 });
 
-test("a signal uses the default exit when none is injected", async () => {
+test("[STORY-47A] a signal uses the default exit when none is injected", async () => {
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -839,7 +839,7 @@ test("a signal uses the default exit when none is injected", async () => {
   assert.ok(seen.includes(143), "SIGTERM must exit with status 143 via the default exit");
 });
 
-test("runCli reports a thrown error and exits 1", async () => {
+test("[STORY-47A] runCli reports a thrown error and exits 1", async () => {
   const errors = [];
   const exits = [];
   await runCli({
@@ -853,13 +853,13 @@ test("runCli reports a thrown error and exits 1", async () => {
   assert.deepEqual(exits, [1], "the CLI must exit 1 on error");
 });
 
-test("runCli resolves without exiting when main succeeds", async () => {
+test("[STORY-47A] runCli resolves without exiting when main succeeds", async () => {
   const exits = [];
   await runCli({ mainFn: async () => { }, errorLog: () => { }, exit: code => exits.push(code) });
   assert.deepEqual(exits, [], "a successful main must not exit");
 });
 
-test("runCli uses the default exit on error when none is injected", async () => {
+test("[STORY-47A] runCli uses the default exit on error when none is injected", async () => {
   const original = process.exit;
   const seen = [];
   process.exit = code => { seen.push(code); };
@@ -874,7 +874,7 @@ test("runCli uses the default exit on error when none is injected", async () => 
   assert.deepEqual(seen, [1], "the default exit must be called with 1");
 });
 
-test("isDirectInvocation is true only when argv[1] is this module", () => {
+test("[STORY-47A] isDirectInvocation is true only when argv[1] is this module", () => {
   const moduleUrl = "file:///repo/scripts/run-browser-suites.js";
   assert.equal(
     isDirectInvocation({ argv1: "/repo/scripts/run-browser-suites.js", moduleUrl }),
@@ -893,7 +893,7 @@ test("isDirectInvocation is true only when argv[1] is this module", () => {
   );
 });
 
-test("canonicalPath resolves a symlinked path to its real target", async () => {
+test("[STORY-47A] canonicalPath resolves a symlinked path to its real target", async () => {
   // macOS exposes the same temporary directory through both `/var` and
   // `/private/var`; a symlink reproduces that aliasing deterministically on
   // every platform.
@@ -912,12 +912,12 @@ test("canonicalPath resolves a symlinked path to its real target", async () => {
   }
 });
 
-test("canonicalPath returns a nonexistent path unchanged", () => {
+test("[STORY-47A] canonicalPath returns a nonexistent path unchanged", () => {
   const missing = join(tmpdir(), "browser-canonical-missing-does-not-exist.js");
   assert.equal(canonicalPath(missing), missing, "a missing path must be returned unchanged");
 });
 
-test("isDirectInvocation recognizes a symlinked invocation path", async () => {
+test("[STORY-47A] isDirectInvocation recognizes a symlinked invocation path", async () => {
   // Regression: on macOS the scratch directory is reached through `/var` while
   // Node resolves `import.meta.url` to `/private/var`, so the raw string
   // comparison failed and the CLI never ran (exit 0 instead of a clear
@@ -944,7 +944,7 @@ test("isDirectInvocation recognizes a symlinked invocation path", async () => {
   }
 });
 
-test("bootstrap runs the CLI only on a direct invocation", () => {
+test("[STORY-47A] bootstrap runs the CLI only on a direct invocation", () => {
   let cliCalls = 0;
   const cli = () => { cliCalls += 1; };
   bootstrap({ isDirect: () => true, cli });
@@ -953,7 +953,7 @@ test("bootstrap runs the CLI only on a direct invocation", () => {
   assert.equal(cliCalls, 1, "an import must not run the CLI");
 });
 
-test("main reads package.json from the given root and exits with the run status", async () => {
+test("[STORY-47A] main reads package.json from the given root and exits with the run status", async () => {
   const scratch = await mkdtemp(join(tmpdir(), "browser-main-"));
   try {
     await writeFile(
@@ -978,7 +978,7 @@ test("main reads package.json from the given root and exits with the run status"
   }
 });
 
-test("main uses the default exit when none is injected", async () => {
+test("[STORY-47A] main uses the default exit when none is injected", async () => {
   const scratch = await mkdtemp(join(tmpdir(), "browser-main-default-"));
   const original = process.exit;
   const seen = [];
@@ -998,7 +998,7 @@ test("main uses the default exit when none is injected", async () => {
 
 // --- CLI -------------------------------------------------------------------
 
-test("the CLI exits nonzero when no browser suites are configured", async () => {
+test("[STORY-47A] the CLI exits nonzero when no browser suites are configured", async () => {
   // Run the real CLI in a scratch directory whose package.json has no
   // test:*:browser scripts. It must fail fast without starting a server.
   const scratch = await mkdtemp(join(tmpdir(), "browser-cli-"));
@@ -1031,12 +1031,12 @@ test("the CLI exits nonzero when no browser suites are configured", async () => 
 
 // --- Package wiring --------------------------------------------------------
 
-test("npm run test:browser invokes the aggregate runner", async () => {
+test("[STORY-47A] npm run test:browser invokes the aggregate runner", async () => {
   const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
   assert.equal(pkg.scripts["test:browser"], "node scripts/run-browser-suites.js");
 });
 
-test("every standalone browser script is exposed and included or documented", async () => {
+test("[STORY-47A] every standalone browser script is exposed and included or documented", async () => {
   const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
   const scriptsDir = join(root, "scripts");
   const entries = await readdir(scriptsDir);
@@ -1056,7 +1056,7 @@ test("every standalone browser script is exposed and included or documented", as
   }
 });
 
-test("the runner is Node standard library only and does not add an orchestration dependency", async () => {
+test("[STORY-47A] the runner is Node standard library only and does not add an orchestration dependency", async () => {
   const source = await readFile(runnerPath, "utf8");
   const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
   // No third-party orchestration imports. Local relative imports (its own
@@ -1079,21 +1079,21 @@ function codeOnly(source) {
     .join("\n");
 }
 
-test("the runner never uses broad process-killing commands", async () => {
+test("[STORY-47A] the runner never uses broad process-killing commands", async () => {
   const source = codeOnly(await readFile(runnerPath, "utf8"));
   assert.doesNotMatch(source, /pkill/, "the runner must not use pkill");
   assert.doesNotMatch(source, /killall/, "the runner must not use killall");
   assert.doesNotMatch(source, /lsof\s+-ti/, "the runner must not kill by port");
 });
 
-test("the runner uses port 8765 and loopback binding, never 8080", async () => {
+test("[STORY-47A] the runner uses port 8765 and loopback binding, never 8080", async () => {
   const source = codeOnly(await readFile(runnerPath, "utf8"));
   assert.match(source, /8765/, "the runner must use port 8765");
   assert.match(source, /127\.0\.0\.1/, "the runner must bind loopback");
   assert.doesNotMatch(source, /8080/, "the runner must not use port 8080");
 });
 
-test("the runner serves the repository root", async () => {
+test("[STORY-47A] the runner serves the repository root", async () => {
   const source = await readFile(runnerPath, "utf8");
   assert.match(source, /http\.server/, "the runner must start python3 -m http.server");
   assert.match(source, /cwd/, "the server must run from the repository root");
@@ -1101,7 +1101,7 @@ test("the runner serves the repository root", async () => {
 
 // --- No leftover artifacts -------------------------------------------------
 
-test("the runner leaves no temporary artifact from the harness", async () => {
+test("[STORY-47A] the runner leaves no temporary artifact from the harness", async () => {
   // The runner itself writes nothing to disk; assert it does not create files.
   const source = await readFile(runnerPath, "utf8");
   assert.doesNotMatch(source, /writeFile|mkdtemp|createWriteStream/, "the runner must not write files");
@@ -1109,7 +1109,7 @@ test("the runner leaves no temporary artifact from the harness", async () => {
 
 // --- Real package.json sanity ----------------------------------------------
 
-test("the real package.json has no recursive aggregate definition", async () => {
+test("[STORY-47A] the real package.json has no recursive aggregate definition", async () => {
   const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
   // The aggregate must not invoke itself.
   assert.doesNotMatch(pkg.scripts["test:browser"], /test:browser/, "the aggregate must not recurse");

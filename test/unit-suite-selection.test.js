@@ -86,7 +86,7 @@ function selectedFiles(args) {
   return args.slice(testIndex + 1);
 }
 
-test("the runner is POSIX sh and does not use eval or bash-only features", async () => {
+test("[STORY-47] the runner is POSIX sh and does not use eval or bash-only features", async () => {
   const script = await readFile(runnerPath, "utf8");
   assert.match(script, /^#!\/bin\/sh$/m, "run-unit-tests.sh must use a POSIX sh shebang");
   assert.match(script, /^set -eu$/m, "run-unit-tests.sh must use `set -eu`");
@@ -100,7 +100,7 @@ test("the runner is POSIX sh and does not use eval or bash-only features", async
   assert.doesNotMatch(code, /wait\s+-n/, "run-unit-tests.sh must not use bash-only `wait -n`");
 });
 
-test("the runner selects every offline unit file exactly once", async () => {
+test("[STORY-47] the runner selects every offline unit file exactly once", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runRunner([], stub);
@@ -114,7 +114,7 @@ test("the runner selects every offline unit file exactly once", async () => {
   }
 });
 
-test("the runner never selects a live integration file", async () => {
+test("[STORY-47] the runner never selects a live integration file", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runRunner([], stub);
@@ -134,7 +134,7 @@ test("the runner never selects a live integration file", async () => {
   }
 });
 
-test("the runner selects files in deterministic sorted order", async () => {
+test("[STORY-47] the runner selects files in deterministic sorted order", async () => {
   const stub = await makeStubEnv();
   try {
     const first = runRunner([], stub);
@@ -153,7 +153,7 @@ test("the runner selects files in deterministic sorted order", async () => {
   }
 });
 
-test("the runner resolves the repository root independent of the caller's cwd", async () => {
+test("[STORY-47] the runner resolves the repository root independent of the caller's cwd", async () => {
   const stub = await makeStubEnv();
   const elsewhere = await mkdtemp(join(tmpdir(), "unit-suite-cwd-"));
   try {
@@ -168,7 +168,7 @@ test("the runner resolves the repository root independent of the caller's cwd", 
   }
 });
 
-test("coverage mode selects the same files and adds the 100% coverage gate", async () => {
+test("[STORY-47] coverage mode selects the same files and adds the 100% coverage gate", async () => {
   const stub = await makeStubEnv();
   try {
     const plain = runRunner([], stub);
@@ -199,7 +199,7 @@ test("coverage mode selects the same files and adds the 100% coverage gate", asy
   }
 });
 
-test("the runner fails clearly when no unit tests are selected", async () => {
+test("[STORY-47] the runner fails clearly when no unit tests are selected", async () => {
   // Build a scratch repo with a test/ directory that has only an integration
   // file, so the offline selection is empty.
   const scratch = await mkdtemp(join(tmpdir(), "unit-suite-empty-"));
@@ -223,7 +223,7 @@ test("the runner fails clearly when no unit tests are selected", async () => {
   }
 });
 
-test("the runner rejects unexpected arguments", async () => {
+test("[STORY-47] the runner rejects unexpected arguments", async () => {
   const stub = await makeStubEnv();
   try {
     const result = runRunner(["test/theme.test.js"], stub);
@@ -234,7 +234,7 @@ test("the runner rejects unexpected arguments", async () => {
   }
 });
 
-test("a new offline test file automatically joins the canonical suite", async () => {
+test("[STORY-47] a new offline test file automatically joins the canonical suite", async () => {
   // Copy the runner into a scratch repo with a controlled test/ directory and
   // confirm a newly added offline file is selected without editing the runner.
   const scratch = await mkdtemp(join(tmpdir(), "unit-suite-new-"));
@@ -264,7 +264,7 @@ test("a new offline test file automatically joins the canonical suite", async ()
   }
 });
 
-test("a simulated integration file cannot enter the offline suite", async () => {
+test("[STORY-47] a simulated integration file cannot enter the offline suite", async () => {
   const scratch = await mkdtemp(join(tmpdir(), "unit-suite-int-"));
   const stub = await makeStubEnv();
   try {
@@ -293,13 +293,13 @@ test("a simulated integration file cannot enter the offline suite", async () => 
 
 // --- package.json wiring ---------------------------------------------------
 
-test("npm test and npm run test:coverage use the same canonical runner", async () => {
+test("[STORY-47] npm test and npm run test:coverage use the same canonical runner", async () => {
   const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
   assert.equal(pkg.scripts.test, "sh scripts/run-unit-tests.sh");
   assert.equal(pkg.scripts["test:coverage"], "sh scripts/run-unit-tests.sh --coverage");
 });
 
-test("npm test no longer carries a manually duplicated file list", async () => {
+test("[STORY-47] npm test no longer carries a manually duplicated file list", async () => {
   const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
   assert.doesNotMatch(
     pkg.scripts.test,
@@ -313,7 +313,7 @@ test("npm test no longer carries a manually duplicated file list", async () => {
   );
 });
 
-test("npm run test:integration selects all and only the live integration files", async () => {
+test("[STORY-47] npm run test:integration selects all and only the live integration files", async () => {
   const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
   const cmd = pkg.scripts["test:integration"];
   assert.match(cmd, /^node --test /, "test:integration must use node --test");
@@ -332,7 +332,7 @@ test("npm run test:integration selects all and only the live integration files",
   }
 });
 
-test("the coverage and fast commands cannot run live integrations", async () => {
+test("[STORY-47] the coverage and fast commands cannot run live integrations", async () => {
   const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
   // The canonical runner excludes integration files by construction; assert the
   // runner source contains the exclusion and that neither command names a live
