@@ -63,14 +63,14 @@ test('[STORY-40][STORY-40A] the focus control is inert on desktop and exits when
   assert.match(app, /if \(!isMobileViewLayout\(\) && mobileFocusMode\) setMobileFocusMode\(false\);/);
 });
 
-test('[STORY-40][STORY-40A] the focus control sits beside the stacked layer controls without compressing them', () => {
+test('[STORY-40][STORY-40A][STORY-40E] the focus control sits beside the stacked layer controls without compressing them', () => {
   // Story 41: the focus control is left-aligned and vertically centered against
   // the right-aligned Police Divisions / Road closures stack.
   assert.match(mobileRules, /\.mobile-map-focus-toggle \{[^}]*top: calc\(var\(--mobile-layer-stack-center, 56px\) - 24px\);[^}]*left: 8px;/);
   assert.match(mobileRules, /\.map-layer-toggle \{[^}]*top: var\(--police-control-bottom, 56px\);[^}]*right: 8px;[^}]*left: auto;/);
 });
 
-test('[STORY-40][STORY-40A] the focus control anchors to the layer row\'s measured bottom edge, not a fixed offset', () => {
+test('[STORY-40][STORY-40A][STORY-40E] the focus control anchors to the layer row\'s measured bottom edge, not a fixed offset', () => {
   // The offset is measured from the real rendered row so a taller (wrapped) row
   // on iOS Safari cannot place the control underneath Road closures.
   assert.match(app, /function syncMobileLayerRowOffset\(\) \{/);
@@ -151,7 +151,7 @@ test('[STORY-40][STORY-40B] focus mode preserves filters, radius, selection, ove
   assert.doesNotMatch(focusHandler, /roadOverlay/);
 });
 
-test('[STORY-40][STORY-40B] normal mobile layout and desktop are unchanged by focus-mode geometry', () => {
+test('[STORY-40][STORY-40B][STORY-40V] normal mobile layout and desktop are unchanged by focus-mode geometry', () => {
   // The static map height and sheet heights remain the default outside focus mode.
   assert.match(desktopRules, /#dispatchMap \{\s*height: 620px;/);
   assert.match(mobileRules, /--mobile-map-height: 460px/);
@@ -251,7 +251,7 @@ test('[STORY-40][STORY-40C] focus-mode view transitions stay presentation-only a
   assert.match(app, /if \(mobile && view === "map" && mapSizeInvalidationPending\)[\s\S]*?dispatchMap\?\.invalidateSize\(\{ pan: false \}\)/);
 });
 
-test('[STORY-40][STORY-40C] normal non-focused mobile navigation and desktop are unchanged by 40C', () => {
+test('[STORY-40][STORY-40C][STORY-40V] normal non-focused mobile navigation and desktop are unchanged by 40C', () => {
   // Outside focus mode the radius controls keep their normal static layout.
   assert.match(mobileRules, /\.radius-controls \{\n {4}position: static;/);
   // The focus-mode navigation overrides are scoped to data-mobile-focus only.
@@ -264,14 +264,14 @@ test('[STORY-40][STORY-40C] normal non-focused mobile navigation and desktop are
 const focusSummaryStart = app.indexOf('function focusFilterSummaryText(');
 const focusSummaryFn = app.slice(focusSummaryStart, app.indexOf('\nfunction setMobileFiltersOpen(', focusSummaryStart));
 
-test('the floating filter summary is a read-only, accessible status element', () => {
+test('[STORY-40D] the floating filter summary is a read-only, accessible status element', () => {
   assert.match(html, /<p id="mobileFocusFilterSummary" class="mobile-focus-filter-summary" role="status" aria-live="polite"\s*\n?\s*aria-label="Applied filters and source status" hidden><\/p>/);
   assert.equal(html.match(/id="mobileFocusFilterSummary"/g)?.length, 1);
   // It is a paragraph, not an interactive control.
   assert.doesNotMatch(html, /<button[^>]*id="mobileFocusFilterSummary"/);
 });
 
-test('the floating filter summary is hidden outside focus mode and shown inside it', () => {
+test('[STORY-40D] the floating filter summary is hidden outside focus mode and shown inside it', () => {
   assert.match(focusSummaryFn, /const visible = mobileFocusMode && isMobileViewLayout\(\);/);
   assert.match(focusSummaryFn, /mobileFocusFilterSummary\.hidden = !visible;/);
   assert.match(focusSummaryFn, /if \(visible\) \{[\s\S]*?mobileFocusFilterSummary\.textContent = \[focusFilterSummaryText\(\), \.\.\.warnings\]\.join/);
@@ -279,7 +279,7 @@ test('the floating filter summary is hidden outside focus mode and shown inside 
   assert.match(html, /id="mobileFocusFilterSummary"[\s\S]*?hidden><\/p>/);
 });
 
-test('the floating filter summary reflects the existing applied filter state', () => {
+test('[STORY-40D] the floating filter summary reflects the existing applied filter state', () => {
   assert.match(focusSummaryFn, /state\.radiusKm === null/);
   assert.match(focusSummaryFn, /state\.nearby/);
   assert.match(focusSummaryFn, /state\.hours/);
@@ -291,12 +291,12 @@ test('the floating filter summary reflects the existing applied filter state', (
   assert.doesNotMatch(focusSummaryFn, /state\.\w+\s*=[^=]/);
 });
 
-test('the floating filter summary updates when filters change and on focus entry/exit', () => {
+test('[STORY-40D] the floating filter summary updates when filters change and on focus entry/exit', () => {
   assert.match(app, /document\.querySelector\("#filterSummary"\)\.textContent = filterSummary\(state\);\s*syncMobileFilterIndicator\(\);\s*syncFocusFilterSummary\(\);/);
   assert.match(app, /function setMobileFocusMode\(on\)[\s\S]*?syncFocusFilterSummary\(\);/);
 });
 
-test('the floating filter summary is positioned as floating map chrome with safe-area insets', () => {
+test('[STORY-40D] the floating filter summary is positioned as floating map chrome with safe-area insets', () => {
   // Story 43: the summary sizes to its content (height: auto) instead of
   // stretching between top and bottom insets, which previously rendered a tall
   // empty box over the map.
@@ -306,7 +306,7 @@ test('the floating filter summary is positioned as floating map chrome with safe
   assert.doesNotMatch(desktopRules, /\.mobile-focus-filter-summary \{/);
 });
 
-test('the boundary control shows a concise mobile label while keeping the full wording', () => {
+test('[STORY-40D] the boundary control shows a concise mobile label while keeping the full wording', () => {
   // Story 41: the visible control label is the concise "Police Divisions"; the
   // full official wording stays in the map attribution.
   assert.match(app, /"Police Divisions": divisionLayer/);
@@ -318,12 +318,12 @@ test('the boundary control shows a concise mobile label while keeping the full w
   assert.match(mobileRules, /\.map-panel \.leaflet-control-layers-overlays label\[data-mobile-label\] > span \{[\s\S]*?clip-path: inset\(50%\);/);
 });
 
-test('the concise boundary label is mobile-only and leaves desktop unchanged', () => {
+test('[STORY-40D] the concise boundary label is mobile-only and leaves desktop unchanged', () => {
   assert.doesNotMatch(desktopRules, /data-mobile-label/);
   assert.doesNotMatch(desktopRules, /Police divisions/);
 });
 
-test('the floating summary and concise label do not introduce duplicate DOM or state', () => {
+test('[STORY-40D] the floating summary and concise label do not introduce duplicate DOM or state', () => {
   assert.equal(html.match(/id="mobileFocusFilterSummary"/g)?.length, 1);
   assert.equal(html.match(/id="dispatchMap"/g)?.length, 1);
   assert.equal(html.match(/id="mobileMapFocusToggle"/g)?.length, 1);
@@ -333,7 +333,7 @@ test('the floating summary and concise label do not introduce duplicate DOM or s
 
 // --- Story 40D follow-up: focus-mode map-info reachability, chrome overlap, location context ---
 
-test('focus mode keeps the map info & legend reachable instead of hiding it', () => {
+test('[STORY-40D] focus mode keeps the map info & legend reachable instead of hiding it', () => {
   // The map-info panel is no longer part of the focus-mode hide list.
   const hideBlock = mobileRules.slice(
     mobileRules.indexOf('html[data-mobile-focus="on"] .topbar,'),
@@ -345,7 +345,7 @@ test('focus mode keeps the map info & legend reachable instead of hiding it', ()
   assert.equal(html.match(/id="mapInfo"/g)?.length, 1);
 });
 
-test('focus-mode map info and filter summary size to their content instead of stretching', () => {
+test('[STORY-40D] focus-mode map info and filter summary size to their content instead of stretching', () => {
   // Story 43: a fixed/absolute element with both top and bottom insets and no
   // height fills the whole gap between them. The collapsed map info and the
   // one-line filter summary previously rendered as tall boxes covering the map.
@@ -377,7 +377,7 @@ test('focus-mode map info and filter summary size to their content instead of st
   assert.match(summaryRule, /max-height: min\(/);
 });
 
-test('the floating filter summary clears the floating navigation band', () => {
+test('[STORY-40D] the floating filter summary clears the floating navigation band', () => {
   // The navigation band clears the focus button (whose top tracks the layer row's real bottom edge).
   assert.match(mobileRules, /html\[data-mobile-focus="on"\] \.radius-controls \{[\s\S]*?top: calc\(var\(--mobile-layer-row-bottom, 64px\) \+ var\(--mobile-focus-height, 48px\) \+ 8px \+ env\(safe-area-inset-top, 0px\)\);/);
   assert.match(mobileRules, /\.mobile-focus-filter-summary \{[\s\S]*?top: min\([\s\S]*?var\(--mobile-nav-bottom, calc\(var\(--mobile-layer-row-bottom, 64px\) \+ 108px\)\) \+ 8px \+ env\(safe-area-inset-top, 0px\)[\s\S]*?\);/);
@@ -387,7 +387,7 @@ test('the floating filter summary clears the floating navigation band', () => {
   assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.map-info \{[\s\S]*?position: fixed;[\s\S]*?top: auto;[\s\S]*?bottom: calc\(var\(--mobile-attribution-clearance, calc\(var\(--mobile-sheet-height-actual, var\(--mobile-sheet-height, 52px\)\) \+ 28px\)\) \+ 13px \+ env\(safe-area-inset-bottom, 0px\)\);[\s\S]*?height: auto;[\s\S]*?max-height: min\(/);
 });
 
-test('the floating filter summary names the location context it is scoped to', () => {
+test('[STORY-40D] the floating filter summary names the location context it is scoped to', () => {
   assert.match(focusSummaryFn, /const originLabel = nearbyOriginKind === 'map'/);
   assert.match(focusSummaryFn, /nearbyOriginKind === 'saved'/);
   assert.match(focusSummaryFn, /savedLocationForContext\(state\)\?\.label/);

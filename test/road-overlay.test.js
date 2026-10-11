@@ -276,7 +276,7 @@ test('[SHOULD-11][STORY-25] map control is mobile-accessible and closure selecti
  assert.match(app,/callLayer = L\.layerGroup\(\)\.addTo\(dispatchMap\)/);
 });
 
-test('[SHOULD-11][STORY-25] road-closure count is hidden beneath the label at every breakpoint',()=>{
+test('[SHOULD-11][STORY-25][STORY-41A] road-closure count is hidden beneath the label at every breakpoint',()=>{
  const css=readFileSync(new URL('../assets/css/styles.css',import.meta.url),'utf8');
  const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
  // The count stays in the DOM for assistive technology and the disruptions panel.

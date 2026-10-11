@@ -12,12 +12,12 @@ const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-heig
 const mobileRules = css.slice(css.indexOf(mobileQuery));
 const desktopRules = css.slice(0, css.indexOf(mobileQuery));
 
-test('Leaflet prefix is removed with its supported attribution API', () => {
+test('[STORY-40F] Leaflet prefix is removed with its supported attribution API', () => {
   assert.match(app, /attributionControl\.setPrefix\(false\)/);
   assert.doesNotMatch(css, /leaflet-control-attribution[^{]*\{[^}]*display:\s*none/s);
 });
 
-test('only compact linked OpenStreetMap credit remains in the map attribution control', () => {
+test('[STORY-40F] only compact linked OpenStreetMap credit remains in the map attribution control', () => {
   const attributionStart = mobileRules.indexOf('.map-panel .leaflet-control-attribution {');
   const attributionRule = mobileRules.slice(attributionStart, mobileRules.indexOf('}', attributionStart) + 1);
   assert.match(app, /attribution: '&copy; <a href="https:\/\/www\.openstreetmap\.org\/copyright">OpenStreetMap<\/a>'/);
@@ -29,7 +29,7 @@ test('only compact linked OpenStreetMap credit remains in the map attribution co
   assert.doesNotMatch(attributionRule, /width:\s*(?:100%|100vw)/);
 });
 
-test('TPS division provenance appears in normal flow inside existing Map info', () => {
+test('[STORY-40F] TPS division provenance appears in normal flow inside existing Map info', () => {
   const infoMatch = html.match(/<details class="panel map-info"[\s\S]*?<\/details>/);
   assert.ok(infoMatch, 'expected the Map info details element');
   const [info] = infoMatch;
@@ -37,7 +37,7 @@ test('TPS division provenance appears in normal flow inside existing Map info', 
   assert.match(desktopRules, /\.map-source-credit \{[\s\S]*?color: var\(--muted\);[\s\S]*?font-size: 12px/);
 });
 
-test('mobile attribution sits in the lower-right chrome, clear of the focus control', () => {
+test('[STORY-40F] mobile attribution sits in the lower-right chrome, clear of the focus control', () => {
   // Story 40F: the attribution must not occupy the fullscreen/× control area.
   // It is placed in the bottom-right corner on every layout, where it stacks
   // below the zoom control and above the bottom-sheet overlap.
@@ -51,7 +51,7 @@ test('mobile attribution sits in the lower-right chrome, clear of the focus cont
   assert.doesNotMatch(mobileRules, /\.map-panel \.leaflet-bottom \{ bottom: var\(--mobile-map-sheet-overlap/);
 });
 
-test('Calls mode removes the map and attribution while desktop keeps valid placement', () => {
+test('[STORY-40F] Calls mode removes the map and attribution while desktop keeps valid placement', () => {
   assert.match(mobileRules, /html\[data-mobile-view="calls"\] \.map-stage,[\s\S]*?\.map-info,[\s\S]*?\.mobile-bottom-sheet \{ display: none; \}/);
   assert.match(app, /control\.setPosition\("bottomright"\)/);
   assert.match(desktopRules, /\.leaflet-control-attribution \{[\s\S]*?background: var\(--map-attribution-background\)/);
