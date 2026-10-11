@@ -39,14 +39,14 @@ const [app, html] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8')
 ]);
 
-test('audit recording requires an explicit switch but may inspect the production path', () => {
+test('[STORY-38A] audit recording requires an explicit switch but may inspect the production path', () => {
   assert.equal(uxAuditEnabled({ search: '?uxAudit=1' }), true);
   assert.equal(uxAuditEnabled({ search: '?uxAudit=0' }), false);
   assert.equal(uxAuditEnabled({ search: '' }), false);
   assert.equal(uxAuditEnabled(), false);
 });
 
-test('reliability delays are explicit, fixed, and loopback-only', () => {
+test('[STORY-38A] reliability delays are explicit, fixed, and loopback-only', () => {
   assert.equal(uxReliabilityFixtureOptions({ hostname: 'sirento.ca', search: '?mobileAuditUx=reliability&mobileAuditDelay=incident' }), null);
   assert.equal(uxReliabilityFixtureOptions({ hostname: 'localhost', search: '?mobileAuditDelay=incident' }), null);
   assert.equal(uxReliabilityFixtureOptions({hostname:'localhost'}), null);
@@ -67,7 +67,7 @@ test('reliability delays are explicit, fixed, and loopback-only', () => {
   assert.equal(uxReliabilityFixtureOptions(), null);
 });
 
-test('structured audit captures marks, durations, occurrences, counters, and browser marks', async () => {
+test('[STORY-38A] structured audit captures marks, durations, occurrences, counters, and browser marks', async () => {
   let clock = 10;
   const browserMarks = [{ name: 'sirento:html-parsed', startTime: 4 }, { name: 'other', startTime: 1 }];
   const performanceLike = {
@@ -102,7 +102,7 @@ test('structured audit captures marks, durations, occurrences, counters, and bro
   assert.deepEqual(snapshot.browserMarks, [{ name: 'sirento:html-parsed', startTime: 4 }]);
 });
 
-test('disabled audit and zero delays have no observable work', async () => {
+test('[STORY-38A] disabled audit and zero delays have no observable work', async () => {
   const target = {};
   const audit = createUxAudit({ enabled: false, performanceLike: null, observerClass: null, target });
   const end = audit.begin('ignored');
@@ -128,7 +128,7 @@ test('disabled audit and zero delays have no observable work', async () => {
   runSynchronousAuditWork(0.01);
 });
 
-test('long-task observation retains browser attribution and associates measured work', () => {
+test('[STORY-38A] long-task observation retains browser attribution and associates measured work', () => {
   let observeOptions;
   let emitEntries;
   class Observer {
@@ -159,14 +159,14 @@ test('long-task observation retains browser attribution and associates measured 
   }]);
 });
 
-test('unsupported long-task observers fail open', () => {
+test('[STORY-38A] unsupported long-task observers fail open', () => {
   class BrokenObserver { constructor() { throw new Error('unsupported'); } }
   const audit = createUxAudit({enabled:true,observerClass:BrokenObserver,target:null,performanceLike:null});
   audit.mark('fallback-clock');
   assert.deepEqual(audit.snapshot().longTasks, []);
 });
 
-test('audit tolerates optional browser APIs, thrown marks, and unmatched long tasks', async () => {
+test('[STORY-38A] audit tolerates optional browser APIs, thrown marks, and unmatched long tasks', async () => {
   let emitEntries;
   class Observer {
     constructor(callback) { emitEntries = callback; }
@@ -194,7 +194,7 @@ test('audit tolerates optional browser APIs, thrown marks, and unmatched long ta
   });
 });
 
-test('enabled browser audit publishes a hidden JSON report', async () => {
+test('[STORY-38A] enabled browser audit publishes a hidden JSON report', async () => {
   assert.equal(uxAudit.enabled, true);
   uxAudit.mark('report-test');
   assert.equal(browserReportNodes.length, 1);
@@ -205,7 +205,7 @@ test('enabled browser audit publishes a hidden JSON report', async () => {
   assert.equal(browserReportInterval, 250);
 });
 
-test('production lifecycle and required interactions expose named audit boundaries', () => {
+test('[STORY-38A] production lifecycle and required interactions expose named audit boundaries', () => {
   for (const name of [
     'app-bootstrap-begins', 'incident-snapshot-fetch', 'incident-normalization',
     'filter-sort-calculation', 'first-incident-render', 'first-map-creation',
@@ -221,7 +221,7 @@ test('production lifecycle and required interactions expose named audit boundari
   assert.match(html, /sirento:cached-shell-assets-ready/);
 });
 
-test('Map and Calls instrumentation separates ownership, presentation, maintenance, persistence, and paint', () => {
+test('[STORY-38A] Map and Calls instrumentation separates ownership, presentation, maintenance, persistence, and paint', () => {
   const setter = app.slice(app.indexOf('function setMobileView('), app.indexOf('\nmobileViewToggles.forEach'));
   for (const name of [
     'view-toggle:state-update', 'view-toggle:list-ownership', 'view-toggle:presentation',
