@@ -19,7 +19,7 @@ test('[MUST-5][STORY-4] mobile radius selector exposes every supported search ar
   for (const label of ['500 m', '1 km', '2 km', '5 km', 'Toronto-wide']) assert.match(controls, new RegExp(`>${label}<`));
 });
 
-test('[MUST-5][STORY-8] mobile radius selector is a single scrollable row with touch-sized buttons', () => {
+test('[MUST-5][STORY-8][STORY-37G] mobile radius selector is a single scrollable row with touch-sized buttons', () => {
   const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)';
   const mobileRules = css.slice(css.indexOf(`${mobileQuery} {\n  .radius-controls`));
   assert.notEqual(css.indexOf(mobileQuery), -1, 'portrait and coarse-pointer landscape mobile layouts share the control rules');
