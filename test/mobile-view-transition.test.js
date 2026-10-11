@@ -25,7 +25,7 @@ function frameHarness() {
   };
 }
 
-test('maintenance runs only after a frame has been available to paint', () => {
+test('[STORY-38D] maintenance runs only after a frame has been available to paint', () => {
   const frames = frameHarness();
   const scheduler = createViewTransitionScheduler({
     requestFrame: frames.request,
@@ -42,7 +42,7 @@ test('maintenance runs only after a frame has been available to paint', () => {
   assert.equal(scheduler.pending(), false);
 });
 
-test('rapid toggles cancel stale jobs and run only final maintenance', () => {
+test('[STORY-38D] rapid toggles cancel stale jobs and run only final maintenance', () => {
   const frames = frameHarness();
   const scheduler = createViewTransitionScheduler({
     requestFrame: frames.request,
@@ -63,7 +63,7 @@ test('rapid toggles cancel stale jobs and run only final maintenance', () => {
   assert.equal(scheduler.generation(), 3);
 });
 
-test('explicit cancellation invalidates a job already waiting for maintenance', () => {
+test('[STORY-38D] explicit cancellation invalidates a job already waiting for maintenance', () => {
   const frames = frameHarness();
   const scheduler = createViewTransitionScheduler({
     requestFrame: frames.request,
@@ -85,7 +85,7 @@ test('explicit cancellation invalidates a job already waiting for maintenance', 
   assert.equal(completed, true, 'the scheduler remains usable after cancellation');
 });
 
-test('generation guard rejects stale frames even when cancellation is unavailable', () => {
+test('[STORY-38D] generation guard rejects stale frames even when cancellation is unavailable', () => {
   const frames = frameHarness();
   const completed = [];
   const scheduler = createViewTransitionScheduler({

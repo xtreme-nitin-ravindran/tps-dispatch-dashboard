@@ -5,12 +5,12 @@ import { capturePoliceBoundaryRenderState, createPoliceBoundaryLayer, diagnosePo
 
 const bundled = JSON.parse(readFileSync(new URL('../data/police-divisions.geojson', import.meta.url)));
 
-test('bundled boundaries contain only valid closed Polygon and MultiPolygon rings', () => {
+test('[STORY-38E] bundled boundaries contain only valid closed Polygon and MultiPolygon rings', () => {
   const totals = validatePoliceBoundaryGeoJSON(bundled);
   assert.deepEqual(totals, { features: 16, polygons: 18, rings: 19, coordinates: 24459 });
 });
 
-test('geometry diagnostic proves bundled rings are stable and contain no cross-city joins', () => {
+test('[STORY-38E] geometry diagnostic proves bundled rings are stable and contain no cross-city joins', () => {
   const report = diagnosePoliceBoundaryGeometry(bundled);
   assert.equal(report.features, 16);
   assert.equal(report.polygons, 18);
@@ -24,7 +24,7 @@ test('geometry diagnostic proves bundled rings are stable and contain no cross-c
   assert.equal(diagnosePoliceBoundaryGeometry(bundled).checksum, before);
 });
 
-test('geometry diagnostic flags open rings, invalid coordinates, and implausible joins', () => {
+test('[STORY-38E] geometry diagnostic flags open rings, invalid coordinates, and implausible joins', () => {
   const malformed = {
     type: 'FeatureCollection',
     features: [{ type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [[
@@ -42,7 +42,7 @@ test('geometry diagnostic flags open rings, invalid coordinates, and implausible
   assert.equal(diagnosePoliceBoundaryGeometry({type:'FeatureCollection',features:[{geometry:{type:'MultiPolygon',coordinates:[null]}}]}).polygons, 1);
 });
 
-test('validation rejects malformed nesting, open rings, invalid positions, and reversed coordinates', () => {
+test('[STORY-38E] validation rejects malformed nesting, open rings, invalid positions, and reversed coordinates', () => {
   const collection = coordinates => ({
     type: 'FeatureCollection',
     features: [{ type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates } }]
@@ -62,7 +62,7 @@ test('validation rejects malformed nesting, open rings, invalid positions, and r
   assert.throws(() => validatePoliceBoundaryGeoJSON(collection([[[-79.4,43.6],[-79.3,43.7],[-79.4,43.6]]])), /closed ring/);
 });
 
-test('unfilled clipped SVG overlay preserves separate rings and does not mutate source geometry', () => {
+test('[STORY-38E] unfilled clipped SVG overlay preserves separate rings and does not mutate source geometry', () => {
   const source = structuredClone(bundled);
   let received;
   const leaflet = {
@@ -91,7 +91,7 @@ test('unfilled clipped SVG overlay preserves separate rings and does not mutate 
   received.options.onEachFeature();
 });
 
-test('projected validator reports non-finite and viewport-spanning segments without changing them', () => {
+test('[STORY-38E] projected validator reports non-finite and viewport-spanning segments without changing them', () => {
   const parts = [[{x:10,y:10},{x:20,y:20},{x:390,y:20},{x:Number.NaN,y:30}]];
   const before = structuredClone(parts);
   const issues = validateProjectedBoundaryParts(parts, {x:390,y:844});
@@ -105,14 +105,14 @@ test('projected validator reports non-finite and viewport-spanning segments with
   ]);
 });
 
-test('projected validator reports points outside the active renderer bounds', () => {
+test('[STORY-38E] projected validator reports points outside the active renderer bounds', () => {
   const issues=validateProjectedBoundaryParts([[{x:10,y:10},{x:401,y:10}]],{x:390,y:844},{
     rendererBounds:{min:{x:0,y:0},max:{x:390,y:844}}
   });
   assert.equal(issues[0].type,'point-outside-renderer-bounds');
 });
 
-test('Canvas capture detects CSS and backing-store dimension mismatches', () => {
+test('[STORY-38E] Canvas capture detects CSS and backing-store dimension mismatches', () => {
   const previous=globalThis.devicePixelRatio;
   const previousComputedStyle=globalThis.getComputedStyle;
   globalThis.devicePixelRatio=2;
@@ -142,7 +142,7 @@ test('Canvas capture detects CSS and backing-store dimension mismatches', () => 
   }
 });
 
-test('debug capture identifies feature/ring ownership and records Leaflet lifecycle state', () => {
+test('[STORY-38E] debug capture identifies feature/ring ownership and records Leaflet lifecycle state', () => {
   const featureLayer = {
     _leaflet_id: 42,
     __policeBoundaryFeatureIndex: 3,
@@ -183,7 +183,7 @@ test('debug capture identifies feature/ring ownership and records Leaflet lifecy
   assert.deepEqual(capture.map.pixelOrigin, {x:100,y:200});
 });
 
-test('debug capture tolerates missing optional Leaflet internals and snapshots SVG state', () => {
+test('[STORY-38E] debug capture tolerates missing optional Leaflet internals and snapshots SVG state', () => {
   const empty = capturePoliceBoundaryRenderState({});
   assert.equal(empty.lifecycleEvent, 'manual');
   assert.deepEqual(empty.map, {zoom:null,size:null,center:null,pixelOrigin:null,paneTransform:null});
@@ -221,7 +221,7 @@ test('debug capture tolerates missing optional Leaflet internals and snapshots S
   assert.equal(malformedParts.layers[0].projectedPartCount, 0);
 });
 
-test('geometry and projected diagnostics cover malformed edge shapes without mutation', () => {
+test('[STORY-38E] geometry and projected diagnostics cover malformed edge shapes without mutation', () => {
   const impossible = {type:'FeatureCollection',features:[{geometry:{type:'Polygon',coordinates:[[
     null, [-80.4,42.6], [-78.6,44.4], [-80.4,42.6], [-80.3,42.7]
   ]]}}]};
@@ -233,7 +233,7 @@ test('geometry and projected diagnostics cover malformed edge shapes without mut
   assert.deepEqual(validateProjectedBoundaryParts([mixed], {x:'bad',y:'bad'}), []);
 });
 
-test('debug capture flags projected parts that cannot map back to source rings', () => {
+test('[STORY-38E] debug capture flags projected parts that cannot map back to source rings', () => {
   const featureLayer = {
     __policeBoundaryFeatureIndex: 7,
     __policeBoundaryRingCount: 1,
@@ -248,7 +248,7 @@ test('debug capture flags projected parts that cannot map back to source rings',
   assert.equal(capture.issues[0].featureIndex, 7);
 });
 
-test('debug capture preserves malformed projected points without inventing bounds', () => {
+test('[STORY-38E] debug capture preserves malformed projected points without inventing bounds', () => {
   const capture=capturePoliceBoundaryRenderState({
     map:{getSize:()=>({x:390,y:844})},
     layer:{eachLayer:callback=>callback({_parts:[[{x:Number.NaN,y:0}]]})}
@@ -257,7 +257,7 @@ test('debug capture preserves malformed projected points without inventing bound
   assert.equal(capture.layers[0].issues[0].type,'non-finite-point');
 });
 
-test('ring counts remain isolated for Polygon and MultiPolygon features', () => {
+test('[STORY-38E] ring counts remain isolated for Polygon and MultiPolygon features', () => {
   assert.equal(policeBoundaryRingCount({geometry:{type:'Polygon',coordinates:[[],[]]}}), 2);
   assert.equal(policeBoundaryRingCount({geometry:{type:'MultiPolygon',coordinates:[[[]],[[],[]]]}}), 3);
   assert.equal(policeBoundaryRingCount({geometry:{type:'Polygon'}}), 0);
@@ -267,13 +267,13 @@ test('ring counts remain isolated for Polygon and MultiPolygon features', () => 
   assert.equal(policeBoundaryRingCount(), 0);
 });
 
-test('the boundary class cannot override Leaflet and fill the map', () => {
+test('[STORY-38E] the boundary class cannot override Leaflet and fill the map', () => {
   const css = readFileSync(new URL('../assets/css/styles.css', import.meta.url), 'utf8');
   assert.match(css, /\.police-boundary\s*{[^}]*fill:\s*none\s*!important/s);
   assert.doesNotMatch(css, /\.police-boundary\s*{[^}]*fill:\s*var\(--boundary-marker\)/s);
 });
 
-test('application lazily creates and reuses an isolated Canvas boundary layer after visible-map paint', () => {
+test('[STORY-38E] application lazily creates and reuses an isolated Canvas boundary layer after visible-map paint', () => {
   const app = readFileSync(new URL('../src/app/app.js', import.meta.url), 'utf8');
   assert.equal([...app.matchAll(/createPoliceBoundaryLayer\(/g)].length, 1);
   assert.match(app, /L\.svg\(\{ padding: 0\.5, pane: 'policeBoundaryPane' \}\)/);

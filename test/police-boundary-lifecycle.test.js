@@ -17,7 +17,7 @@ function controlledScheduler() {
   return {scheduler,frames,timers,canceledFrames,canceledTimers};
 }
 
-test('sheet transition work waits for settle and two paints', () => {
+test('[STORY-38E] sheet transition work waits for settle and two paints', () => {
   const {scheduler,frames,timers}=controlledScheduler();
   let runs=0;
   scheduler.afterLayoutTransition(()=>{runs+=1;});
@@ -32,7 +32,7 @@ test('sheet transition work waits for settle and two paints', () => {
   assert.equal(scheduler.pending(),false);
 });
 
-test('a rapid transition cancels stale redraw work', () => {
+test('[STORY-38E] a rapid transition cancels stale redraw work', () => {
   const {scheduler,frames,timers,canceledTimers}=controlledScheduler();
   const runs=[];
   const record=state=>runs.push(state);
@@ -50,7 +50,7 @@ test('a rapid transition cancels stale redraw work', () => {
   assert.deepEqual(runs,['collapsed']);
 });
 
-test('a new after-paint redraw cancels the stale animation frame', () => {
+test('[STORY-38E] a new after-paint redraw cancels the stale animation frame', () => {
   const {scheduler,frames,canceledFrames}=controlledScheduler();
   const runs=[];
   const record=state=>runs.push(state);
@@ -66,7 +66,7 @@ test('a new after-paint redraw cancels the stale animation frame', () => {
   assert.equal(scheduler.pending(),false);
 });
 
-test('Story 38G suppresses police redraw until final invalidation without rebuilding roads', () => {
+test('[STORY-38G] suppresses police redraw until final invalidation without rebuilding roads', () => {
   const app=readFileSync(new URL('../src/app/app.js',import.meta.url),'utf8');
   const sheet=app.slice(app.indexOf('function setMobileSheetState('),app.indexOf('\nmobileSheetToggle?.addEventListener'));
   assert.match(sheet,/afterLayoutTransition/);
@@ -76,7 +76,7 @@ test('Story 38G suppresses police redraw until final invalidation without rebuil
   assert.doesNotMatch(sheet,/setRoadOverlayVisibility|renderDisruptions/);
 });
 
-test('physical debug export is explicit and omits user location data', () => {
+test('[STORY-38E] physical debug export is explicit and omits user location data', () => {
   const app=readFileSync(new URL('../src/app/app.js',import.meta.url),'utf8');
   assert.match(app,/initialParams\.get\('policeBoundaryDebug'\) === '1'/);
   assert.match(app,/userLocationIncluded: false/);
