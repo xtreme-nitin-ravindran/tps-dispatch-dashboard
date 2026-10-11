@@ -10,7 +10,7 @@ const [html, css, app] = await Promise.all([
 
 const mobileRules = css.slice(css.indexOf('@media (max-width: 680px) {\n  .nearby-feature'));
 
-test('mobile Quick Look keeps its primary action and status immediately visible', () => {
+test('[STORY-37E] mobile Quick Look keeps its primary action and status immediately visible', () => {
   const nearby = html.match(/<section class="nearby-feature"[\s\S]*?<\/section>/)[0];
   assert.match(nearby, /id="nearMe"/);
   assert.match(nearby, /id="nearStatus" role="status"/);
@@ -19,7 +19,7 @@ test('mobile Quick Look keeps its primary action and status immediately visible'
   assert.match(mobileRules, /#nearMe \{ min-height: 48px/);
 });
 
-test('secondary location management and Watch action use one native disclosure on mobile and desktop markup', () => {
+test('[STORY-37E] secondary location management and Watch action use one native disclosure on mobile and desktop markup', () => {
   const options = html.match(/<details class="nearby-options" open>[\s\S]*?<\/details>/)[0];
   assert.match(options, /<summary>Location &amp; more options<\/summary>/);
   assert.match(options, /id="savedLocationControls"/);
@@ -30,7 +30,7 @@ test('secondary location management and Watch action use one native disclosure o
   assert.match(app, /nearbyOptions\.open = !mobile/);
 });
 
-test('mobile compaction is scoped and preserves readable controls', () => {
+test('[STORY-37E] mobile compaction is scoped and preserves readable controls', () => {
   assert.match(mobileRules, /\.nearby-feature \{[\s\S]*?margin: 10px 0; padding: 14px;/);
   assert.match(mobileRules, /\.nearby-feature > div:first-child > p \{ display: none; \}/);
   assert.match(mobileRules, /#hearSirens \{ display: none; \}/);
@@ -38,7 +38,7 @@ test('mobile compaction is scoped and preserves readable controls', () => {
   assert.doesNotMatch(css.slice(0, css.indexOf('@media (max-width: 680px) {\n  .nearby-feature')), /#hearSirens \{ display: none/);
 });
 
-test('unavailable and denied fixtures reuse the production fallback path without expanding options', () => {
+test('[STORY-37E] unavailable and denied fixtures reuse the production fallback path without expanding options', () => {
   assert.match(app, /locationState === 'unavailable'[\s\S]*?showLocationFallback\('Location is unavailable in this browser\.'\)/);
   assert.match(app, /locationState === 'denied'[\s\S]*?showLocationFallback\('Location permission was denied\.'\)/);
   assert.doesNotMatch(app, /nearby-options['"]\)\.open|nearbyOptions\.open = true/);
