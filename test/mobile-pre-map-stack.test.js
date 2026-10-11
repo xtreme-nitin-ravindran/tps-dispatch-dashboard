@@ -11,7 +11,7 @@ const portraitStart = css.indexOf('@media (max-width: 680px) {\n  .app-shell');
 const desktopRules = css.slice(0, portraitStart);
 const portraitRules = css.slice(portraitStart);
 
-test('mobile header keeps branding and theme access in one compact row', () => {
+test('[STORY-37J] mobile header keeps branding and theme access in one compact row', () => {
   assert.match(html, /class="brand"[\s\S]*?<h1>SirenTO<\/h1>/);
   assert.match(html, /id="themePreference" aria-label="Theme preference"/);
   assert.match(portraitRules, /\.topbar \{[\s\S]*?min-height: 56px;/);
@@ -20,7 +20,7 @@ test('mobile header keeps branding and theme access in one compact row', () => {
   assert.match(portraitRules, /\.theme-control select \{ min-height: 44px; \}/);
 });
 
-test('Search and collapsed Filters share one mobile row without hiding either control', () => {
+test('[STORY-37J] Search and collapsed Filters share one mobile row without hiding either control', () => {
   const controls = html.match(/<section class="controls-card">[\s\S]*?<\/section>/)[0];
   assert.ok(controls.indexOf('id="searchInput"') < controls.indexOf('id="mobileFiltersToggle"'));
   assert.match(portraitRules, /\.controls-card \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\) auto;[\s\S]*?gap: 6px;[\s\S]*?padding: 6px;/);
@@ -28,7 +28,7 @@ test('Search and collapsed Filters share one mobile row without hiding either co
   assert.match(portraitRules, /\.secondary-filter-control \{ display: none; \}/);
 });
 
-test('Quick Look keeps its action, status, fallback and disclosure while avoiding a wrapped fallback row', () => {
+test('[STORY-37J] Quick Look keeps its action, status, fallback and disclosure while avoiding a wrapped fallback row', () => {
   const quickLook = html.match(/<section class="nearby-feature"[\s\S]*?<\/section>/)[0];
   for (const id of ['nearMe', 'nearStatus', 'chooseArea']) assert.match(quickLook, new RegExp(`id="${id}"`));
   assert.match(quickLook, /<summary>Location &amp; more options<\/summary>/);
@@ -38,7 +38,7 @@ test('Quick Look keeps its action, status, fallback and disclosure while avoidin
   assert.match(portraitRules, /\.desktop-location-action \{ display: none; \}[\s\S]*?\.mobile-location-action \{ display: inline; \}/);
 });
 
-test('mobile compaction stays in normal flow and desktop layout remains unchanged', () => {
+test('[STORY-37J] mobile compaction stays in normal flow and desktop layout remains unchanged', () => {
   // Story 40C floats the navigation only inside focus mode; the normal mobile layout stays in flow.
   const normalFlowRules = portraitRules.split('\n').filter(line => !line.includes('data-mobile-focus')).join('\n');
   assert.doesNotMatch(normalFlowRules, /\.(?:topbar|nearby-feature|controls-card|radius-controls)\s*\{[^}]*position:\s*(?:fixed|sticky)/);
@@ -49,14 +49,14 @@ test('mobile compaction stays in normal flow and desktop layout remains unchange
   assert.match(css, /\.nearby-feature \{ margin: 20px 0; padding: 24px;/);
 });
 
-test('Quick Look hides its redundant kicker and tightens the disclosure chrome on mobile', () => {
+test('[STORY-37J] Quick Look hides its redundant kicker and tightens the disclosure chrome on mobile', () => {
   assert.match(portraitRules, /\.nearby-feature \.section-kicker \{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset\(50%\); white-space: nowrap; \}/);
   assert.match(portraitRules, /\.nearby-options \{ display: block; margin-top: 4px; padding-top: 4px; border-top: 1px solid var\(--line\); \}/);
   assert.match(portraitRules, /\.nearby-options summary \{ min-height: 44px;/);
   assert.match(css, /\.nearby-feature \.section-kicker \{ display: block; margin-bottom: 7px; color: var\(--accent\); \}/);
 });
 
-test('mobile widths are constrained and hidden controls cannot reserve space', () => {
+test('[STORY-37J] mobile widths are constrained and hidden controls cannot reserve space', () => {
   assert.match(portraitRules, /\.app-shell \{[\s\S]*?width: min\(100% - 22px, 1480px\);/);
   assert.match(portraitRules, /\.search-wrap \{[\s\S]*?min-width: 0;/);
   assert.match(portraitRules, /\.topbar-photo,[\s\S]*?display: none;/);
