@@ -51,7 +51,7 @@ export function concurrentWriters(jobs) {
 const pipeline = await readFile(new URL('../concourse/pipeline.yml', import.meta.url), 'utf8');
 const jobs = parseJobs(pipeline);
 
-test('the parser reads job names, serial groups, and published resources', () => {
+test('[STORY-54] the parser reads job names, serial groups, and published resources', () => {
   const parsed = parseJobs([
     'jobs:',
     '  - name: alpha',
@@ -68,7 +68,7 @@ test('the parser reads job names, serial groups, and published resources', () =>
   ]);
 });
 
-test('the parser ignores jobs that publish nothing', () => {
+test('[STORY-54] the parser ignores jobs that publish nothing', () => {
   const parsed = parseJobs([
     'jobs:',
     '  - name: reader',
@@ -78,11 +78,11 @@ test('the parser ignores jobs that publish nothing', () => {
   assert.deepEqual(parsed, [{ name: 'reader', groups: [], writes: [] }]);
 });
 
-test('the parser returns no jobs when the source has no jobs block', () => {
+test('[STORY-54] the parser returns no jobs when the source has no jobs block', () => {
   assert.deepEqual(parseJobs('resources:\n  - name: refresh\n'), []);
 });
 
-test('concurrent writers are reported only when a shared resource has no shared group', () => {
+test('[STORY-54] concurrent writers are reported only when a shared resource has no shared group', () => {
   const conflicts = concurrentWriters([
     { name: 'a', groups: ['lock'], writes: ['shared'] },
     { name: 'b', groups: ['lock'], writes: ['shared'] },
@@ -92,18 +92,18 @@ test('concurrent writers are reported only when a shared resource has no shared 
   assert.deepEqual(conflicts, [['a', 'c', ['shared']], ['b', 'c', ['shared']]]);
 });
 
-test('the pipeline defines a single job that publishes the data', () => {
+test('[STORY-54] the pipeline defines a single job that publishes the data', () => {
   const writers = jobs.filter(job => job.writes.length > 0);
   assert.equal(writers.length, 0, 'R2 publication uses no git `put`, so no job writes a git resource');
   assert.equal(jobs.length, 1, 'exactly one job may publish the data');
   assert.equal(jobs[0].name, 'update-sirento', 'update-sirento must be the data publisher');
 });
 
-test('no two jobs can publish the same resource concurrently', () => {
+test('[STORY-54] no two jobs can publish the same resource concurrently', () => {
   assert.deepEqual(concurrentWriters(jobs), []);
 });
 
-test('the data publisher publishes incidents before TTC vehicle work', () => {
+test('[STORY-54] the data publisher publishes incidents before TTC vehicle work', () => {
   // The incident phase must precede the TTC vehicle task, and the geometry phase
   // must follow it, so a slow or failed TTC stage cannot block the incident update.
   const incidentPublish = pipeline.indexOf('node scripts/publish-incidents.js');
@@ -114,7 +114,7 @@ test('the data publisher publishes incidents before TTC vehicle work', () => {
   assert.ok(observe < geometryPublish, 'TTC geometry publication must follow TTC vehicle work');
 });
 
-test('both publication phases publish to R2 through the shared sink', () => {
+test('[STORY-55B] both publication phases publish to R2 through the shared sink', () => {
   // Each phase runs its shared script with the R2 credentials in the environment,
   // so the sink uploads directly and no scheduler push step is needed.
   assert.doesNotMatch(pipeline, /- put:/, 'no git `put` step may remain');
@@ -128,14 +128,14 @@ test('both publication phases publish to R2 through the shared sink', () => {
   }
 });
 
-test('the incident phase seeds its history input from the published snapshot', () => {
+test('[STORY-55B] the incident phase seeds its history input from the published snapshot', () => {
   // The ETL history input must come from R2, not a git checkout, and a missing
   // object must be tolerated so the ETL can start fresh.
   assert.match(pipeline, /node scripts\/r2-fetch\.js data\/current\.json/);
   assert.match(pipeline, /TFS_PREVIOUS=\/tmp\/history\/current\.json/);
 });
 
-test('the pipeline needs no serial group because the datasets use different keys', () => {
+test('[STORY-54] the pipeline needs no serial group because the datasets use different keys', () => {
   // R2 is last-writer-wins per key and the two phases write different keys, so a
   // shared lock is unnecessary. The single job is serialized by max_in_flight.
   assert.doesNotMatch(pipeline, /serial_groups:/);
@@ -155,7 +155,7 @@ test('the pipeline needs no serial group because the datasets use different keys
 
 const workflow = await readFile(new URL('../.github/workflows/update-sirento.yml', import.meta.url), 'utf8');
 
-test('the GitHub workflow publishes both phases to R2 through the shared sink', () => {
+test('[STORY-55C] the GitHub workflow publishes both phases to R2 through the shared sink', () => {
   // Both phases run their shared script with the R2 credentials in the environment.
   assert.match(workflow, /node scripts\/publish-incidents\.js/);
   assert.match(workflow, /node scripts\/publish-ttc-phase\.js/);
@@ -167,7 +167,7 @@ test('the GitHub workflow publishes both phases to R2 through the shared sink', 
   }
 });
 
-test('the GitHub workflow no longer writes the data branch', () => {
+test('[STORY-55C] the GitHub workflow no longer writes the data branch', () => {
   // The data-branch checkout, the fast-forward rebase push, and the git sink
   // environment are all gone; R2 is the only publication target.
   assert.doesNotMatch(workflow, /ref: data/, 'the data-branch checkout must be gone');
@@ -178,7 +178,7 @@ test('the GitHub workflow no longer writes the data branch', () => {
   assert.doesNotMatch(workflow, /GIT_AUTHOR_NAME/, 'the git sink author must be gone');
 });
 
-test('the GitHub workflow preserves the advisory-context ordering', () => {
+test('[STORY-55C] the GitHub workflow preserves the advisory-context ordering', () => {
   // The incident phase writes data/current.json before the vehicle step reads it,
   // so the advisory input is the already-updated snapshot.
   const incidentIndex = workflow.indexOf('node scripts/publish-incidents.js');
@@ -186,7 +186,7 @@ test('the GitHub workflow preserves the advisory-context ordering', () => {
   assert.ok(incidentIndex >= 0 && vehicleIndex > incidentIndex, 'snapshot must be published before the vehicle step');
 });
 
-test('the GitHub workflow keeps its triggers, permissions, and concurrency', () => {
+test('[STORY-55C] the GitHub workflow keeps its triggers, permissions, and concurrency', () => {
   assert.match(workflow, /cron: "2-59\/5 \* \* \* \*"/);
   assert.match(workflow, /workflow_dispatch:/);
   assert.match(workflow, /permissions:\s*\n\s*contents: read/);

@@ -42,14 +42,14 @@ function confirmedDiversionOutput() {
 
 // --- Shared freshness/skip policy -------------------------------------------
 
-test('the shared freshness threshold keeps data under the ten-minute UI stale window', () => {
+test('[STORY-54] the shared freshness threshold keeps data under the ten-minute UI stale window', () => {
   // The schedule runs every five minutes and the browser marks a feed stale after
   // ten minutes, so the threshold must be at most five minutes.
   assert.equal(FRESHNESS_THRESHOLD_MS, 300000);
   assert.ok(FRESHNESS_THRESHOLD_MS <= 600000);
 });
 
-test('freshness uses fetch time, including the exact cutoff and invalid clocks', () => {
+test('[STORY-54] freshness uses fetch time, including the exact cutoff and invalid clocks', () => {
   assert.equal(needsUpdate({ fetchedAt: '2026-10-06T11:55:00.001Z' }, now), false);
   assert.equal(needsUpdate({ fetchedAt: '2026-10-06T11:55:00Z' }, now), true);
   for (const fetchedAt of [undefined, 'invalid', '2026-10-06T13:00:00Z']) {
@@ -57,13 +57,13 @@ test('freshness uses fetch time, including the exact cutoff and invalid clocks',
   }
 });
 
-test('freshness defaults the clock and threshold when called with no arguments', () => {
+test('[STORY-54] freshness defaults the clock and threshold when called with no arguments', () => {
   // Exercises the default `now` and `thresholdMs` parameters.
   assert.equal(needsUpdate(), true);
   assert.equal(needsUpdate({ fetchedAt: new Date(Date.now() - 1000).toISOString() }), false);
 });
 
-test('freshness evaluates each timestamp predicate independently', () => {
+test('[STORY-54] freshness evaluates each timestamp predicate independently', () => {
   // Future-dated: the `timestamp > nowMs` operand decides.
   assert.equal(needsUpdate({ fetchedAt: '2026-10-06T12:00:00.001Z' }, now), true);
   // Stale: the `nowMs - timestamp >= thresholdMs` operand decides.
@@ -72,7 +72,7 @@ test('freshness evaluates each timestamp predicate independently', () => {
   assert.equal(needsUpdate({ fetchedAt: '2026-10-06T11:59:00.001Z' }, now, 60000), false);
 });
 
-test('freshness inspects each incident feed when the envelope is fresh', () => {
+test('[STORY-54] freshness inspects each incident feed when the envelope is fresh', () => {
   // The envelope is fresh, so the decision comes from the per-feed `.some()`.
   const fresh = now.toISOString();
   const base = { fetchedAt: fresh, feeds: { TFS: { status: 'ok', fetchedAt: fresh }, TPS: { status: 'ok', fetchedAt: fresh } } };
@@ -81,7 +81,7 @@ test('freshness inspects each incident feed when the envelope is fresh', () => {
   assert.equal(needsUpdate({ ...base, feeds: { ...base.feeds, TPS: { status: 'ok', fetchedAt: '2026-10-06T11:00:00Z' } } }, now), true);
 });
 
-test('a fresh envelope does not hide a stale or unavailable incident feed', () => {
+test('[STORY-54] a fresh envelope does not hide a stale or unavailable incident feed', () => {
   const snapshot = {
     fetchedAt: now.toISOString(),
     feeds: { TFS: { status: 'ok', fetchedAt: now.toISOString() }, TPS: { status: 'ok', fetchedAt: now.toISOString() } }
@@ -97,7 +97,7 @@ test('a fresh envelope does not hide a stale or unavailable incident feed', () =
 
 // --- Incident publication phase ---------------------------------------------
 
-test('the incident phase skips a fresh snapshot without running the ETL', async t => {
+test('[STORY-54] the incident phase skips a fresh snapshot without running the ETL', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'incident-phase-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const outputPath = join(dir, 'current.json');
@@ -112,7 +112,7 @@ test('the incident phase skips a fresh snapshot without running the ETL', async 
   assert.deepEqual(result, { updated: false, committed: false });
 });
 
-test('the incident phase runs the ETL and publishes a stale snapshot', async t => {
+test('[STORY-54] the incident phase runs the ETL and publishes a stale snapshot', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'incident-phase-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const outputPath = join(dir, 'current.json');
@@ -128,7 +128,7 @@ test('the incident phase runs the ETL and publishes a stale snapshot', async t =
   assert.deepEqual(calls, [['etl', 'concourse'], ['publish', 'data/current.json', '{"fetchedAt":"2026-10-06T11:00:00Z"}']]);
 });
 
-test('the incident phase reports an unchanged snapshot without a write', async t => {
+test('[STORY-54] the incident phase reports an unchanged snapshot without a write', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'incident-phase-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const outputPath = join(dir, 'current.json');
@@ -140,7 +140,7 @@ test('the incident phase reports an unchanged snapshot without a write', async t
   assert.deepEqual(result, { updated: true, committed: false });
 });
 
-test('the incident phase treats a missing snapshot as needing an update', async t => {
+test('[STORY-54] the incident phase treats a missing snapshot as needing an update', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'incident-phase-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const outputPath = join(dir, 'missing.json');
@@ -156,7 +156,7 @@ test('the incident phase treats a missing snapshot as needing an update', async 
   assert.equal(result.updated, true);
 });
 
-test('the incident phase defaults every option when called with no arguments', async t => {
+test('[STORY-54] the incident phase defaults every option when called with no arguments', async t => {
   // Exercises the default output path, updater identity, clock, and logger. A
   // fresh default snapshot returns early, so the default R2 sink is never built.
   const dir = await mkdtemp(join(tmpdir(), 'incident-defaults-'));
@@ -177,7 +177,7 @@ test('the incident phase defaults every option when called with no arguments', a
   }
 });
 
-test('the incident phase surfaces a non-missing read error', async t => {
+test('[STORY-54] the incident phase surfaces a non-missing read error', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'incident-phase-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   // A directory at the output path makes readFile fail with EISDIR, not ENOENT.
@@ -188,7 +188,7 @@ test('the incident phase surfaces a non-missing read error', async t => {
 
 // --- TTC geometry publication phase -----------------------------------------
 
-test('the TTC phase publishes changed geometry through the sink', async t => {
+test('[STORY-54] the TTC phase publishes changed geometry through the sink', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'ttc-phase-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const sourcePath = join(dir, 'diversions.json');
@@ -202,7 +202,7 @@ test('the TTC phase publishes changed geometry through the sink', async t => {
   assert.equal(written.diversions[0].geometrySource, 'sirento-observed');
 });
 
-test('the TTC phase reports no change when the geometry is unchanged', async t => {
+test('[STORY-54] the TTC phase reports no change when the geometry is unchanged', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'ttc-phase-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const sourcePath = join(dir, 'diversions.json');
@@ -214,7 +214,7 @@ test('the TTC phase reports no change when the geometry is unchanged', async t =
   assert.deepEqual(result, { committed: false });
 });
 
-test('the TTC phase builds the default R2 sink from the environment', async t => {
+test('[STORY-54] the TTC phase builds the default R2 sink from the environment', async t => {
   // No injected sink: the phase must build the R2 sink from the environment. Stub
   // the global fetch with an in-memory R2 stand-in so no network is touched.
   const dir = await mkdtemp(join(tmpdir(), 'ttc-r2-default-'));
@@ -248,7 +248,7 @@ test('the TTC phase builds the default R2 sink from the environment', async t =>
   }
 });
 
-test('the TTC phase defaults its source path when called with no arguments', async t => {
+test('[STORY-54] the TTC phase defaults its source path when called with no arguments', async t => {
   // No TTC_DIVERSION_OUTPUT: the phase falls back to the cache path. The sink is
   // injected so the default R2 sink is never built.
   const dir = await mkdtemp(join(tmpdir(), 'ttc-defaults-'));
@@ -265,7 +265,7 @@ test('the TTC phase defaults its source path when called with no arguments', asy
   }
 });
 
-test('isDirectInvocation detects the process entry point', () => {
+test('[STORY-54] isDirectInvocation detects the process entry point', () => {
   const moduleUrl = 'file:///workspace/scripts/publish-ttc-phase.js';
   assert.equal(isDirectInvocation({ argv1: '/workspace/scripts/publish-ttc-phase.js', moduleUrl }), true);
   assert.equal(isDirectInvocation({ argv1: '/workspace/scripts/other.js', moduleUrl }), false);
@@ -273,7 +273,7 @@ test('isDirectInvocation detects the process entry point', () => {
   assert.equal(isDirectInvocation({ argv1: undefined, moduleUrl }), false);
 });
 
-test('runTtcPhaseCli prints the committed and no-change verdicts', async () => {
+test('[STORY-54] runTtcPhaseCli prints the committed and no-change verdicts', async () => {
   const lines = [];
   const log = line => lines.push(line);
   assert.deepEqual(await runTtcPhaseCli({ publish: async () => ({ committed: true }), log }), { committed: true });
@@ -322,7 +322,7 @@ const r2Env = {
   R2_SECRET_ACCESS_KEY: 'secret'
 };
 
-test('the incident CLI reports a fresh skip', async t => {
+test('[STORY-54] the incident CLI reports a fresh skip', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'incident-cli-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   await mkdir(join(dir, 'data'), { recursive: true });
@@ -337,7 +337,7 @@ test('the incident CLI reports a fresh skip', async t => {
   assert.match(out, /fresh; skipped/);
 });
 
-test('the incident CLI uses default paths and reports a fresh skip', async t => {
+test('[STORY-54] the incident CLI uses default paths and reports a fresh skip', async t => {
   // No TFS_OUTPUT: the CLI falls back to data/current.json and cwd.
   const dir = await mkdtemp(join(tmpdir(), 'incident-cli-default-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
@@ -354,7 +354,7 @@ test('the incident CLI uses default paths and reports a fresh skip', async t => 
   assert.match(out, /fresh; skipped/);
 });
 
-test('the incident CLI publishes a stale snapshot to R2 and reports it', async t => {
+test('[STORY-54] the incident CLI publishes a stale snapshot to R2 and reports it', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'incident-cli-commit-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   await mkdir(join(dir, 'data'), { recursive: true });
@@ -367,7 +367,7 @@ test('the incident CLI publishes a stale snapshot to R2 and reports it', async t
   assert.match(out, /Incident snapshot updated/);
 });
 
-test('the incident CLI fails loudly without R2 credentials', async t => {
+test('[STORY-54] the incident CLI fails loudly without R2 credentials', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'incident-cli-nocreds-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   await mkdir(join(dir, 'data'), { recursive: true });
@@ -381,7 +381,7 @@ test('the incident CLI fails loudly without R2 credentials', async t => {
   );
 });
 
-test('the TTC CLI publishes changed geometry to R2 and reports it', async t => {
+test('[STORY-54] the TTC CLI publishes changed geometry to R2 and reports it', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'ttc-cli-commit-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const sourcePath = join(dir, 'diversions.json');
@@ -394,7 +394,7 @@ test('the TTC CLI publishes changed geometry to R2 and reports it', async t => {
   assert.match(out, /TTC geometry committed/);
 });
 
-test('the TTC CLI uses the default source path and publishes to R2', async t => {
+test('[STORY-54] the TTC CLI uses the default source path and publishes to R2', async t => {
   // No TTC_DIVERSION_OUTPUT: the CLI falls back to the cache path. The R2
   // stand-in is a fresh process, so the first write is always "changed".
   const dir = await mkdtemp(join(tmpdir(), 'ttc-cli-default-'));
