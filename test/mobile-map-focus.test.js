@@ -345,7 +345,7 @@ test('[STORY-40D] focus mode keeps the map info & legend reachable instead of hi
   assert.equal(html.match(/id="mapInfo"/g)?.length, 1);
 });
 
-test('[STORY-40D] focus-mode map info and filter summary size to their content instead of stretching', () => {
+test('[STORY-40D][STORY-43] focus-mode map info and filter summary size to their content instead of stretching', () => {
   // Story 43: a fixed/absolute element with both top and bottom insets and no
   // height fills the whole gap between them. The collapsed map info and the
   // one-line filter summary previously rendered as tall boxes covering the map.
@@ -377,7 +377,7 @@ test('[STORY-40D] focus-mode map info and filter summary size to their content i
   assert.match(summaryRule, /max-height: min\(/);
 });
 
-test('[STORY-40D] the floating filter summary clears the floating navigation band', () => {
+test('[STORY-40D][STORY-43] the floating filter summary clears the floating navigation band', () => {
   // The navigation band clears the focus button (whose top tracks the layer row's real bottom edge).
   assert.match(mobileRules, /html\[data-mobile-focus="on"\] \.radius-controls \{[\s\S]*?top: calc\(var\(--mobile-layer-row-bottom, 64px\) \+ var\(--mobile-focus-height, 48px\) \+ 8px \+ env\(safe-area-inset-top, 0px\)\);/);
   assert.match(mobileRules, /\.mobile-focus-filter-summary \{[\s\S]*?top: min\([\s\S]*?var\(--mobile-nav-bottom, calc\(var\(--mobile-layer-row-bottom, 64px\) \+ 108px\)\) \+ 8px \+ env\(safe-area-inset-top, 0px\)[\s\S]*?\);/);
@@ -402,7 +402,7 @@ test('[STORY-40D] the floating filter summary names the location context it is s
 const chromeMetricsStart = app.indexOf('function syncMobileFocusChromeMetrics(');
 const chromeMetricsFn = app.slice(chromeMetricsStart, app.indexOf('\nfunction wrapQuery(', chromeMetricsStart));
 
-test('focus-mode chrome boundaries are measured, not hardcoded', () => {
+test('[STORY-44] focus-mode chrome boundaries are measured, not hardcoded', () => {
   // The measurement pass exposes the focus button height, navigation band bottom,
   // filter summary bottom, zoom-control clearance, and attribution clearance.
   assert.match(app, /function syncMobileFocusChromeMetrics\(\) \{/);
@@ -417,11 +417,11 @@ test('focus-mode chrome boundaries are measured, not hardcoded', () => {
   assert.doesNotMatch(chromeMetricsFn, /addEventListener|ResizeObserver|requestAnimationFrame/);
 });
 
-test('focus-mode chrome measurement only runs while focus mode is active on mobile', () => {
+test('[STORY-44] focus-mode chrome measurement only runs while focus mode is active on mobile', () => {
   assert.match(chromeMetricsFn, /if \(!mobileFocusMode \|\| !isMobileViewLayout\(\)\) return;/);
 });
 
-test('focus-mode chrome metrics are written only when they change', () => {
+test('[STORY-44] focus-mode chrome metrics are written only when they change', () => {
   // setRootMetric guards against redundant writes so the measurement pass cannot
   // thrash layout or re-trigger the ResizeObserver.
   assert.match(app, /function setRootMetric\(name, value\) \{[\s\S]*?if \(document\.documentElement\.style\.getPropertyValue\(name\) === next\) return;[\s\S]*?document\.documentElement\.style\.setProperty\(name, next\);/);
@@ -429,7 +429,7 @@ test('focus-mode chrome metrics are written only when they change', () => {
   assert.doesNotMatch(chromeMetricsFn, /style\.setProperty\(/);
 });
 
-test('the focus-mode chrome rules consume the measured boundaries with fallbacks', () => {
+test('[STORY-44] the focus-mode chrome rules consume the measured boundaries with fallbacks', () => {
   // Navigation band derives its offset from the measured focus button height.
   assert.match(mobileRules, /html\[data-mobile-focus="on"\] \.radius-controls \{[\s\S]*?top: calc\(var\(--mobile-layer-row-bottom, 64px\) \+ var\(--mobile-focus-height, 48px\) \+ 8px \+ env\(safe-area-inset-top, 0px\)\);/);
   // Filter summary anchors to the measured navigation band bottom.

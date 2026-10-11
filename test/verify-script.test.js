@@ -51,7 +51,7 @@ const requiredChecks = [
   "git diff --exit-code HEAD -- data/current.json"
 ];
 
-test("package.json exposes a verify script that runs scripts/verify.sh", () => {
+test("[STORY-45A] package.json exposes a verify script that runs scripts/verify.sh", () => {
   assert.equal(manifest.scripts.verify, "sh scripts/verify.sh");
 });
 
@@ -59,7 +59,7 @@ test("package.json exposes a verify:fast script that runs scripts/verify.sh --fa
   assert.equal(manifest.scripts["verify:fast"], "sh scripts/verify.sh --fast");
 });
 
-test("the verify script fails fast on any error", () => {
+test("[STORY-45A] the verify script fails fast on any error", () => {
   assert.match(script, /^set -eu$/m, "verify.sh must use `set -eu`");
 });
 
@@ -69,17 +69,17 @@ const scriptCode = script
   .filter(line => !line.trimStart().startsWith("#"))
   .join("\n");
 
-test("the verify script is POSIX sh and avoids GNU-only tools", () => {
+test("[STORY-45A] the verify script is POSIX sh and avoids GNU-only tools", () => {
   assert.match(script, /^#!\/bin\/sh$/m, "verify.sh must use a POSIX sh shebang");
   assert.doesNotMatch(scriptCode, /\btimeout\b/, "verify.sh must not rely on GNU `timeout`");
   assert.doesNotMatch(scriptCode, /\bbash\b/, "verify.sh must not require bash");
 });
 
-test("the verify script does not use eval", () => {
+test("[STORY-45A] the verify script does not use eval", () => {
   assert.doesNotMatch(scriptCode, /\beval\b/, "verify.sh must not use eval");
 });
 
-test("the verify script does not use bash-only `wait -n`", () => {
+test("[STORY-45A] the verify script does not use bash-only `wait -n`", () => {
   assert.doesNotMatch(scriptCode, /wait\s+-n/, "verify.sh must not use bash-only `wait -n`");
 });
 
@@ -119,14 +119,14 @@ test("[STORY-39C] the verify script runs the required checks in the documented o
   assert.ok(fullModeIndex < gitIndex, "the Git checks must follow the full-mode stage");
 });
 
-test("the verify script ensures the image before running any container check", () => {
+test("[STORY-45A] the verify script ensures the image before running any container check", () => {
   const ensureIndex = script.indexOf("scripts/docker-test.sh\" --ensure-image");
   const firstRunIndex = script.indexOf("scripts/docker-test.sh\" npm run lint");
   assert.ok(ensureIndex !== -1 && firstRunIndex !== -1);
   assert.ok(ensureIndex < firstRunIndex, "the image must be ensured before it is used");
 });
 
-test("the verify script runs every container command through the wrapper", () => {
+test("[STORY-45A] the verify script runs every container command through the wrapper", () => {
   // No bare `docker run`/`docker build` may remain: all container work must go
   // through scripts/docker-test.sh so the working tree is mounted.
   assert.doesNotMatch(scriptCode, /\bdocker run\b/, "verify.sh must not call docker run directly");

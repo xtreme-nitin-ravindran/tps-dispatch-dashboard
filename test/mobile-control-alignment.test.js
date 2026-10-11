@@ -29,7 +29,7 @@ test('[STORY-29B] radius choices stay on one bounded row above the mobile naviga
   assert.match(sharedMobileRules, /\.mobile-view-toggle button\s*{ min-height: 44px;/);
 });
 
-test('[STORY-29B] road and police boundary controls stack in aligned mobile map columns', () => {
+test('[STORY-29B][STORY-41] road and police boundary controls stack in aligned mobile map columns', () => {
   assert.match(html, /class="road-overlay-toggle map-layer-toggle"[\s\S]*?Road closures/);
   // Story 41: Police Divisions sits first, with Road closures directly below it.
   // Both controls shrink-wrap and share the same right inset.
