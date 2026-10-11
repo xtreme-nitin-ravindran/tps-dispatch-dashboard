@@ -6,7 +6,7 @@ import { createTtcLayer } from '../src/ttc/map-layer.js';
 import { loadTtcUiFixture } from '../src/ttc/fixture.js';
 const fixture=await frontendFixture();
 const present=(alerts=fixture.ttcAlerts,geometry=fixture.ttcDiversions,now=fixture.now)=>ttcPresentation(alerts,geometry,now);
-test('30E two-vehicle fixture becomes human-readable alert, stops, scheduled segment and observed path',()=>{
+test('[STORY-30F] 30E two-vehicle fixture becomes human-readable alert, stops, scheduled segment and observed path',()=>{
   const [item]=present().items;
   assert.equal(item.routes[0].label,'504 King');assert.equal(item.stops.length,2);
   assert.equal(item.scheduled.length,1);assert.equal(item.diversions.length,1);
@@ -14,7 +14,7 @@ test('30E two-vehicle fixture becomes human-readable alert, stops, scheduled seg
   assert.doesNotMatch(JSON.stringify(item),/vehicleId|tripId|shapeId|trajectoryCount|rawEvidence/);
   assert.doesNotMatch(JSON.stringify(fixture.ttcDiversions),/rawEvidence|vehicleId|tripId|shapeId|trajectoryCount|departure|confidence/);
 });
-test('alert-only remains useful; candidate, likely, stale, unavailable and expired geometry is suppressed independently',()=>{
+test('[STORY-30F] alert-only remains useful; candidate, likely, stale, unavailable and expired geometry is suppressed independently',()=>{
   for(const status of ['candidate','likely']) {
     const output=structuredClone(fixture.ttcDiversions);output.diversions[0].status=status;
     assert.equal(present(undefined,output).items[0].diversions.length,0);
@@ -24,20 +24,20 @@ test('alert-only remains useful; candidate, likely, stale, unavailable and expir
     assert.equal(item.diversions.length,0);assert.equal(item.scheduled.length,1);assert.ok(item.title);
   }
 });
-test('unavailable alerts retain bounded cached official information, old alerts expire and zero stays empty',()=>{
+test('[STORY-30F] unavailable alerts retain bounded cached official information, old alerts expire and zero stays empty',()=>{
   const result=present({...fixture.ttcAlerts,status:'unavailable'});assert.match(result.freshness,/unavailable/);assert.equal(result.items.length,1);
   assert.equal(present(undefined,undefined,fixture.now+3600001).items.length,0);
   assert.equal(present({...fixture.ttcAlerts,items:[]}).items.length,0);
   const alert=structuredClone(fixture.ttcAlerts);alert.items[0].activePeriods=[{end:new Date(fixture.now).toISOString()}];assert.equal(present(alert).items.length,0);
 });
-test('multiple routes, directions, disruptions and stable identities never overwrite',()=>{
+test('[STORY-30F] multiple routes, directions, disruptions and stable identities never overwrite',()=>{
   const alerts=structuredClone(fixture.ttcAlerts),output=structuredClone(fixture.ttcDiversions);
   alerts.items[0].correlation.routes.push({routeId:'501',routeShortName:'501',routeLongName:'Queen'});
   const copy=structuredClone(alerts.items[0]);copy.id='second';alerts.items.push(copy,copy);
   const d=output.diversions[0];output.diversions.push({...d,id:'other-direction',directionId:1},{...d,id:'other-alert',relatedAlertIds:['second']});
   const result=present(alerts,output);assert.equal(result.items.length,2);assert.equal(result.items[0].routes.length,2);assert.equal(result.items[0].diversions.length,2);assert.equal(result.items[1].diversions.length,1);
 });
-test('ambiguous scheduled correlation and malformed geometry never draw',()=>{
+test('[STORY-30F] ambiguous scheduled correlation and malformed geometry never draw',()=>{
   const alerts=structuredClone(fixture.ttcAlerts);alerts.items[0].correlation.routeResults[0].status='ambiguous';
   assert.equal(present(alerts).items[0].scheduled.length,0);
   const output=structuredClone(fixture.ttcDiversions);output.diversions[0].geometry=[[Infinity,43],[-79,43]];assert.equal(present(undefined,output).items[0].diversions.length,0);
@@ -49,7 +49,7 @@ function harness() {
   const layer=createTtcLayer(map,L,item=>{selected=item.id;layer.select(item.id);});
   return {layer,members,map,counts:()=>({created,updated}),selection:()=>selected};
 }
-test('100 refresh/theme/view/visibility/selection cycles retain the same Leaflet objects; expiry removes only its part',()=>{
+test('[STORY-30F] 100 refresh/theme/view/visibility/selection cycles retain the same Leaflet objects; expiry removes only its part',()=>{
   const h=harness(),items=present().items;h.layer.update(items);const initial=[...h.members];
   for(let i=0;i<100;i++) {h.layer.update(structuredClone(items));h.layer.select(i%2?items[0].id:null);h.layer.visibility(i%2===0);}
   assert.deepEqual([...h.members],initial);assert.deepEqual(h.counts(),{created:4,updated:0});
@@ -58,24 +58,24 @@ test('100 refresh/theme/view/visibility/selection cycles retain the same Leaflet
   h.layer.update([{...items[0],diversions:[]}]);assert.equal(h.members.size,2);assert.equal(h.layer.diagnostics().selected,items[0].id);
   h.layer.update([]);assert.equal(h.members.size,0);assert.equal(h.layer.diagnostics().selected,null);h.layer.destroy();assert.equal(h.members.size,0);
 });
-test('geometry updates mutate existing line pairs instead of allocating new layers',()=>{
+test('[STORY-30F] geometry updates mutate existing line pairs instead of allocating new layers',()=>{
   const h=harness(),items=present().items;h.layer.update(items);items[0].diversions[0].geometry=items[0].diversions[0].geometry.map(([x,y])=>[x+.0001,y]);h.layer.update(items);
   assert.deepEqual(h.counts(),{created:4,updated:2});
 });
-test('developer fixture is loopback-only and rebases freshness without raw histories',async()=>{
+test('[STORY-30F] developer fixture is loopback-only and rebases freshness without raw histories',async()=>{
   const fetch=async()=>({ok:true,json:async()=>structuredClone(fixture)});
   assert.equal(await loadTtcUiFixture({hostname:'sirento.ca',search:'?ttcFixture=confirmed'},fetch),null);
   const f=await loadTtcUiFixture({hostname:'localhost',search:'?ttcFixture=confirmed'},fetch,fixture.now+100000);
   assert.equal(ttcPresentation(f.ttcAlerts,f.ttcDiversions,fixture.now+100000).items[0].diversions.length,1);
 });
-test('nearby context uses backend geometry and names without hiding unresolved citywide alerts',()=>{
+test('[STORY-30F] nearby context uses backend geometry and names without hiding unresolved citywide alerts',()=>{
   const model=ttcPresentation(fixture.ttcAlerts,fixture.ttcDiversions,fixture.now,{origin:[43.65,-79.4],radius:1});
   assert.match(model.items[0].geography,/Within selected radius/);
   const alerts=structuredClone(fixture.ttcAlerts);delete alerts.items[0].correlation;
   const unknown=ttcPresentation(alerts,undefined,fixture.now,{origin:[43.65,-79.4],radius:1});
   assert.match(unknown.items[0].geography,/Location not mapped/);assert.equal(unknown.items.length,1);
 });
-test('fixture modes preserve alert-only, unavailable and multi-disruption semantics and reject failed loads',async()=>{
+test('[STORY-30F] fixture modes preserve alert-only, unavailable and multi-disruption semantics and reject failed loads',async()=>{
   const fetch=async()=>({ok:true,json:async()=>structuredClone(fixture)});
   for(const mode of ['alert-only','expired','unavailable','empty','multiple']) {
     const f=await loadTtcUiFixture({hostname:'localhost',search:`?ttcFixture=${mode}`},fetch,fixture.now);
@@ -87,7 +87,7 @@ test('fixture modes preserve alert-only, unavailable and multi-disruption semant
   assert.equal(await loadTtcUiFixture(null,fetch),null);
   await assert.rejects(loadTtcUiFixture({hostname:'localhost',search:'?ttcFixture=confirmed'},async()=>({ok:false})),/Generate/);
 });
-test('missing metadata, active windows and future provenance remain conservative',()=>{
+test('[STORY-30F] missing metadata, active windows and future provenance remain conservative',()=>{
   const alerts=structuredClone(fixture.ttcAlerts);delete alerts.items[0].correlation;delete alerts.items[0].header;delete alerts.items[0].description;delete alerts.items[0].cause;delete alerts.items[0].effect;
   assert.equal(present(alerts).items[0].routes[0].label,'0504');
   assert.equal(present(alerts).items[0].title,'TTC service disruption');
@@ -99,7 +99,7 @@ test('missing metadata, active windows and future provenance remain conservative
   assert.equal(ttcPresentation(undefined,undefined,fixture.now).items.length,0);
 });
 
-test('sparse metadata preserves official notices, rejects invalid segments and supports outside-radius context',()=>{
+test('[STORY-30F] sparse metadata preserves official notices, rejects invalid segments and supports outside-radius context',()=>{
   const alerts=structuredClone(fixture.ttcAlerts),a=alerts.items[0];
   a.correlation.stops[0].stopName='';
   a.correlation.candidates[0].affectedSegment.geometryStatus='missing';
@@ -112,14 +112,14 @@ test('sparse metadata preserves official notices, rejects invalid segments and s
   assert.deepEqual(present(alerts).items[0].routes,[]);
   delete alerts.items;assert.deepEqual(present(alerts).items,[]);
 });
-test('snapshot composition preserves unrelated disruption sources',async()=>{
+test('[STORY-30F] snapshot composition preserves unrelated disruption sources',async()=>{
   const {mergeTtcDisruptions}=await import('../src/ttc/presentation.js');
   const roads={items:[{id:'road'}]},data={roads};
   const result=mergeTtcDisruptions(data,fixture.ttcAlerts,fixture.ttcDiversions);
   assert.equal(result.roads,roads);assert.equal(result.ttcAlerts,fixture.ttcAlerts);assert.equal(result.ttcDiversions,fixture.ttcDiversions);
   assert.deepEqual(data,{roads});
 });
-test('map replacement removes live paths and listeners; unknown selection cannot frame an arbitrary route',()=>{
+test('[STORY-30F] map replacement removes live paths and listeners; unknown selection cannot frame an arbitrary route',()=>{
   const h=harness();h.layer.update(present().items);const lines=[...h.members];
   h.layer.reveal('missing');assert.equal(h.map.bounds,undefined);
   h.layer.destroy();assert.equal(h.members.size,0);assert.ok(lines.every(l=>Object.keys(l.handlers).length===0));
@@ -367,7 +367,7 @@ test('51D: sparse advisory and feed shapes fall back without throwing', () => {
 });
 
 // Recorded public geometry from Concourse build 308: confirmed but unassociated.
-test('unassociated real public geometry renders independently with observed provenance',async()=>{
+test('[STORY-30F] unassociated real public geometry renders independently with observed provenance',async()=>{
   const {readFile}=await import('node:fs/promises');
   const output=JSON.parse(await readFile(new URL('./fixtures/ttc-diversions/unassociated-public.json',import.meta.url),'utf8'));
   const now=Date.parse(output.checkedAt),feed={status:'ok',fetchedAt:output.checkedAt,items:[]};
