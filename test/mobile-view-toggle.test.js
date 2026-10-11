@@ -10,7 +10,7 @@ const [html, css, app] = await Promise.all([
 
 const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)';
 
-test('[STORY-37B] accessible Map and Calls toggle is available only at the mobile breakpoint', () => {
+test('[STORY-37B][STORY-37G] accessible Map and Calls toggle is available only at the mobile breakpoint', () => {
   const [toggle] = html.match(/<div class="mobile-view-toggle"[\s\S]*?<\/div>/);
   assert.match(toggle, /role="group" aria-label="Choose mobile dashboard view"/);
   assert.match(toggle, /data-mobile-view="map"[\s\S]*?aria-pressed="true"[\s\S]*?aria-controls="mapView"/);
