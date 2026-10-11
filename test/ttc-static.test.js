@@ -21,7 +21,7 @@ const alert = (routes = ['0504'], stops = ['A','C'], extra = {}) => ({id:'a',rou
 const correlate = (item = alert(), idx = index) => correlateState({items:[item]},idx,now);
 const correlation = (item,idx) => correlate(item,idx).items[0].correlation;
 
-test('exact source IDs and metadata, sorted stop coordinates, equivalent trips grouped', () => {
+test('[STORY-30C] exact source IDs and metadata, sorted stop coordinates, equivalent trips grouped', () => {
   const result = correlate(); validateCorrelation(result);
   const c = result.items[0].correlation;
   assert.equal(c.status,'exact'); assert.equal(c.routes[0].routeId,'0504'); assert.equal(c.routes[0].routeShortName,'504'); assert.equal(c.routes[0].routeType,0);
@@ -30,28 +30,28 @@ test('exact source IDs and metadata, sorted stop coordinates, equivalent trips g
   assert.equal(result.staticCorrelation.patterns[c.candidates[0].patternId].tripCount,2);
   assert.equal(index.patterns.size,3);
 });
-test('unknown routes/stops/trips retained; duplicates deduplicated deterministically', () => {
+test('[STORY-30C] unknown routes/stops/trips retained; duplicates deduplicated deterministically', () => {
   assert.equal(correlation(alert(['504'],[])).status,'unmatched');
   const c = correlation(alert(['0504'],['C','unknown','A','A']));
   assert.equal(c.status,'partial'); assert.deepEqual(c.stops.map(s => s.stopId),['A','C','unknown']); assert.deepEqual(c.stops[2],{stopId:'unknown',matched:false});
   assert.deepEqual(correlate(alert(['missing'],[])).staticCorrelation.report.unmatchedRouteIds,['missing']);
   assert.equal(correlation(alert(['0504'],['A'],{informedEntities:[{trip:{tripId:'unknown'}}]})).trips[0].matched,false);
 });
-test('direction/branch candidates and ambiguous shared stop set; missing direction retained', () => {
+test('[STORY-30C] direction/branch candidates and ambiguous shared stop set; missing direction retained', () => {
   assert.equal(correlation().candidates.length,1);
   assert.equal(correlation(alert(['0504'],['A','D'])).status,'ambiguous');
   const c = correlation(alert(['0504'],['A','D'],{informedEntities:[{routeId:'0504',directionId:1}]}));
   assert.equal(c.status,'exact'); assert.equal(index.patterns.get(c.candidates[0].patternId).directionId,1);
   assert.equal(correlation(alert(['29'],['A','B'])).status,'exact');
 });
-test('partial set, explicit stop order mismatch, and route-only have no false exact segment', () => {
+test('[STORY-30C] partial set, explicit stop order mismatch, and route-only have no false exact segment', () => {
   assert.equal(correlation(alert(['0504'],['B','E'])).status,'partial');
   const c = correlation(alert(['0504'],['A','C'],{affectedStopOrder:['C','A']}));
   assert.equal(c.status,'partial'); assert.equal(c.candidates[0].affectedSegment,undefined);
   const route = correlation(alert(['0504'],[])); assert.equal(route.status,'partial'); assert.deepEqual(route.candidates,[]);
   assert.equal(correlation(alert([],['A','B'])).status,'partial');
 });
-test('shape ordered by sequence and nearby projection clips scheduled intermediate stops', () => {
+test('[STORY-30C] shape ordered by sequence and nearby projection clips scheduled intermediate stops', () => {
   assert.deepEqual(index.shapes.get('s1').map(p => p[0]),[1,2,3,4]);
   const s = correlation().candidates[0].affectedSegment;
   assert.deepEqual(s.stopIds,['A','B','C']); assert.equal(s.shapeId,'s1'); assert.equal(s.geometryStatus,'projected');
@@ -60,24 +60,24 @@ test('shape ordered by sequence and nearby projection clips scheduled intermedia
   const loop = [[0,43.65,-79.4],[1,43.65,-79.399],[2,43.651,-79.399],[3,43.65,-79.4]];
   assert.equal(projectStop({latitude:43.65,longitude:-79.4},loop),null);
 });
-test('missing shape preserves exact stop match and shape reference without geometry', () => {
+test('[STORY-30C] missing shape preserves exact stop match and shape reference without geometry', () => {
   const c = correlation(alert(['29'],['A','B'])); assert.equal(c.status,'exact');
   assert.equal(c.candidates[0].affectedSegment.geometryStatus,'missing'); assert.equal(c.candidates[0].affectedSegment.geometry,undefined);
 });
-test('calendar prefers current service, applies exceptions, keeps unknown schedules conservative', () => {
+test('[STORY-30C] calendar prefers current service, applies exceptions, keeps unknown schedules conservative', () => {
   const idx = indexFor({'trips.txt':tables['trips.txt']+'0504,inactive,t5,0,s2\n','stop_times.txt':tables['stop_times.txt']+'t5,A,1\nt5,B,2\nt5,C,3\n','calendar.txt':tables['calendar.txt']+'inactive,0,0,0,0,0,1,0,20260101,20261231\n'});
   assert.equal(correlation(alert(),idx).status,'exact');
   assert.equal(serviceActive(idx,'weekday','20261225'),false);
   const noCalendar = indexFor({'calendar.txt':undefined,'calendar_dates.txt':undefined});
   assert.equal(serviceActive(noCalendar,'weekday','20260928'),null);
 });
-test('multi-route selector stop sets correlated independently; trip ID constrains pattern', () => {
+test('[STORY-30C] multi-route selector stop sets correlated independently; trip ID constrains pattern', () => {
   const c = correlation(alert(['0504','29'],['A','B','C'],{informedEntities:[{routeId:'0504',stopId:'A'},{routeId:'0504',stopId:'C'},{routeId:'29',stopId:'A'},{routeId:'29',stopId:'B'}]}));
   assert.equal(c.status,'exact'); assert.equal(c.routeResults.length,2); assert.equal(c.candidates.length,2);
   const trip = correlation(alert(['0504'],['A','D'],{informedEntities:[{trip:{tripId:'t1',routeId:'0504'}}]}));
   assert.equal(trip.status,'exact'); assert.equal(trip.trips[0].matched,true); assert.equal(trip.candidates.length,1);
 });
-test('CSV quotes, malformed data, duplicate sequences and unknown references', () => {
+test('[STORY-30C] CSV quotes, malformed data, duplicate sequences and unknown references', () => {
   assert.deepEqual([...csvRows('id,name\r\n1,"a,""b""\nc"\r\n')],[{id:'1',name:'a,"b"\nc'}]);
   assert.throws(() => [...csvRows('a,b\n"x,y')]);
   assert.throws(() => indexFor({'shapes.txt':tables['shapes.txt']+'s1,43,-79,1\n'}));
@@ -85,7 +85,7 @@ test('CSV quotes, malformed data, duplicate sequences and unknown references', (
   assert.throws(() => indexFor({'stops.txt':tables['stops.txt'].replace('43.65005','999')}));
   assert.throws(() => indexFor({'routes.txt':'route_id,route_type\n'}));
 });
-test('schema rejects broken geometry, exact without route, and missing pattern refs without mutation', () => {
+test('[STORY-30C] schema rejects broken geometry, exact without route, and missing pattern refs without mutation', () => {
   const result = correlate(), before = JSON.stringify(result); validateCorrelation(result); assert.equal(JSON.stringify(result),before);
   for (const mutate of [r => {r.items[0].correlation.routes=[];},r => {r.items[0].correlation.candidates[0].patternId='missing';},r => {r.items[0].correlation.candidates[0].affectedSegment.geometry[0]=[500,43];},r => {r.items[0].correlation.stops[0].latitude=NaN;}]) {
     const bad = structuredClone(result); mutate(bad); assert.throws(() => validateCorrelation(bad));
@@ -104,7 +104,7 @@ function zip(source = tables, compressed = false) {
   end.writeUInt32LE(0x06054b50); end.writeUInt16LE(Object.keys(source).length,10); end.writeUInt32LE(directory.length,12); end.writeUInt32LE(offset,16);
   return Buffer.concat([...local,directory,end]);
 }
-test('validated cache reuses download, retains good stale bytes and rejects invalid replacement', async () => {
+test('[STORY-30C] validated cache reuses download, retains good stale bytes and rejects invalid replacement', async () => {
   const dir = await mkdtemp(join(tmpdir(),'ttc-static-')), cachePath = join(dir,'cache.zip'); let requests = 0;
   try {
     const bytes = zip(); assert.equal(buildStaticIndex(zipTables(bytes)).patterns.size,3);
@@ -117,7 +117,7 @@ test('validated cache reuses download, retains good stale bytes and rejects inva
     await assert.rejects(loadStaticGtfs({cachePath,fetchImpl:async () => {throw new Error('offline');}}));
   } finally { await rm(dir,{recursive:true,force:true}); }
 });
-test('protobuf → lifecycle → correlation → production snapshot and failure retention', async () => {
+test('[STORY-30C] protobuf → lifecycle → correlation → production snapshot and failure retention', async () => {
   const bytes = bindings.transit_realtime.FeedMessage.encode({header:{gtfsRealtimeVersion:'2.0',timestamp:now.getTime()/1000},entity:[{id:'source-id',alert:{effect:4,informedEntity:[{routeId:'0504',stopId:'A'},{routeId:'0504',stopId:'C'}]}}]}).finish();
   const parsed = parseTtcAlerts(bytes,now), log = () => {};
   const updateAlerts = (previous,date) => updateTtcAlerts(previous,date,async () => parsed,log);
@@ -136,7 +136,7 @@ test('protobuf → lifecycle → correlation → production snapshot and failure
     assert.equal(failed.staticCorrelation.status,'unavailable'); assert.deepEqual(failed.items[0].correlation,item.correlation);
   } finally { await rm(dir,{recursive:true,force:true}); }
 });
-test('live-style trips without stop times remain resolvable but cannot fabricate patterns', () => {
+test('[STORY-30C] live-style trips without stop times remain resolvable but cannot fabricate patterns', () => {
   const idx = indexFor({'trips.txt':tables['trips.txt']+'0504,weekday,no-stops,0,s1\n'});
   assert.equal(idx.counts.tripsWithoutStops,1);
   const state = correlate(alert(['0504'],[],{informedEntities:[{trip:{tripId:'no-stops'}}]}),idx);
@@ -145,30 +145,30 @@ test('live-style trips without stop times remain resolvable but cannot fabricate
   assert.equal(state.items[0].correlation.status,'partial');
   validateCorrelation(state);
 });
-test('route-only selector does not inherit another routes scoped stops', () => {
+test('[STORY-30C] route-only selector does not inherit another routes scoped stops', () => {
   const c = correlation(alert(['0504','29'],['A','C'],{informedEntities:[{routeId:'0504',stopId:'A'},{routeId:'0504',stopId:'C'},{routeId:'29'}]}));
   assert.equal(c.status,'partial'); assert.equal(c.candidates.length,1);
   assert.equal(c.routeResults.find(r => r.routeId === '29').status,'partial');
 });
-test('buffer CSV preserves quotes and UTF-8 across decoder boundaries', () => {
+test('[STORY-30C] buffer CSV preserves quotes and UTF-8 across decoder boundaries', () => {
   const name = 'é'.repeat(32760)+'"end';
   const csv = Buffer.from(`id,name\n1,"${name.replaceAll('"','""')}"\n`);
   assert.deepEqual([...csvRows(csv)],[{id:'1',name}]);
 });
-test('ambiguous/reversed projections and repeated stops retain references without guessed geometry', () => {
+test('[STORY-30C] ambiguous/reversed projections and repeated stops retain references without guessed geometry', () => {
   const reversed = indexFor({'shapes.txt':tables['shapes.txt'].replace('s1,43.65,-79.397,4','s1,43.65,-79.397,0')});
   const c = correlation(alert(),reversed);
   assert.equal(c.candidates[0].affectedSegment.geometryStatus,'ambiguous');
   const repeated = indexFor({'stop_times.txt':tables['stop_times.txt']+'t1,A,50\nt2,A,5\n'});
   assert.equal(correlation(alert(),repeated).candidates[0].affectedSegment,undefined);
 });
-test('pattern identity and output are deterministic under static row reordering', () => {
+test('[STORY-30C] pattern identity and output are deterministic under static row reordering', () => {
   const overrides = Object.fromEntries(Object.entries(tables).map(([name,text]) => {
     const [header,...rows] = text.trimEnd().split('\n'); return [name,[header,...rows.reverse()].join('\n')+'\n'];
   }));
   assert.deepEqual(correlate(),correlate(alert(),indexFor(overrides)));
 });
-test('static failure never transfers correlation onto changed alert content', async () => {
+test('[STORY-30C] static failure never transfers correlation onto changed alert content', async () => {
   const make = stop => bindings.transit_realtime.FeedMessage.encode({header:{gtfsRealtimeVersion:'2.0',timestamp:now.getTime()/1000},entity:[{id:'same',alert:{effect:4,informedEntity:[{routeId:'0504',stopId:stop}]}}]}).finish();
   const log = () => {}, update = stop => (prior,date) => updateTtcAlerts(prior,date,async () => parseTtcAlerts(make(stop),date),log);
   const first = await updateTtcBackend(undefined,now,{updateAlerts:update('A'),loadStatic:async () => ({index}),log});
@@ -177,7 +177,7 @@ test('static failure never transfers correlation onto changed alert content', as
   assert.deepEqual(result.changes.updated,['same']); validateTtcAlerts(result,{published:true});
 });
 
-test('valid explicit stop ordering, future service date and trip diagnostics survive scoped mismatch',()=>{
+test('[STORY-30C] valid explicit stop ordering, future service date and trip diagnostics survive scoped mismatch',()=>{
   assert.equal(correlation(alert(['0504'],['A','C'],{affectedStopOrder:['A','C']})).status,'exact');
   const future=correlation(alert(['0504'],['A','C'],{state:'scheduled',activePeriods:[{}, {start:'2026-10-01T16:00:00Z'}]}));
   assert.equal(future.serviceDate,'20261001');
@@ -189,10 +189,10 @@ test('valid explicit stop ordering, future service date and trip diagnostics sur
   assert.equal(projectStop({latitude:43.65,longitude:-79.4},[[0,43.65,-79.4],[1,43.65,-79.4]]).distance,0);
   assert.equal(serviceActive(index,'missing','20260928'),false);
 });
-test('CSV rejects invalid quoting, duplicate headers and row widths',()=>{
+test('[STORY-30C] CSV rejects invalid quoting, duplicate headers and row widths',()=>{
   for(const csv of ['a,b\nx"y,z\n','a,a\n1,2\n','a,b\n1\n']) assert.throws(()=>[...csvRows(csv)],/CSV/);
 });
-test('static validation rejects malformed numeric, identity, calendar and empty-network inputs',()=>{
+test('[STORY-30C] static validation rejects malformed numeric, identity, calendar and empty-network inputs',()=>{
   for(const [name,value] of [
     ['routes.txt','route_id,route_type\n,0\n'],
     ['routes.txt','route_id,route_type\nx,\n'],
@@ -214,7 +214,7 @@ test('static validation rejects malformed numeric, identity, calendar and empty-
   assert.equal(unnamed.routes.get('0504').routeShortName,null);assert.equal(unnamed.routes.get('0504').routeLongName,null);
   assert.equal(unnamed.stops.get('A').stopName,null);assert.equal(unnamed.trips.get('t1').shapeId,null);
 });
-test('ZIP directory and member corruption is rejected before use',()=>{
+test('[STORY-30C] ZIP directory and member corruption is rejected before use',()=>{
   const original=zip(),end=original.length-22,central=original.readUInt32LE(end+16);
   for(const [offset,value,size] of [[end+4,1,2],[end+6,1,2],[central,0,4],[central+8,1,2],[central+10,99,2],[central+24,805306369,4],[0,0,4]]) {
     const bad=Buffer.from(original);bad[`writeUInt${size*8}LE`](value,offset);assert.throws(()=>zipTables(bad));
@@ -223,7 +223,7 @@ test('ZIP directory and member corruption is rejected before use',()=>{
   assert.throws(()=>zipTables(zip({'routes.txt':tables['routes.txt']})),/Missing GTFS/);
   const commented=Buffer.concat([original,Buffer.from('comment')]);assert.equal(buildStaticIndex(zipTables(commented)).routes.size,index.routes.size);
 });
-test('static download HTTP and size failures retain prior cache; unreadable cache reports failure',async()=>{
+test('[STORY-30C] static download HTTP and size failures retain prior cache; unreadable cache reports failure',async()=>{
   const dir=await mkdtemp(join(tmpdir(),'ttc-static-errors-'));
   try {
     const cachePath=join(dir,'cache.zip'),logs=[];await writeFile(cachePath,zip());
@@ -235,7 +235,7 @@ test('static download HTTP and size failures retain prior cache; unreadable cach
   } finally {await rm(dir,{recursive:true,force:true});}
 });
 
-test('correlation schema rejects corrupt catalog, metadata and inconsistent references',()=>{
+test('[STORY-30C] correlation schema rejects corrupt catalog, metadata and inconsistent references',()=>{
   const base=correlate(alert(['0504'],['A','C'],{informedEntities:[{trip:{tripId:'t1'}}]}));
   for(const mutate of [
     s=>delete s.staticCorrelation,
@@ -265,6 +265,6 @@ test('correlation schema rejects corrupt catalog, metadata and inconsistent refe
   assert.equal(tripsOnly.candidates.length,1);assert.equal(tripsOnly.status,'partial');
 });
 
- test('deflated GTFS ZIP members decode to the same validated network as stored members',()=>{
+ test('[STORY-30C] deflated GTFS ZIP members decode to the same validated network as stored members',()=>{
   assert.deepEqual(buildStaticIndex(zipTables(zip(tables,true))),buildStaticIndex(zipTables(zip())));
 });
