@@ -14,40 +14,40 @@ const mobileRules = css.slice(css.indexOf(mobileQuery));
 const handlerStart = app.indexOf("mobileDisruptionsControl?.addEventListener('click'");
 const handler = app.slice(handlerStart, app.indexOf('\nsetMobileView(mobileView', handlerStart));
 
-test('mobile Disruptions control exists with a clear 44px touch target', () => {
+test('[STORY-39B] mobile Disruptions control exists with a clear 44px touch target', () => {
   assert.match(html, /id="mobileDisruptionsControl" aria-controls="disruptions">Disruptions<\/button>/);
   assert.match(desktopRules, /\.mobile-view-toggle \{ display: none; \}/);
   assert.match(mobileRules, /\.mobile-view-toggle \{ display: grid;/);
   assert.match(mobileRules, /\.mobile-view-toggle button \{ min-height: 44px;/);
 });
 
-test('desktop layout and disruptions presentation stay unchanged', () => {
+test('[STORY-39B] desktop layout and disruptions presentation stay unchanged', () => {
   assert.doesNotMatch(desktopRules, /mobileDisruptionsControl|data-mobile-disruptions/);
   assert.match(css, /\.disruptions-panel \{ margin: 20px 0; \}/);
   assert.doesNotMatch(handler, /renderDisruptions|renderTtc|setRoadOverlayVisibility/);
 });
 
-test('tapping reaches and focuses the existing disruptions content', () => {
+test('[STORY-39B] tapping reaches and focuses the existing disruptions content', () => {
   assert.match(html, /id="disruptions" aria-labelledby="disruptionHeading" tabindex="-1"/);
   assert.match(handler, /document\.querySelector\('#disruptions'\)/);
   assert.match(handler, /disruptions\?\.scrollIntoView\(\{/);
   assert.match(handler, /disruptions\?\.focus\(\{ preventScroll: true \}\)/);
 });
 
-test('the production disruptions panel is not duplicated', () => {
+test('[STORY-39B] the production disruptions panel is not duplicated', () => {
   assert.equal(html.match(/id="disruptions"/g)?.length, 1);
   assert.equal(html.match(/id="disruptionHeading"/g)?.length, 1);
   assert.doesNotMatch(handler, /cloneNode|innerHTML|insertAdjacentHTML|createElement/);
 });
 
-test('the control works from Map and Calls without creating a third view', () => {
+test('[STORY-39B] the control works from Map and Calls without creating a third view', () => {
   assert.match(handler, /if \(mobileView === 'map'\)[\s\S]*?setMobileView\('calls'\)/);
   assert.match(handler, /requestAnimationFrame\([\s\S]*?scrollIntoView/);
   assert.doesNotMatch(handler, /setMobileView\('disruptions'\)/);
   assert.match(app, /if \(view !== "map" && view !== "calls"\) return;/);
 });
 
-test('three controls stay within narrow mobile widths without horizontal overflow', () => {
+test('[STORY-39B] three controls stay within narrow mobile widths without horizontal overflow', () => {
   assert.match(mobileRules, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
   assert.match(mobileRules, /\.mobile-view-toggle \{[^}]*width: 100%; max-width: 100%;/);
   assert.doesNotMatch(mobileRules, /\.mobile-view-toggle\s*\{[^}]*overflow-x:\s*(?:auto|scroll)/);

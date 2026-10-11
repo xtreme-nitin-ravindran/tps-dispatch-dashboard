@@ -59,7 +59,7 @@ test('[SHOULD-2][STORY-26] expanded clusters preserve incident identity and indi
   assert.match(app, /\.on\("click", event => \{[\s\S]*?selectCall\(call\.id, \{ pan: false, revealRow: true \}\)/);
 });
 
-test('[SHOULD-2][STORY-26] cluster expansion is bounded and cannot produce city-spanning connector fans', () => {
+test('[SHOULD-2][STORY-26][STORY-38G] cluster expansion is bounded and cannot produce city-spanning connector fans', () => {
   assert.equal(MAX_EXPANDED_CLUSTER_SIZE,12);
   assert.equal(MAX_FAN_OUT_RADIUS_PX,96);
   assert.equal(canExpandCluster(new Array(12).fill(null)),true);

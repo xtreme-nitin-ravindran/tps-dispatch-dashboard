@@ -66,7 +66,7 @@ test('[STORY-37A] fixture exposes every compact Nearby location state without en
   assert.equal(mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditLocation=other'}).location,'none');
 });
 
-test('[STORY-37A][STORY-37V] Story 38 fixture dimensions compose without leaving the production render path', () => {
+test('[STORY-37A][STORY-37V][STORY-38F] Story 38 fixture dimensions compose without leaving the production render path', () => {
   const options = mobileAuditFixtureOptions({
     hostname:'127.0.0.1',
     search:'?mobileAuditFixture=stale&mobileAuditLocation=saved&mobileAuditFilters=search&mobileAuditRadius=5&mobileAuditRoads=off&mobileAuditBoundaries=on&mobileAuditView=calls&mobileAuditSheet=expanded&policeBoundaryDebug=1'
@@ -89,7 +89,7 @@ test('[STORY-37A][STORY-37V] Story 38 fixture dimensions compose without leaving
   }), null);
 });
 
-test('[STORY-37A][STORY-37V] fixture covers multiple, zero, stale, unavailable, unresolved, and long TTC states', () => {
+test('[STORY-37A][STORY-37V][STORY-38F] fixture covers multiple, zero, stale, unavailable, unresolved, and long TTC states', () => {
   const now=Date.UTC(2026,8,26,12);
   assert.ok(mobileAuditFixtureSnapshot().incidents.length >= 10);
   const many=mobileAuditFixtureSnapshot('many',now);
