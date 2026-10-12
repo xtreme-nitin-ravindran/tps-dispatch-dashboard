@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { runInNewContext } from 'node:vm';
 
 const [html, css, app] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
@@ -56,7 +57,31 @@ test('[MUST-5] deterministic fixture can select every radius without duplicating
 
 test('[MUST-5][STORY-4] radius changes reuse the complete filtering and rendering pipeline', () => {
   assert.match(app, /function updateNearbyView\(\) {[\s\S]*?applyFilters\(\);[\s\S]*?syncRadiusControls\(\);/);
-  assert.match(app, /function render\(map = true, preserveReadingPosition = null\) {[\s\S]*?renderNearbySummary\(\);[\s\S]*?renderCalls\(preserveReadingPosition\);[\s\S]*?renderMap\(\);[\s\S]*?renderDisruptions/);
+  const renderSource = app.slice(app.indexOf('function render('), app.indexOf('\nfunction relevantIncidentFeeds()'));
+  const calls = [];
+  const context = {
+    els: {windowLabel: {}, eventToggles: []},
+    state: {hours: 1, disruptions: [], radiusKm: 2},
+    dispatchMap: {},
+    radiusFilterOrigin: () => 'origin'
+  };
+  for (const name of ['renderStats', 'renderNearbySummary', 'renderSirenResults', 'renderCalls', 'renderMap', 'renderDisruptions', 'renderTtc']) {
+    context[name] = (...args) => calls.push({name, args});
+  }
+  const render = runInNewContext(`${renderSource}\nrender`, context);
+  render();
+  assert.equal(context.els.windowLabel.textContent, '1 hour');
+  assert.deepEqual(calls.map(call => call.name), ['renderStats', 'renderNearbySummary', 'renderSirenResults', 'renderCalls', 'renderMap', 'renderDisruptions', 'renderTtc']);
+  assert.deepEqual(calls.find(call => call.name === 'renderDisruptions').args, [context.state.disruptions, 'origin', 2, context.dispatchMap]);
+  calls.length = 0;
+  context.state.hours = 2;
+  context.els.eventToggles = [{dataset: {eventFilter: 'all'}, classList: {toggle: (name, active) => assert.deepEqual([name, active], ['active', true])}, setAttribute: (name, value) => assert.deepEqual([name, value], ['aria-pressed', 'true'])}];
+  context.state.eventFilter = 'all';
+  const anchor = {id: 'visible-call'};
+  render(false, anchor);
+  assert.equal(context.els.windowLabel.textContent, '2 hours');
+  assert.equal(calls.some(call => call.name === 'renderMap'), false);
+  assert.equal(calls.find(call => call.name === 'renderCalls').args[0], anchor);
   assert.match(app, /function selectNearbyRadius\(value\) {[\s\S]*?value === null[\s\S]*?state\.radiusKm = null;[\s\S]*?updateNearbyView\(\);/);
   assert.match(app, /radiusToggles\.forEach[\s\S]*?selectNearbyRadius\(toggle\.dataset\.radiusKm === 'toronto' \? null : Number\(toggle\.dataset\.radiusKm\)\)/);
 });

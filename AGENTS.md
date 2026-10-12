@@ -100,7 +100,7 @@ is a dependency/tooling snapshot, not a source snapshot.
 - Do not add artificial execution paths solely to satisfy coverage.
 - Before committing, run `npm run verify`, which covers the canonical offline unit suite in America/Los_Angeles, the same canonical offline suite in UTC with the 100/100/100 coverage gate, the live-source integration suite, browser JavaScript syntax checks, applicable lint checks, and `git diff --check`. The UTC coverage job is also the UTC unit-suite execution, so there is no separate redundant UTC unit job.
 
-### Test-to-requirement traceability
+### Test-to-requirement traceability (Story 62)
 
 - Every test is classified as either a PRD requirement or explicit infrastructure. This is a traceability layer with an explicit infrastructure bucket, not a forced 1:1 mapping; a large fraction of tests are tooling, not product.
 - Requirement IDs come from the canonical roadmap and are reused verbatim: `MUST-<n>`, `SHOULD-<n>`, `COULD-<n>` (durable product capability) and `STORY-<n>` (delivery increment, e.g. `STORY-41A`). A test may carry several.
@@ -175,7 +175,7 @@ Preserve these product semantics in both logic and UI:
   - service-worker cache versions are advanced when needed
   - obsolete SirenTO caches are removed as intended
 - Do not allow stale cached assets to reintroduce reverted application behavior.
-- Use `npm run bump:asset-version -- --asset <tag> --cache <sirento-shell-vN>` for frontend asset/cache version changes. Do not update version references manually. Afterward, run the asset-version agreement test and inspect the diff.
+- Use `npm run bump:asset-version -- --asset <tag> --cache <sirento-shell-vN>` for frontend asset/cache version changes. Run this source mutation on the host: the Docker wrapper mounts the working tree read-only, so atomic file replacement cannot run there. Keep repository validation in Docker through the wrapper. Do not update version references manually. Afterward, run the asset-version agreement test and inspect the diff.
 
 ## Repository hygiene
 
