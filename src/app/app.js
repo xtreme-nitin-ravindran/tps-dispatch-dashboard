@@ -496,6 +496,11 @@ function setMobileView(view, { focusSelection = false, persist = true } = {}) {
   if (view !== "map" && view !== "calls") return;
   const mobile = isMobileViewLayout();
   if (view === mobileView && view === presentedMobileView && mobile === presentedMobileLayout) return;
+  // Keep the existing siren panel below search/navigation on mobile, including rotation.
+  const sirenPanel = document.querySelector('#sirenResults');
+  const sirenAnchor = document.querySelector(mobile ? '.radius-controls' : '.controls-card');
+  if (mobile) sirenAnchor.after(sirenPanel);
+  else sirenAnchor.before(sirenPanel);
   const finishState = uxAudit.begin('view-toggle:state-update', { target: view });
   mobileView = view;
   if (mobileFocusMode && view !== 'map') closeFullscreenPanels();
