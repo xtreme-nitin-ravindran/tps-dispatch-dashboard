@@ -8,10 +8,10 @@ import { parseTtcVehicles } from '../src/ttc/vehicle-feed.js';
 import { detectVehicles, VEHICLE_POLICY } from '../src/ttc/vehicle-detector.js';
 import { parseTtcAlerts, updateTtcAlerts } from '../src/ttc/alerts.js';
 import { correlateState } from '../src/ttc/correlation.js';
-import { inferDiversions, completeDiversionCapture, diversionOutput, trajectorySimilarity, validateDiversionState, validateDiversionOutput, diversionGeoJson, DIVERSION_POLICY } from '../src/ttc/diversion-inference.js';
+import { inferDiversions, completeDiversionCapture, diversionOutput, trajectorySimilarity, validateDiversionState, validateDiversionOutput, diversionValidationDiagnostic, diversionGeoJson, DIVERSION_POLICY } from '../src/ttc/diversion-inference.js';
 import { simplifyGeometry, corridorDistance } from '../src/ttc/diversion-geometry.js';
 import { publicTtcGeometry } from '../scripts/publish-ttc-geometry.js';
-import { runVehiclePolling, diversionSummary, continuitySummary } from '../scripts/ttc-vehicles.js';
+import { runVehiclePolling, diversionSummary, continuitySummary, writeDiversionDiagnostic } from '../scripts/ttc-vehicles.js';
 const index=staticIndex();
 const path=[[43.65,-79.404],[43.652,-79.403],[43.652,-79.402],[43.652,-79.400],[43.65,-79.398],[43.65,-79.397],[43.65,-79.396]];
 function run({paths=[path,path],alerts,advisories,start=0,step=30,previous,detector}={}) {
@@ -188,6 +188,108 @@ test('[STORY-30E][STORY-30G] compact and restart schema reject corrupt coordinat
   for (const mutate of [s=>s.episodes[0].points[0].latitude=100,s=>s.episodes[0].points=Array(121).fill(s.episodes[0].points[0]),s=>s.records[0].episodeIds=['missing'],s=>s.episodes[0].points[1].observedAt=s.episodes[0].points[0].observedAt]) {
     const s=structuredClone(r.state);mutate(s);assert.throws(()=>validateDiversionState(s,index));
   }
+});
+test('[STORY-57] Story 57: the failure-only diagnostic names the first failing record and predicate reason',()=>{
+  const r=run();
+  // A valid state has no diagnostic.
+  assert.equal(diversionValidationDiagnostic(r.state,index),null);
+  // Each predicate group reports its stable reason key and the offending record.
+  const cases=[
+    ['identity',s=>{s.records[0].geometrySource='ttc-official';}],
+    ['timestamps',s=>{s.records[0].lastObservedAt=new Date(Date.parse(s.checkedAt)+60000).toISOString();}],
+    ['boundary',s=>{s.records[0].departure.segmentFraction=2;}],
+    ['geometry',s=>{s.records[0].geometry=[[0,0]];}],
+    ['related-alerts',s=>{s.records[0].relatedAlertIds=['dup','dup'];s.records[0].confidence.alertSupported=true;}],
+    ['related-advisories',s=>{s.records[0].relatedAdvisoryRefs=['dup','dup'];s.records[0].confidence.advisorySupported=true;}],
+    ['evidence',s=>{s.records[0].evidence.vehicleCount=s.records[0].evidence.trajectoryCount+1;}],
+    ['confidence',s=>{s.records[0].confidence.status='likely';}],
+    ['scheduled-segment',s=>{s.records[0].scheduledAffectedSegment.fromMeters+=1;}],
+    ['geometry-endpoints',s=>{s.records[0].geometry[0]=[s.records[0].geometry[0][0]+0.00002,s.records[0].geometry[0][1]];}],
+  ];
+  for (const [reason,mutate] of cases) {
+    const bad=structuredClone(r.state);mutate(bad);
+    const d=diversionValidationDiagnostic(bad,index);
+    assert.equal(d.reason,reason,reason);
+    assert.equal(d.recordId,bad.records[0].id);
+    assert.equal(d.routeId,bad.records[0].routeId);
+    assert.equal(d.status,bad.records[0].status);
+  }
+  // A malformed state shape is reported without throwing.
+  assert.deepEqual(diversionValidationDiagnostic({records:null},index),{reason:'state-shape',recordId:null,routeId:null,status:null});
+});
+test('[STORY-57] Story 57: validation failures attach the rejected state for the diagnostic seam',()=>{
+  const r=run();
+  // completeDiversionCapture validates its input and attaches the rejected state.
+  const bad=structuredClone(r.state);bad.records[0].geometrySource='ttc-official';
+  assert.throws(()=>completeDiversionCapture(bad,{healthy:true}),error=>{
+    assert.match(error.message,/Invalid TTC diversion/);
+    assert.equal(error.rejectedState,bad);
+    return true;
+  });
+  // diversionOutput attaches the rejected state when the published projection fails.
+  const badOutput=structuredClone(r.state);badOutput.records[0].geometrySource='ttc-official';
+  assert.throws(()=>diversionOutput(badOutput),error=>{
+    assert.match(error.message,/Invalid TTC diversion output/);
+    assert.equal(error.rejectedState,badOutput);
+    return true;
+  });
+});
+test('[STORY-57] Story 57: the diagnostic reports missing identity and route capacity without record values',()=>{
+  const r=run();
+  // A record without a usable id/route/status reports null identity fields.
+  const noId=structuredClone(r.state);noId.records[0].id='';noId.records[0].routeId='';noId.records[0].status='official';
+  const d=diversionValidationDiagnostic(noId,index);
+  assert.equal(d.reason,'identity');assert.equal(d.recordId,null);assert.equal(d.routeId,null);assert.equal(d.status,null);
+  // More than maxClustersPerRoute records on one route reports route-capacity.
+  const base=structuredClone(r.state.records[0]);
+  const many=Array.from({length:DIVERSION_POLICY.maxClustersPerRoute+2},(_,i)=>({...structuredClone(base),id:`record-${i}`}));
+  const capped={...structuredClone(r.state),records:many};
+  const c=diversionValidationDiagnostic(capped,index);
+  assert.equal(c.reason,'route-capacity');assert.equal(c.recordId,many.at(-2).id);assert.equal(c.routeId,many.at(-2).routeId);assert.equal(c.status,null);
+});
+test('[STORY-57] Story 57: the opt-in diagnostic seam writes the bounded rejected state only on failure',async()=>{
+  const dir=await mkdtemp(`${tmpdir()}/ttc-diversions-diag-`);
+  try {
+    const r=run();
+    const bad=structuredClone(r.state);bad.records[0].geometrySource='ttc-official';
+    const error=new Error('Invalid TTC diversion state');error.rejectedState=bad;
+    const path=`${dir}/diagnostic.json`;
+    const written=await writeDiversionDiagnostic(path,error,index);
+    assert.equal(written.diagnostic.reason,'identity');
+    assert.equal(written.diagnostic.recordId,bad.records[0].id);
+    assert.equal(written.state.records[0].id,bad.records[0].id);
+    const onDisk=JSON.parse(await readFile(path,'utf8'));
+    assert.equal(onDisk.error,'Invalid TTC diversion state');
+    assert.equal(onDisk.diagnostic.reason,'identity');
+    assert.equal(onDisk.state.records.length,bad.records.length);
+    // An oversized rejected state is bounded rather than written whole.
+    const huge=structuredClone(bad);huge.records[0].geometry=Array(3000000).fill([0,0]);
+    const bounded=await writeDiversionDiagnostic(`${dir}/bounded.json`,{message:'x',rejectedState:huge},index);
+    assert.equal(bounded.truncated,true);assert.equal(bounded.state,null);
+    // A non-Error rejection and a missing rejected state are still recorded safely.
+    const bare=await writeDiversionDiagnostic(`${dir}/bare.json`,'plain failure',index);
+    assert.equal(bare.error,'plain failure');assert.equal(bare.state,null);assert.equal(bare.diagnostic.reason,'state-shape');
+  } finally { await rm(dir,{recursive:true,force:true}); }
+});
+test('[STORY-57] Story 57: a validation failure during polling writes the diagnostic and still fails loudly',async()=>{
+  const dir=await mkdtemp(`${tmpdir()}/ttc-diversions-seam-`);
+  try {
+    const fixture=path.map((p,i)=>({now:at(i*30).toISOString(),protobufBase64:Buffer.from(protobuf([0,1].map(j=>vehicle(i*30,{vehicle:{id:String(j)},position:{latitude:p[0],longitude:p[1]}})),i*30)).toString('base64')}));
+    const options={statePath:`${dir}/vehicles.json`,outputPath:`${dir}/deviations.json`,inferenceStatePath:`${dir}/diversion-state.json`,inferenceOutputPath:`${dir}/diversions.json`,loadStatic:async()=>({index}),log:()=>{},wait:async()=>{},clock:()=>at(0)};
+    // A valid run writes no diagnostic file.
+    await runVehiclePolling({...options,polls:4,fixture:fixture.slice(0,4),diagnosticPath:`${dir}/diagnostic.json`});
+    await assert.rejects(readFile(`${dir}/diagnostic.json`,'utf8'),/ENOENT/);
+    // A rejected inference state is captured before the poll fails loudly.
+    const bad=structuredClone(run().state);bad.records[0].geometrySource='ttc-official';
+    const failing=()=>{const e=new Error('Invalid TTC diversion state');e.rejectedState=bad;throw e;};
+    const fresh={...options,statePath:`${dir}/vehicles-2.json`,inferenceStatePath:`${dir}/diversion-state-2.json`};
+    await assert.rejects(runVehiclePolling({...fresh,polls:1,fixture:fixture.slice(0,1),diagnosticPath:`${dir}/diagnostic.json`,infer:failing}),/Invalid TTC diversion state/);
+    const captured=JSON.parse(await readFile(`${dir}/diagnostic.json`,'utf8'));
+    assert.equal(captured.diagnostic.reason,'identity');
+    assert.equal(captured.state.records[0].id,bad.records[0].id);
+    // Without a configured path the seam is inert and the failure still propagates.
+    await assert.rejects(runVehiclePolling({...fresh,statePath:`${dir}/vehicles-3.json`,inferenceStatePath:`${dir}/diversion-state-3.json`,polls:1,fixture:fixture.slice(0,1),infer:failing}),/Invalid TTC diversion state/);
+  } finally { await rm(dir,{recursive:true,force:true}); }
 });
 test('[STORY-30E][STORY-30G] point/time bounds mark long episodes unusable instead of creating shortcuts',()=>{
   const long=Array.from({length:130},(_,i)=>i===0?path[0]:[43.652,-79.403+(i%10)*.0002]);

@@ -18,6 +18,9 @@ params:
   TTC_DIVERSION_STATE: ttc-vehicle-cache/diversion-state.json
   TTC_DIVERSION_OUTPUT: ttc-vehicle-evidence/diversions.json
   TTC_VEHICLE_OUTPUT: ttc-vehicle-evidence/deviations.json
+  # Failure-only: on a validator rejection, write the bounded rejected state and
+  # predicate reason into the retained evidence output for exact replay.
+  TTC_DIVERSION_DIAGNOSTIC: ttc-vehicle-evidence/diversion-diagnostic.json
 run:
   path: /bin/sh
   args:

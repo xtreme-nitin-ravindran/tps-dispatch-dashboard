@@ -237,7 +237,7 @@ export function inferDiversions(previous,vehicles,index,now,alerts,{simplificati
     maxClusterDistanceMeters:Math.max(0,...similarities),relatedAlertCount:records.reduce((n,r)=>n+r.relatedAlertIds.length,0),
     relatedAdvisoryCount:records.reduce((n,r)=>n+r.relatedAdvisoryRefs.length,0),advisoryAmbiguousCount:records.filter(r=>advisoryAmbiguous.has(r.routeId)).length,
     processingMs:performance.now()-started,rssBytes:process.memoryUsage().rss});
-  validateDiversionState(state,index);
+  validateOrAttach(state,index);
   return {state,output:diversionOutput(state),report};
 }
 
@@ -250,7 +250,7 @@ const recordOutput=({identityAnchor,episodeIds,retirementMs,...r})=>{
 };
 const compatible=(a,b)=>trajectorySimilarity(a,b)<=DIVERSION_POLICY.corridorMeters;
 export function completeDiversionCapture(state,{healthy,sourceHealthy=healthy}) {
-  validateDiversionState(state);
+  validateOrAttach(state);
   const now=Date.parse(state.checkedAt),claimed=new Set(),persistence=[];
   const current=state.records.map(recordOutput);
   for (const old of state.persistence || []) {
@@ -282,7 +282,7 @@ export function completeDiversionCapture(state,{healthy,sourceHealthy=healthy}) 
     const count=routes.get(e.record.routeId)||0;routes.set(e.record.routeId,count+1);
     return count<DIVERSION_POLICY.maxClustersPerRoute;
   }).slice(0,DIVERSION_POLICY.maxClusters)};
-  validateDiversionState(state);
+  validateOrAttach(state);
   return {state,output:diversionOutput(state)};
 }
 export function diversionOutput(state) {
@@ -300,7 +300,9 @@ export function diversionOutput(state) {
     return count<DIVERSION_POLICY.maxClustersPerRoute;
   }).slice(0,DIVERSION_POLICY.maxClusters);
   const output={schemaVersion:1,staticVersion:state.staticVersion,status:state.status,checkedAt:state.checkedAt,diversions:bounded};
-  validateDiversionOutput(output);return output;
+  try { validateDiversionOutput(output); }
+  catch (error) { error.rejectedState=state; throw error; }
+  return output;
 }
 function validateBoundary(b,shape) {
   if (b&&shape) {
@@ -320,29 +322,44 @@ function context(r,index) {
 function header(s,index) {
   return s&&s.schemaVersion===1&&id(s.staticVersion)&&['ok','unavailable'].includes(s.status)&&iso(s.checkedAt)&&(!index||s.staticVersion===index.version)&&Buffer.byteLength(JSON.stringify(s))<=DIVERSION_POLICY.maxArtifactBytes;
 }
+// Labeled per-record predicate. Returns a stable reason key for the first
+// violated clause, or null when the record is valid. The reason keys are the
+// bounded failure-only diagnostic vocabulary; they never include record values.
+function recordFailure(r,s,index,ids) {
+  const e=r.evidence,shape=index?.shapes.get(r.shapeId);
+  if ((s.status==='unavailable'&&(!r.persistenceEarned||!r.retained))||(r.persistenceEarned!==undefined&&typeof r.persistenceEarned!=='boolean')||(r.retained!==undefined&&typeof r.retained!=='boolean')||(r.retained&&!r.persistenceEarned)||(r.persistenceEarned&&(r.status!=='confirmed'||Date.parse(r.expiresAt)!==Date.parse(r.lastObservedAt)+DIVERSION_POLICY.evidenceMs))||(r.expiresAt!==undefined&&(!iso(r.expiresAt)||r.expiresAt<r.lastObservedAt))) return 'persistence';
+  if (!id(r.id)||ids.has(r.id)||!context(r,index)||r.geometrySource!=='sirento-observed'||!['candidate','likely','confirmed'].includes(r.status)) return 'identity';
+  if (!iso(r.firstObservedAt)||!iso(r.lastObservedAt)||r.firstObservedAt>r.lastObservedAt||Date.parse(r.lastObservedAt)>Date.parse(s.checkedAt)+30000) return 'timestamps';
+  if (!validateBoundary(r.departure,shape)||(r.rejoin&&(!validateBoundary(r.rejoin,shape)||r.rejoin.progressMeters<=r.departure.progressMeters))) return 'boundary';
+  if (!Array.isArray(r.geometry)||r.geometry.length<2||r.geometry.length>DIVERSION_POLICY.maxGeometryPoints||!r.geometry.every(coord)) return 'geometry';
+  if (!Array.isArray(r.relatedAlertIds)||!r.relatedAlertIds.every(id)||new Set(r.relatedAlertIds).size!==r.relatedAlertIds.length) return 'related-alerts';
+  if (!Array.isArray(r.relatedAdvisoryRefs)||!r.relatedAdvisoryRefs.every(id)||new Set(r.relatedAdvisoryRefs).size!==r.relatedAdvisoryRefs.length) return 'related-advisories';
+  if (!e||!['trajectoryCount','vehicleCount','completedTrajectoryCount','anchoredCompletedCount','completedVehicleCount'].every(k=>integer(e[k]))||
+    e.trajectoryCount<1||e.trajectoryCount>DIVERSION_POLICY.maxMembers||e.vehicleCount<1||e.vehicleCount>e.trajectoryCount||e.completedTrajectoryCount>e.trajectoryCount||e.anchoredCompletedCount>e.completedTrajectoryCount||e.completedVehicleCount>e.anchoredCompletedCount||e.completedVehicleCount>e.vehicleCount||
+    !Number.isFinite(e.maxCorridorDistanceMeters)||e.maxCorridorDistanceMeters<0||e.maxCorridorDistanceMeters>DIVERSION_POLICY.corridorMeters) return 'evidence';
+  if ((r.status==='confirmed'&&(!(e.completedVehicleCount>=2||e.anchoredCompletedCount>=3)||!r.rejoin||r.departure.method!=='on-route-projection'))||
+    (r.status==='likely'&&!(e.vehicleCount>=2||e.completedTrajectoryCount>=3))||!r.confidence||r.confidence.status!==r.status||!id(r.confidence.rule)||r.confidence.alertSupported!==(r.relatedAlertIds.length>0)||r.confidence.advisorySupported!==(r.relatedAdvisoryRefs.length>0)) return 'confidence';
+  const seg=r.scheduledAffectedSegment;
+  if (!seg||seg.shapeId!==r.shapeId||seg.fromMeters!==r.departure.progressMeters||seg.toMeters!==(r.rejoin?.progressMeters??null)||
+    !(seg.geometry===null||(Array.isArray(seg.geometry)&&seg.geometry.length>=2&&seg.geometry.length<=DIVERSION_POLICY.maxGeometryPoints&&seg.geometry.every(coord)))) return 'scheduled-segment';
+  if (distance(r.geometry[0],r.departure.point)>.01||(r.rejoin&&distance(r.geometry.at(-1),r.rejoin.point)>.01)) return 'geometry-endpoints';
+  return null;
+}
+// Attach the rejected state to a validation error so an opt-in caller can
+// persist it for exact replay. The state is already bounded by maxArtifactBytes.
+function validateOrAttach(state,index) {
+  try { validateDiversionState(state,index); }
+  catch (error) { error.rejectedState=state; throw error; }
+}
 export function validateDiversionOutput(s,index) {
-  const fail=()=>{throw new Error('Invalid TTC diversion output');};
-  if (!header(s,index)||!Array.isArray(s.diversions)||s.diversions.length>DIVERSION_POLICY.maxClusters) fail();
+  const fail=reason=>{throw new Error(`Invalid TTC diversion output: ${reason}`);};
+  if (!header(s,index)||!Array.isArray(s.diversions)||s.diversions.length>DIVERSION_POLICY.maxClusters) fail('header');
   const ids=new Set(),routes=new Map();
   for (const r of s.diversions) {
-    const e=r.evidence,shape=index?.shapes.get(r.shapeId);
-    if ((s.status==='unavailable'&&(!r.persistenceEarned||!r.retained))||(r.persistenceEarned!==undefined&&typeof r.persistenceEarned!=='boolean')||(r.retained!==undefined&&typeof r.retained!=='boolean')||(r.retained&&!r.persistenceEarned)||(r.persistenceEarned&&(r.status!=='confirmed'||Date.parse(r.expiresAt)!==Date.parse(r.lastObservedAt)+DIVERSION_POLICY.evidenceMs))||(r.expiresAt!==undefined&&(!iso(r.expiresAt)||r.expiresAt<r.lastObservedAt))||!id(r.id)||ids.has(r.id)||!context(r,index)||r.geometrySource!=='sirento-observed'||!['candidate','likely','confirmed'].includes(r.status)||
-      !iso(r.firstObservedAt)||!iso(r.lastObservedAt)||r.firstObservedAt>r.lastObservedAt||Date.parse(r.lastObservedAt)>Date.parse(s.checkedAt)+30000||
-      !validateBoundary(r.departure,shape)||(r.rejoin&&(!validateBoundary(r.rejoin,shape)||r.rejoin.progressMeters<=r.departure.progressMeters))||
-      !Array.isArray(r.geometry)||r.geometry.length<2||r.geometry.length>DIVERSION_POLICY.maxGeometryPoints||!r.geometry.every(coord)||
-      !Array.isArray(r.relatedAlertIds)||!r.relatedAlertIds.every(id)||new Set(r.relatedAlertIds).size!==r.relatedAlertIds.length||
-      !Array.isArray(r.relatedAdvisoryRefs)||!r.relatedAdvisoryRefs.every(id)||new Set(r.relatedAdvisoryRefs).size!==r.relatedAdvisoryRefs.length||
-      !e||!['trajectoryCount','vehicleCount','completedTrajectoryCount','anchoredCompletedCount','completedVehicleCount'].every(k=>integer(e[k]))||
-      e.trajectoryCount<1||e.trajectoryCount>DIVERSION_POLICY.maxMembers||e.vehicleCount<1||e.vehicleCount>e.trajectoryCount||e.completedTrajectoryCount>e.trajectoryCount||e.anchoredCompletedCount>e.completedTrajectoryCount||e.completedVehicleCount>e.anchoredCompletedCount||e.completedVehicleCount>e.vehicleCount||
-      !Number.isFinite(e.maxCorridorDistanceMeters)||e.maxCorridorDistanceMeters<0||e.maxCorridorDistanceMeters>DIVERSION_POLICY.corridorMeters||
-      (r.status==='confirmed'&&(!(e.completedVehicleCount>=2||e.anchoredCompletedCount>=3)||!r.rejoin||r.departure.method!=='on-route-projection'))||
-      (r.status==='likely'&&!(e.vehicleCount>=2||e.completedTrajectoryCount>=3))||!r.confidence||r.confidence.status!==r.status||!id(r.confidence.rule)||r.confidence.alertSupported!==(r.relatedAlertIds.length>0)||r.confidence.advisorySupported!==(r.relatedAdvisoryRefs.length>0)) fail();
-    const seg=r.scheduledAffectedSegment;
-    if (!seg||seg.shapeId!==r.shapeId||seg.fromMeters!==r.departure.progressMeters||seg.toMeters!==(r.rejoin?.progressMeters??null)||
-      !(seg.geometry===null||(Array.isArray(seg.geometry)&&seg.geometry.length>=2&&seg.geometry.length<=DIVERSION_POLICY.maxGeometryPoints&&seg.geometry.every(coord)))) fail();
-    if (distance(r.geometry[0],r.departure.point)>.01||(r.rejoin&&distance(r.geometry.at(-1),r.rejoin.point)>.01)) fail();
+    const reason=recordFailure(r,s,index,ids);
+    if (reason) fail(reason);
     ids.add(r.id);routes.set(r.routeId,(routes.get(r.routeId)||0)+1);
-    if (routes.get(r.routeId)>DIVERSION_POLICY.maxClustersPerRoute) fail();
+    if (routes.get(r.routeId)>DIVERSION_POLICY.maxClustersPerRoute) fail('route-capacity');
   }
   return s;
 }
@@ -393,6 +410,32 @@ export function validateDiversionState(s,index) {
     prior.push(e);vehicleEpisodes.set(e.vehicleId,prior);
   }
   return s;
+}
+
+// Bounded identity fields for the diagnostic. Each field is null when the
+// record value is missing or not a usable identifier, so the diagnostic never
+// echoes malformed values.
+function diagnosticIdentity(r) {
+  return {recordId:id(r.id)?r.id:null,routeId:id(r.routeId)?r.routeId:null,status:['candidate','likely','confirmed'].includes(r.status)?r.status:null};
+}
+// Bounded failure-only diagnostic. Given a state that failed validation, returns
+// the first failing record's identity and the stable reason key from
+// recordFailure, or null when the state is valid. It never returns record values,
+// geometry, or raw evidence, so it is safe to log. Used by the opt-in
+// TTC_DIVERSION_DIAGNOSTIC seam to make the next failure exactly replayable.
+export function diversionValidationDiagnostic(state,index) {
+  if (!state||!Array.isArray(state.records)) return {reason:'state-shape',recordId:null,routeId:null,status:null};
+  const ids=new Set(),routes=new Map();
+  const view={...state,status:'ok'};
+  for (const r of state.records) {
+    const reason=recordFailure(r,view,index,ids);
+    if (reason) return {reason,...diagnosticIdentity(r)};
+    ids.add(r.id);routes.set(r.routeId,(routes.get(r.routeId)||0)+1);
+    // recordFailure already rejected any record without a usable id/routeId, so
+    // the route-capacity record always has valid identity fields.
+    if (routes.get(r.routeId)>DIVERSION_POLICY.maxClustersPerRoute) return {reason:'route-capacity',recordId:r.id,routeId:r.routeId,status:null};
+  }
+  return null;
 }
 
 export function diversionGeoJson(state,index) {
