@@ -332,6 +332,39 @@ try {
     await timing.time(`fixture-ready:${viewport.name}`, () => awaitFixtureReady(page));
     await page.waitForSelector('#mobileMapFocusToggle');
 
+    // The active Hear sirens panel must follow search/navigation in real rendered flow.
+    await context.grantPermissions(['geolocation']);
+    await context.setGeolocation({ latitude: 43.6532, longitude: -79.3832 });
+    await page.locator('#nearMe').click();
+    await page.waitForFunction(() => !document.querySelector('#sirenResults').hidden);
+    const assertSirenOrder = async mobile => {
+      const boxes = await page.evaluate(() => {
+        const rect = selector => {
+          const box = document.querySelector(selector).getBoundingClientRect();
+          return { top: box.top, bottom: box.bottom, width: box.width, height: box.height };
+        };
+        return { search: rect('.controls-card'), nav: rect('.radius-controls'), results: rect('#sirenResults'), map: rect('#mapView') };
+      });
+      assert.ok(boxes.results.width > 0 && boxes.results.height > 0, 'siren results are rendered');
+      if (mobile) {
+        assert.ok(boxes.search.bottom <= boxes.nav.top, 'search precedes mobile navigation');
+        assert.ok(boxes.nav.bottom <= boxes.results.top, 'mobile navigation precedes siren results');
+        assert.ok(boxes.results.bottom <= boxes.map.top, 'siren results precede map');
+      } else {
+        assert.ok(boxes.results.bottom <= boxes.search.top, 'desktop siren placement is preserved');
+      }
+    };
+    await assertSirenOrder(true);
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.waitForFunction(() => document.querySelector('#sirenResults').nextElementSibling.matches('.controls-card'));
+    await assertSirenOrder(false);
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    await page.waitForFunction(() => document.querySelector('#sirenResults').previousElementSibling.matches('.radius-controls'));
+    await assertSirenOrder(true);
+    // Restore the original fixture before the independent focus-control scenarios.
+    await page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' });
+    await awaitFixtureReady(page);
+
     // --- Normal mobile Map mode ---
     const normal = await runScenario(page, viewport, 'normal');
     results.push({ viewport: viewport.name, normal: normal.focus, focused: normal.focused.focus });
