@@ -477,9 +477,6 @@ function scheduleViewMaintenance({ view, mobile, focusSelection, persist }) {
 }
 
 function syncIncidentListSurface(mobile = isMobileViewLayout()) {
-  const ttcHost=document.querySelector(mobile && mobileView === "map" ? "#mobileTtcListHome" : "#ttcListHome");
-  const ttcContent=document.querySelector("#ttcContent");
-  if(ttcHost && ttcContent && ttcContent.parentElement !== ttcHost) ttcHost.append(ttcContent);
   const host = mobile && mobileView === "map" ? mobileSheetCallList : callsListHome;
   if (els.callList.parentElement !== host) host.append(els.callList);
 }
@@ -1782,7 +1779,6 @@ function clearIncidentForTtc() {
 
 function clearClosureSelection() {
   clearTtcSelection();
-  document.querySelector('#mobileTtcListHome').hidden=false;
   const hadClosure=focusedClosureId !== null;
   focusedClosureId=null;
   if (mobileClosureDetail) {
@@ -1801,11 +1797,10 @@ function selectClosure(closure, layer, ttc=false) {
   if (isMobileViewLayout()) {
     const back=document.createElement('button');
     back.type='button';back.className='closure-detail-back';back.textContent='← Back to incident list';
-    back.addEventListener('click',()=>{clearClosureSelection();if(ttc) [...document.querySelectorAll('.ttc-disruption')].find(el=>el.dataset.ttcId===closure.id)?.querySelector('summary')?.focus({preventScroll:true});});
+    back.addEventListener('click',()=>{clearClosureSelection();mobileSheetToggle.focus({preventScroll:true});});
     mobileClosureDetail.replaceChildren(back,detail);
     mobileClosureDetail.hidden=false;
     mobileSheetCallList.hidden=true;
-    document.querySelector('#mobileTtcListHome').hidden=true;
     mobileCallsFeedStatus.hidden=true;
     mobileSheetSummary.textContent=ttc ? closure.routes.map(r=>r.label).join(' · ') || 'TTC disruption' : closure.street || closure.title || 'Road closure';
     setMobileSheetState(mobileSheetState === 'collapsed' ? 'half' : mobileSheetState);
