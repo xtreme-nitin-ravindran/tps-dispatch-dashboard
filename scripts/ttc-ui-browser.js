@@ -14,11 +14,35 @@ for(const width of [320,375,390,430,768,1440]) {
  await page.addInitScript(()=>{window.ttcLongTasks=[];new PerformanceObserver(list=>window.ttcLongTasks.push(...list.getEntries().map(e=>e.duration))).observe({type:'longtask',buffered:true});});
  await timing.time(`page-goto:${width}`,()=>page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&mobileAuditSheet=expanded&ttcFixture=confirmed`,{waitUntil:'networkidle'}));
  await timing.time(`fixture-ready:${width}`,()=>awaitFixtureReady(page));
- await page.waitForSelector('.ttc-disruption').catch(async error=>{console.log({width,errors,body:await page.locator('body').innerText()});await page.screenshot({path:`${out}/failure-${width}.png`});throw error;});
+ await page.waitForSelector('.ttc-disruption',{state:'attached'}).catch(async error=>{console.log({width,errors,body:await page.locator('body').innerText()});await page.screenshot({path:`${out}/failure-${width}.png`});throw error;});
  const initialMaxLongTask=await page.evaluate(()=>{const max=Math.max(0,...window.ttcLongTasks);window.ttcLongTasks=[];return max;});
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
  const diag=()=>page.evaluate(async()=>(await import('./src/ttc/ui.js')).captureTtcRenderState());
  assert.equal((await diag()).parts,2);
+ if(width<=430) {
+  // Expanding the ordinary Map sheet must show calls before any pin selection,
+  // regardless of TTC layer visibility or a round trip through Calls.
+  assert.equal(await page.locator('[data-call-id].selected').count(),0);
+  for(const visible of [true,false]) {
+   await page.locator('#ttcOverlay').setChecked(visible);
+   for(const height of ['half','expanded']) {
+    await page.locator(`[data-sheet-target="${height}"]`).click();
+    await page.locator('#mobileSheetBody').evaluate(el=>{el.scrollTop=0;});
+    const call=page.locator('#mobileSheetCallList .incident-card').first();
+    await page.waitForFunction(()=>{const call=document.querySelector('#mobileSheetCallList .incident-card').getBoundingClientRect(),body=document.querySelector('#mobileSheetBody').getBoundingClientRect();return call.top>=body.top&&call.top<body.bottom;});
+    assert.equal(await call.isVisible(),true);
+    assert.equal(await page.locator('#ttcContent').isVisible(),false);
+    assert.equal(await page.locator('#ttcContent').evaluate(el=>el.parentElement.id),'ttcListHome');
+   }
+  }
+  if(width===390) {await page.locator('#dispatchMap').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/mobile-default-calls.png`});}
+  await page.locator('button[data-mobile-view="calls"]').click();
+  assert.equal(await page.locator('#ttcContent').isVisible(),true);
+  await page.locator('button[data-mobile-view="map"]').click();
+  assert.equal(await page.locator('#ttcContent').isVisible(),false);
+  await page.locator('#mobileDisruptionsControl').click();
+  assert.equal(await page.locator('#ttcContent').isVisible(),true);
+ }
  await page.locator('.ttc-disruption > summary').click();
  if(width>=768) {
   const before=await page.locator('#dispatchMap').boundingBox();assert.ok(before.y+before.height<0,'desktop diversion action starts with map above viewport');
@@ -43,7 +67,7 @@ for(const width of [320,375,390,430,768,1440]) {
  }
  // Actual paths retain identities through CSS theme changes and pan/zoom.
  const ids=await page.locator('.ttc-line').evaluateAll(nodes=>nodes.map((n,i)=>{n.dataset.testIdentity=String(i);return n.dataset.testIdentity;}));
- if(width<=430) await page.locator('.closure-detail-back').click();
+ if(width<=430) {await page.locator('.closure-detail-back').click();assert.equal(await page.locator('#mobileSheetCallList').isVisible(),true);assert.equal(await page.locator('#ttcContent').isVisible(),false);assert.equal(await page.evaluate(()=>document.activeElement.id),'mobileSheetToggle');}
  for(let i=0;i<12;i++) {
   await page.selectOption('#themePreference',i%2?'dark':'light');
   if(width<=430) {
@@ -114,7 +138,7 @@ for(const width of [320,375,390,430,768,1440]) {
 // A real confirmed public path with no official references remains selectable.
 {
  const page=await browser.newPage({viewport:{width:390,height:900}});
- await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&ttcFixture=confirmed`,{waitUntil:'networkidle'});
+ await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&mobileAuditView=calls&ttcFixture=confirmed`,{waitUntil:'networkidle'});
  await page.waitForFunction(()=>document.documentElement.dataset.secondaryLoadState==='ready');
  const id=await page.evaluate(async()=>{
   const observed=await (await fetch('./test/fixtures/ttc-diversions/unassociated-public.json')).json();
@@ -128,7 +152,7 @@ for(const width of [320,375,390,430,768,1440]) {
  await page.waitForFunction(id=>document.querySelector('.ttc-disruption')?.dataset.ttcId===id,id);
  assert.equal(await page.locator('.ttc-disruption').count(),1);
  assert.equal(await page.locator('.ttc-detail .section-kicker').textContent(),'SIRENTO OBSERVED DIVERSION');
- assert.equal(await page.locator('#ttcLayerControl').isVisible(),true);
+ assert.equal(await page.locator('#ttcLayerControl').evaluate(el=>el.hidden),false);
  assert.equal(await page.locator('#ttcLegend-diversion').evaluate(el=>el.hidden),false);
  await page.locator('.ttc-disruption > summary').click();await page.locator('.ttc-show-map').click();
  const diag=await page.evaluate(async()=>(await import('./src/ttc/ui.js')).captureTtcRenderState());
