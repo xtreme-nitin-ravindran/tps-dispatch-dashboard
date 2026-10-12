@@ -7,7 +7,7 @@ import { buildStaticIndex } from '../src/ttc/static-gtfs.js';
 import { updateTtcAlerts } from '../src/ttc/alerts.js';
 import { correlateState } from '../src/ttc/correlation.js';
 import { refreshVehicles, deviationOutput, validateVehicleState, VEHICLE_POLICY } from '../src/ttc/vehicle-detector.js';
-import { inferDiversions, completeDiversionCapture, validateDiversionState, diversionOutput, diversionGeoJson, DIVERSION_POLICY } from '../src/ttc/diversion-inference.js';
+import { inferDiversions, completeDiversionCapture, validateDiversionState, diversionValidationDiagnostic, diversionOutput, diversionGeoJson, DIVERSION_POLICY } from '../src/ttc/diversion-inference.js';
 import { parseTtcVehicles } from '../src/ttc/vehicle-feed.js';
 import { loadOfficialAdvisories, officialAdvisories } from '../src/ttc/official-advisories.js';
 
@@ -49,6 +49,21 @@ export const CACHE_DISPOSITIONS=Object.freeze(['restored','missing','rejected','
 export function cacheSummary(source,disposition,{staticVersion=null,loaded=0}={}) {
   return {source,status:disposition,staticVersion,loaded};
 }
+// Bounded failure-only diagnostic seam. When validation rejects an inference
+// state, this writes the rejected state (already bounded by maxArtifactBytes)
+// plus a labeled predicate reason so the next failure is exactly replayable.
+// It is inert unless TTC_DIVERSION_DIAGNOSTIC is configured, and it never runs
+// on the happy path. The reason vocabulary comes from diversionValidationDiagnostic.
+export async function writeDiversionDiagnostic(path,error,index,{writeFile:write=writeFile}={}) {
+  const state=error?.rejectedState;
+  const diagnostic=diversionValidationDiagnostic(state,index);
+  const payload={schemaVersion:1,recordedAt:new Date().toISOString(),error:error?.message||String(error),diagnostic,state:state??null};
+  const bounded=Buffer.byteLength(JSON.stringify(payload))<=DIVERSION_POLICY.maxArtifactBytes?payload:{...payload,state:null,truncated:true};
+  await mkdir(dirname(path),{recursive:true});
+  await write(`${path}.tmp`,`${JSON.stringify(bounded)}\n`);
+  await rename(`${path}.tmp`,path);
+  return bounded;
+}
 // Bounded, deterministically-ordered end-of-run continuity diagnostic. It answers
 // "why was no path produced?" from counts and fixed reason keys only, never raw
 // vehicle history, cache contents, episode collections, or advisory text.
@@ -67,8 +82,8 @@ export function continuitySummary({vehicleState,vehicleReport,vehicleCache,infer
 }
 export async function runVehiclePolling({polls=1,intervalMs=30000,statePath='.cache/ttc/vehicle-state.json',outputPath='.cache/ttc/deviations.json',
   inferenceStatePath=resolve(dirname(statePath),'diversion-state.json'),inferenceOutputPath=resolve(dirname(outputPath),'diversions.json'),geoJsonPath,inferOnly=false,freshState=false,
-  advisoryPath,loadAdvisories=loadOfficialAdvisories,
-  loadStatic=loadStaticGtfs,refresh=refreshVehicles,updateAlerts=updateTtcAlerts,clock=()=>new Date(),wait=sleep,log=entry=>console.log(JSON.stringify(entry)),fixture}={}) {
+  advisoryPath,diagnosticPath=process.env.TTC_DIVERSION_DIAGNOSTIC,loadAdvisories=loadOfficialAdvisories,
+  loadStatic=loadStaticGtfs,refresh=refreshVehicles,updateAlerts=updateTtcAlerts,infer=inferDiversions,complete=completeDiversionCapture,clock=()=>new Date(),wait=sleep,log=entry=>console.log(JSON.stringify(entry)),fixture}={}) {
   if (!Number.isInteger(polls)||polls<1||polls>20||!Number.isInteger(intervalMs)||intervalMs<15000||intervalMs>60000) throw new Error('Use 1–20 polls and 15000–60000 ms intervals');
   // Official advisory context is derived from the already-normalized snapshot; it
   // is never fetched again here. A missing input is a `not-loaded` contract.
@@ -120,8 +135,14 @@ export async function runVehiclePolling({polls=1,intervalMs=30000,statePath='.ca
     const now=clock();
     // No alert refresh in offline diagnostics: unavailable context cannot boost confidence.
     const current={...previous,checkedAt:now.toISOString(),status:Date.parse(previous.checkedAt)+120000>=+now?previous.status:'unavailable'};
-    const inferred=inferDiversions(inference,current,loaded.index,now,undefined,{advisories});
-    const result={...inferred,...completeDiversionCapture(inferred.state,{healthy:false,sourceHealthy:current.status==='ok'})};
+    let inferred,result;
+    try {
+      inferred=infer(inference,current,loaded.index,now,undefined,{advisories});
+      result={...inferred,...complete(inferred.state,{healthy:false,sourceHealthy:current.status==='ok'})};
+    } catch (error) {
+      if (diagnosticPath) { await writeDiversionDiagnostic(diagnosticPath,error,loaded.index); log({source:'ttc-diversions',status:'validation-failed',diagnostic:diversionValidationDiagnostic(error.rejectedState,loaded.index)}); }
+      throw error;
+    }
     await atomicJson(inferenceStatePath,result.state);await atomicJson(inferenceOutputPath,result.output);
     if (geoJsonPath) await atomicJson(geoJsonPath,diversionGeoJson(result.state,loaded.index));
     log({source:'ttc-diversions',status:result.state.status,...result.report});
@@ -144,9 +165,17 @@ export async function runVehiclePolling({polls=1,intervalMs=30000,statePath='.ca
     previous=result.state;vehicleReport=result.report;
     const sourceAge=+now-Date.parse(previous.sourceUpdatedAt);
     sourceHealthy &&= previous.status==='ok'&&sourceAge>=-30000&&sourceAge<=120000;
-    const inferred=inferDiversions(inference,previous,loaded.index,now,alerts,{advisories});
-    inferred.state.captureComplete=i===polls-1;
-    const completed=i===polls-1?completeDiversionCapture(inferred.state,{healthy:archiveHealthy&&sourceHealthy,sourceHealthy}):inferred;
+    let inferred,completed;
+    try {
+      inferred=infer(inference,previous,loaded.index,now,alerts,{advisories});
+      inferred.state.captureComplete=i===polls-1;
+      completed=i===polls-1?complete(inferred.state,{healthy:archiveHealthy&&sourceHealthy,sourceHealthy}):inferred;
+    } catch (error) {
+      // Failure-only seam: capture the rejected state for exact replay, then
+      // re-throw so the poll still fails loudly. Inert when unconfigured.
+      if (diagnosticPath) { await writeDiversionDiagnostic(diagnosticPath,error,loaded.index); log({source:'ttc-diversions',status:'validation-failed',diagnostic:diversionValidationDiagnostic(error.rejectedState,loaded.index)}); }
+      throw error;
+    }
     inference=completed.state;inferenceReport=inferred.report;
     await atomicJson(inferenceStatePath,inference);await atomicJson(inferenceOutputPath,completed.output);
     if (geoJsonPath) await atomicJson(geoJsonPath,diversionGeoJson(inference,loaded.index));
