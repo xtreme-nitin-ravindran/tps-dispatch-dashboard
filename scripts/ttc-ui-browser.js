@@ -20,7 +20,15 @@ for(const width of [320,375,390,430,768,1440]) {
  const diag=()=>page.evaluate(async()=>(await import('./src/ttc/ui.js')).captureTtcRenderState());
  assert.equal((await diag()).parts,2);
  await page.locator('.ttc-disruption > summary').click();
+ if(width>=768) {
+  const before=await page.locator('#dispatchMap').boundingBox();assert.ok(before.y+before.height<0,'desktop diversion action starts with map above viewport');
+ }
  await page.locator('.ttc-show-map').click();
+ if(width>=768) {
+  await page.waitForFunction(()=>{const r=document.querySelector('#dispatchMap').getBoundingClientRect();return r.top>=0&&r.bottom<=window.innerHeight;});
+  const route=await page.locator('.ttc-line--diversion').boundingBox(),map=await page.locator('#dispatchMap').boundingBox();
+  assert.ok(route.width>0&&route.height>0);assert.ok(route.x>=map.x&&route.y>=map.y&&route.x+route.width<=map.x+map.width&&route.y+route.height<=map.y+map.height,'selected diversion is inside the visible map');
+ }
  assert.equal((await diag()).selected,'fixture-detour');
  if(width<=430) assert.equal(await page.locator('#mobileClosureDetail').isVisible(),true);
  if(width===390) {

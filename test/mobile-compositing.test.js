@@ -61,6 +61,6 @@ test('[STORY-29A][STORY-29C] opaque mobile surfaces resolve to readable light an
 });
 
 test('[STORY-29A][STORY-29C] the revised mobile stylesheet replaces the cached app-shell asset', () => {
-  assert.match(html, /styles\.css\?v=mobile-layers-1/);
-  assert.match(serviceWorker, /CACHE_VERSION = "sirento-shell-v65"/);
+  assert.match(html, /styles\.css\?v=ttc-map-reveal-1/);
+  assert.match(serviceWorker, /CACHE_VERSION = "sirento-shell-v66"/);
 });

@@ -49,7 +49,7 @@ export function selectTtc(item, layer, reveal=false) {
     const container=currentMap?.getContainer();
     const sheet=document.querySelector('#mobileBottomSheet');
     const mobile=Boolean(sheet?.getClientRects().length) && document.documentElement.dataset.mobileView==='map';
-    if(mobile) container?.scrollIntoView({block:'center',behavior:'instant'});
+    container?.scrollIntoView({block:'center',behavior:'instant'});
     const overlap=mobileMapSheetOverlap(container?.getBoundingClientRect(),sheet?.getBoundingClientRect(),mobile);
     controller?.reveal(selected,{paddingTopLeft:[24,80],paddingBottomRight:[24,overlap+24]});
   }));
