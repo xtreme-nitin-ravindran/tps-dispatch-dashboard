@@ -1,4 +1,4 @@
-const CACHE_VERSION = "sirento-shell-v65";
+const CACHE_VERSION = "sirento-shell-v66";
 const APP_SHELL = [
   "./",
   "./index.html",
