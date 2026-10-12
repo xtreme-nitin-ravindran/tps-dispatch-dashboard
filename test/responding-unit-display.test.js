@@ -26,7 +26,7 @@ test('[SHOULD-3][STORY-24] responding-unit count is a secondary More details fie
 });
 
 test('[SHOULD-3][STORY-24] list and map popup share the unchanged incident-card renderer', () => {
-  assert.match(app, /fragment\.appendChild\(createIncidentCard\(call, \{ distance \}\)\)/);
+  assert.match(app, /const card = createIncidentCard\(call, \{ distance \}\);[\s\S]*?fragment\.appendChild\(card\)/);
   assert.match(app, /\.bindPopup\(createIncidentCard\(call, \{[\s\S]*?variant: "popup"/);
   assert.match(html, /call-title[\s\S]*?call-location[\s\S]*?distance-away[\s\S]*?time-ago[\s\S]*?<details class="call-details">/);
 });

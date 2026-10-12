@@ -57,7 +57,7 @@ test('[STORY-37B] each mobile mode owns one incident surface and switching moves
   const surface = app.slice(surfaceStart, app.indexOf('\nfunction setMobileView(', surfaceStart));
   assert.match(surface, /mobile && mobileView === "map" \? mobileSheetCallList : callsListHome/);
   assert.match(surface, /host\.append\(els\.callList\)/);
-  const rendererStart = app.indexOf('function renderCalls()');
+  const rendererStart = app.indexOf('function renderCalls(');
   const renderer = app.slice(rendererStart, app.indexOf('\nnearbySort.addEventListener', rendererStart));
   assert.match(renderer, /renderList\(els\.callList\)/);
   assert.doesNotMatch(renderer, /mobileSheetCallList|inactiveList/);

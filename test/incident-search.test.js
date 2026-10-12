@@ -116,6 +116,6 @@ test("[SHOULD-5][STORY-22] filter and radius changes preserve and resync the cur
   ]) {
     assert.doesNotMatch(listener, /state\.search\s*=/);
   }
-  assert.match(app, /function applyFilters[\s\S]*?syncSearchControl\(\);[\s\S]*?render\(map\);/);
+  assert.match(app, /function applyFilters[\s\S]*?syncSearchControl\(\);[\s\S]*?render\(map, preserveReadingPosition\);/);
   assert.match(app, /function syncSearchControl\(\) \{\s*els\.searchInput\.value = state\.search;/);
 });

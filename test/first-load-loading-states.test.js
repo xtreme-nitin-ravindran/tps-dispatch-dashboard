@@ -24,12 +24,12 @@ test('[STORY-38B] initial incident surface is one status, never blank incident s
   assert.match(initialList, /class="loading-state" role="status" aria-live="polite"/);
   assert.match(initialList, /Loading calls…/);
   assert.doesNotMatch(initialList, /incident-card/);
-  assert.match(app, /fragment\.appendChild\(createIncidentCard/);
+  assert.match(app, /const card = createIncidentCard[\s\S]*?fragment\.appendChild\(card\)/);
   assert.match(app, /list\.replaceChildren\(fragment\)/);
 });
 
 test('[STORY-38B] interactive startup controls cannot replace loading with an unavailable result', () => {
-  const renderCalls = app.slice(app.indexOf('function renderCalls()'), app.indexOf('\nfunction currentIncidentListKey()'));
+  const renderCalls = app.slice(app.indexOf('function renderCalls('), app.indexOf('\nfunction currentIncidentListKey()'));
   assert.match(renderCalls, /loadPhases\.incidents === 'loading' && !snapshotLoaded/);
   assert.match(renderCalls, /els\.resultCount\.textContent = 'LOADING'/);
   assert.ok(renderCalls.indexOf("loadPhases.incidents === 'loading'") < renderCalls.indexOf('renderIncidentFeedStatus()'));

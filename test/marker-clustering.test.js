@@ -85,7 +85,7 @@ test('[SHOULD-2][STORY-26][STORY-38G] cluster expansion is bounded and cannot pr
 test('[SHOULD-2][STORY-26] connector cleanup is coupled to every state transition that can invalidate a fan', () => {
   assert.match(app,/view === 'calls' && expandedCluster\.size[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?renderMapMarkers\(\)/);
   assert.match(app,/function clearIncidentForTtc[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?renderMapMarkers\(\)/);
-  assert.match(app,/focusedCallId = reconcileIncidentSelection[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?render\(map\)/);
+  assert.match(app,/focusedCallId = reconcileIncidentSelection[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?render\(map, preserveReadingPosition\)/);
   assert.match(app,/dispatchMap\.on\("zoomend", \(\) => \{[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?scheduleMapMarkerRender\(\)/);
 });
 
@@ -102,7 +102,7 @@ test('[SHOULD-2][STORY-26] filter, search, radius, and Toronto-wide changes rebu
   assert.match(app, /state\.serviceFilter !== "all"/);
   assert.match(app, /state\.eventFilter !== "all"/);
   assert.match(app, /incidentMatchesSearch\(call, state\.search/);
-  assert.match(app, /state\.filtered = eligibleCalls\.filter[\s\S]*?render\(map\)/);
+  assert.match(app, /state\.filtered = eligibleCalls\.filter[\s\S]*?render\(map, preserveReadingPosition\)/);
   assert.match(app, /const groups = clusterPoints\(locatedCalls/);
 });
 

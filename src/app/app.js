@@ -995,12 +995,12 @@ async function loadData() {
   setRefreshState('updating');
   try {
     const snapshot = await fetchSnapshot();
-    const scrollTop = els.callList.scrollTop;
+    const callsChanged = JSON.stringify(state.calls) !== JSON.stringify(snapshot.calls);
+    const readingPosition = callsChanged && snapshotLoaded ? captureCallReadingPosition() : null;
     const firstSnapshot = !snapshotLoaded;
     if (firstSnapshot) await yieldForLoadingPaint();
     snapshotLoaded = true;
     const previousSourceTime = parseLooseTime(state.lastIngest)?.getTime();
-    const callsChanged = JSON.stringify(state.calls) !== JSON.stringify(snapshot.calls);
     const delayedSecondary = Boolean(uxReliabilityFixture?.secondaryDelayMs);
     state.disruptions = delayedSecondary ? undefined : snapshot.disruptions;
     state.calls = snapshot.calls;
@@ -1027,8 +1027,7 @@ async function loadData() {
       return [label, value];
     }));
     if (callsChanged || firstSnapshot) {
-      applyFilters();
-      els.callList.scrollTop = scrollTop;
+      applyFilters({ preserveReadingPosition: readingPosition });
     }
     const availability = incidentAvailability();
     setIncidentLoadPhase(!availability.hasRelevantCachedData && availability.allUnavailable ? 'unavailable' : 'ready');
@@ -1036,6 +1035,7 @@ async function loadData() {
     auditReadiness.data = true;
     markFullyRenderedWhenReady();
     restorePendingIncident();
+    if (delayedSecondary && callsChanged && readingPosition) restoreCallReadingPosition(readingPosition);
     const finishSecondary = uxAudit.begin('secondary-feed-preparation');
     if (delayedSecondary) {
       await waitForAuditDelay(uxReliabilityFixture.secondaryDelayMs);
@@ -1054,6 +1054,7 @@ async function loadData() {
     updateFreshness();
     refreshFreshness.complete(true);
     setRefreshState('idle');
+    if (!delayedSecondary && callsChanged && readingPosition) restoreCallReadingPosition(readingPosition);
     if (previousSourceTime != null && sourceTime && sourceTime.getTime() !== previousSourceTime) {
       clearTimeout(sourceHighlightTimer);
       els.sourceUpdated.classList.add('source-just-updated');
@@ -1097,7 +1098,7 @@ function populateDivisionFilter(calls) {
   els.divisionSelect.value = state.division === "all" ? "all" : encodeURIComponent(state.division);
 }
 
-function applyFilters({ map = true } = {}) {
+function applyFilters({ map = true, preserveReadingPosition = null } = {}) {
   const nextFilterKey = incidentFilterKey({
     datasetRevision: incidentDatasetRevision,
     radiusKm: state.radiusKm,
@@ -1143,7 +1144,7 @@ function applyFilters({ map = true } = {}) {
   syncMobileFilterIndicator();
   syncFocusFilterSummary();
   syncSearchControl();
-  render(map);
+  render(map, preserveReadingPosition);
   if (map && previouslyFocusedCallId !== focusedCallId) {
     updateMarkerAppearance(previouslyFocusedCallId);
     updateMarkerAppearance(focusedCallId);
@@ -1152,14 +1153,14 @@ function applyFilters({ map = true } = {}) {
   return true;
 }
 
-function render(map = true) {
+function render(map = true, preserveReadingPosition = null) {
   if (els.windowLabel) {
     els.windowLabel.textContent = `${state.hours} hour${state.hours === 1 ? "" : "s"}`;
   }
   renderStats();
   renderNearbySummary();
   renderSirenResults();
-  renderCalls();
+  renderCalls(preserveReadingPosition);
   if (map) renderMap();
   renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
   renderTtc(state.disruptions,dispatchMap,{origin:radiusFilterOrigin(),radius:state.radiusKm});
@@ -1449,7 +1450,64 @@ function createIncidentCard(call, { distance = "", variant = "list" } = {}) {
   return row;
 }
 
-function renderCalls() {
+// Capture the actual scroll owner: desktop list, mobile sheet, or document.
+// Keep surviving neighbouring cards as fallbacks when the visible call expires.
+function captureCallReadingPosition() {
+  const list = els.callList;
+  const owners = [];
+  let top = 0;
+  let bottom = window.innerHeight;
+  for (let node = list; node; node = node.parentElement) {
+    if (!/(auto|scroll)/.test(getComputedStyle(node).overflowY)) continue;
+    const rect = node.getBoundingClientRect();
+    top = Math.max(top, rect.top);
+    bottom = Math.min(bottom, rect.bottom);
+    owners.push({ node, scrollTop: node.scrollTop });
+  }
+  const cards = [...list.querySelectorAll('.incident-card')];
+  let visibleIndex = cards.findIndex(card => {
+    const rect = card.getBoundingClientRect();
+    return rect.top >= top && rect.top < bottom;
+  });
+  if (visibleIndex < 0) visibleIndex = cards.findIndex(card => {
+    const rect = card.getBoundingClientRect();
+    return rect.bottom > top && rect.top < bottom;
+  });
+  const anchors = visibleIndex < 0 ? [] : cards.map((card, index) => ({
+    id: card.dataset.callId,
+    index,
+    top: card.getBoundingClientRect().top,
+    distance: Math.abs(index - visibleIndex)
+  })).sort((a, b) => a.distance - b.distance);
+  return { count: renderedIncidentCount, owners, pageTop: window.scrollY, anchors };
+}
+
+function restoreCallReadingPosition(position) {
+  for (const owner of position.owners) owner.node.scrollTop = owner.scrollTop;
+  window.scrollTo({ top: position.pageTop, behavior: 'instant' });
+  const cards = new Map([...els.callList.querySelectorAll('.incident-card')]
+    .map(card => [card.dataset.callId, card]));
+  // Seed deferred layout with real refreshed heights before restoring the anchor.
+  // Otherwise content-visibility's default estimate causes a second scroll jump.
+  const measured = [...cards.values()].map(card => {
+    const style = getComputedStyle(card);
+    const inset = ['paddingTop', 'paddingBottom', 'borderTopWidth', 'borderBottomWidth']
+      .reduce((sum, key) => sum + parseFloat(style[key]), 0);
+    return [card, card.getBoundingClientRect().height - inset];
+  });
+  for (const [card, height] of measured) {
+    card.style.containIntrinsicBlockSize = `auto ${height}px`;
+    card.style.removeProperty('content-visibility');
+  }
+  const anchor = position.anchors.find(item => cards.has(item.id));
+  if (!anchor) return;
+  const delta = cards.get(anchor.id).getBoundingClientRect().top - anchor.top;
+  const owner = position.owners.find(item => item.node.scrollHeight > item.node.clientHeight);
+  if (owner) owner.node.scrollTop += delta;
+  else window.scrollTo({ top: window.scrollY + delta, behavior: 'instant' });
+}
+
+function renderCalls(preserveReadingPosition = null) {
   const firstPass = uxAudit.increment('incident-render-passes') === 1;
   const finishRender = firstPass ? uxAudit.begin('first-incident-render', { incidents: state.filtered.length }) : () => null;
   if (loadPhases.incidents === 'loading' && !snapshotLoaded) {
@@ -1491,10 +1549,17 @@ function renderCalls() {
       renderedIncidentCount = 0;
       renderedIncidentIds.clear();
       const fragment = document.createDocumentFragment();
-      const batch = nextIncidentBatch(sortedIncidentCalls, renderedIncidentCount);
+      const nextIndices = new Map(sortedIncidentCalls.map((call, index) => [call.id, index]));
+      const survivingAnchor = preserveReadingPosition?.anchors.find(anchor => nextIndices.has(anchor.id));
+      const anchorIndex = survivingAnchor ? nextIndices.get(survivingAnchor.id) : -1;
+      const batchSize = preserveReadingPosition
+        ? Math.max(INCIDENT_LIST_BATCH_SIZE, preserveReadingPosition.count + Math.max(0, anchorIndex - (survivingAnchor?.index ?? 0)), anchorIndex + 1) : INCIDENT_LIST_BATCH_SIZE;
+      const batch = nextIncidentBatch(sortedIncidentCalls, renderedIncidentCount, batchSize);
       batch.items.forEach(call => {
         const distance = distanceLabel(distanceKm(state.nearby, coordinatesForCall(call)));
-        fragment.appendChild(createIncidentCard(call, { distance }));
+        const card = createIncidentCard(call, { distance });
+        if (preserveReadingPosition) card.style.contentVisibility = 'visible';
+        fragment.appendChild(card);
         renderedIncidentIds.add(call.id);
       });
       renderedIncidentCount = batch.end;
