@@ -29,7 +29,7 @@ test('[MUST-6][STORY-9] selection clears whenever filtering or refreshed data re
   assert.equal(reconcileIncidentSelection('kept', [{ id: 'kept' }]), 'kept');
   assert.equal(reconcileIncidentSelection('filtered-out', [{ id: 'other' }]), null);
   assert.equal(reconcileIncidentSelection('disappeared', []), null);
-  assert.match(app, /state\.filtered = eligibleCalls\.filter[\s\S]*?focusedCallId = reconcileIncidentSelection\(focusedCallId, state\.filtered\);[\s\S]*?render\(map\)/);
+  assert.match(app, /state\.filtered = eligibleCalls\.filter[\s\S]*?focusedCallId = reconcileIncidentSelection\(focusedCallId, state\.filtered\);[\s\S]*?render\(map, preserveReadingPosition\)/);
   assert.match(app, /state\.calls = snapshot\.calls;[\s\S]*?if \(callsChanged \|\| firstSnapshot\) \{[\s\S]*?applyFilters\(\)/);
 });
 

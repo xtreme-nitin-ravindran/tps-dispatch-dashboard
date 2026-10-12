@@ -56,7 +56,7 @@ test('[MUST-10][STORY-17] sheet reuses nearby summary, incident cards, and exist
   assert.match(app, /const host = mobile && mobileView === "map" \? mobileSheetCallList : callsListHome/);
   assert.match(app, /host\.append\(els\.callList\)/);
   assert.equal([...app.matchAll(/function createIncidentCard\(/g)].length, 1);
-  assert.match(app, /fragment\.appendChild\(createIncidentCard\(call, \{ distance \}\)\)/);
+  assert.match(app, /const card = createIncidentCard\(call, \{ distance \}\);[\s\S]*?fragment\.appendChild\(card\)/);
   assert.equal([...html.matchAll(/data-radius-km=/g)].length, 5);
   assert.equal([...html.matchAll(/data-mobile-view=/g)].length, 2);
   assert.match(app, /radiusToggles\.forEach\(toggle => toggle\.addEventListener\('click'/);

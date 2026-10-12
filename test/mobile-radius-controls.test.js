@@ -56,7 +56,7 @@ test('[MUST-5] deterministic fixture can select every radius without duplicating
 
 test('[MUST-5][STORY-4] radius changes reuse the complete filtering and rendering pipeline', () => {
   assert.match(app, /function updateNearbyView\(\) {[\s\S]*?applyFilters\(\);[\s\S]*?syncRadiusControls\(\);/);
-  assert.match(app, /function render\(map = true\) {[\s\S]*?renderNearbySummary\(\);[\s\S]*?renderCalls\(\);[\s\S]*?renderMap\(\);[\s\S]*?renderDisruptions/);
+  assert.match(app, /function render\(map = true, preserveReadingPosition = null\) {[\s\S]*?renderNearbySummary\(\);[\s\S]*?renderCalls\(preserveReadingPosition\);[\s\S]*?renderMap\(\);[\s\S]*?renderDisruptions/);
   assert.match(app, /function selectNearbyRadius\(value\) {[\s\S]*?value === null[\s\S]*?state\.radiusKm = null;[\s\S]*?updateNearbyView\(\);/);
   assert.match(app, /radiusToggles\.forEach[\s\S]*?selectNearbyRadius\(toggle\.dataset\.radiusKm === 'toronto' \? null : Number\(toggle\.dataset\.radiusKm\)\)/);
 });
