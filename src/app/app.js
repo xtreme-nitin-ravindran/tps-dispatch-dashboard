@@ -379,14 +379,6 @@ function syncMobileLayerRowOffset() {
     const stackTop = policeControl.getBoundingClientRect().top - wrapTop;
     const stackCenter = (stackTop + rowBottom) / 2;
     document.documentElement.style.setProperty("--mobile-layer-stack-center", `${Math.round(stackCenter)}px`);
-    // Story 41: the stacked controls shrink-wrap to their own labels, so their
-    // natural widths differ. Share the widest control's width so all render at
-    // an identical width at every breakpoint.
-    const controlWidth = Math.max(
-      policeControl.getBoundingClientRect().width,
-      ...toggles.map(el => el.getBoundingClientRect().width)
-    );
-    document.documentElement.style.setProperty("--mobile-layer-control-width", `${Math.round(controlWidth)}px`);
   }
   syncMobileFocusChromeMetrics();
 }
