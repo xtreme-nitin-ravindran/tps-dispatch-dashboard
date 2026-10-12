@@ -58,7 +58,7 @@ test("[SHOULD-8][STORY-23] app shell links install metadata without changing its
   assert.match(html, /<meta name="apple-mobile-web-app-title" content="SirenTO" \/>/);
   assert.match(html, /<main>/);
   assert.match(html, /<section class="map-stage" id="mapView">/);
-  assert.match(html, /<script type="module" src="\.\/src\/app\/app\.js\?v=ttc-map-reveal-1"><\/script>/);
+  assert.match(html, /<script type="module" src="\.\/src\/app\/app\.js\?v=source-times-fullscreen-1"><\/script>/);
   assert.match(html, /"serviceWorker" in navigator/);
   assert.match(html, /navigator\.serviceWorker\.register\("\.\/service-worker\.js"\)/);
 });

@@ -145,10 +145,19 @@ async function runPanels(page, viewport) {
   assert.equal(await page.locator('#mobileMapLayersPanel').isVisible(), false);
   assert.equal(await page.locator('#mobileMapLayersToggle').getAttribute('aria-expanded'), 'false');
   await assertPanel(page, viewport, 'info');
-  if (viewport.width === 390) await page.screenshot({ path: '.cache/story58-info.png' });
+  await page.locator('.source-times-help').click();
+  assert.equal(await page.locator('#mapInfo #source-timestamps').count(), 1);
+  assert.equal(await page.locator('#source-timestamps').isVisible(), true);
+  assert.equal(await page.locator('#source-timestamps').evaluate(el => el === document.activeElement), true);
+  assert.equal(await page.locator('html').getAttribute('data-mobile-focus'), 'on');
+  await assertHit(page, '#source-timestamps-title');
+  await assertPanel(page, viewport, 'info');
+  if (viewport.width === 390) await page.screenshot({ path: '.cache/source-times-fullscreen.png' });
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('#mobileMapInfoToggle').evaluate(el => el === document.activeElement), true);
   await page.keyboard.press('Enter');
+  assert.equal(await page.locator('#mapInfo #source-timestamps').count(), 0);
+  assert.equal(await page.locator('.source-card #source-timestamps').count(), 1);
   await assertPanel(page, viewport, 'info');
   await page.locator('#mobileMapInfoClose').click();
   await page.locator('#mobileMapInfoToggle').click();
@@ -223,7 +232,10 @@ try {
     await page.waitForFunction(() => document.querySelector('#mapInfo').open);
     await assertPanel(page, viewport, 'info');
 
+    await page.locator('.source-times-help').click();
     await exitFocus(page);
+    assert.equal(await page.locator('.source-card #source-timestamps').count(), 1);
+    assert.equal(await page.locator('#source-timestamps').evaluate(el => el.hidden), false);
     assert.equal(await page.locator('#mobileMapLayersToggle').isVisible(), false);
     assert.equal(await page.locator('#mobileFocusFilterSummary').isVisible(), false);
     assert.equal(await page.locator('#mapInfo').evaluate(el => getComputedStyle(el).position), 'static');

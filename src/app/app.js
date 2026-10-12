@@ -574,6 +574,20 @@ const mapLayersClose = document.querySelector('#mobileMapLayersClose');
 const mapInfoClose = document.querySelector('#mobileMapInfoClose');
 const mapControlHomes = new Map();
 let normalMapInfoOpen = false;
+const sourceTimesHelp = document.querySelector('.source-times-help');
+const sourceTimesExplanation = document.querySelector('#source-timestamps');
+const sourceTimesHome = document.createComment('source times explanation home');
+sourceTimesExplanation.before(sourceTimesHome);
+
+sourceTimesHelp.addEventListener('click', event => {
+  if (!mobileFocusMode) return;
+  event.preventDefault();
+  sourceTimesHelp.closest('.map-info-heading').after(sourceTimesExplanation);
+  const panelTop = mapInfoPanel.getBoundingClientRect().top;
+  const headerHeight = mapInfoClose.closest('.mobile-map-panel-heading').getBoundingClientRect().height;
+  mapInfoPanel.scrollTop += sourceTimesExplanation.getBoundingClientRect().top - panelTop - headerHeight - 12;
+  sourceTimesExplanation.focus({ preventScroll: true });
+});
 
 function syncFullscreenLayerControls() {
   if (mobileFocusMode) {
@@ -596,6 +610,7 @@ function syncFullscreenLayerControls() {
 function closeFullscreenPanels({ restoreFocus = false } = {}) {
   const launcher = mapInfoPanel.open ? mapInfoToggle : !mapLayersPanel.hidden ? mapLayersToggle : null;
   mapLayersPanel.hidden = true;
+  sourceTimesHome.after(sourceTimesExplanation);
   mapInfoPanel.open = false;
   mapLayersToggle.setAttribute('aria-expanded', 'false');
   mapInfoToggle.setAttribute('aria-expanded', 'false');
