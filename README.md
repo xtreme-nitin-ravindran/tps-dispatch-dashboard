@@ -40,14 +40,37 @@ emergency decisions or real-time safety guidance.**
 
 ## Run locally
 
-### Python
+### Preview with live public data (recommended)
+
+The public dispatch feed does not send a CORS header that permits a localhost
+origin, so a plain static server cannot load live data in a browser. Use the
+bundled preview server, which serves the repository and proxies only the two
+public JSON feeds through the same origin:
+
+```bash
+cd tps-dispatch-dashboard
+python3 scripts/preview-server.py
+```
+
+Then open:
+
+```text
+http://localhost:8766
+```
+
+This is a development-only path; it binds to loopback and does not change any
+deployed configuration. Pass `--port` to use a different port.
+
+### Static server (no live data)
+
+For UI-only work that does not need the live feed, any static server works:
 
 ```bash
 cd tps-dispatch-dashboard
 python3 -m http.server 4173
 ```
 
-### Node
+or:
 
 ```bash
 cd tps-dispatch-dashboard
