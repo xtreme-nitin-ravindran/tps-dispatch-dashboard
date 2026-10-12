@@ -35,7 +35,7 @@ test('[STORY-29B][STORY-41] road and police boundary controls stack in aligned m
   // Both controls shrink-wrap and share the same right inset.
   assert.match(sharedMobileRules, /\.map-layer-toggle\s*{[\s\S]*?top: var\(--police-control-bottom, 56px\);[\s\S]*?right: 8px;[\s\S]*?left: auto;[\s\S]*?min-height: 48px;/);
   assert.match(sharedMobileRules, /\.map-panel \.leaflet-top\.leaflet-right\s*{[\s\S]*?right: 8px;[\s\S]*?left: auto;/);
-  assert.match(sharedMobileRules, /\.leaflet-control-layers\s*{[\s\S]*?width: max-content;[\s\S]*?min-height: 48px;/);
+  assert.match(sharedMobileRules, /\.leaflet-control-layers\s*{[\s\S]*?width: min\(280px, calc\(100vw - 96px\)\);[\s\S]*?min-height: 48px;/);
   assert.match(sharedMobileRules, /\.leaflet-control-layers-overlays label\s*{[\s\S]*?min-height: 44px;/);
 });
 

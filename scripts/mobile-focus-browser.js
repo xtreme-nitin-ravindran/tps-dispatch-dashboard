@@ -1,4 +1,4 @@
-/* global document, window */
+/* global document, window, getComputedStyle, MutationObserver */
 // Story 40E: rendered-browser regression for the fullscreen/× focus control.
 //
 // The defect this guards: the focus button and the Police divisions Leaflet
@@ -328,9 +328,72 @@ try {
     });
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(`${viewport.name}: ${error.message}`));
+    await page.addInitScript(() => {
+      const observer = new MutationObserver(() => {
+        const road = document.querySelector('.road-overlay-toggle');
+        if (!road || !document.querySelector('link[href*="styles.css"]')?.sheet) return;
+        window.__initialRoadWidth = road.getBoundingClientRect().width;
+        observer.disconnect();
+      });
+      observer.observe(document, { childList: true, subtree: true });
+    });
     await timing.time(`page-goto:${viewport.name}`, () => page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' }));
     await timing.time(`fixture-ready:${viewport.name}`, () => awaitFixtureReady(page));
     await page.waitForSelector('#mobileMapFocusToggle');
+
+    // Regression: Leaflet nests the checkbox beside its text inside one span.
+    // Only the text may be clipped; the checkbox must be visible and clickable.
+    if (viewport.width <= 430) {
+      const layerState = await page.evaluate(() => {
+        const police = document.querySelector('.leaflet-control-layers');
+        const road = document.querySelector('.road-overlay-toggle');
+        const checkbox = police.querySelector('input');
+        const box = checkbox.getBoundingClientRect();
+        return {
+          widths: [police, road].map(el => el.getBoundingClientRect().width),
+          initialWidth: window.__initialRoadWidth,
+          clipped: getComputedStyle(checkbox.parentElement).clipPath,
+          checkboxWidth: box.width,
+          checkboxHeight: box.height,
+          nowrap: getComputedStyle(road).whiteSpace
+        };
+      });
+      assert.equal(layerState.widths[0], layerState.widths[1], 'layer widths agree without measurement');
+      assert.equal(layerState.initialWidth, layerState.widths[1], 'road width stays stable through initialization');
+      assert.equal(layerState.clipped, 'none', 'checkbox wrapper is not clipped');
+      assert.ok(layerState.checkboxWidth >= 12 && layerState.checkboxHeight >= 12);
+      assert.equal(layerState.nowrap, 'nowrap');
+      const checkbox = page.getByLabel('Police Divisions', { exact: true });
+      await checkbox.scrollIntoViewIfNeeded();
+      await checkbox.uncheck();
+      assert.equal(await checkbox.isChecked(), false);
+      await checkbox.check();
+      assert.equal(await checkbox.isChecked(), true);
+      if (viewport.width === 430) {
+        await page.evaluate(() => {
+          document.querySelector('#roadOverlayLabel').textContent = 'Road closures · source repaired';
+        });
+        const assertSingleLineLabel = async () => {
+          const label = await page.locator('#roadOverlayLabel').evaluate(el => {
+            const range = document.createRange();
+            range.selectNodeContents(el);
+            const text = range.getBoundingClientRect();
+            const parent = el.parentElement.getBoundingClientRect();
+            return { textRight: text.right, parentRight: parent.right, height: text.height, fontSize: parseFloat(getComputedStyle(el).fontSize) };
+          });
+          assert.ok(label.textRight <= label.parentRight, 'repair disclosure fits inside the control');
+          assert.ok(label.height <= label.fontSize * 1.5, 'repair disclosure stays on one line');
+        };
+        await assertSingleLineLabel();
+        await page.locator('#mobileMapFocusToggle').click();
+        await page.locator('#mobileMapLayersToggle').click();
+        await checkbox.uncheck();
+        await checkbox.check();
+        await assertSingleLineLabel();
+        await page.locator('#mobileMapLayersClose').click();
+        await page.locator('#mobileMapFocusToggle').click();
+      }
+    }
 
     // The active Hear sirens panel must follow search/navigation in real rendered flow.
     await context.grantPermissions(['geolocation']);

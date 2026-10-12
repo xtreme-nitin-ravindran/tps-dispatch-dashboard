@@ -315,7 +315,7 @@ test('[STORY-40D] the boundary control shows a concise mobile label while keepin
   assert.match(app, /boundaryControlLabel\?\.setAttribute\('data-mobile-label', 'Police Divisions'\)/);
   assert.match(mobileRules, /\.map-panel \.leaflet-control-layers-overlays label\[data-mobile-label\]::after \{\s*content: attr\(data-mobile-label\);/);
   // The full text is visually hidden but preserved for assistive tech.
-  assert.match(mobileRules, /\.map-panel \.leaflet-control-layers-overlays label\[data-mobile-label\] > span \{[\s\S]*?clip-path: inset\(50%\);/);
+  assert.match(mobileRules, /\.map-panel \.leaflet-control-layers-overlays label\[data-mobile-label\] > span > span \{[\s\S]*?clip-path: inset\(50%\);/);
 });
 
 test('[STORY-40D] the concise boundary label is mobile-only and leaves desktop unchanged', () => {

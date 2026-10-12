@@ -1937,15 +1937,16 @@ footer {
   html[data-mobile-view="calls"] .mobile-map-data-warning { display: none; }
   .map-panel .leaflet-top { top: 60px; }
   /* Story 41: Police Divisions sits first, with Road closures directly below it.
-     Both controls shrink-wrap to their content and share the same right inset so
-     their rendered widths match at every mobile breakpoint. */
+     Controls use the same width before map initialization or source loading,
+     keeping single-line labels stable without a later measurement resize. */
   .map-layer-toggle {
     top: var(--police-control-bottom, 56px);
     right: 8px;
     left: auto;
-    width: max-content;
-    min-width: var(--mobile-layer-control-width, 0);
+    width: min(280px, calc(100vw - 96px));
+    min-width: 0;
     max-width: none;
+    white-space: nowrap;
     min-height: 48px;
     padding: 2px 8px;
     background: var(--panel);
@@ -1965,8 +1966,8 @@ footer {
   }
   .map-panel .leaflet-top.leaflet-right .leaflet-control-layers {
     box-sizing: border-box;
-    width: max-content;
-    min-width: var(--mobile-layer-control-width, 0);
+    width: min(280px, calc(100vw - 96px));
+    min-width: 0;
     min-height: 48px;
     margin: 0;
     padding: 1px 8px;
@@ -1989,7 +1990,7 @@ footer {
   }
   /* Story 40D: concise mobile boundary label; the full wording stays in the DOM
      (visually hidden) and in the map attribution for screen readers. */
-  .map-panel .leaflet-control-layers-overlays label[data-mobile-label] > span {
+  .map-panel .leaflet-control-layers-overlays label[data-mobile-label] > span > span {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -2519,7 +2520,14 @@ footer {
   }
   html[data-mobile-focus="on"][data-mobile-view="map"] #mobileMapLayersBody .map-layer-toggle {
     justify-content: flex-start;
-    white-space: normal;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
   }
+}
+
+/* Keep the repaired-source disclosure on one line on narrow phones, while
+   preserving the fullscreen launcher and panel's existing hit targets. */
+@media (max-width: 360px) {
+  .map-layer-toggle { font-size: 10px; gap: 4px; padding-inline: 6px; }
+  .map-layer-toggle input { width: 16px; height: 16px; margin: 0; }
+  .map-layer-toggle :is(.road-key, .ttc-key) { width: 16px; }
 }
