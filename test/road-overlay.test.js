@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {captureRoadClosureRenderState,createClosureDetail,closureSymbolPositions,renderDisruptions,roadClosureDensityTier,roadClosureSymbolSpacing,setRoadOverlayVisibility} from '../src/disruptions/ui.js';
+import {captureRoadClosureRenderState,createClosureDetail,closureSymbolPositions,renderDisruptions,roadClosureDensityTier,roadClosureSymbolSpacing,setRoadOverlayVisibility,syncClosureCardSelection} from '../src/disruptions/ui.js';
 
 const originalDocument=globalThis.document;
 const originalLeaflet=globalThis.L;
@@ -9,9 +9,10 @@ const originalRequestAnimationFrame=globalThis.requestAnimationFrame;
 const originalCancelAnimationFrame=globalThis.cancelAnimationFrame;
 
 class FakeElement {
- constructor(tag='div') {this.tag=tag;this.children=[];this.checked=false;this.textContent='';this.className='';this.dataset={};}
+ constructor(tag='div') {this.tag=tag;this.children=[];this.checked=false;this.textContent='';this.className='';this.dataset={};this.classList={_set:new Set(),add(name){this._set.add(name);},remove(name){this._set.delete(name);},toggle(name,force){const on=force===undefined ? !this._set.has(name) : Boolean(force);if(on) this._set.add(name);else this._set.delete(name);return on;},contains(name){return this._set.has(name);}};}
  append(...children) {this.children.push(...children);}
  replaceChildren(...children) {this.children=children;}
+ querySelectorAll(selector) {const match=selector.match(/^\.disruption-item\[data-closure-id\]$/);if(!match) return [];return this.children.filter(child=>child.className.split(' ').includes('disruption-item') && child.dataset.closureId !== undefined);}
 }
 
 function harness(zoom=12) {
@@ -295,6 +296,30 @@ test('[SHOULD-11][STORY-25][STORY-41A] road-closure count is hidden beneath the 
  // The count is not re-shown by any later rule (for example a mobile override).
  const laterRules=css.slice(baseStart+baseRule.length);
  assert.doesNotMatch(laterRules,/\.map-layer-toggle \.map-layer-status\s*\{[^}]*grid-column/);
+});
+
+test('[SHOULD-11][STORY-66] road cards carry a closure id and selection toggles the matching card only',()=>{
+ const {nodes,map}=harness();
+ renderDisruptions(data,null,10,map);
+ const list=nodes.get('#roadsList');
+ const cards=list.children.filter(child=>child.className.split(' ').includes('disruption-item'));
+ assert.equal(cards.length,3);
+ assert.deepEqual(cards.map(card=>card.dataset.closureId),['line-1','point-1','none-1']);
+ syncClosureCardSelection('point-1');
+ assert.equal(cards[1].classList.contains('selected'),true);
+ assert.equal(cards[0].classList.contains('selected'),false);
+ assert.equal(cards[2].classList.contains('selected'),false);
+ syncClosureCardSelection('line-1');
+ assert.equal(cards[0].classList.contains('selected'),true);
+ assert.equal(cards[1].classList.contains('selected'),false);
+ syncClosureCardSelection(null);
+ assert.equal(cards.some(card=>card.classList.contains('selected')),false);
+});
+
+test('[SHOULD-11][STORY-66] card selection is a no-op when the roads list is absent',()=>{
+ const original=globalThis.document;
+ globalThis.document={querySelector:()=>null};
+ try { syncClosureCardSelection('line-1'); } finally { globalThis.document=original; }
 });
 
 test.after(()=>{globalThis.document=originalDocument;globalThis.L=originalLeaflet;globalThis.requestAnimationFrame=originalRequestAnimationFrame;globalThis.cancelAnimationFrame=originalCancelAnimationFrame;});
