@@ -56,10 +56,6 @@ const TERMINATE_GRACE_MS = 5000;
 // The aggregate script name, excluded from discovery.
 const AGGREGATE_SCRIPT = "test:browser";
 
-// The TTC suite retains a deliberate 61-second wait; surface that expectation
-// so a long run is not mistaken for a hang.
-const LONG_SUITE_HINT = "test:ttc-ui:browser";
-
 // --- Suite discovery -------------------------------------------------------
 
 // Discover every `test:*:browser` package script except the aggregate itself.
@@ -344,9 +340,6 @@ export async function runBrowserSuites({
   for (const suite of suites) {
     index += 1;
     log(`==> [${index}/${total}] ${suite.name}`);
-    if (suite.name === LONG_SUITE_HINT) {
-      log("    note: this suite retains a deliberate ~61s wait and may take over a minute");
-    }
     // A suite that exits nonzero is a failed span even though the call itself
     // resolved, so the timing summary identifies the failing stage.
     timing.start(`suite:${suite.name}`);

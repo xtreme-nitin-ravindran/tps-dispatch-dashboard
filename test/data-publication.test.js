@@ -372,11 +372,19 @@ test('[STORY-54][STORY-55E] the incident CLI fails loudly without R2 credentials
   t.after(() => rm(dir, { recursive: true, force: true }));
   await mkdir(join(dir, 'data'), { recursive: true });
   await writeFile(join(dir, 'data/current.json'), JSON.stringify({ fetchedAt: '2026-10-06T11:00:00Z', incidents: [] }));
+  // The stale snapshot makes the phase run the real ETL before it reaches the
+  // sink, so stub the upstream feeds with the same deterministic preload the
+  // other CLI tests use. Without it this offline test would fetch the live
+  // sources (and wait on their 30 s timeout) just to assert the credential
+  // failure, which both slows the canonical suite and breaks the offline /
+  // live-integration separation.
+  const preload = join(dir, 'fetch.mjs');
+  await writeFile(preload, fetchPreload);
   const script = join(process.cwd(), 'scripts/publish-incidents.js');
   const env = { ...process.env, TFS_OUTPUT: join(dir, 'data/current.json') };
   for (const key of Object.keys(r2Env)) delete env[key];
   assert.throws(
-    () => execFileSync(process.execPath, [script], { cwd: dir, encoding: 'utf8', env, stdio: 'pipe' }),
+    () => execFileSync(process.execPath, ['--import', preload, script], { cwd: dir, encoding: 'utf8', env, stdio: 'pipe' }),
     /R2 publication requires/
   );
 });

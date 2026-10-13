@@ -523,7 +523,11 @@ test("[STORY-47A] fails clearly when no browser suites are discovered", async ()
   assert.ok(errors.some(l => /no test:\*:browser suites/.test(l)));
 });
 
-test("[STORY-47A] the TTC suite is not subject to an invalid sub-61-second timeout and its wait is surfaced", async () => {
+test("[STORY-47A] the TTC suite runs to completion without an imposed timeout or a stale long-wait hint", async () => {
+  // Story 68C replaced the TTC suite's deliberate 61-second wall-clock wait with
+  // Playwright clock emulation, so the runner no longer surfaces a long-wait
+  // hint. The runner must still execute the suite to completion (status 0)
+  // without imposing a timeout of its own.
   const pkg = {
     scripts: {
       "test:browser": "node scripts/run-browser-suites.js",
@@ -542,8 +546,12 @@ test("[STORY-47A] the TTC suite is not subject to an invalid sub-61-second timeo
   });
   assert.equal(status, 0);
   assert.ok(
-    lines.some(l => /61s|over a minute/.test(l)),
-    "the deliberate TTC wait must be surfaced in progress output"
+    lines.some(l => l.includes("test:ttc-ui:browser")),
+    "the TTC suite must be reported in progress output"
+  );
+  assert.ok(
+    !lines.some(l => /61s|over a minute/.test(l)),
+    "the obsolete long-wait hint must not be emitted"
   );
 });
 
