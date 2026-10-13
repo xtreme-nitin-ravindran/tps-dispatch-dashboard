@@ -14,7 +14,7 @@
 // the card highlight.
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
-import { awaitFixtureReady } from './lib/browser-fixture.js';
+import { awaitFixtureReady, awaitUiState } from './lib/browser-fixture.js';
 import { createBrowserTiming, resolveTimingFormat } from './lib/browser-timing.js';
 
 const timing = createBrowserTiming();
@@ -80,7 +80,7 @@ try {
     await symbol.dispatchEvent('click');
 
     // Bounded wait for the expected rendered state rather than a fixed sleep.
-    await page.waitForFunction(() => document.querySelectorAll('.leaflet-popup').length > 0, null, { timeout: 5000 });
+    await awaitUiState(page, () => document.querySelectorAll('.leaflet-popup').length > 0, { description: 'road-closure map popup' });
     const after = await readState(page);
 
     // 1. The map bubble opens on mobile (the original defect).
@@ -94,7 +94,7 @@ try {
 
     // Clearing the selection removes the card highlight.
     await page.locator('.closure-detail-back').click();
-    await page.waitForFunction(() => document.querySelector('#mobileClosureDetail')?.hidden === true, null, { timeout: 5000 });
+    await awaitUiState(page, () => document.querySelector('#mobileClosureDetail')?.hidden === true, { description: 'cleared closure detail' });
     const cleared = await readState(page);
     assert.deepEqual(cleared.selectedIds, [], `${viewport.name}: card highlight was not cleared`);
     assert.equal(cleared.sheetDetailHidden, true, `${viewport.name}: sheet detail was not hidden after clearing`);

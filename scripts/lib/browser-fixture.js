@@ -32,6 +32,14 @@
 //   - The original Playwright error is preserved as the `cause` when possible.
 //   - Page errors and unrelated failures are never swallowed or converted into
 //     readiness timeouts: only the readiness wait itself is wrapped.
+//   - `awaitUiState(page, predicate, options?)` is the companion helper for the
+//     post-readiness UI predicates the suites wait on before asserting (for
+//     example the selected-incident card the app marks `.selected` during an
+//     async render pass). Those predicates previously used a bare 5s
+//     `page.waitForFunction` with no retry, which is the cold-start flake class
+//     Story 70 hardens. It applies the same bounded-retry handshake as
+//     `awaitFixtureReady` (default one retry) without weakening the predicate:
+//     the expected state must still be reached before assertions run.
 /* global document */
 
 // The dataset key and ready value that define the deterministic fixture
@@ -51,6 +59,14 @@ export const DEFAULT_FIXTURE_READY_TIMEOUT_MS = 60000;
 // retries the readiness wait. The fixture must still reach `ready`, so no
 // assertion is weakened; the retry is finite and scoped to the readiness stage.
 export const DEFAULT_FIXTURE_READY_RETRIES = 1;
+
+// Bounded retry handshake for post-readiness UI predicates. The suites wait for
+// a rendered state the app produces during an async render pass (for example the
+// selected-incident card gaining `.selected`). A cold browser can stall that pass
+// past a short per-attempt budget, so `awaitUiState` retries the predicate a
+// bounded number of times rather than using a larger fixed timeout. The expected
+// state must still be reached, so no assertion is weakened.
+export const DEFAULT_UI_STATE_RETRIES = 1;
 
 // Browser-side predicate: true once the incident fixture has finished loading.
 // Exported so its behavior can be unit-tested directly with a stubbed
@@ -117,6 +133,44 @@ export async function awaitFixtureReady(page, options = {}) {
         // original readiness failure with a secondary evaluation error.
       }
       const message = `awaitFixtureReady: fixture did not become ready within ${timeout}ms at ${url || '(unknown url)'}: ${describeFixtureState(state)}`;
+      throw new Error(message, { cause: error });
+    }
+  }
+}
+
+// Waits for a post-readiness UI predicate with a bounded retry handshake.
+//
+// `page` is a Playwright Page. `predicate` is a self-contained browser-side
+// function (serialized by `page.waitForFunction`, so it cannot close over
+// module scope). `options.timeout` is the per-attempt budget in milliseconds
+// (default 5000, matching the suites' existing short UI waits). `options.retries`
+// is the bounded retry count (default `DEFAULT_UI_STATE_RETRIES`); on a timeout
+// the predicate is retried up to that many times. `options.description` names
+// the expected state in the failure message.
+//
+// Resolves as soon as the predicate is satisfied. On final failure it rejects
+// with a diagnostic error that names the expected state and preserves the
+// underlying Playwright error as `cause`. The predicate is never weakened: the
+// expected state must still be reached before the caller's assertions run.
+export async function awaitUiState(page, predicate, options = {}) {
+  const timeout = options.timeout ?? 5000;
+  const retries = options.retries ?? DEFAULT_UI_STATE_RETRIES;
+  const description = options.description ?? 'expected UI state';
+  let attempt = 0;
+  for (; ;) {
+    try {
+      await page.waitForFunction(predicate, undefined, { timeout });
+      return;
+    } catch (error) {
+      // Bounded retry: a cold browser can stall the async render pass that
+      // produces the expected state past the short per-attempt budget. Retry
+      // the predicate rather than using a larger fixed timeout. The expected
+      // state must still be reached, so no assertion is weakened.
+      if (attempt < retries) {
+        attempt += 1;
+        continue;
+      }
+      const message = `awaitUiState: ${description} was not reached within ${timeout}ms (after ${retries} retr${retries === 1 ? 'y' : 'ies'})`;
       throw new Error(message, { cause: error });
     }
   }

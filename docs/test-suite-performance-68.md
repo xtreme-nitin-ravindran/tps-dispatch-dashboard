@@ -467,3 +467,73 @@ python3 -m http.server 8765 --bind 127.0.0.1 &
 
 None. 68D is an assessment; the sequential runner is unchanged. Rollback is not
 applicable.
+
+---
+
+## Story 70 — Browser cold-start `fixture-ready` flake hardening
+
+**Status:** IMPLEMENTED / AWAITING VALIDATION (October 13, 2026). Out-of-band
+chore identified by the Story 68D retrospective.
+
+### Reproduction (required before any change)
+
+Two distinct cold-start failure classes were reproduced:
+
+**Class A — shared `awaitFixtureReady` 60 s exhaustion.** Reproduced only under
+the 7-suite concurrent condition (the configuration Story 68D already measured
+and **rejected**). Running all seven small suites at once failed **5/7** suites,
+consistently across two runs. The failure is
+`awaitFixtureReady: fixture did not become ready within 60000ms ... incident-load
+state is missing (document.documentElement.dataset.incidentLoadState is
+undefined)` — the page's JS never started, i.e. pure CPU starvation from seven
+Chromium instances on a host already running a VM, Rancher/lima, NordVPN, VS
+Code, and WindowServer. A single page reaches `ready` in ~388 ms even under
+contention, so the 60 s budget is not the weakness. This is the environment-only
+artifact the Story 70 note anticipates; **no code change** addresses it, and the
+concurrency configuration that triggers it is already rejected.
+
+**Class B — the 5 s selected-card predicate at
+`scripts/cluster-connectors-browser.js:42`.** Reproduced **1/15-1/25 in the
+sequential (supported) path** with no artificial concurrency, always at the
+`assertBounded` selected-card `page.waitForFunction` (`Timeout 5000ms exceeded`).
+This is the exact Story 68A failure and the genuine, in-scope flake: a hardcoded
+5 s bound with no bounded-retry handshake, inconsistent with the Story 52E
+pattern and `AGENTS.md`.
+
+### Fix — shared bounded-retry helper for post-readiness UI predicates
+
+Added `awaitUiState(page, predicate, options?)` to
+`scripts/lib/browser-fixture.js`, mirroring `awaitFixtureReady`'s proven
+handshake: a 5-second per-attempt budget with one bounded retry by default
+(`DEFAULT_UI_STATE_RETRIES = 1`). It never weakens the predicate — the expected
+state must still be reached before assertions run — and it fails fast on a
+genuinely broken predicate. Applied to the three suites' 5 s predicates:
+
+- `scripts/cluster-connectors-browser.js` — selected/deselected incident card.
+- `scripts/road-closure-mobile-browser.js` — map popup and cleared detail.
+- `scripts/mobile-map-info-browser.js` — summary bottom offset and rotated panel.
+
+### Verification
+
+| Check | Result |
+| --- | --- |
+| `test:story-39a:browser` sequential, 30 runs | **0/30 failures** (was ~1/15-1/25) |
+| `test:road-closure-mobile:browser` sequential, 5 runs | 0/5 failures |
+| `test:story-43:browser` sequential, 5 runs | 0/5 failures |
+| `npm run test:browser` | all 8 suites passed (~89 s aggregate) |
+| `npm run verify` | all required checks passed, exact 100/100/100 |
+| `npx eslint .` | clean |
+| `git diff --check` | clean |
+
+### Files changed and rollback
+
+- `scripts/lib/browser-fixture.js` — add `awaitUiState` + `DEFAULT_UI_STATE_RETRIES`.
+- `scripts/cluster-connectors-browser.js`, `scripts/road-closure-mobile-browser.js`,
+  `scripts/mobile-map-info-browser.js` — use `awaitUiState` for the 5 s predicates.
+- `test/browser-fixture.test.js` — 10 deterministic `[STORY-70]` unit tests.
+- `test/requirements.map.json` — declare `STORY-70` and map it to the helper test.
+- `docs/browser-tests.md` — document the helper.
+
+Rollback: revert the three suites to their bare 5 s `page.waitForFunction` calls
+and remove `awaitUiState`; the suites return to their intermittent cold-start
+behavior.

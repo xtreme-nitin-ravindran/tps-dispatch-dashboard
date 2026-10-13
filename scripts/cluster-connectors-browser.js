@@ -2,7 +2,7 @@
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
-import { awaitFixtureReady } from './lib/browser-fixture.js';
+import { awaitFixtureReady, awaitUiState } from './lib/browser-fixture.js';
 import { createBrowserTiming, resolveTimingFormat } from './lib/browser-timing.js';
 
 const timing = createBrowserTiming();
@@ -39,16 +39,16 @@ async function assertBounded({ selected = true, largeCluster = true } = {}) {
   // already require, then assert against the real DOM. This never weakens the
   // connector invariants; it only removes the timing race.
   if (selected) {
-    await page.waitForFunction(
+    await awaitUiState(
+      page,
       () => document.querySelectorAll('[data-call-id="mobile-audit-selected"].selected').length >= 1,
-      undefined,
-      { timeout: 5000 }
+      { description: 'selected incident card' }
     );
   } else {
-    await page.waitForFunction(
+    await awaitUiState(
+      page,
       () => document.querySelectorAll('[data-call-id="mobile-audit-selected"].selected').length === 0,
-      undefined,
-      { timeout: 5000 }
+      { description: 'deselected incident card' }
     );
   }
   const state = await connectorState();

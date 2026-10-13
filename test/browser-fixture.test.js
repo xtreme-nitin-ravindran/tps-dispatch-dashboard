@@ -6,10 +6,12 @@ import {
   INCIDENT_LOAD_READY,
   DEFAULT_FIXTURE_READY_TIMEOUT_MS,
   DEFAULT_FIXTURE_READY_RETRIES,
+  DEFAULT_UI_STATE_RETRIES,
   isFixtureReady,
   readIncidentLoadState,
   describeFixtureState,
-  awaitFixtureReady
+  awaitFixtureReady,
+  awaitUiState
 } from "../scripts/lib/browser-fixture.js";
 
 // Deterministic offline coverage for the shared rendered-browser fixture
@@ -246,4 +248,100 @@ test("[STORY-52E] awaitFixtureReady does not reload when the page exposes no rel
   delete page.reload;
   await assert.rejects(() => awaitFixtureReady(page), /did not become ready/);
   assert.equal(page.calls.waitForFunction.length, 1, "without reload() the wait is not retried");
+});
+
+// --- awaitUiState (Story 70) -----------------------------------------------
+
+// A minimal Playwright-like page stub for the post-readiness UI predicate
+// helper. `waitForFunction` models Playwright's polling: it resolves once the
+// predicate is satisfied (after `satisfiedAfter` polls) and only throws a
+// TimeoutError when it never is. Records the options it was given so timeout
+// forwarding can be asserted.
+function stubUiPage({ satisfiedAfter = 0 } = {}) {
+  let polls = 0;
+  const calls = { waitForFunction: [] };
+  return {
+    calls,
+    async waitForFunction(_fn, _arg, options) {
+      calls.waitForFunction.push(options);
+      polls += 1;
+      if (polls <= satisfiedAfter) {
+        const error = new Error("Timeout 5000ms exceeded.");
+        error.name = "TimeoutError";
+        throw error;
+      }
+      return true;
+    }
+  };
+}
+
+test("[STORY-70] the default UI-state retry handshake retries once", () => {
+  assert.equal(DEFAULT_UI_STATE_RETRIES, 1);
+});
+
+test("[STORY-70] awaitUiState resolves promptly when the predicate is already satisfied", async () => {
+  const page = stubUiPage({ satisfiedAfter: 0 });
+  await awaitUiState(page, () => true);
+  assert.equal(page.calls.waitForFunction.length, 1, "a satisfied predicate must not be retried");
+});
+
+test("[STORY-70] awaitUiState forwards the documented default 5s per-attempt timeout", async () => {
+  const page = stubUiPage({ satisfiedAfter: 0 });
+  await awaitUiState(page, () => true);
+  assert.deepEqual(page.calls.waitForFunction[0], { timeout: 5000 });
+});
+
+test("[STORY-70] awaitUiState forwards a caller-specified timeout", async () => {
+  const page = stubUiPage({ satisfiedAfter: 0 });
+  await awaitUiState(page, () => true, { timeout: 1234 });
+  assert.deepEqual(page.calls.waitForFunction[0], { timeout: 1234 });
+});
+
+test("[STORY-70] awaitUiState retries once when the first wait times out", async () => {
+  // The first attempt times out; the retry succeeds.
+  const page = stubUiPage({ satisfiedAfter: 1 });
+  await awaitUiState(page, () => true);
+  assert.equal(page.calls.waitForFunction.length, 2, "the predicate must be retried once");
+});
+
+test("[STORY-70] awaitUiState does not retry when retries is zero", async () => {
+  const page = stubUiPage({ satisfiedAfter: Infinity });
+  await assert.rejects(() => awaitUiState(page, () => true, { retries: 0 }), /was not reached/);
+  assert.equal(page.calls.waitForFunction.length, 1, "no retry may occur when retries is zero");
+});
+
+test("[STORY-70] awaitUiState fails after the bounded retries are exhausted", async () => {
+  const page = stubUiPage({ satisfiedAfter: Infinity });
+  await assert.rejects(() => awaitUiState(page, () => true, { retries: 2 }), /was not reached/);
+  assert.equal(page.calls.waitForFunction.length, 3, "one initial wait plus two retries");
+});
+
+test("[STORY-70] awaitUiState names the expected state and preserves the cause on failure", async () => {
+  const page = stubUiPage({ satisfiedAfter: Infinity });
+  await assert.rejects(
+    () => awaitUiState(page, () => true, { description: "selected incident card" }),
+    error => {
+      assert.match(error.message, /selected incident card was not reached within 5000ms/);
+      assert.match(error.message, /after 1 retry/);
+      assert.ok(error.cause instanceof Error, "cause was not preserved");
+      assert.equal(error.cause.name, "TimeoutError");
+      return true;
+    }
+  );
+});
+
+test("[STORY-70] awaitUiState uses a generic description when none is given", async () => {
+  const page = stubUiPage({ satisfiedAfter: Infinity });
+  await assert.rejects(
+    () => awaitUiState(page, () => true, { retries: 0 }),
+    /expected UI state was not reached/
+  );
+});
+
+test("[STORY-70] awaitUiState pluralizes the retry count in the failure message", async () => {
+  const page = stubUiPage({ satisfiedAfter: Infinity });
+  await assert.rejects(
+    () => awaitUiState(page, () => true, { retries: 2 }),
+    /after 2 retries/
+  );
 });
