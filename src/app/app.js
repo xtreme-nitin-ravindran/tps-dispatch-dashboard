@@ -1779,6 +1779,7 @@ function clearIncidentForTtc() {
 
 function clearClosureSelection() {
   clearTtcSelection();
+  disruptionUi.syncClosureCardSelection(null);
   const hadClosure=focusedClosureId !== null;
   focusedClosureId=null;
   if (mobileClosureDetail) {
@@ -1794,6 +1795,7 @@ function selectClosure(closure, layer, ttc=false) {
   if (!closure) return;
   focusedClosureId=(ttc ? 'ttc:' : '')+String(closure.id ?? '');
   const detail=ttc ? createTtcDetail(closure) : createClosureDetail(closure);
+  if (!ttc) disruptionUi.syncClosureCardSelection(closure.id);
   if (isMobileViewLayout()) {
     const back=document.createElement('button');
     back.type='button';back.className='closure-detail-back';back.textContent='← Back to incident list';
@@ -1805,6 +1807,7 @@ function selectClosure(closure, layer, ttc=false) {
     mobileSheetSummary.textContent=ttc ? closure.routes.map(r=>r.label).join(' · ') || 'TTC disruption' : closure.street || closure.title || 'Road closure';
     setMobileSheetState(mobileSheetState === 'collapsed' ? 'half' : mobileSheetState);
     if(ttc) {document.querySelector('#mobileSheetBody').scrollTop=0;back.focus({preventScroll:true});}
+    else layer?.bindPopup?.(detail,{minWidth:260,maxWidth:340,closeOnClick:false}).openPopup?.();
     return;
   }
   if(ttc) {

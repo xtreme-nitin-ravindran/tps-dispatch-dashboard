@@ -316,7 +316,7 @@ test('disruption renderer updates lists and optional map layers',()=>{
  const nodes=new Map();
  const layerGroups=[];
  class FakeElement {
-  constructor(tag='div') {this.tag=tag;this.children=[];this.checked=false;this.textContent='';this.className='';}
+  constructor(tag='div') {this.tag=tag;this.children=[];this.checked=false;this.textContent='';this.className='';this.dataset={};}
   append(...children) {this.children.push(...children);}
   replaceChildren(...children) {this.children=children;}
  }

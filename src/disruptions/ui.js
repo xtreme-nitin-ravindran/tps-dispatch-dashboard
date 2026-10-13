@@ -70,6 +70,15 @@ const closureTime = value => {
   if (!Number.isFinite(timestamp) || timestamp <= 0) return '';
   return new Intl.DateTimeFormat('en-CA',{dateStyle:'medium',timeStyle:'short',timeZone:'America/Toronto'}).format(timestamp)+' Toronto';
 };
+export function syncClosureCardSelection(id) {
+  const list=document.querySelector('#roadsList');
+  if (!list) return;
+  const target=id === null || id === undefined ? null : String(id);
+  for (const card of list.querySelectorAll('.disruption-item[data-closure-id]')) {
+    card.classList.toggle('selected', target !== null && card.dataset.closureId === target);
+  }
+}
+
 export function createClosureDetail(item) {
   const article=element('article',null,'closure-detail');
   article.dataset.closureId=closureId(item);
@@ -291,6 +300,7 @@ export function renderDisruptions(data, origin, radius, map) {
     }
     for (const item of items) {
       const article=element('article',null,'disruption-item');
+      if (kind==='roads') article.dataset.closureId=closureId(item);
       article.append(element('h4',item.title));
       const meta=kind==='roads' ? [item.type,item.impact && `Reported impact: ${item.impact}`,origin && `About ${roadDistance(item,origin).toFixed(1)} km away`] : [item.effect,item.routes.length && `Routes: ${item.routes.join(', ')}`];
       article.append(element('p',meta.filter(Boolean).join(' · '),'disruption-note'));
