@@ -1,6 +1,5 @@
 import { activeTtcAlerts, claimedAdvisoryIds } from '../ttc/presentation.js';
-import { currentDisruptions, roadDistance, transitGeographicMatch } from './view.js';
-import { distanceLabel } from '../nearby.js';
+import { currentDisruptions, roadDistance } from './view.js';
 import { sourceStatus, sourceStatusText, repairedSourceNote } from '../source-status.js?v=source-states-1';
 let roadLayer;
 let roadMap;
@@ -231,6 +230,12 @@ export function nearbyTransitPresentation(feed, items, now = Date.now()) {
     : info.status === 'stale' ? 'Stale' : 'Unavailable';
   return {count,empty,freshness:sourceStatusText(definitions.transit.subject,feed,now),status:info.status};
 }
+// A citywide transit item is shown only when it is neither a GTFS-RT alert that
+// the Story 30 presentation already renders nor an official advisory claimed by
+// an observed diversion. Kept as a named predicate so both operands are covered.
+function isCitywideTransitItem(item, backendIds, claimedAdvisories) {
+  return !backendIds.has(item.id) && !claimedAdvisories.has(item.id);
+}
 export function renderDisruptions(data, origin, radius, map) {
   const container=document.querySelector('#disruptions');
   if (!container) return;
@@ -246,14 +251,10 @@ export function renderDisruptions(data, origin, radius, map) {
   // Story 51D: an official Service Change that the Story 30 presentation now
   // renders with observed geometry must not also appear in the citywide list.
   const claimedAdvisories=claimedAdvisoryIds(data?.ttcDiversions,data?.transit,now);
-  const transit=currentDisruptions(data?.transit,'transit',now).filter(item=>!backendIds.has(item.id) && !claimedAdvisories.has(item.id));
-  const nearbyTransit=origin && radius !== null
-    ? transit.map(item => ({item,match:transitGeographicMatch(item,origin,radius)})).filter(({match}) => match.relevant)
-    : [];
+  const transit=currentDisruptions(data?.transit,'transit',now).filter(item=>isCitywideTransitItem(item,backendIds,claimedAdvisories));
   const presentations={
     roads:disruptionPresentation('roads',data?.roads,roads,allRoads,Boolean(origin),now),
-    transit:disruptionPresentation('transit',data?.transit,transit,transit,false,now),
-    nearbyTransit:nearbyTransitPresentation(data?.transit,nearbyTransit,now)
+    transit:disruptionPresentation('transit',data?.transit,transit,transit,false,now)
   };
   document.querySelector('#roadScope').textContent=origin ? `Road restrictions within ${radius} km` : 'Road restrictions · citywide';
   document.querySelector('#roadsFreshness').textContent=presentations.roads.freshness;
@@ -272,28 +273,7 @@ export function renderDisruptions(data, origin, radius, map) {
   const overlayLabel=document.querySelector('#roadOverlayLabel');
   if (overlayLabel) overlayLabel.textContent=presentations.roads.repaired ? 'Road closures · source repaired' : 'Road closures';
   document.querySelector('#transitCount').textContent=presentations.transit.count;
-  const nearbyTransitSection=document.querySelector('#nearbyTransit');
-  if (nearbyTransitSection) {
-    nearbyTransitSection.hidden=!origin || radius === null;
-    document.querySelector('#nearbyTransitScope').textContent=`TTC disruptions within ${radius === 0.5 ? '500 m' : `${radius} km`}`;
-    document.querySelector('#nearbyTransitCount').textContent=presentations.nearbyTransit.count;
-    document.querySelector('#nearbyTransitFreshness').textContent=presentations.nearbyTransit.freshness;
-    const nearbyList=document.querySelector('#nearbyTransitList'); nearbyList.replaceChildren();
-    if (!nearbyTransit.length) nearbyList.append(element('p',presentations.nearbyTransit.empty,`disruption-note source-state source-state-${presentations.nearbyTransit.status}`));
-    for (const {item,match} of nearbyTransit) {
-      const article=element('article',null,'disruption-item disruption-item--nearby-transit');
-      article.append(element('span','TTC DISRUPTION','section-kicker'));
-      const place=match.matchedEntity?.name;
-      article.append(element('h4',place || item.title));
-      const context=[distanceLabel(match.nearestDistanceKm),item.effect,item.routes.length && `Routes: ${item.routes.join(', ')}`];
-      article.append(element('p',context.filter(Boolean).join(' · '),'disruption-note'));
-      if (place && item.title && item.title !== place) article.append(element('p',item.title));
-      if (item.description) article.append(element('p',item.description));
-      nearbyList.append(article);
-    }
-  }
-  const nearbyIds=new Set(nearbyTransit.map(({item})=>item.id));
-  for (const [kind,items] of [['roads',roads],['transit',transit.filter(item=>!nearbyIds.has(item.id))]]) {
+  for (const [kind,items] of [['roads',roads],['transit',transit]]) {
     const list=document.querySelector(`#${kind}List`); list.replaceChildren();
     if (!items.length) {
       list.append(element('p',presentations[kind].empty,`disruption-note source-state source-state-${presentations[kind].status}`));

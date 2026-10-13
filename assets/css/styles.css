@@ -2405,13 +2405,15 @@ footer {
 .ttc-legend-scheduled { border-top: 4px dashed #a44f00; }
 [data-theme="dark"] .ttc-legend-line { border-color: #61dce6; }
 [data-theme="dark"] .ttc-legend-scheduled { border-color: #ffc078; }
-.ttc-disruption { margin-block: 10px; }
-.ttc-disruption summary { min-height: 44px; padding: 10px 0; overflow-wrap: anywhere; }
 .ttc-detail { min-width: 0; overflow-wrap: anywhere; }
 .ttc-detail h5 { font-size: 1em; margin: 12px 0 4px; }
 .ttc-detail p { margin-block: 8px; }
-.ttc-show-map { min-height: 44px; padding: 8px 12px; }
-#ttcContent:has(#ttcDisruptionList:empty):has(#ttcDisruptionStatus[hidden]) { display: none; }
+#observedDiversionsList .incident-card { min-height: 0; }
+#observedDiversionsList .call-main { padding: 16px 18px 15px; }
+/* Story 57: the retained-evidence cue stays on the always-visible card body. */
+#observedDiversionsList .call-main > .ttc-evidence-status { margin: 6px 0 0; }
+#observedDiversionsList .call-details-body .ttc-detail { padding: 0; border-bottom: 0; }
+#observedDiversionsList .call-details-body .ttc-detail h4 { margin: 0 0 6px; }
 
 
 /* Story 58: auxiliary fullscreen controls stay behind two compact launchers.

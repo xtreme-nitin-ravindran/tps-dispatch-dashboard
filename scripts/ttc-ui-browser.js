@@ -14,7 +14,7 @@ for(const width of [320,375,390,430,768,1440]) {
  await page.addInitScript(()=>{window.ttcLongTasks=[];new PerformanceObserver(list=>window.ttcLongTasks.push(...list.getEntries().map(e=>e.duration))).observe({type:'longtask',buffered:true});});
  await timing.time(`page-goto:${width}`,()=>page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&mobileAuditSheet=expanded&ttcFixture=confirmed`,{waitUntil:'networkidle'}));
  await timing.time(`fixture-ready:${width}`,()=>awaitFixtureReady(page));
- await page.waitForSelector('.ttc-disruption',{state:'attached'}).catch(async error=>{console.log({width,errors,body:await page.locator('body').innerText()});await page.screenshot({path:`${out}/failure-${width}.png`});throw error;});
+ await page.waitForSelector('#observedDiversionsList .incident-card',{state:'attached'}).catch(async error=>{console.log({width,errors,body:await page.locator('body').innerText()});await page.screenshot({path:`${out}/failure-${width}.png`});throw error;});
  const initialMaxLongTask=await page.evaluate(()=>{const max=Math.max(0,...window.ttcLongTasks);window.ttcLongTasks=[];return max;});
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
  const diag=()=>page.evaluate(async()=>(await import('./src/ttc/ui.js')).captureTtcRenderState());
@@ -31,23 +31,25 @@ for(const width of [320,375,390,430,768,1440]) {
     const call=page.locator('#mobileSheetCallList .incident-card').first();
     await page.waitForFunction(()=>{const call=document.querySelector('#mobileSheetCallList .incident-card').getBoundingClientRect(),body=document.querySelector('#mobileSheetBody').getBoundingClientRect();return call.top>=body.top&&call.top<body.bottom;});
     assert.equal(await call.isVisible(),true);
-    assert.equal(await page.locator('#ttcContent').isVisible(),false);
-    assert.equal(await page.locator('#ttcContent').evaluate(el=>el.parentElement.id),'ttcListHome');
+    assert.equal(await page.locator('#observedDiversions').isVisible(),false);
    }
   }
   if(width===390) {await page.locator('#dispatchMap').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/mobile-default-calls.png`});}
   await page.locator('button[data-mobile-view="calls"]').click();
-  assert.equal(await page.locator('#ttcContent').isVisible(),true);
+  assert.equal(await page.locator('#observedDiversions').isVisible(),true);
   await page.locator('button[data-mobile-view="map"]').click();
-  assert.equal(await page.locator('#ttcContent').isVisible(),false);
+  assert.equal(await page.locator('#observedDiversions').isVisible(),false);
   await page.locator('#mobileDisruptionsControl').click();
-  assert.equal(await page.locator('#ttcContent').isVisible(),true);
+  assert.equal(await page.locator('#observedDiversions').isVisible(),true);
  }
- await page.locator('.ttc-disruption > summary').click();
  if(width>=768) {
+  // On desktop the diversion list sits below the map. Bring the first card into
+  // view (as a user reading the list would), then confirm the map has scrolled
+  // above the viewport before the card action reveals it.
+  await page.locator('#observedDiversionsList .incident-card').first().scrollIntoViewIfNeeded();
   const before=await page.locator('#dispatchMap').boundingBox();assert.ok(before.y+before.height<0,'desktop diversion action starts with map above viewport');
  }
- await page.locator('.ttc-show-map').click();
+ await page.locator('#observedDiversionsList .incident-card').first().click();
  if(width>=768) {
   await page.waitForFunction(()=>{const r=document.querySelector('#dispatchMap').getBoundingClientRect();return r.top>=0&&r.bottom<=window.innerHeight;});
   const route=await page.locator('.ttc-line--diversion').boundingBox(),map=await page.locator('#dispatchMap').boundingBox();
@@ -67,7 +69,7 @@ for(const width of [320,375,390,430,768,1440]) {
  }
  // Actual paths retain identities through CSS theme changes and pan/zoom.
  const ids=await page.locator('.ttc-line').evaluateAll(nodes=>nodes.map((n,i)=>{n.dataset.testIdentity=String(i);return n.dataset.testIdentity;}));
- if(width<=430) {await page.locator('.closure-detail-back').click();assert.equal(await page.locator('#mobileSheetCallList').isVisible(),true);assert.equal(await page.locator('#ttcContent').isVisible(),false);assert.equal(await page.evaluate(()=>document.activeElement.id),'mobileSheetToggle');}
+ if(width<=430) {await page.locator('.closure-detail-back').click();assert.equal(await page.locator('#mobileSheetCallList').isVisible(),true);assert.equal(await page.locator('#observedDiversions').isVisible(),false);assert.equal(await page.evaluate(()=>document.activeElement.id),'mobileSheetToggle');}
  for(let i=0;i<12;i++) {
   await page.selectOption('#themePreference',i%2?'dark':'light');
   if(width<=430) {
@@ -111,7 +113,7 @@ for(const width of [320,375,390,430,768,1440]) {
   },outage);
   await page.waitForFunction(()=>document.querySelector('.ttc-evidence-status')?.textContent.includes('Retained evidence'));
   assert.equal((await diag()).selected,'fixture-detour');assert.equal((await diag()).layers,4);
-  const cue=page.locator(width<=430?'#mobileClosureDetail .ttc-evidence-status':'.ttc-disruption .ttc-evidence-status').first();
+  const cue=page.locator(width<=430?'#mobileClosureDetail .ttc-evidence-status':'#observedDiversionsList .ttc-evidence-status').first();
   await cue.scrollIntoViewIfNeeded();assert.equal(await cue.isVisible(),true);
   const geometry=await cue.evaluate(el=>{const r=el.getBoundingClientRect(),style=getComputedStyle(el);return {width:r.width,height:r.height,overflow:style.overflow,clip:style.clip,color:style.color,background:style.backgroundColor};});
   assert.ok(geometry.width>100&&geometry.height>=16);assert.equal(geometry.clip,'auto');
@@ -126,10 +128,10 @@ for(const width of [320,375,390,430,768,1440]) {
  await page.waitForFunction(()=>!document.querySelector('.ttc-evidence-status'));
  assert.equal((await diag()).layers,2);assert.equal((await diag()).selected,'fixture-detour');
  await page.evaluate(async()=>{const f=structuredClone(window.ttcBrowserFixture);f.ttcDiversions.diversions=[];(await import('./src/ttc/ui.js')).renderTtc(f);});
- assert.equal((await diag()).layers,2);assert.equal(await page.locator('.ttc-disruption').count(),1);
+ assert.equal((await diag()).layers,2);assert.equal(await page.locator('#observedDiversionsList .incident-card').count(),1);
  assert.equal((await diag()).selected,'fixture-detour');
  await page.evaluate(async()=>{const f=structuredClone(window.ttcBrowserFixture);f.ttcAlerts.items=[];f.ttcDiversions.diversions=[];(await import('./src/ttc/ui.js')).renderTtc(f);});
- assert.equal((await diag()).layers,0);assert.equal((await diag()).selected,null);assert.equal(await page.locator('.ttc-disruption').count(),0);
+ assert.equal((await diag()).layers,0);assert.equal((await diag()).selected,null);assert.equal(await page.locator('#observedDiversionsList .incident-card').count(),0);
  assert.equal(await page.locator('#ttcLayerControl').isVisible(),false);
  assert.deepEqual(errors,[]);
  const maxLongTask=await page.evaluate(()=>Math.max(0,...window.ttcLongTasks));assert.ok(maxLongTask<2000);
@@ -149,12 +151,12 @@ for(const width of [320,375,390,430,768,1440]) {
   (await import('./src/ttc/ui.js')).renderTtc(fixture);
   return `sirento-observed:${observed.diversions[0].id}`;
  });
- await page.waitForFunction(id=>document.querySelector('.ttc-disruption')?.dataset.ttcId===id,id);
- assert.equal(await page.locator('.ttc-disruption').count(),1);
- assert.equal(await page.locator('.ttc-detail .section-kicker').textContent(),'SIRENTO OBSERVED DIVERSION');
+ await page.waitForFunction(id=>document.querySelector('#observedDiversionsList .incident-card')?.dataset.ttcId===id,id);
+ assert.equal(await page.locator('#observedDiversionsList .incident-card').count(),1);
+ assert.equal(await page.locator('#observedDiversionsList .ttc-detail .section-kicker').textContent(),'SIRENTO OBSERVED DIVERSION');
  assert.equal(await page.locator('#ttcLayerControl').evaluate(el=>el.hidden),false);
  assert.equal(await page.locator('#ttcLegend-diversion').evaluate(el=>el.hidden),false);
- await page.locator('.ttc-disruption > summary').click();await page.locator('.ttc-show-map').click();
+ await page.locator('#observedDiversionsList .incident-card').first().click();
  const diag=await page.evaluate(async()=>(await import('./src/ttc/ui.js')).captureTtcRenderState());
  assert.equal(diag.parts,1);assert.equal(diag.layers,2);assert.equal(diag.selected,id);
  await page.locator('.ttc-hit').first().dispatchEvent('click');
@@ -165,12 +167,12 @@ for(const mode of ['alert-only','multiple','expired','unavailable','empty']) {
  const page=await browser.newPage({viewport:{width:390,height:900}});
  await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&mobileAuditView=calls&ttcFixture=${mode}`,{waitUntil:'networkidle'});
  await page.waitForFunction(()=>document.documentElement.dataset.secondaryLoadState==='ready');
- const state=await page.evaluate(async()=>({diag:(await import('./src/ttc/ui.js')).captureTtcRenderState(),cards:document.querySelectorAll('.ttc-disruption').length,text:document.querySelector('#ttcContent').textContent,visible:!!document.querySelector('#ttcContent').getClientRects().length}));
+ const state=await page.evaluate(async()=>({diag:(await import('./src/ttc/ui.js')).captureTtcRenderState(),cards:document.querySelectorAll('#observedDiversionsList .incident-card').length,text:document.querySelector('#observedDiversions').textContent,visible:!!document.querySelector('#observedDiversions').getClientRects().length}));
  assert.equal(state.cards,mode==='empty'?0:mode==='multiple'?2:1);
  assert.equal(state.diag.parts,mode==='empty'?0:mode==='multiple'?3:1);
  if(mode==='empty') assert.equal(state.visible,false);
  if(mode==='unavailable') assert.match(state.text,/unavailable/);
- await page.locator('#ttcListHome').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/${mode}.png`});results.push({mode,...state});await page.close();
+ await page.locator('#disruptions').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/${mode}.png`});results.push({mode,...state});await page.close();
 }
 // Story 51D: an active official Service Change that a confirmed observed path
 // claims must render once, with its geometry, and must not also appear in the
@@ -181,9 +183,9 @@ for(const mode of ['alert-only','multiple','expired','unavailable','empty']) {
  await page.waitForFunction(()=>document.documentElement.dataset.secondaryLoadState==='ready');
  const state=await page.evaluate(async()=>({
    diag:(await import('./src/ttc/ui.js')).captureTtcRenderState(),
-   cards:document.querySelectorAll('.ttc-disruption').length,
-   ids:[...document.querySelectorAll('.ttc-disruption')].map(n=>n.dataset.ttcId),
-   text:document.querySelector('#ttcContent').textContent,
+   cards:document.querySelectorAll('#observedDiversionsList .incident-card').length,
+   ids:[...document.querySelectorAll('#observedDiversionsList .incident-card')].map(n=>n.dataset.ttcId),
+   text:document.querySelector('#observedDiversions').textContent,
    citywide:document.querySelector('#transitList').textContent,
    citywideCount:document.querySelector('#transitCount').textContent
  }));
@@ -198,7 +200,7 @@ for(const mode of ['alert-only','multiple','expired','unavailable','empty']) {
  assert.doesNotMatch(state.citywide,/94 Wellesley/);
  assert.equal(state.citywideCount,'0');
  assert.deepEqual(errors,[]);
- await page.locator('#ttcListHome').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/official-advisory.png`});
+ await page.locator('#observedDiversions').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/official-advisory.png`});
  results.push({mode:'official-advisory',...state});await page.close();
 }
 } finally {await timing.time('browser-close',()=>browser.close());await writeFile(`${out}/results.json`,JSON.stringify(results,null,2));console.log(timing.format({format:timingFormat,label:'test:ttc-ui:browser'}));}
