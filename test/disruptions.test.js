@@ -339,7 +339,6 @@ test('disruption renderer updates lists and optional map layers',()=>{
   renderDisruptions({},null,null,null);
   for(const selector of ['#disruptions','#roadOverlay','#roadScope','#roadsFreshness','#transitFreshness','#roadCount','#transitCount','#roadsList','#transitList']) node(selector);
   renderDisruptions({},null,null,null);
-  for(const selector of ['#nearbyTransit','#nearbyTransitScope','#nearbyTransitCount','#nearbyTransitFreshness','#nearbyTransitList']) node(selector);
   const timestamp=Date.now();
   const roadBase={expired:false,start:null,impact:'High',title:'Road work',type:'Closure',description:'Use another street',schedule:'Monday',end:timestamp+60000};
   const roads=[
@@ -365,23 +364,29 @@ test('disruption renderer updates lists and optional map layers',()=>{
   renderDisruptions(data,[43.7,-79.4],10,null);
   assert.equal(nodes.get('#roadScope').textContent,'Road restrictions within 10 km');
   assert.equal(nodes.get('#roadsList').children.length,2);
-  assert.equal(nodes.get('#transitList').children.length,2);
-  assert.equal(nodes.get('#nearbyTransitList').children.length,4);
-  assert.equal(nodes.get('#nearbyTransitList').children[0].children[1].textContent,'Wellesley Station');
-  assert.match(nodes.get('#nearbyTransitList').children[0].children[2].textContent,/0\.1 km away/);
-  assert.equal(nodes.get('#nearbyTransitCount').textContent,'4');
-  assert.equal(nodes.get('#nearbyTransitFreshness').textContent,'Last successfully updated just now.');
-  data.ttcAlerts={status:'ok',fetchedAt:new Date(timestamp).toISOString(),items:[{id:'near',activePeriods:[]}]};
-  renderDisruptions(data,[43.7,-79.4],10,null);
-  assert.equal(nodes.get('#nearbyTransitList').children.length,3);
-  delete data.ttcAlerts;
-  renderDisruptions(data,[43.7,-79.4],0.05,null);
-  assert.equal(nodes.get('#nearbyTransitList').children[0].textContent,'No TTC disruptions found in this area.');
-  renderDisruptions(data,[43.8,-79.4],0.5,null);
-  assert.equal(nodes.get('#nearbyTransitList').children[0].children[1].textContent,'Far Station');
-  renderDisruptions(data,null,null,null);
-  assert.equal(nodes.get('#nearbyTransit').hidden,true);
   assert.equal(nodes.get('#transitList').children.length,6);
+  // Story 51D: an official advisory claimed by an observed diversion is deduped
+  // from the citywide list so it is never rendered twice.
+  const claimedData={
+   ...data,
+   transit:{items:[{id:'102',title:'94 Wellesley service change',effect:'Information',routes:['94'],description:'',periods:[],affectedEntities:[]}],fetchedAt:new Date(timestamp).toISOString(),status:'ok'},
+   ttcDiversions:{status:'ok',checkedAt:new Date(timestamp).toISOString(),diversions:[{status:'confirmed',geometrySource:'sirento-observed',lastObservedAt:new Date(timestamp).toISOString(),geometry:[[-79.38,43.66],[-79.39,43.66]],relatedAdvisoryRefs:['ttc-service-change:102']}]}
+  };
+  renderDisruptions(claimedData,[43.7,-79.4],10,null);
+  assert.equal(nodes.get('#transitCount').textContent,'0');
+  assert.equal(nodes.get('#transitList').children.length,1);
+  assert.equal(nodes.get('#transitList').children[0].tag,'p');
+  // A GTFS-RT alert id already rendered by the Story 30 presentation is also
+  // deduped from the citywide list (the first operand short-circuits).
+  const backendData={
+   ...data,
+   ttcAlerts:{items:[{id:'near',activePeriods:[]}],fetchedAt:new Date(timestamp).toISOString(),status:'ok'},
+   transit:{items:[{id:'near',title:'Line 1 service affected',effect:'Delay',routes:['1'],description:'',periods:[],affectedEntities:[]}],fetchedAt:new Date(timestamp).toISOString(),status:'ok'}
+  };
+  renderDisruptions(backendData,[43.7,-79.4],10,null);
+  assert.equal(nodes.get('#transitCount').textContent,'0');
+  assert.equal(nodes.get('#transitList').children.length,1);
+  assert.equal(nodes.get('#transitList').children[0].tag,'p');
   renderDisruptions(data,[43.7,-79.4],10,null);
   renderDisruptions(data,[43.7,-79.4],10,null);
 

@@ -35,7 +35,7 @@ test('[STORY-37D] mobile Map keeps TTC content off the map and uses the existing
 test('[STORY-37D] TTC keeps production renderer, disclosures, source states, and wrapping contract', () => {
   assert.match(app, /renderDisruptions\(state\.disruptions, radiusFilterOrigin\(\), state\.radiusKm, dispatchMap\)/);
   assert.equal(app.match(/renderDisruptions\(state\.disruptions/g)?.length, 3);
-  assert.match(html, /<details id="nearbyTransit" hidden open>/);
+  assert.match(html, /<details id="observedDiversions" open>/);
   assert.match(html, /<summary>TTC service alerts · citywide/);
   assert.match(css, /\.disruption-item \{[^}]*overflow-wrap: anywhere;/);
 });

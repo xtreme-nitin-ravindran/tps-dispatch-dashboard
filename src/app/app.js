@@ -1,6 +1,6 @@
 import { loadTtcUiFixture } from '../ttc/fixture.js';
 import { mergeTtcDisruptions } from '../ttc/presentation.js';
-import { renderTtc, createTtcDetail, clearTtcSelection, setTtcVisibility } from '../ttc/ui.js';
+import { renderTtc, createTtcDetail, clearTtcSelection, setTtcVisibility, bindTtcListInteractions } from '../ttc/ui.js';
 import { sourceStatus, sourceStatusText } from "../source-status.js?v=source-states-1";
 import { MAX_EXPANDED_CLUSTER_SIZE, connectorFan, canExpandCluster, clusterPoints, focusGroup } from "../map-clusters.js?v=story-39a-1";
 import { incidentGroupKey, reconcileIncidentLayers } from "../incident-layer-diff.js";
@@ -1740,7 +1740,6 @@ function initMap() {
   callLayer = L.layerGroup().addTo(dispatchMap);
   nearbyOriginLayer = L.layerGroup().addTo(dispatchMap);
   dispatchMap.on('roadclosureselect', event => { clearTtcSelection(); selectClosure(event.item,event.layer); });
-  dispatchMap.on('ttcfocus',()=>{clearClosureSelection();clearIncidentForTtc();});
   dispatchMap.on('ttcselect',event=>{
     clearIncidentForTtc();
     if(isMobileViewLayout()) setMobileView('map',{persist:false});
@@ -1811,8 +1810,8 @@ function selectClosure(closure, layer, ttc=false) {
     return;
   }
   if(ttc) {
-    const host=[...document.querySelectorAll('.ttc-disruption')].find(el=>el.dataset.ttcId===closure.id);
-    if(host) {host.open=true;if(layer) {host.scrollIntoView({block:'nearest'});host.querySelector('summary').focus({preventScroll:true});}}
+    const host=[...document.querySelectorAll('#observedDiversionsList .incident-card')].find(el=>el.dataset.ttcId===closure.id);
+    if(host) {host.classList.add('selected');if(layer) {host.scrollIntoView({block:'nearest'});host.focus({preventScroll:true});}}
   } else layer?.bindPopup?.(detail,{minWidth:260,maxWidth:340,closeOnClick:false}).openPopup?.();
 }
 
@@ -2472,6 +2471,7 @@ function handleIncidentListKeydown(event) {
   list.addEventListener("click", auditInteraction('incident-selection', handleIncidentListClick));
   list.addEventListener("keydown", handleIncidentListKeydown);
 });
+bindTtcListInteractions();
 
 function closeGlossaryPopovers(except = null) {
   document.querySelectorAll(".glossary-trigger[aria-expanded='true']").forEach(trigger => {
