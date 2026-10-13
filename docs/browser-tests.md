@@ -48,8 +48,14 @@ geometry and interaction, the clipped road-closure count, mobile bottom-sheet he
 geometry, fullscreen Map-info sizing, and TTC disruption rendering/state transitions.
 The mobile focus-mode chrome contract these suites protect is documented in
 [docs/mobile-focus-chrome.md](mobile-focus-chrome.md).
-The TTC suite has a deliberate 61-second wait; the aggregate runner reports that expected
-delay and does not depend on the GNU `timeout` command. Each suite uses loopback-only
+The TTC suite exercises the app's real minute-based summary refresh with Playwright
+clock emulation (`page.clock`) instead of a 61-second wall-clock wait; the runner does not
+depend on the GNU `timeout` command. The suite is still the longest in the aggregate run
+(~39-42 s isolated, ~39-44 s under load) because it renders Leaflet across six viewport
+widths, but the 61-second wait is gone. The suites run sequentially on the host; running
+them concurrently was measured and rejected (Story 68D) because CPU contention makes every
+concurrent variant slower and trips cold-start `fixture-ready` timeouts.
+Each suite uses loopback-only
 deterministic fixtures. Environment overrides such as `PLAYWRIGHT_MODULE`,
 `CHROMIUM_EXECUTABLE`, and suite-specific `*_UI_URL` values remain available for
 nonstandard local installations and are not overwritten when explicitly set.

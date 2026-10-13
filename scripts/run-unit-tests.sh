@@ -22,6 +22,17 @@
 # The runner fails clearly when no unit tests are selected, so a broken
 # convention cannot silently pass with zero tests.
 #
+# File-level concurrency is pinned with Node's built-in `--test-concurrency`
+# (Story 68B). The canonical Docker test image runs on 4 CPUs, and the offline
+# suite is a mix of CPU work and I/O (file reads, subprocess spawns), so the
+# measured optimum is the CPU count rather than Node's default
+# (`availableParallelism() - 1`). Measurements on the 4-CPU image: concurrency
+# 1 ~= 13 s, 2 ~= 7 s, 3 (default) ~= 5.3-6.2 s, 4 ~= 4.8-5.2 s, 6 ~= 6.9 s,
+# 8 ~= 6.6 s. Pinning 4 is repeatably at or near the best for both the plain
+# suite and the coverage run, and it keeps the process count bounded when
+# `npm run verify` runs several jobs concurrently. This is a single knob; revert
+# it to restore Node's default.
+#
 # POSIX sh only: no bash arrays, no GNU-only tools, no eval. File names are
 # passed to Node as separate, quoted arguments so spaces or glob characters in
 # a path cannot be re-split or expanded.
@@ -31,6 +42,10 @@ set -eu
 # Resolve the repository root deterministically, independent of the caller's
 # current directory.
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+
+# File-level test concurrency (Story 68B). See the header for the measurement
+# rationale; 4 matches the canonical 4-CPU Docker test image.
+TEST_CONCURRENCY=4
 
 COVERAGE=0
 if [ "${1:-}" = "--coverage" ]; then
@@ -103,9 +118,10 @@ if [ "$COVERAGE" -eq 1 ]; then
     --test-coverage-lines=100 \
     --test-coverage-branches=100 \
     --test-coverage-functions=100 \
+    --test-concurrency="$TEST_CONCURRENCY" \
     --test $selected
 else
   # shellcheck disable=SC2086
-  exec node --test $selected
+  exec node --test-concurrency="$TEST_CONCURRENCY" --test $selected
 fi
 

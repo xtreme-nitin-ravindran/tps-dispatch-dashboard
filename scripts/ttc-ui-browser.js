@@ -57,11 +57,6 @@ for(const width of [320,375,390,430,768,1440]) {
  }
  assert.equal((await diag()).selected,'fixture-detour');
  if(width<=430) assert.equal(await page.locator('#mobileClosureDetail').isVisible(),true);
- if(width===390) {
-  // Exercise the real minute-based summary refresh while a TTC detail is selected.
-  await page.waitForTimeout(61000);
-  assert.equal(await page.locator('#mobileSheetSummary').textContent(),'504 King');
- }
  for(const theme of ['light','dark']) {
   await page.selectOption('#themePreference',theme);
   await page.locator('#dispatchMap').scrollIntoViewIfNeeded();
@@ -136,6 +131,29 @@ for(const width of [320,375,390,430,768,1440]) {
  assert.deepEqual(errors,[]);
  const maxLongTask=await page.evaluate(()=>Math.max(0,...window.ttcLongTasks));assert.ok(maxLongTask<2000);
  results.push({width,errors,layers:(await diag()).layers,cycles:12,initialMaxLongTask,maxLongTask});await page.close();
+}
+// Story 68C: the app's real minute-based summary refresh (setInterval 60000 in
+// src/app/app.js) must not clobber a focused TTC detail's summary. This used to
+// be exercised with a 61-second wall-clock wait; Playwright clock emulation now
+// drives the same interval deterministically. The clock is installed only for
+// this isolated page so the six-width loop above keeps real time (Leaflet and
+// fixture readiness are unaffected).
+{
+ const page=await browser.newPage({viewport:{width:390,height:900}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ const clockBase=Date.now();
+ await page.clock.install({time:clockBase});
+ await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&mobileAuditView=calls&ttcFixture=confirmed`,{waitUntil:'networkidle'});
+ await awaitFixtureReady(page);
+ await page.waitForSelector('#observedDiversionsList .incident-card',{state:'attached'});
+ await page.locator('#observedDiversionsList .incident-card').first().click();
+ assert.equal(await page.locator('#mobileClosureDetail').isVisible(),true);
+ assert.equal(await page.locator('#mobileSheetSummary').textContent(),'504 King');
+ // Advance the emulated clock exactly one minute so the real
+ // setInterval(...,60000) fires renderNearbySummary() while the detail is focused.
+ await page.clock.runFor(60000);
+ assert.equal(await page.locator('#mobileSheetSummary').textContent(),'504 King');
+ assert.deepEqual(errors,[]);
+ results.push({scenario:'minute-tick-clock',summary:await page.locator('#mobileSheetSummary').textContent()});await page.close();
 }
 // A real confirmed public path with no official references remains selectable.
 {
