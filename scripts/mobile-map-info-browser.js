@@ -10,7 +10,7 @@ import {
   assertInViewport,
   assertNoHorizontalOverflow
 } from './lib/mobile-chrome-assert.js';
-import { awaitFixtureReady } from './lib/browser-fixture.js';
+import { awaitFixtureReady, awaitUiState } from './lib/browser-fixture.js';
 import { createBrowserTiming, resolveTimingFormat } from './lib/browser-timing.js';
 
 const timing = createBrowserTiming();
@@ -218,15 +218,15 @@ try {
     await page.locator('#mobileFocusFilterSummary').evaluate(el => {
       el.textContent = 'Toronto-wide · Last 24 hours · Fire and Police · Event: fire · '.repeat(5);
     });
-    await page.waitForFunction(() => {
+    await awaitUiState(page, () => {
       const r = document.querySelector('#mobileFocusFilterSummary').getBoundingClientRect();
       return Math.abs(parseFloat(document.documentElement.style.getPropertyValue('--mobile-summary-bottom')) - r.bottom) < 2;
-    }, null, { timeout: 5000 });
+    }, { description: 'summary bottom offset' });
     await assertClosed(page, viewport);
     await page.locator('#mobileMapInfoToggle').click();
     await assertPanel(page, viewport, 'info');
     await page.setViewportSize({ width: viewport.height, height: viewport.width });
-    await page.waitForFunction(() => document.querySelector('#mapInfo').getBoundingClientRect().width > 0, null, { timeout: 5000 });
+    await awaitUiState(page, () => document.querySelector('#mapInfo').getBoundingClientRect().width > 0, { description: 'rotated map-info panel' });
     await assertPanel(page, { width: viewport.height, height: viewport.width, name: 'rotated' }, 'info');
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
     await page.waitForFunction(() => document.querySelector('#mapInfo').open);

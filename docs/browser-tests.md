@@ -76,6 +76,16 @@ to fixture startup. Helper tests that require a single failed attempt must pass
 `{ retries: 0 }`. For asynchronous UI assertions, use bounded waits for the expected
 rendered state instead of fixed sleeps.
 
+Post-readiness UI predicates (for example the selected-incident card the app marks
+`.selected` during an async render pass) use the companion helper
+`awaitUiState(page, predicate, options?)` from `scripts/lib/browser-fixture.js`. It
+applies the same bounded-retry handshake as `awaitFixtureReady` — a 5-second
+per-attempt budget with one retry by default — so a cold-start stall of the async
+render pass does not fail the suite, while a genuinely broken predicate still fails
+fast. The expected state must still be reached before assertions run, so no assertion
+is weakened. Pass `{ retries: 0 }` in helper tests that require a single failed
+attempt.
+
 Use an individual `test:*:browser` script for a targeted implementation loop. Run the
 aggregate command before completing a story whose correctness depends on rendered-browser
 behavior. The aggregate browser suites remain outside Docker, CI, `npm run verify`, and
