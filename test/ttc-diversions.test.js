@@ -291,6 +291,28 @@ test('[STORY-57] Story 57: a validation failure during polling writes the diagno
     await assert.rejects(runVehiclePolling({...fresh,statePath:`${dir}/vehicles-3.json`,inferenceStatePath:`${dir}/diversion-state-3.json`,polls:1,fixture:fixture.slice(0,1),infer:failing}),/Invalid TTC diversion state/);
   } finally { await rm(dir,{recursive:true,force:true}); }
 });
+test('[STORY-69] Story 69: an infer-only validation failure writes the diagnostic and still fails loudly',async()=>{
+  const dir=await mkdtemp(`${tmpdir()}/ttc-diversions-infer-seam-`);
+  try {
+    // The infer-only path requires a valid Story 30D vehicle-state file to reuse.
+    const options={statePath:`${dir}/vehicles.json`,outputPath:`${dir}/deviations.json`,inferenceStatePath:`${dir}/diversion-state.json`,inferenceOutputPath:`${dir}/diversions.json`,loadStatic:async()=>({index}),log:()=>{},wait:async()=>{},clock:()=>at(0),inferOnly:true};
+    await writeFile(options.statePath,JSON.stringify(empty(0)));
+    // A rejected inference state is captured before the offline diagnostic fails loudly.
+    const bad=structuredClone(run().state);bad.records[0].geometrySource='ttc-official';
+    const failing=()=>{const e=new Error('Invalid TTC diversion state');e.rejectedState=bad;throw e;};
+    await assert.rejects(runVehiclePolling({...options,diagnosticPath:`${dir}/diagnostic.json`,infer:failing}),/Invalid TTC diversion state/);
+    const captured=JSON.parse(await readFile(`${dir}/diagnostic.json`,'utf8'));
+    assert.equal(captured.diagnostic.reason,'identity');
+    assert.equal(captured.state.records[0].id,bad.records[0].id);
+    // Without a configured path the seam is inert and the failure still propagates.
+    const saved=process.env.TTC_DIVERSION_DIAGNOSTIC;delete process.env.TTC_DIVERSION_DIAGNOSTIC;
+    try {
+      await writeFile(`${dir}/vehicles-2.json`,JSON.stringify(empty(0)));
+      await assert.rejects(runVehiclePolling({...options,statePath:`${dir}/vehicles-2.json`,inferenceStatePath:`${dir}/diversion-state-2.json`,diagnosticPath:undefined,infer:failing}),/Invalid TTC diversion state/);
+    } finally { if (saved!==undefined) process.env.TTC_DIVERSION_DIAGNOSTIC=saved; }
+    await assert.rejects(readFile(`${dir}/inert.json`,'utf8'),/ENOENT/);
+  } finally { await rm(dir,{recursive:true,force:true}); }
+});
 test('[STORY-30E][STORY-30G] point/time bounds mark long episodes unusable instead of creating shortcuts',()=>{
   const long=Array.from({length:130},(_,i)=>i===0?path[0]:[43.652,-79.403+(i%10)*.0002]);
   const r=run({paths:[long],step:10});assert.ok(r.state.episodes.length>0);assert.ok(r.state.episodes.every(e=>e.points.length<=DIVERSION_POLICY.maxPoints));assert.equal(r.output.diversions.length,0);
