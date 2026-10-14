@@ -17,6 +17,7 @@ export function memorySink({ failPut = false } = {}) {
       objects.set(key, body);
     },
     async get(key) { return objects.get(key); },
+    async delete(key) { objects.delete(key); },
     async list(prefix) { return [...objects.keys()].filter(key => key.startsWith(prefix)); }
   };
 }
