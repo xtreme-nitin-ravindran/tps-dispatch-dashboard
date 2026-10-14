@@ -579,6 +579,29 @@ test('[STORY-30E][STORY-30G] Story 57: incompatible static/context/path never in
   const separate=run({paths:[south,south],start:450}).state;separate.persistence=r.state.persistence;
   assert.equal(completeDiversionCapture(separate,{healthy:true}).state.persistence.length,2);
 });
+test('[STORY-30E][STORY-30G] Story 57: an earned latch whose id collides with a divergent surviving record is dropped, never duplicated',()=>{
+  // Regression: inferDiversions carries previous.persistence forward unchanged and
+  // calls diversionOutput before completeDiversionCapture reconciles it. A record can
+  // inherit the latch id via identityAnchor compatibility while its own geometry
+  // diverges beyond corridorMeters, so the latch is not filtered out and both share
+  // an id. diversionOutput must drop the stale latch rather than emit a duplicate.
+  const earned=earnedCapture(),latch=earned.state.persistence[0].record;
+  const rec=structuredClone(earned.state.records[0]);
+  // Keep the endpoints identical so only the corridor distance separates the paths.
+  rec.departure=structuredClone(latch.departure);rec.rejoin=structuredClone(latch.rejoin);
+  rec.scheduledAffectedSegment={...rec.scheduledAffectedSegment,fromMeters:rec.departure.progressMeters,toMeters:rec.rejoin.progressMeters};
+  const g=rec.geometry.map(x=>[...x]);
+  g[Math.floor(g.length/2)]=[g[Math.floor(g.length/2)][0]+0.0015,g[Math.floor(g.length/2)][1]+0.0015];
+  g[0]=[...latch.departure.point];g[g.length-1]=[...latch.rejoin.point];
+  rec.geometry=g;
+  assert.ok(trajectorySimilarity(latch,rec)>DIVERSION_POLICY.corridorMeters);
+  const state={...structuredClone(earned.state),records:[rec],persistence:earned.state.persistence};
+  const output=diversionOutput(state);
+  assert.equal(output.diversions.length,1);
+  assert.equal(output.diversions[0].id,latch.id);
+  assert.equal(output.diversions[0].persistenceEarned,undefined);
+  validateDiversionOutput(output,index);
+});
 test('[STORY-30E][STORY-30G] Story 57: persistence schema validates bounded counts, snapshots and retained output contracts',()=>{
   const r=earnedCapture();validateDiversionState(r.state,index);validateDiversionOutput(r.output,index);
   for(const mutate of [s=>s.persistence={},s=>s.persistence=[null],s=>s.captureHealthy='yes',s=>s.captureComplete='yes',s=>s.persistence[0].confirmedCaptures=3,

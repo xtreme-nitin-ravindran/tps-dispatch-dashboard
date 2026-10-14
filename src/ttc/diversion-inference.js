@@ -289,9 +289,17 @@ export function diversionOutput(state) {
   const earned=(state.persistence || []).filter(e=>e.confirmedCaptures===DIVERSION_POLICY.confirmationCaptures);
   const now=Date.parse(state.checkedAt);
   const diversions=state.status==='ok'?state.records.map(recordOutput).filter(r=>!earned.some(e=>compatible(e.record,r))):[];
+  // An earned latch whose id collides with a surviving record of a different path
+  // must not be prepended: the two would share an id and fail validation. This
+  // mirrors completeDiversionCapture's "an id collision with a different path must
+  // never reuse its confirmation" guard. The surviving record is the current
+  // observed path; the stale latch is dropped rather than duplicated.
+  const present=new Set(diversions.map(r=>r.id));
   for (const e of earned) {
     if (e.healthyAbsences>=DIVERSION_POLICY.absenceCaptures||Date.parse(e.record.expiresAt)<=now) continue;
+    if (present.has(e.record.id)) continue;
     const r=e.record;
+    present.add(r.id);
     diversions.unshift({...r,persistenceEarned:true,retained:state.status!=='ok'||state.captureHealthy===false||e.healthyAbsences>0});
   }
   const routes=new Map();
