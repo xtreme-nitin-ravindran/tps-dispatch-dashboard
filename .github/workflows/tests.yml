@@ -130,7 +130,7 @@ jobs:
       - name: Documentation-only change; no coverage to publish
         if: needs.changes.outputs.docs_only == 'true'
         run: echo "Documentation-only change; coverage badges left unchanged."
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         if: needs.changes.outputs.docs_only != 'true'
         with:
           name: coverage-badges
