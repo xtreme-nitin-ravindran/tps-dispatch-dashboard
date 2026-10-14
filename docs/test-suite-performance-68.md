@@ -537,3 +537,75 @@ genuinely broken predicate. Applied to the three suites' 5 s predicates:
 Rollback: revert the three suites to their bare 5 s `page.waitForFunction` calls
 and remove `awaitUiState`; the suites return to their intermittent cold-start
 behavior.
+
+---
+
+## Story 68 revisited — October 14, 2026
+
+Follow-up pass over Story 68 after Stories 69-72 landed (Node 26 image, 1519
+offline tests). Measured first; the adopted changes are diagnostics only — no
+test removed, no acceptance weakened, no production behavior changed.
+
+### Current baselines (warm image / host, October 14, 2026)
+
+| Command | Duration | Notes |
+| --- | --- | --- |
+| `npm run verify:fast` | ~10 s | unit suite `duration_ms` 6 869 |
+| `npm run verify` (default jobs) | 12-13 s | all checks + exact 100/100/100 |
+| `VERIFY_JOBS=1 npm run verify` | ~24 s | lint 2 s, LA suite 6 s, python 3 s, integration 5 s, coverage 7 s |
+| `npm run test:browser` | ~82 s | all 8 suites pass; TTC suite ~30-34 s under host load |
+
+### Adopted changes (diagnostics; no behavior change)
+
+1. **`scripts/verify.sh` per-job elapsed reporting** (the recorded 68B
+   candidate). Both schedulers now report each job's duration
+   (`==> [lint] passed (2s)`) and both mode summaries print the overall
+   elapsed (`==> All required checks passed in 12s`). Per-stage timing no
+   longer requires external timestamping or `VERIFY_JOBS=1`. Covered by two
+   `[INFRA-VERIFY]` structural tests in `test/verify-script.test.js`.
+2. **Per-width `assertions:<width>` spans in `scripts/ttc-ui-browser.js`.**
+   The six-width assertion bodies were previously invisible to
+   `BROWSER_TIMING=json` (the 68D correction had to be re-measured by hand).
+   The suite now emits them permanently.
+3. **`--test-concurrency=4` re-validated on Node 26** (image upgraded by
+   Story 71; suite grown to 1519 tests): 2 ~= 9.6 s, 3 ~= 5.4 s, 4 ~= 5.3 s,
+   5 ~= 6.6 s, 6 ~= 6.7 s. The pin is unchanged; the `scripts/run-unit-tests.sh`
+   header now records the re-validation.
+4. **Six-width identity-cycle split** (approved October 14, 2026). The TTC
+   suite's 12-cycle theme/overlay/zoom identity exercise now runs in full only
+   at the canonical widths (390 px mobile, 1440 px desktop); the other four
+   widths (320/375/430/768) run a reduced 3-cycle pass so the identity
+   property is still exercised at every width. Every per-width layout,
+   visibility, geometry, and long-task assertion is unchanged. Measured
+   isolated: assertion bodies 25.7 s -> 18.4 s; span total 33.0 s -> 24.7 s;
+   the aggregate `npm run test:browser` fell 103.2 s -> 81.8 s (all suites
+   green). The deep 100-cycle identity property remains covered in-process by
+   `test/ttc-ui.test.js` (`[STORY-30F]`).
+
+### Measured TTC breakdown (isolated run with the new spans)
+
+| Width | page-goto | assertions (before) | assertions (after) |
+| --- | --- | --- | --- |
+| 320 | 1.2 s | 4.7 s | 3.2 s |
+| 375 | 1.1 s | 4.2 s | 2.8 s |
+| 390 | 1.1 s | 5.9 s | 6.0 s (full 12 cycles) |
+| 430 | 1.0 s | 4.4 s | 2.8 s |
+| 768 | 1.1 s | 3.2 s | 1.4 s |
+| 1440 | 1.5 s | 3.2 s | 2.2 s (full 12 cycles) |
+
+The six page loads total ~7 s and the assertion batteries ~18 s after the
+split; the extra scenario pages add ~5 s. The remaining TTC cost is the
+per-width battery that stays at every width (layout/visibility/geometry/
+long-task assertions plus the reduced identity pass) and the two full
+12-cycle passes at the canonical widths.
+
+### Considered and not adopted (would weaken or risk acceptance)
+
+- Splitting the six-width battery further (dropping the identity loop
+  entirely at some widths, or reducing below 3 cycles) — the adopted 12/3
+  split already captures the measured win; deeper cuts would reduce per-width
+  regression coverage and need a fresh acceptance decision.
+- `waitUntil: 'networkidle'` → `'domcontentloaded'` for the TTC pages —
+  maybe ~0.5 s per page, but changes what the long-task observer captures and
+  the timing of assertions relative to tile loads; not adopted without
+  evidence of a stable win.

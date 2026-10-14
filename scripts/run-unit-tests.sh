@@ -33,6 +33,11 @@
 # `npm run verify` runs several jobs concurrently. This is a single knob; revert
 # it to restore Node's default.
 #
+# Re-validated on Node 26 with the grown suite (Story 68 revisit, October 14,
+# 2026; 1519 tests): concurrency 2 ~= 9.6 s, 3 ~= 5.4 s, 4 ~= 5.3 s, 5 ~= 6.6 s,
+# 6 ~= 6.7 s. Concurrency 4 remains the measured optimum, so the pinned constant
+# is unchanged.
+#
 # POSIX sh only: no bash arrays, no GNU-only tools, no eval. File names are
 # passed to Node as separate, quoted arguments so spaces or glob characters in
 # a path cannot be re-split or expanded.

@@ -48,6 +48,10 @@
 
 set -eu
 
+# Epoch-seconds reference for the overall elapsed report. POSIX `date +%s`
+# works on both macOS and Linux.
+START_EPOCH=$(date +%s)
+
 # Resolve the repository root deterministically, independent of the caller's
 # current directory, so the wrapper is always invoked from the same place.
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
@@ -285,6 +289,7 @@ launch_job() {
   log="$LOG_DIR/$name.log"
   echo "==> [$name] started"
   (
+    date +%s >"$LOG_DIR/$name.start"
     status=0
     sh "$ROOT/scripts/docker-test.sh" "$@" >"$log" 2>&1 &
     child=$!
@@ -340,6 +345,12 @@ reap_job() {
   if [ -f "$LOG_DIR/$name.status" ]; then
     JOB_STATUS=$(cat "$LOG_DIR/$name.status")
   fi
+  JOB_ELAPSED="?"
+  if [ -f "$LOG_DIR/$name.start" ]; then
+    job_start=$(cat "$LOG_DIR/$name.start")
+    job_now=$(date +%s)
+    JOB_ELAPSED=$((job_now - job_start))
+  fi
 }
 
 run_full_parallel() {
@@ -370,10 +381,10 @@ run_full_parallel() {
       if [ "$JOB_STATUS" -ne 0 ]; then
         failed=1
         FAILED_NAMES="$FAILED_NAMES $first_name"
-        echo "==> [$first_name] FAILED (exit $JOB_STATUS)"
+        echo "==> [$first_name] FAILED (exit $JOB_STATUS, ${JOB_ELAPSED}s)"
         print_job_output "$first_name" 1
       else
-        echo "==> [$first_name] passed"
+        echo "==> [$first_name] passed (${JOB_ELAPSED}s)"
         print_job_output "$first_name" 0
       fi
     fi
@@ -409,12 +420,13 @@ run_full_sequential() {
     name=${entry%%|*}
     args=${entry#*|}
     echo "==> [$name] started"
+    job_start=$(date +%s)
     # shellcheck disable=SC2086
     if sh "$ROOT/scripts/docker-test.sh" $args; then
-      echo "==> [$name] passed"
+      echo "==> [$name] passed ($(( $(date +%s) - job_start ))s)"
     else
       status=$?
-      echo "==> [$name] FAILED (exit $status)" >&2
+      echo "==> [$name] FAILED (exit $status, $(( $(date +%s) - job_start ))s)" >&2
       failed=1
       FAILED_NAMES="$FAILED_NAMES $name"
       break
@@ -453,7 +465,8 @@ if [ "$FAST" -eq 1 ]; then
     echo "==> Running offline unit tests (TZ=UTC)"
     sh "$ROOT/scripts/docker-test.sh" env TZ=UTC npm test
   fi
-  echo "==> Fast verification passed (not final, pre-push, or promotion verification)"
+  elapsed=$(( $(date +%s) - START_EPOCH ))
+  echo "==> Fast verification passed in ${elapsed}s (not final, pre-push, or promotion verification)"
   exit 0
 fi
 
@@ -473,4 +486,4 @@ echo "==> Verifying generated snapshot is excluded from code changes"
 git diff --exit-code origin/main...HEAD -- data/current.json
 git diff --exit-code HEAD -- data/current.json
 
-echo "==> All required checks passed"
+echo "==> All required checks passed in $(( $(date +%s) - START_EPOCH ))s"
