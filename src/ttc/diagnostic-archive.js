@@ -25,6 +25,8 @@
 // geometry into accepted geometry — the rejected state is preserved verbatim
 // (and, when oversized, dropped rather than rewritten), never "fixed".
 
+import { mkdir, readdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
 import { diversionValidationDiagnostic, DIVERSION_POLICY } from './diversion-inference.js';
 
 export const DIAGNOSTIC_SCHEMA_VERSION = 1;
@@ -115,4 +117,57 @@ export async function archiveDiagnosticFailure({
     log({ source: 'ttc-diagnostic-archive', status: 'archival-failed', key: result.key, error: error.message || String(error) });
   }
   throw error;
+}
+
+// A filesystem-backed diagnostic spool. Each bundle is written atomically (temp
+// file then rename) under `<dir>/<key>`, where the key is the diagnostic object
+// key (`ttc-diagnostics/...`), so the retry pass re-PUTs the exact object.
+export function createDiagnosticFileSpool({ dir }) {
+  return {
+    async write(key, body) {
+      const target = resolve(dir, key);
+      await mkdir(dirname(target), { recursive: true });
+      await writeFile(`${target}.tmp`, body);
+      await rename(`${target}.tmp`, target);
+    },
+    async list() {
+      const files = [];
+      const walk = async (base, prefix) => {
+        let names;
+        try { names = await readdir(base, { withFileTypes: true }); }
+        catch (error) { if (error.code === 'ENOENT') return; throw error; }
+        for (const entry of names) {
+          const path = resolve(base, entry.name);
+          const key = prefix ? `${prefix}/${entry.name}` : entry.name;
+          if (entry.isDirectory()) await walk(path, key);
+          else files.push({ key, body: await readFile(path) });
+        }
+      };
+      await walk(resolve(dir), '');
+      return files;
+    },
+    async remove(key) {
+      await rm(resolve(dir, key), { force: true });
+    }
+  };
+}
+
+// Retry every spooled diagnostic bundle to R2, removing the spool entry on
+// success. Returns the flushed/remaining counts; a failure leaves the entry for
+// the next pass, so a transient R2 outage never loses a diagnostic bundle.
+export async function retryDiagnosticSpool({ spool, sink, log = () => {} }) {
+  if (!spool || typeof spool.list !== 'function' || typeof spool.remove !== 'function') throw new Error('Diagnostic spool retry requires a spool with list and remove');
+  if (!sink || typeof sink.put !== 'function') throw new Error('Diagnostic spool retry requires a sink with put');
+  const entries = await spool.list();
+  let flushed = 0;
+  for (const { key, body } of entries) {
+    try {
+      await sink.put(key, body);
+      await spool.remove(key);
+      flushed++;
+    } catch { /* leave the entry for the next pass */ }
+  }
+  const remaining = (await spool.list()).length;
+  if (flushed) log({ source: 'ttc-diagnostic-archive', status: 'spool-flushed', flushed, remaining });
+  return { flushed, remaining };
 }

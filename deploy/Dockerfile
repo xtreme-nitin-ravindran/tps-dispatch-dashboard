@@ -18,10 +18,10 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
 # Copy the application and script sources the services import at runtime. These
-# are copied explicitly (stable-to-volatile) rather than with a broad `COPY . .`.
+# are copied explicitly (stable-to-volatile) rather than with a broad `COPY . .`;
+# the published snapshot (data/) is fetched from R2, never baked into the image.
 COPY src ./src
 COPY scripts ./scripts
-COPY data ./data
 
 # The service entrypoint is explicit; the image does not run anything by default
 # so the Compose `command` selects collector or processor.

@@ -26,7 +26,7 @@ export const CAPTURE_OUTCOMES = Object.freeze(['ok', 'empty', 'unavailable', 'er
 // Capture classifications. `duplicate` and `identical-feed` are health metadata
 // only; `new-evidence` is the only classification that advances vehicle
 // evidence.
-export const CAPTURE_CLASSIFICATIONS = Object.freeze(['duplicate', 'identical-feed', 'new-evidence']);
+export const CAPTURE_CLASSIFICATIONS = Object.freeze(['duplicate', 'identical-feed', 'new-evidence', 'no-evidence']);
 
 const iso = s => typeof s === 'string' && Number.isFinite(Date.parse(s)) && new Date(s).toISOString() === s;
 const id = s => typeof s === 'string' && s.length > 0;
@@ -54,7 +54,12 @@ export function buildCapture({ feedId, sequence, requestedAt, completedAt,
   if (!id(contentHash)) throw new Error('Capture requires a contentHash');
   if (!CAPTURE_OUTCOMES.includes(outcome)) throw new Error(`Unknown capture outcome: ${outcome}`);
   if (!Number.isInteger(bytes) || bytes < 0) throw new Error('Capture bytes must be a non-negative integer');
-  const classification = classifyCapture({ contentHash, sourceUpdatedAt }, previous);
+  // A fetch that produced no usable feed (unavailable or error) is never new
+  // vehicle evidence, regardless of hash bookkeeping: it is classified as
+  // `no-evidence` health metadata.
+  const classification = outcome === 'ok' || outcome === 'empty'
+    ? classifyCapture({ contentHash, sourceUpdatedAt }, previous)
+    : 'no-evidence';
   // `bytes` is the payload byte count; zero means no payload was fetched, so the
   // payload reference is null. A non-zero count points at the raw-bytes object.
   const payload = bytes > 0 ? capturePayloadKey(feedId, sequence) : null;
@@ -311,6 +316,25 @@ export function createCaptureStore({ spool, sink, feedId = 'ttc-vehicles' }) {
       await spool.remove(sequence, feedId);
     },
     async pending() { return (await spool.list(feedId)).map(entry => entry.capture); },
+    // Resolve the first sequence for a fresh collector boot: one past the highest
+    // committed (R2) or still-pending (spool) sequence, so a restart continues the
+    // ordered index instead of resetting to 0 and colliding with the previous
+    // boot's objects. R2 being down at startup falls back to the spool-only max,
+    // which is exactly the case where pending entries must not be overwritten.
+    async nextSequence() {
+      let max = -1;
+      try {
+        const keys = await sink.list(`ttc-captures/${feedId}/`);
+        for (const key of keys) {
+          const sequence = sequenceFromKey(feedId, key);
+          if (sequence !== null && sequence > max) max = sequence;
+        }
+      } catch { /* R2 unavailable: the spool-only max below still protects pending entries */ }
+      for (const capture of (await spool.list(feedId)).map(entry => entry.capture)) {
+        if (Number.isInteger(capture.sequence) && capture.sequence > max) max = capture.sequence;
+      }
+      return max + 1;
+    },
     async flush() {
       const entries = await spool.list(feedId);
       let flushed = 0;

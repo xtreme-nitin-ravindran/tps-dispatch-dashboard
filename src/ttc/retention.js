@@ -21,7 +21,9 @@
 // data, another project's bucket, or checkpoint/static configuration, which live
 // under separately scoped prefixes.
 
+import { setTimeout as sleep } from 'node:timers/promises';
 import { captureKey } from './capture-store.js';
+import { retryDiagnosticSpool } from './diagnostic-archive.js';
 
 // Rolling raw-capture retention: six hours.
 export const RAW_RETENTION_MS = 6 * 3600 * 1000;
@@ -149,8 +151,35 @@ export async function runCleanup({ store, spool, now, cursor = -1, log = () => {
   for (const object of plan.delete) {
     await store.remove(object.sequence);
   }
-  log({ source: 'ttc-retention', status: 'cleanup', deleted: plan.delete.length, retained: plan.keep.length, lostRange: plan.lostRange });
-  return { deleted: plan.delete.length, retained: plan.keep.length, lostRange: plan.lostRange };
+  const oldestAgeMs = oldestObjectAge({ objects: plan.keep, now });
+  log({ source: 'ttc-retention', status: 'cleanup', deleted: plan.delete.length, retained: plan.keep.length, lostRange: plan.lostRange, oldestAgeMs });
+  return { deleted: plan.delete.length, retained: plan.keep.length, lostRange: plan.lostRange, oldestAgeMs };
+}
+
+// Execute the failure-bundle retention policy (24h / 256 MB, oldest first)
+// against the private `ttc-diagnostics/` prefix. A bundle whose `recordedAt`
+// cannot be read is treated as the oldest possible object, so corrupt bundles
+// are evicted first. The retention-scope guard keeps the pass off every other
+// prefix, and the oldest retained age is the safety-net monitor.
+export async function runDiagnosticRetention({ sink, now, log = () => {} }) {
+  if (!sink || typeof sink.list !== 'function' || typeof sink.get !== 'function' || typeof sink.delete !== 'function') {
+    throw new Error('Diagnostic retention requires a sink with list, get and delete');
+  }
+  const keys = await sink.list('ttc-diagnostics/');
+  const objects = [];
+  for (const key of keys) {
+    if (!isRetentionScopeKey(key)) continue;
+    const body = await sink.get(key);
+    if (body === undefined) continue;
+    let recordedAt = null;
+    try { recordedAt = JSON.parse(body).recordedAt; } catch { /* corrupt bundle: treated as the oldest object */ }
+    objects.push({ key, recordedAt: recordedAt ?? new Date(0).toISOString(), bytes: Buffer.byteLength(body) });
+  }
+  const plan = planDiagnosticRetention({ objects, now });
+  for (const object of plan.delete) await sink.delete(object.key);
+  const oldestAgeMs = oldestObjectAge({ objects: plan.keep, now });
+  log({ source: 'ttc-retention', status: 'diagnostic-cleanup', deleted: plan.delete.length, retained: plan.keep.length, oldestAgeMs });
+  return { deleted: plan.delete.length, retained: plan.keep.length, oldestAgeMs };
 }
 
 // Run the hourly cleanup on a schedule until `signal` aborts. `getCursor` reads
@@ -162,14 +191,19 @@ export async function runCleanup({ store, spool, now, cursor = -1, log = () => {
 export async function runCleanupLoop({
   store,
   spool,
+  sink,
+  diagnosticSpool,
   getCursor = async () => -1,
   run = runCleanup,
+  runDiagnostics = runDiagnosticRetention,
+  retryDiagnostics = retryDiagnosticSpool,
   intervalMs = 3600000,
   clock = () => new Date(),
   signal,
-  wait = ms => new Promise(resolve => setTimeout(resolve, ms)),
+  wait = (ms, s) => sleep(ms, undefined, { signal: s }),
   feedId = 'ttc-vehicles',
-  log = () => { }
+  log = () => { },
+  onHealth = () => { }
 }) {
   if (!signal) throw new Error('runCleanupLoop requires a signal');
   while (!signal.aborted) {
@@ -177,11 +211,31 @@ export async function runCleanupLoop({
       const cursor = await getCursor();
       const result = await run({ store, spool, now: clock(), cursor, feedId, log });
       log({ source: 'ttc-retention', status: 'cleanup-pass', ...result });
+      if (typeof store.spoolDepth === 'function') {
+        onHealth('spool', { depth: await store.spoolDepth() });
+      }
+      if (sink) {
+        try {
+          const diagnosticResult = await runDiagnostics({ sink, now: clock(), log });
+          log({ source: 'ttc-retention', status: 'diagnostic-pass', ...diagnosticResult });
+        } catch (error) {
+          log({ source: 'ttc-retention', status: 'cleanup-failed', scope: 'diagnostics', error: error.message });
+        }
+        if (diagnosticSpool) {
+          try {
+            const retryResult = await retryDiagnostics({ spool: diagnosticSpool, sink, log });
+            if (retryResult.flushed || retryResult.remaining) log({ source: 'ttc-retention', status: 'diagnostic-spool', ...retryResult });
+          } catch (error) {
+            log({ source: 'ttc-retention', status: 'cleanup-failed', scope: 'diagnostic-spool', error: error.message });
+          }
+        }
+      }
     } catch (error) {
       log({ source: 'ttc-retention', status: 'cleanup-failed', error: error.message });
     }
     if (signal.aborted) break;
-    await wait(intervalMs);
+    try { await wait(intervalMs, signal); }
+    catch (error) { if (error.name !== 'AbortError') throw error; }
   }
   return { aborted: signal.aborted };
 }

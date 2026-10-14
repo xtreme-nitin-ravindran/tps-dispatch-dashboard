@@ -43,6 +43,7 @@ export function buildReplay({
   getBytes,
   parse = parseTtcVehicles,
   detect = detectVehicles,
+  geometryCache = new Map(),
   log = () => { }
 } = {}) {
   if (typeof getBytes !== 'function') throw new Error('buildReplay requires a getBytes function');
@@ -57,7 +58,7 @@ export function buildReplay({
         feed = null;
       }
     }
-    const result = detect(previous, feed, index, now, undefined, { log });
+    const result = detect(previous, feed, index, now, undefined, { geometryCache, log });
     return { state: result.state, report: result.report };
   };
 }
@@ -91,6 +92,7 @@ export async function withOwnership({
   ttlMs,
   renewIntervalMs = ttlMs / 2,
   signal,
+  onLost = () => {},
   setIntervalImpl = setInterval,
   clearIntervalImpl = clearInterval,
   log = () => { }
@@ -111,8 +113,18 @@ export async function withOwnership({
     log({ source: 'ttc-runtime', status: 'ownership-released', ownerId });
   };
   timer = setIntervalImpl(async () => {
-    const ok = await renew({ sink, key, ownerId, ttlMs });
-    if (!ok) log({ source: 'ttc-runtime', status: 'ownership-renewal-failed', ownerId });
+    // A renewal that fails (or throws, for example a transient R2 error) means
+    // the lease is no longer ours to hold. Continuing would risk a second live
+    // writer, so the loss is reported to the caller, which aborts the service
+    // and lets the ownership TTL arbitrate a successor. Renewal errors must
+    // never become unhandled rejections.
+    let ok = false;
+    try { ok = await renew({ sink, key, ownerId, ttlMs }); }
+    catch (error) { log({ source: 'ttc-runtime', status: 'ownership-renewal-error', ownerId, error: error.message }); }
+    if (!ok) {
+      log({ source: 'ttc-runtime', status: 'ownership-lost', ownerId });
+      onLost();
+    }
   }, renewIntervalMs);
   signal.addEventListener('abort', releaseOnce, { once: true });
   return { acquired: true, ownerId, release: releaseOnce };

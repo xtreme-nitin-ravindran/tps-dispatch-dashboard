@@ -8,9 +8,11 @@
 #                expiry, and publishes confirmed geometry to data/ttc-diversions.json.
 #
 # Single-writer interlock: each service acquires a TTL lease under an ownership
-# prefix before starting and releases it on shutdown. The `ownership-prefix` (and
-# the capture/diagnostic prefixes) are environment-scoped so a development stack
-# can never contend with the production writer's lease or bucket.
+# prefix before starting and releases it on shutdown. The ownership prefix and
+# the R2 bucket are environment-scoped, so a development stack can never contend
+# with the production writer's lease or bucket. The capture and diagnostic
+# object prefixes are fixed in code; isolation comes from the bucket + ownership
+# prefix, never from renaming object prefixes.
 #
 # Graceful shutdown + automatic restart: `stop_grace_period` lets the service
 # release its lease; `restart: unless-stopped` (and, on a systemd-enabled host,
@@ -26,9 +28,8 @@ services:
     restart: unless-stopped
     environment:
       ROLE: collector
-      OWNER_ID: ttc-collector-1
       OWNERSHIP_PREFIX: ${OWNERSHIP_PREFIX:-ttc-ownership}
-      CAPTURE_PREFIX: ${CAPTURE_PREFIX:-ttc-captures}
+      TTC_HEALTH_PORT: "8764"
       R2_ENDPOINT: ${R2_ENDPOINT}
       R2_BUCKET: ${R2_BUCKET}
       R2_ACCESS_KEY_ID: ${R2_ACCESS_KEY_ID}
@@ -57,18 +58,18 @@ services:
     restart: unless-stopped
     environment:
       ROLE: processor
-      OWNER_ID: ttc-processor-1
       OWNERSHIP_PREFIX: ${OWNERSHIP_PREFIX:-ttc-ownership}
-      CAPTURE_PREFIX: ${CAPTURE_PREFIX:-ttc-captures}
-      DIAGNOSTIC_PREFIX: ${DIAGNOSTIC_PREFIX:-ttc-diagnostics}
+      TTC_HEALTH_PORT: "8765"
       R2_ENDPOINT: ${R2_ENDPOINT}
       R2_BUCKET: ${R2_BUCKET}
       R2_ACCESS_KEY_ID: ${R2_ACCESS_KEY_ID}
       R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY}
       R2_REGION: ${R2_REGION:-auto}
-      # Advisories are loaded from the published incident snapshot for official
-      # alert-support context; a missing snapshot is a `not-loaded` contract.
+      # Advisories are loaded per drain from the published incident snapshot for
+      # official alert-support context; a missing snapshot is the `not-loaded`
+      # contract, and the GTFS-RT alert cache refreshes once per drain.
       TTC_ADVISORY_SNAPSHOT: ${TTC_ADVISORY_SNAPSHOT:-}
+      TTC_BUILD_VERSION: ${TTC_BUILD_VERSION:-unversioned}
       TTC_STATIC_CACHE: /app/state/surface.zip
       TTC_CHECKPOINT_PATH: /app/state/ttc-checkpoint.json
     volumes:

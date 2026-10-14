@@ -19,10 +19,11 @@ import { buildCapture, validateCapture } from './capture-store.js';
 // Default raw-feed fetch. Returns the raw protobuf bytes, the source timestamp
 // and a fetch outcome. The content hash is over the raw bytes, so an identical
 // feed is detected even when the header timestamp advances.
-export async function fetchVehicleCapture(now = new Date(), fetchImpl = fetch) {
+export async function fetchVehicleCapture(now = new Date(), fetchImpl = fetch, signal) {
   let bytes;
+  const timeout = signal ? AbortSignal.any([AbortSignal.timeout(12000), signal]) : AbortSignal.timeout(12000);
   try {
-    const response = await fetchImpl(TTC_VEHICLES_URL, { signal: AbortSignal.timeout(12000) });
+    const response = await fetchImpl(TTC_VEHICLES_URL, { signal: timeout });
     if (!response.ok) throw new Error(`TTC vehicles HTTP ${response.status}`);
     const chunks = []; let size = 0;
     for await (const chunk of response.body) {
@@ -58,13 +59,22 @@ export async function runCollector({
   wait = sleep,
   log = () => {},
   signal,
+  onHealth = () => {},
   maxIterations = Infinity,
   spoolLimit = 720,
   driftToleranceMs = 10000,
   gapThresholdMs = 60000
 }) {
-  if (!store || typeof store.commit !== 'function' || typeof store.spoolDepth !== 'function' || typeof store.pending !== 'function' || typeof store.flush !== 'function') throw new Error('Collector requires a capture store');
+  if (!store || typeof store.commit !== 'function' || typeof store.spoolDepth !== 'function' || typeof store.pending !== 'function' || typeof store.flush !== 'function' || typeof store.nextSequence !== 'function') throw new Error('Collector requires a capture store');
   const start = +clock();
+  // Recover pending spool entries from a previous boot before collecting, so a
+  // crash during an R2 outage never strands already-observed captures.
+  const recovered = await store.flush();
+  if (recovered.flushed) log({ source: 'ttc-collector', status: 'spool-recovered', ...recovered });
+  // Continue the ordered index across restarts: the first capture of this boot
+  // is one past the highest sequence already committed or spooled, so the
+  // processor cursor never skips post-restart captures.
+  let sequence = await store.nextSequence();
   const gaps = [];
   let polls = 0, previousStart = null, previousCapture, spoolDepth = 0;
   for (let n = 0; n < maxIterations; n++) {
@@ -85,13 +95,13 @@ export async function runCollector({
     const requestedAt = new Date(actualStart).toISOString();
     let outcome;
     try {
-      outcome = await fetchFeed(new Date(actualStart));
+      outcome = await fetchFeed(new Date(actualStart), signal);
     } catch (error) {
       outcome = { bytes: null, sourceUpdatedAt: null, outcome: 'error', error: error.message };
     }
     const completedAt = new Date(+clock()).toISOString();
     const capture = buildCapture({
-      feedId, sequence: n, requestedAt, completedAt,
+      feedId, sequence, requestedAt, completedAt,
       sourceUpdatedAt: outcome.sourceUpdatedAt ?? null,
       bytes: outcome.bytes ? outcome.bytes.length : 0,
       contentHash: outcome.contentHash ?? `error-${n}`,
@@ -100,6 +110,7 @@ export async function runCollector({
     });
     validateCapture(capture, previousCapture);
     previousCapture = capture;
+    sequence++;
     const result = await store.commit(capture, outcome.bytes ?? null);
     spoolDepth = await store.spoolDepth();
     // Spool saturation is bounded and alerted, never silently dropped. The
@@ -109,7 +120,17 @@ export async function runCollector({
       const pending = await store.pending();
       log({ source: 'ttc-collector', status: 'spool-saturated', spoolDepth, spoolLimit, oldestPending: pending[0].sequence });
     }
-    log({ source: 'ttc-collector', sequence: n, outcome: capture.outcome, classification: capture.classification, durable: result.durable, spoolDepth });
+    log({ source: 'ttc-collector', sequence: capture.sequence, outcome: capture.outcome, classification: capture.classification, durable: result.durable, spoolDepth });
+    // Private health telemetry: capture health is reported independently from
+    // processing and publication, and an upstream outage is `unavailable`,
+    // never conflated with zero results or an error.
+    onHealth('capture', {
+      status: capture.outcome === 'ok' || capture.outcome === 'empty'
+        ? (result.durable ? 'ok' : 'degraded')
+        : capture.outcome === 'unavailable' ? 'unavailable' : 'degraded',
+      outcome: capture.outcome, durable: result.durable, spoolDepth, sequence: capture.sequence
+    });
+    onHealth('spool', { depth: spoolDepth });
     polls++;
   }
   // Graceful shutdown flushes any pending spool entries to R2.

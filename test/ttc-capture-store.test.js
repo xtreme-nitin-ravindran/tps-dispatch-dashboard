@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, rm, writeFile, mkdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { buildCapture, classifyCapture, validateCapture, commitCapture, listCommitted, captureKey, capturePayloadKey, sequenceFromKey, createFileSpool, createR2CaptureSink, createCaptureSinkFromEnv, CAPTURE_SCHEMA_VERSION, MAX_CAPTURE_BYTES } from '../src/ttc/capture-store.js';
+import { buildCapture, classifyCapture, validateCapture, commitCapture, listCommitted, captureKey, capturePayloadKey, sequenceFromKey, createFileSpool, createR2CaptureSink, createCaptureSinkFromEnv, createCaptureStore, CAPTURE_SCHEMA_VERSION, MAX_CAPTURE_BYTES } from '../src/ttc/capture-store.js';
 import { memorySink, memorySpool } from './fixtures/ttc-capture/store.js';
 
 // Golden fixture for the identical-feed rule. New vehicle evidence requires a
@@ -44,6 +44,19 @@ test('[STORY-64] the first capture for a feed is new evidence', () => {
   const first = buildCapture({ ...base, contentHash: 'hash-1', sourceUpdatedAt: '2026-10-13T12:00:00.000Z' });
   assert.equal(first.classification, 'new-evidence');
   assert.equal(first.newEvidence, true);
+});
+
+test('[STORY-64] an unavailable or error outcome is no-evidence health metadata, never new evidence', () => {
+  const previous = buildCapture({ ...base, contentHash: 'hash-1', sourceUpdatedAt: '2026-10-13T12:00:00.000Z' });
+  for (const outcome of ['unavailable', 'error']) {
+    const capture = buildCapture({ ...base, sequence: 1, contentHash: `error-1`, sourceUpdatedAt: null, outcome, previous });
+    assert.equal(capture.classification, 'no-evidence', outcome);
+    assert.equal(capture.newEvidence, false, outcome);
+  }
+  // validateCapture accepts the no-evidence classification.
+  const capture = buildCapture({ ...base, sequence: 2, contentHash: 'error-2', sourceUpdatedAt: null, outcome: 'unavailable', previous });
+  assert.equal(validateCapture(capture, previous), capture);
+  assert.equal(validateCapture(capture).classification, 'no-evidence');
 });
 
 test('[STORY-64] classifyCapture is a pure comparison over hash and source timestamp', () => {
@@ -187,6 +200,30 @@ test('[STORY-64] captureKey and sequenceFromKey round-trip and reject foreign ke
   assert.equal(sequenceFromKey('ttc-vehicles', 'ttc-captures/other/000000000042.json'), null);
   assert.equal(sequenceFromKey('ttc-vehicles', 'ttc-captures/ttc-vehicles/not-a-number.json'), null);
   assert.equal(sequenceFromKey('ttc-vehicles', 'ttc-captures/ttc-vehicles/000000000042.txt'), null);
+});
+
+test('[STORY-64] nextSequence continues the ordered index across a collector restart', async () => {
+  const spool = memorySpool();
+  const sink = memorySink();
+  const store = createCaptureStore({ spool, sink });
+  // Fresh store: the first capture of a boot is sequence 0.
+  assert.equal(await store.nextSequence(), 0);
+  // A previous boot committed sequences 0..4; the next boot continues at 5.
+  for (const sequence of [0, 1, 4]) await commitCapture(captureAt(sequence, `hash-${sequence}`, '2026-10-13T12:00:00.000Z'), { spool, sink });
+  assert.equal(await store.nextSequence(), 5);
+  // A pending spool entry that never reached R2 still protects its sequence.
+  await spool.write(captureAt(9, 'hash-9', '2026-10-13T12:00:00.000Z'), null);
+  assert.equal(await store.nextSequence(), 10);
+});
+
+test('[STORY-64] nextSequence falls back to the spool when R2 listing fails at startup', async () => {
+  const spool = memorySpool();
+  const downSink = { ...memorySink(), list: async () => { throw new Error('R2 down'); } };
+  const store = createCaptureStore({ spool, sink: downSink });
+  assert.equal(await store.nextSequence(), 0);
+  // Pending entries are the only protection when R2 is unreachable.
+  await spool.write(captureAt(7, 'hash-7', '2026-10-13T12:00:00.000Z'), null);
+  assert.equal(await store.nextSequence(), 8);
 });
 
 test('[STORY-64] createFileSpool round-trips captures atomically and reports depth', async () => {

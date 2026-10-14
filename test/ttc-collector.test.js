@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { runCollector, fetchVehicleCapture } from '../src/ttc/collector.js';
 import { at, vehicle, protobuf } from './fixtures/ttc-vehicles/builders.js';
-import { createCaptureStore } from '../src/ttc/capture-store.js';
+import { createCaptureStore, captureKey } from '../src/ttc/capture-store.js';
 import { memorySink, memorySpool } from './fixtures/ttc-capture/store.js';
 import { virtualClock } from './fixtures/ttc-capture/clock.js';
 
@@ -56,8 +56,10 @@ test('[STORY-64] a fetch failure records outcome:error and the collector continu
   assert.equal(result.polls, 3);
   const captures = await h.store.list();
   assert.deepEqual(captures.map(c => c.outcome), ['ok', 'error', 'ok']);
-  // A failed poll is never treated as zero results: it is an explicit error.
-  assert.equal(captures[1].newEvidence, true);
+  // A failed poll is never treated as zero results and never counts as new
+  // vehicle evidence: it is explicit `no-evidence` health metadata.
+  assert.equal(captures[1].newEvidence, false);
+  assert.equal(captures[1].classification, 'no-evidence');
 });
 
 test('[STORY-64] an identical feed twice is health metadata, not new evidence', async () => {
@@ -151,9 +153,86 @@ test('[STORY-64] runCollector works with the default clock and log', async () =>
   assert.equal((await store.list()).length, 1);
 });
 
+test('[STORY-64] a collector restart continues the ordered index instead of resetting to sequence 0', async () => {
+  const spool = memorySpool();
+  const sink = memorySink();
+  const store = createCaptureStore({ spool, sink });
+  // The previous boot committed sequences 0..4; the processor cursor is at 4.
+  for (let sequence = 0; sequence < 5; sequence++) {
+    sink.objects.set(`ttc-captures/ttc-vehicles/${String(sequence).padStart(12, '0')}.json`, JSON.stringify({
+      feedId: 'ttc-vehicles', sequence, requestedAt: at(sequence * 30).toISOString(), completedAt: at(sequence * 30).toISOString(),
+      sourceUpdatedAt: null, bytes: 0, contentHash: `hash-${sequence}`, outcome: 'empty'
+    }));
+  }
+  const vc = virtualClock(START);
+  const result = await runCollector({ intervalMs: 30000, maxIterations: 3, store, clock: vc.clock, wait: vc.wait, fetchFeed: async now => feed(`h${+now}`, now.toISOString()) });
+  assert.equal(result.polls, 3);
+  // The new boot's captures continue above the previous boot's maximum, so the
+  // processor cursor (4) never skips a post-restart capture.
+  const captures = await store.list();
+  assert.deepEqual(captures.map(c => c.sequence).slice(-3), [5, 6, 7]);
+});
+
+test('[STORY-64] a collector restart recovers pending spool entries before collecting', async () => {
+  const spool = memorySpool();
+  const sink = memorySink();
+  const store = createCaptureStore({ spool, sink });
+  // A previous boot spooled sequence 2 during an R2 outage and never flushed it.
+  const pending = { feedId: 'ttc-vehicles', sequence: 2, requestedAt: at(60).toISOString(), completedAt: at(60).toISOString(), sourceUpdatedAt: null, bytes: 0, contentHash: 'hash-2', outcome: 'empty' };
+  await spool.write(pending, null);
+  const vc = virtualClock(START);
+  const logs = [];
+  await runCollector({ intervalMs: 30000, maxIterations: 2, store, clock: vc.clock, wait: vc.wait, log: e => logs.push(e), fetchFeed: async now => feed(`h${+now}`, now.toISOString()) });
+  // The startup flush recovered the pending entry to R2 and reported it.
+  assert.ok(sink.objects.has(captureKey('ttc-vehicles', 2)));
+  assert.ok(logs.some(e => e.status === 'spool-recovered' && e.flushed === 1));
+  // New captures start above both the recovered and the committed sequences.
+  const captures = await store.list();
+  assert.deepEqual(captures.map(c => c.sequence), [2, 3, 4]);
+});
+
+test('[STORY-64] the collector reports capture and spool health telemetry per poll', async () => {
+  const spool = memorySpool();
+  const sink = memorySink();
+  const store = createCaptureStore({ spool, sink });
+  const vc = virtualClock(START);
+  const health = [];
+  await runCollector({ intervalMs: 30000, maxIterations: 2, store, clock: vc.clock, wait: vc.wait, onHealth: (component, snapshot) => health.push({ component, snapshot }), fetchFeed: async now => feed(`h${+now}`, now.toISOString()) });
+  const captures = health.filter(h => h.component === 'capture');
+  assert.equal(captures.length, 2);
+  assert.deepEqual(captures.map(h => h.snapshot.status), ['ok', 'ok']);
+  assert.deepEqual(captures.map(h => h.snapshot.sequence), [0, 1]);
+  const spools = health.filter(h => h.component === 'spool');
+  assert.equal(spools.length, 2);
+  assert.deepEqual(spools.map(h => h.snapshot.depth), [0, 0]);
+});
+
+test('[STORY-64] the collector reports an upstream outage as unavailable health, never zero results', async () => {
+  const spool = memorySpool();
+  const sink = memorySink();
+  const store = createCaptureStore({ spool, sink });
+  const vc = virtualClock(START);
+  const health = [];
+  await runCollector({ intervalMs: 30000, maxIterations: 1, store, clock: vc.clock, wait: vc.wait, onHealth: (component, snapshot) => health.push({ component, snapshot }), fetchFeed: async () => ({ bytes: null, sourceUpdatedAt: null, outcome: 'unavailable' }) });
+  const capture = health.find(h => h.component === 'capture');
+  assert.equal(capture.snapshot.status, 'unavailable');
+  assert.equal(capture.snapshot.outcome, 'unavailable');
+});
+
 test('[STORY-64] runCollector requires a complete capture store', async () => {
   await assert.rejects(runCollector({ store: undefined }), /capture store/);
   await assert.rejects(runCollector({ store: { commit: async () => ({}) } }), /capture store/);
+});
+
+test('[STORY-64] fetchVehicleCapture combines its timeout with the caller\'s abort signal', async () => {
+  const controller = new AbortController();
+  controller.abort();
+  const aborted = await fetchVehicleCapture(at(0), async (url, options) => {
+    assert.equal(options.signal.aborted, true);
+    throw Object.assign(new Error('aborted'), { name: 'AbortError' });
+  }, controller.signal);
+  assert.equal(aborted.outcome, 'unavailable');
+  assert.equal(aborted.bytes, null);
 });
 
 test('[STORY-64] fetchVehicleCapture hashes raw bytes and classifies outcomes', async () => {

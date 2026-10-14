@@ -38,6 +38,20 @@ test('[STORY-64] buildReplay passes no feed for a capture without a payload', as
   assert.equal(detectedFeed, null);
 });
 
+test('[STORY-64] buildReplay shares one geometry cache across captures like the spike', async () => {
+  const seen = [];
+  const replay = buildReplay({
+    getBytes: async () => Buffer.from('x'),
+    parse: () => ({ observations: [] }),
+    detect: (previous, feed, index, now, alerts, opts) => { seen.push(opts.geometryCache); return { state: {}, report: {} }; }
+  });
+  await replay(capture(1, 'p1'), { previous: undefined, index: {}, now: new Date() });
+  await replay(capture(2, 'p2'), { previous: undefined, index: {}, now: new Date() });
+  assert.equal(seen.length, 2);
+  assert.ok(seen[0] instanceof Map);
+  assert.equal(seen[0], seen[1]);
+});
+
 test('[STORY-64] buildReplay treats a decode failure as an unavailable feed rather than throwing', async () => {
   const logged = [];
   const replay = buildReplay({
@@ -146,10 +160,52 @@ test('[STORY-64] withOwnership requires a signal', async () => {
   await assert.rejects(() => withOwnership({ sink: {}, key: 'k', ownerId: 'a', ttlMs: 100 }), /requires a signal/);
 });
 
-test('[STORY-64] withOwnership renewal failure is logged but does not abort the service', async () => {
+test('[STORY-64] a failed renewal reports the lost lease so the service aborts instead of double-writing', async () => {
   const logged = [];
   let timerCb;
+  let lost = 0;
   const handle = await withOwnership({
+    acquire: async () => ({ acquired: true, holder: 'a' }),
+    renew: async () => false,
+    release: async () => {},
+    sink: {}, key: 'k', ownerId: 'a', ttlMs: 30000, renewIntervalMs: 10,
+    signal: new AbortController().signal,
+    onLost: () => { lost++; },
+    setIntervalImpl: cb => { timerCb = cb; return 1; },
+    clearIntervalImpl: () => {},
+    log: entry => logged.push(entry)
+  });
+  await timerCb();
+  assert.equal(handle.acquired, true);
+  assert.equal(lost, 1);
+  assert.equal(logged[0].status, 'ownership-lost');
+});
+
+test('[STORY-64] a renew that throws is caught, logged, and reported as a lost lease', async () => {
+  const logged = [];
+  let timerCb;
+  let lost = 0;
+  await withOwnership({
+    acquire: async () => ({ acquired: true, holder: 'a' }),
+    renew: async () => { throw new Error('R2 down'); },
+    release: async () => {},
+    sink: {}, key: 'k', ownerId: 'a', ttlMs: 30000, renewIntervalMs: 10,
+    signal: new AbortController().signal,
+    onLost: () => { lost++; },
+    setIntervalImpl: cb => { timerCb = cb; return 1; },
+    clearIntervalImpl: () => {},
+    log: entry => logged.push(entry)
+  });
+  // The renewal callback must not become an unhandled rejection.
+  await timerCb();
+  assert.equal(lost, 1);
+  assert.equal(logged[0].status, 'ownership-renewal-error');
+  assert.equal(logged[1].status, 'ownership-lost');
+});
+
+test('[STORY-64] withOwnership defaults onLost so a lost lease without a handler never throws', async () => {
+  let timerCb;
+  await withOwnership({
     acquire: async () => ({ acquired: true, holder: 'a' }),
     renew: async () => false,
     release: async () => {},
@@ -157,12 +213,10 @@ test('[STORY-64] withOwnership renewal failure is logged but does not abort the 
     signal: new AbortController().signal,
     setIntervalImpl: cb => { timerCb = cb; return 1; },
     clearIntervalImpl: () => {},
-    log: entry => logged.push(entry)
+    log: () => {}
   });
+  // The default no-op onLost runs without throwing.
   await timerCb();
-  assert.equal(handle.acquired, true);
-  assert.equal(logged.length, 1);
-  assert.equal(logged[0].status, 'ownership-renewal-failed');
 });
 
 test('[STORY-64] withOwnership defaults its log when none is provided', async () => {
