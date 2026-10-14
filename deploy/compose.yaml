@@ -1,0 +1,87 @@
+# Story 64 — Compose deployment for the continuous TTC capture services.
+#
+# Two long-running services on one host:
+#   - collector  polls the TTC vehicle feed on a monotonic ~30s schedule and
+#                commits spool-first captures to the private R2 prefix.
+#   - processor  consumes committed captures in order, replays them through the
+#                existing detector/inference, checkpoints state, applies wall-clock
+#                expiry, and publishes confirmed geometry to data/ttc-diversions.json.
+#
+# Single-writer interlock: each service acquires a TTL lease under an ownership
+# prefix before starting and releases it on shutdown. The `ownership-prefix` (and
+# the capture/diagnostic prefixes) are environment-scoped so a development stack
+# can never contend with the production writer's lease or bucket.
+#
+# Graceful shutdown + automatic restart: `stop_grace_period` lets the service
+# release its lease; `restart: unless-stopped` (and, on a systemd-enabled host,
+# `restart: always`) brings a crashed process back — the TTL expiry recovers any
+# lease that a hard kill could not release.
+
+services:
+  collector:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    command: ["collector"]
+    restart: unless-stopped
+    environment:
+      ROLE: collector
+      OWNER_ID: ttc-collector-1
+      OWNERSHIP_PREFIX: ${OWNERSHIP_PREFIX:-ttc-ownership}
+      CAPTURE_PREFIX: ${CAPTURE_PREFIX:-ttc-captures}
+      R2_ENDPOINT: ${R2_ENDPOINT}
+      R2_BUCKET: ${R2_BUCKET}
+      R2_ACCESS_KEY_ID: ${R2_ACCESS_KEY_ID}
+      R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY}
+      R2_REGION: ${R2_REGION:-auto}
+      TTC_INTERVAL_MS: ${TTC_INTERVAL_MS:-30000}
+      TTC_SPOOL_LIMIT: ${TTC_SPOOL_LIMIT:-720}
+      TTC_STATIC_CACHE: /app/state/surface.zip
+    volumes:
+      - ttc-spool:/app/spool
+      - ttc-state:/app/state
+    # Loopback health only; the endpoint is not published to the host or network.
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8764/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    stop_grace_period: 30s
+
+  processor:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    command: ["processor"]
+    restart: unless-stopped
+    environment:
+      ROLE: processor
+      OWNER_ID: ttc-processor-1
+      OWNERSHIP_PREFIX: ${OWNERSHIP_PREFIX:-ttc-ownership}
+      CAPTURE_PREFIX: ${CAPTURE_PREFIX:-ttc-captures}
+      DIAGNOSTIC_PREFIX: ${DIAGNOSTIC_PREFIX:-ttc-diagnostics}
+      R2_ENDPOINT: ${R2_ENDPOINT}
+      R2_BUCKET: ${R2_BUCKET}
+      R2_ACCESS_KEY_ID: ${R2_ACCESS_KEY_ID}
+      R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY}
+      R2_REGION: ${R2_REGION:-auto}
+      # Advisories are loaded from the published incident snapshot for official
+      # alert-support context; a missing snapshot is a `not-loaded` contract.
+      TTC_ADVISORY_SNAPSHOT: ${TTC_ADVISORY_SNAPSHOT:-}
+      TTC_STATIC_CACHE: /app/state/surface.zip
+      TTC_CHECKPOINT_PATH: /app/state/ttc-checkpoint.json
+    volumes:
+      - ttc-spool:/app/spool
+      - ttc-state:/app/state
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8765/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    stop_grace_period: 30s
+
+volumes:
+  ttc-spool:
+  ttc-state:

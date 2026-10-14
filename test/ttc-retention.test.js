@@ -5,6 +5,7 @@ import {
   planDiagnosticRetention,
   oldestObjectAge,
   runCleanup,
+  runCleanupLoop,
   isRetentionScopeKey,
   RAW_RETENTION_MS,
   DIAGNOSTIC_RETENTION_MS,
@@ -305,4 +306,67 @@ test('[STORY-64] createR2CaptureSink.delete signs a DELETE, tolerates a missing 
   await assert.rejects(sink.delete('boom'), /R2 capture delete failed: 500/);
   assert.equal(calls.length, 3);
   assert.equal(calls[0].method, 'DELETE');
+});
+
+test('[STORY-64] runCleanupLoop requires a signal', async () => {
+  await assert.rejects(runCleanupLoop({ store: {}, spool: {} }), /requires a signal/);
+});
+
+test('[STORY-64] runCleanupLoop runs a pass, reads the cursor, and stops on abort', async () => {
+  const passes = [];
+  const controller = new AbortController();
+  let calls = 0;
+  const result = await runCleanupLoop({
+    store: {}, spool: {},
+    getCursor: async () => 5,
+    run: async ({ cursor }) => { calls++; if (calls >= 2) controller.abort(); passes.push(cursor); return { deleted: 0, retained: 0, lostRange: null }; },
+    intervalMs: 1,
+    signal: controller.signal,
+    wait: async () => {}
+  });
+  assert.equal(result.aborted, true);
+  assert.deepEqual(passes, [5, 5]);
+});
+
+test('[STORY-64] runCleanupLoop isolates a failing pass and continues to the next pass', async () => {
+  const logged = [];
+  const controller = new AbortController();
+  let calls = 0;
+  await runCleanupLoop({
+    store: {}, spool: {},
+    getCursor: async () => -1,
+    run: async () => { calls++; if (calls === 1) throw new Error('R2 down'); if (calls === 2) controller.abort(); return { deleted: 0, retained: 0, lostRange: null }; },
+    intervalMs: 1,
+    signal: controller.signal,
+    wait: async () => {},
+    log: e => logged.push(e)
+  });
+  assert.equal(calls, 2);
+  assert.equal(logged[0].status, 'cleanup-failed');
+});
+
+test('[STORY-64] runCleanupLoop stops immediately when the signal is already aborted', async () => {
+  const controller = new AbortController();
+  controller.abort();
+  let ran = false;
+  const result = await runCleanupLoop({
+    store: {}, spool: {},
+    getCursor: async () => -1,
+    run: async () => { ran = true; return { deleted: 0, retained: 0, lostRange: null }; },
+    signal: controller.signal
+  });
+  assert.equal(result.aborted, true);
+  assert.equal(ran, false);
+});
+
+test('[STORY-64] runCleanupLoop defaults its getCursor and wait collaborators', async () => {
+  const controller = new AbortController();
+  let calls = 0;
+  await runCleanupLoop({
+    store: {}, spool: {},
+    run: async ({ cursor }) => { calls++; assert.equal(cursor, -1); if (calls === 2) controller.abort(); return { deleted: 0, retained: 0, lostRange: null }; },
+    intervalMs: 1,
+    signal: controller.signal
+  });
+  assert.equal(calls, 2);
 });

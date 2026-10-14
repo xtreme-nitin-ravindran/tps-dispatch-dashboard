@@ -152,3 +152,36 @@ export async function runCleanup({ store, spool, now, cursor = -1, log = () => {
   log({ source: 'ttc-retention', status: 'cleanup', deleted: plan.delete.length, retained: plan.keep.length, lostRange: plan.lostRange });
   return { deleted: plan.delete.length, retained: plan.keep.length, lostRange: plan.lostRange };
 }
+
+// Run the hourly cleanup on a schedule until `signal` aborts. `getCursor` reads
+// the processor's current replay cursor (so cleanup never expires an object the
+// consumer still needs); `run` is the single-pass `runCleanup` (injectable for
+// tests). The interval and clock/timer callbacks are injectable so the schedule
+// is deterministic in tests. Each pass is isolated: a failing pass is logged and
+// the loop continues, so a transient R2 failure never wedges retention.
+export async function runCleanupLoop({
+  store,
+  spool,
+  getCursor = async () => -1,
+  run = runCleanup,
+  intervalMs = 3600000,
+  clock = () => new Date(),
+  signal,
+  wait = ms => new Promise(resolve => setTimeout(resolve, ms)),
+  feedId = 'ttc-vehicles',
+  log = () => { }
+}) {
+  if (!signal) throw new Error('runCleanupLoop requires a signal');
+  while (!signal.aborted) {
+    try {
+      const cursor = await getCursor();
+      const result = await run({ store, spool, now: clock(), cursor, feedId, log });
+      log({ source: 'ttc-retention', status: 'cleanup-pass', ...result });
+    } catch (error) {
+      log({ source: 'ttc-retention', status: 'cleanup-failed', error: error.message });
+    }
+    if (signal.aborted) break;
+    await wait(intervalMs);
+  }
+  return { aborted: signal.aborted };
+}
