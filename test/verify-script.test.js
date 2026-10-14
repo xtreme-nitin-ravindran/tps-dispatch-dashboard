@@ -234,7 +234,7 @@ test("[STORY-46] the scheduler stops launching queued jobs after a failure", () 
 });
 
 test("[STORY-46] the scheduler reports the failing job and exits nonzero", () => {
-  assert.match(script, /FAILED \(exit \$JOB_STATUS\)/);
+  assert.match(script, /FAILED \(exit \$JOB_STATUS, \$\{JOB_ELAPSED\}s\)/);
   assert.match(script, /full verification failed; failing job\(s\)/);
   assert.match(script, /exit 1/);
 });
@@ -263,6 +263,26 @@ test("[STORY-46] the scheduler traps INT, TERM, and HUP and exits 130 on interru
   assert.match(script, /trap 'on_signal' INT TERM HUP/);
   assert.match(script, /exit 130/);
   assert.match(script, /interrupted; terminating running jobs/);
+});
+
+test("[INFRA-VERIFY] the scheduler records and reports each job's elapsed duration", () => {
+  // Story 68 revisit: per-job elapsed reporting must be present in both
+  // runners so a slow stage is identifiable without external timestamping.
+  assert.match(script, /START_EPOCH=\$\(date \+%s\)/);
+  assert.match(script, /date \+%s >"\$LOG_DIR\/\$name\.start"/);
+  assert.match(script, /JOB_ELAPSED=\$\(\(job_now - job_start\)\)/);
+  assert.match(script, /passed \(\$\{JOB_ELAPSED\}s\)/);
+  assert.match(script, /FAILED \(exit \$JOB_STATUS, \$\{JOB_ELAPSED\}s\)/);
+});
+
+test("[INFRA-VERIFY] the sequential runner and the mode summaries report elapsed durations", () => {
+  const seqTimingStart = script.indexOf("run_full_sequential()");
+  const seqTimingEnd = script.indexOf("# --- Preparation");
+  const seqTiming = script.slice(seqTimingStart, seqTimingEnd);
+  assert.ok(seqTiming.includes("job_start=$(date +%s)"), "the sequential runner must record each job's start");
+  assert.ok(seqTiming.includes("passed ($(( $(date +%s) - job_start ))s)"), "the sequential runner must report elapsed duration");
+  assert.match(script, /Fast verification passed in \$\{elapsed\}s/);
+  assert.ok(script.includes("All required checks passed in $(( $(date +%s) - START_EPOCH ))s"), "the full-mode summary must report overall elapsed time");
 });
 
 test("[STORY-39C] the final Git/snapshot checks stay sequential after the parallel stage", () => {

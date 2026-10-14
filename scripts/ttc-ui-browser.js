@@ -14,6 +14,7 @@ for(const width of [320,375,390,430,768,1440]) {
  await page.addInitScript(()=>{window.ttcLongTasks=[];new PerformanceObserver(list=>window.ttcLongTasks.push(...list.getEntries().map(e=>e.duration))).observe({type:'longtask',buffered:true});});
  await timing.time(`page-goto:${width}`,()=>page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&mobileAuditSheet=expanded&ttcFixture=confirmed`,{waitUntil:'networkidle'}));
  await timing.time(`fixture-ready:${width}`,()=>awaitFixtureReady(page));
+ timing.start(`assertions:${width}`);
  await page.waitForSelector('#observedDiversionsList .incident-card',{state:'attached'}).catch(async error=>{console.log({width,errors,body:await page.locator('body').innerText()});await page.screenshot({path:`${out}/failure-${width}.png`});throw error;});
  const initialMaxLongTask=await page.evaluate(()=>{const max=Math.max(0,...window.ttcLongTasks);window.ttcLongTasks=[];return max;});
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
@@ -62,10 +63,15 @@ for(const width of [320,375,390,430,768,1440]) {
   await page.locator('#dispatchMap').scrollIntoViewIfNeeded();
   await page.screenshot({path:`${out}/${width}-${theme}.png`});
  }
- // Actual paths retain identities through CSS theme changes and pan/zoom.
+ // Actual paths retain identities through CSS theme changes and pan/zoom. The
+ // full 12-cycle exercise runs at the canonical mobile (390) and desktop (1440)
+ // widths; the remaining widths run a reduced 3-cycle pass so the identity
+ // property is still exercised at every width while the six-width suite stays
+ // affordable (Story 68 revisit, October 2026).
+ const cycles=width===390||width===1440?12:3;
  const ids=await page.locator('.ttc-line').evaluateAll(nodes=>nodes.map((n,i)=>{n.dataset.testIdentity=String(i);return n.dataset.testIdentity;}));
  if(width<=430) {await page.locator('.closure-detail-back').click();assert.equal(await page.locator('#mobileSheetCallList').isVisible(),true);assert.equal(await page.locator('#observedDiversions').isVisible(),false);assert.equal(await page.evaluate(()=>document.activeElement.id),'mobileSheetToggle');}
- for(let i=0;i<12;i++) {
+ for(let i=0;i<cycles;i++) {
   await page.selectOption('#themePreference',i%2?'dark':'light');
   if(width<=430) {
    await page.locator('button[data-mobile-view="calls"]').click();
@@ -130,7 +136,8 @@ for(const width of [320,375,390,430,768,1440]) {
  assert.equal(await page.locator('#ttcLayerControl').isVisible(),false);
  assert.deepEqual(errors,[]);
  const maxLongTask=await page.evaluate(()=>Math.max(0,...window.ttcLongTasks));assert.ok(maxLongTask<2000);
- results.push({width,errors,layers:(await diag()).layers,cycles:12,initialMaxLongTask,maxLongTask});await page.close();
+ timing.end(`assertions:${width}`);
+ results.push({width,errors,layers:(await diag()).layers,cycles,initialMaxLongTask,maxLongTask});await page.close();
 }
 // Story 68C: the app's real minute-based summary refresh (setInterval 60000 in
 // src/app/app.js) must not clobber a focused TTC detail's summary. This used to

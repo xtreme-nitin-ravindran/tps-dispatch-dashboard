@@ -51,8 +51,10 @@ The mobile focus-mode chrome contract these suites protect is documented in
 The TTC suite exercises the app's real minute-based summary refresh with Playwright
 clock emulation (`page.clock`) instead of a 61-second wall-clock wait; the runner does not
 depend on the GNU `timeout` command. The suite is still the longest in the aggregate run
-(~39-42 s isolated, ~39-44 s under load) because it renders Leaflet across six viewport
-widths, but the 61-second wait is gone. The suites run sequentially on the host; running
+(~30-34 s under load) because it renders Leaflet across six viewport widths, but the
+61-second wait is gone and the full 12-cycle theme/overlay/zoom identity exercise now runs
+only at the canonical 390 px and 1440 px widths (a reduced 3-cycle pass runs at the other
+four widths; Story 68 revisit). The suites run sequentially on the host; running
 them concurrently was measured and rejected (Story 68D) because CPU contention makes every
 concurrent variant slower and trips cold-start `fixture-ready` timeouts.
 Each suite uses loopback-only
