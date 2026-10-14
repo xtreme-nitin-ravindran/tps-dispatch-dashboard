@@ -468,7 +468,7 @@ test("[STORY-55F] the real pipeline's inline tasks extract with their run blocks
   // The multi-line script body must be preserved, not truncated.
   assert.match(publish.config, /publish-incidents\.js/);
 
-  assert.match(publish.config, /repository: node, tag: 24-bookworm-slim/);
+  assert.match(publish.config, /repository: node, tag: 26-bookworm-slim/);
   assert.match(publish.config, /npm ci --omit=dev/);
   assert.throws(() => extractTaskConfig(text, "build-test-image"), /task not found/);
 

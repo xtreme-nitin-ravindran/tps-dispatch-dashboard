@@ -1,0 +1,17 @@
+# Canonical Node image tags for the SirenTO runtime and test images.
+#
+# This file is the single declared source of truth for the Node image tags used
+# by the Concourse runtime tasks and the Docker test image. Dependabot bumps
+# docker/Dockerfile.test (see .github/dependabot.yml); when it does, this file,
+# the Concourse task YAMLs, and docs/concourse.md must be updated together.
+#
+# test/concourse-node-image.test.js enforces that they never drift, so a
+# Dependabot Dockerfile bump fails CI until the runtime tags are updated in the
+# same reviewed change. This keeps the production runtime and the test image
+# intentionally aligned without a bot silently rewriting production config.
+#
+# full: the Debian "bookworm" Node image (used by the Docker test image and the
+#       geometry-projection task).
+# slim: the Debian "bookworm-slim" Node image (used by the runtime ETL tasks).
+full: 26-bookworm
+slim: 26-bookworm-slim
