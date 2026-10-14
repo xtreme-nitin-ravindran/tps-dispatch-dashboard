@@ -1,6 +1,10 @@
 import test from 'node:test';
+import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
 import assert from 'node:assert/strict';
-import { buildDiagnosticBundle, archiveDiagnostic, archiveDiagnosticFailure, diagnosticKey, DIAGNOSTIC_SCHEMA_VERSION } from '../src/ttc/diagnostic-archive.js';
+import { buildDiagnosticBundle, archiveDiagnostic, archiveDiagnosticFailure, diagnosticKey, createDiagnosticFileSpool, retryDiagnosticSpool, DIAGNOSTIC_SCHEMA_VERSION } from '../src/ttc/diagnostic-archive.js';
 import { buildCapture } from '../src/ttc/capture-store.js';
 import { diversionValidationDiagnostic, diversionOutput, inferDiversions } from '../src/ttc/diversion-inference.js';
 import { detectVehicles } from '../src/ttc/vehicle-detector.js';
@@ -194,4 +198,61 @@ test('[STORY-64] an archival failure with a plain-string rejection uses the defa
     archiveDiagnosticFailure({ error: 'plain failure', index, capture: makeCapture(0), buildVersion: 'build-1', staticVersion: index.version, logicalClock: 0, advisoryRefs: [], sink, spool: memoryDiagnosticSpool(), now: at(0) }),
     /plain failure/
   );
+});
+
+test('[STORY-64] createDiagnosticFileSpool writes atomically, lists, and removes bundles', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'diag-spool-'));
+  try {
+    const spool = createDiagnosticFileSpool({ dir });
+    assert.deepEqual(await spool.list(), []);
+    const key = diagnosticKey('ttc-vehicles', 3);
+    await spool.write(key, '{"schemaVersion":1}');
+    const entries = await spool.list();
+    assert.equal(entries.length, 1);
+    assert.equal(entries[0].key, key);
+    assert.equal(entries[0].body.toString(), '{"schemaVersion":1}');
+    // A partial temp write is never listed: only the renamed target is durable.
+    assert.equal((await spool.list()).every(entry => !entry.key.endsWith('.tmp')), true);
+    await spool.remove(key);
+    assert.deepEqual(await spool.list(), []);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] retryDiagnosticSpool re-PUTs spooled bundles and clears successes only', async () => {
+  const sink = memorySink();
+  const entries = new Map();
+  const spool = {
+    entries,
+    async write(key, body) { entries.set(key, body); },
+    async list() { return [...entries].map(([key, body]) => ({ key, body })); },
+    async remove(key) { entries.delete(key); }
+  };
+  spool.entries.set('ttc-diagnostics/ttc-vehicles/000000000000.json', JSON.stringify({ recordedAt: '2026-10-14T12:00:00.000Z' }));
+  spool.entries.set('ttc-diagnostics/ttc-vehicles/000000000001.json', JSON.stringify({ recordedAt: '2026-10-14T12:01:00.000Z' }));
+  sink.failPut = true;
+  const failed = await retryDiagnosticSpool({ spool, sink });
+  assert.deepEqual(failed, { flushed: 0, remaining: 2 });
+  assert.equal(spool.entries.size, 2);
+  sink.failPut = false;
+  const flushed = await retryDiagnosticSpool({ spool, sink });
+  assert.deepEqual(flushed, { flushed: 2, remaining: 0 });
+  assert.equal(spool.entries.size, 0);
+  assert.equal(sink.objects.size, 2);
+});
+
+test('[STORY-64] retryDiagnosticSpool validates its collaborators', async () => {
+  await assert.rejects(retryDiagnosticSpool({ spool: {}, sink: memorySink() }), /spool with list and remove/);
+  await assert.rejects(retryDiagnosticSpool({ spool: { list: async () => [], remove: async () => {} }, sink: {} }), /sink with put/);
+});
+
+test('[STORY-64] createDiagnosticFileSpool lists an absent directory as empty and surfaces walk failures', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'diag-spool-'));
+  try {
+    // A missing spool directory is an empty spool, not an error.
+    assert.deepEqual(await createDiagnosticFileSpool({ dir: join(dir, 'absent') }).list(), []);
+    // A spool path that is actually a file makes the walk throw (ENOTDIR), which
+    // the spool surfaces rather than swallowing.
+    await writeFile(join(dir, 'file'), 'x');
+    await assert.rejects(createDiagnosticFileSpool({ dir: join(dir, 'file') }).list());
+  } finally { await rm(dir, { recursive: true, force: true }); }
 });

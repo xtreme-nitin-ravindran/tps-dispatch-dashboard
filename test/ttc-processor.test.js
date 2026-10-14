@@ -461,6 +461,169 @@ test('[STORY-64] a rejected capture is counted, skipped and does not wedge the c
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
 
+test('[STORY-64] a rejection archives the diagnostic through onReject with the pre-transition checkpoint', async () => {
+  const { dir, path: checkpointPath } = await tempCheckpoint();
+  try {
+    const { captures, replay } = diversionRun(3);
+    const store = storeWith(captures);
+    const archived = [];
+    const logs = [];
+    const result = await runProcessor({
+      store, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0), log: e => logs.push(e),
+      replay: (c, ctx) => { if (c.sequence === 1) { const error = new Error('bad capture'); error.rejectedState = { records: [] }; throw error; } return replay(c, ctx); },
+      onReject: async ({ error, capture, index: idx, checkpoint, now, logicalClock }) => archived.push({ error: error.message, capture, index: idx, checkpoint, now: +now, logicalClock })
+    });
+    assert.equal(result.processed, 2);
+    assert.equal(result.rejected, 1);
+    assert.equal(result.cursor, 2);
+    assert.equal(archived.length, 1);
+    assert.equal(archived[0].error, 'bad capture');
+    assert.equal(archived[0].capture.sequence, 1);
+    // The pre-transition checkpoint is the durable state before the rejected
+    // capture: the cursor has not yet advanced past it.
+    assert.equal(archived[0].checkpoint.cursor, 0);
+    assert.equal(archived[0].checkpoint.staticVersion, index.version);
+    // The logical clock is the rejected capture's requestedAt, not the wall clock.
+    assert.equal(archived[0].logicalClock, Date.parse(archived[0].capture.requestedAt));
+    assert.ok(logs.some(e => e.status === 'rejected' && e.sequence === 1));
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] an archival failure never masks the rejection or wedges the processor', async () => {
+  const { dir, path: checkpointPath } = await tempCheckpoint();
+  try {
+    const { captures, replay } = diversionRun(3);
+    const store = storeWith(captures);
+    const logs = [];
+    const result = await runProcessor({
+      store, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0), log: e => logs.push(e),
+      replay: (c, ctx) => { if (c.sequence === 1) throw new Error('bad capture'); return replay(c, ctx); },
+      // archiveDiagnosticFailure re-throws the original error by contract; the
+      // processor must catch that and keep running.
+      onReject: async () => { throw new Error('archive down'); }
+    });
+    assert.equal(result.processed, 2);
+    assert.equal(result.rejected, 1);
+    assert.equal(result.cursor, 2);
+    assert.ok(logs.some(e => e.status === 'rejection-archive-failed' && e.sequence === 1));
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] a window containing a rejection completes unhealthy and never increments absences', async () => {
+  const { dir, path: checkpointPath } = await tempCheckpoint();
+  try {
+    const { captures, replay } = diversionRun(7);
+    const store = storeWith(captures);
+    const completed = [];
+    const result = await runProcessor({
+      store, checkpointPath, loadStatic: async () => ({ index }), clock: () => at(0),
+      replay: (c, ctx) => { if (c.sequence === 2) throw new Error('bad capture'); return replay(c, ctx); },
+      complete: (state, opts) => { completed.push({ healthy: opts.healthy, sourceHealthy: opts.sourceHealthy }); return { state, output: { ...state, diversions: [] } }; },
+      publish: async () => { }
+    });
+    // Seven polls: the seventh capture closes the first window, which contained
+    // the rejected capture, so it must complete non-healthy.
+    assert.equal(result.rejected, 1);
+    assert.equal(completed.length, 1);
+    assert.equal(completed[0].healthy, false);
+    assert.equal(completed[0].sourceHealthy, false);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] a window whose captures were all rejected is skipped without crashing or publishing', async () => {
+  const { dir, path: checkpointPath } = await tempCheckpoint();
+  try {
+    const controller = new AbortController();
+    const { captures } = diversionRun(3);
+    const store = storeWith(captures);
+    const logs = [];
+    let published = 0;
+    const result = await runProcessor({
+      store, checkpointPath, loadStatic: async () => ({ index }), clock: () => at(0), signal: controller.signal, log: e => logs.push(e),
+      replay: (c) => { if (c.sequence === captures.at(-1).sequence) controller.abort(); throw new Error('bad capture'); },
+      complete: () => { throw new Error('complete must not run'); },
+      publish: async () => { published++; }
+    });
+    assert.equal(result.processed, 0);
+    assert.equal(result.rejected, 3);
+    assert.equal(published, 0);
+    assert.ok(logs.some(e => e.status === 'window-skipped' && e.reason === 'no-inference-state'));
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] the alert cache is refreshed, correlated and threaded into inference across drains', async () => {
+  const { dir, path: checkpointPath } = await tempCheckpoint();
+  try {
+    const { captures, replay } = diversionRun(2);
+    const store = storeWith(captures);
+    const alertState = { schemaVersion: 1, items: [], status: 'ok', fetchedAt: at(0).toISOString(), checkedAt: at(0).toISOString() };
+    const correlated = { ...alertState, correlated: true };
+    const calls = [];
+    const result = await runProcessor({
+      store, replay, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0),
+      alerts: alertState,
+      updateAlerts: async (previous) => { calls.push({ type: 'update', previous }); return alertState; },
+      correlate: async (alerts) => { calls.push({ type: 'correlate', alerts }); return correlated; },
+      infer: (previous, vehicle, idx, now, alerts) => { calls.push({ type: 'infer', alerts }); return { state: { ...previous ?? {}, checkedAt: now.toISOString() }, output: { diversions: [] }, report: {} }; }
+    });
+    assert.equal(calls[0].type, 'update');
+    assert.equal(calls[1].type, 'correlate');
+    assert.equal(calls[2].type, 'infer');
+    // The correlated alert cache reaches inference; the next drain gets it back.
+    assert.equal(calls[2].alerts, correlated);
+    assert.equal(result.alerts, correlated);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] the default correlate passes the alert cache through unchanged', async () => {
+  const { dir, path: checkpointPath } = await tempCheckpoint();
+  try {
+    const { captures, replay } = diversionRun(1);
+    const store = storeWith(captures);
+    const alertState = { schemaVersion: 1, items: [], status: 'ok', fetchedAt: at(0).toISOString(), checkedAt: at(0).toISOString() };
+    let seenAlerts;
+    await runProcessor({
+      store, replay, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0),
+      alerts: alertState,
+      updateAlerts: async () => alertState,
+      infer: (previous, vehicle, idx, now, alerts) => { seenAlerts = alerts; return { state: {}, output: { diversions: [] }, report: {} }; }
+    });
+    assert.equal(seenAlerts, alertState);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] the processor reports processing, publication and spool health independently', async () => {
+  const { dir, path: checkpointPath } = await tempCheckpoint();
+  try {
+    const { captures, replay } = diversionRun(7);
+    const store = storeWith(captures);
+    const health = [];
+    await runProcessor({
+      store, replay, checkpointPath, loadStatic: async () => ({ index }), clock: () => at(0),
+      publish: async () => { }, onHealth: (component, snapshot) => health.push({ component, snapshot })
+    });
+    const processing = health.find(h => h.component === 'processing');
+    assert.equal(processing.snapshot.status, 'ok');
+    assert.equal(processing.snapshot.cursor, 6);
+    const publication = health.find(h => h.component === 'publication');
+    assert.equal(publication.snapshot.status, 'ok');
+    assert.ok(health.some(h => h.component === 'spool' && h.snapshot.depth === 0));
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] readCheckpoint treats a schema-valid but state-corrupt checkpoint as absent', async () => {
+  const { dir, path: checkpointPath } = await tempCheckpoint();
+  try {
+    await writeFile(checkpointPath, JSON.stringify({ schemaVersion: CHECKPOINT_SCHEMA_VERSION, cursor: 4, staticVersion: 'v1', state: 'garbage' }));
+    assert.equal(await readCheckpoint(checkpointPath), undefined);
+    await writeFile(checkpointPath, JSON.stringify({ schemaVersion: CHECKPOINT_SCHEMA_VERSION, cursor: 4, staticVersion: 'v1', state: [1, 2] }));
+    assert.equal(await readCheckpoint(checkpointPath), undefined);
+    // A well-formed state still reads back.
+    await writeFile(checkpointPath, JSON.stringify({ schemaVersion: CHECKPOINT_SCHEMA_VERSION, cursor: 4, staticVersion: 'v1', state: { vehicle: undefined, inference: undefined, window: null } }));
+    assert.equal((await readCheckpoint(checkpointPath)).cursor, 4);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
 test('[STORY-64] a signal aborts the processor between captures', async () => {
   const { dir, path: checkpointPath } = await tempCheckpoint();
   try {

@@ -82,7 +82,8 @@ export async function readCheckpoint(path) {
     let parsed;
     try { parsed = JSON.parse(await readFile(candidate, 'utf8')); }
     catch (error) { if (error.code === 'ENOENT' || error instanceof SyntaxError) continue; throw error; }
-    if (parsed && parsed.schemaVersion === CHECKPOINT_SCHEMA_VERSION && Number.isInteger(parsed.cursor) && typeof parsed.staticVersion === 'string') return parsed;
+    const stateOk = parsed.state === undefined || (parsed.state !== null && typeof parsed.state === 'object' && !Array.isArray(parsed.state));
+    if (parsed && parsed.schemaVersion === CHECKPOINT_SCHEMA_VERSION && Number.isInteger(parsed.cursor) && typeof parsed.staticVersion === 'string' && stateOk) return parsed;
   }
   return undefined;
 }
@@ -104,6 +105,11 @@ export async function runProcessor({
   clock = () => new Date(),
   log = () => { },
   signal,
+  alerts,
+  updateAlerts = async () => undefined,
+  correlate = s => s,
+  onReject = async () => {},
+  onHealth = () => {},
   windowMs = PROCESSOR_WINDOW_MS,
   maxIterations = Infinity,
   advisories,
@@ -115,6 +121,10 @@ export async function runProcessor({
 
   const loaded = await loadStatic({ now: clock(), log });
   const index = loaded.index;
+  // Official alert context refreshes once per drain; an alert failure only
+  // degrades supporting context and never blocks vehicle evidence.
+  alerts = await updateAlerts(alerts, clock(), undefined, log);
+  if (alerts) alerts = await correlate(alerts, index, clock());
 
   let checkpoint = await readCheckpoint(checkpointPath);
   let reset = false;
@@ -158,14 +168,25 @@ export async function runProcessor({
   const closeWindow = async () => {
     if (windowIndex === null) return;
     const closedIndex = windowIndex, closedCount = windowCount, closedHealthy = windowHealthy;
+    windowIndex = null; windowHealthy = true; windowCount = 0;
+    // A window whose captures were all rejected produced no inference state:
+    // there are no Story 57 counters to advance and nothing to publish, so it
+    // is closed (and made durable) without completing, rather than crashing on
+    // an undefined state.
+    if (inference === undefined) {
+      windows++;
+      await persist();
+      log({ source: 'ttc-processor', status: 'window-skipped', window: closedIndex, polls: closedCount, reason: 'no-inference-state' });
+      return;
+    }
     const healthy = closedHealthy && closedCount >= CAPTURES_PER_WINDOW;
     const completed = complete(inference, { healthy, sourceHealthy: closedHealthy });
     inference = completed.state;
     windows++;
-    windowIndex = null; windowHealthy = true; windowCount = 0;
     await persist();
     const output = applyWallClockExpiry(completed.output, clock());
     await publish(output);
+    onHealth('publication', { status: 'ok', published: output.diversions.length, checkedAt: output.checkedAt });
     log({ source: 'ttc-processor', status: 'window', window: closedIndex, polls: closedCount, healthy, published: output.diversions.length });
   };
 
@@ -174,6 +195,12 @@ export async function runProcessor({
     if (signal?.aborted || processed >= maxIterations) break;
     const now = new Date(capture.requestedAt);
     const wi = Math.floor(+now / windowMs);
+    // The durable checkpoint as of just before this capture's transition: the
+    // pre-transition state and cursor the diagnostic bundle needs for exact replay.
+    const checkpointBefore = {
+      schemaVersion: CHECKPOINT_SCHEMA_VERSION, cursor, staticVersion: index.version,
+      state: { vehicle, inference, window: windowIndex === null ? null : { index: windowIndex, healthy: windowHealthy, count: windowCount } }
+    };
     if (windowIndex !== null && wi !== windowIndex) await closeWindow();
     windowIndex = wi;
     windowCount++;
@@ -181,13 +208,24 @@ export async function runProcessor({
     try {
       const replayed = replay(capture, { previous: vehicle, index, now });
       vehicle = replayed.state;
-      const inferred = infer(inference, vehicle, index, now, undefined, { advisories });
+      const inferred = infer(inference, vehicle, index, now, alerts, { advisories });
       inference = inferred.state;
       processed++;
     } catch (error) {
       // A rejected capture is counted and skipped; the cursor still advances so a
-      // poison capture cannot wedge the processor forever.
+      // poison capture cannot wedge the processor forever. A rejection also
+      // degrades its window: a window the processor could not evaluate must
+      // never increment Story 57 healthy absences.
       rejected++;
+      windowHealthy = false;
+      try {
+        await onReject({ error, capture, index, checkpoint: checkpointBefore, now: clock(), logicalClock: +now });
+      } catch (archivalError) {
+        // archiveDiagnosticFailure re-throws the original rejection by contract;
+        // the processor records it and keeps running, so an archival problem
+        // never masks the rejection or wedges the cursor.
+        log({ source: 'ttc-processor', status: 'rejection-archive-failed', sequence: capture.sequence, error: archivalError.message });
+      }
       log({ source: 'ttc-processor', status: 'rejected', sequence: capture.sequence, error: error.message });
     }
     cursor = capture.sequence;
@@ -196,5 +234,9 @@ export async function runProcessor({
   // A graceful shutdown closes the final (possibly incomplete) window. A normal
   // drain end leaves the window open and persisted so the next drain resumes it.
   if (signal?.aborted) await closeWindow();
-  return { processed, rejected, cursor, windows, reset };
+  onHealth('processing', { status: 'ok', cursor, processed, rejected, windows });
+  if (typeof store.spoolDepth === 'function') {
+    onHealth('spool', { depth: await store.spoolDepth() });
+  }
+  return { processed, rejected, cursor, windows, reset, alerts };
 }

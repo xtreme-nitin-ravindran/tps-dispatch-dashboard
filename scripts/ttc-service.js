@@ -14,29 +14,54 @@
 
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
+import { readFile, stat } from 'node:fs/promises';
+import { setTimeout as sleep } from 'node:timers/promises';
 import { runCollector } from '../src/ttc/collector.js';
 import { runProcessor, readCheckpoint } from '../src/ttc/processor.js';
 import { createCaptureSinkFromEnv, createCaptureStore, createFileSpool } from '../src/ttc/capture-store.js';
 import { loadStaticGtfs } from '../src/ttc/static-source.js';
 import { inferDiversions, completeDiversionCapture } from '../src/ttc/diversion-inference.js';
+import { loadOfficialAdvisories, officialAdvisories } from '../src/ttc/official-advisories.js';
+import { updateTtcAlerts } from '../src/ttc/alerts.js';
+import { correlateState } from '../src/ttc/correlation.js';
 import { ownershipKey } from '../src/ttc/ownership.js';
 import { buildReplay, buildTtcPublish, withOwnership } from '../src/ttc/runtime.js';
 import { runCleanupLoop } from '../src/ttc/retention.js';
+import { archiveDiagnosticFailure, createDiagnosticFileSpool } from '../src/ttc/diagnostic-archive.js';
+import { healthSnapshot } from '../src/ttc/health.js';
+import { createHealthServer } from '../src/ttc/service.js';
+import { createSinkFromEnv } from './lib/publication-sink.js';
 
 const FEED_ID = 'ttc-vehicles';
+
+// Structured JSON-line logger shared by the production service composition, so
+// a deployed stack is observable without further wiring (the spike's default).
+export function structuredLog(entry) {
+  console.log(JSON.stringify(entry));
+}
 
 // Build the environment-derived collaborators. Exported for direct testing; no
 // default depends on ambient credentials (the sink factory fails loudly without
 // the four R2 values).
 export function buildEnvironment({ env = process.env } = {}) {
+  const spoolDir = env.TTC_SPOOL_DIR || '/app/spool';
   return {
     feedId: FEED_ID,
     ownershipPrefix: env.OWNERSHIP_PREFIX || 'ttc-ownership',
+    // The capture sink (get/put/list/delete) for the raw store and the public
+    // publication sink (publish) are separate collaborators: buildTtcPublish
+    // requires the publish shape, the capture store requires the object shape.
     sink: createCaptureSinkFromEnv({ env }),
-    spool: createFileSpool({ dir: env.TTC_SPOOL_DIR || '/app/spool' }),
+    publishSink: createSinkFromEnv({ env }),
+    spool: createFileSpool({ dir: spoolDir }),
+    diagnosticSpool: createDiagnosticFileSpool({ dir: env.TTC_DIAGNOSTIC_SPOOL_DIR || `${spoolDir}/diagnostics` }),
     checkpointPath: env.TTC_CHECKPOINT_PATH || '/app/state/ttc-checkpoint.json',
     staticCache: env.TTC_STATIC_CACHE || '/app/state/surface.zip',
+    healthPort: Number(env.TTC_HEALTH_PORT || 8764),
+    buildVersion: env.TTC_BUILD_VERSION || 'unversioned',
+    advisorySnapshot: env.TTC_ADVISORY_SNAPSHOT || '',
     intervalMs: Number(env.TTC_INTERVAL_MS || 30000),
+    drainIntervalMs: Number(env.TTC_DRAIN_INTERVAL_MS || 30000),
     spoolLimit: Number(env.TTC_SPOOL_LIMIT || 720),
     ttlMs: Number(env.TTC_OWNERSHIP_TTL_MS || 60000)
   };
@@ -52,14 +77,15 @@ export function composeCollector({
   signal,
   log = () => { }
 }) {
-  return () => run({
+  return ({ onHealth } = {}) => run({
     feedId: envCtx.feedId,
     intervalMs: envCtx.intervalMs,
     fetchFeed,
     store,
     spoolLimit: envCtx.spoolLimit,
     signal,
-    log
+    log,
+    onHealth
   });
 }
 
@@ -71,24 +97,89 @@ export function composeProcessor({
   sink,
   run = runProcessor,
   loadStatic = loadStaticGtfs,
+  loadAdvisories = loadOfficialAdvisories,
   infer = inferDiversions,
   complete = completeDiversionCapture,
+  updateAlerts = async () => undefined,
+  correlate = correlateState,
+  archiveFailure = archiveDiagnosticFailure,
   signal,
-  log = () => { }
+  log = () => { },
+  wait,
+  drainIntervalMs = envCtx.drainIntervalMs
 }) {
   const replay = buildReplay({ getBytes: sink.getBytes, log });
-  const publish = buildTtcPublish({ sink, log });
-  return () => run({
-    store,
-    loadStatic: () => loadStatic({ cachePath: envCtx.staticCache, log }),
-    replay,
-    infer,
-    complete,
-    publish,
-    checkpointPath: envCtx.checkpointPath,
-    signal,
-    log
-  });
+  // The public artifact goes through the publication sink (publish shape), while
+  // raw payloads and the store use the capture sink (object shape).
+  const publish = buildTtcPublish({ sink: envCtx.publishSink, log });
+  // Static loading is memoized on the cache file's mtime so a per-drain load
+  // does not rebuild the full static index every poll; a replaced cache parses
+  // once and its new version triggers the processor's static-reset path.
+  let loadedPromise = null, lastModified = -1;
+  const loadStaticCached = async ({ log: drainLog } = {}) => {
+    let modified = -1;
+    try { modified = +(await stat(envCtx.staticCache)).mtime; } catch { /* missing cache: parse fresh below */ }
+    if (!loadedPromise || modified !== lastModified) {
+      lastModified = modified;
+      loadedPromise = loadStatic({ cachePath: envCtx.staticCache, log: drainLog });
+    }
+    return loadedPromise;
+  };
+  const waitFor = wait || (ms => sleep(ms, undefined, { signal }));
+  return async ({ onHealth } = {}) => {
+    // The processor drains continuously: each drain consumes every committed
+    // capture above the durable cursor, then waits one collector interval, so
+    // new captures are replayed promptly and windows close at their boundaries.
+    // The alert cache is threaded across drains; official advisory context is
+    // reloaded per drain from the published snapshot (a missing snapshot is the
+    // same `not-loaded` contract the spike uses).
+    let alerts;
+    let summary;
+    const drain = async () => {
+      let advisories;
+      try { advisories = await loadAdvisories(envCtx.advisorySnapshot, { readFile }); }
+      catch (error) { log({ source: 'ttc-official-advisories', status: 'rejected', error: error.message }); advisories = officialAdvisories(undefined); }
+      // Failure-only seam: a rejection archives the Story 57 diagnostic bundle
+      // to private R2 (spooled on R2 failure) and the processor keeps running.
+      const onReject = async ({ error, capture, index, checkpoint, now, logicalClock }) => {
+        await archiveFailure({
+          error, index, capture, checkpoint,
+          buildVersion: envCtx.buildVersion,
+          staticVersion: index.version,
+          logicalClock,
+          advisoryRefs: (advisories?.advisories || []).slice(0, 500).map(a => a.sourceId).filter(Boolean),
+          sink, spool: envCtx.diagnosticSpool, log, now,
+          getBytes: sink.getBytes
+        });
+      };
+      return run({
+        store,
+        loadStatic: loadStaticCached,
+        replay,
+        infer,
+        complete,
+        publish,
+        checkpointPath: envCtx.checkpointPath,
+        signal,
+        log,
+        advisories,
+        alerts,
+        updateAlerts,
+        correlate,
+        onReject,
+        onHealth
+      });
+    };
+    for (;;) {
+      if (signal?.aborted) { summary = await drain(); break; }
+      summary = await drain();
+      alerts = summary?.alerts;
+      if (signal?.aborted) break;
+      try { await waitFor(drainIntervalMs); }
+      catch (error) { if (error?.name !== 'AbortError') throw error; }
+    }
+    return summary;
+  };
 }
 
 // Compose the processor's hourly retention cleanup loop. `getCursor` reads the
@@ -97,12 +188,14 @@ export function composeProcessor({
 // unreadable. The loop runs until `signal` aborts. `readCheckpoint` is injectable
 // so both the absent- and present-checkpoint paths are testable.
 export function composeCleanup({ envCtx, signal, loop = runCleanupLoop, log = () => { }, readCheckpointImpl = readCheckpoint }) {
-  return ({ store, spool, signal: s }) => loop({
-    store, spool,
+  return ({ store, spool, sink, signal: s, onHealth } = {}) => loop({
+    store, spool, sink,
+    diagnosticSpool: envCtx.diagnosticSpool,
     getCursor: async () => (await readCheckpointImpl(envCtx.checkpointPath))?.cursor ?? -1,
     signal: s || signal,
     feedId: envCtx.feedId,
-    log
+    log,
+    onHealth
   });
 }
 
@@ -111,12 +204,14 @@ export function composeCleanup({ envCtx, signal, loop = runCleanupLoop, log = ()
 // executing the CLI guard.
 export function resolveService({ role, envCtx, store, signal }) {
   const ownerId = role === 'processor' ? 'ttc-processor-1' : 'ttc-collector-1';
+  // Production services log structured JSON lines (the spike's default), so a
+  // deployed stack is observable without further wiring.
   if (role === 'processor') {
-    const run = composeProcessor({ envCtx, store, sink: envCtx.sink, signal });
-    const cleanup = composeCleanup({ envCtx, signal });
+    const run = composeProcessor({ envCtx, store, sink: envCtx.sink, signal, updateAlerts: updateTtcAlerts, log: structuredLog });
+    const cleanup = composeCleanup({ envCtx, signal, log: structuredLog });
     return { ownerId, run, cleanup };
   }
-  const run = composeCollector({ envCtx, store, signal });
+  const run = composeCollector({ envCtx, store, signal, log: structuredLog });
   return { ownerId, run };
 }
 
@@ -154,19 +249,35 @@ export async function runService({
   run,
   cleanup,
   signal,
-  log = () => { }
+  abort,
+  log = () => { },
+  healthServer = createHealthServer,
+  healthSnapshotImpl = healthSnapshot
 }) {
   const sink = envCtx.sink;
   const store = createCaptureStore({ spool: envCtx.spool, sink, feedId: envCtx.feedId });
   const key = ownershipKey({ role, prefix: envCtx.ownershipPrefix });
-  const owned = await acquire({ sink, key, ownerId, ttlMs: envCtx.ttlMs, signal, log });
+  // Losing the lease (a failed or stolen renewal) aborts the service instead of
+  // letting a stale writer keep publishing alongside its successor.
+  const owned = await acquire({ sink, key, ownerId, ttlMs: envCtx.ttlMs, signal, log, onLost: () => abort?.() });
   if (!owned.acquired) return { acquired: false, role };
+  // Private loopback-only health endpoint reporting capture/processing/
+  // publication independently; the component snapshots are updated by the
+  // running service via onHealth.
+  const health = { capture: {}, processing: {}, publication: {}, spool: { depth: 0 } };
+  const onHealth = (component, snapshot) => { health[component] = snapshot; };
+  const server = healthServer({
+    getHealth: () => healthSnapshotImpl({ collector: health.capture, processor: health.processing, spool: health.spool, r2: health.publication }),
+    port: envCtx.healthPort
+  });
+  await server.listen();
   try {
-    const tasks = [run({ store, sink, signal, log })];
-    if (cleanup) tasks.push(cleanup({ store, spool: envCtx.spool, sink, signal, log }));
+    const tasks = [run({ store, sink, signal, log, onHealth })];
+    if (cleanup) tasks.push(cleanup({ store, spool: envCtx.spool, sink, signal, log, onHealth }));
     const [summary] = await Promise.all(tasks);
     return { acquired: true, role, summary };
   } finally {
+    await server.close();
     await owned.release();
   }
 }
@@ -180,6 +291,7 @@ export async function runCli({
   env = process.env,
   envCtx,
   signal,
+  abort,
   onSignal = () => { },
   onSigterm = onSignal,
   onSigint = onSignal,
@@ -187,13 +299,14 @@ export async function runCli({
   handleResultImpl = handleResult
 } = {}) {
   const role = argv[0] || env.ROLE || 'collector';
+  if (!['collector', 'processor'].includes(role)) throw new Error(`Unknown service role: ${role}`);
   const envContext = envCtx || buildEnvironment({ env });
   const store = createCaptureStore({ spool: envContext.spool, sink: envContext.sink, feedId: envContext.feedId });
   const ownerId = role === 'processor' ? 'ttc-processor-1' : 'ttc-collector-1';
   const resolved = resolveService({ role, envCtx: envContext, store, signal });
   onSigterm();
   onSigint();
-  const result = await runServiceImpl({ role, ownerId, envCtx: envContext, signal, run: resolved.run, cleanup: resolved.cleanup });
+  const result = await runServiceImpl({ role, ownerId, envCtx: envContext, signal, abort, run: resolved.run, cleanup: resolved.cleanup });
   await handleResultImpl(result);
   return result;
 }
@@ -217,7 +330,7 @@ export function bootstrap({
   const shutdown = () => controller.abort();
   once('SIGTERM', shutdown);
   once('SIGINT', shutdown);
-  cli({ argv, env, signal: controller.signal }).catch(onFatal);
+  cli({ argv, env, signal: controller.signal, abort: shutdown }).catch(onFatal);
 }
 
 bootstrap();

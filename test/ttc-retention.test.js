@@ -6,6 +6,7 @@ import {
   oldestObjectAge,
   runCleanup,
   runCleanupLoop,
+  runDiagnosticRetention,
   isRetentionScopeKey,
   RAW_RETENTION_MS,
   DIAGNOSTIC_RETENTION_MS,
@@ -306,6 +307,176 @@ test('[STORY-64] createR2CaptureSink.delete signs a DELETE, tolerates a missing 
   await assert.rejects(sink.delete('boom'), /R2 capture delete failed: 500/);
   assert.equal(calls.length, 3);
   assert.equal(calls[0].method, 'DELETE');
+});
+
+test('[STORY-64] runDiagnosticRetention expires old bundles, evicts oversized sets oldest-first, and stays in scope', async () => {
+  const sink = memorySink();
+  const now = new Date(EPOCH);
+  // Discovery also lists an out-of-scope public key and a key with no object:
+  // the scope guard and the missing-body guard skip both without deleting anything.
+  sink.list = async () => [...sink.objects.keys(), 'data/current.json', 'ttc-diagnostics/ttc-vehicles/000000000099.json'];
+  const put = (sequence, recordedAt, bytes) => {
+    const body = JSON.stringify({ recordedAt: iso(recordedAt), padding: 'x'.repeat(Math.max(0, bytes - 100)) });
+    sink.objects.set(`ttc-diagnostics/ttc-vehicles/${String(sequence).padStart(12, '0')}.json`, body);
+    return Buffer.byteLength(body);
+  };
+  // Age-expired bundle (older than 24h) is deleted regardless of size.
+  put(0, EPOCH - DAY - 1, 10);
+  // A corrupt bundle with no parseable recordedAt is treated as the oldest
+  // possible object and evicted first.
+  sink.objects.set('ttc-diagnostics/ttc-vehicles/000000000001.json', 'not-json');
+  // Two fresh bundles; their combined size exceeds the cap so the older one is evicted.
+  const freshSize = 200 * 1024 * 1024;
+  put(2, EPOCH - HOUR, freshSize);
+  put(3, EPOCH - 30 * 60 * 1000, freshSize);
+  // A public object is never touchable.
+  sink.objects.set('data/current.json', '{}');
+
+  const logs = [];
+  const result = await runDiagnosticRetention({ sink, now, log: e => logs.push(e) });
+  assert.equal(result.deleted, 3);
+  assert.equal(result.retained, 1);
+  assert.equal(sink.objects.has('ttc-diagnostics/ttc-vehicles/000000000000.json'), false);
+  assert.equal(sink.objects.has('ttc-diagnostics/ttc-vehicles/000000000001.json'), false);
+  assert.equal(sink.objects.has('ttc-diagnostics/ttc-vehicles/000000000002.json'), false);
+  // The newest bundle is retained (within the size cap), and the public object survives.
+  assert.equal(sink.objects.has('ttc-diagnostics/ttc-vehicles/000000000003.json'), true);
+  assert.equal(sink.objects.has('data/current.json'), true);
+  assert.ok(logs[0].status === 'diagnostic-cleanup');
+  assert.ok(logs[0].oldestAgeMs <= HOUR);
+});
+
+test('[STORY-64] runCleanup reports the oldest retained-object age for the lifecycle monitor', async () => {
+  const sink = memorySink();
+  const spool = memorySpool();
+  const store = createCaptureStore({ spool, sink });
+  const now = EPOCH;
+  const make = (sequence, completedAtMs) => buildCapture({
+    feedId: 'ttc-vehicles', sequence, requestedAt: iso(completedAtMs), completedAt: iso(completedAtMs),
+    sourceUpdatedAt: iso(completedAtMs), bytes: 0, contentHash: `hash-${sequence}`, outcome: 'empty'
+  });
+  await store.commit(make(0, now - 2 * HOUR), null);
+  await store.commit(make(1, now - 5 * HOUR), null);
+  const result = await runCleanup({ store, spool, now, cursor: -1 });
+  assert.equal(result.oldestAgeMs, 5 * HOUR);
+});
+
+test('[STORY-64] runDiagnosticRetention validates its sink collaborator and defaults its log', async () => {
+  await assert.rejects(runDiagnosticRetention({ sink: undefined, now: EPOCH }), /requires a sink with list, get and delete/);
+  await assert.rejects(runDiagnosticRetention({ sink: {}, now: EPOCH }), /requires a sink with list, get and delete/);
+  await assert.rejects(runDiagnosticRetention({ sink: { list: async () => [], get: async () => undefined }, now: EPOCH }), /requires a sink with list, get and delete/);
+  // A pass with an empty prefix runs the default logger body.
+  const result = await runDiagnosticRetention({ sink: memorySink(), now: EPOCH });
+  assert.deepEqual(result, { deleted: 0, retained: 0, oldestAgeMs: null });
+});
+
+test('[STORY-64] runCleanupLoop isolates diagnostic and spool-retry failures and keeps the pass going', async () => {
+  const controller = new AbortController();
+  const logged = [];
+  let calls = 0;
+  const result = await runCleanupLoop({
+    store: { list: async () => [], remove: async () => {} }, spool: { list: async () => [] },
+    sink: memorySink(), diagnosticSpool: { list: async () => [] },
+    run: async () => { calls++; if (calls === 1) controller.abort(); return { deleted: 0, retained: 0, lostRange: null }; },
+    runDiagnostics: async () => { throw new Error('diag down'); },
+    retryDiagnostics: async () => { throw new Error('spool down'); },
+    intervalMs: 1,
+    signal: controller.signal,
+    wait: async () => {},
+    log: e => logged.push(e)
+  });
+  assert.equal(result.aborted, true);
+  assert.equal(calls, 1);
+  assert.ok(logged.some(e => e.status === 'cleanup-failed' && e.scope === 'diagnostics' && e.error === 'diag down'));
+  assert.ok(logged.some(e => e.status === 'cleanup-failed' && e.scope === 'diagnostic-spool' && e.error === 'spool down'));
+});
+
+test('[STORY-64] runCleanupLoop stays silent when a diagnostic retry has nothing to flush', async () => {
+  const controller = new AbortController();
+  const logged = [];
+  let calls = 0;
+  await runCleanupLoop({
+    store: { list: async () => [], remove: async () => {} }, spool: { list: async () => [] },
+    sink: memorySink(), diagnosticSpool: { list: async () => [] },
+    run: async () => { calls++; if (calls === 1) controller.abort(); return { deleted: 0, retained: 0, lostRange: null }; },
+    runDiagnostics: async () => ({ deleted: 0, retained: 0, oldestAgeMs: null }),
+    retryDiagnostics: async () => ({ flushed: 0, remaining: 0 }),
+    intervalMs: 1,
+    signal: controller.signal,
+    wait: async () => {},
+    log: e => logged.push(e)
+  });
+  assert.equal(calls, 1);
+  assert.equal(logged.some(e => e.status === 'diagnostic-spool'), false);
+});
+
+test('[STORY-64] runCleanupLoop propagates a non-abort wait failure', async () => {
+  await assert.rejects(runCleanupLoop({
+    store: {}, spool: {},
+    run: async () => ({ deleted: 0, retained: 0, lostRange: null }),
+    intervalMs: 1,
+    signal: new AbortController().signal,
+    wait: async () => { throw new Error('timer down'); }
+  }), /timer down/);
+});
+
+test('[STORY-64] runCleanupLoop runs the diagnostic retention pass and retries the diagnostic spool', async () => {
+  const controller = new AbortController();
+  const sink = memorySink();
+  const diagnosticSpool = { entries: new Map(), async write(k, b) { this.entries.set(k, b); }, async list() { return [...this.entries].map(([key, body]) => ({ key, body })); }, async remove(k) { this.entries.delete(k); } };
+  // A spooled bundle waiting out an R2 outage, retried by the hourly pass.
+  diagnosticSpool.entries.set('ttc-diagnostics/ttc-vehicles/000000000000.json', JSON.stringify({ recordedAt: iso(EPOCH - HOUR) }));
+  let pass = 0;
+  const logged = [];
+  const result = await runCleanupLoop({
+    store: { list: async () => [], remove: async () => {}, spoolDepth: async () => 0 }, spool: { list: async () => [] },
+    sink, diagnosticSpool,
+    run: async () => ({ deleted: 0, retained: 0, lostRange: null, oldestAgeMs: null }),
+    runDiagnostics: async () => ({ deleted: 0, retained: 0, oldestAgeMs: null }),
+    retryDiagnostics: async ({ spool }) => {
+      pass++;
+      const entries = await spool.list();
+      for (const { key, body } of entries) { sink.objects.set(key, body); await spool.remove(key); }
+      if (pass === 1) controller.abort();
+      return { flushed: entries.length, remaining: 0 };
+    },
+    intervalMs: 1,
+    signal: controller.signal,
+    wait: async () => {},
+    log: e => logged.push(e)
+  });
+  assert.equal(result.aborted, true);
+  assert.equal(sink.objects.has('ttc-diagnostics/ttc-vehicles/000000000000.json'), true);
+  assert.equal(diagnosticSpool.entries.size, 0);
+  assert.ok(logged.some(e => e.status === 'diagnostic-spool' && e.flushed === 1));
+});
+
+test('[STORY-64] runCleanupLoop default wait is signal-aware and stops without throwing on abort', async () => {
+  const controller = new AbortController();
+  let calls = 0;
+  await runCleanupLoop({
+    store: {}, spool: {},
+    run: async () => { calls++; if (calls === 1) setTimeout(() => controller.abort(), 1); return { deleted: 0, retained: 0, lostRange: null }; },
+    intervalMs: 20,
+    signal: controller.signal,
+    log: () => {}
+  });
+  assert.equal(calls, 1);
+});
+
+test('[STORY-64] runCleanupLoop breaks promptly when the signal aborts during the wait', async () => {
+  const controller = new AbortController();
+  let waited = false;
+  const result = await runCleanupLoop({
+    store: {}, spool: {},
+    run: async () => ({ deleted: 0, retained: 0, lostRange: null }),
+    intervalMs: 60000,
+    signal: controller.signal,
+    wait: async () => { waited = true; controller.abort(); },
+    log: () => {}
+  });
+  assert.equal(result.aborted, true);
+  assert.equal(waited, true);
 });
 
 test('[STORY-64] runCleanupLoop requires a signal', async () => {
