@@ -31,7 +31,7 @@ signals. The helper never reads or prints credentials: supply them through the
 environment or `fly` vars. The task config supplies its worker image.
 
 The scheduled pipeline consumes `main`, which has passed the protected promotion
-checks. Its `update-and-publish` task uses `node:24-bookworm-slim`, installs only
+checks. Its `update-and-publish` task uses `node:26-bookworm-slim`, installs only
 runtime dependencies with `npm ci --omit=dev`, and runs the incident update and R2
 publication. It does not build the test image or rerun tests, lint, syntax, or
 coverage checks. Those remain required in local verification and the promotion gate.

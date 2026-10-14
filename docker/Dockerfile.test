@@ -1,6 +1,6 @@
 FROM ghcr.io/astral-sh/ruff:0.17.0 AS ruff
 
-FROM node:24-bookworm
+FROM node:26-bookworm
 
 # The canonical build path (scripts/docker-test.sh --build) passes a fingerprint
 # of the image-defining inputs (docker/Dockerfile.test, docker/Dockerfile.test.dockerignore, package.json,

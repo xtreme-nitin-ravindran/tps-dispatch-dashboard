@@ -80,6 +80,13 @@ is a dependency/tooling snapshot, not a source snapshot.
 - Keep the image self-contained; do not rely on host Node or host tooling.
 - For changes affecting a Concourse task, also verify the affected task with `fly execute` against the working tree on the real worker. Extract its inline config from `concourse/pipeline.yml` (or the live pipeline when reproducing a deployed failure); do not maintain a duplicate task YAML. Local Docker validation does not reproduce task params, history inputs, or worker image access. See `docs/concourse.md` for worker-image considerations.
 
+### Dependabot coverage and the Concourse Node image drift guard
+
+- Dependabot is configured in `.github/dependabot.yml` for three ecosystems: `npm` at `/`, `docker` at `/docker` (which watches `docker/Dockerfile.test`), and `github-actions` at `/`. Keep all three entries; the `github-actions` entry is what bumps the pinned workflow actions (`actions/checkout`, `setup-node`, `cache`, `upload-artifact`, `download-artifact`).
+- Dependabot's `docker` ecosystem only parses Dockerfile `FROM` lines and Kubernetes/Helm `image:` fields. It **cannot** see Concourse `image_resource` tags (`repository: node, tag: ...` in `concourse/*.yml`), so those tags are never bumped automatically. Do not expect a Dependabot PR for them, and do not try to make Dependabot see them by moving the task into a separate `task.yml` — the file format, not the file location, is what Dependabot requires.
+- `concourse/node-image.yml` is the single declared source of truth for the Node image tags (`full`, `slim`). `test/concourse-node-image.test.js` (`[INFRA-CI][STORY-71]`) enforces that `docker/Dockerfile.test`, every `concourse/*.yml` task, and the Dependabot `docker` entry all agree with it. When Dependabot bumps the Dockerfile, CI fails until the runtime tags are updated in the same reviewed change.
+- When bumping the Node image, update together: `concourse/node-image.yml`, the `tag:` values in `concourse/pipeline.yml` / `tfs-etl.yml` / `ttc-vehicles.yml`, the `node:<tag>` mention in `docs/concourse.md`, and the two pinning tests `test/ci-test-strategy.test.js` and `test/fly-exec-task.test.js` (both assert `24-bookworm-slim`). Then rebuild the test image (`scripts/docker-test.sh --build`) and run `npm run verify`.
+
 ## Required tests and coverage
 
 - Before considering implementation complete or recommending push or promotion, all required tests must pass.
@@ -110,6 +117,7 @@ is a dependency/tooling snapshot, not a source snapshot.
 - `test/requirements.pending.json` is the only exemption mechanism: a bounded, explicit allow-list of not-yet-tagged files. The checker fails if a file is neither tagged nor pending, and fails if a pending file is fully tagged but still listed. The list shrinks as tagging completes and is deleted when empty.
 - `scripts/check-requirement-coverage.js` enforces this and runs as a required job in `npm run verify`. Its report of PRD requirements with zero tests is the obsolete-code signal; removing that code is a separate follow-up, not part of a tagging increment.
 - Tag tests story by story (one roadmap story per increment) to keep diffs small and reviewable. Do not retag unrelated tests in the same change.
+- Tests run inside the Docker test image, which mounts only `src`, `scripts`, `test`, `data`, `concourse`, `.github`, `assets`, `docker`, and the root entry files (see `scripts/docker-test.sh` `MOUNT_DIRS`/`MOUNT_FILES`). `docs/` is **not** mounted and is excluded by `docker/Dockerfile.test.dockerignore`, so a test must not read a file under `docs/`; assert against a mounted path instead.
 
 ## Deterministic fixtures and regression tests
 

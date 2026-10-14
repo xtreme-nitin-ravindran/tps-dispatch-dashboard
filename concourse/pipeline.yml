@@ -38,7 +38,7 @@ jobs:
           platform: linux
           image_resource:
             type: registry-image
-            source: { repository: node, tag: 24-bookworm-slim }
+            source: { repository: node, tag: 26-bookworm-slim }
           inputs:
             - name: repo
           outputs:
@@ -82,7 +82,7 @@ jobs:
           platform: linux
           image_resource:
             type: registry-image
-            source: { repository: node, tag: 24-bookworm }
+            source: { repository: node, tag: 26-bookworm }
           inputs:
             - name: repo
             - name: ttc-vehicle-evidence

@@ -185,6 +185,7 @@ Automation validates code changes and keeps the dashboard’s public data curren
 - Publishes coverage badges and reports to the generated **`coverage`** branch; do not use it for development.
 - Provides fallback data updates when the snapshot or either incident feed is at least ten minutes old or unavailable. Scheduled checks run every five minutes but may be delayed.
 - See [data pipeline details](docs/data-pipeline.md) and [coverage reporting](docs/validation.md#test-coverage).
+- Dependabot watches `npm`, the Docker test image (`docker/Dockerfile.test`), and the pinned GitHub Actions. It cannot see the Concourse `image_resource` Node tags, so those are guarded by `concourse/node-image.yml` and `test/concourse-node-image.test.js`; bump them together with the Dockerfile. See [Dependabot coverage and the Concourse Node image drift guard](AGENTS.md#dependabot-coverage-and-the-concourse-node-image-drift-guard).
 
 ### Data storage
 

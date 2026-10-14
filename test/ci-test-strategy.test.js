@@ -19,7 +19,7 @@ const [github, concourse] = await Promise.all([
 test("[INFRA-CI] GitHub Actions builds the shared Docker test image while Concourse uses a runtime image", () => {
   assert.match(github, /docker build -f docker\/Dockerfile\.test -t toronto-dispatch-tests \./);
   assert.match(concourse, /task: update-and-publish/);
-  assert.match(concourse, /repository: node, tag: 24-bookworm-slim/);
+  assert.match(concourse, /repository: node, tag: 26-bookworm-slim/);
   assert.match(concourse, /npm ci --omit=dev/);
   assert.match(concourse, /branch: main/);
   assert.doesNotMatch(concourse, /build-test-image|test-update-and-publish|test-image|oci-build-task|privileged:/);
