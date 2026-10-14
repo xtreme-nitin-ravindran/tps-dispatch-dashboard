@@ -26,9 +26,9 @@ export function memorySpool() {
   const entries = new Map();
   return {
     entries,
-    async write(capture) { entries.set(capture.sequence, capture); },
+    async write(capture, payload) { entries.set(capture.sequence, { capture, payload }); },
     async read(sequence) { return entries.get(sequence); },
-    async list() { return [...entries.values()].sort((a, b) => a.sequence - b.sequence); },
+    async list() { return [...entries.values()].sort((a, b) => a.capture.sequence - b.capture.sequence); },
     async remove(sequence) { entries.delete(sequence); },
     async depth() { return entries.size; }
   };

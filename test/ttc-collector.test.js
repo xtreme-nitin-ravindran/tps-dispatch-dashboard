@@ -92,7 +92,7 @@ test('[STORY-64] graceful shutdown flushes pending spool entries to R2', async (
   h.sink.failPut = false;
   const flushed = await h.store.flush();
   assert.deepEqual(flushed, { flushed: 3, remaining: 0 });
-  assert.equal(h.sink.objects.size, 3);
+  assert.equal(h.sink.objects.size, 6);
 });
 
 test('[STORY-64] a signal aborts the collector between polls', async () => {

@@ -85,6 +85,22 @@ async function tempCheckpoint() {
   return { dir, path: join(dir, 'checkpoint.json') };
 }
 
+// Abort the signal after the last capture is replayed, so the final window is
+// completed on the shutdown path. A window only closes at a boundary or on a
+// graceful shutdown, never at the end of a normal drain.
+function withShutdown(captures, replay) {
+  const controller = new AbortController();
+  const last = captures.at(-1).sequence;
+  return {
+    signal: controller.signal,
+    replay: (c, ctx) => {
+      const r = replay(c, ctx);
+      if (c.sequence === last) controller.abort();
+      return r;
+    }
+  };
+}
+
 test('[STORY-64] a single capture is replayed, the checkpoint is written and the cursor advances', async () => {
   const { dir, path: checkpointPath } = await tempCheckpoint();
   try {
@@ -100,12 +116,14 @@ test('[STORY-64] a single capture is replayed, the checkpoint is written and the
     assert.equal(checkpoint.staticVersion, index.version);
     assert.ok(checkpoint.state.inference);
     assert.ok(checkpoint.state.vehicle);
-    // The window is closed at end of run and published once.
-    assert.equal(published.length, 1);
+    // A single poll is an open window, not a completed one: nothing is published.
+    assert.equal(checkpoint.state.window.count, 1);
+    assert.equal(checkpoint.state.window.healthy, true);
+    assert.equal(published.length, 0);
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
 
-test('[STORY-64] a crash after inference but before the checkpoint replays identical output and counters', async () => {
+test('[STORY-64] a crash after inference but before the checkpoint resumes with identical state and counters', async () => {
   const { dir, path: checkpointPath } = await tempCheckpoint();
   try {
     const { captures, replay } = diversionRun(6);
@@ -120,15 +138,17 @@ test('[STORY-64] a crash after inference but before the checkpoint replays ident
     await assert.rejects(runProcessor({ store, replay, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0), writeCheckpoint: failing }), /crash/);
     const afterCrash = await readCheckpoint(checkpointPath);
     assert.equal(afterCrash.cursor, 0);
+    // The in-flight window is durable: the crash preserved the partial window.
+    assert.equal(afterCrash.state.window.count, 1);
+    assert.equal(afterCrash.state.window.healthy, true);
     // Second run: resume from the durable checkpoint and finish.
-    const published = [];
-    const resumed = await runProcessor({ store, replay, checkpointPath, loadStatic: async () => ({ index }), publish: async o => published.push(o), clock: () => at(0) });
+    const resumed = await runProcessor({ store, replay, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0) });
     assert.equal(resumed.cursor, 5);
-    // A clean run from scratch produces the same published output.
+    // A clean run from scratch reaches the same durable checkpoint (state, window
+    // and cursor): the Story 57 counters and the open window are identical.
     const { dir: dir2, path: checkpointPath2 } = await tempCheckpoint();
-    const clean = [];
-    await runProcessor({ store: storeWith(captures), replay, checkpointPath: checkpointPath2, loadStatic: async () => ({ index }), publish: async o => clean.push(o), clock: () => at(0) });
-    assert.deepEqual(published, clean);
+    await runProcessor({ store: storeWith(captures), replay, checkpointPath: checkpointPath2, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0) });
+    assert.deepEqual(await readCheckpoint(checkpointPath), await readCheckpoint(checkpointPath2));
     await rm(dir2, { recursive: true, force: true });
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
@@ -140,11 +160,12 @@ test('[STORY-64] a duplicate capture is processed once semantically and does not
     const run = diversionRun(6);
     const captures = run.captures.map((c, i) => (i >= 1 && i <= 4 ? { ...c, contentHash: run.captures[0].contentHash, classification: 'duplicate', newEvidence: false } : c));
     const store = storeWith(captures);
+    const { signal, replay } = withShutdown(captures, run.replay);
     const published = [];
     // A stub complete counts confirmations: one per window, never per poll.
     let completions = 0;
     const result = await runProcessor({
-      store, replay: run.replay, checkpointPath, loadStatic: async () => ({ index }), publish: async o => published.push(o), clock: () => at(0),
+      store, replay, signal, checkpointPath, loadStatic: async () => ({ index }), publish: async o => published.push(o), clock: () => at(0),
       infer: (previous, vehicles, idx, now) => ({ state: { checkedAt: now.toISOString(), records: [] } }),
       complete: (state) => { completions++; return { state, output: { status: 'ok', checkedAt: state.checkedAt, diversions: [] } }; }
     });
@@ -198,21 +219,22 @@ test('[STORY-64] a matching static version resumes from the durable cursor', asy
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
 
-test('[STORY-64] six polls at 30 s cadence form exactly one three-minute window', async () => {
+test('[STORY-64] six polls form one open window; the seventh poll closes it and starts the next', async () => {
   const { dir, path: checkpointPath } = await tempCheckpoint();
   try {
+    // Six polls all fall in one window: the window is open, not yet completed.
     const run = diversionRun(6);
     const published = [];
     const result = await runProcessor({ store: storeWith(run.captures), replay: run.replay, checkpointPath, loadStatic: async () => ({ index }), publish: async o => published.push(o), clock: () => at(0) });
-    assert.equal(result.windows, 1);
-    assert.equal(published.length, 1);
-    // The seventh poll starts a new window.
+    assert.equal(result.windows, 0);
+    assert.equal(published.length, 0);
+    // The seventh poll starts a new window: the first window completes once.
     const { dir: dir2, path: checkpointPath2 } = await tempCheckpoint();
     const published2 = [];
     const run7 = diversionRun(7);
     const result2 = await runProcessor({ store: storeWith(run7.captures), replay: run7.replay, checkpointPath: checkpointPath2, loadStatic: async () => ({ index }), publish: async o => published2.push(o), clock: () => at(0) });
-    assert.equal(result2.windows, 2);
-    assert.equal(published2.length, 2);
+    assert.equal(result2.windows, 1);
+    assert.equal(published2.length, 1);
     await rm(dir2, { recursive: true, force: true });
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
@@ -224,9 +246,10 @@ test('[STORY-64] an unavailable window is completed with healthy:false', async (
     const first = diversionRun(6);
     const second = diversionRun(6, { start: 180, sequenceOffset: 6 });
     const combined = combine(first, { ...second, captures: second.captures.map(c => ({ ...c, outcome: 'unavailable' })) });
+    const { signal, replay } = withShutdown(combined.captures, combined.replay);
     const completions = [];
     const result = await runProcessor({
-      store: storeWith(combined.captures), replay: combined.replay, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0),
+      store: storeWith(combined.captures), replay, signal, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0),
       infer: (previous, vehicles, idx, now) => ({ state: { checkedAt: now.toISOString(), records: [] } }),
       complete: (state, opts) => { completions.push(opts); return { state, output: { status: 'ok', checkedAt: state.checkedAt, diversions: [] } }; }
     });
@@ -242,9 +265,10 @@ test('[STORY-64] an incomplete window is completed with healthy:false', async ()
   try {
     // A full first window, then a second window with only two polls.
     const combined = combine(diversionRun(6), diversionRun(2, { start: 180, sequenceOffset: 6 }));
+    const { signal, replay } = withShutdown(combined.captures, combined.replay);
     const completions = [];
     const result = await runProcessor({
-      store: storeWith(combined.captures), replay: combined.replay, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0),
+      store: storeWith(combined.captures), replay, signal, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0),
       infer: (previous, vehicles, idx, now) => ({ state: { checkedAt: now.toISOString(), records: [] } }),
       complete: (state, opts) => { completions.push(opts); return { state, output: { status: 'ok', checkedAt: state.checkedAt, diversions: [] } }; }
     });
@@ -259,9 +283,10 @@ test('[STORY-64] a healthy complete window is completed with healthy:true once p
   try {
     // Two complete windows: complete is called once per window, both healthy.
     const combined = combine(diversionRun(6), diversionRun(6, { start: 180, sequenceOffset: 6 }));
+    const { signal, replay } = withShutdown(combined.captures, combined.replay);
     const completions = [];
     const result = await runProcessor({
-      store: storeWith(combined.captures), replay: combined.replay, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0),
+      store: storeWith(combined.captures), replay, signal, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0),
       infer: (previous, vehicles, idx, now) => ({ state: { checkedAt: now.toISOString(), records: [] } }),
       complete: (state, opts) => { completions.push(opts); return { state, output: { status: 'ok', checkedAt: state.checkedAt, diversions: [] } }; }
     });
@@ -274,9 +299,10 @@ test('[STORY-64] complete is called once per window, never once per poll', async
   const { dir, path: checkpointPath } = await tempCheckpoint();
   try {
     const combined = combine(diversionRun(6), diversionRun(6, { start: 180, sequenceOffset: 6 }));
+    const { signal, replay } = withShutdown(combined.captures, combined.replay);
     let completions = 0;
     const result = await runProcessor({
-      store: storeWith(combined.captures), replay: combined.replay, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0),
+      store: storeWith(combined.captures), replay, signal, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0),
       infer: (previous, vehicles, idx, now) => ({ state: { checkedAt: now.toISOString(), records: [] } }),
       complete: (state) => { completions++; return { state, output: { status: 'ok', checkedAt: state.checkedAt, diversions: [] } }; }
     });
@@ -290,13 +316,14 @@ test('[STORY-64] a replayed old sample is expired before publication', async () 
   try {
     // The captures are old (epoch 2026-09-28); the wall clock is far ahead.
     const { captures, replay } = diversionRun(6);
+    const { signal, replay: shutdownReplay } = withShutdown(captures, replay);
     const published = [];
     const wallNow = new Date(at(0).getTime() + DIVERSION_POLICY.evidenceMs + 60000);
     // A stub complete returns a diversion whose expiry is in the past relative to
     // the wall clock, so the processor must drop it before publication.
     const stale = { id: 'stale', lastObservedAt: at(0).toISOString(), expiresAt: at(DIVERSION_POLICY.evidenceMs / 1000).toISOString() };
     await runProcessor({
-      store: storeWith(captures), replay, checkpointPath, loadStatic: async () => ({ index }), publish: async o => published.push(o), clock: () => wallNow,
+      store: storeWith(captures), replay: shutdownReplay, signal, checkpointPath, loadStatic: async () => ({ index }), publish: async o => published.push(o), clock: () => wallNow,
       infer: (previous, vehicles, idx, now) => ({ state: { checkedAt: now.toISOString(), records: [] } }),
       complete: (state) => ({ state, output: { status: 'ok', checkedAt: state.checkedAt, diversions: [stale] } })
     });
@@ -468,10 +495,13 @@ test('[STORY-64] runProcessor requires a store, a replay function and a checkpoi
 test('[STORY-64] runProcessor works with the default clock, log and publish', async () => {
   const { dir, path: checkpointPath } = await tempCheckpoint();
   try {
-    const { captures, replay } = diversionRun(1);
+    // Seven polls: the sixth poll closes the first window, so the default
+    // no-op publish is exercised, and the seventh starts a new window.
+    const { captures, replay } = diversionRun(7);
     const result = await runProcessor({ store: storeWith(captures), replay, checkpointPath, loadStatic: async () => ({ index }) });
-    assert.equal(result.processed, 1);
-    assert.equal(result.cursor, 0);
+    assert.equal(result.processed, 7);
+    assert.equal(result.cursor, 6);
+    assert.equal(result.windows, 1);
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
 
@@ -503,5 +533,43 @@ test('[STORY-64] readCheckpoint surfaces a non-ENOENT, non-syntax read failure',
     // A directory where the checkpoint file is expected is a real read error.
     await mkdir(checkpointPath, { recursive: true });
     await assert.rejects(readCheckpoint(checkpointPath), /EISDIR/);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] a window split across two drains completes exactly once at the boundary', async () => {
+  const { dir, path: checkpointPath } = await tempCheckpoint();
+  try {
+    const combined = combine(diversionRun(6), diversionRun(6, { start: 180, sequenceOffset: 6 }));
+    const store = storeWith(combined.captures);
+    const completions = [];
+    const infer = (previous, vehicles, idx, now) => ({ state: { checkedAt: now.toISOString(), records: [] } });
+    const complete = (state, opts) => { completions.push(opts); return { state, output: { status: 'ok', checkedAt: state.checkedAt, diversions: [] } }; };
+    // First drain processes only the first three polls of window 1.
+    await runProcessor({ store, replay: combined.replay, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0), infer, complete, maxIterations: 3 });
+    assert.equal(completions.length, 0);
+    let checkpoint = await readCheckpoint(checkpointPath);
+    assert.equal(checkpoint.cursor, 2);
+    assert.deepEqual(checkpoint.state.window, { index: Math.floor(+at(0) / PROCESSOR_WINDOW_MS), healthy: true, count: 3 });
+    // Second drain resumes the same window and crosses the boundary.
+    await runProcessor({ store, replay: combined.replay, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0), infer, complete });
+    // Window 1 completes exactly once; window 2 is left open.
+    assert.equal(completions.length, 1);
+    assert.deepEqual(completions[0], { healthy: true, sourceHealthy: true });
+    checkpoint = await readCheckpoint(checkpointPath);
+    assert.equal(checkpoint.cursor, 11);
+    assert.deepEqual(checkpoint.state.window, { index: Math.floor(+at(180) / PROCESSOR_WINDOW_MS), healthy: true, count: 6 });
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] a shutdown signal with no open window completes nothing', async () => {
+  const { dir, path: checkpointPath } = await tempCheckpoint();
+  try {
+    const controller = new AbortController();
+    controller.abort();
+    const { replay } = diversionRun(1);
+    const result = await runProcessor({ store: storeWith([]), replay, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0), signal: controller.signal });
+    assert.equal(result.processed, 0);
+    assert.equal(result.windows, 0);
+    assert.equal(result.cursor, -1);
   } finally { await rm(dir, { recursive: true, force: true }); }
 });

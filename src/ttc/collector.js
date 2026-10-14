@@ -100,7 +100,7 @@ export async function runCollector({
     });
     validateCapture(capture, previousCapture);
     previousCapture = capture;
-    const result = await store.commit(capture);
+    const result = await store.commit(capture, outcome.bytes ?? null);
     spoolDepth = await store.spoolDepth();
     // Spool saturation is bounded and alerted, never silently dropped. The
     // oldest pending sequence comes from the spool, not the sink, because a

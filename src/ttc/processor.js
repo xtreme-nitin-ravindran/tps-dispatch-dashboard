@@ -131,23 +131,42 @@ export async function runProcessor({
   let inference = checkpoint?.state?.inference;
 
   let processed = 0, rejected = 0, windows = 0;
-  let windowIndex = null, windowHealthy = true, windowCount = 0;
+  // The in-flight three-minute evaluation window is durable state: a restart
+  // resumes the same window instead of reopening it, so a window split across
+  // runs is completed exactly once.
+  let windowIndex = checkpoint?.state?.window?.index ?? null;
+  let windowHealthy = checkpoint?.state?.window?.healthy ?? true;
+  let windowCount = checkpoint?.state?.window?.count ?? 0;
 
-  // Close the current window: complete once per window, apply wall-clock expiry,
-  // then publish. An unavailable or incomplete window is completed with
-  // `healthy:false` so it never increments healthy absences. The checkpoint is
-  // rewritten so it reflects the completed state, not the pre-completion state.
+  // Persist the full durable state (vehicle + inference + in-flight window) with
+  // the consumed cursor as one atomic unit, so state and cursor always come from
+  // the same write.
+  const persist = () => writeCheckpointImpl(checkpointPath, {
+    state: {
+      vehicle, inference,
+      window: windowIndex === null ? null : { index: windowIndex, healthy: windowHealthy, count: windowCount }
+    },
+    cursor,
+    staticVersion: index.version
+  });
+
+  // Close the current window: complete once per window, persist the completed
+  // counters, then apply wall-clock expiry and publish. An unavailable or
+  // incomplete window is completed with `healthy:false` so it never increments
+  // healthy absences. The completed state is made durable before the output is
+  // emitted so a crash cannot double-advance the counters.
   const closeWindow = async () => {
     if (windowIndex === null) return;
-    const healthy = windowHealthy && windowCount >= CAPTURES_PER_WINDOW;
-    const completed = complete(inference, { healthy, sourceHealthy: windowHealthy });
+    const closedIndex = windowIndex, closedCount = windowCount, closedHealthy = windowHealthy;
+    const healthy = closedHealthy && closedCount >= CAPTURES_PER_WINDOW;
+    const completed = complete(inference, { healthy, sourceHealthy: closedHealthy });
     inference = completed.state;
     windows++;
+    windowIndex = null; windowHealthy = true; windowCount = 0;
+    await persist();
     const output = applyWallClockExpiry(completed.output, clock());
     await publish(output);
-    await writeCheckpointImpl(checkpointPath, { state: { vehicle, inference }, cursor, staticVersion: index.version });
-    log({ source: 'ttc-processor', status: 'window', window: windowIndex, polls: windowCount, healthy, published: output.diversions.length });
-    windowIndex = null; windowHealthy = true; windowCount = 0;
+    log({ source: 'ttc-processor', status: 'window', window: closedIndex, polls: closedCount, healthy, published: output.diversions.length });
   };
 
   const captures = await store.list({ afterSequence: cursor });
@@ -172,9 +191,10 @@ export async function runProcessor({
       log({ source: 'ttc-processor', status: 'rejected', sequence: capture.sequence, error: error.message });
     }
     cursor = capture.sequence;
-    // The checkpoint binds the state and cursor from this same write.
-    await writeCheckpointImpl(checkpointPath, { state: { vehicle, inference }, cursor, staticVersion: index.version });
+    await persist();
   }
-  await closeWindow();
+  // A graceful shutdown closes the final (possibly incomplete) window. A normal
+  // drain end leaves the window open and persisted so the next drain resumes it.
+  if (signal?.aborted) await closeWindow();
   return { processed, rejected, cursor, windows, reset };
 }

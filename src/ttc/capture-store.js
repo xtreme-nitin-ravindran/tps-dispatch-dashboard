@@ -55,6 +55,9 @@ export function buildCapture({ feedId, sequence, requestedAt, completedAt,
   if (!CAPTURE_OUTCOMES.includes(outcome)) throw new Error(`Unknown capture outcome: ${outcome}`);
   if (!Number.isInteger(bytes) || bytes < 0) throw new Error('Capture bytes must be a non-negative integer');
   const classification = classifyCapture({ contentHash, sourceUpdatedAt }, previous);
+  // `bytes` is the payload byte count; zero means no payload was fetched, so the
+  // payload reference is null. A non-zero count points at the raw-bytes object.
+  const payload = bytes > 0 ? capturePayloadKey(feedId, sequence) : null;
   return Object.freeze({
     schemaVersion,
     feedId,
@@ -66,7 +69,8 @@ export function buildCapture({ feedId, sequence, requestedAt, completedAt,
     contentHash,
     outcome,
     classification,
-    newEvidence: classification === 'new-evidence'
+    newEvidence: classification === 'new-evidence',
+    payload
   });
 }
 
@@ -91,6 +95,7 @@ export function validateCapture(capture, previous) {
   if (!CAPTURE_OUTCOMES.includes(capture.outcome)) fail('outcome');
   if (!Number.isInteger(capture.bytes) || capture.bytes < 0) fail('bytes');
   if (capture.bytes > MAX_CAPTURE_BYTES) fail('oversized');
+  if (capture.payload !== null && !id(capture.payload)) fail('payload');
   if (!CAPTURE_CLASSIFICATIONS.includes(capture.classification)) fail('classification');
   if (capture.newEvidence !== (capture.classification === 'new-evidence')) fail('new-evidence');
   if (previous !== undefined) {
@@ -123,6 +128,13 @@ export function captureKey(feedId, sequence) {
   return `ttc-captures/${feedId}/${String(sequence).padStart(12, '0')}.json`;
 }
 
+// Object key for a capture's raw protobuf payload. The metadata references it via
+// `capture.payload`; the payload is a sibling object so ordered metadata discovery
+// stays small while the bytes remain age-deletable by the same sequence.
+export function capturePayloadKey(feedId, sequence) {
+  return `ttc-captures/${feedId}/${String(sequence).padStart(12, '0')}.pb`;
+}
+
 // Parse the sequence back out of a capture key, or null when the key is not a
 // capture key for the given feed.
 export function sequenceFromKey(feedId, key) {
@@ -136,12 +148,19 @@ export function sequenceFromKey(feedId, key) {
 // Durable write: local spool first, then R2 PUT. Returns durability state. A
 // failed PUT leaves the spool entry intact and reports `durable:false`; a
 // successful PUT clears the spool entry and reports `durable:true`.
-export async function commitCapture(capture, { spool, sink }) {
+export async function commitCapture(capture, { spool, sink, payload }) {
   validateCapture(capture);
   const key = captureKey(capture.feedId, capture.sequence);
   const body = JSON.stringify(capture);
-  await spool.write(capture);
+  // Spool the metadata and the raw payload together, so an R2 outage or a crash
+  // never loses either half of a capture that was observed.
+  await spool.write(capture, payload);
   try {
+    // Bytes first, metadata second: the metadata object is the commit point, so
+    // it never references a payload object that has not already been written.
+    if (capture.payload !== null && payload !== undefined && payload !== null) {
+      await sink.put(capture.payload, payload);
+    }
     await sink.put(key, body);
   } catch {
     return { durable: false, key };
@@ -174,29 +193,44 @@ export async function listCommitted({ sink, feedId, afterSequence = -1, limit = 
 // mid-write never leaves a partial spool entry.
 export function createFileSpool({ dir }) {
   const pathFor = (feedId, sequence) => resolve(dir, feedId, `${String(sequence).padStart(12, '0')}.json`);
+  const payloadPathFor = (feedId, sequence) => resolve(dir, feedId, `${String(sequence).padStart(12, '0')}.pb`);
+  const readPayload = async (feedId, sequence) => {
+    try { return await readFile(payloadPathFor(feedId, sequence)); }
+    catch (error) { if (error.code === 'ENOENT') return undefined; throw error; }
+  };
   return {
-    async write(capture) {
+    async write(capture, payload) {
       const target = pathFor(capture.feedId, capture.sequence);
       await mkdir(dirname(target), { recursive: true });
       await writeFile(`${target}.tmp`, JSON.stringify(capture));
       await rename(`${target}.tmp`, target);
+      if (payload !== undefined && payload !== null) {
+        const ptarget = payloadPathFor(capture.feedId, capture.sequence);
+        await writeFile(`${ptarget}.tmp`, payload);
+        await rename(`${ptarget}.tmp`, ptarget);
+      }
     },
     async read(sequence, feedId = 'ttc-vehicles') {
-      try { return JSON.parse(await readFile(pathFor(feedId, sequence), 'utf8')); }
+      let capture;
+      try { capture = JSON.parse(await readFile(pathFor(feedId, sequence), 'utf8')); }
       catch (error) { if (error.code === 'ENOENT') return undefined; throw error; }
+      return { capture, payload: await readPayload(feedId, sequence) };
     },
     async list(feedId = 'ttc-vehicles') {
       let names;
       try { names = await readdir(resolve(dir, feedId)); }
       catch (error) { if (error.code === 'ENOENT') return []; throw error; }
-      const captures = [];
+      const entries = [];
       for (const name of names.filter(n => n.endsWith('.json')).sort()) {
-        captures.push(JSON.parse(await readFile(resolve(dir, feedId, name), 'utf8')));
+        const sequence = Number(name.slice(0, -'.json'.length));
+        const capture = JSON.parse(await readFile(resolve(dir, feedId, name), 'utf8'));
+        entries.push({ capture, payload: await readPayload(feedId, sequence) });
       }
-      return captures;
+      return entries;
     },
     async remove(sequence, feedId = 'ttc-vehicles') {
       await rm(pathFor(feedId, sequence), { force: true });
+      await rm(payloadPathFor(feedId, sequence), { force: true });
     },
     async depth(feedId = 'ttc-vehicles') {
       try { return (await readdir(resolve(dir, feedId))).filter(n => n.endsWith('.json')).length; }
@@ -226,6 +260,12 @@ export function createR2CaptureSink({
       if (response.status === 404) return undefined;
       if (!response.ok) throw new Error(`R2 capture read failed: ${response.status}`);
       return response.text();
+    },
+    async getBytes(key) {
+      const response = await signedFetch('GET', key);
+      if (response.status === 404) return undefined;
+      if (!response.ok) throw new Error(`R2 capture read failed: ${response.status}`);
+      return Buffer.from(await response.arrayBuffer());
     },
     async list(prefix) {
       const response = await signedFetch('GET', `?list-type=2&prefix=${encodeURIComponent(prefix)}`);
@@ -257,15 +297,18 @@ export function createCaptureSinkFromEnv({ env = process.env } = {}) {
 // a recovery pass drains the spool without losing captures.
 export function createCaptureStore({ spool, sink, feedId = 'ttc-vehicles' }) {
   return {
-    async commit(capture) { return commitCapture(capture, { spool, sink }); },
+    async commit(capture, payload) { return commitCapture(capture, { spool, sink, payload }); },
     async list({ afterSequence = -1, limit = Infinity } = {}) { return listCommitted({ sink, feedId, afterSequence, limit }); },
     async spoolDepth() { return spool.depth(feedId); },
-    async pending() { return spool.list(feedId); },
+    async pending() { return (await spool.list(feedId)).map(entry => entry.capture); },
     async flush() {
-      const pending = await spool.list(feedId);
+      const entries = await spool.list(feedId);
       let flushed = 0;
-      for (const capture of pending) {
+      for (const { capture, payload } of entries) {
         try {
+          if (payload !== undefined && payload !== null) {
+            await sink.put(capturePayloadKey(capture.feedId, capture.sequence), payload);
+          }
           await sink.put(captureKey(capture.feedId, capture.sequence), JSON.stringify(capture));
           await spool.remove(capture.sequence, capture.feedId);
           flushed++;

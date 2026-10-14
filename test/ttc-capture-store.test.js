@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, rm, writeFile, mkdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { buildCapture, classifyCapture, validateCapture, commitCapture, listCommitted, captureKey, sequenceFromKey, createFileSpool, createR2CaptureSink, createCaptureSinkFromEnv, CAPTURE_SCHEMA_VERSION, MAX_CAPTURE_BYTES } from '../src/ttc/capture-store.js';
+import { buildCapture, classifyCapture, validateCapture, commitCapture, listCommitted, captureKey, capturePayloadKey, sequenceFromKey, createFileSpool, createR2CaptureSink, createCaptureSinkFromEnv, CAPTURE_SCHEMA_VERSION, MAX_CAPTURE_BYTES } from '../src/ttc/capture-store.js';
 import { memorySink, memorySpool } from './fixtures/ttc-capture/store.js';
 
 // Golden fixture for the identical-feed rule. New vehicle evidence requires a
@@ -110,6 +110,7 @@ test('[STORY-64] validateCapture rejects malformed, oversized and inconsistent r
   assert.throws(() => validateCapture({ ...capture, bytes: MAX_CAPTURE_BYTES + 1 }), /oversized/);
   assert.throws(() => validateCapture({ ...capture, classification: 'weird' }), /classification/);
   assert.throws(() => validateCapture({ ...capture, newEvidence: false }), /new-evidence/);
+  assert.throws(() => validateCapture({ ...capture, payload: '' }), /payload/);
 });
 
 const captureAt = (sequence, contentHash, sourceUpdatedAt, previous) =>
@@ -134,7 +135,7 @@ test('[STORY-64] commitCapture keeps the spool intact and reports durable:false 
   assert.deepEqual(result, { durable: false, key: captureKey('ttc-vehicles', 0) });
   // The capture is still recoverable from the spool and was never written to R2.
   assert.equal(await spool.depth(), 1);
-  assert.equal((await spool.read(0)).contentHash, 'hash-1');
+  assert.equal((await spool.read(0)).capture.contentHash, 'hash-1');
   assert.equal(sink.objects.size, 0);
 });
 
@@ -198,8 +199,8 @@ test('[STORY-64] createFileSpool round-trips captures atomically and reports dep
     const capture = captureAt(0, 'hash-1', '2026-10-13T12:00:00.000Z');
     await spool.write(capture);
     assert.equal(await spool.depth(), 1);
-    assert.equal((await spool.read(0)).contentHash, 'hash-1');
-    assert.deepEqual((await spool.list()).map(c => c.sequence), [0]);
+    assert.equal((await spool.read(0)).capture.contentHash, 'hash-1');
+    assert.deepEqual((await spool.list()).map(e => e.capture.sequence), [0]);
     await spool.remove(0);
     assert.equal(await spool.depth(), 0);
     // Removing a missing entry is a no-op.
@@ -264,4 +265,91 @@ test('[STORY-64] createFileSpool surfaces non-ENOENT read/list/depth failures', 
     await assert.rejects(createFileSpool({ dir: fileDir }).depth(), /ENOTDIR/);
     await rm(fileDir, { recursive: true, force: true });
   } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] capturePayloadKey is a sibling .pb key and sequenceFromKey rejects it', () => {
+  assert.equal(capturePayloadKey('ttc-vehicles', 42), 'ttc-captures/ttc-vehicles/000000000042.pb');
+  assert.equal(sequenceFromKey('ttc-vehicles', capturePayloadKey('ttc-vehicles', 42)), null);
+});
+
+test('[STORY-64] commitCapture writes the raw payload before the metadata and the metadata references it', async () => {
+  const spool = memorySpool();
+  const sink = memorySink();
+  const capture = captureAt(0, 'hash-1', '2026-10-13T12:00:00.000Z');
+  const payload = Buffer.from('raw-protobuf-bytes');
+  const result = await commitCapture(capture, { spool, sink, payload });
+  assert.equal(result.durable, true);
+  assert.equal(capture.payload, capturePayloadKey('ttc-vehicles', 0));
+  assert.deepEqual(sink.objects.get(capturePayloadKey('ttc-vehicles', 0)), payload);
+  assert.equal(sink.objects.get(captureKey('ttc-vehicles', 0)), JSON.stringify(capture));
+  assert.equal(await spool.depth(), 0);
+});
+
+test('[STORY-64] commitCapture keeps the payload in the spool when R2 fails', async () => {
+  const spool = memorySpool();
+  const sink = memorySink({ failPut: true });
+  const capture = captureAt(0, 'hash-1', '2026-10-13T12:00:00.000Z');
+  const payload = Buffer.from('raw-protobuf-bytes');
+  const result = await commitCapture(capture, { spool, sink, payload });
+  assert.equal(result.durable, false);
+  assert.equal(await spool.depth(), 1);
+  assert.deepEqual((await spool.read(0)).payload, payload);
+  assert.equal((await spool.read(0)).capture.contentHash, 'hash-1');
+});
+
+test('[STORY-64] an unavailable capture has a null payload reference', () => {
+  const capture = buildCapture({ ...base, bytes: 0, contentHash: 'hash-1', sourceUpdatedAt: null, outcome: 'unavailable' });
+  assert.equal(capture.payload, null);
+});
+
+test('[STORY-64] createFileSpool round-trips the raw payload alongside the capture', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'capture-spool-payload-'));
+  try {
+    const spool = createFileSpool({ dir });
+    const capture = captureAt(0, 'hash-1', '2026-10-13T12:00:00.000Z');
+    const payload = Buffer.from('raw-bytes');
+    await spool.write(capture, payload);
+    assert.deepEqual((await spool.read(0)).payload, payload);
+    assert.deepEqual((await spool.list())[0].payload, payload);
+    await spool.remove(0);
+    assert.equal(await spool.depth(), 0);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] createR2CaptureSink.getBytes returns the raw bytes', async () => {
+  const sink = createR2CaptureSink({ endpoint: 'https://r2.example.com', bucket: 'b', accessKeyId: 'a', secretAccessKey: 's', fetchImpl: async (url, options) => {
+    if (options.method === 'GET') return { ok: true, status: 200, arrayBuffer: async () => new Uint8Array([0, 1, 2, 255]).buffer };
+    return { ok: true, status: 200 };
+  } });
+  assert.deepEqual(await sink.getBytes('k'), Buffer.from([0, 1, 2, 255]));
+});
+
+test('[STORY-64] createFileSpool writes no payload file for a null payload', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'capture-spool-null-'));
+  try {
+    const spool = createFileSpool({ dir });
+    const capture = captureAt(0, 'hash-1', '2026-10-13T12:00:00.000Z');
+    await spool.write(capture, null);
+    assert.equal((await spool.read(0)).payload, undefined);
+    await spool.remove(0);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] createFileSpool surfaces a non-ENOENT payload read failure', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'capture-spool-payload-err-'));
+  try {
+    const spool = createFileSpool({ dir });
+    await mkdir(join(dir, 'ttc-vehicles'), { recursive: true });
+    await writeFile(join(dir, 'ttc-vehicles', '000000000000.json'), JSON.stringify(captureAt(0, 'hash-1', '2026-10-13T12:00:00.000Z')));
+    // A directory where the payload file is expected is a real read error.
+    await mkdir(join(dir, 'ttc-vehicles', '000000000000.pb'), { recursive: true });
+    await assert.rejects(spool.read(0), /EISDIR/);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] createR2CaptureSink.getBytes reports a missing object and surfaces failures', async () => {
+  const notFound = createR2CaptureSink({ endpoint: 'https://r2.example.com', bucket: 'b', accessKeyId: 'a', secretAccessKey: 's', fetchImpl: async () => ({ ok: false, status: 404 }) });
+  assert.equal(await notFound.getBytes('missing'), undefined);
+  const failing = createR2CaptureSink({ endpoint: 'https://r2.example.com', bucket: 'b', accessKeyId: 'a', secretAccessKey: 's', fetchImpl: async () => ({ ok: false, status: 500 }) });
+  await assert.rejects(failing.getBytes('k'), /read failed: 500/);
 });
