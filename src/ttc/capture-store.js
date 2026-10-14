@@ -267,6 +267,11 @@ export function createR2CaptureSink({
       if (!response.ok) throw new Error(`R2 capture read failed: ${response.status}`);
       return Buffer.from(await response.arrayBuffer());
     },
+    async delete(key) {
+      const response = await signedFetch('DELETE', key);
+      if (response.status === 404) return;
+      if (!response.ok) throw new Error(`R2 capture delete failed: ${response.status}`);
+    },
     async list(prefix) {
       const response = await signedFetch('GET', `?list-type=2&prefix=${encodeURIComponent(prefix)}`);
       if (!response.ok) throw new Error(`R2 capture list failed: ${response.status}`);
@@ -300,6 +305,11 @@ export function createCaptureStore({ spool, sink, feedId = 'ttc-vehicles' }) {
     async commit(capture, payload) { return commitCapture(capture, { spool, sink, payload }); },
     async list({ afterSequence = -1, limit = Infinity } = {}) { return listCommitted({ sink, feedId, afterSequence, limit }); },
     async spoolDepth() { return spool.depth(feedId); },
+    async remove(sequence) {
+      await sink.delete(captureKey(feedId, sequence));
+      await sink.delete(capturePayloadKey(feedId, sequence));
+      await spool.remove(sequence, feedId);
+    },
     async pending() { return (await spool.list(feedId)).map(entry => entry.capture); },
     async flush() {
       const entries = await spool.list(feedId);
