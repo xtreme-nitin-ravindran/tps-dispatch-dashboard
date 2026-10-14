@@ -57,12 +57,14 @@ function text(value) {
 }
 
 function decodeXml(value) {
+    // Unescape the ampersand last: it is the escape meta-character, so decoding it
+    // first would turn an escaped entity such as "&amp;lt;" into "<" (double-unescaping).
     return value
         .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)))
         .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
-        .replace(/&amp;/g, "&")
         .replace(/&lt;/g, "<")
         .replace(/&gt;/g, ">")
         .replace(/&quot;/g, '"')
-        .replace(/&apos;/g, "'");
+        .replace(/&apos;/g, "'")
+        .replace(/&amp;/g, "&");
 }

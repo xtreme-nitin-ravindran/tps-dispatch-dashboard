@@ -101,3 +101,12 @@ test('[DATA-NORMALIZE] TFS fetch propagates HTTP failures and the supplied abort
  assert.equal(result.rejected,1);
  assert.deepEqual(result.rejectedReasons,{missing_id:1,invalid_timestamp:0});
 });
+
+test('[DATA-NORMALIZE] TFS XML decoding unescapes the ampersand last so entities are not double-unescaped', async () => {
+ const {fetchTfsSource}=await import('../src/tfs/source.js');
+ // "&amp;lt;" is the escaped form of the literal text "&lt;". Decoding the ampersand
+ // first would turn it into "<" (double-unescaping); the ampersand must be decoded last.
+ const result=await fetchTfsSource({fetchImpl:async()=>({ok:true,text:async()=>'<tfs_active_incidents><update_from_db_time>2026-09-22T00:00:00Z</update_from_db_time><event><event_num>F1</event_num><dispatch_time>2026-09-22T00:00:00Z</dispatch_time><prime_street>&amp;lt; &amp;amp; &amp;gt;</prime_street></event></tfs_active_incidents>'})});
+ assert.equal(result.incidents.length,1);
+ assert.equal(result.incidents[0].location,'&lt; &amp; &gt;');
+});
