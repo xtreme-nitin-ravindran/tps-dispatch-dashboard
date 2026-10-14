@@ -78,7 +78,7 @@ jobs:
 
       - name: Save coverage badges and report
         if: needs.changes.outputs.docs_only != 'true'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-badges
           if-no-files-found: error
