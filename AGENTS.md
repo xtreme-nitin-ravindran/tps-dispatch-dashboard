@@ -108,12 +108,25 @@ is a dependency/tooling snapshot, not a source snapshot.
 - Do not add artificial execution paths solely to satisfy coverage.
 - Before committing, run `npm run verify`, which covers the canonical offline unit suite in America/Los_Angeles, the same canonical offline suite in UTC with the 100/100/100 coverage gate, the live-source integration suite, browser JavaScript syntax checks, applicable lint checks, and `git diff --check`. The UTC coverage job is also the UTC unit-suite execution, so there is no separate redundant UTC unit job.
 
-### Test-to-requirement traceability (Story 62)
+### Test-to-requirement traceability
 
-- Every test is classified as either a PRD requirement or explicit infrastructure. This is a traceability layer with an explicit infrastructure bucket, not a forced 1:1 mapping; a large fraction of tests are tooling, not product.
-- Requirement IDs come from the canonical roadmap and are reused verbatim: `MUST-<n>`, `SHOULD-<n>`, `COULD-<n>` (durable product capability) and `STORY-<n>` (delivery increment, e.g. `STORY-41A`). A test may carry several.
-- Infrastructure tests use an enumerated `INFRA-*` area from a fixed allow-list validated by the checker: `INFRA-DOCKER`, `INFRA-VERIFY`, `INFRA-CI`, `INFRA-PUBLISH`, `INFRA-BROWSER`, `INFRA-ASSETS`, `INFRA-PWA`, `INFRA-WATCH`, `INFRA-TTC-PIPELINE`, `INFRA-LINT`.
-- Put the ID(s) at the start of the test name in brackets, e.g. `test("[MUST-1] nearby summary counts calls within radius", ...)`; stack multiple IDs, e.g. `test("[SHOULD-9][STORY-28] saved locations ...", ...)`.
+- Every test is classified as either a `STORY-*` delivery increment or an explicit `INFRA-*` area. This is a traceability layer with an explicit infrastructure bucket, not a forced 1:1 mapping; a large fraction of tests are tooling, not product.
+- Requirement IDs come from the canonical roadmap and are reused verbatim: `STORY-<n>` (delivery increment, e.g. `STORY-41A`). A test may carry several.
+- Infrastructure tests use one of the enumerated `INFRA-*` areas from a fixed allow-list validated by the checker:
+
+  | `INFRA-*` area | Covers |
+  |---|---|
+  | `INFRA-DOCKER` | Docker test image and the working-tree wrapper |
+  | `INFRA-VERIFY` | The `npm run verify` orchestration |
+  | `INFRA-CI` | CI strategy, promotion, and pipeline configuration |
+  | `INFRA-PUBLISH` | Data publication and the R2 sink |
+  | `INFRA-BROWSER` | Playwright browser suites and the runner |
+  | `INFRA-ASSETS` | Frontend asset versioning and cache busting |
+  | `INFRA-PWA` | PWA metadata, manifest, and install scope |
+  | `INFRA-WATCH` | Watch backend and notification delivery |
+  | `INFRA-TTC-PIPELINE` | TTC capture and geometry pipeline |
+  | `INFRA-LINT` | ESLint, Ruff, and syntax checks |
+- Put the ID(s) at the start of the test name in brackets, e.g. `test("[STORY-4] nearby summary counts calls within radius", ...)`; stack multiple IDs, e.g. `test("[STORY-28][INFRA-CI] saved locations ...", ...)`.
 - `test/requirements.map.json` is the authoritative test-file → `[IDs]` map (many-to-many) and also declares the valid PRD ID space in its `requirements` array (the roadmap is git-ignored and not available inside the Docker test mount, so the ID space is tracked here). The checker cross-validates the map against the IDs in test names: every ID in a name must appear in that file's map, and every mapped ID must appear in at least one name in that file. The checker's own test file (`test/requirement-coverage.test.js`) is exempt from the name/map cross-validation because it necessarily embeds example ID literals, but it must still be mapped.
 - `test/requirements.pending.json` is the only exemption mechanism: a bounded, explicit allow-list of not-yet-tagged files. The checker fails if a file is neither tagged nor pending, and fails if a pending file is fully tagged but still listed. The list shrinks as tagging completes and is deleted when empty.
 - `scripts/check-requirement-coverage.js` enforces this and runs as a required job in `npm run verify`. Its report of PRD requirements with zero tests is the obsolete-code signal; removing that code is a separate follow-up, not part of a tagging increment.
