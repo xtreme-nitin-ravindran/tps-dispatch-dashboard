@@ -22,6 +22,7 @@ import { incidentArrivalState, reconcileIncidentSelection } from "../incident-se
 import { markerAgeLabel, markerAgeTier, markerGlyph } from "../marker-age.js";
 import { incidentBadge, incidentBadgeExpiry } from "../incident-badge.js?v=incident-badges-1";
 import { incidentMatchesSearch } from "../incident-search.js";
+import { escapeHtml } from "../html-escape.js";
 import { DISPATCH_GLOSSARY_FOOTER, glossaryDefinition } from "../dispatch-glossary.js?v=glossary-1";
 import { applyTheme, normalizeThemePreference } from "../theme.js";
 import { createRefreshFreshnessTracker } from "../refresh-freshness.js";
@@ -1082,7 +1083,7 @@ async function loadData() {
       els.callList.innerHTML = `
         <div class="error-state">
           <strong>Couldn’t load the public dispatch feed.</strong>
-          <p>${escapeText(error.message)}</p>
+          <p>${escapeHtml(error.message)}</p>
           <p>Some browsers or networks may block cross-origin requests. See README.md for the optional proxy setup.</p>
         </div>`;
     }
@@ -1100,7 +1101,7 @@ function populateDivisionFilter(calls) {
   }
 
   els.divisionSelect.innerHTML = `<option value="all">All police divisions</option>` +
-    divisions.map(d => `<option value="${encodeURIComponent(d)}">${d}</option>`).join("");
+    divisions.map(d => `<option value="${encodeURIComponent(d)}">${escapeHtml(d)}</option>`).join("");
 
   const exists = divisions.includes(current);
   state.division = exists ? current : "all";
@@ -1448,7 +1449,7 @@ function createIncidentCard(call, { distance = "", variant = "list" } = {}) {
   const vehicles = row.querySelector(".call-vehicles");
   vehicles.hidden = !call.unitGroups.length;
   units.innerHTML = call.unitGroups.map(group =>
-    `<div><strong>${escapeText(group.type)}:</strong> ${escapeText(group.values)}</div>`).join("");
+    `<div><strong>${escapeHtml(group.type)}:</strong> ${escapeHtml(group.values)}</div>`).join("");
 
   const hint = row.querySelector(".show-map-hint");
   hint.hidden = variant === "popup" || !coordinatesForCall(call);
