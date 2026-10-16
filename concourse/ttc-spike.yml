@@ -1,0 +1,131 @@
+jobs:
+  - build_log_retention:
+      builds: 100
+    max_in_flight: 1
+    name: capture-ttc
+    plan:
+      - get: refresh
+        trigger: true
+      - get: repo
+      - config:
+          caches:
+            - path: ttc-vehicle-cache
+          image_resource:
+            name: ""
+            source:
+              repository: node
+              tag: 24-bookworm-slim
+            type: registry-image
+          inputs:
+            - name: repo
+          outputs:
+            - name: ttc-vehicle-evidence
+          params:
+            R2_ACCESS_KEY_ID: ((r2_access_key_id))
+            R2_BUCKET: sirento
+            R2_ENDPOINT: https://5990b36e0ef3b3fee2af6a5b2830f73d.r2.cloudflarestorage.com
+            R2_SECRET_ACCESS_KEY: ((r2_secret_access_key))
+            TTC_DIVERSION_OUTPUT: ttc-vehicle-evidence/diversions.json
+            TTC_DIVERSION_STATE: ttc-vehicle-cache/diversion-state.json
+            TTC_STATIC_CACHE: ttc-vehicle-cache/surface.zip
+            TTC_VEHICLE_OUTPUT: ttc-vehicle-evidence/deviations.json
+            TTC_VEHICLE_STATE: ttc-vehicle-cache/vehicle-state.json
+          platform: linux
+          run:
+            args:
+              - -ec
+              - |
+                npm ci --prefix repo --omit=dev
+                node repo/scripts/r2-fetch.js data/current.json ttc-vehicle-evidence/current.json
+                node --input-type=module <<'JS'
+                import { spawnSync } from 'node:child_process';
+                import { createHash } from 'node:crypto';
+                import { readFile, writeFile } from 'node:fs/promises';
+                const startedAt = new Date().toISOString();
+                const run = spawnSync(process.execPath, ['repo/scripts/ttc-vehicles.js', '--polls', '4', '--interval-ms', '30000', '--advisory', 'ttc-vehicle-evidence/current.json'], { encoding: 'utf8', maxBuffer: 4 * 1024 * 1024 });
+                process.stdout.write(run.stdout || '');
+                process.stderr.write(run.stderr || '');
+                const sources = new Set(['ttc-vehicle-static', 'ttc-official-advisories', 'ttc-vehicles-cache', 'ttc-diversions-cache', 'ttc-vehicles', 'ttc-diversions', 'ttc-diversions-summary', 'ttc-continuity']);
+                const events = (run.stdout || '').split('\n').flatMap(line => {
+                  try { const event = JSON.parse(line); return sources.has(event.source) ? [event] : []; }
+                  catch { return []; }
+                });
+                let vehicleSource = null;
+                try {
+                  const state = JSON.parse(await readFile(process.env.TTC_VEHICLE_STATE, 'utf8'));
+                  vehicleSource = { status: state.status, checkedAt: state.checkedAt, fetchedAt: state.fetchedAt, sourceUpdatedAt: state.sourceUpdatedAt, staticVersion: state.staticVersion };
+                } catch (error) { if (error.code !== 'ENOENT') throw error; }
+                let diversions = [];
+                try {
+                  const state = JSON.parse(await readFile(process.env.TTC_DIVERSION_STATE, 'utf8'));
+                  diversions = state.records.map(d => ({ id: d.id, routeId: d.routeId, directionId: d.directionId, patternId: d.patternId, shapeId: d.shapeId,
+                    status: d.status, firstObservedAt: d.firstObservedAt, lastObservedAt: d.lastObservedAt,
+                    evidence: d.evidence, confidence: d.confidence, retirementMs: d.retirementMs,
+                    geometryHash: createHash('sha256').update(JSON.stringify(d.geometry)).digest('hex'),
+                    relatedAlertCount: d.relatedAlertIds.length, relatedAdvisoryCount: d.relatedAdvisoryRefs.length }));
+                } catch (error) { if (error.code !== 'ENOENT') throw error; }
+                await writeFile('ttc-vehicle-evidence/diagnostics.json', JSON.stringify({ schemaVersion: 1, startedAt, finishedAt: new Date().toISOString(), exitCode: run.status ?? 1, signal: run.signal, vehicleSource, diversions, events }) + '\n');
+                // Allow publication to archive the diagnostics before reporting a polling failure.
+                JS
+            path: /bin/sh
+        task: observe-vehicles
+        timeout: 6m
+      - config:
+          image_resource:
+            name: ""
+            source:
+              repository: node
+              tag: 24-bookworm
+            type: registry-image
+          inputs:
+            - name: repo
+            - name: ttc-vehicle-evidence
+          params:
+            R2_ACCESS_KEY_ID: ((r2_access_key_id))
+            R2_BUCKET: sirento
+            R2_ENDPOINT: https://5990b36e0ef3b3fee2af6a5b2830f73d.r2.cloudflarestorage.com
+            R2_SECRET_ACCESS_KEY: ((r2_secret_access_key))
+          platform: linux
+          run:
+            args:
+              - -ec
+              - |
+                cd repo
+                npm ci --omit=dev
+                node --input-type=module <<'JS'
+                import { readFile } from 'node:fs/promises';
+                import { publicTtcGeometry } from './scripts/publish-ttc-geometry.js';
+                import { createSinkFromEnv } from './scripts/lib/publication-sink.js';
+                const run = JSON.parse(await readFile('../ttc-vehicle-evidence/diagnostics.json', 'utf8'));
+                let output = null;
+                try { output = JSON.parse(await readFile('../ttc-vehicle-evidence/diversions.json', 'utf8')); }
+                catch (error) { if (error.code !== 'ENOENT') throw error; }
+                const geometry = output ? publicTtcGeometry(output) : { schemaVersion: 1, status: 'unavailable', checkedAt: run.finishedAt, diversions: [] };
+                const timestamp = new Date().toISOString().replaceAll(':', '-');
+                const key = `spike/ttc-diversions-${timestamp}.json`;
+                const diagnosticsKey = `spike/ttc-diversions-${timestamp}-diagnostics.json`;
+                const diagnostics = { ...run, geometryKey: key, inferenceStatus: output?.status ?? 'unavailable', artifactPresent: output !== null };
+                const publish = createSinkFromEnv();
+                await publish({ key, body: `${JSON.stringify(geometry)}\n` });
+                await publish({ key: diagnosticsKey, body: `${JSON.stringify(diagnostics)}\n` });
+                console.log(JSON.stringify({ source: 'ttc-spike', key, diagnosticsKey, status: geometry.status, checkedAt: geometry.checkedAt, diversions: geometry.diversions.length, nonEmpty: geometry.diversions.length > 0 }));
+                if (run.exitCode !== 0) throw new Error(`TTC polling failed with exit code ${run.exitCode}; diagnostics archived`);
+                JS
+            path: sh
+        task: publish-ttc-geometry
+        timeout: 3m
+resources:
+  - check_every: 30s
+    name: refresh
+    source:
+      interval: 2m
+      location: America/Toronto
+      start: "08:00"
+      stop: "18:00"
+    type: time
+  - name: repo
+    source:
+      branch: main
+      private_key: ((repo_private_key))
+      uri: git@github.com:xtreme-nitin-ravindran/tps-dispatch-dashboard.git
+    type: git
