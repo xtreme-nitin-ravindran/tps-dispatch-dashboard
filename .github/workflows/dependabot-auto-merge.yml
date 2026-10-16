@@ -5,6 +5,7 @@ name: Dependabot auto-merge
 # the `docker` ecosystem never auto-merges version bumps because a Dockerfile
 # `FROM node:<tag>` change must be paired with the Concourse `image_resource`
 # tags in the same reviewed change (see test/concourse-node-image.test.js).
+# `npm`, `github-actions`, and `ansible` are in scope; `docker` is excluded.
 #
 # `dev` is intentionally left unprotected (promotion to `main` still flows
 # through a protected PR), so auto-merge here only fast-forwards reviewed,
