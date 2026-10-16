@@ -4,7 +4,7 @@
 # that lets the Ansible role (`deploy/ansible/`) install Docker and deploy the
 # collector/processor Compose stack end-to-end. Run it privileged with host
 # cgroupns so the real `dockerd` the role installs works inside (Docker-in-systemd).
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
