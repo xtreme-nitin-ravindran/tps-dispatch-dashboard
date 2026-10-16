@@ -1,0 +1,46 @@
+---
+# idempotent Docker Engine + compose plugin install (Ubuntu).
+#
+# The official Docker apt repository is used so `docker compose` (the v2 plugin)
+# is available. Re-running is a no-op once the packages and repository are
+# present. Native arch is used (arm64 on Apple Silicon, amd64 on x86) — the Docker
+# repo serves both; pinning [arch=amd64] broke the arm64 dev VM/container.
+
+- name: Install Docker prerequisites
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+      - python3-debian
+    state: present
+    update_cache: true
+
+- name: Add the Docker apt repository (key + source, native arch)
+  ansible.builtin.deb822_repository:
+    name: docker
+    types: [deb]
+    uris: https://download.docker.com/linux/ubuntu
+    suites: "{{ ansible_distribution_release }}"
+    components: [stable]
+    signed_by: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Install Docker Engine and the compose plugin
+  ansible.builtin.apt:
+    name: "{{ ttc_docker_packages }}"
+    state: present
+    update_cache: true
+
+- name: Ensure Docker is running and enabled at boot
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Add the deploy user to the docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: true

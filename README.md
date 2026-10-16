@@ -109,6 +109,9 @@ Before pushing, run `npm run verify` (the canonical full-verification command) a
 - [ ] Lint and syntax checks pass as applicable.
 - [ ] `git diff --check` passes.
 - [ ] `data/current.json` is unchanged unless intentionally modified.
+- [ ] For changes to the TTC GTFS-RT vehicle-capture stack, the host-level
+      deployment test passes (`bash scripts/e2e.sh`; see
+      [TTC GTFS-RT vehicle-capture](docs/e2e-test.md)).
 
 ## Testing and Validation
 
@@ -153,6 +156,7 @@ The checks and test suites are outlined below:
 - **Frontend asset bumps:** Run `npm run bump:asset-version -- --asset <tag> --cache <sirento-shell-vN>` on the host because it mutates source files; the Docker wrapper mounts those files read-only. Then run the asset-version agreement test through the Docker wrapper and inspect the diff. Repository validation remains in Docker.
 - **Development snapshot:** Generate local data for manual testing. This is not a validation check. See [snapshot generation](docs/validation.md#generate-a-development-snapshot).
 - **Concourse worker validation:** Test affected tasks against the working tree on the real worker using `fly execute`, in addition to local Docker checks. See [worker validation](docs/concourse.md).
+- **TTC GTFS-RT vehicle-capture test:** Deploy the TTC capture stack to an SSH-reachable host and verify it end-to-end. See [the TTC GTFS-RT vehicle-capture test](docs/e2e-test.md).
 
 ## Web Notifications
 
@@ -195,6 +199,23 @@ Automation validates code changes and keeps the dashboard’s public data curren
 - The dashboard reads the published incident and TTC data directly; data refreshes do not require a site deployment.
 - Failed sources retain their last successful data and are marked unavailable. Keep generated snapshots out of code commits.
 - See [storage and publication details](docs/data-pipeline.md#published-data-and-the-r2-sink).
+
+## Deployment
+
+The continuous TTC GTFS-RT vehicle-capture collector/processor runs as a Docker
+Compose stack on a Linux host, deployed via Ansible. A host-level test exercises
+the full lifecycle (target → deploy → verify → teardown, including a scratch R2
+bucket).
+
+Two documents cover it:
+
+- **Deployment runbook** — explains the two long-running collector/processor
+  services, how they take a single-writer ownership lease, and how to deploy,
+  verify health, and roll back with the Ansible playbook. See
+  [deploy/DEPLOYMENT.md](deploy/DEPLOYMENT.md).
+- **TTC GTFS-RT vehicle-capture test** — a host-level test that deploys the stack,
+  confirms it writes durable evidence to a scratch R2 bucket, and tears everything
+  down cleanly. See [docs/e2e-test.md](docs/e2e-test.md).
 
 ## Attribution
 

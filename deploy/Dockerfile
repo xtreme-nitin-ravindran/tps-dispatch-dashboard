@@ -1,4 +1,4 @@
-# Story 64 — production runtime image for the TTC collector/processor.
+# production runtime image for the TTC collector/processor.
 #
 # This image is a minimal Node runtime for the two long-running services. It is
 # intentionally separate from docker/Dockerfile.test, which is the self-contained
