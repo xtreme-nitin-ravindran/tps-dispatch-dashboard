@@ -1,7 +1,7 @@
 # Dependabot version updates.
 #
 # Auto-merge policy is intentionally scoped per ecosystem:
-#   - npm / github-actions: minor and patch bumps are auto-merged (see
+#   - npm / github-actions / ansible: minor and patch bumps are auto-merged (see
 #     .github/workflows/dependabot-auto-merge.yml); major bumps always open a
 #     PR for manual review.
 #   - docker: version bumps stay fully manual. A Dockerfile `FROM node:<tag>`
@@ -38,6 +38,17 @@ updates:
       interval: "daily"
     groups:
       github-actions:
+        patterns: ["*"]
+        update-types:
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "ansible"
+    directory: "/deploy/ansible"
+    schedule:
+      interval: "daily"
+    groups:
+      ansible:
         patterns: ["*"]
         update-types:
           - "minor"
