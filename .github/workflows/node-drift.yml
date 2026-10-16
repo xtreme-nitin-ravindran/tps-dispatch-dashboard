@@ -1,0 +1,42 @@
+name: Node image drift check
+
+# Safety net behind the Dependabot `docker` Major bump flow. The `docker`
+# ecosystem is left manual (a Dockerfile `FROM node:<tag>` bump must be paired
+# with the Concourse `image_resource` tags in the same reviewed change), but if
+# a bump is merged without that pairing, the Docker test image moves ahead of
+# the Concourse runtime. This workflow detects that drift and opens a GitHub
+# issue rather than failing CI (the guard `test/concourse-node-image.test.js`
+# already hard-fails on push).
+#
+# Scheduled daily, one day offset from Dependabot's `schedule: daily` so it
+# runs after a merged Dependabot PR has landed. Dependabot's "daily" time is
+# not fixed, so this is an approximation; `workflow_dispatch` covers ad-hoc
+# runs.
+
+on:
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  drift-check:
+    name: Check Node image drift
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "26"
+      - name: Detect and report Node image drift
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          node --check scripts/node-drift.js
+          node --check scripts/check-node-drift.js
+          node scripts/check-node-drift.js

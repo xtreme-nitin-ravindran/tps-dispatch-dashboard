@@ -1,5 +1,13 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
+# Dependabot version updates.
+#
+# Auto-merge policy is intentionally scoped per ecosystem:
+#   - npm / github-actions: minor and patch bumps are auto-merged (see
+#     .github/workflows/dependabot-auto-merge.yml); major bumps always open a
+#     PR for manual review.
+#   - docker: version bumps stay fully manual. A Dockerfile `FROM node:<tag>`
+#     bump never merges automatically because the Concourse `image_resource`
+#     tags (invisible to Dependabot) must be updated in the same reviewed
+#     change or `test/concourse-node-image.test.js` fails CI.
 # Please see the documentation for all configuration options:
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
@@ -12,6 +20,10 @@ updates:
     groups:
       npm:
         patterns: ["*"]
+        update-types:
+          - "minor"
+          - "patch"
+
   - package-ecosystem: "docker"
     directory: "/docker"
     schedule:
@@ -19,6 +31,7 @@ updates:
     groups:
       docker:
         patterns: ["*"]
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -26,3 +39,6 @@ updates:
     groups:
       github-actions:
         patterns: ["*"]
+        update-types:
+          - "minor"
+          - "patch"
