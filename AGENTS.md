@@ -127,7 +127,7 @@ is a dependency/tooling snapshot, not a source snapshot.
   | `INFRA-PWA` | PWA metadata, manifest, and install scope |
   | `INFRA-WATCH` | Watch backend and notification delivery |
   | `INFRA-TTC-PIPELINE` | TTC capture and geometry pipeline |
-  | `INFRA-LINT` | ESLint, Ruff, and syntax checks |
+  | `INFRA-LINT` | ESLint, Ruff, ShellCheck, and syntax checks |
 - Put the ID(s) at the start of the test name in brackets, e.g. `test("[STORY-4] nearby summary counts calls within radius", ...)`; stack multiple IDs, e.g. `test("[STORY-28][INFRA-CI] saved locations ...", ...)`.
 - `test/requirements.map.json` is the authoritative test-file → `[IDs]` map (many-to-many) and also declares the valid PRD ID space in its `requirements` array (the roadmap is git-ignored and not available inside the Docker test mount, so the ID space is tracked here). The checker cross-validates the map against the IDs in test names: every ID in a name must appear in that file's map, and every mapped ID must appear in at least one name in that file. The checker's own test file (`test/requirement-coverage.test.js`) is exempt from the name/map cross-validation because it necessarily embeds example ID literals, but it must still be mapped.
 - `test/requirements.pending.json` is the only exemption mechanism: a bounded, explicit allow-list of not-yet-tagged files. The checker fails if a file is neither tagged nor pending, and fails if a pending file is fully tagged but still listed. The list shrinks as tagging completes and is deleted when empty.
