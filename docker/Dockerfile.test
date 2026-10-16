@@ -1,5 +1,7 @@
 FROM ghcr.io/astral-sh/ruff:0.17.1 AS ruff
 
+FROM koalaman/shellcheck:v0.11.0 AS shellcheck
+
 FROM node:26-bookworm
 
 # The canonical build path (scripts/docker-test.sh --build) passes a fingerprint
@@ -14,6 +16,10 @@ WORKDIR /workspace
 # Pinned Ruff binary, copied before any repository content so it is cached
 # independently of source changes.
 COPY --from=ruff /ruff /usr/local/bin/ruff
+
+# Pinned ShellCheck binary, copied before any repository content so it is cached
+# independently of source changes.
+COPY --from=shellcheck /bin/shellcheck /usr/local/bin/shellcheck
 
 # Dependency layer: only the manifests are copied before `npm ci`, so a change
 # limited to application source, scripts, tests, data, documentation, or

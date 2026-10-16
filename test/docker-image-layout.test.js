@@ -119,6 +119,14 @@ test("[STORY-48] the Dockerfile copies the pinned Ruff binary before repository 
   assert.ok(ruffIndex < firstContentIndex, "Ruff must be copied before repository content");
 });
 
+test("[STORY-48] the Dockerfile copies the pinned ShellCheck binary before repository content", () => {
+  const shellcheckIndex = lines.findIndex(line => line.startsWith("COPY --from=shellcheck"));
+  const firstContentIndex = lines.findIndex(line => line === "COPY concourse ./concourse");
+  assert.notEqual(shellcheckIndex, -1, "the Dockerfile must copy the shellcheck binary");
+  assert.notEqual(firstContentIndex, -1);
+  assert.ok(shellcheckIndex < firstContentIndex, "shellcheck must be copied before repository content");
+});
+
 test("[STORY-48] the Dockerfile keeps the fingerprint label and build arg", () => {
   assert.match(dockerfile, /^ARG TEST_FINGERPRINT=/m);
   assert.match(dockerfile, /^LABEL org\.sirento\.test-fingerprint=\$TEST_FINGERPRINT$/m);

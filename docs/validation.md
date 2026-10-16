@@ -341,9 +341,12 @@ diagnostic and a nonzero exit status.
 ### Individual linters
 
 `npm run lint` runs ESLint over the JavaScript application, scripts, and tests, then
-Ruff over the Python scripts and tests. Run either linter alone with `npm run lint:js`
-or `npm run lint:python`. The Docker test image pins both tools, so Docker is the
-simplest way to reproduce CI without installing Ruff on the host.
+Ruff over the Python scripts and tests, then ShellCheck over the shell scripts. Run
+any linter alone with `npm run lint:js`, `npm run lint:python`, or `npm run lint:shell`.
+The Docker test image pins all three tools, so Docker is the simplest way to
+reproduce CI without installing Ruff or ShellCheck on the host. ShellCheck gates at
+`--severity=error`, catching real shell bugs while treating the intentional `CDPATH= cd`
+idiom (SC1007) and trap-invoked functions (SC2329) as non-fatal warnings.
 
 
 ### JavaScript syntax checks

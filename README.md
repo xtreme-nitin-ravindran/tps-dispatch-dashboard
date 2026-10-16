@@ -136,7 +136,7 @@ The checks and test suites are outlined below:
   - **⚠️ Tests may fail because upstream data is unavailable or malformed 🚫**
 - **Browser tests:** Playwright checks rendered layout and interaction; device-specific issues also need testing on the reported device. See [browser testing](docs/browser-tests.md).
 - **Coverage:** JavaScript line, branch, and function coverage must each reach 100%. See [coverage requirements](docs/validation.md#test-coverage).
-- **Linting and syntax:** ESLint, Ruff, and JavaScript syntax checks catch code errors. See [linting](docs/validation.md#individual-linters) and [syntax checks](docs/validation.md#javascript-syntax-checks).
+- **Linting and syntax:** ESLint, Ruff, ShellCheck, and JavaScript syntax checks catch code errors. See [linting](docs/validation.md#individual-linters) and [syntax checks](docs/validation.md#javascript-syntax-checks).
 - **Before pushing:** `npm run verify` runs the required full checks. Applicable browser tests run separately and must also pass. See [full verification](docs/validation.md#run-all-required-checks) and the [pre-push checklist](#pre-push-checklist).
 - **Test inventory:** Browse the [test inventory](docs/validation.md#test-inventory) for what the suites cover and how test membership is determined.
 - **Requirement traceability:** Every test is classified as either a `STORY-*` delivery increment or an explicit `INFRA-*` area, with the ID in the test name and in `test/requirements.map.json`. `scripts/check-requirement-coverage.js` enforces this as part of `npm run verify`. Prefix test names with bracketed IDs (for example `[STORY-4]`), and register every ID in the file's map entry. Infrastructure tests use one of the enumerated `INFRA-*` areas rather than an invented story ID; bounded legacy exemptions live only in `test/requirements.pending.json`.
@@ -152,7 +152,7 @@ The checks and test suites are outlined below:
   | `INFRA-PWA` | PWA metadata, manifest, and install scope |
   | `INFRA-WATCH` | Watch backend and notification delivery |
   | `INFRA-TTC-PIPELINE` | TTC capture and geometry pipeline |
-  | `INFRA-LINT` | ESLint, Ruff, and syntax checks |
+  | `INFRA-LINT` | ESLint, Ruff, ShellCheck, and syntax checks |
 - **Frontend asset bumps:** Run `npm run bump:asset-version -- --asset <tag> --cache <sirento-shell-vN>` on the host because it mutates source files; the Docker wrapper mounts those files read-only. Then run the asset-version agreement test through the Docker wrapper and inspect the diff. Repository validation remains in Docker.
 - **Development snapshot:** Generate local data for manual testing. This is not a validation check. See [snapshot generation](docs/validation.md#generate-a-development-snapshot).
 - **Concourse worker validation:** Test affected tasks against the working tree on the real worker using `fly execute`, in addition to local Docker checks. See [worker validation](docs/concourse.md).
