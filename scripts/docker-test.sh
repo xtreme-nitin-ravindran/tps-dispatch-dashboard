@@ -24,7 +24,9 @@ set -eu
 # --- Locate the repository root deterministically -------------------------
 # Resolve this script's directory, then its parent, independent of the caller's
 # current directory. `CDPATH=` guards against a user CDPATH altering `cd`.
+# shellcheck disable=SC1007  # intentional: CDPATH= unsets CDPATH for this single `cd`
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+# shellcheck disable=SC1007  # intentional: CDPATH= unsets CDPATH for this single `cd`
 ROOT=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
 
 IMAGE="toronto-dispatch-tests"

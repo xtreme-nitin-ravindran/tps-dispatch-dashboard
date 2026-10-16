@@ -29,7 +29,9 @@
 set -euo pipefail
 
 # --- Configuration defaults (overridable via env) ----------------------------
+# shellcheck disable=SC1007  # intentional: CDPATH= unsets CDPATH for this single `cd`
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+# shellcheck disable=SC1007  # intentional: CDPATH= unsets CDPATH for this single `cd`
 REPO_DIR=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
 # Where the Ansible role looks for R2 credentials on the control host. This is an
 # OUTPUT the script writes for Ansible, and it is gitignored; it is never a source
@@ -71,6 +73,7 @@ _ssh() {
   local remote="$1"
   local args=( -p "$E2E_SSH_PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null )
   if [ -n "${E2E_SSH_KEY:-}" ]; then args+=(-i "$E2E_SSH_KEY"); fi
+  # shellcheck disable=SC2029  # intentional: $remote expands client-side as one arg
   ssh "${args[@]}" "${E2E_SSH_USER:-sirento}@${E2E_HOST}" "$remote"
 }
 

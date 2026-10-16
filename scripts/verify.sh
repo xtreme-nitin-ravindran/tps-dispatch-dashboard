@@ -54,6 +54,7 @@ START_EPOCH=$(date +%s)
 
 # Resolve the repository root deterministically, independent of the caller's
 # current directory, so the wrapper is always invoked from the same place.
+# shellcheck disable=SC1007  # intentional: CDPATH= unsets CDPATH for this single `cd`
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 
 IMAGE="toronto-dispatch-tests"
@@ -271,7 +272,7 @@ $entry_name"
 
 running_count() {
   count=0
-  for running_pid in $RUNNING_PIDS; do
+  for _ in $RUNNING_PIDS; do
     count=$((count + 1))
   done
   printf '%s' "$count"
@@ -293,6 +294,7 @@ launch_job() {
     status=0
     sh "$ROOT/scripts/docker-test.sh" "$@" >"$log" 2>&1 &
     child=$!
+    # shellcheck disable=SC2329  # invoked indirectly via `trap`
     forward() {
       kill "$child" 2>/dev/null || true
     }
