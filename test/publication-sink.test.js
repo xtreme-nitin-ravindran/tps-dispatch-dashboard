@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { createLocalSink, createR2Sink, createR2SignedFetch, createSinkFromEnv, fetchR2Object, signS3Request } from '../scripts/lib/publication-sink.js';
+import { createLocalSink, createR2Sink, createR2SignedFetch, createSinkFromEnv, fetchR2Object, signS3Request, canonicalQueryString } from '../scripts/lib/publication-sink.js';
 
 // --- Local sink -------------------------------------------------------------
 
@@ -144,6 +144,85 @@ test('[STORY-55][STORY-55A] signS3Request produces a stable signature for fixed 
     payloadHash: 'abc', amzDate: '20261006T120000Z', dateStamp: '20261006'
   });
   assert.match(authorization, /^AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE\/20261006\/auto\/s3\/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=[0-9a-f]{64}$/);
+});
+
+test('[STORY-55][STORY-55A] signS3Request signs an empty query identically to omitting it', () => {
+  const base = {
+    method: 'GET', host: 'account.r2.cloudflarestorage.com', path: '/sirento/data/current.json',
+    accessKeyId: 'AKIDEXAMPLE', secretAccessKey: 'secret',
+    payloadHash: 'abc', amzDate: '20261006T120000Z', dateStamp: '20261006'
+  };
+  const noQuery = signS3Request(base);
+  const emptyQuery = signS3Request({ ...base, query: '' });
+  assert.equal(noQuery, emptyQuery);
+});
+
+test('[STORY-55][STORY-55A] signS3Request signs a canonical query string', () => {
+  const authorization = signS3Request({
+    method: 'GET', host: 'account.r2.cloudflarestorage.com', path: '/sirento',
+    accessKeyId: 'AKIDEXAMPLE', secretAccessKey: 'secret',
+    payloadHash: 'abc', amzDate: '20261006T120000Z', dateStamp: '20261006',
+    query: 'list-type=2&prefix=ttc-captures%2F'
+  });
+  // The canonical request now differs (it carries the query), so the signature
+  // differs from the no-query case; the header shape is otherwise identical.
+  assert.match(authorization, /^AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE\/20261006\/auto\/s3\/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=[0-9a-f]{64}$/);
+});
+
+// --- canonical query-string encoding ----------------------------------------
+
+test('[STORY-55][STORY-55A] canonicalQueryString returns empty for an empty input', () => {
+  assert.equal(canonicalQueryString(''), '');
+  assert.equal(canonicalQueryString(undefined), '');
+});
+
+test('[STORY-55][STORY-55A] canonicalQueryString sorts and RFC-3986-encodes parameters', () => {
+  // Keys sort lexically; values are encoded; `~` stays, ` ` and `/` get encoded.
+  assert.equal(
+    canonicalQueryString('b=two&a=one&a=space value'),
+    'a=one&a=space%20value&b=two'
+  );
+});
+
+test('[STORY-55][STORY-55A] canonicalQueryString encodes reserved characters and handles bare flags', () => {
+  assert.equal(
+    canonicalQueryString('k=v!/()*&flag'),
+    'flag=&k=v%21%2F%28%29%2A'
+  );
+});
+
+
+test('[STORY-55][STORY-55A] createR2SignedFetch separates the path from a list query', async () => {
+  const requests = [];
+  const fetchImpl = async (url, options) => {
+    requests.push({ url, method: options.method, headers: options.headers });
+    return { ok: true, status: 200, async text() { return ''; } };
+  };
+  const signedFetch = createR2SignedFetch({ ...r2Config, fetchImpl });
+  await signedFetch('GET', '?list-type=2&prefix=ttc-captures/');
+  assert.equal(requests.length, 1);
+  const { url } = requests[0];
+  const parsed = new URL(url);
+  // Path is the bucket root; the query is preserved raw on the request line.
+  assert.equal(parsed.pathname, '/sirento/');
+  assert.equal(parsed.searchParams.get('list-type'), '2');
+  assert.equal(parsed.searchParams.get('prefix'), 'ttc-captures/');
+  assert.match(requests[0].headers.authorization, /^AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE\/20261006\/auto\/s3\/aws4_request/);
+});
+
+test('[STORY-55][STORY-55A] createR2SignedFetch canonicalizes a multi-parameter query', async () => {
+  // Exercise the sort comparator's value tie-break and equal-key/equal-value
+  // branches (duplicate keys, same-key/different-value, and an equal key=value)
+  // through the signed fetch.
+  const requests = [];
+  const fetchImpl = async (url, options) => {
+    requests.push({ url, method: options.method, headers: options.headers });
+    return { ok: true, status: 200, async text() { return ''; } };
+  };
+  const signedFetch = createR2SignedFetch({ ...r2Config, fetchImpl });
+  await signedFetch('GET', '?a=b&a=c&a=b&flag');
+  assert.equal(requests.length, 1);
+  assert.match(requests[0].headers.authorization, /^AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE\/20261006\/auto\/s3\/aws4_request/);
 });
 
 // --- fetchR2Object ----------------------------------------------------------

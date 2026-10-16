@@ -1,0 +1,15 @@
+---
+# deploy the SirenTO TTC capture service Compose stack.
+#
+# Run via the Makefile (`make deploy-dev` / `make deploy-prod`) or directly:
+#   ansible-playbook -i deploy/ansible/inventory/hosts.yml deploy/ansible/site.yml -l dev
+#
+# The role installs Docker (idempotently), syncs the repository to the target,
+# renders the Compose `.env` from group_vars plus the local secrets file, and
+# starts the collector and processor under their single-writer ownership lease.
+
+- name: Deploy the TTC capture service
+  hosts: all
+  become: true
+  roles:
+    - role: ttc_service

@@ -24,3 +24,10 @@ data/ttc-alerts.json.tmp
 
 # Repository-root scratch directory (anchored so nested fixture paths are not ignored).
 /tmp/
+
+# local deployment secrets (copy of deploy/secrets.env.example).
+/deploy/secrets.env
+/deploy/secrets.*.env
+
+# TTC GTFS-RT vehicle-capture test credentials (copy of scripts/e2e.env.example).
+/scripts/e2e.env

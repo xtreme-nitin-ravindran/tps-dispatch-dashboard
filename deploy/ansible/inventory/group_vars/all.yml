@@ -1,0 +1,35 @@
+---
+# shared defaults for the TTC capture service deployment.
+# Environment-specific overrides live in dev.yml / production.yml.
+
+# Where the Compose project and synced repository live on the target host.
+ttc_install_dir: /opt/sirento
+ttc_repo_dir: "{{ ttc_install_dir }}/repo"
+ttc_compose_dir: "{{ ttc_repo_dir }}/deploy"
+ttc_compose_project: sirento-ttc
+
+# Recorded into diagnostic bundles as TTC_BUILD_VERSION. The Makefile passes the
+# current commit via `-e ttc_image_tag=...`; fall back to `unversioned` when the
+# playbook is run directly.
+ttc_image_tag: "unversioned"
+
+# Install Docker CE + the compose plugin (Debian/Ubuntu via apt) on first run.
+ttc_install_docker: true
+
+# Non-secret runtime variables rendered into the Compose `.env` on the target.
+# The loopback health ports are fixed in compose.yaml (8764/8765) and are never
+# published, so they are not configurable here. TTC_BUILD_VERSION is emitted
+# separately by the template from `ttc_image_tag`.
+ttc_runtime_env:
+  TTC_INTERVAL_MS: "30000"
+  TTC_SPOOL_LIMIT: "720"
+  TTC_ADVISORY_SNAPSHOT: ""
+
+# R2 region (non-secret). The bucket and ownership prefix are environment-specific
+# and live in dev.yml / production.yml.
+ttc_r2_region: auto
+
+# The local secrets file name (relative to deploy/) read from the control host.
+# production overrides this to `secrets.production` so each environment has its
+# own credentials file.
+ttc_secrets_name: secrets

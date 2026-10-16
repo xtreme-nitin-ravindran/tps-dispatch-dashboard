@@ -1,0 +1,11 @@
+---
+# development environment.
+#
+# A development stack MUST use a scratch R2 bucket and a distinct ownership
+# prefix, so it never contends with the production writer's lease or capture
+# objects. Pointing this at the production bucket re-introduces the single-writer
+# hazard the ownership interlock exists to prevent, regardless of the prefix.
+
+ttc_env_name: dev
+ttc_ownership_prefix: dev/ttc-ownership
+ttc_r2_bucket: sirento-dev

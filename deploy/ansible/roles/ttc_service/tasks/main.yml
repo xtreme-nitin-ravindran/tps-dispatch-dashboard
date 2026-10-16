@@ -1,0 +1,69 @@
+---
+# deploy the TTC capture service (collector + processor).
+
+- name: Resolve the local secrets file path
+  ansible.builtin.set_fact:
+    ttc_secrets_path: "{{ playbook_dir }}/../{{ ttc_secrets_name }}.env"
+
+- name: Read the local secrets file
+  ansible.builtin.set_fact:
+    ttc_secrets_text: "{{ lookup('file', ttc_secrets_path, errors='ignore') }}"
+
+- name: Fail when the local secrets file is missing or empty
+  ansible.builtin.fail:
+    msg: >-
+      Secrets file {{ ttc_secrets_path }} is missing or empty. Copy
+      deploy/secrets.env.example to deploy/{{ ttc_secrets_name }}.env and fill in
+      the R2 credentials, then re-run the deployment.
+  when: (ttc_secrets_text | default('', true) | trim) == ''
+
+- name: Create the install directory
+  ansible.builtin.file:
+    path: "{{ ttc_install_dir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0755"
+
+- name: Install Docker Engine and the compose plugin
+  ansible.builtin.import_tasks: docker.yml
+  when: ttc_install_docker | bool
+  tags: [docker]
+
+- name: Sync the repository to the target host
+  ansible.posix.synchronize:
+    src: "{{ playbook_dir }}/../../"
+    dest: "{{ ttc_repo_dir }}/"
+    archive: true
+    delete: true
+    rsync_opts: "{{ ttc_rsync_excludes + ['--no-owner', '--no-group'] }}"
+  become: false
+
+- name: Render the Compose environment file
+  ansible.builtin.template:
+    src: env.j2
+    dest: "{{ ttc_compose_dir }}/.env"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0600"
+
+- name: Build the service images
+  ansible.builtin.command:
+    cmd: "docker compose -p {{ ttc_compose_project }} -f {{ ttc_compose_dir }}/compose.yaml build"
+  changed_when: false
+
+- name: Start the collector and processor
+  ansible.builtin.command:
+    cmd: "docker compose -p {{ ttc_compose_project }} -f {{ ttc_compose_dir }}/compose.yaml up -d"
+  register: ttc_up
+  changed_when: "'Created' in ttc_up.stdout or 'Recreated' in ttc_up.stdout"
+
+- name: Report the service status
+  ansible.builtin.command:
+    cmd: "docker compose -p {{ ttc_compose_project }} -f {{ ttc_compose_dir }}/compose.yaml ps"
+  register: ttc_ps
+  changed_when: false
+
+- name: Show the service status
+  ansible.builtin.debug:
+    msg: "{{ ttc_ps.stdout_lines }}"

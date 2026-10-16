@@ -1,0 +1,11 @@
+---
+# production environment (always-on host).
+#
+# The authoritative single writer. Uses the production bucket and the default
+# ownership prefix. Production acceptance requires this host to be always on and
+# to start the services automatically after reboot.
+
+ttc_env_name: production
+ttc_ownership_prefix: ttc-ownership
+ttc_r2_bucket: sirento
+ttc_secrets_name: secrets.production

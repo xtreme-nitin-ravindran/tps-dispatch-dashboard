@@ -1,0 +1,35 @@
+---
+# role-internal defaults.
+#
+# Environment- and deployment-specific values live in group_vars; these are knobs
+# a role consumer rarely needs to change.
+
+# Paths rsync excludes when syncing the repository to the target host. `data/`
+# is excluded because the published snapshot is fetched from R2 at runtime, never
+# baked into the image or needed by the Docker build. The secrets files are
+# excluded so credentials are only ever placed on the target via the rendered
+# Compose `.env`, never as a copy of the control-host file.
+ttc_rsync_excludes:
+  - "--exclude=.git"
+  - "--exclude=node_modules"
+  - "--exclude=.cache"
+  - "--exclude=tmp"
+  - "--exclude=.continue"
+  - "--exclude=.wrangler"
+  - "--exclude=data"
+  - "--exclude=.env"
+  - "--exclude=.env.*"
+  - "--exclude=deploy/secrets.env"
+  - "--exclude=deploy/secrets.*.env"
+  - "--exclude=wrangler.toml"
+  - "--exclude=.dev.vars"
+  - "--exclude=.dev.vars.*"
+
+# Docker Engine packages (Ubuntu amd64). The dev/production VM is Ubuntu; a
+# Debian host would use the same package names but the `debian` repository URL.
+ttc_docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin

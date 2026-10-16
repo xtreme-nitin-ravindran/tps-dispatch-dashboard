@@ -278,7 +278,9 @@ export function createR2CaptureSink({
       if (!response.ok) throw new Error(`R2 capture delete failed: ${response.status}`);
     },
     async list(prefix) {
-      const response = await signedFetch('GET', `?list-type=2&prefix=${encodeURIComponent(prefix)}`);
+      // The prefix is passed raw here; createR2SignedFetch canonicalizes and
+      // RFC-3986-encodes the query, so pre-encoding would double-encode it.
+      const response = await signedFetch('GET', `?list-type=2&prefix=${prefix}`);
       if (!response.ok) throw new Error(`R2 capture list failed: ${response.status}`);
       const xml = await response.text();
       return [...xml.matchAll(/<Key>([^<]+)<\/Key>/g)].map(m => m[1]);

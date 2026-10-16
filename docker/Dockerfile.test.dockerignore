@@ -41,6 +41,10 @@ playwright-report
 wrangler.toml
 .wrangler
 
+# local deployment secrets (never send to the build context).
+deploy/secrets.env
+deploy/secrets.*.env
+
 # Documentation, roadmap, and attachment artifacts that are not build inputs.
 docs
 *.md

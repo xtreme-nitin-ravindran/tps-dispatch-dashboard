@@ -1,0 +1,16 @@
+# local container target for fast e2e deployment testing (DEV ONLY).
+#
+# This inventory points the `dev` group at an SSH-reachable container
+# (deploy/e2e/target.Dockerfile) running systemd + sshd on the local Docker
+# engine. It sits next to hosts.yml so the `group_vars/` directory is discovered.
+# Do not use this for production.
+all:
+  children:
+    dev:
+      hosts:
+        ttc-dev:
+          ansible_host: 127.0.0.1
+          ansible_port: 2222
+          ansible_user: sirento
+          ansible_ssh_private_key_file: ~/workspace/tmp/e2e-target_id_ed25519
+          ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"

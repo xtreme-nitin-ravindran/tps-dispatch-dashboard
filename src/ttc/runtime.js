@@ -68,10 +68,14 @@ export function buildReplay({
 // diversion output into the public geometry artifact. Returns the changed flag
 // so the caller can log a committed/unchanged verdict.
 export function buildTtcPublish({ sink, project = publicTtcGeometry, log = () => { } } = {}) {
-  if (!sink || typeof sink.publish !== 'function') throw new Error('buildTtcPublish requires a sink with publish');
+  // The publication sink is a bare `publish({ key, body })` function
+  // (`createR2Sink`/`createSinkFromEnv`), while tests and some callers pass a
+  // `{ publish }` object. Normalize both so a bare function is accepted.
+  const publishFn = typeof sink === 'function' ? sink : sink && sink.publish;
+  if (typeof publishFn !== 'function') throw new Error('buildTtcPublish requires a sink with publish');
   return async function publish(output) {
     const geometry = project(output);
-    const { changed } = await sink.publish({ key: TTC_GEOMETRY_KEY, body: `${JSON.stringify(geometry)}\n` });
+    const { changed } = await publishFn({ key: TTC_GEOMETRY_KEY, body: `${JSON.stringify(geometry)}\n` });
     log({ source: 'ttc-runtime', status: changed ? 'ttc-committed' : 'ttc-unchanged' });
     return { changed };
   };

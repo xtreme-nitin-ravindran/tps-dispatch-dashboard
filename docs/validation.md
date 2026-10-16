@@ -280,6 +280,11 @@ executing it, and whitespace checks flag issues such as trailing spaces. None of
 checks replaces feature-specific regression contracts or required physical-device
 validation.
 
+`npm run verify` does **not** run the host-level TTC GTFS-RT vehicle-capture
+deployment test (`scripts/e2e.sh`); that test deploys the Compose stack via
+Ansible and needs live R2 credentials, so it is a separate, manually-run check. See
+[the TTC GTFS-RT vehicle-capture test](e2e-test.md).
+
 ### Fast inner-loop verification
 
 `npm run verify:fast` is a deliberately reduced inner-loop check for use while
@@ -362,3 +367,23 @@ docker run --rm -v "$PWD/data:/workspace/data" toronto-dispatch-tests npm run up
 - The snapshot contains normalized incidents and `fetchedAt` / `sourceUpdatedAt` metadata. The browser checks for updates every 30 seconds.
 - Source and dispatch times are converted from Toronto time to UTC with daylight-saving handling. An ambiguous fall-back time uses its first occurrence.
 - A successful JSON request does not by itself mean the data is current.
+
+## TTC GTFS-RT vehicle-capture test
+
+A host-level test exercises the TTC GTFS-RT vehicle-capture deployment: it deploys
+the collector/processor Compose stack via Ansible onto an SSH-reachable Linux host,
+creates a scratch R2 bucket, verifies it, then tears down the stack and the bucket.
+This is **not** part of `npm run verify`, the Docker test image, CI, or the browser
+suites — it drives `ssh`/`ansible-playbook` directly and needs live R2 credentials
+plus a booted host.
+
+```sh
+cp scripts/e2e.env.example scripts/e2e.env   # fill in R2 creds + CF_API_TOKEN
+export E2E_CREDS_FILE=scripts/e2e.env
+bash scripts/e2e.sh                   # full lifecycle
+```
+
+Run it at story completion alongside (not instead of) `npm run verify`. See
+[the TTC GTFS-RT vehicle-capture test](e2e-test.md) and
+[deploy/DEPLOYMENT.md](../deploy/DEPLOYMENT.md) for the phase breakdown,
+environment-variable table, and failure diagnosis.

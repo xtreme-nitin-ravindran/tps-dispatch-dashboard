@@ -1,0 +1,12 @@
+---
+# Ansible collections required by the playbook.
+#
+# Install with:
+#   ansible-galaxy collection install -r deploy/ansible/requirements.yml
+#
+# `ansible.posix` provides the `synchronize` module used to ship the repository
+# to the target host for the Docker build.
+
+collections:
+  - name: ansible.posix
+    version: ">=1.5.0"

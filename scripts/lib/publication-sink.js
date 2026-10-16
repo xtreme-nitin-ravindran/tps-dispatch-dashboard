@@ -50,20 +50,44 @@ export function createLocalSink({ dir = process.cwd() } = {}) {
 const sha256Hex = value => createHash('sha256').update(value).digest('hex');
 const hmac = (key, value) => createHmac('sha256', key).update(value).digest();
 
+// Build a SigV4 canonical query string from a raw query string. S3 sorts the
+// parameters by (encoded key, encoded value), and encodes each key and value
+// with RFC 3986 percent-encoding (with `~` left unencoded). An empty input is an
+// empty canonical query string. Exported for direct, deterministic testing.
+export function canonicalQueryString(rawQuery = '') {
+  if (rawQuery === '') return '';
+  const encode = value => encodeURIComponent(value).replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
+  const params = rawQuery.split('&').filter(Boolean).map(part => {
+    const eq = part.indexOf('=');
+    return eq === -1 ? [part, ''] : [part.slice(0, eq), part.slice(eq + 1)];
+  });
+  params.sort((a, b) => {
+    const ak = encode(a[0]); const bk = encode(b[0]);
+    if (ak !== bk) return ak < bk ? -1 : 1;
+    const av = encode(a[1]); const bv = encode(b[1]);
+    if (av !== bv) return av < bv ? -1 : 1;
+    return 0;
+  });
+  return params.map(([k, v]) => `${encode(k)}=${encode(v)}`).join('&');
+}
+
 // Build the SigV4 `Authorization` header for a single S3 request. `payloadHash`
 // is the hex SHA-256 of the request body (or the empty-body hash for GET/HEAD).
 // `amzDate` is the ISO basic timestamp (`YYYYMMDDTHHMMSSZ`); `dateStamp` is its
-// `YYYYMMDD` prefix. Only the headers S3 requires are signed, which keeps the
-// canonical request small and deterministic.
+// `YYYYMMDD` prefix. `query` is the already-canonicalized query string (sorted,
+// RFC-3986-encoded), or '' for a request with no query string. Only the headers
+// S3 requires are signed, which keeps the canonical request small and
+// deterministic.
 export function signS3Request({
   method, host, path, region = 'auto', service = 's3',
-  accessKeyId, secretAccessKey, payloadHash, amzDate, dateStamp, extraHeaders = {}
+  accessKeyId, secretAccessKey, payloadHash, amzDate, dateStamp, extraHeaders = {},
+  query = ''
 }) {
   const headers = { host, 'x-amz-content-sha256': payloadHash, 'x-amz-date': amzDate, ...extraHeaders };
   const signedHeaderNames = Object.keys(headers).map(name => name.toLowerCase()).sort();
   const canonicalHeaders = signedHeaderNames.map(name => `${name}:${headers[name]}\n`).join('');
   const signedHeaders = signedHeaderNames.join(';');
-  const canonicalRequest = [method, path, '', canonicalHeaders, signedHeaders, payloadHash].join('\n');
+  const canonicalRequest = [method, path, query, canonicalHeaders, signedHeaders, payloadHash].join('\n');
   const scope = `${dateStamp}/${region}/${service}/aws4_request`;
   const stringToSign = ['AWS4-HMAC-SHA256', amzDate, scope, sha256Hex(canonicalRequest)].join('\n');
   const signingKey = hmac(hmac(hmac(hmac(`AWS4${secretAccessKey}`, dateStamp), region), service), 'aws4_request');
@@ -118,11 +142,19 @@ export function createR2SignedFetch({
     const payloadHash = sha256Hex(payload);
     const amzDate = now().toISOString().replace(/[:-]|\.\d{3}/g, '');
     const dateStamp = amzDate.slice(0, 8);
-    const path = objectPath(key);
+    // Split a `?list-type=2&prefix=...` key into its object path and raw query.
+    // The path is what is placed before the bucket; the query is signed
+    // canonically but passed through raw so ListObjectsV2 (and any other query)
+    // is authorized correctly.
+    const qIndex = key.indexOf('?');
+    const rawQuery = qIndex === -1 ? '' : key.slice(qIndex + 1);
+    const pathKey = qIndex === -1 ? key : key.slice(0, qIndex);
+    const path = objectPath(pathKey);
+    const query = canonicalQueryString(rawQuery);
     const authorization = signS3Request({
-      method, host, path, region, accessKeyId, secretAccessKey, payloadHash, amzDate, dateStamp
+      method, host, path, region, accessKeyId, secretAccessKey, payloadHash, amzDate, dateStamp, query
     });
-    return fetchImpl(`${base}${path}`, {
+    return fetchImpl(`${base}${path}${qIndex === -1 ? '' : `?${rawQuery}`}`, {
       method,
       headers: {
         authorization,

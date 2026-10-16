@@ -101,6 +101,19 @@ test('[STORY-64] buildTtcPublish reports an unchanged write', async () => {
   assert.deepEqual(result, { changed: false });
 });
 
+test('[STORY-64] buildTtcPublish accepts a bare publish function (createR2Sink shape)', async () => {
+  const published = [];
+  // createR2Sink/createSinkFromEnv return a bare `publish({ key, body })`
+  // function, not a `{ publish }` object; this regression pins that shape works.
+  const sink = async ({ key, body }) => { published.push({ key, body }); return { changed: true }; };
+  const publish = buildTtcPublish({ sink, project: output => ({ diversions: output.diversions.length }) });
+  const result = await publish({ diversions: [1, 2, 3] });
+  assert.deepEqual(result, { changed: true });
+  assert.equal(published.length, 1);
+  assert.equal(published[0].key, TTC_GEOMETRY_KEY);
+  assert.equal(published[0].body, JSON.stringify({ diversions: 3 }) + '\n');
+});
+
 test('[STORY-64] buildTtcPublish requires a sink with publish', () => {
   assert.throws(() => buildTtcPublish({ sink: {} }), /sink with publish/);
   assert.throws(() => buildTtcPublish({}), /sink with publish/);
