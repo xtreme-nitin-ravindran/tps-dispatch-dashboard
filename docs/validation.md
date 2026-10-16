@@ -344,9 +344,10 @@ diagnostic and a nonzero exit status.
 Ruff over the Python scripts and tests, then ShellCheck over the shell scripts. Run
 any linter alone with `npm run lint:js`, `npm run lint:python`, or `npm run lint:shell`.
 The Docker test image pins all three tools, so Docker is the simplest way to
-reproduce CI without installing Ruff or ShellCheck on the host. ShellCheck gates at
-`--severity=error`, catching real shell bugs while treating the intentional `CDPATH= cd`
-idiom (SC1007) and trap-invoked functions (SC2329) as non-fatal warnings.
+reproduce CI without installing Ruff or ShellCheck on the host. ShellCheck runs at
+full severity; the shell scripts carry explicit `shellcheck disable=` directives for
+their intentional POSIX-sh idioms (for example the `CDPATH= cd` idiom and
+`trap`-invoked cleanup functions).
 
 
 ### JavaScript syntax checks

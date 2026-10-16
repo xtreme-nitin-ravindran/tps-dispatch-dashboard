@@ -46,6 +46,7 @@ set -eu
 
 # Resolve the repository root deterministically, independent of the caller's
 # current directory.
+# shellcheck disable=SC1007  # intentional: CDPATH= unsets CDPATH for this single `cd`
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 
 # File-level test concurrency (Story 68B). See the header for the measurement

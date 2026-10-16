@@ -9,7 +9,7 @@
         "lint": "npm run lint:js && npm run lint:python && npm run lint:shell",
         "lint:js": "eslint .",
         "lint:python": "ruff check scripts test/python",
-        "lint:shell": "shellcheck --severity=error scripts/*.sh",
+        "lint:shell": "shellcheck scripts/*.sh",
         "test": "sh scripts/run-unit-tests.sh",
         "test:watch-backend": "node --test test/watch-backend.test.js",
         "test:watch-production": "node --test test/watch-production-backend.test.js test/push-subscription.test.js",

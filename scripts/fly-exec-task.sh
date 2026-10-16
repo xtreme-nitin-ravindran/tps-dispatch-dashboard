@@ -35,7 +35,9 @@
 set -eu
 
 # --- Locate the repository root deterministically -------------------------
+# shellcheck disable=SC1007  # intentional: CDPATH= unsets CDPATH for this single `cd`
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+# shellcheck disable=SC1007  # intentional: CDPATH= unsets CDPATH for this single `cd`
 ROOT=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
 
 usage() {
@@ -121,6 +123,7 @@ SCRATCH_DIR="$ROOT/.cache/fly-exec"
 mkdir -p "$SCRATCH_DIR"
 SCRATCH="$SCRATCH_DIR/$TASK_NAME.yml"
 
+# shellcheck disable=SC2329  # invoked indirectly via `trap ... EXIT INT TERM HUP`
 cleanup() {
   rm -f "$SCRATCH"
 }
