@@ -256,6 +256,26 @@ _remote_until() {
   _fail "$desc (timed out after ${seconds}s)"
 }
 
+# Poll the R2 readback helper until the lease is present and at least one capture
+# key is listed, returning the first report that satisfies both. The collector
+# commits its first capture after lease acquisition plus its first poll, which
+# races the one-shot readback that used to follow the "containers Up" check; this
+# bounded poll absorbs that gap instead of failing spuriously.
+_r2_ready_report() {
+  local seconds="${1:-180}"
+  local deadline=$((SECONDS + seconds))
+  local report
+  while [ "$SECONDS" -lt "$deadline" ]; do
+    report="$(_r2_report 2>/dev/null)" || { sleep 5; continue; }
+    if node -e 'const r=JSON.parse(process.argv[1]); if(!r.lease) process.exit(1); if(!Array.isArray(r.captureKeys)||r.captureKeys.length===0) process.exit(1);' "$report" 2>/dev/null; then
+      printf '%s' "$report"
+      return 0
+    fi
+    sleep 5
+  done
+  return 1
+}
+
 phase_verify() {
   _info "verify: compose status, ownership lease, R2 readback, health endpoints"
 
@@ -270,9 +290,14 @@ phase_verify() {
   processor_id=$(_ssh "docker compose -p $COMPOSE_PROJECT -f /opt/sirento/repo/$COMPOSE_FILE ps -q processor")
   [ -n "$collector_id" ] && [ -n "$processor_id" ] || _fail "could not resolve collector/processor container ids"
 
-  # 2. R2 state: ownership lease + committed captures + public artifact.
+  # 2. R2 state: ownership lease + committed captures + public artifact. The
+  # collector commits its first capture after lease acquisition plus its first
+  # poll, so the lease and the first capture are waited for together with a
+  # bounded deadline rather than read once immediately after "containers Up".
   local r2_report
-  r2_report="$(_r2_report)" || _fail "R2 readback helper failed"
+  if ! r2_report="$(_r2_ready_report 180)"; then
+    _fail "R2 readback never showed an ownership lease + a committed capture (check collector logs)"
+  fi
 
   node -e 'const r=JSON.parse(process.argv[1]); if(!r.lease) throw new Error("no lease"); console.log("lease holder:", JSON.parse(r.lease).holder)' \
     "$r2_report" || _fail "ownership lease missing under $OWNERSHIP_PREFIX"

@@ -181,7 +181,9 @@ bash scripts/e2e.sh --only verify
 4. **Ownership lease** — `dev/ttc-ownership/collector.json` exists in R2 (the
    collector acquired it to run; proof the interlock is active).
 5. **Durable captures** — committed capture objects exist under `ttc-captures/`
-   (proof of real writes, not just a live process).
+   (proof of real writes, not just a live process). The lease and first capture
+   are read together with a bounded poll (up to ~3 min) so the readback absorbs
+   the collector's lease-acquire-then-first-poll gap instead of racing it.
 6. **Loopback health** — `GET :8764/health` and `:8765/health` (inside each
    container, never published) return `ok`-or-`degraded` status for capture /
    processing / publication, and `publication` is **not** `unavailable` (R2
