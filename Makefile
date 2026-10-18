@@ -24,7 +24,17 @@ IMAGE_TAG ?= $(shell git rev-parse --short HEAD 2>/dev/null || printf unversione
 # with `make e2e E2E_CREDS_FILE=/path/to/creds`.
 E2E_CREDS_FILE ?= scripts/e2e.env
 
-.PHONY: help verify verify-fast test lint build deploy deploy-dev deploy-prod down clean e2e e2e-verify
+# The Docker-in-systemd SSH target used by `make e2e-local` (see
+# deploy/e2e/target.Dockerfile + scripts/lib/e2e-target.sh). These must stay in
+# sync with deploy/ansible/inventory/local.yml. Exported so the helper script
+# (scripts/lib/e2e-target.sh) and the recipe expansion agree on the same values.
+E2E_TARGET_KEY ?= $(HOME)/workspace/tmp/e2e-target_id_ed25519
+E2E_TARGET_SSH_PORT ?= 2222
+E2E_TARGET_SSH_USER ?= sirento
+export E2E_TARGET_KEY E2E_TARGET_SSH_PORT E2E_TARGET_SSH_USER
+E2E_INVENTORY_LOCAL := deploy/ansible/inventory/local.yml
+
+.PHONY: help verify verify-fast test lint build deploy deploy-dev deploy-prod down clean e2e e2e-verify e2e-local e2e-target-up e2e-target-down e2e-target-status
 
 help: ## List available targets
 	@printf '%s\n' \
@@ -38,6 +48,9 @@ help: ## List available targets
 	  'deploy-prod  Deploy to the production host (inventory group production)' \
 	  'e2e          Run the TTC GTFS-RT vehicle-capture deployment test (deploy + verify + teardown)' \
 	  'e2e-verify   Verify a running deployment only (no deploy/teardown)' \
+	  'e2e-local    Run the e2e test against a throwaway Docker-in-systemd target (build/start/run)' \
+	  'e2e-target-up    Build + start the local e2e SSH target container' \
+	  'e2e-target-down  Stop + remove the local e2e SSH target container' \
 	  'down         Stop the local Compose stack' \
 	  'clean        Stop the local Compose stack and remove volumes'
 
@@ -73,6 +86,32 @@ e2e:
 
 e2e-verify:
 	E2E_CREDS_FILE=$(E2E_CREDS_FILE) bash scripts/e2e.sh --only verify
+
+# Local end-to-end target. Starts the throwaway Docker-in-systemd container (if
+# needed), runs the full e2e lifecycle against it, and leaves the container
+# running so `e2e-verify`/`e2e-target-down` can be used afterwards. Because the
+# preflight SSH check and the Ansible deploy must agree on the same target, the
+# E2E_* vars mirror deploy/ansible/inventory/local.yml (127.0.0.1:2222 + the key
+# below) rather than the default hosts.yml dev host (192.168.64.20).
+e2e-local:
+	bash scripts/lib/e2e-target.sh up
+	E2E_CREDS_FILE=$(E2E_CREDS_FILE) \
+	E2E_INVENTORY=$(E2E_INVENTORY_LOCAL) \
+	E2E_HOST=127.0.0.1 \
+	E2E_SSH_PORT=$(E2E_TARGET_SSH_PORT) \
+	E2E_SSH_USER=$(E2E_TARGET_SSH_USER) \
+	E2E_SSH_KEY=$(E2E_TARGET_KEY) \
+	bash scripts/e2e.sh
+
+# Standalone lifecycle controls for the local e2e target container.
+e2e-target-up:
+	bash scripts/lib/e2e-target.sh up
+
+e2e-target-down:
+	bash scripts/lib/e2e-target.sh down
+
+e2e-target-status:
+	bash scripts/lib/e2e-target.sh status
 
 down:
 	docker compose -f deploy/compose.yaml down

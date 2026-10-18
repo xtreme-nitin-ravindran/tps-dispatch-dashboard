@@ -44,10 +44,14 @@ RUN mkdir -p /root/.ssh && chmod 700 /root/.ssh \
     && echo "PermitRootLogin no" >> /etc/ssh/sshd_config \
     && echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
 
-# Docker-in-Docker inside Rancher Desktop cannot nest overlayfs; pre-configure the
-# dockerd the Ansible role installs to use the vfs storage driver. This is a
-# dev-harness-only setting — a real host keeps its own storage driver.
-RUN mkdir -p /etc/docker && echo '{"storage-driver": "vfs"}' > /etc/docker/daemon.json
+# Docker-in-Docker inside Rancher Desktop cannot nest overlayfs. The nested
+# dockerd is forced to the vfs storage driver via /etc/docker/daemon.json. BuildKit
+# (Docker 23+) builds via a containerd overlayfs snapshotter that fails to nest
+# with `mount source: "overlay" ... err: invalid argument`; setting the storage
+# driver alone is not enough, so the build must also avoid BuildKit. This is
+# dev-harness-only; a real host keeps overlayfs + BuildKit.
+RUN mkdir -p /etc/docker \
+    && echo '{"storage-driver": "vfs", "features": {"buildkit": false}}' > /etc/docker/daemon.json
 
 # systemd as PID 1; the host mounts /sys/fs/cgroup and gives --privileged so the
 # Ansible role's `systemctl start docker` works.

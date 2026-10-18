@@ -28,7 +28,30 @@ suites. It is a deployment test, not a unit test.
   Docker CE + the compose plugin idempotently.
 
 For a throwaway local target, use the SSH-enabled container in
-`deploy/e2e/target.Dockerfile` (systemd + sshd) and the `local.yml` inventory.
+`deploy/e2e/target.Dockerfile` (systemd + sshd + a nested `dockerd`) and the
+`local.yml` inventory. The simplest way is the one-command shortcut
+`make e2e-local`, which builds/starts that container and runs the full e2e
+lifecycle against it:
+
+```sh
+make e2e-local
+```
+
+To manage the target container by hand instead:
+
+```sh
+make e2e-target-up      # build + start the systemd/sshd container (host 2222 -> 22)
+make e2e-target-status  # is it running, and is sshd reachable?
+make e2e-target-down    # stop + remove the container
+```
+
+These wrap `scripts/lib/e2e-target.sh`, which generates a keypair at
+`~/workspace/tmp/e2e-target_id_ed25519` (the path
+`deploy/ansible/inventory/local.yml` expects) and bakes its public key into the
+image (`SSH_PUBLIC_KEY`). The target is reached over SSH at `127.0.0.1:2222` as
+`sirento`, matching `deploy/ansible/inventory/local.yml`. `E2E_TARGET_KEY`,
+`E2E_TARGET_SSH_PORT`, and `E2E_TARGET_SSH_USER` override those defaults if you
+need a different key/port/user (keep them in sync with `local.yml`).
 
 **R2 (required for deploy + verify):**
 
@@ -45,11 +68,26 @@ Only `scripts/e2e.env.example` (placeholders) is committed. The keys it exports:
 
 ```sh
 R2_ENDPOINT=https://<account-id>.r2.cloudflarestorage.com
-R2_ACCESS_KEY_ID=<object-level-access-key-id>
-R2_SECRET_ACCESS_KEY=<object-level-secret-access-key>
+R2_ACCESS_KEY_ID=<r2-s3-access-key-id>
+R2_SECRET_ACCESS_KEY=<r2-s3-access-key-secret>
 R2_REGION=auto
-CF_API_TOKEN=<cloudflare-api-token-with-r2-write-permission>
+CF_API_TOKEN=<cloudflare-user-api-token>
 ```
+
+> **Two distinct credential kinds — do not confuse them.**
+>
+> - `R2_ACCESS_KEY_ID` / `R2_SECRET_ACCESS_KEY` is an **R2 S3 API token**
+>   (id + value) used for object **read/write/list**. Create it in the Cloudflare
+>   dashboard under **R2 → Manage R2 API Tokens** with Read + Write + List
+>   permissions.
+> - `CF_API_TOKEN` is a **Cloudflare User API token** (an opaque token, not an R2
+>   S3 id/value pair) used **only** to create/delete the scratch bucket via the
+>   Cloudflare API.
+>
+> They are **not interchangeable**. Reusing the same value for both, or putting a
+>   user token in the object slot, yields a downstream `R2 capture read failed:
+>   403` after deployment. The harness's preflight rejects these misconfigurations
+>   up front (see "Failure diagnosis").
 
 The harness briefly writes `R2_ENDPOINT`/`R2_ACCESS_KEY_ID`/
 `R2_SECRET_ACCESS_KEY` to the gitignored Ansible secrets file (`deploy/secrets.env`,
@@ -69,7 +107,32 @@ single-writer isolation contract.
 
 ## Running it
 
-### Full flow (deploy → verify → teardown)
+### Run it locally (one command)
+
+From the repository root, with your `scripts/e2e.env` credentials in place:
+
+```sh
+make e2e-local
+```
+
+That is the whole local workflow. It (1) builds and starts a throwaway
+Docker-in-systemd container that acts as a Linux host, (2) runs the full
+deploy → verify → teardown against it, and (3) leaves the container running so
+you can re-verify or tear it down afterwards (see below).
+
+To manage that container between runs:
+
+```sh
+make e2e-target-status   # running? sshd reachable?
+make e2e-target-down     # stop + remove it when done
+```
+
+`make e2e-local` sources `scripts/e2e.env` (set `E2E_CREDS_FILE` to override),
+points the SSH preflight + Ansible deploy at `127.0.0.1:2222` via
+`deploy/ansible/inventory/local.yml`, and uses the keypair under
+`~/workspace/tmp/` that `scripts/lib/e2e-target.sh` generates on first use.
+
+### Full flow against any SSH host (deploy → verify → teardown)
 
 ```sh
 export E2E_HOST=<ip>                    # any SSH-reachable Linux host
@@ -77,9 +140,10 @@ export E2E_CREDS_FILE=scripts/e2e.env   # cf. scripts/e2e.env.example
 bash scripts/e2e.sh
 ```
 
-It creates a scratch bucket, deploys via Ansible, verifies, then tears down: it
-stops the stack and deletes the scratch bucket. Teardown runs automatically at the
-end (and on failure/Ctrl-C), so nothing is left behind.
+The full flow (local or remote) creates a scratch bucket, deploys via Ansible,
+verifies, then tears down: it stops the stack and deletes the scratch bucket.
+Teardown runs automatically at the end (and on failure/Ctrl-C), so nothing is
+left behind.
 
 ### Re-verify a running stack (no re-deploy, no teardown)
 
@@ -94,6 +158,8 @@ bash scripts/e2e.sh --only verify
 | `E2E_HOST` | dev inventory host | target IP/hostname |
 | `E2E_SSH_USER` | `sirento` | SSH user |
 | `E2E_SSH_KEY` | (none) | SSH identity (`-i`) |
+| `E2E_SSH_PORT` | `22` | SSH port |
+| `E2E_INVENTORY` | `deploy/ansible/inventory/hosts.yml` | Ansible inventory (`local.yml` for the local target) |
 | `E2E_LIMIT` | `dev` | Ansible `-l` limit |
 | `E2E_COMPOSE_PROJECT` | `sirento-ttc` | Compose project name |
 | `E2E_IMAGE_TAG` | current commit | `ttc_image_tag` passed to Ansible |
@@ -103,6 +169,8 @@ bash scripts/e2e.sh --only verify
 | `E2E_SECRETS_FILE` | `deploy/secrets.env` | output path Ansible reads; removed in teardown |
 | `E2E_CREDS_FILE` | `scripts/e2e.env` | credentials file to source (see `scripts/e2e.env.example`) |
 | `OWNERSHIP_PREFIX` | `dev/ttc-ownership` | ownership-lease prefix (dev-isolated) |
+| `E2E_TARGET_KEY` | `~/workspace/tmp/e2e-target_id_ed25519` | target-container keypair (`scripts/lib/e2e-target.sh`) |
+| `E2E_TARGET_SSH_PORT` / `E2E_TARGET_SSH_USER` | `2222` / `sirento` | target-container SSH port/user (keep in sync with `local.yml`) |
 
 ## What it verifies
 
@@ -125,6 +193,18 @@ bash scripts/e2e.sh --only verify
 
 - **"R2 endpoint/access-key/secret is required"** — one of `R2_ENDPOINT` /
   `R2_ACCESS_KEY_ID` / `R2_SECRET_ACCESS_KEY` is not exported in your shell.
+- **"R2_ACCESS_KEY_ID and CF_API_TOKEN are identical"** — the same value was
+  used for both credential kinds. They are **not interchangeable**:
+  `R2_ACCESS_KEY_ID` is an R2 S3 token id (object read/write/list), while
+  `CF_API_TOKEN` is a Cloudflare User API token (bucket create/delete). Use them
+  separately.
+- **"R2_ACCESS_KEY_ID looks like a Cloudflare User API token"** — the object
+  slot was filled with a Cloudflare user token (`cfut_...`), which cannot do R2
+  object read/write/list. Put a real R2 S3 access-key id there instead.
+- **"R2 capture read failed: 403" (in the collector logs)** — the R2 object
+  credential has no read permission on the scratch bucket (or is a user token in
+  the object slot). Re-check `R2_ACCESS_KEY_ID`/`R2_SECRET_ACCESS_KEY` are an R2
+  S3 token with Read + Write + List access, not `CF_API_TOKEN`.
 - **"CF_API_TOKEN is required to create a scratch bucket"** — no Cloudflare API
   token was exported. Export one with R2 write permission, or set
   `E2E_R2_BUCKET=<existing-scratch>` to reuse a pre-provisioned bucket.

@@ -215,7 +215,9 @@ Two documents cover it:
   [deploy/DEPLOYMENT.md](deploy/DEPLOYMENT.md).
 - **TTC GTFS-RT vehicle-capture test** — a host-level test that deploys the stack,
   confirms it writes durable evidence to a scratch R2 bucket, and tears everything
-  down cleanly. See [docs/e2e-test.md](docs/e2e-test.md).
+  down cleanly. Run it locally with `make e2e-local` (it spins up a throwaway
+  Docker host container), or against an existing SSH host as documented. See
+  [docs/e2e-test.md](docs/e2e-test.md).
 
 ## Attribution
 

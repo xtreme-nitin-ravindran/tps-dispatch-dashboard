@@ -85,6 +85,23 @@ load_r2_env() {
   for v in R2_ENDPOINT R2_ACCESS_KEY_ID R2_SECRET_ACCESS_KEY; do
     [ -n "${!v:-}" ] || _fail "$v is required (export it before running; see docs/e2e-test.md)"
   done
+
+  # Two distinct R2 credential kinds exist and are NOT interchangeable (Story 64):
+  #   - R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY: an R2 S3 token id+value for object
+  #     read/write/list. Its access-key id is a short opaque/hex id.
+  #   - CF_API_TOKEN: a Cloudflare User API token for bucket create/delete only.
+  # Reusing the same value for both, or putting a Cloudflare user token in the
+  # object slot, produces a downstream 403 (`R2 capture read failed: 403`) that
+  # only surfaces after deployment. Catch it here instead.
+  if [ -n "${CF_API_TOKEN:-}" ] && [ "$R2_ACCESS_KEY_ID" = "$CF_API_TOKEN" ]; then
+    _fail "R2_ACCESS_KEY_ID and CF_API_TOKEN are identical; they are distinct token kinds (object read/write/list vs bucket lifecycle). Use an R2 S3 access-key id for R2_ACCESS_KEY_ID."
+  fi
+  case "$R2_ACCESS_KEY_ID" in
+    cfut_*|_cfut_*)
+      _fail "R2_ACCESS_KEY_ID looks like a Cloudflare User API token (a bucket-lifecycle credential), not an R2 S3 access-key id. Use the R2 token id (an opaque/hex id), and keep CF_API_TOKEN separate."
+      ;;
+  esac
+
   # Account id is the first label of the R2 endpoint host
   # (<account-id>.r2.cloudflarestorage.com). It is needed for the Cloudflare API
   # bucket create/delete calls.
