@@ -57,6 +57,16 @@ hazard the interlock exists to prevent.
 
 ## Deploy
 
+There are two inventories:
+
+- `deploy/ansible/inventory/hosts.yml` — the **real** `dev` and `production`
+  hosts (`make deploy-dev` / `make deploy-prod`). Replace the placeholder
+  `ansible_host` values with real addresses; keep `ansible_user` matching the
+  target account.
+- `deploy/ansible/inventory/local.yml` — a throwaway Docker-in-systemd container
+  reachable at `127.0.0.1:2222`, used only by the local end-to-end test
+  (`make e2e-local`), never for production.
+
 Set the target address in `deploy/ansible/inventory/hosts.yml`, then run:
 
 ```sh
