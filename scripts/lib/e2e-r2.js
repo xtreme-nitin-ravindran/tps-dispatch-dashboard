@@ -31,16 +31,28 @@ function r2ConfigFromEnv(env = process.env) {
   };
 }
 
+// Empty the bucket: enumerate every object key (blank prefix lists the whole
+// bucket), then delete each. The fixed scratch bucket holds only e2e objects,
+// so a whole-bucket empty is the "no pollution" guarantee the harness needs
+// before a run; it uses the object-level R2 creds, not the Cloudflare admin API.
+async function emptyBucket(cfg) {
+  const sink = createR2CaptureSink(cfg);
+  const keys = await sink.list('');
+  for (const key of keys) {
+    await sink.delete(key);
+  }
+  return keys.length;
+}
+
 // Print a machine-readable JSON report of the R2 state the harness asserts on:
 //   - the ownership lease (raw body or null when absent),
 //   - the committed capture keys under the private capture prefix,
 //   - the public geometry artifact presence.
 // Keys are printed in sorted order for deterministic output.
-async function main() {
-  const cfg = r2ConfigFromEnv(process.env);
-  const ownershipKey = process.env.E2E_OWNERSHIP_KEY || 'ttc-ownership/collector.json';
-  const capturePrefix = process.env.E2E_CAPTURE_PREFIX || 'ttc-captures/';
-  const publicKey = process.env.E2E_PUBLIC_KEY || 'data/ttc-diversions.json';
+async function readReport(cfg, env) {
+  const ownershipKey = env.E2E_OWNERSHIP_KEY || 'ttc-ownership/collector.json';
+  const capturePrefix = env.E2E_CAPTURE_PREFIX || 'ttc-captures/';
+  const publicKey = env.E2E_PUBLIC_KEY || 'data/ttc-diversions.json';
 
   const sink = createR2CaptureSink(cfg);
 
@@ -58,6 +70,16 @@ async function main() {
     publicKey,
     publicArtifactPresent: publicArtifact !== undefined && publicArtifact !== null
   }));
+}
+
+async function main() {
+  const cfg = r2ConfigFromEnv(process.env);
+  if (process.argv.includes('--empty')) {
+    const deleted = await emptyBucket(cfg);
+    process.stdout.write(JSON.stringify({ deleted }));
+    return;
+  }
+  await readReport(cfg, process.env);
 }
 
 main().catch((error) => {
