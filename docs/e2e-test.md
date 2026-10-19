@@ -61,7 +61,7 @@ following the repo's secrets convention:
 
 ```sh
 cp scripts/e2e.env.example scripts/e2e.env   # gitignored
-# edit scripts/e2e.env with the real R2 values + CF_API_TOKEN
+# edit scripts/e2e.env with the real R2 values
 ```
 
 Only `scripts/e2e.env.example` (placeholders) is committed. The keys it exports:
@@ -71,39 +71,37 @@ R2_ENDPOINT=https://<account-id>.r2.cloudflarestorage.com
 R2_ACCESS_KEY_ID=<r2-s3-access-key-id>
 R2_SECRET_ACCESS_KEY=<r2-s3-access-key-secret>
 R2_REGION=auto
-CF_API_TOKEN=<cloudflare-user-api-token>
 ```
 
-> **Two distinct credential kinds — do not confuse them.**
+> **One credential kind.**
 >
-> - `R2_ACCESS_KEY_ID` / `R2_SECRET_ACCESS_KEY` is an **R2 S3 API token**
->   (id + value) used for object **read/write/list**. Create it in the Cloudflare
->   dashboard under **R2 → Manage R2 API Tokens** with Read + Write + List
->   permissions.
-> - `CF_API_TOKEN` is a **Cloudflare User API token** (an opaque token, not an R2
->   S3 id/value pair) used **only** to create/delete the scratch bucket via the
->   Cloudflare API.
+> `R2_ACCESS_KEY_ID` / `R2_SECRET_ACCESS_KEY` is an **R2 S3 API token**
+>   (id + value) used for object **read/write/list**, scoped to the scratch bucket
+>   (`rotato-e2e-scratch`). Create it in the Cloudflare dashboard under **R2 →
+>   Manage R2 API Tokens** with Read + Write + List permissions, restricted to that
+>   single bucket. No Cloudflare admin API token is needed — the harness never
+>   creates or deletes a bucket, so it never calls the Cloudflare API.
 >
-> They are **not interchangeable**. Reusing the same value for both, or putting a
->   user token in the object slot, yields a downstream `R2 capture read failed:
->   403` after deployment. The harness's preflight rejects these misconfigurations
->   up front (see "Failure diagnosis").
+> Putting a Cloudflare *user* token (`cfut_...`) in the object slot yields a
+>   downstream `R2 capture read failed: 403` after deployment. The harness's
+>   preflight rejects that misconfiguration up front (see "Failure diagnosis").
 
 The harness briefly writes `R2_ENDPOINT`/`R2_ACCESS_KEY_ID`/
 `R2_SECRET_ACCESS_KEY` to the gitignored Ansible secrets file (`deploy/secrets.env`,
 overridable with `E2E_SECRETS_FILE`) so the role can render the Compose `.env`, then
 removes it during teardown.
 
-**Scratch bucket (created and deleted automatically):**
+**Scratch bucket (fixed, emptied before each run):**
 
-The harness never reuses the production `sirento` bucket. It creates a fresh
-`sirento-e2e-<unix-seconds>` bucket via the Cloudflare API and deletes it in
-teardown. Bucket create/delete needs `CF_API_TOKEN` (the S3 object-level creds
-cannot create/delete a bucket). Alternatively, to reuse a pre-provisioned scratch
-bucket and skip create/delete, set `E2E_R2_BUCKET=my-scratch-bucket` instead of
-`CF_API_TOKEN`. The harness **refuses** to run if the resolved bucket is `sirento`
-or the ownership prefix is `ttc-ownership` (production), preserving the
-single-writer isolation contract.
+The harness never reuses the production `sirento` bucket. It uses a fixed scratch
+bucket `rotato-e2e-scratch` (overridable with `E2E_R2_BUCKET`) and empties it
+before each run via the R2 S3 object creds — it never creates or deletes a
+bucket, so no `CF_API_TOKEN` is needed. Teardown empties the bucket again on a
+successful run by default (keep records for sampling with `E2E_KEEP_RECORDS=1`),
+and keeps records on a failed run by default (empty anyway with
+`E2E_DELETE_ON_FAILURE=1`). The harness **refuses** to run if the
+resolved bucket is `sirento` or the ownership prefix is `ttc-ownership`
+(production), preserving the single-writer isolation contract.
 
 ## Running it
 
@@ -140,10 +138,12 @@ export E2E_CREDS_FILE=scripts/e2e.env   # cf. scripts/e2e.env.example
 bash scripts/e2e.sh
 ```
 
-The full flow (local or remote) creates a scratch bucket, deploys via Ansible,
-verifies, then tears down: it stops the stack and deletes the scratch bucket.
-Teardown runs automatically at the end (and on failure/Ctrl-C), so nothing is
-left behind.
+The full flow (local or remote) empties the fixed scratch bucket, deploys via
+Ansible, verifies, then tears down: it stops the stack and empties the bucket
+on success (keep records with `E2E_KEEP_RECORDS=1`). On failure teardown keeps
+the records by default so you can sample them; set `E2E_DELETE_ON_FAILURE=1` to
+empty them anyway. Teardown runs automatically at the end (and on failure/Ctrl-C),
+so nothing is left behind.
 
 ### Re-verify a running stack (no re-deploy, no teardown)
 
@@ -164,8 +164,9 @@ bash scripts/e2e.sh --only verify
 | `E2E_COMPOSE_PROJECT` | `sirento-ttc` | Compose project name |
 | `E2E_IMAGE_TAG` | current commit | `ttc_image_tag` passed to Ansible |
 | `R2_ENDPOINT` / `R2_ACCESS_KEY_ID` / `R2_SECRET_ACCESS_KEY` / `R2_REGION` | (required) / `auto` | R2 sink + readback (env only) |
-| `CF_API_TOKEN` | (required to create a bucket) | Cloudflare API token for bucket create/delete |
-| `E2E_R2_BUCKET` | (generated) | reuse a pre-existing scratch bucket instead of creating one |
+| `E2E_R2_BUCKET` | `rotato-e2e-scratch` | fixed scratch bucket to empty and run against |
+| `E2E_KEEP_RECORDS` | unset | when `1`, teardown keeps records on success (sampling) |
+| `E2E_DELETE_ON_FAILURE` | unset | when `1`, teardown empties records even on a failed run (testing) |
 | `E2E_SECRETS_FILE` | `deploy/secrets.env` | output path Ansible reads; removed in teardown |
 | `E2E_CREDS_FILE` | `scripts/e2e.env` | credentials file to source (see `scripts/e2e.env.example`) |
 | `OWNERSHIP_PREFIX` | `dev/ttc-ownership` | ownership-lease prefix (dev-isolated) |
@@ -176,7 +177,8 @@ bash scripts/e2e.sh --only verify
 
 1. **Preflight** — local `ansible-playbook`/`ssh`/`rsync`/`node`, the R2 env, the
    isolation guard, SSH reachability, and Docker/compose on the target.
-2. **Scratch bucket** — creates `sirento-e2e-<ts>` (or reuses `E2E_R2_BUCKET`).
+2. **Prepare scratch bucket** — resolves `rotato-e2e-scratch` (or `E2E_R2_BUCKET`)
+   and empties it via the R2 S3 object creds.
 3. **Compose up** — both `collector` and `processor` containers are `Up`.
 4. **Ownership lease** — `dev/ttc-ownership/collector.json` exists in R2 (the
    collector acquired it to run; proof the interlock is active).
@@ -188,30 +190,28 @@ bash scripts/e2e.sh --only verify
    container, never published) return `ok`-or-`degraded` status for capture /
    processing / publication, and `publication` is **not** `unavailable` (R2
    reachable). Zero results is a valid status and is **not** treated as failure.
-7. **Teardown** — `docker compose down` (graceful lease release), deletes the
-   scratch bucket, and removes the rendered secrets file.
+7. **Teardown** — `docker compose down` (graceful lease release), empties the
+   scratch bucket on success (or keeps it with `E2E_KEEP_RECORDS=1`), removes the
+   rendered secrets file. On failure the bucket is kept by default (set
+   `E2E_DELETE_ON_FAILURE=1` to empty it instead).
 
 ## Failure diagnosis
 
 - **"R2 endpoint/access-key/secret is required"** — one of `R2_ENDPOINT` /
   `R2_ACCESS_KEY_ID` / `R2_SECRET_ACCESS_KEY` is not exported in your shell.
-- **"R2_ACCESS_KEY_ID and CF_API_TOKEN are identical"** — the same value was
-  used for both credential kinds. They are **not interchangeable**:
-  `R2_ACCESS_KEY_ID` is an R2 S3 token id (object read/write/list), while
-  `CF_API_TOKEN` is a Cloudflare User API token (bucket create/delete). Use them
-  separately.
 - **"R2_ACCESS_KEY_ID looks like a Cloudflare User API token"** — the object
   slot was filled with a Cloudflare user token (`cfut_...`), which cannot do R2
-  object read/write/list. Put a real R2 S3 access-key id there instead.
+  object read/write/list. Put a real R2 S3 access-key id (scoped to the scratch
+  bucket) there instead.
 - **"R2 capture read failed: 403" (in the collector logs)** — the R2 object
   credential has no read permission on the scratch bucket (or is a user token in
   the object slot). Re-check `R2_ACCESS_KEY_ID`/`R2_SECRET_ACCESS_KEY` are an R2
-  S3 token with Read + Write + List access, not `CF_API_TOKEN`.
-- **"CF_API_TOKEN is required to create a scratch bucket"** — no Cloudflare API
-  token was exported. Export one with R2 write permission, or set
-  `E2E_R2_BUCKET=<existing-scratch>` to reuse a pre-provisioned bucket.
-- **"could not derive R2 account id"** — `R2_ENDPOINT` does not look like
-  `<account-id>.r2.cloudflarestorage.com`.
+  S3 token with Read + Write + List access, scoped to the scratch bucket
+  (`rotato-e2e-scratch`).
+- **"R2 capture list failed" / "R2 capture delete failed" (during prepare)** —
+  the R2 object credential lacks List or Write permission on the scratch bucket.
+  Re-check the token is an R2 S3 token with Read + Write + List access scoped to
+  the scratch bucket.
 - **"no committed captures"** — the collector is up but not committing; check
   the collector logs (`docker compose -p sirento-ttc -f deploy/compose.yaml logs
   collector`) for a feed/credential error, and inspect `TTC_INTERVAL_MS`.

@@ -382,7 +382,7 @@ suites — it drives `ssh`/`ansible-playbook` directly and needs live R2 credent
 plus a booted host.
 
 ```sh
-cp scripts/e2e.env.example scripts/e2e.env   # fill in R2 creds + CF_API_TOKEN
+cp scripts/e2e.env.example scripts/e2e.env   # fill in R2 object creds
 export E2E_CREDS_FILE=scripts/e2e.env
 bash scripts/e2e.sh                   # full lifecycle
 ```

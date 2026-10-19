@@ -2,26 +2,33 @@
 # TTC GTFS-RT vehicle-capture deployment test (continuous TTC capture stack).
 #
 # Deploys the collector/processor Compose stack onto an existing SSH-reachable
-# Linux host via Ansible, verifies it, then tears down, including the scratch R2
-# bucket it used.
+# Linux host via Ansible, verifies it, then tears down. It uses a fixed scratch
+# R2 bucket (rotato-e2e-scratch) that is emptied before the run and, by default,
+# emptied again on a successful teardown.
 #
 # R2 credentials are supplied via environment variables (R2_ENDPOINT,
 # R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY), optionally sourced from a credentials
 # file (scripts/e2e.env, see scripts/e2e.env.example). The script never hardcodes
 # a secret path or value. It never reuses the production `sirento` bucket: it
-# creates a fresh scratch bucket (`sirento-e2e-<unix-seconds>`) via the Cloudflare
-# API and deletes it in teardown. Bucket create/delete requires a Cloudflare API
-# token (`CF_API_TOKEN`) with R2 write permission — the object-level S3
-# credentials alone cannot create or delete a bucket.
+# uses a fixed scratch bucket (`rotato-e2e-scratch`, overridable via
+# E2E_R2_BUCKET) and empties it before the run using the object-level R2 S3
+# credentials. No bucket is created or deleted, so no Cloudflare admin API token
+# (CF_API_TOKEN) is required.
 #
-# Phases:      preflight -> bucket -> deploy -> verify -> teardown.
+# Phases:      preflight -> prepare -> deploy -> verify -> teardown.
 # Teardown always runs on the full flow — including on failure (EXIT trap) and on
-# SIGINT/SIGTERM — so an interrupted or failed verify never leaks a running stack
-# or a scratch bucket. A single-phase run (--only verify) does not tear down.
+# SIGINT/SIGTERM — so an interrupted or failed verify never leaks a running stack.
+# A single-phase run (--only verify) does not tear down.
+#
+# Teardown bucket-emptying (after a run):
+#   success -> empty by default; E2E_KEEP_RECORDS=1 keeps records (sampling)
+#   failure -> keep by default; E2E_DELETE_ON_FAILURE=1 deletes records (testing)
 #
 # Usage:
 #   E2E_HOST=<ip> bash scripts/e2e.sh                       # full lifecycle
-#   E2E_R2_BUCKET=existing-scratch bash scripts/e2e.sh      # reuse a bucket
+#   E2E_R2_BUCKET=my-scratch bash scripts/e2e.sh            # use a different bucket
+#   E2E_KEEP_RECORDS=1 scripts/e2e.sh                       # keep records on teardown
+#   E2E_DELETE_ON_FAILURE=1 scripts/e2e.sh                  # delete records even on failure
 #   bash scripts/e2e.sh --only verify                       # re-verify only
 #
 # Optional env: see resolve_env below.
@@ -80,33 +87,23 @@ _ssh() {
 # Validate + normalize the R2 credentials from the environment (already exported
 # in the caller's shell, or sourced from E2E_CREDS_FILE above). The script never
 # reads a secrets file by default and never hardcodes a path to one. The
-# production bucket is never used; phase_bucket creates a fresh scratch bucket.
+# production bucket is never used; phase_prepare resolves the fixed scratch bucket.
 load_r2_env() {
   for v in R2_ENDPOINT R2_ACCESS_KEY_ID R2_SECRET_ACCESS_KEY; do
     [ -n "${!v:-}" ] || _fail "$v is required (export it before running; see docs/e2e-test.md)"
   done
 
-  # Two distinct R2 credential kinds exist and are NOT interchangeable (Story 64):
-  #   - R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY: an R2 S3 token id+value for object
-  #     read/write/list. Its access-key id is a short opaque/hex id.
-  #   - CF_API_TOKEN: a Cloudflare User API token for bucket create/delete only.
-  # Reusing the same value for both, or putting a Cloudflare user token in the
-  # object slot, produces a downstream 403 (`R2 capture read failed: 403`) that
-  # only surfaces after deployment. Catch it here instead.
-  if [ -n "${CF_API_TOKEN:-}" ] && [ "$R2_ACCESS_KEY_ID" = "$CF_API_TOKEN" ]; then
-    _fail "R2_ACCESS_KEY_ID and CF_API_TOKEN are identical; they are distinct token kinds (object read/write/list vs bucket lifecycle). Use an R2 S3 access-key id for R2_ACCESS_KEY_ID."
-  fi
+  # There is one R2 credential kind: an R2 S3 token id+value for object
+  # read/write/list, scoped to the scratch bucket. A Cloudflare User API token
+  # (a bucket-lifecycle credential, `cfut_...`) cannot do object read/write/list
+  # and produces a downstream 403 (`R2 capture read failed: 403`) that only
+  # surfaces after deployment. Catch it here instead.
   case "$R2_ACCESS_KEY_ID" in
     cfut_*|_cfut_*)
-      _fail "R2_ACCESS_KEY_ID looks like a Cloudflare User API token (a bucket-lifecycle credential), not an R2 S3 access-key id. Use the R2 token id (an opaque/hex id), and keep CF_API_TOKEN separate."
+      _fail "R2_ACCESS_KEY_ID looks like a Cloudflare User API token (a bucket-lifecycle credential), not an R2 S3 access-key id. Use the R2 token id (an opaque/hex id) scoped to the scratch bucket."
       ;;
   esac
 
-  # Account id is the first label of the R2 endpoint host
-  # (<account-id>.r2.cloudflarestorage.com). It is needed for the Cloudflare API
-  # bucket create/delete calls.
-  R2_ACCOUNT_ID=$(printf '%s' "$R2_ENDPOINT" | sed -E 's#https?://##; s#\..*##')
-  [ -n "$R2_ACCOUNT_ID" ] || _fail "could not derive R2 account id from endpoint $R2_ENDPOINT"
   : "${R2_REGION:=auto}"
 }
 
@@ -136,52 +133,35 @@ guard_isolation() {
   _pass "isolation guard: bucket=${R2_BUCKET} prefix=${OWNERSHIP_PREFIX}"
 }
 
-# --- Cloudflare R2 bucket lifecycle (Workers API, not the S3 object API) -----
+# --- Scratch bucket preparation (object-level R2 S3 creds only) --------------
 #
-# The S3 access key/secret are object-level credentials and cannot create or
-# delete a bucket. Buckets are managed via
-#   PUT    /accounts/{account_id}/r2/buckets/{bucket}   -> 200/201 = created
-#   DELETE /accounts/{account_id}/r2/buckets/{bucket}   -> 200 = deleted
-# authenticated with `Authorization: Bearer <CF_API_TOKEN>`.
+# The scratch bucket is fixed and pre-provisioned (rotato-e2e-scratch), so the
+# harness never creates or deletes a bucket and needs no Cloudflare admin API.
+# The "no pollution" guarantee is owned by prepare: it empties the bucket via
+# the R2 S3 object creds (list every key, delete each) before deploy.
 
-# Create (or reuse) a scratch bucket and set R2_BUCKET. When E2E_R2_BUCKET is set,
-# reuse it (and do NOT delete it in teardown); otherwise create a fresh one and
-# remember to delete it.
-phase_bucket() {
-  _info "bucket: prepare a scratch R2 bucket (Cloudflare API)"
-  load_r2_env
-  if [ -n "${E2E_R2_BUCKET:-}" ]; then
-    R2_BUCKET="$E2E_R2_BUCKET"
-    E2E_DELETE_BUCKET_AT_TEARDOWN=0
-    _info "bucket: reusing E2E_R2_BUCKET=$R2_BUCKET (will not delete it)"
-    guard_isolation
-    return 0
-  fi
-  [ -n "${CF_API_TOKEN:-}" ] || _fail "CF_API_TOKEN is required to create a scratch bucket (set it or pass E2E_R2_BUCKET to reuse one)"
-  command -v curl >/dev/null 2>&1 || _fail "curl not found (needed for the Cloudflare API)"
-
-  R2_BUCKET="sirento-e2e-$(date +%s)"
-  E2E_DELETE_BUCKET_AT_TEARDOWN=1
-  local url="https://api.cloudflare.com/client/v4/accounts/$R2_ACCOUNT_ID/r2/buckets/$R2_BUCKET"
-  local http_code
-  http_code=$(curl -sS -o "$TMPDIR/r2-create.out" -w '%{http_code}' -X PUT "$url" -H "Authorization: Bearer $CF_API_TOKEN")
-  if [ "$http_code" != "200" ] && [ "$http_code" != "201" ]; then
-    _fail "bucket create failed (HTTP $http_code): $(cat "$TMPDIR/r2-create.out" 2>/dev/null)"
-  fi
-  rm -f "$TMPDIR/r2-create.out"
-  _pass "bucket: created $R2_BUCKET"
-  guard_isolation
+# Empty the resolved scratch bucket via the R2 S3 object creds
+# (list every key, delete each). Shared by prepare (pre-run) and teardown
+# (post-run).
+_empty_r2_bucket() {
+  R2_ENDPOINT="$R2_ENDPOINT" R2_BUCKET="$R2_BUCKET" \
+    R2_ACCESS_KEY_ID="$R2_ACCESS_KEY_ID" R2_SECRET_ACCESS_KEY="$R2_SECRET_ACCESS_KEY" \
+    R2_REGION="${R2_REGION:-auto}" \
+    node "$REPO_DIR/scripts/lib/e2e-r2.js" --empty
 }
 
-# Delete the scratch bucket. A no-op when a pre-existing bucket was reused.
-delete_bucket() {
-  [ "${E2E_DELETE_BUCKET_AT_TEARDOWN:-0}" = "1" ] || return 0
-  local url="https://api.cloudflare.com/client/v4/accounts/$R2_ACCOUNT_ID/r2/buckets/$R2_BUCKET"
-  if curl -fsS -X DELETE "$url" -H "Authorization: Bearer $CF_API_TOKEN" >/dev/null 2>&1; then
-    _info "teardown: deleted scratch bucket $R2_BUCKET"
-  else
-    _info "teardown: failed to delete scratch bucket $R2_BUCKET (may need manual removal)"
-  fi
+# Resolve the fixed scratch bucket and empty it. `E2E_R2_BUCKET` overrides the
+# default `rotato-e2e-scratch`; either way the bucket must pass the isolation
+# guard, then every object in it is deleted so a prior run cannot pollute this
+# run's assertions.
+phase_prepare() {
+  _info "prepare: resolve scratch R2 bucket + isolation guard + empty"
+  load_r2_env
+  R2_BUCKET="${E2E_R2_BUCKET:-rotato-e2e-scratch}"
+  guard_isolation
+  _info "prepare: emptying R2 bucket $R2_BUCKET"
+  _empty_r2_bucket
+  _pass "prepare: emptied R2 bucket $R2_BUCKET"
 }
 
 # Render deploy/secrets.env (or E2E_SECRETS_FILE) from the resolved R2 values so
@@ -345,11 +325,36 @@ phase_verify() {
 }
 
 phase_teardown() {
+  local status="${1:-0}"
   _info "teardown: graceful compose down (releases ownership leases)"
   _ssh "cd /opt/sirento/repo && docker compose -p $COMPOSE_PROJECT -f $COMPOSE_FILE down" || true
 
-  # Delete the scratch R2 bucket (no-op when a pre-existing bucket was reused).
-  delete_bucket
+  # Post-run bucket emptying. The fixed scratch bucket is retained (never
+  # deleted); whether its records are emptied depends on the run outcome and
+  # two opt-in flags:
+  #   - success  -> empty by default; E2E_KEEP_RECORDS=1 keeps records (sampling)
+  #   - failure  -> keep by default; E2E_DELETE_ON_FAILURE=1 deletes (testing)
+  # `R2_BUCKET` is resolved here too (prepare normally sets it first, but a
+  # preflight failure can reach teardown before prepare ran).
+  if [ -n "${R2_BUCKET:-}" ] && [ -n "${R2_ENDPOINT:-}" ]; then
+    if [ "$status" -eq 0 ]; then
+      if [ "${E2E_KEEP_RECORDS:-0}" = "1" ]; then
+        _info "teardown: keeping records (E2E_KEEP_RECORDS=1): R2 bucket $R2_BUCKET"
+      else
+        _info "teardown: emptying R2 bucket $R2_BUCKET"
+        _empty_r2_bucket
+        _pass "teardown: emptied R2 bucket $R2_BUCKET"
+      fi
+    else
+      if [ "${E2E_DELETE_ON_FAILURE:-0}" = "1" ]; then
+        _info "teardown: emptying R2 bucket after failure (E2E_DELETE_ON_FAILURE=1): $R2_BUCKET"
+        _empty_r2_bucket
+        _pass "teardown: emptied R2 bucket $R2_BUCKET"
+      else
+        _info "teardown: keeping records after failure (set E2E_DELETE_ON_FAILURE=1 to delete): R2 bucket $R2_BUCKET"
+      fi
+    fi
+  fi
 
   # Remove the rendered secrets file so credentials never linger in the repo.
   rm -f "$SECRETS_FILE" 2>/dev/null || true
@@ -366,9 +371,9 @@ while [ "$#" -gt 0 ]; do
 done
 
 case "${ONLY_PHASE:-}" in
-  preflight|bucket|deploy|verify|teardown) : ;;
+  preflight|prepare|deploy|verify|teardown) : ;;
   "") : ;;
-  *) _fail "unknown --only phase: $ONLY_PHASE (preflight|bucket|deploy|verify|teardown)" ;;
+  *) _fail "unknown --only phase: $ONLY_PHASE (preflight|prepare|deploy|verify|teardown)" ;;
 esac
 
 # Teardown runs automatically only on the full flow (no --only, or explicit
@@ -383,12 +388,12 @@ main() {
   case "${ONLY_PHASE:-}" in
     "")
       phase_preflight
-      phase_bucket
+      phase_prepare
       phase_deploy
       phase_verify
       ;;
     preflight) phase_preflight ;;
-    bucket)     phase_bucket ;;
+    prepare)    phase_prepare ;;
     deploy)     phase_deploy ;;
     verify)     phase_verify ;;
     teardown)   phase_teardown ;;
@@ -405,7 +410,9 @@ run_main() {
 }
 
 if [ "$_should_teardown" = "1" ]; then
-  trap 'phase_teardown || true' EXIT
+  # `$?` at EXIT time is 0 on success, 1 on a `_fail`, 130/143 on SIGINT/SIGTERM.
+  # phase_teardown uses it to decide whether to empty (success) or keep (failure).
+  trap 'phase_teardown "$?" || true' EXIT
   trap 'exit 130' INT
   trap 'exit 143' TERM
 fi
