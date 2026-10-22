@@ -275,6 +275,7 @@ test('[STORY-38E] the boundary class cannot override Leaflet and fill the map', 
 
 test('[STORY-38E] application lazily creates and reuses an isolated Canvas boundary layer after visible-map paint', () => {
   const app = readFileSync(new URL('../src/app/app.js', import.meta.url), 'utf8');
+  const maintenanceSrc = readFileSync(new URL('../src/map-maintenance.js', import.meta.url), 'utf8');
   assert.equal([...app.matchAll(/createPoliceBoundaryLayer\(/g)].length, 1);
   assert.match(app, /L\.svg\(\{ padding: 0\.5, pane: 'policeBoundaryPane' \}\)/);
   assert.match(app, /L\.canvas\(\{ padding: 0\.5, pane: 'policeBoundaryPane' \}\)/);
@@ -283,7 +284,8 @@ test('[STORY-38E] application lazily creates and reuses an isolated Canvas bound
   assert.match(app, /if \(boundaryVisible\) \{[\s\S]*?divisionLayer\.addTo\(dispatchMap\)/);
   assert.match(app, /event\.layer !== divisionLayer/);
   assert.match(app, /if \(!mapAllowsBoundaryWork\(\) \|\| generation !== boundaryRenderGeneration\) return/);
-  assert.match(app, /queuePoliceBoundaryWork\('map-revealed-after-invalidation'\)/);
+  assert.match(maintenanceSrc, /queuePoliceBoundaryWork\('map-revealed-after-invalidation'\)/);
+  assert.match(app, /queuePoliceBoundaryWork,/);
   assert.match(app, /constructionDeferred: boundaryVisible && !divisionGeometryLayer/);
   assert.match(app, /if \(!dispatchMap\.hasLayer\(divisionGeometryLayer\)\) divisionGeometryLayer\.addTo\(dispatchMap\)/);
   assert.match(app, /dispatchMap\.removeLayer\(divisionGeometryLayer\)/);

@@ -2,11 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-const [html, css, app, boundaryOverlay] = await Promise.all([
+const [html, css, app, boundaryOverlay, maintenanceSrc] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8'),
   readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
-  readFile(new URL('../src/police-boundary-overlay.js', import.meta.url), 'utf8')
+  readFile(new URL('../src/police-boundary-overlay.js', import.meta.url), 'utf8'),
+  readFile(new URL('../src/map-maintenance.js', import.meta.url), 'utf8')
 ]);
 const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)';
 const mobileRules = css.slice(css.indexOf(mobileQuery));
@@ -41,18 +42,18 @@ test('[STORY-40F] mobile attribution sits in the lower-right chrome, clear of th
   // Story 40F: the attribution must not occupy the fullscreen/× control area.
   // It is placed in the bottom-right corner on every layout, where it stacks
   // below the zoom control and above the bottom-sheet overlap.
-  assert.match(app, /control\.setPosition\("bottomright"\)/);
-  assert.doesNotMatch(app, /setPosition\(isMobileViewLayout\(\) \? "topleft"/);
+  assert.match(maintenanceSrc, /control\.setPosition\("bottomright"\)/);
+  assert.doesNotMatch(maintenanceSrc, /setPosition\(isMobileViewLayout\(\) \? "topleft"/);
   // Leaflet inserts bottom-corner controls at the front, so repositioning on
   // every maintenance frame would lift the attribution above the zoom control.
   // The guard only repositions when the corner actually differs.
-  assert.match(app, /if \(control\.getPosition\?\.\(\) !== "bottomright"\) control\.setPosition\("bottomright"\)/);
+  assert.match(maintenanceSrc, /if \(control\.getPosition\?\.\(\) !== "bottomright"\) control\.setPosition\("bottomright"\)/);
   assert.match(mobileRules, /\.map-panel \.leaflet-bottom\.leaflet-right \{ bottom: var\(--mobile-map-sheet-overlap, 0px\); \}/);
   assert.doesNotMatch(mobileRules, /\.map-panel \.leaflet-bottom \{ bottom: var\(--mobile-map-sheet-overlap/);
 });
 
 test('[STORY-40F] Calls mode removes the map and attribution while desktop keeps valid placement', () => {
   assert.match(mobileRules, /html\[data-mobile-view="calls"\] \.map-stage,[\s\S]*?\.map-info,[\s\S]*?\.mobile-bottom-sheet \{ display: none; \}/);
-  assert.match(app, /control\.setPosition\("bottomright"\)/);
+  assert.match(maintenanceSrc, /control\.setPosition\("bottomright"\)/);
   assert.match(desktopRules, /\.leaflet-control-attribution \{[\s\S]*?background: var\(--map-attribution-background\)/);
 });

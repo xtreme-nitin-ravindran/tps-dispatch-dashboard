@@ -2,10 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-const [html, css, app] = await Promise.all([
+const [html, css, app, maintenanceSrc] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8'),
-  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8')
+  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
+  readFile(new URL('../src/map-maintenance.js', import.meta.url), 'utf8')
 ]);
 
 const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)';
@@ -40,7 +41,8 @@ test('[STORY-37B] view switching only updates presentation and preserves filters
   assert.match(setter, /mobileBottomSheet\?\.setAttribute\("aria-hidden", String\(view !== "map"\)\)/);
   assert.match(setter, /syncIncidentListSurface\(mobile\)/);
   assert.doesNotMatch(setter, /renderCalls\(\)/);
-  assert.match(app, /focusSelection && mobile && view === "map" && focusedCallId[\s\S]*?selectCall\(focusedCallId, \{ panIfNeeded: true \}\)/);
+  assert.match(maintenanceSrc, /focusSelection && mobile && view === "map" && getFocusedCallId\(\)[\s\S]*?selectFocusedCall\(\)/);
+  assert.match(app, /selectFocusedCall: \(\) => selectCall\(focusedCallId, \{ panIfNeeded: true \}\)/);
   assert.match(app, /mobileViewToggles\.forEach\(toggle => toggle\.addEventListener\("click", auditInteraction\(`view:\$\{toggle\.dataset\.mobileView\}`, \(\) => \{[\s\S]*?setMobileView\(toggle\.dataset\.mobileView,/);
 });
 
@@ -64,11 +66,11 @@ test('[STORY-37B] each mobile mode owns one incident surface and switching moves
 });
 
 test('[STORY-37B] map maintenance coalesces resize work and view changes do not rebuild layers', () => {
-  assert.match(app, /if \(mapMaintenanceFrame !== null\) return;[\s\S]*?requestAnimationFrame/);
-  assert.match(app, /mapSizeInvalidationPending \|\|= invalidateSize/);
-  assert.match(app, /dispatchMap\?\.invalidateSize\(\{ pan: false \}\)/);
-  assert.match(app, /viewTransitionScheduler\.afterPaint/);
-  assert.match(app, /if \(viewTransitionScheduler\.pending\(\)\) return/);
+  assert.match(maintenanceSrc, /if \(mapMaintenanceFrame !== null\) return;[\s\S]*?requestFrame\(/);
+  assert.match(maintenanceSrc, /mapSizeInvalidationPending \|\|= invalidateSize/);
+  assert.match(maintenanceSrc, /getMap\(\)\?\.invalidateSize\?\.\(\{ pan: false \}\)/);
+  assert.match(maintenanceSrc, /scheduler\.afterPaint/);
+  assert.match(maintenanceSrc, /if \(scheduler\?\.pending\(\)\) return/);
   const setterStart = app.indexOf('function setMobileView(');
   const setter = app.slice(setterStart, app.indexOf('\nmobileViewToggles.forEach', setterStart));
   assert.doesNotMatch(setter, /initMap|renderDisruptions|createPoliceBoundaryLayer|loadDivisionOverlay/);
@@ -87,11 +89,11 @@ test('[STORY-37B] visible state is committed before bounded list ownership and d
 });
 
 test('[STORY-37B] deferred transition work is stale-safe and invalidates only a visible map', () => {
-  const start = app.indexOf('function scheduleViewMaintenance(');
-  const scheduler = app.slice(start, app.indexOf('\nfunction syncIncidentListSurface', start));
-  assert.match(scheduler, /if \(view !== mobileView \|\| mobile !== isMobileViewLayout\(\)\) return/);
+  const start = maintenanceSrc.indexOf('function scheduleViewMaintenance(');
+  const scheduler = maintenanceSrc.slice(start, maintenanceSrc.indexOf('\n  return { scheduleMaintenance', start));
+  assert.match(scheduler, /if \(!viewStillCurrent\(view, mobile\)\) return/);
   assert.match(scheduler, /mobile && view === "map" && mapSizeInvalidationPending/);
-  assert.match(scheduler, /mapSizeInvalidationPending = false;[\s\S]*?dispatchMap\?\.invalidateSize/);
+  assert.match(scheduler, /mapSizeInvalidationPending = false;[\s\S]*?getMap\(\)\?\.invalidateSize/);
   assert.doesNotMatch(scheduler, /renderMapMarkers|renderDisruptions|loadDivisionOverlay|renderCalls|applyFilters/);
 });
 

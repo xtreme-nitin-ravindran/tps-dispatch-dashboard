@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { reconcileIncidentSelection } from '../src/incident-selection.js';
 
 const app = await readFile(new URL('../src/app/app.js', import.meta.url), 'utf8');
+const maintenanceSrc = await readFile(new URL('../src/map-maintenance.js', import.meta.url), 'utf8');
 
 test('[MUST-6][STORY-9] tapping a mobile marker opens the sheet and reveals its matching shared card', () => {
   const markerClickMatch = app.match(/\.on\("click", event => \{[\s\S]*?\n {6}\}\);/);
@@ -19,7 +20,8 @@ test('[MUST-6][STORY-9] tapping a mobile marker opens the sheet and reveals its 
 test('[MUST-6][STORY-9] card selection persists into Map and highlights the same marker without changing zoom', () => {
   assert.match(app, /selectCall\(row\.dataset\.callId, \{ pan: !isMobileViewLayout\(\) \|\| mobileView === "map" \}\)/);
   assert.match(app, /setMobileView\(toggle\.dataset\.mobileView, \{ focusSelection: toggle\.dataset\.mobileView === "map" \}\)/);
-  assert.match(app, /focusSelection && mobile && view === "map" && focusedCallId[\s\S]*?selectCall\(focusedCallId, \{ panIfNeeded: true \}\)/);
+  assert.match(maintenanceSrc, /focusSelection && mobile && view === "map" && getFocusedCallId\(\)[\s\S]*?selectFocusedCall\(\)/);
+  assert.match(app, /selectFocusedCall: \(\) => selectCall\(focusedCallId, \{ panIfNeeded: true \}\)/);
   assert.match(app, /const selected = id === focusedCallId;[\s\S]*?marker\.setIcon\(markerIcon\(call, selected/);
   assert.match(app, /dispatchMap\.getBounds\(\)\.contains\(coordinates\)[\s\S]*?dispatchMap\.panTo\(coordinates/);
   assert.doesNotMatch(app, /setView\(coordinates/);
@@ -37,7 +39,7 @@ test('[MUST-6][STORY-9] mobile behavior reuses the desktop selection model and l
   assert.equal([...app.matchAll(/let focusedCallId = null/g)].length, 1);
   assert.doesNotMatch(app, /mobileSelected|selectedMobile|mobileSelection/);
   assert.match(app, /if \(!mobile\) setTimeout\(\(\) => mapPopups\.reopenBound\(event\.target\), 0\)/);
-  assert.match(app, /if \(focusSelection && mobile && view === "map" && focusedCallId\)/);
+  assert.match(maintenanceSrc, /if \(focusSelection && mobile && view === "map" && getFocusedCallId\(\)\)/);
   assert.match(app, /row\.classList\.toggle\("selected", selected\)[\s\S]*?setAttribute\("aria-pressed", String\(selected\)\)/);
 });
 

@@ -2,10 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-const [html, css, app] = await Promise.all([
+const [html, css, app, maintenanceSrc] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8'),
-  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8')
+  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
+  readFile(new URL('../src/map-maintenance.js', import.meta.url), 'utf8')
 ]);
 
 const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)';
@@ -73,17 +74,17 @@ test('[STORY-40][STORY-40A][STORY-40E] the focus control sits beside the stacked
 test('[STORY-40][STORY-40A][STORY-40E][STORY-51X] the focus control anchors to the layer row\'s measured bottom edge, not a fixed offset', () => {
   // The offset is measured from the real rendered row so a taller (wrapped) row
   // on iOS Safari cannot place the control underneath Road closures.
-  assert.match(app, /function syncMobileLayerRowOffset\(\) \{/);
-  assert.match(app, /const layerRow = wrap\?\.querySelector\?\.\("\.map-layer-toggle"\);/);
+  assert.match(maintenanceSrc, /function syncMobileLayerRowOffset\(\) \{/);
+  assert.match(maintenanceSrc, /const layerRow = wrap\?\.querySelector\?\.\("\.map-layer-toggle"\);/);
   // The Road closures control's bottom edge anchors the TTC disruptions control.
-  assert.match(app, /const roadBottom = layerRow\.getBoundingClientRect\(\)\.bottom - wrapTop;/);
-  assert.match(app, /document\.documentElement\.style\.setProperty\("--road-control-bottom", `\$\{Math\.round\(roadBottom\)\}px`\);/);
+  assert.match(maintenanceSrc, /const roadBottom = layerRow\.getBoundingClientRect\(\)\.bottom - wrapTop;/);
+  assert.match(maintenanceSrc, /documentRef\.documentElement\.style\.setProperty\("--road-control-bottom", `\$\{Math\.round\(roadBottom\)\}px`\);/);
   // The focus control and chrome anchor to the bottom of the whole visible stack.
-  assert.match(app, /const stackBottomEl = toggles\.filter\(el => el\.getClientRects\(\)\.length\)\.pop\(\) \|\| layerRow;/);
-  assert.match(app, /const rowBottom = stackBottomEl\.getBoundingClientRect\(\)\.bottom - wrapTop;/);
-  assert.match(app, /document\.documentElement\.style\.setProperty\("--mobile-layer-row-bottom", `\$\{Math\.round\(rowBottom\)\}px`\);/);
+  assert.match(maintenanceSrc, /const stackBottomEl = toggles\.filter\(el => el\.getClientRects\(\)\.length\)\.pop\(\) \|\| layerRow;/);
+  assert.match(maintenanceSrc, /const rowBottom = stackBottomEl\.getBoundingClientRect\(\)\.bottom - wrapTop;/);
+  assert.match(maintenanceSrc, /documentRef\.documentElement\.style\.setProperty\("--mobile-layer-row-bottom", `\$\{Math\.round\(rowBottom\)\}px`\);/);
   // It runs inside the existing coalesced maintenance frame and observes the row.
-  assert.match(app, /syncMapSheetOverlap\(\);\s*syncMobileLayerRowOffset\(\);/);
+  assert.match(maintenanceSrc, /syncMapSheetOverlap\(\);\s*syncMobileLayerRowOffset\(\);/);
   assert.match(app, /mapSheetObserver\.observe\(layerRow\);/);
   // The focus control and the focus-mode chrome all derive from the same variable.
   assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.mobile-map-focus-toggle \{ top: calc\(var\(--mobile-layer-stack-center, 56px\) - 24px\);/);
@@ -122,7 +123,7 @@ test('[STORY-40][STORY-40B] focused map hides the existing bottom sheet and reta
   assert.equal(html.match(/id="mobileSheetCallList"/g)?.length, 1);
   // Map controls still clear the sheet through the existing overlap variable.
   assert.match(mobileRules, /\.map-panel \.leaflet-bottom\.leaflet-right \{ bottom: var\(--mobile-map-sheet-overlap, 0px\)/);
-  assert.match(app, /els\.dispatchMap\.style\.setProperty\("--mobile-map-sheet-overlap", `\$\{overlap\}px`\)/);
+  assert.match(maintenanceSrc, /mapElement\.style\.setProperty\("--mobile-map-sheet-overlap", `\$\{overlap\}px`\)/);
 });
 
 test('[STORY-40][STORY-40B] focus entry and exit invalidate Leaflet through the existing coalesced scheduler', () => {
@@ -247,8 +248,8 @@ test('[STORY-40][STORY-40C] focus-mode view transitions stay presentation-only a
     assert.equal([...handler.matchAll(/addEventListener/g)].length, 1);
   }
   // Returning to Map invalidates Leaflet through the existing coalesced scheduler.
-  assert.match(app, /mapSizeInvalidationPending \|\|= mobile && view === "map";/);
-  assert.match(app, /if \(mobile && view === "map" && mapSizeInvalidationPending\)[\s\S]*?dispatchMap\?\.invalidateSize\(\{ pan: false \}\)/);
+  assert.match(maintenanceSrc, /mapSizeInvalidationPending \|\|= mobile && view === "map";/);
+  assert.match(maintenanceSrc, /if \(mobile && view === "map" && mapSizeInvalidationPending\)[\s\S]*?getMap\(\)\?\.invalidateSize\?\.\(\{ pan: false \}\)/);
 });
 
 test('[STORY-40][STORY-40C][STORY-40V] normal non-focused mobile navigation and desktop are unchanged by 40C', () => {
@@ -399,32 +400,32 @@ test('[STORY-40D] the floating filter summary names the location context it is s
 
 // --- Story 44: measured focus-mode chrome boundaries ---
 
-const chromeMetricsStart = app.indexOf('function syncMobileFocusChromeMetrics(');
-const chromeMetricsFn = app.slice(chromeMetricsStart, app.indexOf('\nfunction wrapQuery(', chromeMetricsStart));
+const chromeMetricsStart = maintenanceSrc.indexOf('function syncMobileFocusChromeMetrics(');
+const chromeMetricsFn = maintenanceSrc.slice(chromeMetricsStart, maintenanceSrc.indexOf('\nfunction wrapQuery(', chromeMetricsStart));
 
 test('[STORY-44] focus-mode chrome boundaries are measured, not hardcoded', () => {
   // The measurement pass exposes the focus button height, navigation band bottom,
   // filter summary bottom, zoom-control clearance, and attribution clearance.
-  assert.match(app, /function syncMobileFocusChromeMetrics\(\) \{/);
+  assert.match(maintenanceSrc, /function syncMobileFocusChromeMetrics\(\) \{/);
   assert.match(chromeMetricsFn, /setRootMetric\("--mobile-focus-height", rect\.height\)/);
   assert.match(chromeMetricsFn, /setRootMetric\("--mobile-nav-bottom", rect\.bottom\)/);
   assert.match(chromeMetricsFn, /setRootMetric\("--mobile-summary-bottom", rect\.bottom\)/);
-  assert.match(chromeMetricsFn, /setRootMetric\("--mobile-zoom-clearance", window\.innerWidth - rect\.left\)/);
-  assert.match(chromeMetricsFn, /setRootMetric\("--mobile-attribution-clearance", window\.innerHeight - rect\.top\)/);
+  assert.match(chromeMetricsFn, /setRootMetric\("--mobile-zoom-clearance", windowRef\.innerWidth - rect\.left\)/);
+  assert.match(chromeMetricsFn, /setRootMetric\("--mobile-attribution-clearance", windowRef\.innerHeight - rect\.top\)/);
   // It runs inside the existing coalesced maintenance frame, after the layer-row
   // measurement, with no new listeners.
-  assert.match(app, /syncMobileLayerRowOffset\(\) \{[\s\S]*?syncMobileFocusChromeMetrics\(\);\s*\}/);
+  assert.match(maintenanceSrc, /syncMobileLayerRowOffset\(\) \{[\s\S]*?syncMobileFocusChromeMetrics\(\);\s*\}/);
   assert.doesNotMatch(chromeMetricsFn, /addEventListener|ResizeObserver|requestAnimationFrame/);
 });
 
 test('[STORY-44] focus-mode chrome measurement only runs while focus mode is active on mobile', () => {
-  assert.match(chromeMetricsFn, /if \(!mobileFocusMode \|\| !isMobileViewLayout\(\)\) return;/);
+  assert.match(chromeMetricsFn, /if \(!isFocusMode\(\) \|\| !isMobileLayout\(\)\) return;/);
 });
 
 test('[STORY-44] focus-mode chrome metrics are written only when they change', () => {
   // setRootMetric guards against redundant writes so the measurement pass cannot
   // thrash layout or re-trigger the ResizeObserver.
-  assert.match(app, /function setRootMetric\(name, value\) \{[\s\S]*?if \(document\.documentElement\.style\.getPropertyValue\(name\) === next\) return;[\s\S]*?document\.documentElement\.style\.setProperty\(name, next\);/);
+  assert.match(maintenanceSrc, /function setRootMetric\(name, value\) \{[\s\S]*?if \(documentRef\.documentElement\.style\.getPropertyValue\(name\) === next\) return;[\s\S]*?documentRef\.documentElement\.style\.setProperty\(name, next\);/);
   assert.match(chromeMetricsFn, /setRootMetric\(/);
   assert.doesNotMatch(chromeMetricsFn, /style\.setProperty\(/);
 });
