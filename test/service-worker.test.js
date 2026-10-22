@@ -73,7 +73,13 @@ test("[SHOULD-8][STORY-23] worker precaches the static app shell without live in
   assert.ok(calls.added.includes("./src/app/app.js"));
   assert.ok(calls.added.includes("./assets/images/icon-192.png"));
   assert.ok(calls.added.includes("./src/disruptions/ttc-nearby-fixture.js"));
-  assert.ok(calls.added.includes("./src/disruptions/ttc-stops.js"));
+  assert.ok(calls.added.includes("./src/frame-scheduler.js"));
+  assert.ok(calls.added.includes("./src/map-popups.js"));
+  // Story 74 hardening: the 629 KB generated stop table and its pipeline-only
+  // consumer are not part of the client module graph, so they must not be
+  // precached for browser installs.
+  assert.ok(!calls.added.includes("./src/disruptions/ttc-stops.js"));
+  assert.ok(!calls.added.includes("./src/disruptions/source.js"));
   assert.ok(calls.added.includes("./src/disruptions/ui.js"));
   assert.ok(calls.added.includes("./src/ux-reliability-audit.js"));
   assert.ok(!calls.added.some(asset => asset.includes("current.json")));

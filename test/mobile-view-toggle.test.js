@@ -67,7 +67,7 @@ test('[STORY-37B] map maintenance coalesces resize work and view changes do not 
   assert.match(app, /if \(mapMaintenanceFrame !== null\) return;[\s\S]*?requestAnimationFrame/);
   assert.match(app, /mapSizeInvalidationPending \|\|= invalidateSize/);
   assert.match(app, /dispatchMap\?\.invalidateSize\(\{ pan: false \}\)/);
-  assert.match(app, /viewTransitionScheduler\.schedule/);
+  assert.match(app, /viewTransitionScheduler\.afterPaint/);
   assert.match(app, /if \(viewTransitionScheduler\.pending\(\)\) return/);
   const setterStart = app.indexOf('function setMobileView(');
   const setter = app.slice(setterStart, app.indexOf('\nmobileViewToggles.forEach', setterStart));

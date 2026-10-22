@@ -2344,6 +2344,11 @@ footer {
 
 .location-confidence { color: var(--muted); font-size: 12px; line-height: 1.5; margin: 0; }
 
+.disruption-item { padding: 14px 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.disruption-item h4 { margin: 0 0 8px; }
+.disruption-item p { margin: 6px 0; font-size: 13px; line-height: 1.5; }
+.disruption-item.selected { background: var(--accent-soft); box-shadow: inset 4px 0 var(--accent), inset 0 0 0 1px var(--accent-line); }
+
 /* Leaflet popup overrides — the single home for bubble styles (Story 74).
    Chrome classes shared across contexts (list, sheet, popup) are scoped here
    per context; never extend a shared class rule elsewhere in a way that can
@@ -2367,10 +2372,6 @@ footer {
 .disruptions-panel details { padding: 14px 20px; border-top: 1px solid var(--line); }
 .disruptions-panel summary { cursor: pointer; font-weight: 600; }
 .disruption-list { max-height: 420px; overflow-y: auto; }
-.disruption-item { padding: 14px 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
-.disruption-item h4 { margin: 0 0 8px; }
-.disruption-item p { margin: 6px 0; font-size: 13px; line-height: 1.5; }
-.disruption-item.selected { background: var(--accent-soft); box-shadow: inset 4px 0 var(--accent), inset 0 0 0 1px var(--accent-line); }
 .road-overlay-toggle { align-items: center; gap: 8px; font-size: 13px; }
 .road-key { width: 24px; height: 0; border-top: 4px dashed var(--road-marker); display: inline-block; }
 .road-key-wrap, .ttc-key-wrap { display: inline-flex; align-items: center; gap: 4px; }

@@ -37,8 +37,7 @@ import { clearWatchActivation, createHttpWatchSubscriptionAdapter, createPushFix
 import { mobileAuditFixtureFilters, mobileAuditFixtureOptions, mobileAuditFixtureSnapshot } from '../mobile-audit-fixture.js';
 import { runSynchronousAuditWork, uxAudit, uxReliabilityFixtureOptions, waitForAuditDelay } from '../ux-reliability-audit.js';
 import { INCIDENT_LIST_BATCH_SIZE, incidentFilterKey, incidentListKey, nextIncidentBatch } from '../incident-list-window.js';
-import { createViewTransitionScheduler } from '../mobile-view-transition.js';
-import { createPoliceBoundaryLifecycleScheduler } from '../police-boundary-lifecycle.js';
+import { createFrameScheduler } from '../frame-scheduler.js';
 import { createMapPopups } from '../map-popups.js';
 
 uxAudit.mark('app-bootstrap-begins');
@@ -169,7 +168,7 @@ let mobileFocusScrollY = 0;
 const initialParams = new URLSearchParams(location.search);
 const mobileAuditFixture = mobileAuditFixtureOptions(location);
 const boundaryDebugEnabled = initialParams.get('policeBoundaryDebug') === '1';
-const boundaryLifecycleScheduler = createPoliceBoundaryLifecycleScheduler();
+const boundaryLifecycleScheduler = createFrameScheduler();
 const uxReliabilityFixture = uxReliabilityFixtureOptions(location);
 let uxFixtureLazyWorkPending = Boolean(uxReliabilityFixture?.lazyWorkMs);
 let mapInitializationScheduled = false;
@@ -303,7 +302,7 @@ function syncMapAttributionPosition() {
 let mapMaintenanceFrame = null;
 let mapSheetObserver = null;
 let mapSizeInvalidationPending = false;
-const viewTransitionScheduler = createViewTransitionScheduler();
+const viewTransitionScheduler = createFrameScheduler();
 function syncMapSheetOverlap() {
   if (!els.dispatchMap || !mobileBottomSheet) return;
   const sheetRect = mobileBottomSheet.getBoundingClientRect();
@@ -448,7 +447,7 @@ function scheduleViewMaintenance({ view, mobile, focusSelection, persist }) {
   mapSizeInvalidationPending ||= mobile && view === "map";
   if (mapMaintenanceFrame !== null) cancelAnimationFrame(mapMaintenanceFrame);
   mapMaintenanceFrame = null;
-  const generation = viewTransitionScheduler.schedule(() => {
+  const generation = viewTransitionScheduler.afterPaint(() => {
     if (view !== mobileView || mobile !== isMobileViewLayout()) return;
     uxAudit.mark('view-toggle:first-frame-after-switch', { view, generation });
     const finishMaintenance = uxAudit.begin('view-toggle:deferred-maintenance', { view, generation });
