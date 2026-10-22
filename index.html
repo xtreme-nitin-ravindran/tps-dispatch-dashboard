@@ -52,7 +52,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./assets/css/styles.css?v=mobile-sheet-calls-1" />
+  <link rel="stylesheet" href="./assets/css/styles.css?v=disruption-popup-2" />
 </head>
 
 <body>
@@ -298,11 +298,11 @@
         <div class="panel map-panel">
           <div class="map-wrap">
             <label class="road-overlay-toggle map-layer-toggle"><input id="roadOverlay" type="checkbox" />
-              <span aria-hidden="true" class="road-key"></span><span id="roadOverlayLabel">Road closures</span>
+              <span class="road-key-wrap" aria-hidden="true"><span class="road-key"></span><span class="road-sign">⛔</span></span><span id="roadOverlayLabel">Road closures</span>
               <small id="roadOverlayStatus" class="map-layer-status">Not available yet</small>
             </label>
             <label id="ttcLayerControl" class="ttc-overlay-toggle map-layer-toggle" hidden><input id="ttcOverlay" type="checkbox" checked />
-              <span aria-hidden="true" class="ttc-key"></span><span>TTC disruptions</span>
+              <span class="ttc-key-wrap" aria-hidden="true"><span class="ttc-key"></span><span class="ttc-sign">🚧</span></span><span>TTC disruptions</span>
             </label>
             <button id="mobileMapFocusToggle" class="mobile-map-focus-toggle" type="button" aria-pressed="false"
               aria-controls="mapView" aria-label="Full screen map">
@@ -465,8 +465,8 @@
           </div>
           <p class="map-source-credit">Police division boundaries — Toronto Police Service</p>
           <div class="map-legend" aria-label="Map marker guide">
-            <span id="ttcLegend-scheduled" hidden><b class="ttc-legend-line ttc-legend-scheduled" aria-hidden="true"></b>TTC affected section</span>
-            <span id="ttcLegend-diversion" hidden><b class="ttc-legend-line" aria-hidden="true"></b>Observed TTC diversion</span>
+            <span id="ttcLegend-scheduled" hidden><b class="ttc-legend-line ttc-legend-scheduled" aria-hidden="true"></b><i class="ttc-sign" aria-hidden="true">🚧</i>TTC affected section</span>
+            <span id="ttcLegend-diversion" hidden><b class="ttc-legend-line" aria-hidden="true"></b><i class="ttc-sign" aria-hidden="true">🚧</i>Observed TTC diversion</span>
             <span><i class="fire-key" aria-hidden="true"></i>Fire</span>
             <span><i class="medical-key" aria-hidden="true"></i>Medical</span>
             <span><i class="other-key" aria-hidden="true"></i>Other</span>
@@ -588,7 +588,7 @@
   </script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./src/app/app.js?v=mobile-sheet-calls-1"></script>
+  <script type="module" src="./src/app/app.js?v=disruption-popup-2"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", async () => {

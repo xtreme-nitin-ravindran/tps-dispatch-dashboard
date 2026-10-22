@@ -1747,7 +1747,7 @@ function initMap() {
     selectClosure(event.item,event.layer,true);
   });
   dispatchMap.on('ttcselectionexpired',()=>{if(focusedClosureId?.startsWith('ttc:')) clearClosureSelection();});
-  dispatchMap.on('ttcselectionupdated',event=>{if(focusedClosureId === `ttc:${event.item.id}`) mobileClosureDetail.querySelector('.ttc-detail')?.replaceWith(createTtcDetail(event.item));});
+  dispatchMap.on('ttcselectionupdated',event=>{if(focusedClosureId === `ttc:${event.item.id}`) mobileClosureDetail.querySelector('.ttc-detail')?.replaceWith(createTtcDetail(event.item,{popupStyle:true}));});
   dispatchMap.on("zoomend", () => {
     expandedCluster.clear();
     scheduleMapMarkerRender();
@@ -1762,6 +1762,13 @@ function initMap() {
   markFullyRenderedWhenReady();
 }
 
+// Leaflet removes popup containers only when their fade transition ends, so
+// rapid selections can briefly stack fading bubbles. Close and drop the
+// wrappers immediately for deterministic single-bubble behavior.
+function closeMapPopupImmediately() {
+  dispatchMap?.closePopup?.();
+  for (const popup of document.querySelectorAll('.leaflet-popup')) popup.remove();
+}
 function clearIncidentForTtc() {
   const previous=focusedCallId;
   focusedCallId=null;
@@ -1769,7 +1776,7 @@ function clearIncidentForTtc() {
     expandedCluster.clear();
     if (dispatchMap) renderMapMarkers();
   }
-  dispatchMap?.closePopup();
+  closeMapPopupImmediately();
   if(previous) updateMarkerAppearance(previous);
   for(const row of document.querySelectorAll('.incident-card.selected')) {
     row.classList.remove('selected','pin-highlight');
@@ -1782,6 +1789,7 @@ function clearClosureSelection() {
   disruptionUi.syncClosureCardSelection(null);
   const hadClosure=focusedClosureId !== null;
   focusedClosureId=null;
+  closeMapPopupImmediately();
   if (mobileClosureDetail) {
     mobileClosureDetail.hidden=true;
     mobileClosureDetail.replaceChildren();
@@ -1794,7 +1802,7 @@ function clearClosureSelection() {
 function selectClosure(closure, layer, ttc=false) {
   if (!closure) return;
   focusedClosureId=(ttc ? 'ttc:' : '')+String(closure.id ?? '');
-  const detail=ttc ? createTtcDetail(closure) : createClosureDetail(closure);
+  const detail=ttc ? createTtcDetail(closure,{popupStyle:true}) : createClosureDetail(closure);
   if (!ttc) disruptionUi.syncClosureCardSelection(closure.id);
   if (isMobileViewLayout()) {
     const back=document.createElement('button');
@@ -1806,14 +1814,29 @@ function selectClosure(closure, layer, ttc=false) {
     mobileCallsFeedStatus.hidden=true;
     mobileSheetSummary.textContent=ttc ? closure.routes.map(r=>r.label).join(' · ') || 'TTC disruption' : closure.street || closure.title || 'Road closure';
     setMobileSheetState(mobileSheetState === 'collapsed' ? 'half' : mobileSheetState);
-    if(ttc) {document.querySelector('#mobileSheetBody').scrollTop=0;back.focus({preventScroll:true});}
-    else layer?.bindPopup?.(detail,{minWidth:260,maxWidth:340,closeOnClick:false}).openPopup?.();
+    if(ttc) {
+      document.querySelector('#mobileSheetBody').scrollTop=0;back.focus({preventScroll:true});
+      // Story 74: mobile map taps open the bubble too, mirroring the
+      // road-closure bubble (Story 66). The sheet keeps its own live detail
+      // node (ttcselectionupdated replaces it on refresh), so the bubble gets
+      // a separate snapshot node instead of moving the sheet's node into the
+      // popup the way the road branch does.
+      const anchor=layer?.getLatLng?.() || layer?.getBounds?.().getCenter?.();
+      if(anchor) { closeMapPopupImmediately(); dispatchMap?.openPopup?.(createTtcDetail(closure,{popupStyle:true}),anchor,{minWidth:260,maxWidth:340,closeOnClick:false}); }
+    }
+    else { closeMapPopupImmediately(); layer?.bindPopup?.(detail,{minWidth:260,maxWidth:340,closeOnClick:false}).openPopup?.(); }
     return;
   }
   if(ttc) {
     const host=[...document.querySelectorAll('#observedDiversionsList .incident-card')].find(el=>el.dataset.ttcId===closure.id);
     if(host) {host.classList.add('selected');if(layer) {host.scrollIntoView({block:'nearest'});host.focus({preventScroll:true});}}
-  } else layer?.bindPopup?.(detail,{minWidth:260,maxWidth:340,closeOnClick:false}).openPopup?.();
+    // Story 74: the map bubble mirrors the road-closure bubble and anchors on
+    // the clicked sign marker (or the hit line's center when no sign resolved).
+    // The map-level popup replaces its content per selection, so sequential
+    // clicks can never accumulate duplicate detail blocks.
+    const anchor=layer?.getLatLng?.() || layer?.getBounds?.().getCenter?.();
+    if(anchor) { closeMapPopupImmediately(); dispatchMap?.openPopup?.(detail,anchor,{minWidth:260,maxWidth:340,closeOnClick:false}); }
+  } else { closeMapPopupImmediately(); layer?.bindPopup?.(detail,{minWidth:260,maxWidth:340,closeOnClick:false}).openPopup?.(); }
 }
 
 function mapAllowsBoundaryWork() {

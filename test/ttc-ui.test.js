@@ -43,25 +43,56 @@ test('[STORY-30F][STORY-30G] ambiguous scheduled correlation and malformed geome
   const output=structuredClone(fixture.ttcDiversions);output.diversions[0].geometry=[[Infinity,43],[-79,43]];assert.equal(present(undefined,output).items[0].diversions.length,0);
 });
 function harness() {
-  const members=new Set(),map={panes:{},getPane(id){return this.panes[id];},createPane(id){return this.panes[id]={style:{}};},fitBounds(points){this.bounds=points;}};
+  const members=new Set(),map={panes:{},getPane(id){return this.panes[id];},createPane(id){return this.panes[id]={style:{}};},fitBounds(points){this.bounds=points;},getZoom(){return 13;},project(latlng){return {x:latlng[1]*10000,y:latlng[0]*10000};}};
   let created=0,updated=0,selected;
-  const L={layerGroup(){return {addTo(){return this;},remove(){},clearLayers(){members.clear();},removeLayer(l){members.delete(l);}};},polyline(points,options){created++;return {points,options,handlers:{},addTo(){members.add(this);return this;},on(k,fn){this.handlers[k]=fn;},off(){this.handlers={};},setStyle(s){Object.assign(this.options,s);},setLatLngs(p){this.points=p;updated++;}};}};
+  const L={layerGroup(){return {addTo(){return this;},remove(){},clearLayers(){members.clear();},removeLayer(l){members.delete(l);}};},polyline(points,options){created++;return {points,options,handlers:{},addTo(){members.add(this);return this;},on(k,fn){this.handlers[k]=fn;},off(){this.handlers={};},setStyle(s){Object.assign(this.options,s);},setLatLngs(p){this.points=p;updated++;}};},divIcon(options){return {options};},marker(points,options){created++;return {points,options,handlers:{},addTo(){members.add(this);return this;},on(k,fn){this.handlers[k]=fn;},off(){this.handlers={};}};}};
   const layer=createTtcLayer(map,L,item=>{selected=item.id;layer.select(item.id);});
   return {layer,members,map,counts:()=>({created,updated}),selection:()=>selected};
 }
 test('[STORY-30F][STORY-30G] 100 refresh/theme/view/visibility/selection cycles retain the same Leaflet objects; expiry removes only its part',()=>{
   const h=harness(),items=present().items;h.layer.update(items);const initial=[...h.members];
   for(let i=0;i<100;i++) {h.layer.update(structuredClone(items));h.layer.select(i%2?items[0].id:null);h.layer.visibility(i%2===0);}
-  assert.deepEqual([...h.members],initial);assert.deepEqual(h.counts(),{created:4,updated:0});
+  assert.deepEqual([...h.members],initial);assert.deepEqual(h.counts(),{created:6,updated:0});
   const hit=initial.find(l=>l.options.weight===24);hit.handlers.click();assert.equal(h.selection(),items[0].id);assert.equal(h.layer.diagnostics().selected,items[0].id);
   h.layer.reveal(items[0].id);assert.ok(h.map.bounds.length>2);
-  h.layer.update([{...items[0],diversions:[]}]);assert.equal(h.members.size,2);assert.equal(h.layer.diagnostics().selected,items[0].id);
+  h.layer.update([{...items[0],diversions:[]}]);assert.equal(h.members.size,3);assert.equal(h.layer.diagnostics().selected,items[0].id);
   h.layer.update([]);assert.equal(h.members.size,0);assert.equal(h.layer.diagnostics().selected,null);h.layer.destroy();assert.equal(h.members.size,0);
 });
 test('[STORY-30F][STORY-30G] geometry updates mutate existing line pairs instead of allocating new layers',()=>{
   const h=harness(),items=present().items;h.layer.update(items);items[0].diversions[0].geometry=items[0].diversions[0].geometry.map(([x,y])=>[x+.0001,y]);h.layer.update(items);
-  assert.deepEqual(h.counts(),{created:4,updated:2});
+  assert.deepEqual(h.counts(),{created:7,updated:2});
 });
+test('[STORY-30F][STORY-30G][STORY-74] sign markers select the owning item, anchor the nearest sign, and are removed with the layer',()=>{
+  const h=harness(),items=present().items;h.layer.update(items);
+  assert.equal(h.layer.diagnostics().markers,2);
+  const signs=[...h.members].filter(l=>l.options?.icon);
+  assert.equal(signs.length,2);
+  // A sign click selects the owning item.
+  signs[0].handlers.click();
+  assert.equal(h.selection(),items[0].id);
+  // A hit click anchors the nearest sign; a click with no position falls back
+  // to the hit line itself.
+  const hit=[...h.members].find(l=>l.options?.weight===24);
+  hit.handlers.click({latlng:{lat:signs[0].points[0],lng:signs[0].points[1]}});
+  assert.equal(h.selection(),items[0].id);
+  hit.handlers.click({latlng:{lat:signs[1].points[0],lng:signs[1].points[1]}});
+  assert.equal(h.selection(),items[0].id);
+  hit.handlers.click();
+  assert.equal(h.selection(),items[0].id);
+  h.layer.destroy();
+  assert.equal(h.members.size,0);
+});
+
+test('[STORY-74] 74: affected sections render with the dashed scheduled style and sign markers',()=>{
+  const h=harness();
+  const item={id:'affected-item',routes:[{id:'2',label:'2'}],scheduled:[],diversions:[],affected:[{id:'a1',kind:'affected',geometry:[[-79.5,43.64],[-79.4,43.65],[-79.3,43.66]]}]};
+  h.layer.update([item]);
+  const line=[...h.members].find(l=>l.options?.className==='ttc-line ttc-line--affected');
+  assert.equal(line.options.dashArray,'8 7');
+  assert.ok(h.layer.diagnostics().markers>=1);
+  assert.equal([...h.members].filter(l=>l.options?.icon).length,h.layer.diagnostics().markers);
+});
+
 test('[STORY-30F][STORY-30G] developer fixture is loopback-only and rebases freshness without raw histories',async()=>{
   const fetch=async()=>({ok:true,json:async()=>structuredClone(fixture)});
   assert.equal(await loadTtcUiFixture({hostname:'sirento.ca',search:'?ttcFixture=confirmed'},fetch),null);
