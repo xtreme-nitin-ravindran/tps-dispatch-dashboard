@@ -4,10 +4,11 @@ import { readFile } from 'node:fs/promises';
 import { applyTheme } from '../src/theme.js';
 import { clusterPoints } from '../src/map-clusters.js';
 
-const [css, app, disruptions] = await Promise.all([
+const [css, app, disruptions, markersSrc] = await Promise.all([
   readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8'),
   readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
-  readFile(new URL('../src/disruptions/ui.js', import.meta.url), 'utf8')
+  readFile(new URL('../src/disruptions/ui.js', import.meta.url), 'utf8'),
+  readFile(new URL('../src/incident-markers.js', import.meta.url), 'utf8')
 ]);
 
 const darkTheme = css.slice(css.indexOf(':root {'), css.indexOf(':root[data-theme="light"]'));
@@ -49,17 +50,17 @@ test('[SHOULD-12][STORY-27] clusters keep readable counts and unchanged grouping
   assert.match(lightTheme, /--cluster-border: #10242a/);
   const calls = [{ id: 'a' }, { id: 'b' }];
   assert.equal(clusterPoints(calls, () => ({ x: 1, y: 1 })).length, 1);
-  assert.match(app, /className:`call-cluster age-\$\{clusterTier\}/);
-  assert.match(app, /html:String\(group\.length\)/);
+  assert.match(markersSrc, /className:`call-cluster age-\$\{clusterTier\}/);
+  assert.match(markersSrc, /html:String\(group\.length\)/);
 });
 
 test('[SHOULD-12][STORY-27] contrast styles are scoped away from location and road-closure objects', () => {
-  assert.match(app, /L\.circleMarker\(state\.nearby/);
+  assert.match(markersSrc, /L\.circleMarker\(getNearby\(\)/);
   assert.match(disruptions, /className:`road-closure-symbol/);
   assert.doesNotMatch(css, /\.nearby-origin[^}]*var\(--marker-(?:border|ring|shadow)\)/);
   assert.doesNotMatch(css, /\.road-closure-(?:line|symbol)[^}]*var\(--marker-(?:border|ring|shadow)\)/);
 });
 
 test('[SHOULD-12][STORY-27] incident marker click still uses the existing selection path', () => {
-  assert.match(app, /\.on\("click", event => \{[\s\S]*?selectCall\(call\.id, \{ pan: false, revealRow: true \}\)/);
+  assert.match(markersSrc, /\.on\("click", event => \{[\s\S]*?selectCall\(call\.id\)/);
 });

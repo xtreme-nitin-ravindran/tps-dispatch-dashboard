@@ -5,6 +5,7 @@ import { incidentGroupKey, reconcileIncidentLayers } from '../src/incident-layer
 import { clusterPoints } from '../src/map-clusters.js';
 
 const app = readFileSync(new URL('../src/app/app.js', import.meta.url), 'utf8');
+const markersSrc = readFileSync(new URL('../src/incident-markers.js', import.meta.url), 'utf8');
 const item = (id, coordinates) => ({call:{id,timestamp:1},coordinates});
 
 test('[STORY-29F][STORY-38C] unchanged incident representations are retained without additions or removals', () => {
@@ -44,19 +45,19 @@ test('[STORY-29F][STORY-38C] zoom grouping changes reconcile without duplicate r
 
 test('[STORY-29F][STORY-38C] map rendering is incremental, selection-targeted, and zoom-coalesced', () => {
   assert.doesNotMatch(app,/callLayer\.clearLayers\(\)/);
-  assert.match(app,/reconcileIncidentLayers\(renderedIncidentLayers, desiredKeys\)/);
-  assert.match(app,/renderedIncidentLayers\.get\(key\)\.layers\.forEach\(layer => callLayer\.removeLayer\(layer\)\)/);
-  assert.match(app,/if \(retained\) \{[\s\S]*?mapMarkers\.set\(id, marker\)[\s\S]*?continue;/);
+  assert.match(markersSrc,/reconcileIncidentLayers\(renderedIncidentLayers, desiredKeys\)/);
+  assert.match(markersSrc,/renderedIncidentLayers\.get\(key\)\.layers\.forEach\(layer => callLayer\.removeLayer\(layer\)\)/);
+  assert.match(markersSrc,/if \(retained\) \{[\s\S]*?mapMarkers\.set\(id, marker\)[\s\S]*?continue;/);
   assert.match(app,/if \(previouslyFocusedCallId !== callId\) updateMarkerAppearance\(previouslyFocusedCallId\);[\s\S]*?updateMarkerAppearance\(callId\)/);
-  assert.match(app,/if \(scheduledMarkerRender !== null\) return;[\s\S]*?requestAnimationFrame/);
+  assert.match(markersSrc,/if \(scheduledMarkerRender !== null\) return;[\s\S]*?requestAnimationFrame/);
   assert.match(app,/dispatchMap\.on\("zoomend",[\s\S]*?scheduleMapMarkerRender\(\)/);
   assert.match(app,/const clusterChanged = [\s\S]*?if \(clusterChanged \|\| largeClusterSelectionChanged\) \{[\s\S]*?renderMapMarkers\(\)/);
 });
 
 test('[STORY-29F][STORY-38C] popup clicks and unaffected overlays retain their established paths', () => {
-  assert.match(app,/bindPopup\(createIncidentCard\(call,[\s\S]*?selectCall\(call\.id, \{ pan: false, revealRow: true \}\)/);
+  assert.match(markersSrc,/bindPopup\(createIncidentCard\(call,[\s\S]*?selectCall\(call\.id\)/);
   assert.match(app,/renderDisruptions\(state\.disruptions/);
-  assert.match(app,/nearbyOriginLayer\?\.clearLayers\(\)/);
+  assert.match(markersSrc,/getNearbyOriginLayer\(\)\?\.clearLayers\(\)/);
   assert.match(app,/savedLocationForContext\(state\)/);
-  assert.match(app,/markerIcon\(call, selected, sirenMatch, now\)/);
+  assert.match(markersSrc,/markerIcon\(call, selected, sirenMatch, now\)/);
 });

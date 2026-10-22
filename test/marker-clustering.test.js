@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { MAX_EXPANDED_CLUSTER_SIZE, MAX_FAN_OUT_RADIUS_PX, connectorFan, canExpandCluster, clusterPoints, focusGroup, spreadPoint } from '../src/map-clusters.js';
 
 const app = readFileSync(new URL('../src/app/app.js', import.meta.url), 'utf8');
+const markersSrc = readFileSync(new URL('../src/incident-markers.js', import.meta.url), 'utf8');
 const disruptions = readFileSync(new URL('../src/disruptions/ui.js', import.meta.url), 'utf8');
 
 const item = (id, coordinates, properties = {}) => ({
@@ -55,8 +56,8 @@ test('[SHOULD-2][STORY-26] expanded clusters preserve incident identity and indi
 
   assert.deepEqual(expanded.map(({ id }) => id), ['a', 'b']);
   assert.notDeepEqual(expanded[0].point, expanded[1].point);
-  assert.match(app, /addMarker\(item,position,layers\)/);
-  assert.match(app, /\.on\("click", event => \{[\s\S]*?selectCall\(call\.id, \{ pan: false, revealRow: true \}\)/);
+  assert.match(markersSrc, /addMarker\(item,position,layers\)/);
+  assert.match(markersSrc, /\.on\("click", event => \{[\s\S]*?selectCall\(call\.id\)/);
 });
 
 test('[SHOULD-2][STORY-26][STORY-38G] cluster expansion is bounded and cannot produce city-spanning connector fans', () => {
@@ -75,11 +76,11 @@ test('[SHOULD-2][STORY-26][STORY-38G] cluster expansion is bounded and cannot pr
   assert.throws(()=>spreadPoint(12,12,{x:100,y:100}),RangeError);
   assert.match(app,/new Set\(canExpandCluster\(focusedGroup\) \? focusedGroup\.map/);
   assert.match(app,/largeClusterSelectionChanged[\s\S]*?clusterChanged \|\| largeClusterSelectionChanged/);
-  assert.match(app,/focusedCallId: group\.some/);
-  assert.match(app,/selectedItem && !canExpandCluster\(group\)[\s\S]*?addMarker\(selectedItem, selectedItem\.coordinates/);
-  assert.match(app,/const fan = connectorFan\(group, pixel\)/);
-  assert.match(app,/L\.polyline\(\[center,position\]/);
-  assert.doesNotMatch(app,/L\.polyline\(\[item\.coordinates,position\]/);
+  assert.match(markersSrc,/focusedCallId: group\.some/);
+  assert.match(markersSrc,/selectedItem && !canExpandCluster\(group\)[\s\S]*?addMarker\(selectedItem, selectedItem\.coordinates/);
+  assert.match(markersSrc,/const fan = connectorFan\(group, pixel\)/);
+  assert.match(markersSrc,/L\.polyline\(\[center,position\]/);
+  assert.doesNotMatch(markersSrc,/L\.polyline\(\[item\.coordinates,position\]/);
 });
 
 test('[SHOULD-2][STORY-26] connector cleanup is coupled to every state transition that can invalidate a fan', () => {
@@ -90,9 +91,9 @@ test('[SHOULD-2][STORY-26] connector cleanup is coupled to every state transitio
 });
 
 test('[SHOULD-2][STORY-26] incident clustering excludes road closures, user location, and unrelated overlays', () => {
-  assert.match(app, /const locatedCalls = state\.filtered[\s\S]*?clusterPoints\(locatedCalls/);
+  assert.match(markersSrc, /const locatedCalls = getCalls\(\)[\s\S]*?clusterPoints\(locatedCalls/);
   assert.match(app, /callLayer = L\.layerGroup\(\)\.addTo\(dispatchMap\);[\s\S]*?nearbyOriginLayer = L\.layerGroup\(\)\.addTo\(dispatchMap\)/);
-  assert.match(app, /L\.circleMarker\(state\.nearby[\s\S]*?\.addTo\(nearbyOriginLayer\)/);
+  assert.match(markersSrc, /L\.circleMarker\(getNearby\(\)[\s\S]*?\.addTo\(getNearbyOriginLayer\(\)\)/);
   assert.doesNotMatch(disruptions, /clusterPoints/);
   assert.match(disruptions, /roadLayer=L\.layerGroup\(\)/);
 });
@@ -103,14 +104,14 @@ test('[SHOULD-2][STORY-26] filter, search, radius, and Toronto-wide changes rebu
   assert.match(app, /state\.eventFilter !== "all"/);
   assert.match(app, /incidentMatchesSearch\(call, state\.search/);
   assert.match(app, /state\.filtered = eligibleCalls\.filter[\s\S]*?render\(map, preserveReadingPosition\)/);
-  assert.match(app, /const groups = clusterPoints\(locatedCalls/);
+  assert.match(markersSrc, /const groups = clusterPoints\(locatedCalls/);
 });
 
 test('[SHOULD-2][STORY-26] cluster click zooms before expanding and redraws reconcile incident layers', () => {
   assert.doesNotMatch(app, /callLayer\.clearLayers\(\)/);
-  assert.match(app, /reconcileIncidentLayers\(renderedIncidentLayers, desiredKeys\)/);
+  assert.match(markersSrc, /reconcileIncidentLayers\(renderedIncidentLayers, desiredKeys\)/);
   assert.match(app, /dispatchMap\.on\("zoomend",[\s\S]*?expandedCluster\.clear\(\);[\s\S]*?scheduleMapMarkerRender\(\)/);
-  assert.match(app, /if \(dispatchMap\.getZoom\(\) < 18\) dispatchMap\.setView\(center,Math\.min\(18,dispatchMap\.getZoom\(\)\+2\)\)/);
-  assert.match(app, /else if \(canExpandCluster\(group\)\) \{ expandedCluster = new Set\(group\.map\(item => item\.call\.id\)\); renderMapMarkers\(\); \}/);
-  assert.match(app, /title:clusterLabel, alt:clusterLabel/);
+  assert.match(markersSrc, /if \(map\.getZoom\(\) < 18\) map\.setView\(center,Math\.min\(18,map\.getZoom\(\)\+2\)\)/);
+  assert.match(markersSrc, /else if \(canExpandCluster\(group\)\) \{ setExpandedCluster\(new Set\(group\.map\(item => item\.call\.id\)\)\); render\(\); \}/);
+  assert.match(markersSrc, /title:clusterLabel, alt:clusterLabel/);
 });
