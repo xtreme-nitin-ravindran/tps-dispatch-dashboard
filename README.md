@@ -134,7 +134,7 @@ The checks and test suites are outlined below:
 - **Live-source integration tests:** Check that external feeds remain compatible with the application. See [live-source tests](docs/validation.md#live-source-integration-tests).
   - **⚠️ Requires internet access 🌐**
   - **⚠️ Tests may fail because upstream data is unavailable or malformed 🚫**
-- **Browser tests:** Playwright checks rendered layout and interaction; device-specific issues also need testing on the reported device. See [browser testing](docs/browser-tests.md).
+- **Browser tests:** Playwright checks rendered layout and interaction; device-specific issues also need testing on the reported device. Assert against actual rendered DOM, geometry, or state where possible — computed geometry (padding, edge offsets, stacking), not only DOM text, is visible-acceptance evidence, because a shared chrome class can be silently overridden by a later equal-specificity rule in another context (Story 74: `.disruption-item` padding overrode `.closure-detail` inside Leaflet popups). See [browser testing](docs/browser-tests.md).
 - **Coverage:** JavaScript line, branch, and function coverage must each reach 100%. See [coverage requirements](docs/validation.md#test-coverage).
 - **Linting and syntax:** ESLint, Ruff, ShellCheck, and JavaScript syntax checks catch code errors. See [linting](docs/validation.md#individual-linters) and [syntax checks](docs/validation.md#javascript-syntax-checks).
 - **Before pushing:** `npm run verify` runs the required full checks. Applicable browser tests run separately and must also pass. See [full verification](docs/validation.md#run-all-required-checks) and the [pre-push checklist](#pre-push-checklist).

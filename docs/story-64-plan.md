@@ -2,7 +2,7 @@
 
 Status: APPROVED PLAN (October 13, 2026). Design only; no application code written.
 This document is the shared plan for every Story 64 implementation session. Read it
-together with the Story 64 section of `.continue/rules/SirenTO-Development-Roadmap.md`.
+together with the Story 64 section of `PRD.md`.
 
 ## 0. Purpose of this document
 
@@ -394,7 +394,7 @@ Rationale:
 ## 7. Context transfer between sessions
 
 1. The roadmap is the handoff. Each session ends by updating the Story 64 section of
-   `.continue/rules/SirenTO-Development-Roadmap.md` with a completion handoff: what
+   `PRD.md` with a completion handoff: what
    changed, what is verified, what is outstanding, and a **Known local facts** block.
 2. This plan is the shared plan. Every session reads it instead of reconstructing the
    plan from chat history.
