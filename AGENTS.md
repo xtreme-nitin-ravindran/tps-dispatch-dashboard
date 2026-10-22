@@ -24,6 +24,7 @@
 - Before implementing UI changes, show concise ASCII line-art sketches of the proposed layout, labels, and relevant states so the developer can confirm what they want. When alternatives matter, label them clearly and explain any effect on existing layout or measured stacking. Wait for the developer's selection before implementing; an already selected sketch satisfies this step unless the design changes materially.
 - For acceptance criteria that surface information in a map-layer status or other UI element, inspect the existing CSS and verify the cue is actually visible in the rendered browser at applicable breakpoints. Updating DOM text alone does not establish visible acceptance; check clipping, dimensions, overflow, and stacking.
 - Story 53B precedent: Story 41A clips `#roadOverlayStatus` to 1×1 via `.map-layer-toggle .map-layer-status`. The B2 repair disclosure belongs in the visible `#roadOverlayLabel` (for example, `Road closures · source repaired`), preserving the existing control stack and accessible status. Confirm the current markup and styles before reusing this pattern.
+- Story 74 precedent: computed geometry, not DOM text, is visible-acceptance evidence. A chrome class reused on an element that already carries competing class rules is a cascade hazard — a later equal-specificity `.disruption-item { padding: 14px 0 }` overrode `.closure-detail`'s 16px padding inside Leaflet popups, and the defect survived a review round because the check stopped at DOM structure. When chrome classes span contexts (list, sheet, popup), scope the overrides (for example `.leaflet-popup-content .closure-detail`) and have the rendered-browser suite assert measured padding, margins, and edge offsets (the article's `getBoundingClientRect()` against its content box), not only presence and text.
 
 ## Docker and local validation
 
@@ -218,7 +219,7 @@ Preserve these product semantics in both logic and UI:
 
 - **Mandatory prompt instruction:** Use only `perl -0pi -e` or `python3` heredocs for source/test edits. Never use `single_find_and_replace` or `edit_existing_file` on source or test files; they can reformat the whole file and waste implementation cycles before the changes must be reverted.
 - Keep `perl -0pi -e` replacements ASCII-only. Perl reads files as bytes, and a non-ASCII character (or a `\x{...}` escape) in the replacement upgrades the whole string to UTF-8 and re-encodes every byte of the file on write, double-encoding all existing UTF-8 (`Wide character in print at -e` is the tell; observed October 2026 when a `\x{2014}` fix corrupted ~1,100 em-dashes and all emoji in the roadmap, recovered with a utf-8/latin-1 round-trip). For non-ASCII content, use a `python3` heredoc or run perl with `-CSD -Mutf8`, and always re-inspect the file's non-ASCII rendering after the edit.
-- The canonical roadmap is `.continue/rules/SirenTO-Development-Roadmap.md` in this repository. Update that existing file using a `python3` heredoc; do not create a duplicate in `~/.continue/rules/`.
+- The canonical roadmap is `PRD.md` at the repository root, a symlink into the private `my-prds` repo (`my-prds/sirento/PRD.md`). Recreate the symlink before story work on any machine that lacks it; edit through the symlink using a `python3` heredoc and commit PRD updates in `my-prds` only.
 - Avoid editor-based or generic edit tools that may open files in VS Code or trigger automatic formatting.
 - Do not use `single_find_and_replace`, `edit_file`, or similar tools on source/test files if they may rewrite formatting outside the intended change.
 - Prefer surgical, non-formatting edits using:
@@ -240,7 +241,7 @@ Preserve these product semantics in both logic and UI:
 - Do not mark a story `DONE` while a required production, CI, browser, or physical-device acceptance step is still outstanding.
 - Use an intermediate status such as `IMPLEMENTED / AWAITING VALIDATION` when appropriate.
 - When a SirenTO story is completed, update the canonical roadmap:
-  `.continue/rules/SirenTO-Development-Roadmap.md` (in this repository)
+  `PRD.md` (root symlink into the private `my-prds` repo)
 - For a numbered roadmap increment, update its status-table row, detailed section heading/status, and completion handoff in one pass. The handoff must give the next task enough context to start without chat history.
 - Every story retrospective/completion handoff must explicitly assess: (1) out-of-band chore or cleanup stories that should be created rather than expanding the current scope, and (2) durable workflow lessons that should refine `AGENTS.md` or `README.md`. Write `None` when no follow-up is warranted; do not silently omit either assessment.
 - At the end of every story, print a clearly labelled **Retrospective** in the final response. Summarize what made the work smoother, what was missing or caused rework, verified local facts that should be carried into the next prompt, proposed out-of-band chore/cleanup stories, and recommended `AGENTS.md`/`README.md` refinements. Write `None` for sections with no findings.
