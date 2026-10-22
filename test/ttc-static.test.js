@@ -6,7 +6,7 @@ import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import bindings from 'gtfs-realtime-bindings';
-import { buildStaticIndex, csvRows, zipTables, serviceActive } from '../src/ttc/static-gtfs.js';
+import { buildStaticIndex, buildStopLookup, csvRows, zipTables, serviceActive } from '../src/ttc/static-gtfs.js';
 import { correlateState, projectStop, validateCorrelation } from '../src/ttc/correlation.js';
 import { loadStaticGtfs } from '../src/ttc/static-source.js';
 import { updateTtcBackend } from '../src/ttc/backend.js';
@@ -267,4 +267,14 @@ test('[STORY-30C][STORY-30G] correlation schema rejects corrupt catalog, metadat
 
  test('[STORY-30C][STORY-30G] deflated GTFS ZIP members decode to the same validated network as stored members',()=>{
   assert.deepEqual(buildStaticIndex(zipTables(zip(tables,true))),buildStaticIndex(zipTables(zip())));
+});
+test('[STORY-30C] stop lookups are frozen id-to-coordinate-name triples', () => {
+  const lookup = buildStopLookup(index);
+  assert.deepEqual(lookup.A, [43.65005, -79.4, 'Alpha']);
+  assert.deepEqual(lookup.E, [43.651, -79.399, 'Echo']);
+  assert.ok(Object.isFrozen(lookup));
+});
+test('[STORY-30C] a stop with no name degrades to an empty name string', () => {
+  const bare = indexFor({'stops.txt': 'stop_id,stop_name,stop_lat,stop_lon\nA,,43.65005,-79.4\nB,Bravo,43.65,-79.399\nC,Charlie,43.65,-79.398\nD,Delta,43.65,-79.397\nE,Echo,43.651,-79.399\n'});
+  assert.deepEqual(buildStopLookup(bare).A, [43.65005, -79.4, '']);
 });

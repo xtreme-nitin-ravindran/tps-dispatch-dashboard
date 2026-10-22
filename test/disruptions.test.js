@@ -40,7 +40,7 @@ test('TTC normalization preserves affected entities and resolves only structured
  ]);
  const [withoutLookup]=normalizeTransit(text,now,{}).items;
  assert.equal(withoutLookup.affectedEntities.some(entity => 'coordinates' in entity),false);
- const [official]=normalizeTransit(header+'entity {id:"official" alert {header_text {translation {text:"Delay"}} informed_entity {stop_id:"662"}}}',now).items;
+ const [official]=normalizeTransit(header+'entity {id:"official" alert {header_text {translation {text:"Delay"}} informed_entity {stop_id:"662"}}}',now,{'662':{coordinates:[43.714379,-79.260939],name:'Danforth Rd at Kennedy Rd'}}).items;
  assert.deepEqual(official.affectedEntities[0],{routeId:null,stopId:'662',coordinates:[43.714379,-79.260939],name:'Danforth Rd at Kennedy Rd'});
 });
 
@@ -479,4 +479,22 @@ test('[STORY-53B] the disruptions freshness line and map-layer status disclose a
  const clean=disruptionPresentation('roads',{items:[road],fetchedAt:new Date(now).toISOString(),status:'ok'},[road],[road],false,now);
  assert.doesNotMatch(clean.freshness,/repaired/);
  assert.equal(clean.repaired,0);
+});
+test('[SHOULD-10] transit fetch forwards the injected stop lookup and defaults to an empty one',async()=>{
+ const header=proto.split('entity')[0];
+ const text=header+'entity {id:"x" alert {header_text {translation {text:"Delay"}} informed_entity {route_id:"1" stop_id:"100"}}}';
+ const lookup={'100':[43.65,-79.38,'Structured station']};
+ const withLookup=await fetchDisruptionSource('transit',async()=>({ok:true,text:async()=>text}),now,lookup);
+ assert.deepEqual(withLookup.items[0].affectedEntities[0],{routeId:'1',stopId:'100',coordinates:[43.65,-79.38],name:'Structured station'});
+ const without=await fetchDisruptionSource('transit',async()=>({ok:true,text:async()=>text}),now);
+ assert.deepEqual(without.items[0].affectedEntities[0],{routeId:'1',stopId:'100'});
+});
+
+test('[SHOULD-10] disruption refresh forwards the stop lookup to every source fetch',async()=>{
+ const calls=[];
+ const lookup={'100':{coordinates:[43.65,-79.38],name:'Structured station'}};
+ await updateDisruptions({},new Date(now),async(kind,fetchImpl,at,stopLookup)=>{
+  calls.push([kind,stopLookup]);return {items:[]};
+ },()=>{},lookup);
+ assert.deepEqual(calls,[['roads',lookup],['transit',lookup]]);
 });

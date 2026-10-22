@@ -34,6 +34,7 @@ import { createSinkFromEnv } from './lib/publication-sink.js';
 import { fetchTpsSource } from '../src/tps/source.js';
 import { updateDisruptions } from '../src/disruptions/source.js';
 import { updateTtcBackend } from '../src/ttc/backend.js';
+import { loadStaticGtfs } from '../src/ttc/static-source.js';
 
 const INCIDENT_KEY = 'data/current.json';
 
@@ -62,7 +63,7 @@ export async function publishIncidents({
 
   await etl({
     outputPath, previousPath, xmlPath, now, updatedBy,
-    fetchPolice: fetchTpsSource, fetchTravel: updateDisruptions, fetchTtc: updateTtcBackend
+    fetchPolice: fetchTpsSource, fetchTravel: updateDisruptions, fetchTtc: updateTtcBackend, loadStatic: loadStaticGtfs
   });
   const body = await readFile(outputPath, 'utf8');
   // Build the R2 sink lazily so a fresh skip never requires credentials.

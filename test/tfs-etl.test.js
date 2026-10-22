@@ -188,3 +188,36 @@ test('[DATA-ETL] protobuf to lifecycle to published JSON reader; invalid TTC can
     await assert.rejects(runTfsEtl({outputPath,now,fetchSource:async () => source,fetchTtc:async () => ({items:[]})}));
     assert.equal(await readFile(outputPath,'utf8'),original);
 });
+test('[DATA-ETL] transit stop lookup is built once from static GTFS and shared with the TTC backend', async t => {
+    const outputPath = join(await workspace(t), 'current.json');
+    const index = {stops:new Map([['A',{stopId:'A',stopName:'Alpha',latitude:43.65,longitude:-79.38}]])};
+    let loads = 0;
+    const travel = [];
+    const logs = [];
+    let shared = null;
+    await runTfsEtl({
+        outputPath, now, fetchSource: async () => source,
+        loadStatic: async () => { loads++; return {index}; },
+        fetchTravel: async (...args) => { travel.push(args); return {roads:{items:[]},transit:{items:[]}}; },
+        fetchTtc: async (previous, at, options) => { shared = await options.loadStatic({now:at,log:()=>{}}); return null; },
+        log: entry => logs.push(entry)
+    });
+    assert.equal(loads, 1);
+    assert.deepEqual(travel[0][4], {A:[43.65,-79.38,'Alpha']});
+    assert.equal(shared.index, index);
+    assert.deepEqual(logs, []);
+});
+
+test('[DATA-ETL] a failed static load degrades the lookup to empty and logs without failing the run', async t => {
+    const outputPath = join(await workspace(t), 'current.json');
+    const logs = [];
+    let travelLookup = 'unset';
+    await runTfsEtl({
+        outputPath, now, fetchSource: async () => source,
+        loadStatic: async () => { throw new Error('static down'); },
+        fetchTravel: async (previous, at, a, b, stopLookup) => { travelLookup = stopLookup; return {roads:{items:[]},transit:{items:[]}}; },
+        log: entry => logs.push(entry)
+    });
+    assert.deepEqual(travelLookup, {});
+    assert.deepEqual(logs, [{source:'ttc-transit-stop-lookup',status:'unavailable',error:'static down'}]);
+});
