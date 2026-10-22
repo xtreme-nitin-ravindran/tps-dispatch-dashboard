@@ -29,8 +29,13 @@ export function parseTtcAlerts(bytes, now = new Date()) {
     const informedEntities = (a.informedEntity || []).sort((a,b) => compare(JSON.stringify(a),JSON.stringify(b)));
     // Explicit non-surface selectors exclude subway-only alerts; unknown mode remains usable.
     if (informedEntities.length && informedEntities.every(e => e.routeType !== undefined && ![0,3,11].includes(e.routeType))) continue;
+    // Proto3 enums materialize an UNKNOWN_* sentinel when the producer omits
+    // cause/effect. Treat sentinels like absent fields so the keyword fallback
+    // can still recognize real detour alerts (the live bustime feed encodes
+    // explicit UNKNOWN sentinels on every entity).
+    const unclassified = value => value === undefined || value === 'UNKNOWN_CAUSE' || value === 'UNKNOWN_EFFECT';
     const structured = cause === 'CONSTRUCTION' || effect === 'DETOUR';
-    const fallback = (a.cause === undefined || a.effect === undefined) && /\b(detour|diversion|construction)\b/i.test([header,description].join('\n'));
+    const fallback = unclassified(cause) && unclassified(effect) && /\b(detour|diversion|construction)\b/i.test([header,description].join('\n'));
     if (!structured && !fallback) continue;
     const activePeriods = (a.activePeriod || []).map(p => {
       const start = instant(p.start), end = instant(p.end);

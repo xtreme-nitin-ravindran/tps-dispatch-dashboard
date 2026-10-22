@@ -55,6 +55,32 @@ test('[STORY-30A][STORY-30G][STORY-30B] network, HTTP and decode failures are co
   assert.equal(result.status,'ok'); assert.deepEqual(result.items,[]);
 });
 
+test('[STORY-30A][STORY-30G][STORY-74] UNKNOWN enum sentinels behave like absent cause/effect for the keyword fallback', () => {
+  const unknown = {cause:bindings.transit_realtime.Alert.Cause.UNKNOWN_CAUSE,effect:bindings.transit_realtime.Alert.Effect.UNKNOWN_EFFECT};
+  const detour = {...unknown,headerText:{translation:[string('51 Leslie: Detour northbound via Millwood Rd','en')]}};
+  const elevator = {...unknown,headerText:{translation:[string('Finch: Elevator 22Y1L out of service','en')]}};
+  const items = parseTtcAlerts(encode([detour,elevator]),now).items;
+  assert.equal(items.length,1);
+  assert.equal(items[0].cause,'UNKNOWN_CAUSE'); assert.equal(items[0].effect,'UNKNOWN_EFFECT');
+  assert.equal(items[0].header,'51 Leslie: Detour northbound via Millwood Rd');
+});
+
+test('[STORY-30A][STORY-30G][STORY-74] a classified non-detour cause does not fall back on UNKNOWN sentinels', () => {
+  const mixed = {cause:bindings.transit_realtime.Alert.Cause.MAINTENANCE,effect:bindings.transit_realtime.Alert.Effect.UNKNOWN_EFFECT,headerText:{translation:[string('Route change due to construction','en')]}};
+  assert.equal(parseTtcAlerts(encode([mixed]),now).items.length,0);
+});
+
+test('[STORY-30A][STORY-30G][STORY-74] a classified non-detour effect does not fall back on a UNKNOWN cause sentinel', () => {
+  const mixed = {cause:bindings.transit_realtime.Alert.Cause.UNKNOWN_CAUSE,effect:bindings.transit_realtime.Alert.Effect.NO_SERVICE,headerText:{translation:[string('Detour via Bathurst St','en')]}};
+  assert.equal(parseTtcAlerts(encode([mixed]),now).items.length,0);
+});
+
+test('[STORY-30A][STORY-30G][STORY-74] structured alerts keep passing while the sentinel fallback stays keyword-only', () => {
+  const structured = {cause:bindings.transit_realtime.Alert.Cause.CONSTRUCTION,effect:bindings.transit_realtime.Alert.Effect.UNKNOWN_EFFECT,headerText:{translation:[string('Construction','en')]}};
+  const items = parseTtcAlerts(encode([structured]),now).items;
+  assert.equal(items.length,1); assert.equal(items[0].cause,'CONSTRUCTION'); assert.equal(items[0].effect,'UNKNOWN_EFFECT');
+});
+
 test('[STORY-30A][STORY-30G] optional headers, selectors, dates and deleted entities', () => {
   const raw = value => FeedMessage.encode(FeedMessage.create(value)).finish();
   assert.throws(() => parseTtcAlerts(raw({header:{gtfsRealtimeVersion:''}}),now));

@@ -465,7 +465,7 @@
           </div>
           <p class="map-source-credit">Police division boundaries — Toronto Police Service</p>
           <div class="map-legend" aria-label="Map marker guide">
-            <span id="ttcLegend-scheduled" hidden><b class="ttc-legend-line ttc-legend-scheduled" aria-hidden="true"></b>TTC affected route</span>
+            <span id="ttcLegend-scheduled" hidden><b class="ttc-legend-line ttc-legend-scheduled" aria-hidden="true"></b>TTC affected section</span>
             <span id="ttcLegend-diversion" hidden><b class="ttc-legend-line" aria-hidden="true"></b>Observed TTC diversion</span>
             <span><i class="fire-key" aria-hidden="true"></i>Fire</span>
             <span><i class="medical-key" aria-hidden="true"></i>Medical</span>
@@ -498,17 +498,17 @@
               href="https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/restrictions-map/"
               target="_blank" rel="noopener noreferrer">City of Toronto road restrictions ↗</a></p>
         </details>
+        <details id="observedDiversions" open>
+          <summary><span id="observedDiversionsScope">TTC disruptions · map · citywide</span> (<span id="observedDiversionsCount">—</span>)</summary>
+          <p id="observedDiversionsFreshness" class="disruption-note">Not available yet</p>
+          <div id="observedDiversionsList" class="call-list"></div>
+        </details>
         <details>
           <summary>TTC service alerts · citywide (<span id="transitCount">—</span>)</summary>
           <p id="transitFreshness" class="disruption-note">Not available yet</p>
           <div id="transitList" class="disruption-list"></div>
           <p><a href="https://www.ttc.ca/service-advisories/all-service-alerts" target="_blank"
               rel="noopener noreferrer">Official TTC service alerts ↗</a></p>
-        </details>
-        <details id="observedDiversions" open>
-          <summary><span id="observedDiversionsScope">Observed TTC diversions · citywide</span> (<span id="observedDiversionsCount">—</span>)</summary>
-          <p id="observedDiversionsFreshness" class="disruption-note">Not available yet</p>
-          <div id="observedDiversionsList" class="call-list"></div>
         </details>
         <p class="disruption-note">Check official notices before travelling.</p>
       </section>

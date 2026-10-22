@@ -228,5 +228,54 @@ for(const mode of ['alert-only','multiple','expired','unavailable','empty']) {
  await page.locator('#observedDiversions').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/official-advisory.png`});
  results.push({mode:'official-advisory',...state});await page.close();
 }
+// Story 74 P1: a subway-style advisory with ordered affected stops (including
+// same-station platform pairs) draws a deduped dashed affected section that
+// follows the selected radius; the renamed map section sits right after roads
+// and the complete citywide list stays at the bottom.
+{
+ const page=await browser.newPage({viewport:{width:1440,height:900}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&ttcFixture=affected`,{waitUntil:'networkidle'});
+ await awaitFixtureReady(page);
+ await page.waitForSelector('#observedDiversionsList .incident-card',{state:'attached'});
+ const state=await page.evaluate(async()=>({
+   diag:(await import('./src/ttc/ui.js')).captureTtcRenderState(),
+   cards:document.querySelectorAll('#observedDiversionsList .incident-card').length,
+   ids:[...document.querySelectorAll('#observedDiversionsList .incident-card')].map(n=>n.dataset.ttcId),
+   scope:document.querySelector('#observedDiversionsScope').textContent,
+   citywideCount:document.querySelector('#transitCount').textContent,
+   citywide:document.querySelector('#transitList').textContent,
+   order:(()=>{const details=[...document.querySelectorAll('#disruptions > details')];const index=selector=>details.findIndex(d=>d.querySelector(selector));return {roads:index('#roadsList'),observed:index('#observedDiversionsList'),transit:index('#transitList')};})()
+ }));
+ // The deduped affected section renders beside the fixture detour; the renamed
+ // section sits right after roads; the complete citywide list stays at the bottom.
+ assert.equal(state.cards,2);
+ assert.ok(state.ids.includes('mobile-audit-subway'));
+ assert.match(state.scope,/TTC disruptions/);
+ assert.deepEqual(state.order,{roads:0,observed:1,transit:2});
+ assert.equal(state.citywideCount,'1');
+ assert.match(state.citywide,/Line 2 Bloor-Danforth/);
+ assert.equal(state.diag.parts,3);
+ assert.equal(await page.locator('.ttc-line--affected').count(),1);
+ const line=await page.locator('.ttc-line--affected').boundingBox(),map=await page.locator('#dispatchMap').boundingBox();
+ assert.ok(line.width>0&&line.height>0);assert.ok(line.x>=map.x&&line.y>=map.y&&line.x+line.width<=map.x+map.width&&line.y+line.height<=map.y+map.height,'affected section is inside the visible map');
+ // Selecting the subway card reveals and selects the affected section.
+ await page.locator('#observedDiversionsList .incident-card[data-ttc-id="mobile-audit-subway"]').click();
+ assert.equal((await page.evaluate(async()=>(await import('./src/ttc/ui.js')).captureTtcRenderState())).selected,'mobile-audit-subway');
+ // A radius near the fixture detour drops the far affected card but never the
+ // complete citywide list.
+ await page.evaluate(async()=>{
+   const {loadTtcUiFixture}=await import('./src/ttc/fixture.js');
+   window.ttcBrowserFixture=await loadTtcUiFixture();
+   const f=structuredClone(window.ttcBrowserFixture);
+   (await import('./src/ttc/ui.js')).renderTtc(f,undefined,{origin:[43.65,-79.4],radius:1});
+ });
+ await page.waitForFunction(()=>document.querySelectorAll('#observedDiversionsList .incident-card').length===1);
+ assert.match(await page.locator('#observedDiversionsScope').textContent(),/within 1 km/);
+ assert.equal(await page.locator('.ttc-line--affected').count(),0);
+ assert.equal(await page.locator('#transitCount').textContent(),'1');
+ await page.locator('#disruptions').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/affected.png`});
+ assert.deepEqual(errors,[]);
+ results.push({mode:'affected',...state});await page.close();
+}
 } finally {await timing.time('browser-close',()=>browser.close());await writeFile(`${out}/results.json`,JSON.stringify(results,null,2));console.log(timing.format({format:timingFormat,label:'test:ttc-ui:browser'}));}
 console.log(JSON.stringify(results.map(result=>({...result,text:undefined})),null,2));
