@@ -1,4 +1,4 @@
-/* global document */
+/* global document, getComputedStyle */
 // Story 66 mobile road-closure regression.
 //
 // The defect this guards: on mobile, tapping a road closure opened the bottom
@@ -39,8 +39,16 @@ async function readState(page) {
     return {
       popupCount: document.querySelectorAll('.leaflet-popup').length,
       popupText: popup ? popup.textContent : null,
+      popupGeometry: (() => {
+        const article = popup && popup.querySelector('article.closure-detail');
+        const content = popup && popup.querySelector('.leaflet-popup-content');
+        if (!article || !content) return null;
+        const a = article.getBoundingClientRect(), c = content.getBoundingClientRect(), s = getComputedStyle(article);
+        return { paddingLeft: s.paddingLeft, paddingRight: s.paddingRight, borderBottomWidth: s.borderBottomWidth, gapLeft: Math.round(a.left - c.left), gapRight: Math.round(c.right - a.right) };
+      })(),
       sheetDetailHidden: detail ? detail.hidden : null,
       sheetDetailText: detail ? detail.textContent : null,
+      sheetArticles: detail ? detail.querySelectorAll('article.closure-detail').length : null,
       selectedIds: selected.map(card => card.dataset.closureId),
       roadCardIds: [...document.querySelectorAll('#roadsList .disruption-item[data-closure-id]')].map(card => card.dataset.closureId)
     };
@@ -83,12 +91,25 @@ try {
     await awaitUiState(page, () => document.querySelectorAll('.leaflet-popup').length > 0, { description: 'road-closure map popup' });
     const after = await readState(page);
 
-    // 1. The map bubble opens on mobile (the original defect).
+    // 1. The map bubble opens on mobile (the original defect), with the same
+    // symmetric 16px chrome asserted for the TTC bubble (Story 74 precedent:
+    // computed geometry guards the shared-chrome cascade override trap).
     assert.equal(after.popupCount, 1, `${viewport.name}: mobile tap did not open the map bubble`);
     assert.match(after.popupText || '', /ROAD CLOSURE/, `${viewport.name}: popup is not the closure detail`);
-    // 2. The existing sheet routing is preserved.
+    const geometry = after.popupGeometry;
+    assert.ok(geometry, `${viewport.name}: road popup has no measurable detail article`);
+    assert.equal(geometry.paddingLeft, '16px', `${viewport.name}: popup left padding`);
+    assert.equal(geometry.paddingRight, '16px', `${viewport.name}: popup right padding`);
+    assert.equal(geometry.borderBottomWidth, '0px', `${viewport.name}: popup bottom border`);
+    assert.equal(geometry.gapLeft, 0, `${viewport.name}: popup left edge gap`);
+    assert.equal(geometry.gapRight, 0, `${viewport.name}: popup right edge gap`);
+    // 2. The sheet routing is preserved, and the sheet keeps its own detail
+    // node while the bubble is open (Story 74 hardening: the popup no longer
+    // moves the sheet's detail node out of the sheet).
     assert.equal(after.sheetDetailHidden, false, `${viewport.name}: sheet detail is not shown`);
     assert.match(after.sheetDetailText || '', /Back to incident list/, `${viewport.name}: sheet detail is not the closure detail`);
+    assert.match(after.sheetDetailText || '', /ROAD CLOSURE/, `${viewport.name}: sheet lost the closure detail`);
+    assert.equal(after.sheetArticles, 1, `${viewport.name}: sheet detail node was moved into the popup`);
     // 3. The matching Disruptions-panel card is highlighted.
     assert.deepEqual(after.selectedIds, [closureId], `${viewport.name}: matching road card is not highlighted`);
 

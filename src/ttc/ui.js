@@ -26,15 +26,17 @@ function retainedEvidenceCue(item) {
 // The diversion card mirrors the Calls card: a single clickable row that selects
 // and reveals the affected route, with a "More details" disclosure for the
 // evidence and provenance that must not be inferred from the map alone.
-// `includeEvidenceCue` is false when the caller renders the retained-evidence
-// cue in the always-visible card body instead (desktop list), so it is not
-// duplicated inside the disclosure.
-export function createTtcDetail(item,{includeEvidenceCue=true,popupStyle=false}={}) {
-  // Story 74: popupStyle reuses the road-closure bubble chrome (padding, red
-  // kicker, title scale) so the TTC bubble reads like the road bubble.
-  const article=node('article',null,popupStyle ? 'disruption-item ttc-detail closure-detail' : 'disruption-item ttc-detail');
+// `variant: 'detail'` renders the shared chrome of the mobile sheet and both
+// bubbles (closure-detail article, red kicker, title scale — Story 74) and
+// carries the retained-evidence cue inline. The default 'card' variant is the
+// plain list/disclosure body, whose caller renders the retained-evidence cue
+// on the always-visible card body (desktop list) so it is not duplicated
+// inside the disclosure (Story 57).
+export function createTtcDetail(item,{variant='card'}={}) {
+  const detail=variant === 'detail';
+  const article=node('article',null,detail ? 'disruption-item ttc-detail closure-detail' : 'disruption-item ttc-detail');
   article.dataset.ttcId=item.id;
-  article.append(node('span',item.source === 'sirento-observed' ? 'SIRENTO OBSERVED DIVERSION' : 'OFFICIAL TTC DISRUPTION',popupStyle ? 'closure-detail-kicker' : 'section-kicker'),node('h4',routeLabel(item)),node('p',item.title));
+  article.append(node('span',item.source === 'sirento-observed' ? 'SIRENTO OBSERVED DIVERSION' : 'OFFICIAL TTC DISRUPTION',detail ? 'closure-detail-kicker' : 'section-kicker'),node('h4',routeLabel(item)),node('p',item.title));
   article.append(node('p',item.geography,'disruption-note'));
   if(item.cause) article.append(node('p',item.cause,'disruption-note'));
   if(item.description) article.append(node('p',item.description));
@@ -53,7 +55,7 @@ export function createTtcDetail(item,{includeEvidenceCue=true,popupStyle=false}=
   if(item.diversions.length) for(const [index,part] of item.diversions.entries()) {
     const route=item.routes.find(r=>r.id===part.routeId)?.label;
     article.append(node('h5',[part.source === 'sirento-observed' ? 'Observed diversion · Observed by SirenTO' : part.label,item.diversions.length>1 && `Path ${index+1}`,route].filter(Boolean).join(' · ')),node('p',part.source === 'sirento-observed' ? 'Based on repeated TTC vehicle movements. This is not an official TTC-published route.' : 'Temporary route published by TTC.'));
-    if(part.retained && includeEvidenceCue) article.append(node('p',part.sourceUnavailable ? 'Vehicle feed unavailable · Retained evidence' : 'Retained evidence','disruption-note ttc-evidence-status'));
+    if(part.retained && variant === 'detail') article.append(node('p',part.sourceUnavailable ? 'Vehicle feed unavailable · Retained evidence' : 'Retained evidence','disruption-note ttc-evidence-status'));
     if(part.expiresAt) article.append(node('p',`Evidence expires ${new Intl.DateTimeFormat('en-CA',{hour:'2-digit',minute:'2-digit',timeZone:'America/Toronto'}).format(new Date(part.expiresAt))} (Toronto time).`,'disruption-note'));
     if(part.observedAt) article.append(node('p',`Last observed ${relativeUpdateAge(Date.parse(part.observedAt))}.`,'disruption-note'));
   } else if(!item.affected?.length) article.append(node('p','No observed diversion route available yet.','disruption-note'));
@@ -99,7 +101,7 @@ function createDiversionCard(item) {
   const details=node('details',null,'call-details');
   details.append(node('summary','More details'));
   const body=node('div',null,'call-details-body');
-  body.append(createTtcDetail(item,{includeEvidenceCue:false}));
+  body.append(createTtcDetail(item));
   details.append(body);
   main.append(details);
   const actions=node('div',null,'incident-actions');

@@ -15,6 +15,8 @@
 - Do not refactor, redesign, or clean up unrelated code.
 - Preserve existing behavior outside the requested scope.
 - Reuse existing state, rendering, DOM, and data paths instead of introducing duplicate implementations.
+- Every map popup surface (road closures, TTC disruptions, incident markers) opens and closes through the `src/map-popups.js` controller (`createMapPopups`); add new popup surfaces through it instead of calling Leaflet `bindPopup`/`openPopup` directly, so the single-bubble and immediate-teardown contract stays structural.
+- TTC detail nodes come from `createTtcDetail(item, { variant })` (`'card'` for list/disclosure bodies, `'detail'` for the mobile sheet and both bubbles); app-side call sites go through the shared `ttcDetailFor()` helper so the contexts cannot drift.
 - Remove legacy or duplicate code only when it is demonstrably dead or directly relevant to the task.
 - Do not make speculative fixes before identifying the actual failure or root cause when reproduction is practical.
 - Small changes should produce small diffs. Unexpected large diffs are a stop condition and must be investigated before continuing.
@@ -162,6 +164,8 @@ is a dependency/tooling snapshot, not a source snapshot.
 - The rendered-browser suites run on the **host**, not in the Docker test image (the image has no Playwright/Chromium), so their resource envelope is the host under its existing background load. Each suite launches its own Chromium against the shared read-only `127.0.0.1:8765` server. Browser-suite **concurrency was measured and rejected** (Story 68D): the sequential aggregate is 88-99 s and every concurrent variant was slower (TTC + one other 99-120+ s; all seven small suites at once >120 s with 5/7 failing on cold-start `fixture-ready` timeouts). Keep the sequential runner. When reading `BROWSER_TIMING=json`, the runner's `suite:<name>` span wraps the whole `npm run <suite>` process, but a suite's own internal spans (`page-goto`, `fixture-ready`, `chromium-launch`, `browser-close`) do **not** cover its assertion bodies, so the span total understates the suite wall-clock.
 - `npm run test:browser` includes the TTC UI suite, which exercises the app's real minute-based summary refresh with Playwright clock emulation (`page.clock`) rather than a wall-clock wait. Missing local Playwright or Chromium is an outstanding validation requirement, not permission to mark a browser-relevant story `DONE`.
 - To preview the app locally with live public data, use `python3 scripts/preview-server.py` (default `http://localhost:8766`). The public feed does not send a CORS header permitting a localhost origin, so a plain static server cannot load live data; the preview server serves the repository and proxies only the two public JSON feeds through the same origin. It is a development-only path that binds to loopback and does not change deployed configuration, and it is not evidence that live-feed CORS is fixed. Use `--port` to change the port.
+- The deterministic fixture URL catalog is `docs/fixtures.md` (incident audit states, TTC fixture modes, UX reliability delays, browser-suite contracts). Use it instead of reverse-engineering query strings from the suites.
+- `node scripts/visual-probe.js [fixture-url]` is the committed rendered-browser geometry probe (headless Chromium against the preview or deterministic server; clicks a TTC sign marker and prints the computed popup geometry). Use it for visible-acceptance checks before asking the developer to look at a screen.
 - If a relevant browser regression does not yet have a Playwright script, add or extend a deterministic rendered-browser regression that asserts DOM state, geometry, and interaction rather than relying only on screenshots.
 - Automated Chromium success does not replace physical-device validation when the reported defect is specific to iPhone Safari, Brave, WebKit, or another browser/device environment.
 - If physical-device validation is still outstanding, report the story as implemented or awaiting validation rather than fully complete.
@@ -198,6 +202,7 @@ Preserve these product semantics in both logic and UI:
 ## Service worker and deployment safety
 
 - Preserve existing service-worker and cache behavior unless the task specifically requires changing it.
+- The service worker registers only on deployed (non-loopback) origins. Local previews and the deterministic browser server always serve the working tree, so loopback visual review never needs a cache bump or a double reload; the asset/cache bump below still matters for the deployed shell.
 - When changing cached frontend assets, verify that:
   - asset version keys are current
   - module/cache-buster references are consistent

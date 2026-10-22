@@ -39,6 +39,7 @@ import { runSynchronousAuditWork, uxAudit, uxReliabilityFixtureOptions, waitForA
 import { INCIDENT_LIST_BATCH_SIZE, incidentFilterKey, incidentListKey, nextIncidentBatch } from '../incident-list-window.js';
 import { createViewTransitionScheduler } from '../mobile-view-transition.js';
 import { createPoliceBoundaryLifecycleScheduler } from '../police-boundary-lifecycle.js';
+import { createMapPopups } from '../map-popups.js';
 
 uxAudit.mark('app-bootstrap-begins');
 
@@ -119,6 +120,7 @@ const quickLookDataStatus = document.querySelector('#quickLookDataStatus');
 
 const TORONTO_CENTER = [43.7001, -79.42];
 let dispatchMap = null;
+let mapPopups = createMapPopups(null);
 let mapMarkers = new Map();
 let callLayer;
 let expandedCluster = new Set();
@@ -1720,6 +1722,7 @@ function initMap() {
     zoomControl: false,
     attributionControl: true
   }).setView(TORONTO_CENTER, 10);
+  mapPopups = createMapPopups(dispatchMap);
 
   dispatchMap.attributionControl.setPrefix(false);
   syncMapAttributionPosition();
@@ -1747,7 +1750,7 @@ function initMap() {
     selectClosure(event.item,event.layer,true);
   });
   dispatchMap.on('ttcselectionexpired',()=>{if(focusedClosureId?.startsWith('ttc:')) clearClosureSelection();});
-  dispatchMap.on('ttcselectionupdated',event=>{if(focusedClosureId === `ttc:${event.item.id}`) mobileClosureDetail.querySelector('.ttc-detail')?.replaceWith(createTtcDetail(event.item,{popupStyle:true}));});
+  dispatchMap.on('ttcselectionupdated',event=>{if(focusedClosureId === `ttc:${event.item.id}`) mobileClosureDetail.querySelector('.ttc-detail')?.replaceWith(ttcDetailFor(event.item));});
   dispatchMap.on("zoomend", () => {
     expandedCluster.clear();
     scheduleMapMarkerRender();
@@ -1762,13 +1765,6 @@ function initMap() {
   markFullyRenderedWhenReady();
 }
 
-// Leaflet removes popup containers only when their fade transition ends, so
-// rapid selections can briefly stack fading bubbles. Close and drop the
-// wrappers immediately for deterministic single-bubble behavior.
-function closeMapPopupImmediately() {
-  dispatchMap?.closePopup?.();
-  for (const popup of document.querySelectorAll('.leaflet-popup')) popup.remove();
-}
 function clearIncidentForTtc() {
   const previous=focusedCallId;
   focusedCallId=null;
@@ -1776,7 +1772,7 @@ function clearIncidentForTtc() {
     expandedCluster.clear();
     if (dispatchMap) renderMapMarkers();
   }
-  closeMapPopupImmediately();
+  mapPopups.closeImmediately();
   if(previous) updateMarkerAppearance(previous);
   for(const row of document.querySelectorAll('.incident-card.selected')) {
     row.classList.remove('selected','pin-highlight');
@@ -1789,7 +1785,7 @@ function clearClosureSelection() {
   disruptionUi.syncClosureCardSelection(null);
   const hadClosure=focusedClosureId !== null;
   focusedClosureId=null;
-  closeMapPopupImmediately();
+  mapPopups.closeImmediately();
   if (mobileClosureDetail) {
     mobileClosureDetail.hidden=true;
     mobileClosureDetail.replaceChildren();
@@ -1799,10 +1795,13 @@ function clearClosureSelection() {
   if (hadClosure) renderNearbySummary();
 }
 
+// The TTC detail chrome is shared by the mobile sheet and both bubbles; one
+// helper keeps the three call sites on the same variant (Story 74 hardening).
+function ttcDetailFor(item) { return createTtcDetail(item,{variant:'detail'}); }
 function selectClosure(closure, layer, ttc=false) {
   if (!closure) return;
   focusedClosureId=(ttc ? 'ttc:' : '')+String(closure.id ?? '');
-  const detail=ttc ? createTtcDetail(closure,{popupStyle:true}) : createClosureDetail(closure);
+  const detail=ttc ? ttcDetailFor(closure) : createClosureDetail(closure);
   if (!ttc) disruptionUi.syncClosureCardSelection(closure.id);
   if (isMobileViewLayout()) {
     const back=document.createElement('button');
@@ -1822,9 +1821,15 @@ function selectClosure(closure, layer, ttc=false) {
       // a separate snapshot node instead of moving the sheet's node into the
       // popup the way the road branch does.
       const anchor=layer?.getLatLng?.() || layer?.getBounds?.().getCenter?.();
-      if(anchor) { closeMapPopupImmediately(); dispatchMap?.openPopup?.(createTtcDetail(closure,{popupStyle:true}),anchor,{minWidth:260,maxWidth:340,closeOnClick:false}); }
+      if(anchor) mapPopups.openAt(ttcDetailFor(closure),anchor);
     }
-    else { closeMapPopupImmediately(); layer?.bindPopup?.(detail,{minWidth:260,maxWidth:340,closeOnClick:false}).openPopup?.(); }
+    else {
+      // Story 74 hardening: the sheet keeps its detail node (the popup used to
+      // move it out of the sheet, leaving only the Back button), and the bubble
+      // gets its own snapshot node at the clicked symbol.
+      const anchor=layer?.getLatLng?.() || layer?.getBounds?.().getCenter?.();
+      mapPopups.openAt(createClosureDetail(closure),anchor);
+    }
     return;
   }
   if(ttc) {
@@ -1835,8 +1840,8 @@ function selectClosure(closure, layer, ttc=false) {
     // The map-level popup replaces its content per selection, so sequential
     // clicks can never accumulate duplicate detail blocks.
     const anchor=layer?.getLatLng?.() || layer?.getBounds?.().getCenter?.();
-    if(anchor) { closeMapPopupImmediately(); dispatchMap?.openPopup?.(detail,anchor,{minWidth:260,maxWidth:340,closeOnClick:false}); }
-  } else { closeMapPopupImmediately(); layer?.bindPopup?.(detail,{minWidth:260,maxWidth:340,closeOnClick:false}).openPopup?.(); }
+    if(anchor) mapPopups.openAt(detail,anchor);
+  } else mapPopups.openBound(detail,layer);
 }
 
 function mapAllowsBoundaryWork() {
@@ -2211,7 +2216,7 @@ function renderMapMarkers() {
         const mobile = isMobileViewLayout();
         if (mobile) setMobileSheetState(mobileSheetState === "collapsed" ? "half" : mobileSheetState);
         selectCall(call.id, { pan: false, revealRow: true });
-        if (!mobile) setTimeout(() => event.target.openPopup(), 0);
+        if (!mobile) setTimeout(() => mapPopups.reopenBound(event.target), 0);
       });
     marker.addTo(callLayer);
     layers.push(marker);

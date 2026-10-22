@@ -1154,6 +1154,7 @@ html:not([data-map-load-state]) #dispatchMap.leaflet-container + .map-load-statu
 .closure-detail { width: min(300px, 100%); padding: 16px; }
 .closure-detail-kicker { color: var(--road-marker); font: 700 10px/1 "Space Mono", monospace; letter-spacing: .08em; }
 .closure-detail h3 { margin: 7px 0 12px; font-size: 18px; }
+.ttc-detail.closure-detail > h4 { margin: 7px 0 12px; font-size: 18px; }
 .closure-detail-fields { display: grid; grid-template-columns: max-content minmax(0,1fr); gap: 6px 10px; margin: 0 0 12px; font-size: 12px; line-height: 1.4; }
 .closure-detail-fields dt { color: var(--muted); }
 .closure-detail-fields dd { margin: 0; overflow-wrap: anywhere; }
@@ -2343,6 +2344,10 @@ footer {
 
 .location-confidence { color: var(--muted); font-size: 12px; line-height: 1.5; margin: 0; }
 
+/* Leaflet popup overrides — the single home for bubble styles (Story 74).
+   Chrome classes shared across contexts (list, sheet, popup) are scoped here
+   per context; never extend a shared class rule elsewhere in a way that can
+   win over these overrides (see the Story 74 cascade-override precedent). */
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip { background: var(--panel-2); color: var(--text); }
 .leaflet-popup-content { margin: 0; }
@@ -2433,7 +2438,6 @@ footer {
 [data-theme="dark"] .ttc-legend-line { border-color: #8ab4e8; }
 [data-theme="dark"] .ttc-legend-scheduled { border-color: #8ab4e8; }
 .ttc-detail { min-width: 0; overflow-wrap: anywhere; }
-.ttc-detail.closure-detail > h4 { margin: 7px 0 12px; font-size: 18px; }
 .ttc-detail h5 { font-size: 1em; margin: 12px 0 4px; }
 .ttc-detail p { margin-block: 8px; }
 #observedDiversionsList .incident-card { min-height: 0; }
