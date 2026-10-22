@@ -58,7 +58,7 @@ test("[SHOULD-8][STORY-23] app shell links install metadata without changing its
   assert.match(html, /<meta name="apple-mobile-web-app-title" content="SirenTO" \/>/);
   assert.match(html, /<main>/);
   assert.match(html, /<section class="map-stage" id="mapView">/);
-  assert.match(html, /<script type="module" src="\.\/src\/app\/app\.js\?v=hardening-1"><\/script>/);
+  assert.match(html, /<script type="module" src="\.\/src\/app\/app\.js\?v=chores-1"><\/script>/);
   assert.match(html, /"serviceWorker" in navigator/);
   // Loopback origins bypass the shell cache (Story 74 hardening), so local
   // previews and the deterministic browser server always serve the working tree.

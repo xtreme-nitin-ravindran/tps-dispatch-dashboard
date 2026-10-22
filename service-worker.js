@@ -1,4 +1,4 @@
-const CACHE_VERSION = "sirento-shell-v74";
+const CACHE_VERSION = "sirento-shell-v75";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -18,12 +18,10 @@ const APP_SHELL = [
   "./src/call-presentation.js",
   "./src/cta-copy.js",
   "./src/dispatch-glossary.js",
-  "./src/disruptions/source.js",
   "./src/disruptions/ttc-nearby-fixture.js",
   "./src/mobile-audit-fixture.js",
   "./src/disruptions/ui.js",
   "./src/disruptions/view.js",
-  "./src/disruptions/ttc-stops.js",
   "./src/incident-badge.js",
   "./src/incident-search.js",
   "./src/incident-selection.js",
@@ -33,9 +31,9 @@ const APP_SHELL = [
   "./src/map-clusters.js",
   "./src/marker-age.js",
   "./src/mobile-bottom-sheet.js",
-  "./src/mobile-view-transition.js",
+  "./src/frame-scheduler.js",
+  "./src/map-popups.js",
   "./src/police-boundary-overlay.js",
-  "./src/police-boundary-lifecycle.js",
   "./src/mobile-nearby-summary.js",
   "./src/nearby-empty-state.js",
   "./src/nearby-sort.js",

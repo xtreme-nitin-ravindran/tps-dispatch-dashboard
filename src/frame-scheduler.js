@@ -1,4 +1,12 @@
-export function createPoliceBoundaryLifecycleScheduler({
+// One coalescing frame scheduler for deferred map work.
+//
+// Consolidates the two near-identical double-RAF schedulers that Stories 38D
+// and 38E introduced separately (view transitions and police-boundary
+// geometry): a stale-generation guard, an optional settle delay for layout
+// transitions, and a two-frame paint/maintenance cadence. Schedule, cancel,
+// and coalesce through this single primitive.
+
+export function createFrameScheduler({
   requestFrame = globalThis.requestAnimationFrame,
   cancelFrame = globalThis.cancelAnimationFrame,
   setTimer = globalThis.setTimeout,
@@ -18,9 +26,7 @@ export function createPoliceBoundaryLifecycleScheduler({
     return generation;
   };
 
-  const afterPaint = callback => {
-    cancel();
-    const scheduledGeneration = generation;
+  const run = (scheduledGeneration, callback) => {
     frame = requestFrame(() => {
       frame = requestFrame(() => {
         frame = null;
@@ -30,17 +36,18 @@ export function createPoliceBoundaryLifecycleScheduler({
     return scheduledGeneration;
   };
 
+  const afterPaint = callback => {
+    cancel();
+    const scheduledGeneration = generation;
+    return run(scheduledGeneration, callback);
+  };
+
   const afterLayoutTransition = callback => {
     cancel();
     const scheduledGeneration = generation;
     timer = setTimer(() => {
       timer = null;
-      frame = requestFrame(() => {
-        frame = requestFrame(() => {
-          frame = null;
-          if (scheduledGeneration === generation) callback(scheduledGeneration);
-        });
-      });
+      run(scheduledGeneration, callback);
     }, settleDelayMs);
     return scheduledGeneration;
   };
