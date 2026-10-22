@@ -7,6 +7,7 @@
 #
 #   scripts/run-unit-tests.sh              # run the canonical offline suite
 #   scripts/run-unit-tests.sh --coverage   # run it with Node coverage + 100% gate
+#   scripts/run-unit-tests.sh --gaps       # print uncovered line/branch/function records
 #
 # Selection convention (deterministic, no manual file list):
 #   - include every test/*.test.js file
@@ -53,15 +54,15 @@ ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 # rationale; 4 matches the canonical 4-CPU Docker test image.
 TEST_CONCURRENCY=4
 
-COVERAGE=0
-if [ "${1:-}" = "--coverage" ]; then
-  COVERAGE=1
+MODE=plain
+if [ "${1:-}" = "--coverage" ] || [ "${1:-}" = "--gaps" ]; then
+  MODE="${1#--}"
   shift
 fi
 
 if [ "$#" -gt 0 ]; then
   echo "run-unit-tests: unexpected argument(s): $*" >&2
-  echo "usage: scripts/run-unit-tests.sh [--coverage]" >&2
+  echo "usage: scripts/run-unit-tests.sh [--coverage|--gaps]" >&2
   exit 2
 fi
 
@@ -115,7 +116,7 @@ fi
 # splitting is intentional here so each path becomes its own argument; the
 # paths are repository-controlled and contain no whitespace, and `set -f`
 # above already prevented glob re-expansion during selection.
-if [ "$COVERAGE" -eq 1 ]; then
+if [ "$MODE" = "coverage" ]; then
   # CI-equivalent coverage gate: Node fails the run when any category is below
   # 100.00%. This matches the repository's mandatory 100/100/100 requirement.
   # shellcheck disable=SC2086
@@ -126,6 +127,35 @@ if [ "$COVERAGE" -eq 1 ]; then
     --test-coverage-functions=100 \
     --test-concurrency="$TEST_CONCURRENCY" \
     --test $selected
+elif [ "$MODE" = "gaps" ]; then
+  # Coverage-gap diagnosis: run the same canonical suite with the lcov reporter
+  # and print only the uncovered line/branch/function records, grouped by file.
+  # The scratch report lives under /tmp because the Docker test wrapper mounts
+  # the working tree read-only, so a destination inside the repository fails.
+  # $$ keeps nested or concurrent gaps runs from clobbering the shared report
+  # path (the outer suite itself spawns these runner tests).
+  REPORT="${TMPDIR:-/tmp}/sirento-coverage-gaps-$$.lcov"
+  rm -f "$REPORT"
+  status=0
+  # shellcheck disable=SC2086
+  node \
+    --experimental-test-coverage \
+    --test-reporter=lcov \
+    --test-reporter-destination="$REPORT" \
+    --test-concurrency="$TEST_CONCURRENCY" \
+    --test $selected || status=$?
+  if [ "$status" -ne 0 ]; then
+    echo "run-unit-tests: gaps run failed with test failures (status $status); no coverage report emitted" >&2
+    rm -f "$REPORT"
+    exit "$status"
+  fi
+  awk -F, '
+/^SF:/ { f = substr($0, 4); next }
+/^DA:/ { if ($2 == "0") print f ": line " substr($1, 4) " uncovered" }
+/^BRDA:/ { if ($4 == "0" || $4 == "-") print f ": line " substr($1, 6) " branch " $2 "/" $3 " not taken" }
+/^FNDA:/ { if (substr($1, 6) == "0") print f ": function " $2 " uncovered" }
+' "$REPORT"
+  rm -f "$REPORT"
 else
   # shellcheck disable=SC2086
   exec node --test-concurrency="$TEST_CONCURRENCY" --test $selected
