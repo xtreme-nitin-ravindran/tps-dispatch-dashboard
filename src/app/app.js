@@ -27,7 +27,6 @@ import { DISPATCH_GLOSSARY_FOOTER, glossaryDefinition } from "../dispatch-glossa
 import { applyTheme, normalizeThemePreference } from "../theme.js";
 import { createRefreshFreshnessTracker } from "../refresh-freshness.js";
 import { mobileSheetActionLabel, mobileSheetStateAfterDrag, nextMobileSheetState } from "../mobile-bottom-sheet.js";
-import { capturePoliceBoundaryRenderState, createPoliceBoundaryLayer, diagnosePoliceBoundaryGeometry, policeBoundaryRingCount } from "../police-boundary-overlay.js";
 import { NEARBY_SORT_DEFAULT, sortNearbyCalls } from "../nearby-sort.js";
 import { offlineStatus } from "../offline-status.js";
 import { MAX_SAVED_LOCATIONS, addSavedLocation, deleteSavedLocation, loadSavedLocationState, referenceCoordinates, renameSavedLocation, savedLocationForContext, selectCurrentLocation, selectSavedLocation } from "../saved-locations.js";
@@ -40,6 +39,7 @@ import { INCIDENT_LIST_BATCH_SIZE, incidentFilterKey, incidentListKey, nextIncid
 import { createFrameScheduler } from '../frame-scheduler.js';
 import { createMapPopups } from '../map-popups.js';
 import { createMapMaintenance } from '../map-maintenance.js';
+import { createPoliceBoundaryMap } from '../police-boundary-map.js';
 
 uxAudit.mark('app-bootstrap-begins');
 
@@ -131,23 +131,12 @@ let focusedClosureId = null;
 let rowHighlightTimer;
 let mapHasFitted = false;
 let lastRadiusKm = 2;
-let boundaryVisible = true;
 let sirenMode = false;
 let sirenMatches = [];
 let choosingArea = false;
 let nearbyOriginKind = "device";
 let liveLocation = null;
 let nearbyOriginLayer = null;
-let divisionLayer = null;
-let divisionGeometryLayer = null;
-let divisionRenderer = null;
-let divisionDataPromise = null;
-let boundaryRenderFrame = null;
-let boundaryRenderGeneration = 0;
-let boundaryDirty = true;
-let boundaryLifecycleEvent = 'startup';
-let boundaryDebugCapture = null;
-const boundaryDebugHistory = [];
 let incidentBadgeTimer = null;
 let incidentDatasetRevision = 0;
 let appliedIncidentFilterKey = null;
@@ -170,6 +159,22 @@ const initialParams = new URLSearchParams(location.search);
 const mobileAuditFixture = mobileAuditFixtureOptions(location);
 const boundaryDebugEnabled = initialParams.get('policeBoundaryDebug') === '1';
 const boundaryLifecycleScheduler = createFrameScheduler();
+const policeBoundaryMap = createPoliceBoundaryMap({
+  getMap: () => dispatchMap,
+  mapElement: els.dispatchMap,
+  L,
+  isMobileLayout: isMobileViewLayout,
+  getMobileView: () => mobileView,
+  getSheetState: () => mobileSheetState,
+  getRendererMode: () => mobileAuditFixture?.boundaryRenderer || 'canvas',
+  isDebugEnabled: boundaryDebugEnabled,
+  audit: uxAudit,
+  scheduler: boundaryLifecycleScheduler,
+  markReady: () => { auditReadiness.boundaries = true; markFullyRenderedWhenReady(); },
+  rememberPreferences,
+  syncLayerControls: syncFullscreenLayerControls,
+  captureRoadClosureState: captureRoadClosureRenderState
+});
 const uxReliabilityFixture = uxReliabilityFixtureOptions(location);
 let uxFixtureLazyWorkPending = Boolean(uxReliabilityFixture?.lazyWorkMs);
 let mapInitializationScheduled = false;
@@ -266,16 +271,15 @@ const nearbyOptions = document.querySelector('.nearby-options');
 function syncTheme() {
   applyTheme(document.documentElement, themeColorMeta, themePreference, systemTheme.matches);
   const boundaryColor = getComputedStyle(document.documentElement).getPropertyValue("--boundary-marker").trim();
-  if (!boundaryColor || !divisionGeometryLayer) return;
-  if (!mapAllowsBoundaryWork()) {
-    boundaryDirty = true;
-    boundaryLifecycleEvent = 'theme-change-while-map-hidden';
+  if (!boundaryColor || !policeBoundaryMap.hasGeometry()) return;
+  if (!policeBoundaryMap.mapAllowsBoundaryWork()) {
+    policeBoundaryMap.markDirty('theme-change-while-map-hidden');
     return;
   }
-  divisionGeometryLayer.setStyle({ color: boundaryColor });
+  policeBoundaryMap.setStyle({ color: boundaryColor });
 }
 function rememberPreferences(stateOverrides = {}) {
-  try { savePreferences(localStorage,{...state,...stateOverrides},{roads:document.querySelector('#roadOverlay').checked,boundaries:boundaryVisible,theme:themePreference,mobileView}); } catch { /* Browsing still works when storage is blocked. */ }
+  try { savePreferences(localStorage,{...state,...stateOverrides},{roads:document.querySelector('#roadOverlay').checked,boundaries:policeBoundaryMap.isVisible(),theme:themePreference,mobileView}); } catch { /* Browsing still works when storage is blocked. */ }
 }
 
 function isMobileViewLayout() {
@@ -295,8 +299,8 @@ const maintenance = createMapMaintenance({
   getMobileView: () => mobileView,
   isFocusMode: () => mobileFocusMode,
   audit: uxAudit,
-  captureBoundaryDiagnostic,
-  queuePoliceBoundaryWork,
+  captureBoundaryDiagnostic: policeBoundaryMap.captureBoundaryDiagnostic,
+  queuePoliceBoundaryWork: policeBoundaryMap.queuePoliceBoundaryWork,
   viewStillCurrent: (view, mobile) => view === mobileView && mobile === isMobileViewLayout(),
   selectFocusedCall: () => selectCall(focusedCallId, { panIfNeeded: true }),
   persistPreferences: rememberPreferences,
@@ -361,12 +365,8 @@ function setMobileView(view, { focusSelection = false, persist = true } = {}) {
   finishOwnership({ cards: els.callList.querySelectorAll('.incident-card').length });
   presentedMobileView = view;
   presentedMobileLayout = mobile;
-  if (mobile && view === 'calls' && boundaryVisible) {
-    boundaryDirty = true;
-    boundaryLifecycleEvent = 'map-hidden-by-calls-view';
-    boundaryRenderGeneration += 1;
-    if (boundaryRenderFrame !== null) cancelAnimationFrame(boundaryRenderFrame);
-    boundaryRenderFrame = null;
+  if (mobile && view === 'calls' && policeBoundaryMap.isVisible()) {
+    policeBoundaryMap.invalidatePendingWork('map-hidden-by-calls-view');
   }
   maintenance.scheduleViewMaintenance({ view, mobile, focusSelection, persist });
 }
@@ -521,7 +521,7 @@ function setMobileSheetState(nextState) {
   if (!mobileBottomSheet || !["collapsed", "half", "expanded"].includes(nextState)) return;
   const previousState = mobileSheetState;
   const changed = previousState !== nextState;
-  if (changed) captureBoundaryDiagnostic(`sheet:${previousState}->${nextState}:requested`);
+  if (changed) policeBoundaryMap.captureBoundaryDiagnostic(`sheet:${previousState}->${nextState}:requested`);
   mobileSheetState = nextState;
   mobileBottomSheet.dataset.sheetState = nextState;
   document.documentElement.dataset.mobileSheetState = nextState;
@@ -534,17 +534,14 @@ function setMobileSheetState(nextState) {
     scheduleMapMaintenance({ invalidateSize: true });
     return;
   }
-  boundaryDirty = true;
-  boundaryRenderGeneration += 1;
-  if (boundaryRenderFrame !== null) cancelAnimationFrame(boundaryRenderFrame);
-  boundaryRenderFrame = null;
+  policeBoundaryMap.staleScheduledWork();
   boundaryLifecycleScheduler.afterLayoutTransition(() => {
     if (mobileSheetState !== nextState || !dispatchMap || (isMobileViewLayout() && mobileView !== 'map')) return;
     syncMapSheetOverlap();
-    captureBoundaryDiagnostic(`sheet:${nextState}:layout-settled`);
+    policeBoundaryMap.captureBoundaryDiagnostic(`sheet:${nextState}:layout-settled`);
     dispatchMap.invalidateSize({ pan: false });
-    captureBoundaryDiagnostic(`sheet:${nextState}:invalidate-size-complete`);
-    queuePoliceBoundaryWork(`sheet:${nextState}:post-invalidation`);
+    policeBoundaryMap.captureBoundaryDiagnostic(`sheet:${nextState}:invalidate-size-complete`);
+    policeBoundaryMap.queuePoliceBoundaryWork(`sheet:${nextState}:post-invalidation`);
   });
 }
 
@@ -1589,7 +1586,7 @@ function initMap() {
     if (!choosingArea) return;
     chooseManualArea([event.latlng.lat, event.latlng.lng]);
   });
-  setupDivisionOverlay();
+  policeBoundaryMap.setup();
   auditReadiness.map = true;
   finishCreation();
   markFullyRenderedWhenReady();
@@ -1672,272 +1669,6 @@ function selectClosure(closure, layer, ttc=false) {
     const anchor=layer?.getLatLng?.() || layer?.getBounds?.().getCenter?.();
     if(anchor) mapPopups.openAt(detail,anchor);
   } else mapPopups.openBound(detail,layer);
-}
-
-function mapAllowsBoundaryWork() {
-  if (!dispatchMap || !divisionLayer || !boundaryVisible || !dispatchMap.hasLayer(divisionLayer)) return false;
-  if (isMobileViewLayout() && mobileView !== 'map') return false;
-  const rect = els.dispatchMap?.getBoundingClientRect?.();
-  const size = dispatchMap.getSize?.();
-  return Boolean(rect?.width > 0 && rect?.height > 0 && size?.x > 0 && size?.y > 0);
-}
-
-function redrawPoliceBoundaries() {
-  divisionGeometryLayer?.eachLayer?.(layer => layer.redraw?.());
-}
-
-function captureBoundaryDiagnostic(reason) {
-  if (!boundaryDebugEnabled) return null;
-  const police = capturePoliceBoundaryRenderState({
-    map: dispatchMap,
-    layer: divisionGeometryLayer,
-    lifecycleEvent: reason,
-    scheduling: {
-      boundaryDirty,
-      boundaryRenderFramePending: boundaryRenderFrame !== null,
-      layoutTransitionPending: boundaryLifecycleScheduler.pending(),
-      generation: boundaryRenderGeneration
-    }
-  });
-  const roads = captureRoadClosureRenderState?.(dispatchMap);
-  boundaryDebugCapture = {
-    ...police,
-    sheetState: mobileSheetState,
-    mobileView,
-    police: {
-      layerId: divisionGeometryLayer?._leaflet_id ?? null,
-      rendererId: divisionRenderer?._leaflet_id ?? null,
-      pane: divisionRenderer?.options?.pane || 'overlayPane',
-      visible: Boolean(divisionGeometryLayer && dispatchMap?.hasLayer?.(divisionGeometryLayer))
-    },
-    roads,
-    interaction: {
-      sharedPane: Boolean(roads?.pane && roads.pane === (divisionRenderer?.options?.pane || 'overlayPane')),
-      sharedRenderer: Boolean(roads?.rendererIds?.includes(divisionRenderer?._leaflet_id)),
-      sharedCanvas: false
-    }
-  };
-  boundaryDebugHistory.push(boundaryDebugCapture);
-  if (boundaryDebugHistory.length > 80) boundaryDebugHistory.shift();
-  const debugPanel = document.querySelector('#policeBoundaryDebugPanel');
-  if (debugPanel) {
-    debugPanel.dataset.lifecycleEvent = reason;
-    debugPanel.dataset.issueCount = String(boundaryDebugCapture.issues.length);
-    debugPanel.dataset.dimensionIssueCount = String(boundaryDebugCapture.dimensionIssues.length);
-    debugPanel.dataset.rendererId = String(divisionRenderer?._leaflet_id ?? '');
-    debugPanel.dataset.layerId = String(divisionGeometryLayer?._leaflet_id ?? '');
-  }
-  return boundaryDebugCapture;
-}
-
-function boundaryDiagnosticExport() {
-  return {
-    schema: 'sirento-police-boundary-debug-v1',
-    exportedAt: new Date().toISOString(),
-    userLocationIncluded: false,
-    entries: boundaryDebugHistory
-  };
-}
-
-function installBoundaryDebugExport() {
-  if (document.querySelector('#policeBoundaryDebugPanel')) return;
-  const panel = document.createElement('div');
-  panel.id = 'policeBoundaryDebugPanel';
-  panel.className = 'police-boundary-debug-panel';
-  panel.style.position = 'fixed';
-  panel.setAttribute('role', 'group');
-  panel.setAttribute('aria-label', 'Police boundary diagnostics');
-  const status = document.createElement('span');
-  status.textContent = 'Boundary diagnostics active';
-  const copy = document.createElement('button');
-  copy.type = 'button';
-  copy.textContent = 'Copy JSON';
-  copy.addEventListener('click', async () => {
-    captureBoundaryDiagnostic('manual-copy');
-    try {
-      await navigator.clipboard.writeText(JSON.stringify(boundaryDiagnosticExport(), null, 2));
-      status.textContent = 'Diagnostics copied';
-    } catch {
-      status.textContent = 'Copy unavailable; use Download';
-    }
-  });
-  const download = document.createElement('button');
-  download.type = 'button';
-  download.textContent = 'Download JSON';
-  download.addEventListener('click', () => {
-    captureBoundaryDiagnostic('manual-download');
-    const url = URL.createObjectURL(new Blob([JSON.stringify(boundaryDiagnosticExport(), null, 2)], {type:'application/json'}));
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.download = `sirento-boundary-debug-${Date.now()}.json`;
-    anchor.click();
-    setTimeout(() => URL.revokeObjectURL(url), 0);
-    status.textContent = 'Diagnostics downloaded';
-  });
-  panel.append(status, copy, download);
-  document.body.append(panel);
-}
-
-function captureBoundaryDebugAfterPaint(reason) {
-  if (!boundaryDebugEnabled) return;
-  requestAnimationFrame(() => {
-    captureBoundaryDiagnostic(reason);
-    uxAudit.record('police-boundary-render-diagnostic', {
-      reason, renderer: boundaryDebugCapture.renderer.kind, issues: boundaryDebugCapture.issues.length
-    });
-    if (boundaryDebugCapture.issues.length) {
-      console.warn('Police boundary projected-geometry diagnostic', boundaryDebugCapture);
-    }
-  });
-}
-
-function boundaryDetails(properties) {
-  const content = document.createElement("div");
-  const title = document.createElement("strong");
-  title.textContent = properties.UNIT_NAME || `Division ${properties.AREA_NAME}`;
-  const address = document.createElement("div");
-  address.textContent = properties.ADDRESS
-    ? `Station: ${properties.ADDRESS}, ${properties.CITY || "Toronto"}`
-    : "Station address unavailable";
-  content.append(title, address);
-  return content;
-}
-
-async function initializePoliceBoundaries(generation, reason) {
-  if (!mapAllowsBoundaryWork() || generation !== boundaryRenderGeneration) return;
-  if (divisionGeometryLayer) {
-    const finishRender = uxAudit.begin('police-boundary-layer-render', { reason, reused: true });
-    if (!dispatchMap.hasLayer(divisionGeometryLayer)) divisionGeometryLayer.addTo(dispatchMap);
-    if (boundaryDirty) redrawPoliceBoundaries();
-    boundaryDirty = false;
-    boundaryLifecycleEvent = reason;
-    finishRender();
-    uxAudit.mark('police-boundary-redraw-complete', { reason });
-    captureBoundaryDebugAfterPaint(reason);
-    return;
-  }
-  const finishBoundary = uxAudit.begin('police-boundary-layer-initialization', { reason });
-  try {
-    divisionDataPromise ||= fetch("./data/police-divisions.geojson?v=station-details-1").then(response => {
-      if (!response.ok) throw new Error("Division boundaries unavailable");
-      return response.json();
-    });
-    const boundaries = await divisionDataPromise;
-    if (!mapAllowsBoundaryWork() || generation !== boundaryRenderGeneration) {
-      finishBoundary({ deferred: true });
-      return;
-    }
-    const geometryBefore = diagnosePoliceBoundaryGeometry(boundaries);
-    const rendererMode = mobileAuditFixture?.boundaryRenderer || 'canvas';
-    if (!dispatchMap.getPane('policeBoundaryPane')) {
-      const pane = dispatchMap.createPane('policeBoundaryPane');
-      pane.style.zIndex = '430';
-      pane.style.pointerEvents = 'none';
-    }
-    divisionRenderer = rendererMode === 'svg'
-      ? L.svg({ padding: 0.5, pane: 'policeBoundaryPane' })
-      : L.canvas({ padding: 0.5, pane: 'policeBoundaryPane' });
-    const boundaryColor = getComputedStyle(document.documentElement).getPropertyValue("--boundary-marker").trim();
-    divisionGeometryLayer = createPoliceBoundaryLayer(L, boundaries, {
-      color: boundaryColor,
-      renderer: divisionRenderer,
-      onEachFeature(feature, polygon) {
-        polygon.__policeBoundaryFeatureIndex = boundaries.features.indexOf(feature);
-        polygon.__policeBoundaryRingCount = policeBoundaryRingCount(feature);
-        polygon.bindTooltip(boundaryDetails(feature.properties), { sticky: true });
-        polygon.bindPopup(boundaryDetails(feature.properties));
-      }
-    });
-    divisionGeometryLayer.addTo(dispatchMap);
-    const geometryAfter = diagnosePoliceBoundaryGeometry(boundaries);
-    boundaryDirty = false;
-    boundaryLifecycleEvent = reason;
-    uxAudit.record('police-boundary-geometry-diagnostic', {
-      ...geometryBefore,
-      renderer: rendererMode,
-      checksumAfterRender: geometryAfter.checksum,
-      mutatedByRender: geometryBefore.checksum !== geometryAfter.checksum
-    });
-    finishBoundary({ visible: boundaryVisible, renderer: rendererMode });
-    captureBoundaryDebugAfterPaint(reason);
-  } catch (error) {
-    divisionDataPromise = null;
-    finishBoundary({ error: error.message });
-    console.warn("Could not load the optional division overlay", error);
-  } finally {
-    auditReadiness.boundaries = true;
-    markFullyRenderedWhenReady();
-  }
-}
-
-function queuePoliceBoundaryWork(reason) {
-  boundaryDirty = true;
-  boundaryLifecycleEvent = reason;
-  captureBoundaryDiagnostic(`${reason}:requested`);
-  boundaryRenderGeneration += 1;
-  const generation = boundaryRenderGeneration;
-  if (boundaryRenderFrame !== null) cancelAnimationFrame(boundaryRenderFrame);
-  boundaryRenderFrame = null;
-  if (!mapAllowsBoundaryWork()) return;
-  boundaryRenderFrame = requestAnimationFrame(() => {
-    boundaryRenderFrame = requestAnimationFrame(() => {
-      boundaryRenderFrame = null;
-      void initializePoliceBoundaries(generation, reason);
-    });
-  });
-}
-
-function setupDivisionOverlay() {
-  divisionLayer = L.layerGroup();
-  dispatchMap.on('overlayadd overlayremove', event => {
-    if (event.layer !== divisionLayer) return;
-    const finishToggle = uxAudit.begin('interaction:police-boundaries');
-    boundaryVisible = event.type === 'overlayadd';
-    boundaryLifecycleEvent = event.type;
-    if (boundaryVisible) queuePoliceBoundaryWork('overlay-enabled');
-    else {
-      captureBoundaryDiagnostic('boundaries-off');
-      boundaryRenderGeneration += 1;
-      if (boundaryRenderFrame !== null) cancelAnimationFrame(boundaryRenderFrame);
-      boundaryRenderFrame = null;
-      if (divisionGeometryLayer && dispatchMap.hasLayer(divisionGeometryLayer)) {
-        dispatchMap.removeLayer(divisionGeometryLayer);
-      }
-    }
-    rememberPreferences();
-    finishToggle({ visible: boundaryVisible, constructionDeferred: boundaryVisible && !divisionGeometryLayer });
-  });
-  L.control.layers(null, { "Police Divisions": divisionLayer }, {
-    collapsed: false, position: "topright"
-  }).addTo(dispatchMap);
-  // Story 40D: keep the full official wording in the DOM/attribution but show a
-  // concise "Police Divisions" label on the compact mobile control.
-  const boundaryControlLabel = dispatchMap.getContainer()
-    .querySelector('.leaflet-control-layers-overlays label');
-  boundaryControlLabel?.setAttribute('data-mobile-label', 'Police Divisions');
-  syncFullscreenLayerControls();
-  if (boundaryVisible) {
-    divisionLayer.addTo(dispatchMap);
-    queuePoliceBoundaryWork('initial-visible-map');
-  }
-  auditReadiness.boundaries = true;
-  markFullyRenderedWhenReady();
-  for (const eventName of ['zoomstart', 'zoomend', 'movestart', 'moveend', 'resize']) {
-    dispatchMap.on(eventName, () => {
-      boundaryLifecycleEvent = eventName;
-      if (eventName.endsWith('end') || eventName === 'resize') captureBoundaryDebugAfterPaint(eventName);
-    });
-  }
-  dispatchMap.on('roadclosureredraw', () => captureBoundaryDebugAfterPaint('road-closure-redraw-complete'));
-  if (boundaryDebugEnabled) {
-    globalThis.__sirentoPoliceBoundaryDebug = {
-      capture: () => captureBoundaryDiagnostic(boundaryLifecycleEvent),
-      latest: () => boundaryDebugCapture,
-      history: () => structuredClone(boundaryDebugHistory),
-      renderer: () => mobileAuditFixture?.boundaryRenderer || 'canvas'
-    };
-    installBoundaryDebugExport();
-  }
 }
 
 function coordinatesForCall(call) {
@@ -2384,7 +2115,7 @@ try {
     Object.assign(state,saved.filters);
     state.radiusKm = saved.radiusKm;
     document.querySelector('#roadOverlay').checked = saved.roads;
-    boundaryVisible = saved.boundaries;
+    policeBoundaryMap.setVisible(saved.boundaries);
     themePreference = saved.theme;
     document.querySelector('#themePreference').value = themePreference;
     syncTheme();
@@ -2394,7 +2125,7 @@ try {
 } catch { /* Defaults remain usable when storage is blocked. */ }
 if (mobileAuditFixture) {
   document.querySelector('#roadOverlay').checked = mobileAuditFixture.roads;
-  boundaryVisible = mobileAuditFixture.boundaries;
+  policeBoundaryMap.setVisible(mobileAuditFixture.boundaries);
   if (!mobileViewInteracted) setMobileView(mobileAuditFixture.view, { persist: false });
   setMobileSheetState(mobileAuditFixture.sheet);
   Object.assign(state, mobileAuditFixtureFilters(mobileAuditFixture.filters));

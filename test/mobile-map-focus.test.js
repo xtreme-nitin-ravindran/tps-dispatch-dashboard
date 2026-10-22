@@ -2,11 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-const [html, css, app, maintenanceSrc] = await Promise.all([
+const [html, css, app, maintenanceSrc, boundarySrc] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8'),
   readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
-  readFile(new URL('../src/map-maintenance.js', import.meta.url), 'utf8')
+  readFile(new URL('../src/map-maintenance.js', import.meta.url), 'utf8'),
+  readFile(new URL('../src/police-boundary-map.js', import.meta.url), 'utf8')
 ]);
 
 const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)';
@@ -310,10 +311,10 @@ test('[STORY-40D] the floating filter summary is positioned as floating map chro
 test('[STORY-40D] the boundary control shows a concise mobile label while keeping the full wording', () => {
   // Story 41: the visible control label is the concise "Police Divisions"; the
   // full official wording stays in the map attribution.
-  assert.match(app, /"Police Divisions": divisionLayer/);
+  assert.match(boundarySrc, /"Police Divisions": divisionLayer/);
   assert.match(html, /Police division boundaries — Toronto Police Service/);
   // A concise mobile label is attached to the rendered control.
-  assert.match(app, /boundaryControlLabel\?\.setAttribute\('data-mobile-label', 'Police Divisions'\)/);
+  assert.match(boundarySrc, /boundaryControlLabel\?\.setAttribute\('data-mobile-label', 'Police Divisions'\)/);
   assert.match(mobileRules, /\.map-panel \.leaflet-control-layers-overlays label\[data-mobile-label\]::after \{\s*content: attr\(data-mobile-label\);/);
   // The full text is visually hidden but preserved for assistive tech.
   assert.match(mobileRules, /\.map-panel \.leaflet-control-layers-overlays label\[data-mobile-label\] > span > span \{[\s\S]*?clip-path: inset\(50%\);/);

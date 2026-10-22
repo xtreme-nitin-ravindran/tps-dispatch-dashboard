@@ -68,7 +68,7 @@ test('[MUST-11][STORY-12] audited UI states use shared theme tokens', () => {
 
 test('[MUST-11][STORY-12] explicit and system theme changes update the document theme live', () => {
   assert.match(app, /const systemTheme = window\.matchMedia\("\(prefers-color-scheme: dark\)"\)/);
-  assert.match(app, /function syncTheme\(\) {\s*applyTheme\(document\.documentElement, themeColorMeta, themePreference, systemTheme\.matches\);[\s\S]*?if \(!mapAllowsBoundaryWork\(\)\) {[\s\S]*?boundaryDirty = true;[\s\S]*?divisionGeometryLayer\.setStyle\(\{ color: boundaryColor \}\);\s*}/);
+  assert.match(app, /function syncTheme\(\) {\s*applyTheme\(document\.documentElement, themeColorMeta, themePreference, systemTheme\.matches\);[\s\S]*?if \(!policeBoundaryMap\.mapAllowsBoundaryWork\(\)\) {[\s\S]*?policeBoundaryMap\.markDirty\('theme-change-while-map-hidden'\);[\s\S]*?policeBoundaryMap\.setStyle\(\{ color: boundaryColor \}\);\s*}/);
   assert.match(app, /systemTheme\.addEventListener\('change', syncTheme\)/);
   assert.match(app, /#themePreference'\)\.addEventListener\('change',[\s\S]*?syncTheme\(\)/);
 });
