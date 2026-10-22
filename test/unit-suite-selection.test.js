@@ -25,18 +25,25 @@ const runnerPath = join(root, "scripts", "run-unit-tests.sh");
 const STUB_NODE = `#!/bin/sh
 set -eu
 : > "$STUB_LOG"
+dest=""
 for a in "$@"; do
-  printf '%s\\n' "$a" >> "$STUB_LOG"
+  printf '%s\n' "$a" >> "$STUB_LOG"
+  case "$a" in
+    --test-reporter-destination=*) dest="\${a#*=}" ;;
+  esac
 done
+if [ -n "$dest" ]; then
+  printf '%s\n' "SF:src/example.js" "DA:1,1" "DA:2,0" "BRDA:3,0,0,0" "BRDA:4,1,1,-" "FNDA:0,uncoveredFn" "end_of_record" > "$dest"
+fi
 exit 0
 `;
 
-async function makeStubEnv() {
+async function makeStubEnv(body = STUB_NODE) {
   const dir = await mkdtemp(join(tmpdir(), "unit-suite-stub-"));
   const bin = join(dir, "bin");
   await mkdir(bin, { recursive: true });
   const node = join(bin, "node");
-  await writeFile(node, STUB_NODE);
+  await writeFile(node, body);
   await chmod(node, 0o755);
   const log = join(dir, "log");
   await writeFile(log, "");
@@ -229,6 +236,9 @@ test("[STORY-47] the runner rejects unexpected arguments", async () => {
     const result = runRunner(["test/theme.test.js"], stub);
     assert.notEqual(result.status, 0, "unexpected arguments must fail");
     assert.match(result.stderr, /unexpected argument/i);
+    const combo = runRunner(["--coverage", "--gaps"], stub);
+    assert.notEqual(combo.status, 0, "conflicting modes must fail");
+    assert.match(combo.stderr, /unexpected argument/i);
   } finally {
     await rm(stub.dir, { recursive: true, force: true });
   }
@@ -345,4 +355,73 @@ test("[STORY-47] the coverage and fast commands cannot run live integrations", a
     /integration/,
     "test:coverage must not reference integration"
   );
+});
+
+test("[STORY-47] gaps mode selects the same files with the lcov reporter and prints only uncovered records", async () => {
+  const stub = await makeStubEnv();
+  try {
+    const plain = runRunner([], stub);
+    assert.equal(plain.status, 0, plain.stderr);
+    const plainFiles = selectedFiles(await readArgs(stub.log));
+
+    const gaps = runRunner(["--gaps"], stub);
+    assert.equal(gaps.status, 0, gaps.stderr);
+    const gapsArgs = await readArgs(stub.log);
+
+    assert.deepEqual(selectedFiles(gapsArgs), plainFiles, "gaps must run the same offline files");
+    assert.ok(gapsArgs.includes("--experimental-test-coverage"), "gaps must enable coverage");
+    assert.ok(gapsArgs.includes("--test-reporter=lcov"), "gaps must emit the lcov reporter");
+    const destination = gapsArgs.find(a => a.startsWith("--test-reporter-destination="));
+    assert.ok(destination, "gaps must write the report to a scratch path");
+    const reportPath = destination.split("=", 2)[1];
+    assert.ok(reportPath.startsWith("/"), "the report destination must be absolute");
+    assert.ok(!reportPath.startsWith(root + "/"), "the report must not live inside the read-only mounted tree");
+    assert.ok(!gapsArgs.includes("--test-coverage-lines=100"), "gaps is a diagnostic, not the coverage gate");
+    assert.deepEqual(gaps.stdout.trim().split("\n"), [
+      "src/example.js: line 2 uncovered",
+      "src/example.js: line 3 branch 0/0 not taken",
+      "src/example.js: line 4 branch 1/1 not taken",
+      "src/example.js: function uncoveredFn uncovered"
+    ]);
+  } finally {
+    await rm(stub.dir, { recursive: true, force: true });
+  }
+});
+
+test("[STORY-47] gaps mode is quiet when every record is covered", async () => {
+  const cleanStub = `#!/bin/sh
+set -eu
+: > "$STUB_LOG"
+dest=""
+for a in "$@"; do
+  printf '%s\n' "$a" >> "$STUB_LOG"
+  case "$a" in
+    --test-reporter-destination=*) dest="\${a#*=}" ;;
+  esac
+done
+if [ -n "$dest" ]; then
+  printf '%s\n' "SF:src/example.js" "DA:1,1" "BRDA:3,0,0,1" "FNDA:1,fn" "end_of_record" > "$dest"
+fi
+exit 0
+`;
+  const stub = await makeStubEnv(cleanStub);
+  try {
+    const result = runRunner(["--gaps"], stub);
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stdout, "", "a fully covered report must print no gap records");
+  } finally {
+    await rm(stub.dir, { recursive: true, force: true });
+  }
+});
+
+test("[STORY-47] gaps mode propagates test failures without emitting a report", async () => {
+  const failingStub = "#!/bin/sh\nexit 1\n";
+  const stub = await makeStubEnv(failingStub);
+  try {
+    const result = runRunner(["--gaps"], stub);
+    assert.notEqual(result.status, 0, "a failing suite must fail the gaps run");
+    assert.match(result.stderr, /test failures/);
+  } finally {
+    await rm(stub.dir, { recursive: true, force: true });
+  }
 });

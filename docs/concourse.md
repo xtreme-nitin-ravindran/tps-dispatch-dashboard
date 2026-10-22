@@ -30,6 +30,28 @@ already lives in a real file. The scratch file is removed on success, failure, a
 signals. The helper never reads or prints credentials: supply them through the
 environment or `fly` vars. The task config supplies its worker image.
 
+### Non-production publication runs
+
+A publication task such as `update-and-publish` writes to R2, so a worker
+validation must never point its `((r2_*))` vars at the production bucket. Build
+a scratch vars file from the e2e credentials (the fixed scratch bucket
+`rotato-e2e-scratch`) and pass it with `--load-vars-from`:
+
+```bash
+# Map scripts/e2e.env onto the task's ((var)) names in a git-ignored scratch file:
+#   r2_endpoint         <- R2_ENDPOINT
+#   r2_bucket           <- R2_BUCKET
+#   r2_access_key_id    <- R2_ACCESS_KEY_ID
+#   r2_secret_access_key <- R2_SECRET_ACCESS_KEY
+scripts/fly-exec-task.sh update-and-publish --target main -- \
+  --input repo=. --output incident-repo=./.cache/fly-exec-output \
+  --load-vars-from .cache/fly-exec-vars.yml
+```
+
+The task seeds its history from the same bucket, so a missing object starts a
+fresh ETL run that exercises the full update path. Delete the vars file and the
+`.cache/fly-exec-output` directory after the run.
+
 The scheduled pipeline consumes `main`, which has passed the protected promotion
 checks. Its `update-and-publish` task uses `node:26-bookworm-slim`, installs only
 runtime dependencies with `npm ci --omit=dev`, and runs the incident update and R2
