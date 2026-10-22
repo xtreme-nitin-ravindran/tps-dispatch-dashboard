@@ -39,13 +39,14 @@ test("[MUST-8][STORY-10] glyphs retain category and service cues independently o
 });
 
 test("[MUST-8][STORY-10] map wiring refreshes age styles and preserves non-opacity cues and selection", async () => {
-  const [app, css, html] = await Promise.all([
+  const [app, css, html, markersSrc] = await Promise.all([
     readFile(new URL("../src/app/app.js", import.meta.url), "utf8"),
     readFile(new URL("../assets/css/styles.css", import.meta.url), "utf8"),
-    readFile(new URL("../index.html", import.meta.url), "utf8")
+    readFile(new URL("../index.html", import.meta.url), "utf8"),
+  readFile(new URL("../src/incident-markers.js", import.meta.url), "utf8")
   ]);
 
-  assert.match(app, /markerAgeTier\(call\.timestamp, now\)/);
+  assert.match(markersSrc, /markerAgeTier\(call\.timestamp, now\)/);
   assert.match(app, /renderNearbySummary\(\);\s*updateMarkerAppearances\(\);\s*}, 60000\)/);
   assert.match(app, /function selectCall[\s\S]*?updateMarkerAppearances\(\)/);
   assert.match(css, /\.dispatch-marker\.age-aging \{ opacity: \.72; \}/);

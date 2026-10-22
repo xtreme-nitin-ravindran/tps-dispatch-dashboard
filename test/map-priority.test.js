@@ -2,10 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-const [html, css, app] = await Promise.all([
+const [html, css, app, markersSrc] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8'),
-  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8')
+  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
+  readFile(new URL('../src/incident-markers.js', import.meta.url), 'utf8')
 ]);
 
 const mapStart = html.indexOf('<section class="map-stage" id="mapView">');
@@ -48,7 +49,7 @@ test('[STORY-37I] legend, located count, map heading, and source freshness remai
 test('[STORY-37I] the map stays unobstructed when incident filters have no mapped calls', () => {
   assert.doesNotMatch(mapMarkup, /id="mapEmpty"|class="map-empty"/);
   assert.doesNotMatch(app, /mapEmpty|map-empty/);
-  assert.match(app, /locatedCalls\.length \? `\$\{locatedCalls\.length\}\/\$\{state\.filtered\.length\} LOCATED` : "NO MAPPED LOCATIONS"/);
+  assert.match(markersSrc, /locatedCalls\.length \? `\$\{locatedCalls\.length\}\/\$\{getCalls\(\)\.length\} LOCATED` : "NO MAPPED LOCATIONS"/);
 });
 
 test('[STORY-37I] mobile map/results switching and bottom sheet behavior remain intact', () => {

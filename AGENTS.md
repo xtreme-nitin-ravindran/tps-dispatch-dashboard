@@ -20,6 +20,8 @@
 - Remove legacy or duplicate code only when it is demonstrably dead or directly relevant to the task.
 - Do not make speculative fixes before identifying the actual failure or root cause when reproduction is practical.
 - Small changes should produce small diffs. Unexpected large diffs are a stop condition and must be investigated before continuing.
+- After extracting code out of `src/app/app.js`, run `npm run verify:fast` without file arguments: the source-text pins live in many test files and targeted runs miss them.
+- When repointing a source-text pin at a newly extracted module, verify the pin's source variable was actually declared in that test file. Some tests read sources with top-level `await readFile` (`node:fs/promises`) instead of `readFileSync`, and a declaration insert can silently miss the async form.
 
 ## UI design confirmation and visible acceptance
 

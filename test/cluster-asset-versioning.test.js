@@ -9,9 +9,9 @@ const [app, html, worker] = await Promise.all([
 ]);
 
 test('[INFRA-ASSETS] Story 39A app and cluster module asset versions cannot drift backwards', () => {
-  assert.match(html, /app\.js\?v=chores-3/);
+  assert.match(html, /app\.js\?v=chores-4/);
   assert.match(app, /map-clusters\.js\?v=story-39a-1/);
-  assert.match(worker, /CACHE_VERSION = "sirento-shell-v77"/);
+  assert.match(worker, /CACHE_VERSION = "sirento-shell-v78"/);
   assert.match(worker, /"\.\/src\/app\/app\.js"/);
   assert.match(worker, /"\.\/src\/map-clusters\.js"/);
   assert.match(worker, /key\.startsWith\("sirento-shell-"\) && key !== CACHE_VERSION/);

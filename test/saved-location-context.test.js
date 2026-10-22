@@ -7,8 +7,9 @@ import { nearbySummary } from '../src/nearby-summary.js';
 import { sortNearbyCalls } from '../src/nearby-sort.js';
 import { referenceCoordinates, savedLocationForContext } from '../src/saved-locations.js';
 
-const [app, html] = await Promise.all([
+const [app, markersSrc, html] = await Promise.all([
   readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
+  readFile(new URL('../src/incident-markers.js', import.meta.url), 'utf8'),
   readFile(new URL('../index.html', import.meta.url), 'utf8')
 ]);
 const home = { id: 'home', label: 'Home', latitude: 43.65, longitude: -79.38 };
@@ -41,7 +42,7 @@ test('[SHOULD-9][STORY-28] selector, recenter, current-location restoration, and
   assert.match(app, /locationContextStatus\.textContent = selected \? `Showing near \$\{selected\.label\}`/);
   assert.match(app, /state\.nearby = referenceCoordinates\(state, liveLocation\)/);
   assert.match(app, /mapHasFitted = false;[\s\S]*updateNearbyView\(\)/);
-  assert.match(app, /dispatchMap\.setView\(state\.nearby,/);
+  assert.match(markersSrc, /map\.setView\(getNearby\(\),/);
   assert.match(app, /function useCurrentLocation\(\)[\s\S]*state\.nearby = null;[\s\S]*requestLocation\(state\.radiusKm/);
   assert.match(app, /function requestLocation[\s\S]*state\.locationContext\.type === 'saved'[\s\S]*state\.nearby = null/);
   assert.match(app, /liveLocation = \[\.\.\.state\.nearby\]/);
@@ -50,7 +51,7 @@ test('[SHOULD-9][STORY-28] selector, recenter, current-location restoration, and
 
 test('[SHOULD-9][STORY-28] selection reconciliation, clustering, road visibility, stale fallback, and privacy remain intact', () => {
   assert.match(app, /focusedCallId = reconcileIncidentSelection\(focusedCallId, state\.filtered\)/);
-  assert.match(app, /const groups = clusterPoints\(locatedCalls,/);
+  assert.match(markersSrc, /const groups = clusterPoints\(locatedCalls,/);
   assert.match(app, /renderDisruptions\(state\.disruptions, radiusFilterOrigin\(\), state\.radiusKm, dispatchMap\)/);
   assert.match(app, /if \(!saved\) \{[\s\S]*useCurrentLocation\(\)/);
   const switchBlock = app.slice(app.indexOf('function useSavedLocation'), app.indexOf('function useCurrentLocation'));

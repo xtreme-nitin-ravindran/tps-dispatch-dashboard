@@ -3,10 +3,11 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { runInNewContext } from 'node:vm';
 
-const [html, css, app] = await Promise.all([
+const [html, css, app, markersSrc] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8'),
-  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8')
+  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
+  readFile(new URL('../src/incident-markers.js', import.meta.url), 'utf8')
 ]);
 
 test('[MUST-5][STORY-4] mobile radius selector exposes every supported search area in one shared control', () => {
@@ -88,7 +89,7 @@ test('[MUST-5][STORY-4] radius changes reuse the complete filtering and renderin
 
 test('[MUST-5] map and card selection share one zoom-preserving selected incident', () => {
   assert.match(app, /focusedCallId = reconcileIncidentSelection\(focusedCallId, state\.filtered\);/);
-  assert.match(app, /\.on\("click", event => \{[\s\S]*?setMobileSheetState\([\s\S]*?selectCall\(call\.id, \{ pan: false, revealRow: true \}\)/);
+  assert.match(markersSrc, /\.on\("click", event => \{[\s\S]*?setMobileSheetState\([\s\S]*?selectCall\(call\.id\)/);
   assert.match(app, /const zoom = dispatchMap\.getZoom\(\);[\s\S]*?dispatchMap\.panTo\(coordinates/);
   assert.doesNotMatch(app, /setView\(coordinatesForCall\(call\),\s*18/);
   assert.match(app, /incident-card:not\(\.incident-card--popup\)[\s\S]*?aria-pressed/);

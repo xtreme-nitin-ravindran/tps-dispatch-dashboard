@@ -2,8 +2,7 @@ import { loadTtcUiFixture } from '../ttc/fixture.js';
 import { mergeTtcDisruptions } from '../ttc/presentation.js';
 import { renderTtc, createTtcDetail, clearTtcSelection, setTtcVisibility, bindTtcListInteractions } from '../ttc/ui.js';
 import { sourceStatus, sourceStatusText } from "../source-status.js?v=source-states-1";
-import { MAX_EXPANDED_CLUSTER_SIZE, connectorFan, canExpandCluster, clusterPoints, focusGroup } from "../map-clusters.js?v=story-39a-1";
-import { incidentGroupKey, reconcileIncidentLayers } from "../incident-layer-diff.js";
+import { canExpandCluster, focusGroup } from "../map-clusters.js?v=story-39a-1";
 import { activeSecondaryFilterCount, filterDefaults, filterSummary, incidentDeepLink, readFilters, shareView, shareIncidentView, readSharedIncident, shareIncident, loadPreferences, savePreferences } from "../view-controls.js";
 import * as disruptionUi from "../disruptions/ui.js?v=story-38b-1";
 import { withTtcNearbyFixture } from "../disruptions/ttc-nearby-fixture.js";
@@ -40,6 +39,7 @@ import { createFrameScheduler } from '../frame-scheduler.js';
 import { createMapPopups } from '../map-popups.js';
 import { createMapMaintenance } from '../map-maintenance.js';
 import { createPoliceBoundaryMap } from '../police-boundary-map.js';
+import { createIncidentMarkerLayer } from '../incident-markers.js';
 
 uxAudit.mark('app-bootstrap-begins');
 
@@ -121,11 +121,8 @@ const quickLookDataStatus = document.querySelector('#quickLookDataStatus');
 const TORONTO_CENTER = [43.7001, -79.42];
 let dispatchMap = null;
 let mapPopups = createMapPopups(null);
-let mapMarkers = new Map();
 let callLayer;
 let expandedCluster = new Set();
-let renderedIncidentLayers = new Map();
-let scheduledMarkerRender = null;
 let focusedCallId = null;
 let focusedClosureId = null;
 let rowHighlightTimer;
@@ -175,6 +172,41 @@ const policeBoundaryMap = createPoliceBoundaryMap({
   syncLayerControls: syncFullscreenLayerControls,
   captureRoadClosureState: captureRoadClosureRenderState
 });
+
+const incidentMarkers = createIncidentMarkerLayer({
+  getMap: () => dispatchMap,
+  getCallLayer: () => callLayer,
+  getCalls: () => state.filtered,
+  getNearby: () => state.nearby,
+  getRadiusKm: () => state.radiusKm,
+  getFocusedCallId: () => focusedCallId,
+  getSirenIds: () => new Set(sirenMatches.map(match => match.call.id)),
+  getExpandedCluster: () => expandedCluster,
+  setExpandedCluster: set => { expandedCluster = set; },
+  isMobileLayout: isMobileViewLayout,
+  getMobileSheetState: () => mobileSheetState,
+  setMobileSheetState,
+  selectCall: id => selectCall(id, { pan: false, revealRow: true }),
+  reopenPopup: layer => mapPopups.reopenBound(layer),
+  createIncidentCard,
+  coordinatesForCall,
+  isApproximate: isApproximateLocation,
+  distanceKm,
+  distanceLabel,
+  audit: uxAudit,
+  markerAgeLabel,
+  markerAgeTier,
+  markerGlyph,
+  setMapStatus: text => { els.mapStatus.textContent = text; document.querySelector('#mobileMapStatus').textContent = text; },
+  getNearbyOriginLayer: () => nearbyOriginLayer,
+  getMapHasFitted: () => mapHasFitted,
+  setMapHasFitted: value => { mapHasFitted = value; }
+});
+// Thin name bindings preserve the app's wiring and the source-text pins.
+const renderMapMarkers = () => incidentMarkers.render();
+const scheduleMapMarkerRender = () => incidentMarkers.scheduleRender();
+const updateMarkerAppearance = (id, now) => incidentMarkers.updateAppearance(id, now);
+const updateMarkerAppearances = now => incidentMarkers.updateAll(now);
 const uxReliabilityFixture = uxReliabilityFixtureOptions(location);
 let uxFixtureLazyWorkPending = Boolean(uxReliabilityFixture?.lazyWorkMs);
 let mapInitializationScheduled = false;
@@ -1685,184 +1717,6 @@ function isApproximateLocation(call) {
   return displayLocation(call).approximate !== false;
 }
 
-function markerAccessibleLabel(call, selected, now = Date.now()) {
-  const age = markerAgeLabel(markerAgeTier(call.timestamp, now));
-  return `${selected ? "Selected incident: " : "Incident: "}${call.source} ${call.eventCategory}, ${call.description}, ${age}`;
-}
-
-function markerIcon(call, selected = false, sirenMatch = false, now = Date.now()) {
-  const ageTier = markerAgeTier(call.timestamp, now);
-  const approximate = isApproximateLocation(call);
-  return L.divIcon({
-    className: "dispatch-marker-wrap",
-    html: `<span class="dispatch-marker service-${call.source.toLowerCase()} category-${call.eventCategory} age-${ageTier}${approximate ? " approximate" : ""}${selected ? " selected" : ""}${sirenMatch ? " siren-match" : ""}"><span class="dispatch-marker-glyph" aria-hidden="true">${markerGlyph(call.source, call.eventCategory)}</span></span>`,
-    iconSize: [22, 22],
-    iconAnchor: [11, 11]
-  });
-}
-
-function updateMarkerAppearances(now = Date.now()) {
-  mapMarkers.forEach((_marker, id) => updateMarkerAppearance(id, now));
-}
-
-function updateMarkerAppearance(id, now = Date.now()) {
-  const marker = mapMarkers.get(id);
-  const call = marker && state.filtered.find(item => item.id === id);
-  if (!call) return;
-  const selected = id === focusedCallId;
-  const label = markerAccessibleLabel(call, selected, now);
-  const sirenMatch = sirenMatches.some(match => match.call.id === id);
-  marker.setIcon(markerIcon(call, selected, sirenMatch, now));
-  marker.getElement()?.setAttribute("aria-label", label);
-  marker.getElement()?.setAttribute("title", label);
-}
-
-function scheduleMapMarkerRender() {
-  if (scheduledMarkerRender !== null) return;
-  scheduledMarkerRender = requestAnimationFrame(() => {
-    scheduledMarkerRender = null;
-    renderMapMarkers();
-  });
-}
-
-function assertConnectorLayerInvariants() {
-  let connectors = 0;
-  callLayer.eachLayer(layer => {
-    if (layer.options?.className === 'cluster-connector') connectors += 1;
-  });
-  if (connectors > MAX_EXPANDED_CLUSTER_SIZE) {
-    throw new RangeError(`rendered connector count ${connectors} exceeded ${MAX_EXPANDED_CLUSTER_SIZE}`);
-  }
-  if (!expandedCluster.size && connectors) {
-    throw new Error('stale cluster connectors remained after cluster collapse');
-  }
-}
-
-function incidentRepresentationVersion(group, expanded, sirenIds) {
-  if (!expanded && group.length > 1) {
-    return JSON.stringify({
-      incidents: group.map(({call, coordinates}) => [call.id, coordinates, call.timestamp, sirenIds.has(call.id)]),
-      focusedCallId: group.some(({call}) => call.id === focusedCallId) ? focusedCallId : null
-    });
-  }
-  return JSON.stringify(group.map(({call, coordinates}) => [
-    call, coordinates, sirenIds.has(call.id), state.nearby
-  ]));
-}
-
-function renderMapMarkers() {
-  const finishMarkers = uxAudit.begin('marker-cluster-creation', { incidents: state.filtered.length });
-  const sirenIds = new Set(sirenMatches.map(match => match.call.id));
-
-  const locatedCalls = state.filtered
-    .map(call => ({ call, coordinates: coordinatesForCall(call) }))
-    .filter(item => item.coordinates);
-
-  const addMarker = ({call, coordinates}, position = coordinates, layers = []) => {
-    const tooltip = document.createElement('span');
-    tooltip.textContent = `${call.source}: ${call.description}`;
-    const selected = call.id === focusedCallId;
-    const accessibleLabel = markerAccessibleLabel(call, selected);
-    const marker = L.marker(position, {
-      title: accessibleLabel,
-      alt: accessibleLabel,
-      icon: markerIcon(call, selected, sirenIds.has(call.id))
-    })
-      .bindTooltip(tooltip, { direction: "top" })
-      .bindPopup(createIncidentCard(call, {
-        distance: distanceLabel(distanceKm(state.nearby, coordinates)),
-        variant: "popup"
-      }), { minWidth: 280, maxWidth: 360, closeOnClick: false })
-      .on("click", event => {
-        const mobile = isMobileViewLayout();
-        if (mobile) setMobileSheetState(mobileSheetState === "collapsed" ? "half" : mobileSheetState);
-        selectCall(call.id, { pan: false, revealRow: true });
-        if (!mobile) setTimeout(() => mapPopups.reopenBound(event.target), 0);
-      });
-    marker.addTo(callLayer);
-    layers.push(marker);
-    mapMarkers.set(call.id, marker);
-    return marker;
-  };
-  const groups = clusterPoints(locatedCalls, point => dispatchMap.project(point, dispatchMap.getZoom()));
-  const representations = groups.map(group => {
-    const expanded = canExpandCluster(group) && group.every(item => expandedCluster.has(item.call.id));
-    const version = incidentRepresentationVersion(group, expanded, sirenIds);
-    return {group, expanded, key: incidentGroupKey(group, expanded, version)};
-  });
-  const desiredKeys = representations.map(({key}) => key);
-  const changes = reconcileIncidentLayers(renderedIncidentLayers, desiredKeys);
-  for (const key of changes.remove) {
-    renderedIncidentLayers.get(key).layers.forEach(layer => callLayer.removeLayer(layer));
-    renderedIncidentLayers.delete(key);
-  }
-  mapMarkers = new Map();
-  for (const {group, expanded, key} of representations) {
-    const retained = renderedIncidentLayers.get(key);
-    if (retained) {
-      retained.markers.forEach((marker, id) => mapMarkers.set(id, marker));
-      continue;
-    }
-    const layers = [];
-    const markers = new Map();
-    if (group.length === 1) {
-      const marker = addMarker(group[0], group[0].coordinates, layers);
-      markers.set(group[0].call.id, marker);
-      renderedIncidentLayers.set(key, {layers, markers});
-      continue;
-    }
-    const center = L.latLngBounds(group.map(item => item.coordinates)).getCenter();
-    if (expanded) {
-      const pixel = dispatchMap.latLngToLayerPoint(center);
-      const fan = connectorFan(group, pixel);
-      if (fan.length > MAX_EXPANDED_CLUSTER_SIZE) throw new RangeError('connector count exceeded expansion limit');
-      fan.forEach(({item, endpoint}) => {
-        const position = dispatchMap.layerPointToLatLng(L.point(endpoint.x,endpoint.y));
-        const connector = L.polyline([center,position],{className:'cluster-connector',color:'#b7c8d9',weight:1,interactive:false}).addTo(callLayer);
-        layers.push(connector);
-        const marker = addMarker(item,position,layers);
-        markers.set(item.call.id, marker);
-      });
-      renderedIncidentLayers.set(key, {layers, markers});
-      continue;
-    }
-    const matchingCluster = group.some(item => sirenIds.has(item.call.id));
-    const newestTimestamp = Math.max(...group.map(item => item.call.timestamp));
-    const clusterTier = markerAgeTier(newestTimestamp);
-    const clusterLabel = `${group.length} calls; newest ${markerAgeLabel(clusterTier)}; zoom or expand`;
-    const cluster = L.marker(center,{icon:L.divIcon({className:`call-cluster age-${clusterTier}${matchingCluster ? ' siren-match' : ''}`,html:String(group.length),iconSize:[40,40],iconAnchor:[20,20]}), title:clusterLabel, alt:clusterLabel})
-      .on('click', () => {
-        if (dispatchMap.getZoom() < 18) dispatchMap.setView(center,Math.min(18,dispatchMap.getZoom()+2));
-        else if (canExpandCluster(group)) { expandedCluster = new Set(group.map(item => item.call.id)); renderMapMarkers(); }
-      }).addTo(callLayer);
-    layers.push(cluster);
-    const selectedItem = group.length > 1 && group.find(item => item.call.id === focusedCallId);
-    if (selectedItem && !canExpandCluster(group)) {
-      const marker = addMarker(selectedItem, selectedItem.coordinates, layers);
-      markers.set(selectedItem.call.id, marker);
-    }
-    renderedIncidentLayers.set(key, {layers, markers});
-  }
-
-  const mapStatusText = locatedCalls.length ? `${locatedCalls.length}/${state.filtered.length} LOCATED` : "NO MAPPED LOCATIONS";
-  els.mapStatus.textContent = mapStatusText;
-  document.querySelector('#mobileMapStatus').textContent = mapStatusText;
-  nearbyOriginLayer?.clearLayers();
-  if (state.nearby && state.radiusKm !== null) {
-    L.circle(state.nearby, { className: 'nearby-radius', radius: state.radiusKm * 1000, color: '#63e6be', weight: 1, opacity: .65, fillOpacity: .035, interactive: false }).addTo(nearbyOriginLayer);
-    L.circleMarker(state.nearby, { className: 'nearby-origin', radius: 6, color: '#fff', weight: 2, fillColor: '#63e6be', fillOpacity: 1, interactive: false }).addTo(nearbyOriginLayer);
-  }
-  if (!mapHasFitted && state.nearby && state.radiusKm !== null) {
-    mapHasFitted = true;
-    dispatchMap.setView(state.nearby, state.radiusKm <= 0.5 ? 15 : state.radiusKm <= 2 ? 14 : 12);
-  } else if (locatedCalls.length && !mapHasFitted) {
-    mapHasFitted = true;
-    dispatchMap.fitBounds(L.latLngBounds(locatedCalls.map(item => item.coordinates)), { padding: [24, 24], maxZoom: 12 });
-  }
-  assertConnectorLayerInvariants();
-  finishMarkers({ locatedCalls: locatedCalls.length, representations: representations.length });
-}
-
 function renderMap() {
   if (!dispatchMap && uxReliabilityFixture?.mapDelayMs) {
     if (!mapInitializationScheduled) {
@@ -1934,7 +1788,7 @@ function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false
 
   if (previouslyFocusedCallId !== callId) updateMarkerAppearance(previouslyFocusedCallId);
   updateMarkerAppearance(callId);
-  const marker = mapMarkers.get(callId);
+  const marker = incidentMarkers.getMarker(callId);
   if (marker) {
     marker.openTooltip();
   }
