@@ -75,8 +75,9 @@ test('[STORY-20] preference changes are written without exact coordinates or tra
 
 test('[STORY-20] UI changes persist through the existing state update paths', async () => {
   const app = await readFile(new URL('../src/app/app.js', import.meta.url), 'utf8');
+const maintenanceSrc = await readFile(new URL('../src/map-maintenance.js', import.meta.url), 'utf8');
   assert.match(app, /function setMobileView\([\s\S]*?scheduleViewMaintenance\(\{ view, mobile, focusSelection, persist \}\)/);
-  assert.match(app, /function scheduleViewMaintenance\([\s\S]*?if \(persist\) \{[\s\S]*?rememberPreferences\(\)/);
+  assert.match(maintenanceSrc, /function scheduleViewMaintenance\([\s\S]*?if \(persist\) \{[\s\S]*?persistPreferences\(\)/);
   assert.match(app, /state\.eventFilter = toggle\.dataset\.eventFilter;[\s\S]*?applyFilters\(\)/);
   assert.match(app, /state\.serviceFilter = event\.target\.value;[\s\S]*?applyFilters\(\)/);
   assert.match(app, /const hours = Number\(event\.target\.value\);[\s\S]*?state\.hours = hours;[\s\S]*?applyFilters\(\)/);

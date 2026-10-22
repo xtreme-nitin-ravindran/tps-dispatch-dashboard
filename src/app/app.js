@@ -26,7 +26,7 @@ import { escapeHtml } from "../html-escape.js";
 import { DISPATCH_GLOSSARY_FOOTER, glossaryDefinition } from "../dispatch-glossary.js?v=glossary-1";
 import { applyTheme, normalizeThemePreference } from "../theme.js";
 import { createRefreshFreshnessTracker } from "../refresh-freshness.js";
-import { mobileMapSheetOverlap, mobileSheetActionLabel, mobileSheetStateAfterDrag, nextMobileSheetState } from "../mobile-bottom-sheet.js";
+import { mobileSheetActionLabel, mobileSheetStateAfterDrag, nextMobileSheetState } from "../mobile-bottom-sheet.js";
 import { capturePoliceBoundaryRenderState, createPoliceBoundaryLayer, diagnosePoliceBoundaryGeometry, policeBoundaryRingCount } from "../police-boundary-overlay.js";
 import { NEARBY_SORT_DEFAULT, sortNearbyCalls } from "../nearby-sort.js";
 import { offlineStatus } from "../offline-status.js";
@@ -39,6 +39,7 @@ import { runSynchronousAuditWork, uxAudit, uxReliabilityFixtureOptions, waitForA
 import { INCIDENT_LIST_BATCH_SIZE, incidentFilterKey, incidentListKey, nextIncidentBatch } from '../incident-list-window.js';
 import { createFrameScheduler } from '../frame-scheduler.js';
 import { createMapPopups } from '../map-popups.js';
+import { createMapMaintenance } from '../map-maintenance.js';
 
 uxAudit.mark('app-bootstrap-begins');
 
@@ -281,202 +282,32 @@ function isMobileViewLayout() {
   return mobileLayoutMedia.matches;
 }
 
-function syncMapAttributionPosition() {
-  // Story 40F: keep the attribution in the lower-right map chrome on every
-  // layout. The previous mobile "topleft" placement put the OpenStreetMap link
-  // directly over the fullscreen/× focus control (Leaflet's .leaflet-top corner
-  // stacks at z-index 1000, above the control), so touching the control opened
-  // the attribution link instead.
-  //
-  // Leaflet inserts bottom-corner controls at the *front* of the corner, so
-  // calling setPosition("bottomright") again would lift the attribution above
-  // the zoom control and, on short mobile maps, into the Road closures / Police
-  // divisions row. The default position is already "bottomright", so only
-  // reposition when the corner actually differs; that keeps the attribution
-  // after the zoom control (below it) and clear of the layer controls.
-  const control = dispatchMap?.attributionControl;
-  if (!control) return;
-  if (control.getPosition?.() !== "bottomright") control.setPosition("bottomright");
-}
-
-let mapMaintenanceFrame = null;
 let mapSheetObserver = null;
-let mapSizeInvalidationPending = false;
 const viewTransitionScheduler = createFrameScheduler();
-function syncMapSheetOverlap() {
-  if (!els.dispatchMap || !mobileBottomSheet) return;
-  const sheetRect = mobileBottomSheet.getBoundingClientRect();
-  const overlap = mobileMapSheetOverlap(
-    els.dispatchMap.getBoundingClientRect(),
-    sheetRect,
-    isMobileViewLayout() && mobileView === "map" && !mobileFocusMode
-  );
-  els.dispatchMap.style.setProperty("--mobile-map-sheet-overlap", `${overlap}px`);
-  // Story 42: the collapsed sheet grows to fit a wrapped summary, so the
-  // focus-mode chrome must reserve the sheet's real rendered height rather than
-  // the nominal 52px collapsed height.
-  if (sheetRect.height > 0) {
-    document.documentElement.style.setProperty("--mobile-sheet-height-actual", `${Math.round(sheetRect.height)}px`);
-  }
-}
-
-// Write a root CSS custom property only when its value actually changes, so the
-// measurement pass cannot thrash layout or re-trigger the ResizeObserver.
-function setRootMetric(name, value) {
-  const next = `${Math.round(value)}px`;
-  if (document.documentElement.style.getPropertyValue(name) === next) return;
-  document.documentElement.style.setProperty(name, next);
-}
-
-// Story 40E: the Road closures / Police divisions layer row wraps taller on some
-// engines (notably iOS Safari), so a fixed offset can place the focus control
-// underneath it. Measure the row's real bottom edge and expose it as a CSS
-// variable the focus control anchors to.
-//
-// Story 41: the Road closures control now sits directly below the Police
-// Divisions control, so its top edge must track the Police Divisions control's
-// real rendered bottom edge (which varies with label wrapping). Measure that
-// bottom edge and expose it as a CSS variable the Road closures control anchors
-// to, keeping the two controls stacked without overlap at every breakpoint.
-//
-// Story 44: the focus-mode floating chrome (navigation band, filter summary,
-// map info) previously chained off hardcoded offsets from the layer row. Those
-// offsets assumed fixed control heights, so a taller focus button, a wrapped
-// navigation band, or a taller summary could push chrome over the map credit or
-// the zoom control. Measure the real rendered boundaries of the focus button,
-// navigation band, filter summary, zoom control, and attribution and expose them
-// as CSS variables the focus-mode rules consume. The measurement runs inside the
-// existing coalesced maintenance frame with no new listeners.
-function syncMobileLayerRowOffset() {
-  const wrap = els.dispatchMap?.closest?.(".map-wrap");
-  const layerRow = wrap?.querySelector?.(".map-layer-toggle");
-  if (!wrap || !layerRow) return;
-  if (mobileFocusMode) {
-    syncMobileFocusChromeMetrics();
-    return;
-  }
-  const wrapTop = wrap.getBoundingClientRect().top;
-  const policeControl = wrap.querySelector(".leaflet-top.leaflet-right .leaflet-control-layers");
-  if (policeControl) {
-    const policeBottom = policeControl.getBoundingClientRect().bottom - wrapTop;
-    document.documentElement.style.setProperty("--police-control-bottom", `${Math.round(policeBottom)}px`);
-  }
-  // The Road closures control is the first .map-layer-toggle; the TTC
-  // disruptions control (when visible) is the last. The TTC control anchors to
-  // the Road closures control's real bottom edge, and the focus control and
-  // focus-mode chrome anchor to the bottom of the whole stack.
-  const roadBottom = layerRow.getBoundingClientRect().bottom - wrapTop;
-  document.documentElement.style.setProperty("--road-control-bottom", `${Math.round(roadBottom)}px`);
-  const toggles = [...wrap.querySelectorAll(".map-layer-toggle")];
-  const stackBottomEl = toggles.filter(el => el.getClientRects().length).pop() || layerRow;
-  const rowBottom = stackBottomEl.getBoundingClientRect().bottom - wrapTop;
-  // Set on the root so both the map-wrap descendants (the focus control) and the
-  // fixed focus-mode chrome (navigation band, summary, map info) can read it.
-  document.documentElement.style.setProperty("--mobile-layer-row-bottom", `${Math.round(rowBottom)}px`);
-  // Story 41: the focus control is vertically centered against the stacked
-  // Police Divisions / Road closures controls, so expose the stack's real
-  // vertical center (measured from the Police Divisions top to the bottom of the
-  // stack) for the focus control to anchor to.
-  if (policeControl) {
-    const stackTop = policeControl.getBoundingClientRect().top - wrapTop;
-    const stackCenter = (stackTop + rowBottom) / 2;
-    document.documentElement.style.setProperty("--mobile-layer-stack-center", `${Math.round(stackCenter)}px`);
-  }
-  syncMobileFocusChromeMetrics();
-}
-
-// Story 44: measure the focus-mode floating chrome's real rendered boundaries.
-// The focus-mode rules are position: fixed, so viewport-relative rectangles are
-// the correct reference (the fixed map stage starts at the viewport top). Only
-// measure while focus mode is active on a mobile layout; otherwise the elements
-// are laid out in the normal page flow and their rectangles are meaningless for
-// the fixed chrome.
-function syncMobileFocusChromeMetrics() {
-  if (!mobileFocusMode || !isMobileViewLayout()) return;
-  const focusToggle = mobileMapFocusToggle;
-  if (focusToggle) {
-    const rect = focusToggle.getBoundingClientRect();
-    if (rect.height > 0) setRootMetric("--mobile-focus-height", rect.height);
-  }
-  const navBand = document.querySelector(".radius-controls");
-  if (navBand) {
-    const rect = navBand.getBoundingClientRect();
-    if (rect.height > 0) setRootMetric("--mobile-nav-bottom", rect.bottom);
-  }
-  if (mobileFocusFilterSummary && !mobileFocusFilterSummary.hidden) {
-    const rect = mobileFocusFilterSummary.getBoundingClientRect();
-    if (rect.height > 0) setRootMetric("--mobile-summary-bottom", rect.bottom);
-  }
-  const zoomControl = wrapQuery(".leaflet-control-zoom");
-  if (zoomControl) {
-    const rect = zoomControl.getBoundingClientRect();
-    if (rect.width > 0) setRootMetric("--mobile-zoom-clearance", window.innerWidth - rect.left);
-  }
-  const attribution = wrapQuery(".leaflet-control-attribution");
-  if (attribution) {
-    const rect = attribution.getBoundingClientRect();
-    if (rect.height > 0) setRootMetric("--mobile-attribution-clearance", window.innerHeight - rect.top);
-  }
-}
-
-function wrapQuery(selector) {
-  return els.dispatchMap?.closest?.(".map-wrap")?.querySelector?.(selector) || null;
-}
-
-function scheduleMapMaintenance({ invalidateSize = false } = {}) {
-  mapSizeInvalidationPending ||= invalidateSize;
-  if (viewTransitionScheduler.pending()) return;
-  if (isMobileViewLayout() && mobileView !== "map") return;
-  if (mapMaintenanceFrame !== null) return;
-  mapMaintenanceFrame = requestAnimationFrame(() => {
-    mapMaintenanceFrame = null;
-    syncMapSheetOverlap();
-    syncMobileLayerRowOffset();
-    if (!mapSizeInvalidationPending) return;
-    mapSizeInvalidationPending = false;
-    const finishInvalidation = uxAudit.begin('view-toggle:leaflet-invalidate-size');
-    captureBoundaryDiagnostic('invalidate-size:before');
-    dispatchMap?.invalidateSize({ pan: false });
-    captureBoundaryDiagnostic('invalidate-size:after');
-    finishInvalidation();
-    queuePoliceBoundaryWork('map-size-invalidated');
-  });
-}
-
-function scheduleViewMaintenance({ view, mobile, focusSelection, persist }) {
-  mapSizeInvalidationPending ||= mobile && view === "map";
-  if (mapMaintenanceFrame !== null) cancelAnimationFrame(mapMaintenanceFrame);
-  mapMaintenanceFrame = null;
-  const generation = viewTransitionScheduler.afterPaint(() => {
-    if (view !== mobileView || mobile !== isMobileViewLayout()) return;
-    uxAudit.mark('view-toggle:first-frame-after-switch', { view, generation });
-    const finishMaintenance = uxAudit.begin('view-toggle:deferred-maintenance', { view, generation });
-    syncMapAttributionPosition();
-    syncMapSheetOverlap();
-    if (mobile && view === "map" && mapSizeInvalidationPending) {
-      mapSizeInvalidationPending = false;
-      const finishInvalidation = uxAudit.begin('view-toggle:leaflet-invalidate-size');
-      captureBoundaryDiagnostic('map-reveal-invalidate-size:before');
-      dispatchMap?.invalidateSize({ pan: false });
-      captureBoundaryDiagnostic('map-reveal-invalidate-size:after');
-      finishInvalidation();
-      queuePoliceBoundaryWork('map-revealed-after-invalidation');
-    }
-    if (focusSelection && mobile && view === "map" && focusedCallId) {
-      const finishSelection = uxAudit.begin('view-toggle:selected-incident-sync');
-      selectCall(focusedCallId, { panIfNeeded: true });
-      finishSelection();
-    }
-    if (persist) {
-      const finishPersistence = uxAudit.begin('view-toggle:preference-persistence');
-      rememberPreferences();
-      finishPersistence();
-    }
-    finishMaintenance();
-    uxAudit.mark('view-toggle:maintenance-complete', { view, generation });
-  });
-  uxAudit.mark('view-toggle:maintenance-scheduled', { view, generation });
-}
+const maintenance = createMapMaintenance({
+  mapElement: els.dispatchMap,
+  bottomSheet: mobileBottomSheet,
+  focusToggle: mobileMapFocusToggle,
+  focusFilterSummary: mobileFocusFilterSummary,
+  getMap: () => dispatchMap,
+  scheduler: viewTransitionScheduler,
+  isMobileLayout: isMobileViewLayout,
+  getMobileView: () => mobileView,
+  isFocusMode: () => mobileFocusMode,
+  audit: uxAudit,
+  captureBoundaryDiagnostic,
+  queuePoliceBoundaryWork,
+  viewStillCurrent: (view, mobile) => view === mobileView && mobile === isMobileViewLayout(),
+  selectFocusedCall: () => selectCall(focusedCallId, { panIfNeeded: true }),
+  persistPreferences: rememberPreferences,
+  getFocusedCallId: () => focusedCallId
+});
+// Thin name bindings preserve the app's listener wiring and the source-text
+// regression pins; the implementations live in map-maintenance.js.
+const scheduleMapMaintenance = options => maintenance.scheduleMaintenance(options);
+const syncMapSheetOverlap = () => maintenance.syncMapSheetOverlap();
+const syncMapAttributionPosition = () => maintenance.syncMapAttributionPosition();
+const wrapQuery = selector => maintenance.wrapQuery(selector);
 
 function syncIncidentListSurface(mobile = isMobileViewLayout()) {
   const host = mobile && mobileView === "map" ? mobileSheetCallList : callsListHome;
@@ -537,7 +368,7 @@ function setMobileView(view, { focusSelection = false, persist = true } = {}) {
     if (boundaryRenderFrame !== null) cancelAnimationFrame(boundaryRenderFrame);
     boundaryRenderFrame = null;
   }
-  scheduleViewMaintenance({ view, mobile, focusSelection, persist });
+  maintenance.scheduleViewMaintenance({ view, mobile, focusSelection, persist });
 }
 
 mobileViewToggles.forEach(toggle => toggle.addEventListener("click", auditInteraction(`view:${toggle.dataset.mobileView}`, () => {

@@ -34,8 +34,9 @@ globalThis.document = previousGlobals.document;
 globalThis.PerformanceObserver = previousGlobals.PerformanceObserver;
 globalThis.setInterval = previousGlobals.setInterval;
 
-const [app, html] = await Promise.all([
+const [app, maintenance, html] = await Promise.all([
   readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
+  readFile(new URL('../src/map-maintenance.js', import.meta.url), 'utf8'),
   readFile(new URL('../index.html', import.meta.url), 'utf8')
 ]);
 
@@ -232,6 +233,6 @@ test('[STORY-38A] Map and Calls instrumentation separates ownership, presentatio
     'view-toggle:deferred-maintenance', 'view-toggle:leaflet-invalidate-size',
     'view-toggle:preference-persistence', 'view-toggle:selected-incident-sync',
     'view-toggle:maintenance-complete'
-  ]) assert.match(app, new RegExp(name));
+  ]) assert.match(app + maintenance, new RegExp(name));
   assert.match(app, /visual-response:\$\{name\}/);
 });
