@@ -10,8 +10,10 @@
 # exclusion checks.
 #
 # Full mode runs its independent checks concurrently. Preparation (image
-# ensure) and the final Git/snapshot checks stay sequential; only the
-# independent validation jobs are scheduled in parallel. The concurrency is
+# ensure) and the Git/snapshot checks stay sequential and run before the
+# independent jobs, so a trivial whitespace or snapshot failure surfaces in
+# about a second instead of after the full pipeline; only the independent
+# validation jobs are scheduled in parallel. The concurrency is
 # bounded by VERIFY_JOBS (default 4, maximum 8). Set VERIFY_JOBS=1 for fully
 # sequential, readable diagnosis. Every required check still runs exactly once
 # regardless of scheduling.
@@ -472,14 +474,9 @@ if [ "$FAST" -eq 1 ]; then
   exit 0
 fi
 
-# --- Full mode: parallel or sequential independent jobs -------------------
-if [ "$JOBS" -eq 1 ]; then
-  run_full_sequential
-else
-  run_full_parallel
-fi
-
-# --- Final Git/snapshot checks (always sequential) ------------------------
+# --- Git/snapshot checks (always sequential, before the heavy jobs) --------
+# A trivial whitespace or snapshot failure must surface in about a second,
+# not after the full pipeline of container jobs.
 echo "==> Checking whitespace (git diff --check)"
 git diff --check
 git diff --cached --check
@@ -487,5 +484,12 @@ git diff --cached --check
 echo "==> Verifying generated snapshot is excluded from code changes"
 git diff --exit-code origin/main...HEAD -- data/current.json
 git diff --exit-code HEAD -- data/current.json
+
+# --- Full mode: parallel or sequential independent jobs -------------------
+if [ "$JOBS" -eq 1 ]; then
+  run_full_sequential
+else
+  run_full_parallel
+fi
 
 echo "==> All required checks passed in $(( $(date +%s) - START_EPOCH ))s"
