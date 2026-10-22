@@ -1,4 +1,3 @@
-import { TTC_STOP_LOOKUP } from './ttc-stops.js';
 
 export const ROAD_FEED = 'https://secure.toronto.ca/opendata/cart/road_restrictions/v3?format=json';
 export const TTC_FEED = 'https://gtfsrt.ttc.ca/alerts/all?format=text';
@@ -75,7 +74,7 @@ function translated(object) {
 }
 // Fixed reason keys for per-entity rejection; never derived from upstream text.
 export const TTC_REJECTION_REASONS = Object.freeze(['missing_id','missing_title','invalid_active_period']);
-export function normalizeTransit(text, now = Date.now(), stopLookup = TTC_STOP_LOOKUP) {
+export function normalizeTransit(text, now = Date.now(), stopLookup = {}) {
   const feed = parseTextProto(text);
   const header = first(feed,'header');
   const timestamp = Number(first(header,'timestamp')) * 1000;
@@ -179,10 +178,10 @@ export function repairIllegalJsonEscapes(text) {
   }
   return { text: output, repaired };
 }
-export async function fetchDisruptionSource(kind, fetchImpl = fetch, now = Date.now()) {
+export async function fetchDisruptionSource(kind, fetchImpl = fetch, now = Date.now(), stopLookup = {}) {
   const response = await fetchImpl(kind === 'roads' ? ROAD_FEED : TTC_FEED, {signal:AbortSignal.timeout(12000)});
   if (!response.ok) throw new Error(`Disruption feed HTTP ${response.status}`);
-  if (kind !== 'roads') return normalizeTransit(await response.text(), now);
+  if (kind !== 'roads') return normalizeTransit(await response.text(), now, stopLookup);
   const body = await response.text();
   try {
     return {...normalizeRoads(JSON.parse(body)), repaired:0};
@@ -193,13 +192,13 @@ export async function fetchDisruptionSource(kind, fetchImpl = fetch, now = Date.
     return {...normalizeRoads(JSON.parse(attempt.text)), repaired:attempt.repaired};
   }
 }
-export async function updateDisruptions(previous = {}, now = new Date(), fetchSource = fetchDisruptionSource, log = entry => console.log(JSON.stringify(entry))) {
+export async function updateDisruptions(previous = {}, now = new Date(), fetchSource = fetchDisruptionSource, log = entry => console.log(JSON.stringify(entry)), stopLookup = {}) {
   const entries = await Promise.all(['roads','transit'].map(async kind => {
     const old = previous?.[kind];
     const age = now.getTime() - Date.parse(old?.checkedAt);
     if (age >= 0 && age < 300000) return [kind,old];
     try {
-      const result = await fetchSource(kind, undefined, now.getTime());
+      const result = await fetchSource(kind, undefined, now.getTime(), stopLookup);
       // Bounded, privacy-safe diagnostics: counts and fixed reason keys only, never raw upstream text.
       if (result.rejected > 0) log({source:kind === 'roads' ? 'toronto-roads' : 'ttc-transit',status:'ok',count:result.items.length,rejected:result.rejected,rejectedReasons:result.rejectedReasons});
       if (result.repaired > 0) log({source:'toronto-roads',status:'ok',count:result.items.length,repaired:result.repaired});

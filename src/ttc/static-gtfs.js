@@ -157,6 +157,12 @@ export function buildStaticIndex(read, version = 'fixture') {
     counts:{routes:routes.size,stops:stops.size,trips:trips.size,patterns:patterns.size,shapes:shapes.size,tripsWithoutStops:[...trips.values()].filter(t => !t.patternId).length}};
 }
 
+// Legacy disruption-path stop lookup: stopId -> [latitude, longitude, name].
+// Every index stop carries validated coordinates; a missing name degrades to ''.
+export function buildStopLookup(index) {
+  return Object.freeze(Object.fromEntries([...index.stops.values()].map(stop => [stop.stopId, [stop.latitude, stop.longitude, stop.stopName || '']])));
+}
+
 export function serviceActive(index, serviceId, date) {
   const exception = index.exceptions.get(`${serviceId}:${date}`);
   if (exception) return exception === 1;

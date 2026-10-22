@@ -10,6 +10,8 @@ import { buildTfsSnapshot } from "../src/pipeline/tfs-snapshot.js";
 import { fetchTpsSource, mergePolice } from "../src/tps/source.js";
 import { enrichLocations } from "../src/pipeline/location-enrichment.js";
 import { createOpenLocationResolver } from "../src/pipeline/open-locations.js";
+import { buildStopLookup } from "../src/ttc/static-gtfs.js";
+import { loadStaticGtfs } from "../src/ttc/static-source.js";
 
 // The history input is optional. A missing file (for example an absent R2 object
 // seeded by the Concourse task) starts a fresh snapshot, exactly as an empty git
@@ -17,7 +19,7 @@ import { createOpenLocationResolver } from "../src/pipeline/open-locations.js";
 // crashing later on an undefined `incidents` array.
 export async function runTfsEtl({
     outputPath = "data/current.json", previousPath, xmlPath,
-    fetchSource = fetchTfsSource, fetchPolice = null, fetchTravel = null, fetchTtc = null, now = new Date(), updatedBy = "manual"
+    fetchSource = fetchTfsSource, fetchPolice = null, fetchTravel = null, fetchTtc = null, loadStatic = null, log = entry => console.log(JSON.stringify(entry)), now = new Date(), updatedBy = "manual"
 } = {}) {
     if (!["manual", "concourse", "github-actions"].includes(updatedBy)) throw new Error("Invalid updater identity");
     let previous = null;
@@ -55,9 +57,24 @@ export async function runTfsEtl({
         };
         snapshot.fetchedAt = now.toISOString();
     }
-    if (fetchTravel) snapshot.disruptions = await fetchTravel(previous?.disruptions, now);
-    else if (previous?.disruptions) snapshot.disruptions = previous.disruptions;
-    if (fetchTtc) snapshot.ttcAlerts = await fetchTtc(previous?.ttcAlerts, now);
+    // The transit stop lookup is built from the shared static GTFS load so the
+    // generated stop table never lives in the repository. A failed static load
+    // degrades to an empty lookup: alerts are preserved, structured stop
+    // coordinates are simply omitted (never invented).
+    let staticLoaded = null;
+    const loadStaticOnce = options => (staticLoaded ??= loadStatic(options));
+    if (fetchTravel) {
+        let stopLookup = {};
+        if (loadStatic) {
+            try {
+                stopLookup = buildStopLookup((await loadStaticOnce({ now, log })).index);
+            } catch (error) {
+                log({ source: 'ttc-transit-stop-lookup', status: 'unavailable', error: error.message });
+            }
+        }
+        snapshot.disruptions = await fetchTravel(previous?.disruptions, now, undefined, undefined, stopLookup);
+    } else if (previous?.disruptions) snapshot.disruptions = previous.disruptions;
+    if (fetchTtc) snapshot.ttcAlerts = await fetchTtc(previous?.ttcAlerts, now, loadStatic ? { loadStatic: loadStaticOnce } : undefined);
     else if (previous?.ttcAlerts) snapshot.ttcAlerts = previous.ttcAlerts;
     if (snapshot.ttcAlerts) {
         try { validateTtcAlerts(snapshot.ttcAlerts, {published:true}); }
@@ -91,6 +108,7 @@ export async function main() {
         fetchPolice: fetchTpsSource,
         fetchTravel: updateDisruptions,
         fetchTtc: updateTtcBackend,
+        loadStatic: loadStaticGtfs,
         updatedBy: process.env.TFS_UPDATED_BY || "manual",
         previousPath: process.env.TFS_PREVIOUS || undefined,
         xmlPath: process.env.TFS_XML || undefined

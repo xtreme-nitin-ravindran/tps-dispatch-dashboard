@@ -1,4 +1,5 @@
 import { updateTtcBackend } from '../src/ttc/backend.js';
+import { loadStaticGtfs } from '../src/ttc/static-source.js';
 import { updateDisruptions } from "../src/disruptions/source.js";
 import { readFile, appendFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -11,7 +12,7 @@ import { needsUpdate } from './lib/data-publication.js';
 // identically whether a snapshot needs an update. Re-exported here to preserve
 // the existing public API of this module.
 export { needsUpdate };
-export async function runFallback({ outputPath = 'data/current.json', now = new Date(), etl = options => runTfsEtl({...options, fetchPolice:fetchTpsSource, fetchTravel:updateDisruptions, fetchTtc:updateTtcBackend}) } = {}) {
+export async function runFallback({ outputPath = 'data/current.json', now = new Date(), etl = options => runTfsEtl({...options, fetchPolice:fetchTpsSource, fetchTravel:updateDisruptions, fetchTtc:updateTtcBackend, loadStatic:loadStaticGtfs}) } = {}) {
   let snapshot;
   try { snapshot = JSON.parse(await readFile(outputPath, 'utf8')); }
   catch (error) { if (error.code !== 'ENOENT') throw error; }
