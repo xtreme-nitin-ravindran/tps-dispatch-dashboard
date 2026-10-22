@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { capturePoliceBoundaryRenderState, createPoliceBoundaryLayer, diagnosePoliceBoundaryGeometry, policeBoundaryRingCount, validatePoliceBoundaryGeoJSON, validateProjectedBoundaryParts } from '../src/police-boundary-overlay.js';
+import { capturePoliceBoundaryRenderState, createPoliceBoundaryLayer, diagnosePoliceBoundaryGeometry, policeBoundaryRingCount, policeBoundarySymbolPositions, policeBoundarySymbolSpacing, validatePoliceBoundaryGeoJSON, validateProjectedBoundaryParts } from '../src/police-boundary-overlay.js';
 
 const bundled = JSON.parse(readFileSync(new URL('../data/police-divisions.geojson', import.meta.url)));
 
@@ -296,4 +296,54 @@ test('[STORY-38E] application lazily creates and reuses an isolated Canvas bound
   assert.match(viewSetter, /view === 'calls'[\s\S]*?policeBoundaryMap\.invalidatePendingWork\('map-hidden-by-calls-view'\)/);
   assert.doesNotMatch(viewSetter, /boundaryDirty|boundaryRenderGeneration/);
   assert.match(boundarySrc, /invalidatePendingWork: reason => \{[\s\S]*?boundaryDirty = true;[\s\S]*?boundaryRenderGeneration \+= 1;[\s\S]*?cancelAnimationFrame/);
+});
+test('[STORY-75] police boundary symbol spacing tracks zoom tiers', () => {
+  assert.equal(policeBoundarySymbolSpacing(10), 220);
+  assert.equal(policeBoundarySymbolSpacing(11), 220);
+  assert.equal(policeBoundarySymbolSpacing(12), 160);
+  assert.equal(policeBoundarySymbolSpacing(13), 160);
+  assert.equal(policeBoundarySymbolSpacing(14), 110);
+  assert.equal(policeBoundarySymbolSpacing(15), 110);
+  assert.equal(policeBoundarySymbolSpacing(16), 80);
+});
+
+function symbolMap(zoom = 16) {
+  return { getZoom: () => zoom, project: coordinate => ({ x: coordinate[0], y: coordinate[1] }) };
+}
+
+test('[STORY-75] badge positions are pixel-spaced along a polygon ring', () => {
+  const ring = [[0, 0], [0, 100], [100, 100], [100, 0], [0, 0]];
+  const boundaries = { type: 'FeatureCollection', features: [{ geometry: { type: 'Polygon', coordinates: [ring] } }] };
+  const positions = policeBoundarySymbolPositions(boundaries, symbolMap(16));
+  assert.equal(positions.length, 5);
+  for (const [x, y] of positions) {
+    assert.ok(x >= 0 && x <= 100 && y >= 0 && y <= 100, 'position must lie inside the ring bounds');
+    assert.equal(Math.min(x, 100 - x, y, 100 - y), 0, 'position must lie on the ring outline');
+  }
+});
+
+test('[STORY-75] badge positions cover MultiPolygon rings and ignore unsupported geometry', () => {
+  const boundaries = {
+    type: 'FeatureCollection',
+    features: [
+      { geometry: { type: 'MultiPolygon', coordinates: [[[[0, 0], [0, 10], [10, 10], [10, 0], [0, 0]]]] } },
+      { geometry: { type: 'Point', coordinates: [5, 5] } }
+    ]
+  };
+  assert.equal(policeBoundarySymbolPositions(boundaries, symbolMap(16)).length, 1);
+});
+
+test('[STORY-75] badge position guards return empty for missing or degenerate input', () => {
+  assert.deepEqual(policeBoundarySymbolPositions(null, symbolMap()), []);
+  assert.deepEqual(policeBoundarySymbolPositions({ type: 'FeatureCollection', features: [] }, symbolMap()), []);
+  assert.deepEqual(policeBoundarySymbolPositions({ features: [{ geometry: { type: 'Polygon', coordinates: [[]] } }] }, symbolMap()), []);
+  assert.deepEqual(policeBoundarySymbolPositions({ features: [{ geometry: { type: 'Polygon', coordinates: [[[0, 0], [0, 0], [0, 0]]] } }] }, symbolMap()), []);
+  // Zero-length segments are skipped while the remaining perimeter still yields a badge.
+  assert.equal(policeBoundarySymbolPositions({ features: [{ geometry: { type: 'Polygon', coordinates: [[[0, 0], [0, 0], [1, 1], [0, 0]]] } }] }, symbolMap()).length, 1);
+});
+
+test('[STORY-75] badge count is bounded per ring even on long outlines', () => {
+  const ring = [[0, 0], [0, 500], [500, 500], [500, 0], [0, 0]];
+  const boundaries = { type: 'FeatureCollection', features: [{ geometry: { type: 'Polygon', coordinates: [ring] } }] };
+  assert.equal(policeBoundarySymbolPositions(boundaries, symbolMap(16)).length, 18);
 });

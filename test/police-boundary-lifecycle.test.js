@@ -22,3 +22,11 @@ test('[STORY-38E] physical debug export is explicit and omits user location data
   assert.match(boundarySrc,/sirento-boundary-debug-/);
   assert.doesNotMatch(boundarySrc.slice(boundarySrc.indexOf('function boundaryDiagnosticExport('),boundarySrc.indexOf('function installBoundaryDebugExport')),/liveLocation|state\.nearby|savedLocations/);
 });
+test('[STORY-75] the police boundary legend and map outline carry a badge glyph', () => {
+  assert.match(boundarySrc, /police-key-wrap/);
+  assert.match(boundarySrc, /sign\.className = 'police-sign'/);
+  assert.match(boundarySrc, /className: 'police-boundary-symbol'/);
+  assert.match(boundarySrc, /policeBoundarySymbolPositions\(boundaryGeojson, map\)/);
+  assert.match(boundarySrc, /renderBoundaryGlyphs\(reason\)/);
+  assert.match(boundarySrc, /renderBoundaryGlyphs\(eventName\)/);
+});

@@ -3,7 +3,7 @@
 // scheduling, and the optional boundary debug panel/export. Extracted from
 // app.js with injectable dependencies; app.js keeps accessor call sites for
 // theme changes, view switches, and preference persistence.
-import { capturePoliceBoundaryRenderState, createPoliceBoundaryLayer, diagnosePoliceBoundaryGeometry, policeBoundaryRingCount } from './police-boundary-overlay.js';
+import { capturePoliceBoundaryRenderState, createPoliceBoundaryLayer, diagnosePoliceBoundaryGeometry, policeBoundaryRingCount, policeBoundarySymbolPositions } from './police-boundary-overlay.js';
 
 export function createPoliceBoundaryMap({
   getMap = () => null,
@@ -41,6 +41,9 @@ export function createPoliceBoundaryMap({
   let boundaryDirty = true;
   let boundaryLifecycleEvent = 'startup';
   let boundaryDebugCapture = null;
+  let boundaryGeojson = null;
+  let boundaryGlyphLayer = null;
+  let boundaryControl = null;
   const boundaryDebugHistory = [];
 
   function mapAllowsBoundaryWork() {
@@ -174,12 +177,56 @@ export function createPoliceBoundaryMap({
     return content;
   }
 
+  function boundaryGlyphIcon() {
+    return L.divIcon({
+      className: 'police-boundary-symbol',
+      html: '<span aria-hidden="true">🚔</span>',
+      iconSize: [20, 20],
+      iconAnchor: [10, 10]
+    });
+  }
+
+  function renderBoundaryGlyphs(reason) {
+    const map = getMap();
+    if (!map || !boundaryGlyphLayer || !boundaryVisible || !boundaryGeojson) return;
+    boundaryGlyphLayer.clearLayers();
+    const positions = policeBoundarySymbolPositions(boundaryGeojson, map);
+    for (const position of positions) {
+      L.marker(position, { icon: boundaryGlyphIcon(), interactive: false, keyboard: false, title: '' }).addTo(boundaryGlyphLayer);
+    }
+    boundaryLifecycleEvent = reason;
+  }
+
+  function clearBoundaryGlyphs() {
+    boundaryGlyphLayer?.clearLayers?.();
+  }
+
+  // The legend key + badge glyph live in Leaflet's built-in layers control, whose
+  // `_update` empties and rebuilds the overlay label on every layer add/remove.
+  // This is therefore idempotent and re-applied on each boundary geometry change.
+  function applyBoundaryLegendGlyph() {
+    const label = boundaryControl?.getContainer?.()?.querySelector('.leaflet-control-layers-overlays label');
+    if (!label) return;
+    label.setAttribute('data-mobile-label', 'Police Divisions');
+    if (label.querySelector('.police-key-wrap')) return;
+    const keyWrap = document.createElement('span');
+    keyWrap.className = 'police-key-wrap';
+    keyWrap.setAttribute('aria-hidden', 'true');
+    const key = document.createElement('span');
+    key.className = 'police-key';
+    const sign = document.createElement('span');
+    sign.className = 'police-sign';
+    keyWrap.append(key, sign);
+    label.insertBefore(keyWrap, label.querySelector('span'));
+  }
+
   async function initializePoliceBoundaries(generation, reason) {
     const map = getMap();
     if (!mapAllowsBoundaryWork() || generation !== boundaryRenderGeneration) return;
     if (divisionGeometryLayer) {
       const finishRender = audit.begin('police-boundary-layer-render', { reason, reused: true });
       if (!map.hasLayer(divisionGeometryLayer)) divisionGeometryLayer.addTo(map);
+      requestAnimationFrame(applyBoundaryLegendGlyph);
       if (boundaryDirty) redrawPoliceBoundaries();
       boundaryDirty = false;
       boundaryLifecycleEvent = reason;
@@ -221,6 +268,13 @@ export function createPoliceBoundaryMap({
         }
       });
       divisionGeometryLayer.addTo(map);
+      if (!boundaryGlyphLayer) {
+        boundaryGlyphLayer = L.layerGroup();
+        boundaryGlyphLayer.addTo(map);
+      }
+      boundaryGeojson = boundaries;
+      renderBoundaryGlyphs(reason);
+      requestAnimationFrame(applyBoundaryLegendGlyph);
       const geometryAfter = diagnosePoliceBoundaryGeometry(boundaries);
       boundaryDirty = false;
       boundaryLifecycleEvent = reason;
@@ -275,18 +329,21 @@ export function createPoliceBoundaryMap({
         if (divisionGeometryLayer && map.hasLayer(divisionGeometryLayer)) {
           map.removeLayer(divisionGeometryLayer);
         }
+        clearBoundaryGlyphs();
+        requestAnimationFrame(applyBoundaryLegendGlyph);
       }
       rememberPreferences();
       finishToggle({ visible: boundaryVisible, constructionDeferred: boundaryVisible && !divisionGeometryLayer });
     });
-    L.control.layers(null, { "Police Divisions": divisionLayer }, {
+    boundaryControl = L.control.layers(null, { "Police Divisions": divisionLayer }, {
       collapsed: false, position: "topright"
-    }).addTo(map);
+    });
+    boundaryControl.addTo(map);
     // Story 40D: keep the full official wording in the DOM/attribution but show a
-    // concise "Police Divisions" label on the compact mobile control.
-    const boundaryControlLabel = map.getContainer()
-      .querySelector('.leaflet-control-layers-overlays label');
-    boundaryControlLabel?.setAttribute('data-mobile-label', 'Police Divisions');
+    // concise "Police Divisions" label on the compact mobile control. The legend
+    // key + badge glyph are applied after the control rebuilds its overlay label
+    // (see applyBoundaryLegendGlyph).
+    requestAnimationFrame(applyBoundaryLegendGlyph);
     syncLayerControls();
     if (boundaryVisible) {
       divisionLayer.addTo(map);
@@ -297,6 +354,7 @@ export function createPoliceBoundaryMap({
       map.on(eventName, () => {
         boundaryLifecycleEvent = eventName;
         if (eventName.endsWith('end') || eventName === 'resize') captureBoundaryDebugAfterPaint(eventName);
+        if (eventName === 'zoomend') renderBoundaryGlyphs(eventName);
       });
     }
     map.on('roadclosureredraw', () => captureBoundaryDebugAfterPaint('road-closure-redraw-complete'));

@@ -293,3 +293,50 @@ export function policeBoundaryRingCount(feature) {
   }
   return 0;
 }
+
+export function policeBoundarySymbolSpacing(zoom) {
+  if (zoom <= 11) return 220;
+  if (zoom <= 13) return 160;
+  if (zoom <= 15) return 110;
+  return 80;
+}
+
+// Pixel-spaced badge positions along every polygon ring, mirroring the
+// road-closure symbol placement so the boundary glyph density tracks zoom.
+export function policeBoundarySymbolPositions(boundaries, map) {
+  if (!map?.project || !boundaries?.features) return [];
+  const positions = [];
+  const project = coordinate => {
+    const point = map.project(coordinate, map.getZoom());
+    return { x: point.x, y: point.y };
+  };
+  const spacing = policeBoundarySymbolSpacing(map.getZoom());
+  const ringPositions = ring => {
+    if (!Array.isArray(ring) || ring.length < 2) return;
+    const segments = [];
+    let total = 0;
+    for (let index = 1; index < ring.length; index += 1) {
+      const a = project(ring[index - 1]);
+      const b = project(ring[index]);
+      const length = Math.hypot(b.x - a.x, b.y - a.y);
+      if (length) { segments.push({ from: ring[index - 1], to: ring[index], length, start: total }); total += length; }
+    }
+    if (!total) return;
+    const count = Math.min(18, Math.max(1, Math.floor(total / spacing)));
+    for (let index = 0; index < count; index += 1) {
+      const distance = total * (index + 1) / (count + 1);
+      const segment = segments.find(candidate => distance <= candidate.start + candidate.length);
+      const ratio = Math.max(0, Math.min(1, (distance - segment.start) / segment.length));
+      positions.push([
+        segment.from[0] + (segment.to[0] - segment.from[0]) * ratio,
+        segment.from[1] + (segment.to[1] - segment.from[1]) * ratio
+      ]);
+    }
+  };
+  for (const feature of boundaries.features) {
+    const geometry = feature?.geometry;
+    if (geometry?.type === 'Polygon') geometry.coordinates?.forEach(ringPositions);
+    else if (geometry?.type === 'MultiPolygon') geometry.coordinates?.forEach(polygon => polygon?.forEach(ringPositions));
+  }
+  return positions;
+}
