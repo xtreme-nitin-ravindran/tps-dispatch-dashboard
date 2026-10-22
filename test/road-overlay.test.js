@@ -283,7 +283,7 @@ test('[SHOULD-11][STORY-25][STORY-41A] road-closure count is hidden beneath the 
  // The count stays in the DOM for assistive technology and the disruptions panel.
  assert.match(html,/<small id="roadOverlayStatus" class="map-layer-status">/);
  assert.match(html,/<span id="roadOverlayLabel">Road closures<\/span>/);
- assert.match(html,/<span aria-hidden="true" class="road-key"><\/span>/);
+ assert.match(html,/<span class="road-key-wrap" aria-hidden="true"><span class="road-key"><\/span><span class="road-sign">[^<]*<\/span><\/span>/);
  // The base (desktop) rule clips the count to a non-visible box.
  const baseStart=css.indexOf('.map-layer-toggle .map-layer-status {');
  const baseRule=css.slice(baseStart,css.indexOf('}',baseStart)+1);

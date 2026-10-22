@@ -29,10 +29,12 @@ function retainedEvidenceCue(item) {
 // `includeEvidenceCue` is false when the caller renders the retained-evidence
 // cue in the always-visible card body instead (desktop list), so it is not
 // duplicated inside the disclosure.
-export function createTtcDetail(item,{includeEvidenceCue=true}={}) {
-  const article=node('article',null,'disruption-item ttc-detail');
+export function createTtcDetail(item,{includeEvidenceCue=true,popupStyle=false}={}) {
+  // Story 74: popupStyle reuses the road-closure bubble chrome (padding, red
+  // kicker, title scale) so the TTC bubble reads like the road bubble.
+  const article=node('article',null,popupStyle ? 'disruption-item ttc-detail closure-detail' : 'disruption-item ttc-detail');
   article.dataset.ttcId=item.id;
-  article.append(node('span',item.source === 'sirento-observed' ? 'SIRENTO OBSERVED DIVERSION' : 'OFFICIAL TTC DISRUPTION','section-kicker'),node('h4',routeLabel(item)),node('p',item.title));
+  article.append(node('span',item.source === 'sirento-observed' ? 'SIRENTO OBSERVED DIVERSION' : 'OFFICIAL TTC DISRUPTION',popupStyle ? 'closure-detail-kicker' : 'section-kicker'),node('h4',routeLabel(item)),node('p',item.title));
   article.append(node('p',item.geography,'disruption-note'));
   if(item.cause) article.append(node('p',item.cause,'disruption-note'));
   if(item.description) article.append(node('p',item.description));
@@ -200,7 +202,7 @@ export function renderTtc(data,map=currentMap,context=latest?.context || {}) {
   if(focusId) [...list.querySelectorAll('.incident-card')].find(el=>el.dataset.ttcId===focusId)?.focus({preventScroll:true});
 }
 export function setTtcVisibility(visible) { controller?.visibility(visible);if(!visible) {clearTtcSelection();currentMap?.fire('ttcselectionexpired');} if(latest) renderTtc(latest.data,latest.map); }
-export function captureTtcRenderState() { return controller?.diagnostics() || {parts:0,layers:0,selected:null,visible:false}; }
+export function captureTtcRenderState() { return controller?.diagnostics() || {parts:0,layers:0,markers:0,selected:null,visible:false}; }
 export function bindTtcListInteractions() {
   const list=document.querySelector('#observedDiversionsList');
   if(!list || list.dataset.ttcBound==='true') return;

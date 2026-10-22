@@ -1085,6 +1085,20 @@ html:not([data-map-load-state]) #dispatchMap.leaflet-container + .map-load-statu
   filter: drop-shadow(0 1px 2px rgba(0,0,0,.7));
 }
 .road-closure-symbol--point span { font-size: 20px; }
+.ttc-line-sign {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.ttc-line-sign span {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  font-size: 15px;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.7));
+}
 /* Story 41: the Road closures control sits directly below the Police Divisions
    control and shares its width. The top edge tracks the Police Divisions
    control's real rendered bottom edge (set by syncMobileLayerRowOffset) so the
@@ -1135,8 +1149,8 @@ html:not([data-map-load-state]) #dispatchMap.leaflet-container + .map-load-statu
 /* The control is only shown when TTC geometry exists; the .map-layer-toggle
    display: grid would otherwise override the hidden attribute. */
 .ttc-overlay-toggle[hidden] { display: none; }
-.ttc-key { width: 24px; height: 0; border-top: 4px solid #007b87; display: inline-block; }
-[data-theme="dark"] .ttc-key { border-top-color: #61dce6; }
+.ttc-key { width: 24px; height: 0; border-top: 4px dashed #2251a8; display: inline-block; }
+[data-theme="dark"] .ttc-key { border-top-color: #8ab4e8; }
 .closure-detail { width: min(300px, 100%); padding: 16px; }
 .closure-detail-kicker { color: var(--road-marker); font: 700 10px/1 "Space Mono", monospace; letter-spacing: .08em; }
 .closure-detail h3 { margin: 7px 0 12px; font-size: 18px; }
@@ -1754,6 +1768,7 @@ footer {
 .map-legend .approximate-key { background: var(--approximate-marker); }
 .map-legend .tps-key { border-radius: 2px; }
 .map-legend .age-key { background: var(--marker-default); }
+.map-legend .ttc-sign { width: auto; height: auto; background: none; border-radius: 0; font-style: normal; }
 .map-legend .age-recent-key { transform: scale(1.2); box-shadow: 0 0 0 2px var(--marker-ring-strong); }
 .map-legend .age-aging-key { opacity: .72; }
 .map-legend .age-old-key { opacity: .52; }
@@ -1943,7 +1958,9 @@ footer {
     top: var(--police-control-bottom, 56px);
     right: 8px;
     left: auto;
-    width: min(280px, calc(100vw - 96px));
+    /* The legend signs widen the controls; the extra cap keeps the repaired-
+       source disclosure on one line inside the control. */
+    width: min(300px, calc(100vw - 96px));
     min-width: 0;
     max-width: none;
     white-space: nowrap;
@@ -1954,6 +1971,10 @@ footer {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
+  /* The legend signs are compacted inside the mobile controls so the labels
+     stay on one line without widening the stack. */
+  .map-layer-toggle :is(.road-sign, .ttc-sign) { font-size: 11px; }
+  .map-layer-toggle :is(.road-key-wrap, .ttc-key-wrap) { gap: 3px; }
   /* The TTC disruptions control stacks directly below Road closures, anchored to
      the Road closures control's measured bottom edge. */
   .ttc-overlay-toggle {
@@ -1966,7 +1987,7 @@ footer {
   }
   .map-panel .leaflet-top.leaflet-right .leaflet-control-layers {
     box-sizing: border-box;
-    width: min(280px, calc(100vw - 96px));
+    width: min(300px, calc(100vw - 96px));
     min-width: 0;
     min-height: 48px;
     margin: 0;
@@ -2325,6 +2346,8 @@ footer {
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip { background: var(--panel-2); color: var(--text); }
 .leaflet-popup-content { margin: 0; }
+.leaflet-popup-content .closure-detail { width: 100%; padding: 16px; }
+.leaflet-popup-content .disruption-item { border-bottom: 0; }
 .incident-card--popup { width: 280px; }
 .leaflet-popup-content .incident-card { border: 0; min-height: 0; cursor: default; }
 .leaflet-popup-content .call-main { padding: 16px; }
@@ -2345,6 +2368,8 @@ footer {
 .disruption-item.selected { background: var(--accent-soft); box-shadow: inset 4px 0 var(--accent), inset 0 0 0 1px var(--accent-line); }
 .road-overlay-toggle { align-items: center; gap: 8px; font-size: 13px; }
 .road-key { width: 24px; height: 0; border-top: 4px dashed var(--road-marker); display: inline-block; }
+.road-key-wrap, .ttc-key-wrap { display: inline-flex; align-items: center; gap: 4px; }
+.road-sign, .ttc-sign { font-size: 13px; line-height: 1; }
 
 .view-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 16px 0; }
 .view-actions button { background: var(--accent); color: var(--on-accent); border: 0; border-radius: 8px; padding: 10px 16px; font: inherit; cursor: pointer; }
@@ -2395,17 +2420,20 @@ footer {
 .source-times-table td { color: var(--muted); }
 .source-times-table th:first-child { width: 30%; }
 
-/* TTC geometry uses shape as well as colour; no filters or theme rebuilds. */
-.ttc-line--scheduled, .ttc-line--affected { stroke: #a44f00; }
-.ttc-line--diversion { stroke: #007b87; }
-[data-theme="dark"] .ttc-line--scheduled, [data-theme="dark"] .ttc-line--affected { stroke: #ffc078; }
-[data-theme="dark"] .ttc-line--diversion { stroke: #61dce6; }
+/* TTC geometry uses shape as well as colour; no filters or theme rebuilds.
+   One deliberately non-red palette: dashed marks declared affected sections,
+   solid marks observed diversion paths. */
+.ttc-line--scheduled, .ttc-line--affected { stroke: #2251a8; }
+.ttc-line--diversion { stroke: #2251a8; }
+[data-theme="dark"] .ttc-line--scheduled, [data-theme="dark"] .ttc-line--affected { stroke: #8ab4e8; }
+[data-theme="dark"] .ttc-line--diversion { stroke: #8ab4e8; }
 .ttc-hit { cursor: pointer; }
-.ttc-legend-line { display: inline-block; width: 26px; border-top: 4px solid #007b87; }
-.ttc-legend-scheduled { border-top: 4px dashed #a44f00; }
-[data-theme="dark"] .ttc-legend-line { border-color: #61dce6; }
-[data-theme="dark"] .ttc-legend-scheduled { border-color: #ffc078; }
+.ttc-legend-line { display: inline-block; width: 26px; border-top: 4px solid #2251a8; }
+.ttc-legend-scheduled { border-top: 4px dashed #2251a8; }
+[data-theme="dark"] .ttc-legend-line { border-color: #8ab4e8; }
+[data-theme="dark"] .ttc-legend-scheduled { border-color: #8ab4e8; }
 .ttc-detail { min-width: 0; overflow-wrap: anywhere; }
+.ttc-detail.closure-detail > h4 { margin: 7px 0 12px; font-size: 18px; }
 .ttc-detail h5 { font-size: 1em; margin: 12px 0 4px; }
 .ttc-detail p { margin-block: 8px; }
 #observedDiversionsList .incident-card { min-height: 0; }

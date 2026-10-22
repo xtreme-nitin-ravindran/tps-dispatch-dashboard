@@ -96,6 +96,42 @@ for(const width of [320,375,390,430,768,1440]) {
  await page.locator('.ttc-hit').first().dispatchEvent('click');
  assert.equal((await diag()).selected,'fixture-detour');
  assert.equal(await page.locator('[data-call-id].selected').count(),0);
+ // Story 74: sign markers ride the TTC lines and open the map bubble on desktop.
+ assert.ok((await diag()).markers>=1);
+ if(width>=768) {
+  await page.locator('.ttc-line-sign').first().dispatchEvent('click');
+  await page.waitForSelector('.leaflet-popup .ttc-detail');
+  assert.equal(await page.locator('.leaflet-popup .ttc-detail').first().isVisible(),true);
+  // The bubble reuses the road-closure chrome: closure-detail article with the
+  // red kicker.
+  // Sequential selections replace the map-level popup content; it never
+  // accumulates duplicate detail blocks.
+  assert.equal(await page.locator('.leaflet-popup article.ttc-detail.closure-detail').count(),1);
+  assert.equal(await page.locator('.leaflet-popup .closure-detail-kicker').first().isVisible(),true);
+  // Story 74 bubble-parity geometry: the article fills the popup content box
+  // edge to edge with symmetric 16px padding and no list-style bottom border.
+  const bubble=await page.evaluate(()=>{
+    const article=document.querySelector('.leaflet-popup article.ttc-detail.closure-detail');
+    const content=document.querySelector('.leaflet-popup .leaflet-popup-content');
+    const a=article.getBoundingClientRect(),c=content.getBoundingClientRect(),s=getComputedStyle(article);
+    return {paddingLeft:s.paddingLeft,paddingRight:s.paddingRight,borderBottomWidth:s.borderBottomWidth,gapLeft:Math.round(a.left-c.left),gapRight:Math.round(c.right-a.right)};
+  });
+  assert.equal(bubble.paddingLeft,'16px');assert.equal(bubble.paddingRight,'16px');
+  assert.equal(bubble.borderBottomWidth,'0px');
+  assert.equal(bubble.gapLeft,0);assert.equal(bubble.gapRight,0);
+ }
+ if(width<=430) {
+  // Story 74: mobile map taps open the bubble too, mirroring the road-closure
+  // bubble (Story 66). The sheet keeps its own live detail node; the bubble is
+  // a separate snapshot so ttcselectionupdated refreshes stay in the sheet.
+  await page.locator('.ttc-line-sign').first().dispatchEvent('click');
+  await page.waitForSelector('.leaflet-popup .ttc-detail');
+  assert.equal(await page.locator('.leaflet-popup').count(),1);
+  assert.equal(await page.locator('.leaflet-popup .ttc-detail').first().isVisible(),true);
+  assert.equal(await page.locator('.leaflet-popup .closure-detail-kicker').first().isVisible(),true);
+  assert.equal(await page.locator('#mobileClosureDetail').isVisible(),true);
+  assert.equal(await page.locator('#mobileClosureDetail .ttc-detail').count(),1);
+ }
  // Refresh/expiration updates the live renderer without replacing the map.
  await page.evaluate(async()=>{
    const ui=await import('./src/ttc/ui.js'),{loadTtcUiFixture}=await import('./src/ttc/fixture.js');
@@ -255,6 +291,7 @@ for(const mode of ['alert-only','multiple','expired','unavailable','empty']) {
  assert.equal(state.citywideCount,'1');
  assert.match(state.citywide,/Line 2 Bloor-Danforth/);
  assert.equal(state.diag.parts,3);
+ assert.ok(state.diag.markers>=2);
  assert.equal(await page.locator('.ttc-line--affected').count(),1);
  const line=await page.locator('.ttc-line--affected').boundingBox(),map=await page.locator('#dispatchMap').boundingBox();
  assert.ok(line.width>0&&line.height>0);assert.ok(line.x>=map.x&&line.y>=map.y&&line.x+line.width<=map.x+map.width&&line.y+line.height<=map.y+map.height,'affected section is inside the visible map');
