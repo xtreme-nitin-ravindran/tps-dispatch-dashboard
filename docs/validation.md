@@ -224,6 +224,8 @@ npm run verify
 It runs:
 
 - Docker image preparation (`scripts/docker-test.sh --ensure-image`, which builds only when the image is missing or its dependency/tooling fingerprint changed) — always sequential, before any container check
+- the whitespace checks (`git diff --check` and `git diff --cached --check`) — always sequential, before the jobs, so a trivial style failure surfaces in about a second
+- both `data/current.json` exclusion checks — always sequential, before the jobs
 - the independent validation jobs, scheduled concurrently with bounded concurrency:
   - full ESLint and Ruff linting (`npm run lint`)
   - browser JavaScript syntax checks (`src/app/app.js` and every `src`/`scripts` `.js` file)
@@ -238,8 +240,6 @@ UTC unit job. The `TZ=America/Los_Angeles` job runs that same offline suite with
 coverage to detect local-time dependencies. Live-source integration tests run only in
 the dedicated `integration` job; neither the unit nor the coverage job contacts live
 sources.
-- whitespace checks (`git diff --check` and `git diff --cached --check`) — always sequential, after the jobs
-- both `data/current.json` exclusion checks — always sequential, after the jobs
 
 Every required check runs exactly once regardless of scheduling. Each job's output is
 captured to its own log so concurrent output never interleaves; a passing job prints a

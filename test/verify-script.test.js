@@ -10,9 +10,10 @@ import { readFile } from "node:fs/promises";
 //
 // Full mode runs its independent checks concurrently with bounded concurrency
 // (VERIFY_JOBS, default 4, maximum 8). These tests pin that contract: every
-// required check still runs exactly once, preparation and the final Git/snapshot
-// checks stay sequential, VERIFY_JOBS=1 is a fully sequential mode, and the
-// scheduler stops launching queued jobs after a failure.
+// required check still runs exactly once, preparation and the Git/snapshot
+// checks stay sequential and run before the heavy jobs, VERIFY_JOBS=1 is a
+// fully sequential mode, and the scheduler stops launching queued jobs after
+// a failure.
 //
 // `npm run verify:fast` is a deliberately reduced inner-loop mode. These tests also
 // pin its contract: it must ensure the image, run full lint and the browser syntax
@@ -91,8 +92,8 @@ test("[STORY-39C] the verify script runs every required check", () => {
 
 test("[STORY-39C] the verify script runs the required checks in the documented order", () => {
   // The full-mode job commands live in the FULL_JOBS table, so assert their
-  // order there. Preparation (image ensure) must precede the full-mode stage,
-  // and the Git/snapshot checks must follow it.
+  // order there. Preparation (image ensure) and the Git/snapshot checks must
+  // precede the full-mode stage.
   const jobOrder = [
     "npm run lint",
     "node scripts/check-requirement-coverage.js",
@@ -111,12 +112,12 @@ test("[STORY-39C] the verify script runs the required checks in the documented o
   const sorted = [...positions].sort((a, b) => a - b);
   assert.deepEqual(positions, sorted, "verify.sh must run the checks in order");
 
-  // Preparation precedes the full-mode stage; the Git checks follow it.
+  // Preparation and the Git checks precede the full-mode stage.
   const ensureIndex = script.indexOf("scripts/docker-test.sh\" --ensure-image");
   const fullModeIndex = script.indexOf("# --- Full mode: parallel or sequential independent jobs");
   const gitIndex = script.indexOf("git diff --check");
-  assert.ok(ensureIndex < fullModeIndex, "the image must be ensured before the full-mode stage");
-  assert.ok(fullModeIndex < gitIndex, "the Git checks must follow the full-mode stage");
+  assert.ok(ensureIndex < gitIndex, "the image must be ensured before the Git checks");
+  assert.ok(gitIndex < fullModeIndex, "the Git checks must precede the heavy full-mode stage");
 });
 
 test("[STORY-45A] the verify script ensures the image before running any container check", () => {
@@ -285,20 +286,23 @@ test("[INFRA-VERIFY] the sequential runner and the mode summaries report elapsed
   assert.ok(script.includes("All required checks passed in $(( $(date +%s) - START_EPOCH ))s"), "the full-mode summary must report overall elapsed time");
 });
 
-test("[STORY-39C] the final Git/snapshot checks stay sequential after the parallel stage", () => {
-  const parallelCall = script.indexOf("run_full_parallel");
+test("[STORY-39C] the Git/snapshot checks run sequentially before the heavy full-mode jobs", () => {
+  // A trivial whitespace or snapshot failure must surface before the container
+  // jobs start; the checks stay plain sequential host commands, never jobs.
   const gitCheck = script.indexOf("git diff --check");
-  assert.ok(parallelCall !== -1 && gitCheck !== -1);
-  assert.ok(parallelCall < gitCheck, "Git checks must run after the parallel stage");
+  const fullModeIndex = script.indexOf("# --- Full mode: parallel or sequential independent jobs");
+  assert.ok(gitCheck !== -1 && fullModeIndex !== -1);
+  assert.ok(gitCheck < fullModeIndex, "Git checks must run before the full-mode stage");
 });
 
 // --- Fast mode -------------------------------------------------------------
 
 // The fast-mode branch is the block that runs after the shared build/lint/syntax
-// steps and exits before the full-mode checks. Isolate it so fast-mode assertions
-// cannot accidentally match full-mode content.
+// steps and exits before the Git/snapshot checks and the full-mode stage.
+// Isolate it so fast-mode assertions cannot accidentally match content that
+// runs only outside the fast branch.
 const fastBranchStart = script.indexOf('if [ "$FAST" -eq 1 ]; then');
-const fastBranchEnd = script.indexOf("# --- Full mode: parallel or sequential independent jobs");
+const fastBranchEnd = script.indexOf("# --- Git/snapshot checks");
 const fastBranch = script.slice(fastBranchStart, fastBranchEnd);
 
 test("[STORY-45B] the verify script parses a leading --fast flag", () => {
