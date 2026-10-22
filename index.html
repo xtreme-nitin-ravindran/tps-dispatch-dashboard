@@ -52,7 +52,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./assets/css/styles.css?v=disruption-popup-2" />
+  <link rel="stylesheet" href="./assets/css/styles.css?v=hardening-1" />
 </head>
 
 <body>
@@ -588,9 +588,13 @@
   </script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./src/app/app.js?v=disruption-popup-2"></script>
+  <script type="module" src="./src/app/app.js?v=hardening-1"></script>
   <script>
-    if ("serviceWorker" in navigator) {
+    // Local previews and the deterministic browser server bypass the shell
+    // cache so the working tree is always served; deployed origins keep the
+    // cached shell (Story 74 hardening: stale shells cost two review cycles).
+    const loopback = ["localhost", "127.0.0.1", "::1"].includes(location.hostname);
+    if ("serviceWorker" in navigator && !loopback) {
       window.addEventListener("load", async () => {
         const audit = new URLSearchParams(location.search).get("uxAudit") === "1";
         if (audit) performance.mark("sirento:service-worker-registration-begins");

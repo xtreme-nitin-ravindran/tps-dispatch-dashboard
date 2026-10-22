@@ -36,7 +36,7 @@ test('[MUST-6][STORY-9] selection clears whenever filtering or refreshed data re
 test('[MUST-6][STORY-9] mobile behavior reuses the desktop selection model and leaves desktop marker behavior intact', () => {
   assert.equal([...app.matchAll(/let focusedCallId = null/g)].length, 1);
   assert.doesNotMatch(app, /mobileSelected|selectedMobile|mobileSelection/);
-  assert.match(app, /if \(!mobile\) setTimeout\(\(\) => event\.target\.openPopup\(\), 0\)/);
+  assert.match(app, /if \(!mobile\) setTimeout\(\(\) => mapPopups\.reopenBound\(event\.target\), 0\)/);
   assert.match(app, /if \(focusSelection && mobile && view === "map" && focusedCallId\)/);
   assert.match(app, /row\.classList\.toggle\("selected", selected\)[\s\S]*?setAttribute\("aria-pressed", String\(selected\)\)/);
 });
@@ -44,5 +44,5 @@ test('[MUST-6][STORY-9] mobile behavior reuses the desktop selection model and l
 test('[MUST-6][STORY-9] desktop list and layout remain the default outside the mobile media query', () => {
   assert.match(app, /const host = mobile && mobileView === "map" \? mobileSheetCallList : callsListHome/);
   assert.match(app, /\[els\.callList\][\s\S]*?handleIncidentListClick/);
-  assert.match(app, /if \(!mobile\) setTimeout\(\(\) => event\.target\.openPopup\(\), 0\)/);
+  assert.match(app, /if \(!mobile\) setTimeout\(\(\) => mapPopups\.reopenBound\(event\.target\), 0\)/);
 });
