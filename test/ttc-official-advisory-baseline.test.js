@@ -131,8 +131,10 @@ test('[STORY-51A] an unrelated GTFS-RT alert never adopts the independently rend
     }]
   };
   const model = ttcPresentation(unrelated, snapshot.ttcDiversions, BASELINE_EPOCH);
-  assert.equal(model.items.length, 2);
-  assert.equal(model.items.find(item => item.id === 'unrelated-alert').diversions.length, 0);
+  // Story 74 P1: a geometry-less alert produces no map card (it stays in the
+  // citywide list) and never adopts the independently rendered observed path.
+  assert.equal(model.items.length, 1);
+  assert.equal(model.items.some(item => item.id === 'unrelated-alert'), false);
   const independent = model.items.find(item => item.source === 'sirento-observed');
   assert.equal(independent.routes[0].id, '94');
   assert.equal(independent.diversions.length, 1);

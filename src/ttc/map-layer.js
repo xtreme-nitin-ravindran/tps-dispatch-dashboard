@@ -10,14 +10,14 @@ export function createTtcLayer(map, leaflet, onSelect) {
   return {
     update(items) {
       const next = new Set();
-      for (const item of items) for (const part of [...item.scheduled,...item.diversions]) {
+      for (const item of items) for (const part of [...item.scheduled,...item.diversions,...(item.affected || [])]) {
         const id = JSON.stringify([item.id,part.kind,part.id]); next.add(id);
         let entry = entries.get(id);
         const key = JSON.stringify(part.geometry);
         if (!entry) {
           const points = part.geometry.map(([lng,lat]) => [lat,lng]);
           const options = {pane:'ttcDisruptionPane',smoothFactor:1};
-          const line = leaflet.polyline(points,{...options,interactive:false,className:`ttc-line ttc-line--${part.kind}`,dashArray:part.kind === 'scheduled' ? '8 7' : undefined}).addTo(group);
+          const line = leaflet.polyline(points,{...options,interactive:false,className:`ttc-line ttc-line--${part.kind}`,dashArray:(part.kind === 'scheduled' || part.kind === 'affected') ? '8 7' : undefined}).addTo(group);
           const hit = leaflet.polyline(points,{...options,weight:24,opacity:0,className:'ttc-hit'}).addTo(group);
           entry = {item,part,line,hit,key};
           hit.on('click',() => onSelect(entry.item,entry.hit));

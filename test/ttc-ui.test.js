@@ -68,12 +68,13 @@ test('[STORY-30F][STORY-30G] developer fixture is loopback-only and rebases fres
   const f=await loadTtcUiFixture({hostname:'localhost',search:'?ttcFixture=confirmed'},fetch,fixture.now+100000);
   assert.equal(ttcPresentation(f.ttcAlerts,f.ttcDiversions,fixture.now+100000).items[0].diversions.length,1);
 });
-test('[STORY-30F][STORY-30G] nearby context uses backend geometry and names without hiding unresolved citywide alerts',()=>{
+test('[STORY-30F][STORY-30G][STORY-74] nearby context uses backend geometry; geometry-less alerts produce no map cards',()=>{
   const model=ttcPresentation(fixture.ttcAlerts,fixture.ttcDiversions,fixture.now,{origin:[43.65,-79.4],radius:1});
   assert.match(model.items[0].geography,/Within selected radius/);
   const alerts=structuredClone(fixture.ttcAlerts);delete alerts.items[0].correlation;
-  const unknown=ttcPresentation(alerts,undefined,fixture.now,{origin:[43.65,-79.4],radius:1});
-  assert.match(unknown.items[0].geography,/Location not mapped/);assert.equal(unknown.items.length,1);
+  // An unresolved alert cannot be located, so it stays in the citywide list
+  // instead of producing a map card that a radius could hide.
+  assert.equal(ttcPresentation(alerts,undefined,fixture.now,{origin:[43.65,-79.4],radius:1}).items.length,0);
 });
 test('[STORY-30F][STORY-30G] fixture modes preserve alert-only, unavailable and multi-disruption semantics and reject failed loads',async()=>{
   const fetch=async()=>({ok:true,json:async()=>structuredClone(fixture)});
@@ -88,7 +89,7 @@ test('[STORY-30F][STORY-30G] fixture modes preserve alert-only, unavailable and 
   await assert.rejects(loadTtcUiFixture({hostname:'localhost',search:'?ttcFixture=confirmed'},async()=>({ok:false})),/Generate/);
 });
 test('[STORY-30F][STORY-30G] missing metadata, active windows and future provenance remain conservative',()=>{
-  const alerts=structuredClone(fixture.ttcAlerts);delete alerts.items[0].correlation;delete alerts.items[0].header;delete alerts.items[0].description;delete alerts.items[0].cause;delete alerts.items[0].effect;
+  const alerts=structuredClone(fixture.ttcAlerts);delete alerts.items[0].correlation.routes;delete alerts.items[0].header;delete alerts.items[0].description;delete alerts.items[0].cause;delete alerts.items[0].effect;
   assert.equal(present(alerts).items[0].routes[0].label,'0504');
   assert.equal(present(alerts).items[0].title,'TTC service disruption');
   alerts.items[0].activePeriods=[{start:new Date(fixture.now+1).toISOString()}];assert.equal(present(alerts).items.length,0);
@@ -99,17 +100,24 @@ test('[STORY-30F][STORY-30G] missing metadata, active windows and future provena
   assert.equal(ttcPresentation(undefined,undefined,fixture.now).items.length,0);
 });
 
-test('[STORY-30F][STORY-30G] sparse metadata preserves official notices, rejects invalid segments and supports outside-radius context',()=>{
+test('[STORY-30F][STORY-30G][STORY-74] sparse metadata preserves official notices, rejects invalid segments and drops beyond-radius cards',()=>{
   const alerts=structuredClone(fixture.ttcAlerts),a=alerts.items[0];
   a.correlation.stops[0].stopName='';
-  a.correlation.candidates[0].affectedSegment.geometryStatus='missing';
   delete a.activePeriods;
-  const model=ttcPresentation(alerts,{status:'ok',checkedAt:new Date(fixture.now).toISOString()},fixture.now,{origin:[44,-80],radius:1});
+  const model=ttcPresentation(alerts,{status:'ok',checkedAt:new Date(fixture.now).toISOString()},fixture.now);
   assert.equal(model.items[0].stops[0].name,a.correlation.stops[0].stopId);
-  assert.equal(model.items[0].scheduled.length,0);assert.equal(model.items[0].diversions.length,0);
-  assert.match(model.items[0].geography,/Citywide alert/);assert.deepEqual(model.items[0].periods,[]);
+  assert.deepEqual(model.items[0].periods,[]);
+  // An invalid projected segment removes the geometry, so no card is produced.
+  a.correlation.candidates[0].affectedSegment.geometryStatus='missing';
+  assert.equal(ttcPresentation(alerts,{status:'ok',checkedAt:new Date(fixture.now).toISOString()},fixture.now).items.length,0);
+  // Without correlation the alert keeps its card through the observed path
+  // attached to it; the scheduled-only route label fallback is gone.
   delete a.correlation;delete a.routes;
-  assert.deepEqual(present(alerts).items[0].routes,[]);
+  const stillMapped=present(alerts);
+  assert.equal(stillMapped.items.length,1);
+  assert.deepEqual(stillMapped.items[0].routes,[]);
+  assert.deepEqual(stillMapped.items[0].scheduled,[]);
+  assert.equal(stillMapped.items[0].diversions.length,1);
   delete alerts.items;assert.deepEqual(present(alerts).items,[]);
 });
 test('[STORY-30F][STORY-30G] snapshot composition preserves unrelated disruption sources',async()=>{
@@ -138,7 +146,7 @@ test('[STORY-30F][STORY-30G] map replacement removes live paths and listeners; u
 import { baselineSnapshot, baselineStaticIndex, observedEastboundDiversion, BASELINE_EPOCH } from './fixtures/ttc-official-advisory/baseline.js';
 import { officialAdvisories } from '../src/ttc/official-advisories.js';
 import { publicTtcGeometry } from '../scripts/publish-ttc-geometry.js';
-import { claimedAdvisoryIds, activeOfficialAdvisories } from '../src/ttc/presentation.js';
+import { claimedAdvisoryIds, activeOfficialAdvisories, affectedStopSection } from '../src/ttc/presentation.js';
 import { advisoryRef } from '../src/ttc/official-advisories.js';
 
 // Build the production-shaped route 94 case: official advisory + healthy-empty
@@ -239,9 +247,11 @@ test('[STORY-51D] 51D: a GTFS-RT alert and an official advisory with the same id
   const alert = {
     id: '102', header: 'GTFS-RT detour', description: '', routes: ['94'], stops: [], activePeriods: [],
     informedEntities: [], source: 'ttc-gtfs-rt', fetchedAt: new Date(c.now).toISOString(),
-    correlation: { status: 'unmatched', routes: [], stops: [], trips: [], routeResults: [], candidates: [] }
+    correlation: { status: 'exact', routes: [{ routeId: '94', routeShortName: '94', routeLongName: 'Wellesley' }], stops: [], trips: [],
+      routeResults: [{ routeId: '94', status: 'exact' }],
+      candidates: [{ patternId: 'collide-pattern', affectedSegment: { geometryStatus: 'projected', geometry: [[-79.38, 43.66], [-79.39, 43.66]] } }] }
   };
-  const feed = { ...c.ttcAlerts, items: [alert] };
+  const feed = { ...c.ttcAlerts, items: [alert], staticCorrelation: { patterns: { 'collide-pattern': { routeId: '94' } } } };
   const model = ttcPresentation(feed, c.ttcDiversions, c.now, { advisories: c.transit });
   // The GTFS-RT item wins the id; the official advisory is not duplicated.
   assert.equal(model.items.length, 1);
@@ -254,6 +264,9 @@ test('[STORY-51D] 51D: nearby context uses the observed geometry for a claimed o
   assert.equal(model.items.length, 1);
   assert.match(model.items[0].geography, /Within selected radius/);
   assert.ok(Number.isFinite(model.items[0].nearestDistance));
+  // Story 74 P1: a claimed advisory beyond the selected radius drops its card.
+  const far = ttcPresentation(c.ttcAlerts, c.ttcDiversions, c.now, { advisories: c.transit, origin: [44, -80], radius: 1 });
+  assert.equal(far.items.length, 0);
 });
 
 test('[STORY-51D] 51D: mergeTtcDisruptions applies an optional transit override without mutating the input', () => {
@@ -380,8 +393,8 @@ test('[STORY-30F][STORY-30G] unassociated real public geometry renders independe
   assert.equal(item.freshness,'Last successfully updated just now.');
   const nearby=ttcPresentation(feed,output,now,{origin:[43.64,-79.42],radius:1}).items[0];
   assert.ok(Number.isFinite(nearby.nearestDistance));assert.match(nearby.geography,/Within selected radius/);
-  const outside=ttcPresentation(feed,output,now,{origin:[44,-80],radius:1}).items[0];
-  assert.match(outside.geography,/Citywide alert/);
+  const outside=ttcPresentation(feed,output,now,{origin:[44,-80],radius:1});
+  assert.equal(outside.items.length,0);
   for(const changed of [
     {...output,status:'unavailable'},
     {...output,checkedAt:new Date(now-120001).toISOString()},
@@ -442,4 +455,100 @@ test('Story 57: official-advisory fixture shifts numeric active-period bounds as
   assert.equal(shifted.transit.items[0].periods[0].start,c.transit.items[0].periods[0].start+7*86400000);
   assert.equal(shifted.transit.items[0].periods[0].end,c.transit.items[0].periods[0].end+7*86400000);
   assert.equal(ttcPresentation(shifted.ttcAlerts,shifted.ttcDiversions,now,{advisories:shifted.transit}).items[0].id,'102');
+});
+
+// ---------------------------------------------------------------------------
+// Story 74 P1 — structured affected sections and radius-scoped map cards.
+// ---------------------------------------------------------------------------
+test('[STORY-74] 74: affected sections collapse same-station platform pairs and require two distinct points',()=>{
+  const section=affectedStopSection([
+    {name:'Kipling Station - Eastbound Platform',coordinates:[43.637648,-79.535694]},
+    {name:'Kipling Station - Subway Platform',coordinates:[43.637392,-79.535892]},
+    null,
+    {name:'Islington Station - Eastbound Platform',coordinates:[43.645548,-79.523293]},
+    {name:'Jane Station - Eastbound Platform',coordinates:[43.650149,-79.482892]}
+  ]);
+  assert.equal(section.length,3);
+  assert.deepEqual(section[0],[-79.535694,43.637648]);
+  // Platform pairs at one station collapse below the two-point threshold.
+  assert.equal(affectedStopSection([
+    {name:'Keele Station - Eastbound Platform',coordinates:[43.6555,-79.4575]},
+    {name:'Keele Station - Westbound Platform',coordinates:[43.6554,-79.4576]}
+  ]),null);
+  // Invalid coordinates are skipped without poisoning the section.
+  assert.deepEqual(affectedStopSection([
+    {name:'A',coordinates:[43.65,-79.4]},
+    {name:'B',coordinates:[Infinity,-79.39]},
+    {name:'C',coordinates:[43.66,-79.41]}
+  ]),[[-79.4,43.65],[-79.41,43.66]]);
+  // Unnamed stops are never deduped, and too-few points yield no section.
+  assert.equal(affectedStopSection([
+    {coordinates:[43.65,-79.4]},{coordinates:[43.65,-79.4]},{coordinates:[43.66,-79.41]}
+  ]).length,3);
+  assert.equal(affectedStopSection([{name:'Only',coordinates:[43.65,-79.4]}]),null);
+  assert.equal(affectedStopSection(undefined),null);
+});
+
+test('[STORY-74] 74: an active service advisory with ordered stops draws an affected section card scoped to the selected radius',()=>{
+  // Coordinate-less entities and absent routes are skipped safely below.
+  const transit={status:'ok',fetchedAt:new Date(fixture.now).toISOString(),items:[{
+    id:'subway-2',title:'Line 2 Bloor-Danforth: no subway service',description:'',effect:'NO SERVICE',routes:['2'],stopIds:['k','i','j','u'],periods:[],
+    affectedEntities:[
+      {routeId:'2',stopId:'k',name:'Kipling Station - Eastbound Platform',coordinates:[43.637648,-79.535694]},
+      {routeId:'2',stopId:'i',name:'Islington Station - Eastbound Platform',coordinates:[43.645548,-79.523293]},
+      {routeId:'2',stopId:'j',name:'Jane Station - Eastbound Platform',coordinates:[43.650149,-79.482892]},
+      {routeId:'2',stopId:'u',name:'Unresolved stop'},
+      null
+    ]
+  }]};
+  const emptyAlerts={...fixture.ttcAlerts,items:[]};
+  const emptyObserved={status:'ok',checkedAt:new Date(fixture.now).toISOString(),diversions:[]};
+  const model=ttcPresentation(emptyAlerts,emptyObserved,fixture.now,{advisories:transit});
+  assert.equal(model.items.length,1);
+  const [item]=model.items;
+  assert.equal(item.id,'subway-2');
+  assert.equal(item.affected.length,1);assert.equal(item.affected[0].kind,'affected');
+  assert.deepEqual(item.affected[0].geometry,[[-79.535694,43.637648],[-79.523293,43.645548],[-79.482892,43.650149]]);
+  assert.equal(item.stops.length,3);
+  // An origin beside the section keeps the card within the radius.
+  const nearby=ttcPresentation(emptyAlerts,emptyObserved,fixture.now,{advisories:transit,origin:[43.65,-79.5],radius:3});
+  assert.equal(nearby.items.length,1);
+  assert.match(nearby.items[0].geography,/Within selected radius/);
+  // A far origin drops the card; the advisory stays in the citywide list.
+  assert.equal(ttcPresentation(emptyAlerts,emptyObserved,fixture.now,{advisories:transit,origin:[44,-80],radius:1}).items.length,0);
+  // A route-less advisory still maps from its structured stops.
+  const noRoutes={...transit,items:[{...transit.items[0],id:'no-routes',routes:undefined,affectedEntities:[{...transit.items[0].affectedEntities[0],name:''},...transit.items[0].affectedEntities.slice(1),null]}]};
+  const routeLess=ttcPresentation(emptyAlerts,emptyObserved,fixture.now,{advisories:noRoutes});
+  assert.equal(routeLess.items.length,1);
+  assert.deepEqual(routeLess.items[0].routes,[]);
+  assert.equal(routeLess.items[0].stops[0].name,routeLess.items[0].stops[0].id);
+});
+
+test('[STORY-74] 74: non-service effects and single-stop advisories never draw an affected section',()=>{
+  const make=(id,effect,entities)=>({status:'ok',fetchedAt:new Date(fixture.now).toISOString(),items:[{id,title:'Advisory',description:'',effect,routes:['2'],stopIds:[],periods:[],affectedEntities:entities}]});
+  const emptyAlerts={...fixture.ttcAlerts,items:[]};
+  const emptyObserved={status:'ok',checkedAt:new Date(fixture.now).toISOString(),diversions:[]};
+  const two=[{name:'A',coordinates:[43.64,-79.5]},{name:'B',coordinates:[43.65,-79.4]}];
+  for(const effect of ['ACCESSIBILITY ISSUE','MODIFIED SERVICE','SERVICE CHANGE']) {
+    assert.equal(ttcPresentation(emptyAlerts,emptyObserved,fixture.now,{advisories:make('x',effect,two)}).items.length,0);
+  }
+  // A DETOUR with a single stop stays list-only (Story 74 P2 decision).
+  assert.equal(ttcPresentation(emptyAlerts,emptyObserved,fixture.now,{advisories:make('d','DETOUR',[two[0]])}).items.length,0);
+});
+
+test('[STORY-74] 74: scheduled alert cards follow the radius while a null radius stays citywide',()=>{
+  assert.equal(ttcPresentation(fixture.ttcAlerts,fixture.ttcDiversions,fixture.now,{origin:[44,-80],radius:1}).items.length,0);
+  assert.equal(ttcPresentation(fixture.ttcAlerts,fixture.ttcDiversions,fixture.now,{origin:[43.65,-79.4],radius:1}).items.length,1);
+  // An origin with a null radius keeps the whole section citywide.
+  assert.equal(ttcPresentation(fixture.ttcAlerts,fixture.ttcDiversions,fixture.now,{origin:[44,-80]}).items.length,1);
+});
+
+test('[STORY-74] 74: the affected fixture mode serves an advisory whose deduped section maps',async()=>{
+  const fetch=async()=>({ok:true,json:async()=>structuredClone(fixture)});
+  const f=await loadTtcUiFixture({hostname:'localhost',search:'?ttcFixture=affected'},fetch,fixture.now);
+  assert.equal(f.transit.items.length,1);
+  assert.equal(f.transit.items[0].effect,'NO SERVICE');
+  const model=ttcPresentation({...f.ttcAlerts,items:[]},{status:'ok',checkedAt:new Date(fixture.now).toISOString(),diversions:[]},fixture.now,{advisories:f.transit});
+  assert.equal(model.items.length,1);
+  assert.deepEqual(model.items[0].affected[0].geometry,[[-79.535694,43.637648],[-79.523293,43.645548],[-79.482892,43.650149]]);
 });

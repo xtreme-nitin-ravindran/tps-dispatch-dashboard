@@ -2396,9 +2396,9 @@ footer {
 .source-times-table th:first-child { width: 30%; }
 
 /* TTC geometry uses shape as well as colour; no filters or theme rebuilds. */
-.ttc-line--scheduled { stroke: #a44f00; }
+.ttc-line--scheduled, .ttc-line--affected { stroke: #a44f00; }
 .ttc-line--diversion { stroke: #007b87; }
-[data-theme="dark"] .ttc-line--scheduled { stroke: #ffc078; }
+[data-theme="dark"] .ttc-line--scheduled, [data-theme="dark"] .ttc-line--affected { stroke: #ffc078; }
 [data-theme="dark"] .ttc-line--diversion { stroke: #61dce6; }
 .ttc-hit { cursor: pointer; }
 .ttc-legend-line { display: inline-block; width: 26px; border-top: 4px solid #007b87; }
