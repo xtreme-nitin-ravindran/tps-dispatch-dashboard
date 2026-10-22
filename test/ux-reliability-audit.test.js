@@ -34,9 +34,10 @@ globalThis.document = previousGlobals.document;
 globalThis.PerformanceObserver = previousGlobals.PerformanceObserver;
 globalThis.setInterval = previousGlobals.setInterval;
 
-const [app, maintenance, html] = await Promise.all([
+const [app, maintenance, boundarySrc, html] = await Promise.all([
   readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
   readFile(new URL('../src/map-maintenance.js', import.meta.url), 'utf8'),
+  readFile(new URL('../src/police-boundary-map.js', import.meta.url), 'utf8'),
   readFile(new URL('../index.html', import.meta.url), 'utf8')
 ]);
 
@@ -213,9 +214,9 @@ test('[STORY-38A] production lifecycle and required interactions expose named au
     'first-leaflet-tile-ready', 'marker-cluster-creation',
     'secondary-feed-preparation', 'road-closure-layer-initialized',
     'police-boundary-layer-initialization', 'first-usable-ui', 'first-fully-rendered-ui'
-  ]) assert.match(app, new RegExp(name));
+  ]) assert.match(app + maintenance + boundarySrc, new RegExp(name));
   for (const name of ['view:', 'radius:', 'filters', 'police-boundaries', 'road-closures', 'incident-selection', 'bottom-sheet']) {
-    assert.match(app, new RegExp(name));
+    assert.match(app + boundarySrc, new RegExp(name));
   }
   assert.match(html, /sirento:html-parsed/);
   assert.match(html, /sirento:service-worker-registration-begins/);

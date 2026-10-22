@@ -2,10 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-const [html, css, app] = await Promise.all([
+const [html, css, app, boundarySrc] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
   readFile(new URL('../assets/css/styles.css', import.meta.url), 'utf8'),
-  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8')
+  readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'),
+  readFile(new URL('../src/police-boundary-map.js', import.meta.url), 'utf8')
 ]);
 const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)';
 const mobileStart = css.indexOf(mobileQuery);
@@ -14,9 +15,9 @@ const desktopRules = css.slice(0, mobileStart);
 
 test('[STORY-37B][STORY-37H][STORY-53B] mobile overlay controls stack with full labels and 44px targets', () => {
   assert.match(html, /class="road-overlay-toggle map-layer-toggle"[\s\S]*?<span id="roadOverlayLabel">Road closures<\/span>/);
-  assert.match(app, /"Police Divisions": divisionLayer/);
+  assert.match(boundarySrc, /"Police Divisions": divisionLayer/);
   assert.equal([...html.matchAll(/id="roadOverlay"/g)].length, 1);
-  assert.equal([...app.matchAll(/L\.control\.layers\(/g)].length, 1);
+  assert.equal([...boundarySrc.matchAll(/L\.control\.layers\(/g)].length, 1);
   // Story 41: Road closures sits directly below Police Divisions and shares its width.
   assert.match(mobileRules, /\.map-layer-toggle \{[\s\S]*?top: var\(--police-control-bottom, 56px\);[\s\S]*?right: 8px;[\s\S]*?left: auto;[\s\S]*?min-height: 48px/);
   assert.match(mobileRules, /\.leaflet-control-layers \{[\s\S]*?min-height: 48px;[\s\S]*?padding: 1px 8px/);
