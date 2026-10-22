@@ -314,7 +314,7 @@ test('[STORY-40D] the boundary control shows a concise mobile label while keepin
   assert.match(boundarySrc, /"Police Divisions": divisionLayer/);
   assert.match(html, /Police division boundaries — Toronto Police Service/);
   // A concise mobile label is attached to the rendered control.
-  assert.match(boundarySrc, /boundaryControlLabel\?\.setAttribute\('data-mobile-label', 'Police Divisions'\)/);
+  assert.match(boundarySrc, /label\.setAttribute\('data-mobile-label', 'Police Divisions'\)/);
   assert.match(mobileRules, /\.map-panel \.leaflet-control-layers-overlays label\[data-mobile-label\]::after \{\s*content: attr\(data-mobile-label\);/);
   // The full text is visually hidden but preserved for assistive tech.
   assert.match(mobileRules, /\.map-panel \.leaflet-control-layers-overlays label\[data-mobile-label\] > span > span \{[\s\S]*?clip-path: inset\(50%\);/);

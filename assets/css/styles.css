@@ -2006,6 +2006,7 @@ footer {
     min-height: 44px;
     display: flex;
     align-items: center;
+    gap: 4px;
     /* Match the Road closures label weight so the two stacked controls read as
        one control group. */
     font-weight: 700;
@@ -2020,6 +2021,20 @@ footer {
     clip-path: inset(50%);
     white-space: nowrap;
   }
+  /* The police badge glyph and key line must stay visible on mobile; the
+     Story 40D rule above clips every nested span under the overlay label
+     (including our injected .police-key-wrap children), so un-clip them. */
+  .map-panel .leaflet-control-layers-overlays label[data-mobile-label] .police-key-wrap span {
+    position: static;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+  }
+  .map-panel .leaflet-control-layers-overlays label[data-mobile-label] .police-key-wrap .police-key {
+    width: 24px;
+    height: 0;
+  }
+  .map-panel .leaflet-control-layers-overlays label .police-sign::before { font-size: 11px; }
   .map-panel .leaflet-control-layers-overlays label[data-mobile-label]::after {
     content: attr(data-mobile-label);
     font-size: 13px;
@@ -2376,6 +2391,11 @@ footer {
 .road-key { width: 24px; height: 0; border-top: 4px dashed var(--road-marker); display: inline-block; }
 .road-key-wrap, .ttc-key-wrap { display: inline-flex; align-items: center; gap: 4px; }
 .road-sign, .ttc-sign { font-size: 13px; line-height: 1; }
+.police-key { width: 24px; height: 0; border-top: 4px solid var(--boundary-marker); display: inline-block; }
+.police-key-wrap { display: inline-flex; align-items: center; gap: 4px; }
+.police-sign::before { content: '🚔'; font-size: 13px; line-height: 1; }
+.police-boundary-symbol { pointer-events: none; }
+.police-boundary-symbol span { font-size: 15px; line-height: 1; }
 
 .view-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 16px 0; }
 .view-actions button { background: var(--accent); color: var(--on-accent); border: 0; border-radius: 8px; padding: 10px 16px; font: inherit; cursor: pointer; }
