@@ -2024,17 +2024,20 @@ footer {
   /* The police badge glyph and key line must stay visible on mobile; the
      Story 40D rule above clips every nested span under the overlay label
      (including our injected .police-key-wrap children), so un-clip them. */
+  .map-panel .leaflet-control-layers-overlays label[data-mobile-label] .police-key-wrap,
   .map-panel .leaflet-control-layers-overlays label[data-mobile-label] .police-key-wrap span {
     position: static;
     overflow: visible;
     clip-path: none;
-    white-space: normal;
+    white-space: nowrap;
+    width: auto;
+    height: auto;
   }
   .map-panel .leaflet-control-layers-overlays label[data-mobile-label] .police-key-wrap .police-key {
     width: 24px;
     height: 0;
   }
-  .map-panel .leaflet-control-layers-overlays label .police-sign::before { font-size: 11px; }
+  .map-panel .leaflet-control-layers-overlays label .police-sign { font-size: 11px; }
   .map-panel .leaflet-control-layers-overlays label[data-mobile-label]::after {
     content: attr(data-mobile-label);
     font-size: 13px;
@@ -2392,8 +2395,8 @@ footer {
 .road-key-wrap, .ttc-key-wrap { display: inline-flex; align-items: center; gap: 4px; }
 .road-sign, .ttc-sign { font-size: 13px; line-height: 1; }
 .police-key { width: 24px; height: 0; border-top: 4px solid var(--boundary-marker); display: inline-block; }
-.police-key-wrap { display: inline-flex; align-items: center; gap: 4px; }
-.police-sign::before { content: '🚔'; font-size: 13px; line-height: 1; }
+.police-key-wrap { display: inline-flex; align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
+.police-sign { font-size: 13px; line-height: 1; }
 .police-boundary-symbol { pointer-events: none; }
 .police-boundary-symbol span { font-size: 15px; line-height: 1; }
 

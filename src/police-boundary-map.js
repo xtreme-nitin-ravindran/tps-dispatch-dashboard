@@ -208,6 +208,8 @@ export function createPoliceBoundaryMap({
     const label = boundaryControl?.getContainer?.()?.querySelector('.leaflet-control-layers-overlays label');
     if (!label) return;
     label.setAttribute('data-mobile-label', 'Police Divisions');
+    const input = label.querySelector('input');
+    input.setAttribute('aria-label', 'Police Divisions');
     if (label.querySelector('.police-key-wrap')) return;
     const keyWrap = document.createElement('span');
     keyWrap.className = 'police-key-wrap';
@@ -216,8 +218,9 @@ export function createPoliceBoundaryMap({
     key.className = 'police-key';
     const sign = document.createElement('span');
     sign.className = 'police-sign';
+    sign.textContent = '🚔';
     keyWrap.append(key, sign);
-    label.insertBefore(keyWrap, label.querySelector('span'));
+    input.after(keyWrap);
   }
 
   async function initializePoliceBoundaries(generation, reason) {
