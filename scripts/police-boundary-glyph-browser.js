@@ -80,13 +80,47 @@ async function assertLegend(page) {
   return state;
 }
 
+async function assertMapCues(page, theme) {
+  await page.evaluate(theme => {
+    document.querySelector('#themePreference').value = theme;
+    document.querySelector('#themePreference').dispatchEvent(new Event('change', { bubbles: true }));
+  }, theme);
+  await awaitUiState(page, () => {
+    const key = document.querySelector('.police-key');
+    const color = getComputedStyle(key).borderTopColor.match(/\d+/g).map(Number);
+    const canvas = document.querySelector('.leaflet-policeBoundary-pane canvas');
+    if (!canvas) return false;
+    const pixels = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+    for (let i = 0; i < pixels.length; i += 4) {
+      if (pixels[i + 3] > 80 && color.every((value, index) => Math.abs(pixels[i + index] - value) < 4)) return true;
+    }
+    return false;
+  }, { description: 'painted police boundary matches legend color' });
+  const state = await page.evaluate(() => {
+    const map = document.querySelector('#dispatchMap').getBoundingClientRect();
+    const visible = [...document.querySelectorAll('.police-boundary-symbol')].filter(marker => {
+      const rect = marker.getBoundingClientRect();
+      const style = getComputedStyle(marker);
+      return marker.textContent === '🚔' && style.visibility === 'visible' && style.display !== 'none' &&
+        rect.width >= 20 && rect.height >= 20 && rect.left >= map.left && rect.right <= map.right && rect.top >= map.top && rect.bottom <= map.bottom;
+    }).length;
+    return { visible, color: getComputedStyle(document.querySelector('.police-key')).borderTopColor };
+  });
+  assert.ok(state.visible > 0, 'glyphs must have visible geometry inside the map');
+  assert.equal(state.color, theme === 'light' ? 'rgb(126, 34, 206)' : 'rgb(192, 132, 252)');
+}
+
 async function assertToggleRebuild(page) {
+  const before = await page.locator('.police-boundary-symbol').count();
   await page.getByLabel('Police Divisions', { exact: true }).uncheck();
   await awaitUiState(page, () => document.querySelectorAll('.police-boundary-symbol').length === 0 && document.querySelector('.police-sign'), { description: 'boundary off and rebuilt legend' });
   await assertLegend(page);
   await page.getByLabel('Police Divisions', { exact: true }).check();
-  await awaitUiState(page, () => document.querySelector('.police-sign') && document.querySelector('.leaflet-control-layers-overlays input').checked, { description: 'enabled boundary legend rebuilt' });
+  await awaitUiState(page, () => document.querySelector('.police-sign') && document.querySelector('.leaflet-control-layers-overlays input').checked && document.querySelectorAll('.police-boundary-symbol').length > 0, { description: 'enabled boundary legend rebuilt' });
   await assertLegend(page);
+  assert.equal(await page.locator('.police-boundary-symbol').count(), before, 'all glyphs must return without zooming');
+  await assertMapCues(page, 'light');
+  await assertMapCues(page, 'dark');
 }
 
 async function loadAndWait(page, label) {

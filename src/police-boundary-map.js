@@ -231,6 +231,7 @@ export function createPoliceBoundaryMap({
       if (!map.hasLayer(divisionGeometryLayer)) divisionGeometryLayer.addTo(map);
       requestAnimationFrame(applyBoundaryLegendGlyph);
       if (boundaryDirty) redrawPoliceBoundaries();
+      renderBoundaryGlyphs(reason);
       boundaryDirty = false;
       boundaryLifecycleEvent = reason;
       finishRender();

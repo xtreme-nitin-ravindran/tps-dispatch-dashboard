@@ -307,7 +307,7 @@ export function policeBoundarySymbolPositions(boundaries, map) {
   if (!map?.project || !boundaries?.features) return [];
   const positions = [];
   const project = coordinate => {
-    const point = map.project(coordinate, map.getZoom());
+    const point = map.project([coordinate[1], coordinate[0]], map.getZoom());
     return { x: point.x, y: point.y };
   };
   const spacing = policeBoundarySymbolSpacing(map.getZoom());
@@ -328,8 +328,8 @@ export function policeBoundarySymbolPositions(boundaries, map) {
       const segment = segments.find(candidate => distance <= candidate.start + candidate.length);
       const ratio = Math.max(0, Math.min(1, (distance - segment.start) / segment.length));
       positions.push([
-        segment.from[0] + (segment.to[0] - segment.from[0]) * ratio,
-        segment.from[1] + (segment.to[1] - segment.from[1]) * ratio
+        segment.from[1] + (segment.to[1] - segment.from[1]) * ratio,
+        segment.from[0] + (segment.to[0] - segment.from[0]) * ratio
       ]);
     }
   };
