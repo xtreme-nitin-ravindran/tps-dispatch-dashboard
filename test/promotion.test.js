@@ -47,6 +47,7 @@ test('[INFRA-CI] only tested dev SHA can be promoted without a duplicate Pages r
   assert.equal(calls.find(c=>c.path==='pulls/1/merge').body.sha,'tested');
   assert.deepEqual(calls.find(c=>c.path==='git/refs/heads/dev').body,{sha:'merged',force:false});
   assert.ok(!calls.some(c=>c.path.startsWith('pages/')), 'branch publishing must be the only Pages trigger');
+  assert.match(calls.find(c=>c.path==='pulls').body.body, /Live-source integration tests are excluded from this promotion gate/);
 });
 test('[INFRA-CI] superseded dev, empty diffs and other branches cannot promote',async()=>{
   for(const options of [{head:'newer'},{files:[]}]) {

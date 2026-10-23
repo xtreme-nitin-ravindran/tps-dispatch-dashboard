@@ -22,7 +22,7 @@ const comparison = api('compare/main...dev');
 if (!comparison.files.length) { console.log('No changes to promote.'); return; }
 const owner = repo.split('/')[0];
 const prs = api(`pulls?state=open&base=main&head=${owner}:dev`);
-const pr = prs[0] || api('pulls','POST',{base:'main',head:'dev',title:'Promote tested dev changes',body:'Automatically promote dev after both timezone unit suites, syntax checks, and live-source integration tests pass. Main branch protection remains enforced.'});
+const pr = prs[0] || api('pulls','POST',{base:'main',head:'dev',title:'Promote tested dev changes',body:'Automatically promote dev after the required All tests (Docker) check passes. Application changes require both timezone offline suites, exact 100/100/100 coverage, Python tests, lint, syntax checks, requirement traceability, and the generated-snapshot guard. Documentation-only changes use the conservative classifier. Live-source integration tests are excluded from this promotion gate because upstream availability is unreliable. Main branch protection remains enforced.'});
 console.log(`Pull request: ${pr.html_url}`);
 // The SHA condition prevents merging commits that arrived after this run tested.
 let merged;
