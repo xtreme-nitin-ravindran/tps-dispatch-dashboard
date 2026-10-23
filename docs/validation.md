@@ -177,6 +177,9 @@ to `main`, and weekly on the default branch, with a manual trigger for diagnosis
 It preserves Actions, JavaScript/TypeScript, and Python analysis. Pushes to `dev`
 do not trigger a scan, including the promotion merge synced back from `main`.
 CodeQL is separate from the required `All tests (Docker)` promotion check.
+Promotion explicitly dispatches the scan on `main` after a successful merge:
+GitHub suppresses ordinary push workflows for merges made with `GITHUB_TOKEN`.
+Only the promotion job has the additional `actions: write` permission.
 
 When activating this workflow, disable CodeQL **default setup** in the repository's
 security settings as part of publishing the advanced workflow. Default setup blocks
