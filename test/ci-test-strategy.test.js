@@ -31,7 +31,6 @@ test("[INFRA-CI] GitHub Actions enforces the promotion gates without repeating t
     "npm run test:python",
     "npm run lint",
     "node scripts/check-requirement-coverage.js",
-    "node --check src/app/app.js",
     "find src scripts",
     "npm run test:coverage"
   ];
@@ -41,6 +40,24 @@ test("[INFRA-CI] GitHub Actions enforces the promotion gates without repeating t
   }
   assert.match(github, /TZ=America\/Los_Angeles/);
   assert.match(github, /TZ=UTC[^\n]*NODE_V8_COVERAGE=\/tmp\/coverage/);
+  assert.doesNotMatch(github, /node --check src\/app\/app\.js/);
+  assert.doesNotMatch(github, /npm run test:integration/);
+});
+
+test("[INFRA-CI] CodeQL scans incoming dev PRs and deployed main without duplicate dev push scans", async () => {
+  const codeql = await readFile(new URL(".github/workflows/codeql.yml", root), "utf8");
+  assert.match(codeql, /push:\n {4}branches: \[main\]/);
+  assert.match(codeql, /pull_request:\n {4}branches: \[dev\]/);
+  assert.match(codeql, /schedule:\n {4}- cron: "17 7 \* \* 1"/);
+  assert.match(codeql, /workflow_dispatch:/);
+  assert.doesNotMatch(codeql, /branches: \[dev, main\]|pull_request_target:/);
+  assert.match(codeql, /language: \[actions, javascript-typescript, python\]/);
+  assert.match(codeql, /security-events: write/);
+  assert.doesNotMatch(codeql, /contents: write/);
+  assert.match(codeql, /group: codeql-\$\{\{ github.workflow \}\}-\$\{\{ github.ref \}\}/);
+  assert.match(codeql, /cancel-in-progress: true/);
+  assert.match(codeql, /github\/codeql-action\/init@v4/);
+  assert.match(codeql, /github\/codeql-action\/analyze@v4/);
 });
 
 test("[INFRA-CI] the incident output stays rooted in the declared task output before changing directory", () => {

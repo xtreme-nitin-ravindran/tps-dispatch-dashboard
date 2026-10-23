@@ -170,7 +170,29 @@ verify. It is not the executable list and may lag the suite; run
 
 `npm run test:python` runs the files in `test/python/` using Python 3’s standard-library unittest runner. It verifies street endpoints, coordinate order and rounding, node deduplication, postal-area filtering and labels, repeatable output, and preservation of the existing index when inputs fail. Tests use temporary fixtures and do not download data or modify the bundled index.
 
+### CodeQL security scanning
+
+`.github/workflows/codeql.yml` uses advanced setup to scan PRs into `dev`, pushes
+to `main`, and weekly on the default branch, with a manual trigger for diagnosis.
+It preserves Actions, JavaScript/TypeScript, and Python analysis. Pushes to `dev`
+do not trigger a scan, including the promotion merge synced back from `main`.
+CodeQL is separate from the required `All tests (Docker)` promotion check.
+
+When activating this workflow, disable CodeQL **default setup** in the repository's
+security settings as part of publishing the advanced workflow. Default setup blocks
+advanced analysis uploads; adding the YAML alone does not complete the migration.
+Verify a successful advanced run after publication. Until publication, retain the
+existing default setup so security scanning continues.
+
 ### Live-source integration tests
+
+GitHub's promotion workflow deliberately excludes live-source integration tests:
+upstream outages must not block an otherwise passing code change. The required
+`All tests (Docker)` check retains the deterministic offline suites, both timezones,
+exact 100/100/100 coverage, Python tests, lint, syntax, traceability, and snapshot
+checks. Local `npm run verify` still includes the live suite; record upstream
+failures separately after one bounded endpoint probe, rather than claiming a
+fully passing verification run.
 
 The live integration suite has one test file per data source. `npm run test:integration` runs all eight files, including TFS. To check a single source, run `node --test test/tps-source.integration.test.js` (substitute the file below):
 

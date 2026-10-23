@@ -66,7 +66,6 @@ jobs:
       - name: Check browser JavaScript syntax
         if: needs.changes.outputs.docs_only != 'true'
         run: |
-          node --check src/app/app.js
           find src scripts -name "*.js" -exec node --check {} \;
 
       - name: Run canonical offline suite with coverage (TZ=UTC)
