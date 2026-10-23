@@ -61,6 +61,6 @@ test('[STORY-29A][STORY-29C] opaque mobile surfaces resolve to readable light an
 });
 
 test('[STORY-29A][STORY-29C] the revised mobile stylesheet replaces the cached app-shell asset', () => {
-  assert.match(html, /styles\.css\?v=police-glyphs-1/);
-  assert.match(serviceWorker, /CACHE_VERSION = "sirento-shell-v79"/);
+  assert.match(html, /styles\.css\?v=police-glyphs-safari-1/);
+  assert.match(serviceWorker, /CACHE_VERSION = "sirento-shell-v80"/);
 });
