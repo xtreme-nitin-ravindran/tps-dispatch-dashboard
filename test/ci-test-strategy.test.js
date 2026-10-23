@@ -58,6 +58,9 @@ test("[INFRA-CI] CodeQL scans incoming dev PRs and deployed main without duplica
   assert.match(codeql, /cancel-in-progress: true/);
   assert.match(codeql, /github\/codeql-action\/init@v4/);
   assert.match(codeql, /github\/codeql-action\/analyze@v4/);
+  assert.match(github, /pull-requests: write\n {6}actions: write/);
+  const promotion = await readFile(new URL("scripts/promote-dev.js", root), "utf8");
+  assert.match(promotion, /api\('actions\/workflows\/codeql.yml\/dispatches','POST',\{ref:'main'\}\)/);
 });
 
 test("[INFRA-CI] the incident output stays rooted in the declared task output before changing directory", () => {

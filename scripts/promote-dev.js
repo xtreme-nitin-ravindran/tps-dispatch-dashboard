@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 export function githubApi(repo, path, method = 'GET', body, exec = execFileSync) {
-return JSON.parse(exec('gh', ['api', `repos/${repo}/${path}`, '--method', method, ...(body ? ['--input', '-'] : [])], {input:body ? JSON.stringify(body) : undefined,encoding:'utf8'}));
+return JSON.parse(exec('gh', ['api', `repos/${repo}/${path}`, '--method', method, ...(body ? ['--input', '-'] : [])], {input:body ? JSON.stringify(body) : undefined,encoding:'utf8'}) || 'null');
 }
 export function delay(ms, timer = setTimeout) {
 return new Promise(resolve => timer(resolve, ms));
@@ -31,6 +31,8 @@ for (let attempt=0; attempt<6; attempt++) {
   catch (error) { if (attempt===5) throw error; await sleep(5000); }
 }
 if (!merged?.merged) throw Error('Protected PR was not merged');
+// GITHUB_TOKEN merges suppress push workflows; dispatch the deployed scan explicitly.
+api('actions/workflows/codeql.yml/dispatches','POST',{ref:'main'});
 // Fast-forward dev to the merge commit only if nobody has pushed newer work.
 if (api('git/ref/heads/dev').object.sha === sha) {
   try { api('git/refs/heads/dev','PATCH',{sha:merged.sha,force:false}); }

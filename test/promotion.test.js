@@ -32,6 +32,7 @@ test('[INFRA-CI] GitHub API wrapper serializes requests and retry delays use the
     {input:'{"head":"dev"}',encoding:'utf8'}
   ]);
   assert.deepEqual(githubApi('owner/repo','pulls','GET',undefined,()=>'{"total_count":0}'),{total_count:0});
+  assert.equal(githubApi('owner/repo','actions/workflows/codeql.yml/dispatches','POST',{ref:'main'},()=>''),null);
   let waited;
   await delay(5000,(resolve,ms)=>{waited=ms;resolve();});
   assert.equal(waited,5000);
@@ -47,6 +48,9 @@ test('[INFRA-CI] only tested dev SHA can be promoted without a duplicate Pages r
   assert.equal(calls.find(c=>c.path==='pulls/1/merge').body.sha,'tested');
   assert.deepEqual(calls.find(c=>c.path==='git/refs/heads/dev').body,{sha:'merged',force:false});
   assert.ok(!calls.some(c=>c.path.startsWith('pages/')), 'branch publishing must be the only Pages trigger');
+  const scan=calls.findIndex(c=>c.path==='actions/workflows/codeql.yml/dispatches');
+  assert.ok(scan>calls.findIndex(c=>c.path==='pulls/1/merge'));
+  assert.deepEqual(calls[scan].body,{ref:'main'});
   assert.match(calls.find(c=>c.path==='pulls').body.body, /Live-source integration tests are excluded from this promotion gate/);
 });
 test('[INFRA-CI] superseded dev, empty diffs and other branches cannot promote',async()=>{
@@ -59,6 +63,7 @@ test('[INFRA-CI] superseded dev, empty diffs and other branches cannot promote',
 test('[INFRA-CI] branch protection rejection never updates branches or deploys',async()=>{
   const {api,calls}=mock({reject:true}); await assert.rejects(promote({...defaults,api}));
   assert.ok(!calls.some(c=>c.path==='pages/builds'||c.method==='PATCH'));
+  assert.ok(!calls.some(c=>c.path==='actions/workflows/codeql.yml/dispatches'));
 });
 
 test('[INFRA-CI] reuses existing PR, retries a transient rejection and protects concurrent dev changes', async()=>{
@@ -69,11 +74,13 @@ test('[INFRA-CI] reuses existing PR, retries a transient rejection and protects 
   if(path==='compare/main...dev') return {files:[{}]};
   if(path.startsWith('pulls?')) return [{number:7,html_url:'https://example.test/7'}];
   if(path==='pulls/7/merge') {if(++merges===1) throw Error('pending');return {merged:true,sha:'merged'};}
+  if(path==='actions/workflows/codeql.yml/dispatches') return null;
   throw Error(`Unexpected mutation ${path}`);
  };
  await promote({...defaults,api,sleep:async ms=>{assert.equal(ms,5000);sleeps++;}});
  assert.equal(sleeps,1);assert.equal(merges,2);
- assert.ok(!calls.some(c=>c.method==='POST'||c.method==='PATCH'));
+ assert.ok(!calls.some(c=>(c.path==='pulls'&&c.method==='POST')||c.method==='PATCH'));
+ assert.equal(calls.filter(c=>c.path==='actions/workflows/codeql.yml/dispatches').length,1);
  assert.throws(()=>api('unexpected'), /Unexpected mutation unexpected/);
 });
 
