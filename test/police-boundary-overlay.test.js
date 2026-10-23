@@ -347,3 +347,22 @@ test('[STORY-75] badge count is bounded per ring even on long outlines', () => {
   const boundaries = { type: 'FeatureCollection', features: [{ geometry: { type: 'Polygon', coordinates: [ring] } }] };
   assert.equal(policeBoundarySymbolPositions(boundaries, symbolMap(16)).length, 18);
 });
+
+test('[STORY-75] GeoJSON longitude/latitude is converted for Leaflet projection and markers', () => {
+  const ring = [[-79.4, 43.6], [-79.4, 43.7], [-79.3, 43.7], [-79.3, 43.6], [-79.4, 43.6]];
+  const map = {
+    getZoom: () => 16,
+    project: ([lat, lng]) => {
+      assert.ok(lat >= 43.6 && lat <= 43.7, 'Leaflet projection receives latitude first');
+      assert.ok(lng >= -79.4 && lng <= -79.3, 'Leaflet projection receives longitude second');
+      return { x: lng * 10000, y: lat * 10000 };
+    }
+  };
+  const positions = policeBoundarySymbolPositions({ features: [{ geometry: { type: 'Polygon', coordinates: [ring] } }] }, map);
+  assert.ok(positions.length > 0);
+  for (const [lat, lng] of positions) {
+    assert.ok(lat >= 43.6 && lat <= 43.7, 'markers receive Toronto latitude first');
+    assert.ok(lng >= -79.4 && lng <= -79.3, 'markers receive Toronto longitude second');
+    assert.ok(lat === 43.6 || lat === 43.7 || lng === -79.4 || lng === -79.3, 'marker lies on the original ring');
+  }
+});

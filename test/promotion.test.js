@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { chmodSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { chmodSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { delay, githubApi, main, promote } from '../scripts/promote-dev.js';
@@ -110,7 +110,12 @@ test('[INFRA-CI] promotion CLI completes a successful dev promotion',()=>{
  const bin=mkdtempSync(join(tmpdir(),'promotion-cli-'));
  try {
   const gh=join(bin,'gh');
+  const requests=join(bin,'requests.jsonl');
   writeFileSync(gh,`#!/bin/sh
+# Read request bodies before responding, matching gh api --input -.
+case "$*" in
+ *'--input -'*) cat >> "$PROMOTION_REQUESTS"; printf '\\n' >> "$PROMOTION_REQUESTS" ;;
+esac
 case "$*" in
  *git/ref/heads/dev*) echo '{"object":{"sha":"tested"}}' ;;
  *compare/main...dev*) echo '{"files":[{}]}' ;;
@@ -121,9 +126,14 @@ esac
 `);
   chmodSync(gh,0o755);
   const result=spawnSync(process.execPath,['scripts/promote-dev.js'],{
-   encoding:'utf8',env:{...process.env,PATH:`${bin}:${process.env.PATH}`,GITHUB_REPOSITORY:'owner/repo',GITHUB_SHA:'tested',GITHUB_REF:'refs/heads/dev'}
+   encoding:'utf8',env:{...process.env,PATH:`${bin}:${process.env.PATH}`,PROMOTION_REQUESTS:requests,GITHUB_REPOSITORY:'owner/repo',GITHUB_SHA:'tested',GITHUB_REF:'refs/heads/dev'}
   });
   assert.equal(result.status,0,result.stderr);
   assert.match(result.stdout,/Merged https:\/\/example.test\/1/);
+  assert.deepEqual(readFileSync(requests,'utf8').trim().split('\n').map(line=>JSON.parse(line)),[
+   {sha:'tested',merge_method:'merge'},
+   {ref:'main'},
+   {sha:'merged',force:false}
+  ]);
  } finally { rmSync(bin,{recursive:true,force:true}); }
 });
