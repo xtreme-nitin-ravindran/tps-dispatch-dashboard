@@ -62,7 +62,7 @@ export function claimedAdvisoryIds(observed,advisories,now=Date.now()) {
   }
   return claimed;
 }
-export function ttcPresentation(feed, observed, now = Date.now(), {origin=null,radius=null,advisories=null} = {}) {
+export function ttcPresentation(feed, observed, now = Date.now(), {origin=null,radius=null,advisories=null,detours=null} = {}) {
   const observedUsable=artifactFresh(observed,now);
   const available=availableDiversions(observed,now);
   const patterns = feed?.staticCorrelation?.patterns || {};
@@ -130,6 +130,18 @@ export function ttcPresentation(feed, observed, now = Date.now(), {origin=null,r
       geography,nearestDistance:Number.isFinite(nearest)?nearest:null,cause:advisory.effect.replaceAll('_',' ').toLowerCase(),periods:advisoryPeriods(advisory.periods),
       freshness:sourceStatusText('TTC disruption',advisories,now),observedUnavailable:!observedUsable});
   }
+  // Story 76: TTC-published detour shapes from the GTFS-RT TripModifications
+  // feed. These are official temporary routes, never inferred geometry; each
+  // renders as its own solid-line card with the TTC-published diversion label.
+  for (const detour of activeTtcDetours(detours,now)) {
+    const part={id:detour.id,routeId:detour.routeId,geometry:detour.geometry,kind:'diversion',observedAt:detours.checkedAt,source:'ttc-official',label:'TTC-published detour',sourceUnavailable:detours.status!=='ok'};
+    const nearest=origin ? roadDistance({line:detour.geometry.map(([lng,lat])=>[lat,lng])},origin) : Infinity;
+    if (!withinRadius(nearest)) continue;
+    const id=`ttc-detour:${detour.id}`;
+    items.set(id,{id,source:'ttc-official',title:'TTC-published detour',description:'',routes:[{id:detour.routeId,label:detour.routeLabel}],stops:[],scheduled:[],diversions:[part],
+      geography:geographyFor(nearest,origin,radius),nearestDistance:Number.isFinite(nearest)?nearest:null,cause:'',periods:[],
+      freshness:sourceStatusText('TTC detour',{status:detours.status,fetchedAt:detours.checkedAt},now),observedUnavailable:detours.status!=='ok'});
+  }
   // Independently confirmed observations can exist without an official alert.
   // Empty association lists must not discard otherwise usable public geometry.
   for (const d of available) {
@@ -144,6 +156,12 @@ export function ttcPresentation(feed, observed, now = Date.now(), {origin=null,r
   }
   return {items:[...items.values()].sort((a,b)=>(a.nearestDistance ?? Infinity)-(b.nearestDistance ?? Infinity)),status:sourceStatus('TTC disruption',feed,now).status,freshness:sourceStatusText('TTC disruption',feed,now)};
 }
-export function mergeTtcDisruptions(data, feed, observed, transit) {
-  return {...data,...(transit ? {transit} : {}),ttcAlerts:feed,ttcDiversions:observed};
+export function mergeTtcDisruptions(data, feed, observed, transit, detours) {
+  return {...data,...(transit ? {transit} : {}),ttcAlerts:feed,ttcDiversions:observed,...(detours ? {ttcDetours:detours} : {})};
+}
+
+// Story 76: TTC-published detour shapes are usable only while the feed is fresh.
+// A stale or unavailable feed never draws published geometry.
+export function activeTtcDetours(feed, now = Date.now()) {
+  return fresh(feed?.fetchedAt, now, 3600000) ? (feed.detours || []) : [];
 }

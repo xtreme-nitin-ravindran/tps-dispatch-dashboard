@@ -314,5 +314,63 @@ for(const mode of ['alert-only','multiple','expired','unavailable','empty']) {
  assert.deepEqual(errors,[]);
  results.push({mode:'affected',...state});await page.close();
 }
+// Story 76: TTC-published detour shapes (GTFS-RT TripModifications) render as
+// solid diversion lines with the TTC-published diversion label. The desktop
+// scenario asserts the card/label contract and the bubble; a second scenario
+// asserts the mobile breakpoint so the published shapes cannot regress there.
+{
+ const page=await browser.newPage({viewport:{width:1440,height:900}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&ttcFixture=detours`,{waitUntil:'networkidle'});
+ await awaitFixtureReady(page);
+ await page.waitForSelector('#observedDiversionsList .incident-card',{state:'attached'});
+ const state=await page.evaluate(async()=>({
+   diag:(await import('./src/ttc/ui.js')).captureTtcRenderState(),
+   cards:document.querySelectorAll('#observedDiversionsList .incident-card').length,
+   ids:[...document.querySelectorAll('#observedDiversionsList .incident-card')].map(n=>n.dataset.ttcId),
+   legend:document.querySelector('#ttcLegend-diversion')?.lastChild?.textContent
+ }));
+ assert.equal(state.cards,2);
+ assert.deepEqual(state.ids,['ttc-detour:detour-75-fixture','ttc-detour:detour-504-fixture']);
+ assert.equal(state.diag.parts,2);
+ assert.equal(await page.locator('.ttc-line--diversion').count(),2);
+ assert.equal(await page.locator('.ttc-line--scheduled, .ttc-line--affected').count(),0);
+ assert.match(state.legend,/TTC-published/);
+ await page.locator('#observedDiversionsList .incident-card').first().click();
+ const line=await page.locator('.ttc-line--diversion').first().boundingBox(),map=await page.locator('#dispatchMap').boundingBox();
+ assert.ok(line.width>0&&line.height>0);assert.ok(line.x>=map.x&&line.y>=map.y&&line.x+line.width<=map.x+map.width&&line.y+line.height<=map.y+map.height,'published detour is inside the visible map');
+ await page.locator('.ttc-line-sign').first().dispatchEvent('click');
+ await page.waitForSelector('.leaflet-popup .ttc-detail');
+ assert.equal(await page.locator('.leaflet-popup .closure-detail-kicker').first().isVisible(),true);
+ assert.match(await page.locator('.leaflet-popup .ttc-detail').first().innerText(),/Temporary route published by TTC/);
+ await page.locator('#disruptions').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/detours-desktop.png`});
+ assert.deepEqual(errors,[]);
+ results.push({mode:'detours-desktop',...state});await page.close();
+}
+// Mobile-breakpoint assertion: the published shapes render inside the visible
+// map at 390px with the same two-card contract.
+{
+ const page=await browser.newPage({viewport:{width:390,height:900}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&ttcFixture=detours&mobileAuditView=calls`,{waitUntil:'networkidle'});
+ await awaitFixtureReady(page);
+ await page.waitForSelector('#observedDiversionsList .incident-card',{state:'attached'});
+ const state=await page.evaluate(async()=>({
+   diag:(await import('./src/ttc/ui.js')).captureTtcRenderState(),
+   cards:document.querySelectorAll('#observedDiversionsList .incident-card').length
+ }));
+ assert.equal(state.cards,2);assert.equal(state.diag.parts,2);
+ await page.locator('button[data-mobile-view="map"]').click();
+ await page.waitForFunction(()=>document.documentElement.dataset.mobileView==='map');
+ const map=await page.locator('#dispatchMap').boundingBox();
+ assert.ok(map.width>0&&map.height>0);
+ for(const line of await page.locator('.ttc-line--diversion').all()) {
+   const box=await line.boundingBox();
+   assert.ok(box&&box.width>0&&box.height>0);
+   const overlaps=box.x<=map.x+map.width&&box.x+box.width>=map.x&&box.y<=map.y+map.height&&box.y+box.height>=map.y;
+   assert.ok(overlaps,'mobile published detour intersects the visible map');
+ }
+ await page.screenshot({path:`${out}/detours-mobile.png`});
+ assert.deepEqual(errors,[]);
+ results.push({mode:'detours-mobile',...state});await page.close();
+}
 } finally {await timing.time('browser-close',()=>browser.close());await writeFile(`${out}/results.json`,JSON.stringify(results,null,2));console.log(timing.format({format:timingFormat,label:'test:ttc-ui:browser'}));}
 console.log(JSON.stringify(results.map(result=>({...result,text:undefined})),null,2));

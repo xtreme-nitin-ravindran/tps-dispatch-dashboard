@@ -190,7 +190,7 @@ test('[DATA-ETL] protobuf to lifecycle to published JSON reader; invalid TTC can
 });
 test('[DATA-ETL] transit stop lookup is built once from static GTFS and shared with the TTC backend', async t => {
     const outputPath = join(await workspace(t), 'current.json');
-    const index = {stops:new Map([['A',{stopId:'A',stopName:'Alpha',latitude:43.65,longitude:-79.38}]])};
+    const index = {stops:new Map([['A',{stopId:'A',stopCode:'SA',stopName:'Alpha',latitude:43.65,longitude:-79.38}]])};
     let loads = 0;
     const travel = [];
     const logs = [];
@@ -203,7 +203,7 @@ test('[DATA-ETL] transit stop lookup is built once from static GTFS and shared w
         log: entry => logs.push(entry)
     });
     assert.equal(loads, 1);
-    assert.deepEqual(travel[0][4], {A:[43.65,-79.38,'Alpha']});
+    assert.deepEqual(travel[0][4], {SA:[43.65,-79.38,'Alpha']});
     assert.equal(shared.index, index);
     assert.deepEqual(logs, []);
 });

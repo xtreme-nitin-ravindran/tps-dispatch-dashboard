@@ -6,11 +6,12 @@ import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import bindings from 'gtfs-realtime-bindings';
-import { buildStaticIndex, buildStopLookup, csvRows, zipTables, serviceActive } from '../src/ttc/static-gtfs.js';
+import { buildStaticIndex, buildStopCodeLookup, csvRows, zipTables, serviceActive } from '../src/ttc/static-gtfs.js';
 import { correlateState, projectStop, validateCorrelation } from '../src/ttc/correlation.js';
 import { loadStaticGtfs } from '../src/ttc/static-source.js';
 import { updateTtcBackend } from '../src/ttc/backend.js';
 import { parseTtcAlerts, updateTtcAlerts, validateTtcAlerts } from '../src/ttc/alerts.js';
+import { updateTtcDetours } from '../src/ttc/trip-modifications.js';
 import { runTfsEtl } from '../scripts/tfs-etl.js';
 const now = new Date('2026-09-28T16:00:00Z');
 const names = ['routes.txt','stops.txt','trips.txt','stop_times.txt','shapes.txt','calendar.txt','calendar_dates.txt'];
@@ -268,13 +269,51 @@ test('[STORY-30C][STORY-30G] correlation schema rejects corrupt catalog, metadat
  test('[STORY-30C][STORY-30G] deflated GTFS ZIP members decode to the same validated network as stored members',()=>{
   assert.deepEqual(buildStaticIndex(zipTables(zip(tables,true))),buildStaticIndex(zipTables(zip())));
 });
-test('[STORY-30C] stop lookups are frozen id-to-coordinate-name triples', () => {
-  const lookup = buildStopLookup(index);
-  assert.deepEqual(lookup.A, [43.65005, -79.4, 'Alpha']);
-  assert.deepEqual(lookup.E, [43.651, -79.399, 'Echo']);
+test('[STORY-30C][STORY-30G] stop-code lookups are frozen code-to-coordinate-name triples', () => {
+  const lookup = buildStopCodeLookup(index);
+  assert.deepEqual(lookup.SA, [43.65005, -79.4, 'Alpha']);
+  assert.deepEqual(lookup.SE, [43.651, -79.399, 'Echo']);
   assert.ok(Object.isFrozen(lookup));
 });
-test('[STORY-30C] a stop with no name degrades to an empty name string', () => {
-  const bare = indexFor({'stops.txt': 'stop_id,stop_name,stop_lat,stop_lon\nA,,43.65005,-79.4\nB,Bravo,43.65,-79.399\nC,Charlie,43.65,-79.398\nD,Delta,43.65,-79.397\nE,Echo,43.651,-79.399\n'});
-  assert.deepEqual(buildStopLookup(bare).A, [43.65005, -79.4, '']);
+test('[STORY-30C][STORY-30G] a stop with no name degrades to an empty name string', () => {
+  const bare = indexFor({'stops.txt': 'stop_id,stop_code,stop_name,stop_lat,stop_lon\nA,SA,,43.65005,-79.4\nB,SB,Bravo,43.65,-79.399\nC,SC,Charlie,43.65,-79.398\nD,SD,Delta,43.65,-79.397\nE,SE,Echo,43.651,-79.399\n'});
+  assert.deepEqual(buildStopCodeLookup(bare).SA, [43.65005, -79.4, '']);
+});
+test('[STORY-76] alert stop codes resolve through stop_code, never the colliding stop_id namespace', () => {
+  // Real collision from the 75 Sherbourne advisory: alert stop 7310 is
+  // "Sherbourne St at Carlton St" via stop_code, while surface stop_id 7310 is
+  // "Kipling Ave at Albion Rd" - a different physical stop across the city.
+  const collision = tables['stops.txt'] + 'X,7310,"Sherbourne St at Carlton St",43.66305,-79.372904\n7310,Y,"Kipling Ave at Albion Rd",43.739168,-79.579932\n';
+  const lookup = buildStopCodeLookup(indexFor({'stops.txt': collision}));
+  assert.deepEqual(lookup['7310'], [43.66305, -79.372904, 'Sherbourne St at Carlton St']);
+  assert.deepEqual(lookup.Y, [43.739168, -79.579932, 'Kipling Ave at Albion Rd']);
+  assert.equal(lookup.X, undefined);
+});
+test('[STORY-76] the ETL wires ttcDetours through the shared static index with retained fallbacks', async () => {
+  const dir = await mkdtemp(join(tmpdir(),'ttc-detours-etl-'));
+  try {
+    const payload = {entity:[{id:'shape-1',shape:{shapeId:'sh1',encodedPolyline:'okliG~xrcNSgE'}},{id:'d1',tripModifications:{selectedTrips:[{tripIds:['t1','t2'],shapeId:'sh1'}],serviceDates:['20260928'],modifications:[]}}]};
+    const fetchTtcDetours = (previous, date, options) => updateTtcDetours(previous, date, {...options, fetchSource: async () => payload});
+    const loadStatic = async () => ({index,metadata:{status:'ok'},metrics:{}});
+    const source = async () => ({updatedAt:now.toISOString(),incidents:[]});
+    const first = await runTfsEtl({outputPath:join(dir,'current.json'),now,fetchTtcDetours,loadStatic,fetchSource:source});
+    assert.equal(first.ttcDetours.status,'ok');assert.equal(first.ttcDetours.detours.length,1);
+    assert.equal(JSON.parse(await readFile(join(dir,'current.json'),'utf8')).ttcDetours.detours[0].routeLabel,'504 King');
+    // A failed static load degrades to the retained, unavailable artifact.
+    const brokenStatic = await runTfsEtl({outputPath:join(dir,'current.json'),now,fetchTtcDetours,loadStatic:async()=>{throw new Error('offline');},fetchSource:source});
+    assert.equal(brokenStatic.ttcDetours.status,'unavailable');assert.equal(brokenStatic.ttcDetours.detours.length,1);
+    // No static loader at all degrades the same way without crashing the ETL.
+    const noStatic = await runTfsEtl({outputPath:join(dir,'current.json'),now,fetchTtcDetours,fetchSource:source});
+    assert.equal(noStatic.ttcDetours.status,'unavailable');
+    // Without a detour fetch configured, a previous artifact is carried forward.
+    const carried = await runTfsEtl({outputPath:join(dir,'current.json'),now,fetchSource:source});
+    assert.equal(carried.ttcDetours.status,'unavailable');assert.equal(carried.ttcDetours.detours.length,1);
+  } finally { await rm(dir,{recursive:true,force:true}); }
+});
+test('[STORY-76] duplicate stop codes are rejected and stops without a code are omitted', () => {
+  const dup = indexFor({'stops.txt': tables['stops.txt'] + 'X,SA,"Extra",43.6,-79.3\n'});
+  assert.throws(() => buildStopCodeLookup(dup), /Duplicate GTFS stop code: SA/);
+  const bare = indexFor({'stops.txt': tables['stops.txt'] + 'X,,"NoCode",43.6,-79.3\n'});
+  assert.deepEqual(buildStopCodeLookup(bare).SA, [43.65005, -79.4, 'Alpha']);
+  assert.equal(buildStopCodeLookup(bare).X, undefined);
 });

@@ -147,6 +147,7 @@ is a dependency/tooling snapshot, not a source snapshot.
 - Features or bugs involving external, live, timing-sensitive, browser-specific, or otherwise nondeterministic state must have a deterministic local fixture or test path when practical.
 - Keep fixture/test-only behavior clearly separated from production behavior.
 - Guard test-only fixtures so they cannot accidentally activate in production.
+- In `assert.throws`/`assert.rejects` cases, mutate a named artifact variable and pass the artifact itself — never inline `mutate(artifact())`, whose return value is the mutation result (often falsy), which can silently fail every case at a top-level check while the test passes (Story 76's schema cases did exactly this until the coverage gate exposed it).
 - Tests that exercise a publication phase's **default** sink must be environment-independent: inject a deterministic sink (or supply the `R2_*` credentials explicitly) so the phase does not depend on ambient credentials. R2 is the only publication target since the git `data` branch was retired in Story 55E; the default sink is built lazily and fails loudly when the four `R2_*` values are missing, so a fresh skip never requires credentials.
 - Cover meaningful states such as:
   - normal data
@@ -194,6 +195,7 @@ Preserve these product semantics in both logic and UI:
 - Do not infer causality between TTC disruptions, road closures, emergency incidents, or other events unless an authoritative source explicitly establishes it.
 - Do not infer geographic precision from free-form text.
 - If TTC geography cannot be resolved from structured data, preserve the alert but do not invent map geometry.
+- TTC stop-ID namespaces (Story 76): alert and Service-Changes feeds reference stops by the complete-scheme stop code, which equals `surfacegtfs.zip`'s `stop_code` column; only surface realtime (bustime) stop IDs match surface `stop_id`. Resolve alert stops through `buildStopCodeLookup` (code-keyed), never `stop_id`, and keep the Story 30C correlation path `stop_id`-keyed.
 - Clearly distinguish SirenTO-observed or inferred information from official-source information.
 - Preserve zero, stale, unavailable, and retained-data semantics when changing UI or data flow.
 
