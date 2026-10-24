@@ -205,6 +205,7 @@ The live integration suite has one test file per data source. `npm run test:inte
 | `test/tps-source.integration.test.js` | TPS call sample and normalization. |
 | `test/road-restrictions-source.integration.test.js` | Road restrictions through the production parser. |
 | `test/ttc-alerts-source.integration.test.js` | TTC alerts through the production parser and feed timestamp. |
+| `test/ttc-trip-modifications-source.integration.test.js` | TTC-published detour shapes: the live TripModifications feed carries self-consistent shape references and decodable polylines. |
 | `test/police-boundaries-source.integration.test.js` | TPS boundary polygon sample. |
 | `test/centreline-source.integration.test.js` | Centreline street and intersection fields. |
 | `test/geonames-source.integration.test.js` | GeoNames Canada archive and Toronto postal coordinates. |

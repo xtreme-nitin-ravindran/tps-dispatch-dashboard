@@ -1,7 +1,7 @@
 export async function loadTtcUiFixture(locationLike=globalThis.location,fetchImpl=fetch,now=Date.now()) {
   if(!['localhost','127.0.0.1','::1'].includes(locationLike?.hostname)) return null;
   const mode=new URLSearchParams(locationLike.search).get('ttcFixture');
-  if(!['confirmed','alert-only','multiple','unavailable','expired','empty','official-advisory','affected'].includes(mode)) return null;
+  if(!['confirmed','alert-only','multiple','unavailable','expired','empty','official-advisory','affected','detours'].includes(mode)) return null;
   // Story 51D: the official-advisory scenario uses the route 94 baseline fixture
   // where an active official Service Change receives confirmed observed geometry.
   if(mode==='official-advisory') {
@@ -31,6 +31,16 @@ export async function loadTtcUiFixture(locationLike=globalThis.location,fetchImp
         {routeId:'2',stopId:'j-eb',name:'Jane Station - Eastbound Platform',coordinates:[43.650149,-79.482892]}
       ],url:'https://www.ttc.ca/service-advisories/all-service-alerts'}]
     };
+  }
+  // Story 76: TTC-published detour shapes (GTFS-RT TripModifications) render as
+  // solid lines with the TTC-published diversion label. The mode clears every
+  // other TTC source so the two published shapes are the only cards/lines.
+  if(mode==='detours') {
+    result.ttcAlerts.items=[];result.ttcDiversions.diversions=[];
+    result.ttcDetours={schemaVersion:1,status:'ok',fetchedAt:new Date(now).toISOString(),checkedAt:new Date(now).toISOString(),detours:[
+      {id:'detour-75-fixture',shapeId:'detour-75-shape',routeId:'75',routeLabel:'75 Sherbourne',directionId:1,serviceDates:[],tripCount:4,startStopSequence:10,endStopSequence:11,geometry:[[-79.3722,43.655],[-79.3727,43.66],[-79.3724,43.665],[-79.3728,43.67]]},
+      {id:'detour-504-fixture',shapeId:'detour-504-shape',routeId:'504',routeLabel:'504 King',directionId:0,serviceDates:[],tripCount:7,startStopSequence:3,endStopSequence:6,geometry:[[-79.402,43.645],[-79.391,43.6453],[-79.38,43.6456]]}
+    ]};
   }
   if(mode==='alert-only' || mode==='expired') result.ttcDiversions.diversions=[];
   if(mode==='unavailable') {result.ttcAlerts.status='unavailable';result.ttcDiversions.status='unavailable';}

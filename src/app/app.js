@@ -757,7 +757,7 @@ async function fetchSnapshot() {
     const finishNormalization = uxAudit.begin('incident-normalization');
     const snapshot = {
       calls: payload.incidents.map(row => normalizeCall(row)).sort((a, b) => b.timestamp - a.timestamp),
-      disruptions: mergeTtcDisruptions(payload.disruptions,ttcFixture?.ttcAlerts,ttcFixture?.ttcDiversions,ttcFixture?.transit),
+      disruptions: mergeTtcDisruptions(payload.disruptions,ttcFixture?.ttcAlerts,ttcFixture?.ttcDiversions,ttcFixture?.transit,ttcFixture?.ttcDetours),
       feeds: payload.feeds,
       fetchedAt: payload.fetchedAt,
       updatedAt: payload.sourceUpdatedAt
@@ -798,7 +798,7 @@ async function fetchSnapshot() {
   const snapshot = {
     calls: rows.map(row => normalizeCall(row))
       .sort((a, b) => b.timestamp - a.timestamp),
-    disruptions: mergeTtcDisruptions(withTtcNearbyFixture(payload.disruptions),ttcFixture?.ttcAlerts || payload.ttcAlerts,ttcFixture?.ttcDiversions || ttcGeometry),
+    disruptions: mergeTtcDisruptions(withTtcNearbyFixture(payload.disruptions),ttcFixture?.ttcAlerts || payload.ttcAlerts,ttcFixture?.ttcDiversions || ttcGeometry,undefined,ttcFixture?.ttcDetours || payload.ttcDetours),
     feeds: payload.feeds,
     fetchedAt: payload.fetchedAt || null,
     updatedAt: payload.sourceUpdatedAt || payload.fetchedAt || null

@@ -10,7 +10,7 @@ import { buildTfsSnapshot } from "../src/pipeline/tfs-snapshot.js";
 import { fetchTpsSource, mergePolice } from "../src/tps/source.js";
 import { enrichLocations } from "../src/pipeline/location-enrichment.js";
 import { createOpenLocationResolver } from "../src/pipeline/open-locations.js";
-import { buildStopLookup } from "../src/ttc/static-gtfs.js";
+import { buildStopCodeLookup } from "../src/ttc/static-gtfs.js";
 import { loadStaticGtfs } from "../src/ttc/static-source.js";
 
 // The history input is optional. A missing file (for example an absent R2 object
@@ -19,7 +19,7 @@ import { loadStaticGtfs } from "../src/ttc/static-source.js";
 // crashing later on an undefined `incidents` array.
 export async function runTfsEtl({
     outputPath = "data/current.json", previousPath, xmlPath,
-    fetchSource = fetchTfsSource, fetchPolice = null, fetchTravel = null, fetchTtc = null, loadStatic = null, log = entry => console.log(JSON.stringify(entry)), now = new Date(), updatedBy = "manual"
+    fetchSource = fetchTfsSource, fetchPolice = null, fetchTravel = null, fetchTtc = null, fetchTtcDetours = null, loadStatic = null, log = entry => console.log(JSON.stringify(entry)), now = new Date(), updatedBy = "manual"
 } = {}) {
     if (!["manual", "concourse", "github-actions"].includes(updatedBy)) throw new Error("Invalid updater identity");
     let previous = null;
@@ -58,16 +58,19 @@ export async function runTfsEtl({
         snapshot.fetchedAt = now.toISOString();
     }
     // The transit stop lookup is built from the shared static GTFS load so the
-    // generated stop table never lives in the repository. A failed static load
-    // degrades to an empty lookup: alerts are preserved, structured stop
-    // coordinates are simply omitted (never invented).
+    // generated stop table never lives in the repository. It is keyed by the
+    // complete-scheme stop code (surfacegtfs stop_code), because the TTC alert
+    // feeds reference stops in that namespace, never the surface stop_id
+    // namespace (Story 76). A failed static load degrades to an empty lookup:
+    // alerts are preserved, structured stop coordinates are simply omitted
+    // (never invented).
     let staticLoaded = null;
     const loadStaticOnce = options => (staticLoaded ??= loadStatic(options));
     if (fetchTravel) {
         let stopLookup = {};
         if (loadStatic) {
             try {
-                stopLookup = buildStopLookup((await loadStaticOnce({ now, log })).index);
+                stopLookup = buildStopCodeLookup((await loadStaticOnce({ now, log })).index);
             } catch (error) {
                 log({ source: 'ttc-transit-stop-lookup', status: 'unavailable', error: error.message });
             }
@@ -76,6 +79,17 @@ export async function runTfsEtl({
     } else if (previous?.disruptions) snapshot.disruptions = previous.disruptions;
     if (fetchTtc) snapshot.ttcAlerts = await fetchTtc(previous?.ttcAlerts, now, loadStatic ? { loadStatic: loadStaticOnce } : undefined);
     else if (previous?.ttcAlerts) snapshot.ttcAlerts = previous.ttcAlerts;
+    // Story 76: TTC-published detour shapes (GTFS-RT TripModifications) join the
+    // static GTFS trip table. A failed static load degrades to a retained,
+    // unavailable artifact rather than dropping or inventing geometry.
+    if (fetchTtcDetours) {
+        let detoursIndex;
+        if (loadStatic) {
+            try { detoursIndex = (await loadStaticOnce({ now, log })).index; }
+            catch (error) { log({ source: 'ttc-detours-static', status: 'unavailable', error: error.message }); }
+        }
+        snapshot.ttcDetours = await fetchTtcDetours(previous?.ttcDetours, now, { index: detoursIndex });
+    } else if (previous?.ttcDetours) snapshot.ttcDetours = previous.ttcDetours;
     if (snapshot.ttcAlerts) {
         try { validateTtcAlerts(snapshot.ttcAlerts, {published:true}); }
         catch (error) {

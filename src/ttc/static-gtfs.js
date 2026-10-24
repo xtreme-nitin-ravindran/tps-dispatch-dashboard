@@ -99,7 +99,11 @@ export function buildStaticIndex(read, version = 'fixture') {
   for (const r of csvRows(read('routes.txt'))) put(routes,r.route_id,{routeId:r.route_id,routeShortName:r.route_short_name || null,routeLongName:r.route_long_name || null,routeType:integer(r.route_type)});
   for (const r of csvRows(read('stops.txt'))) {
     const [latitude,longitude] = coordinates(r.stop_lat,r.stop_lon);
-    put(stops,r.stop_id,{stopId:r.stop_id,stopName:r.stop_name || null,latitude,longitude});
+    // The TTC alert feeds reference stops by the complete-scheme stop code, and
+    // surfacegtfs.zip's stop_code column is the exact crosswalk to it (SignalTO
+    // verified zero exceptions). Capture it so alert stop ids never resolve
+    // through the unrelated stop_id namespace (Story 76).
+    put(stops,r.stop_id,{stopId:r.stop_id,stopCode:r.stop_code || null,stopName:r.stop_name || null,latitude,longitude});
   }
   for (const r of csvRows(read('trips.txt'))) {
     if (!routes.has(r.route_id)) throw new Error('Trip references missing route');
@@ -157,10 +161,20 @@ export function buildStaticIndex(read, version = 'fixture') {
     counts:{routes:routes.size,stops:stops.size,trips:trips.size,patterns:patterns.size,shapes:shapes.size,tripsWithoutStops:[...trips.values()].filter(t => !t.patternId).length}};
 }
 
-// Legacy disruption-path stop lookup: stopId -> [latitude, longitude, name].
-// Every index stop carries validated coordinates; a missing name degrades to ''.
-export function buildStopLookup(index) {
-  return Object.freeze(Object.fromEntries([...index.stops.values()].map(stop => [stop.stopId, [stop.latitude, stop.longitude, stop.stopName || '']])));
+// Transit-alert stop lookup keyed by the complete-scheme stop code. The TTC
+// alert feeds (Service Changes and routedetail) reference stops by these codes,
+// while surfacegtfs.zip stop_id is an unrelated namespace whose numbers can
+// coincide with different physical stops (Story 76). Stops without a code are
+// omitted: an unresolved stop must never invent geometry. Duplicate codes are a
+// data-integrity failure, not a silent override.
+export function buildStopCodeLookup(index) {
+  const lookup = new Map();
+  for (const stop of index.stops.values()) {
+    if (!stop.stopCode) continue;
+    if (lookup.has(stop.stopCode)) throw new Error(`Duplicate GTFS stop code: ${stop.stopCode}`);
+    lookup.set(stop.stopCode, [stop.latitude, stop.longitude, stop.stopName || '']);
+  }
+  return Object.freeze(Object.fromEntries(lookup));
 }
 
 export function serviceActive(index, serviceId, date) {

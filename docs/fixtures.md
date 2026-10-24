@@ -51,6 +51,7 @@ Companion parameters (defaults in parentheses):
 | `unavailable` | TTC sources unavailable |
 | `empty` | zero TTC alerts |
 | `official-advisory` | active official Service Change claimed by an observed path |
+| `detours` | TTC-published detour shapes from the TripModifications feed (solid lines, TTC-published diversion label) |
 
 ## UX reliability audit — `mobileAuditUx=reliability`
 

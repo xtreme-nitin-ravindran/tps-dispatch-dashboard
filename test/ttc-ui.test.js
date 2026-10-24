@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { frontendFixture } from './fixtures/ttc-diversions/frontend.js';
-import { ttcPresentation, mergeTtcDisruptions } from '../src/ttc/presentation.js';
+import { ttcPresentation, mergeTtcDisruptions, activeTtcDetours } from '../src/ttc/presentation.js';
 import { createTtcLayer } from '../src/ttc/map-layer.js';
 import { loadTtcUiFixture } from '../src/ttc/fixture.js';
 const fixture=await frontendFixture();
@@ -151,12 +151,65 @@ test('[STORY-30F][STORY-30G][STORY-74] sparse metadata preserves official notice
   assert.equal(stillMapped.items[0].diversions.length,1);
   delete alerts.items;assert.deepEqual(present(alerts).items,[]);
 });
+test('[STORY-76] 76: affected-section advisories with missing title and description fall back safely',()=>{
+  const advisories={status:'ok',fetchedAt:new Date(fixture.now).toISOString(),items:[{
+    id:'fallback-advisory',title:'',description:'',effect:'DETOUR',routes:['2'],periods:[],url:'https://www.ttc.ca/service-advisories/all-service-alerts',
+    affectedEntities:[{routeId:'2',stopId:'fa',name:'Fallback A',coordinates:[43.65,-79.4]},{routeId:'2',stopId:'fb',name:'Fallback B',coordinates:[43.66,-79.41]}]
+  }]};
+  const model=ttcPresentation({status:'ok',items:[]},{status:'ok',checkedAt:new Date(fixture.now).toISOString()},fixture.now,{advisories});
+  assert.equal(model.items.length,1);
+  assert.equal(model.items[0].title,'TTC service disruption');
+  assert.equal(model.items[0].description,'');
+});
+test('[STORY-76] 76: TTC-published detour shapes render as standalone solid-line cards and follow the radius',()=>{
+  const detours={schemaVersion:1,status:'ok',fetchedAt:new Date(fixture.now).toISOString(),checkedAt:new Date(fixture.now).toISOString(),detours:[
+    {id:'d75',shapeId:'s75',routeId:'75',routeLabel:'75 Sherbourne',directionId:1,serviceDates:[],tripCount:4,startStopSequence:10,endStopSequence:11,geometry:[[-79.372,43.655],[-79.3727,43.66],[-79.3724,43.665]]},
+    {id:'d504',shapeId:'s504',routeId:'504',routeLabel:'504 King',directionId:0,serviceDates:[],tripCount:7,startStopSequence:3,endStopSequence:6,geometry:[[-79.402,43.645],[-79.391,43.6453],[-79.38,43.6456]]}
+  ]};
+  const model=ttcPresentation(undefined,undefined,fixture.now,{detours});
+  assert.equal(model.items.length,2);
+  const d75=model.items.find(i=>i.id==='ttc-detour:d75');
+  assert.equal(d75.source,'ttc-official');assert.equal(d75.title,'TTC-published detour');
+  assert.equal(d75.routes[0].label,'75 Sherbourne');assert.equal(d75.diversions.length,1);
+  assert.equal(d75.diversions[0].kind,'diversion');assert.equal(d75.diversions[0].source,'ttc-official');
+  assert.equal(d75.diversions[0].label,'TTC-published detour');assert.deepEqual(d75.diversions[0].geometry,detours.detours[0].geometry);
+  assert.match(d75.geography,/Citywide/);
+  // Radius scoping drops the far shape but never hides a nearer published detour.
+  const near=ttcPresentation(undefined,undefined,fixture.now,{detours,origin:[43.655,-79.3725],radius:1});
+  assert.equal(near.items.length,1);assert.equal(near.items[0].id,'ttc-detour:d75');
+  assert.match(near.items[0].geography,/Within selected radius/);
+  // Stale, missing, or empty detour feeds draw nothing; a fresh unavailable feed
+  // keeps the retained shapes but discloses the unavailable source.
+  assert.deepEqual(ttcPresentation(undefined,undefined,fixture.now,{detours:{...detours,fetchedAt:new Date(fixture.now-3600001).toISOString()}}).items,[]);
+  assert.deepEqual(ttcPresentation(undefined,undefined,fixture.now,{detours:undefined}).items,[]);
+  assert.deepEqual(activeTtcDetours({fetchedAt:new Date(fixture.now).toISOString()},fixture.now),[]);
+  const unavailable=ttcPresentation(undefined,undefined,fixture.now,{detours:{...detours,status:'unavailable'}});
+  assert.equal(unavailable.items.length,2);assert.equal(unavailable.items[0].observedUnavailable,true);
+  assert.equal(unavailable.items[0].diversions[0].sourceUnavailable,true);
+  // The layer renders the published shape as a solid diversion line with signs.
+  const h=harness();h.layer.update(near.items);
+  const line=[...h.members].find(l=>l.options?.className==='ttc-line ttc-line--diversion');
+  assert.equal(line.options.dashArray,undefined);
+  assert.ok(h.layer.diagnostics().markers>=1);
+});
+test('[STORY-76] 76: the detours fixture mode isolates the two published shapes',async()=>{
+  const fetch=async()=>({ok:true,json:async()=>structuredClone(fixture)});
+  const f=await loadTtcUiFixture({hostname:'localhost',search:'?ttcFixture=detours'},fetch,fixture.now);
+  assert.deepEqual(f.ttcAlerts.items,[]);assert.deepEqual(f.ttcDiversions.diversions,[]);
+  const model=ttcPresentation(f.ttcAlerts,f.ttcDiversions,fixture.now,{detours:f.ttcDetours});
+  assert.deepEqual(model.items.map(i=>i.id),['ttc-detour:detour-75-fixture','ttc-detour:detour-504-fixture']);
+  const confirmed=await loadTtcUiFixture({hostname:'localhost',search:'?ttcFixture=confirmed'},fetch,fixture.now);
+  assert.equal(confirmed.ttcDetours,undefined);
+});
 test('[STORY-30F][STORY-30G] snapshot composition preserves unrelated disruption sources',async()=>{
   const {mergeTtcDisruptions}=await import('../src/ttc/presentation.js');
   const roads={items:[{id:'road'}]},data={roads};
   const result=mergeTtcDisruptions(data,fixture.ttcAlerts,fixture.ttcDiversions);
   assert.equal(result.roads,roads);assert.equal(result.ttcAlerts,fixture.ttcAlerts);assert.equal(result.ttcDiversions,fixture.ttcDiversions);
+  assert.equal(result.ttcDetours,undefined);
   assert.deepEqual(data,{roads});
+  const withDetours=mergeTtcDisruptions(data,fixture.ttcAlerts,fixture.ttcDiversions,undefined,{detours:[]});
+  assert.deepEqual(withDetours.ttcDetours,{detours:[]});assert.equal(data.ttcDetours,undefined);
 });
 test('[STORY-30F][STORY-30G] map replacement removes live paths and listeners; unknown selection cannot frame an arbitrary route',()=>{
   const h=harness();h.layer.update(present().items);const lines=[...h.members];
