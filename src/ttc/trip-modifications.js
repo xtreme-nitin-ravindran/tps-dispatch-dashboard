@@ -141,7 +141,10 @@ export async function updateTtcDetours(previous, now = new Date(), { index, fetc
     return {...(previous || {schemaVersion:1,status:'unavailable',fetchedAt:null,checkedAt:null,detours:[]}),status:'unavailable',checkedAt:now.toISOString()};
   }
   try {
-    const payload = await fetchSource(now);
+    // Story 78: the default source (fetchTripModifications) takes its fetch
+    // implementation positionally, not `now`, so pass no arguments. Every
+    // injected source in the callers and tests is zero-argument too.
+    const payload = await fetchSource();
     const {detours,report} = normalizeTripModifications(payload,index,now);
     const result = {schemaVersion:1,status:'ok',fetchedAt:now.toISOString(),checkedAt:now.toISOString(),detours};
     validateTtcDetours(result);
