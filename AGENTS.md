@@ -196,6 +196,7 @@ Preserve these product semantics in both logic and UI:
 - Do not infer geographic precision from free-form text.
 - If TTC geography cannot be resolved from structured data, preserve the alert but do not invent map geometry.
 - TTC stop-ID namespaces (Story 76): alert and Service-Changes feeds reference stops by the complete-scheme stop code, which equals `surfacegtfs.zip`'s `stop_code` column; only surface realtime (bustime) stop IDs match surface `stop_id`. Resolve alert stops through `buildStopCodeLookup` (code-keyed), never `stop_id`, and keep the Story 30C correlation path `stop_id`-keyed.
+- TTC static-feed archive layout (Story 77): `surfacegtfs.zip`'s member layout is NOT a contract — members have shipped top-level and nested under a folder prefix (the city's `GTFSExport - Copy/` on 1 Nov 2026). Match members by basename and reject duplicate basenames; never pin the current layout.
 - Clearly distinguish SirenTO-observed or inferred information from official-source information.
 - Preserve zero, stale, unavailable, and retained-data semantics when changing UI or data flow.
 
