@@ -8,7 +8,10 @@ const files = [...required,'shapes.txt','calendar.txt','calendar_dates.txt'];
 export const sortedUnique = values => [...new Set(values)].sort();
 export const digest = value => createHash('sha256').update(value).digest('hex');
 
-// Read only named members, never extract paths. Reject ZIP64/encryption and oversized members.
+// Read only named members by basename, never extract paths. The upstream zip
+// layout is not a contract (members have shipped top-level and nested under a
+// "GTFSExport - Copy/" folder), so match the basename. Reject ZIP64/encryption
+// and oversized members.
 export function zipTables(bytes) {
   let end = bytes.length - 22;
   while (end >= Math.max(0, bytes.length - 65557) && bytes.readUInt32LE(end) !== 0x06054b50) end--;
@@ -23,12 +26,14 @@ export function zipTables(bytes) {
     const size = bytes.readUInt32LE(offset + 20), expanded = bytes.readUInt32LE(offset + 24);
     const length = bytes.readUInt16LE(offset + 28), extra = bytes.readUInt16LE(offset + 30), comment = bytes.readUInt16LE(offset + 32);
     const name = bytes.subarray(offset + 46, offset + 46 + length).toString('utf8');
-    if (files.includes(name)) {
-      if (entries.has(name) || flags & 1 || ![0,8].includes(method) || expanded > 768 * 1024 * 1024) throw new Error('Unsupported GTFS ZIP member');
+    const base = name.split('/').pop();
+    if (files.includes(base)) {
+      if (entries.has(base)) throw new Error(`Duplicate GTFS member ${base}`);
+      if (flags & 1 || ![0,8].includes(method) || expanded > 768 * 1024 * 1024) throw new Error('Unsupported GTFS ZIP member');
       const local = bytes.readUInt32LE(offset + 42);
       if (bytes.readUInt32LE(local) !== 0x04034b50) throw new Error('Invalid ZIP member');
       const start = local + 30 + bytes.readUInt16LE(local + 26) + bytes.readUInt16LE(local + 28);
-      entries.set(name, () => {
+      entries.set(base, () => {
         const compressed = bytes.subarray(start,start + size);
         const result = method === 0 ? compressed : inflateRawSync(compressed,{maxOutputLength:768 * 1024 * 1024});
         if (result.length !== expanded) throw new Error('Truncated GTFS member');

@@ -269,6 +269,14 @@ test('[STORY-30C][STORY-30G] correlation schema rejects corrupt catalog, metadat
  test('[STORY-30C][STORY-30G] deflated GTFS ZIP members decode to the same validated network as stored members',()=>{
   assert.deepEqual(buildStaticIndex(zipTables(zip(tables,true))),buildStaticIndex(zipTables(zip())));
 });
+test('[STORY-77] members nested under a folder prefix parse identically (upstream layout is not a contract)',()=>{
+  const nested=Object.fromEntries(names.map(n=>[`GTFSExport - Copy/${n}`,tables[n]]));
+  assert.deepEqual(buildStaticIndex(zipTables(zip(nested))),buildStaticIndex(zipTables(zip())));
+});
+test('[STORY-77] two members sharing a basename are rejected as ambiguous',()=>{
+  const dup={...Object.fromEntries(names.map(n=>[`a/${n}`,tables[n]])),'b/routes.txt':tables['routes.txt']};
+  assert.throws(()=>zipTables(zip(dup)),/Duplicate GTFS member routes\.txt/);
+});
 test('[STORY-30C][STORY-30G] stop-code lookups are frozen code-to-coordinate-name triples', () => {
   const lookup = buildStopCodeLookup(index);
   assert.deepEqual(lookup.SA, [43.65005, -79.4, 'Alpha']);
