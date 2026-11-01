@@ -128,6 +128,31 @@ test('[STORY-76] fetch propagates HTTP failures and returns parsed JSON', async 
   assert.equal(TTC_TRIP_MODIFICATIONS_URL.includes('trip-modifications'),true);
 });
 
+test('[STORY-78] the default trip-modifications source resolves through the environment fetch without an injected source', async () => {
+  // Story 78: production is the only caller of updateTtcDetours' default
+  // fetchSource, and it fed the `now` argument into fetchTripModifications'
+  // first positional parameter (`fetchImpl`), so the live source failed with
+  // "fetchImpl is not a function" while every injected zero-argument source
+  // passed. This regression drives the default wiring end to end with a stubbed
+  // global fetch, so the argument contract of the default source is pinned.
+  const payload = {entity:[shapeEntity('sh1',[[-79.4,43.65],[-79.399,43.6501]]),modification('d1',['t1','t2'],'sh1')]};
+  const originalFetch = globalThis.fetch;
+  const requests = [];
+  try {
+    globalThis.fetch = async (url, options) => {
+      requests.push({url,signal:options?.signal});
+      return {ok:true,json:async()=>payload};
+    };
+    const logs = [],log = entry=>logs.push(entry);
+    const ok = await updateTtcDetours(artifact(),now,{index,log});
+    assert.equal(ok.status,'ok');assert.equal(ok.detours.length,1);assert.equal(ok.detours[0].routeLabel,'504 King');
+    assert.equal(logs.at(-1).status,'ok');assert.equal(logs.at(-1).count,1);
+    assert.equal(requests.length,1);assert.equal(requests[0].url,TTC_TRIP_MODIFICATIONS_URL);assert.ok(requests[0].signal instanceof AbortSignal);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test('[STORY-76] the update path retains previous artifacts on static and fetch failure', async () => {
   await assert.rejects(updateTtcDetours({schemaVersion:2,status:'ok',fetchedAt:now.toISOString(),checkedAt:now.toISOString(),detours:[]},{index}),/Invalid TTC detour artifact/);
   const logs = [],log = entry=>logs.push(entry);
