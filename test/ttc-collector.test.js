@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { runCollector, fetchVehicleCapture } from '../src/ttc/collector.js';
+import bindings from 'gtfs-realtime-bindings';
 import { at, vehicle, protobuf } from './fixtures/ttc-vehicles/builders.js';
 import { createCaptureStore, captureKey } from '../src/ttc/capture-store.js';
 import { memorySink, memorySpool } from './fixtures/ttc-capture/store.js';
@@ -151,6 +152,42 @@ test('[STORY-64] runCollector works with the default clock and log', async () =>
   const result = await runCollector({ maxIterations: 1, fetchFeed: async now => feed('h', now.toISOString()), store });
   assert.equal(result.polls, 1);
   assert.equal((await store.list()).length, 1);
+});
+
+test('[STORY-64] the default fetchFeed wiring drives fetchVehicleCapture through the global fetch', async () => {
+  const spool = memorySpool();
+  const sink = memorySink();
+  const store = createCaptureStore({ spool, sink });
+  const vc = virtualClock(START);
+  // Build a feed whose timestamp matches the collector's virtual clock (START),
+  // so parseTtcVehicles does not reject it as a stale feed. The fixture
+  // `vehicle`/`protobuf` builders timestamp against the builder epoch, which is
+  // ~15 days before START and would trip the freshness check in this real-path
+  // test.
+  const bytes = bindings.transit_realtime.FeedMessage.encode({
+    header: { gtfsRealtimeVersion: '2.0', timestamp: Math.floor(START / 1000) },
+    entity: [{ id: '0', vehicle: { vehicle: { id: '001' }, trip: { tripId: 't1', routeId: '0504', directionId: 0, startDate: '20261013', startTime: '12:00:00' }, position: { latitude: 43.6512, longitude: -79.4 }, timestamp: Math.floor(START / 1000) } }]
+  }).finish();
+  // Exercise the production default: runCollector's `fetchFeed` falls back to
+  // `defaultFetchFeed`, which calls `fetchVehicleCapture(now, undefined, signal)`
+  // and therefore the global `fetch`. A stubbed global fetch is the only
+  // collaborator; nothing else is injected, so a positional `(now, signal)` call
+  // that landed the AbortSignal in the fetchImpl slot would fail here exactly as
+  // it did on the deployed host (Story 78's `fetchImpl is not a function`).
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => ({
+    ok: true, status: 200,
+    body: (async function* () { yield bytes; })()
+  });
+  try {
+    const result = await runCollector({ maxIterations: 1, store, clock: vc.clock, wait: vc.wait });
+    assert.equal(result.polls, 1);
+    const captures = await store.list();
+    assert.equal(captures.length, 1);
+    assert.equal(captures[0].outcome, 'ok');
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });
 
 test('[STORY-64] a collector restart continues the ordered index instead of resetting to sequence 0', async () => {

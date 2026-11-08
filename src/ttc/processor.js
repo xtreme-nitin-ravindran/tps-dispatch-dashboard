@@ -139,6 +139,21 @@ export async function runProcessor({
   let cursor = checkpoint ? checkpoint.cursor : -1;
   let vehicle = checkpoint?.state?.vehicle;
   let inference = checkpoint?.state?.inference;
+  // A persisted vehicle state whose own static version no longer matches the
+  // freshly loaded index is the same stale-template hazard as a stale top-level
+  // checkpoint version, but it is carried inside `checkpoint.state.vehicle` and
+  // is not caught by the top-level guard above. Carrying those stale tracks (and
+  // the stale version they encode) forward into `detectVehicles` /
+  // `inferDiversions` makes `validateVehicleState` reject every capture with
+  // `Invalid TTC vehicle state`. Reconcile it here so a static refresh never
+  // wedges the processor: drop the stale vehicle state (and the inference that
+  // depends on it) and warm up from empty, exactly like a top-level reset.
+  if (vehicle && vehicle.staticVersion !== index.version) {
+    log({ source: 'ttc-processor', status: 'static-vehicle-reset', from: vehicle.staticVersion, to: index.version });
+    vehicle = undefined;
+    inference = undefined;
+    reset = true;
+  }
 
   let processed = 0, rejected = 0, windows = 0;
   // The in-flight three-minute evaluation window is durable state: a restart
@@ -206,7 +221,7 @@ export async function runProcessor({
     windowCount++;
     if (!AVAILABLE_OUTCOMES.includes(capture.outcome)) windowHealthy = false;
     try {
-      const replayed = replay(capture, { previous: vehicle, index, now });
+      const replayed = await replay(capture, { previous: vehicle, index, now });
       vehicle = replayed.state;
       const inferred = infer(inference, vehicle, index, now, alerts, { advisories });
       inference = inferred.state;

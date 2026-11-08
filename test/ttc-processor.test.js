@@ -123,6 +123,25 @@ test('[STORY-64] a single capture is replayed, the checkpoint is written and the
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
 
+test('[STORY-64] an async replay collaborator is awaited, not consumed as a Promise', async () => {
+  const { dir, path: checkpointPath } = await tempCheckpoint();
+  try {
+    // The production replay collaborator is `buildReplay`'s async closure (a
+    // Promise-returning function). Before the fix, `runProcessor` called
+    // `replay(capture, ...)` without awaiting, so `replayed` was a Promise,
+    // `replayed.state` was undefined, and `infer` rejected every capture with
+    // `Invalid TTC vehicle state`. This regression drives the async shape (the
+    // real production wiring) so the missing `await` is caught here.
+    const { captures, replay } = diversionRun(1);
+    const asyncReplay = async (...args) => replay(...args);
+    const store = storeWith(captures);
+    const result = await runProcessor({ store, replay: asyncReplay, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0) });
+    assert.equal(result.rejected, 0);
+    assert.equal(result.processed, 1);
+    assert.equal(result.cursor, 0);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
 test('[STORY-64] a crash after inference but before the checkpoint resumes with identical state and counters', async () => {
   const { dir, path: checkpointPath } = await tempCheckpoint();
   try {
@@ -203,6 +222,31 @@ test('[STORY-64] a static version mismatch resets explicitly and warms up from e
     assert.ok(logs.some(e => e.status === 'static-reset'));
     const checkpoint = await readCheckpoint(checkpointPath);
     assert.equal(checkpoint.staticVersion, index.version);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});
+
+test('[STORY-64] a stale persisted vehicle state is reset before replay, never carried into inference', async () => {
+  const { dir, path: checkpointPath } = await tempCheckpoint();
+  try {
+    const { captures, replay } = diversionRun(6);
+    // A checkpoint whose TOP-LEVEL staticVersion still matches the fresh index
+    // (so the existing top-level guard does not fire), but whose persisted
+    // vehicle state carries an older staticVersion. Before the fix, that stale
+    // vehicle state was passed as `previous` into detectVehicles, whose tracks
+    // (and the stale version they encode) then surfaced in inferDiversions as
+    // `Invalid TTC vehicle state` and rejected every capture. The processor must
+    // reconcile the stale vehicle state up front and warm up from empty instead.
+    await writeCheckpoint(checkpointPath, {
+      state: { vehicle: { staticVersion: 'stale-version' }, inference: { records: [] } },
+      cursor: -1,
+      staticVersion: index.version
+    });
+    const logs = [];
+    const result = await runProcessor({ store: storeWith(captures), replay, checkpointPath, loadStatic: async () => ({ index }), publish: async () => { }, clock: () => at(0), log: e => logs.push(e) });
+    assert.equal(result.rejected, 0);
+    assert.equal(result.processed, 6);
+    assert.ok(logs.some(e => e.status === 'static-vehicle-reset'));
+    assert.equal(result.reset, true);
   } finally { await rm(dir, { recursive: true, force: true }); }
 });
 
