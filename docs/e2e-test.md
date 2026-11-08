@@ -219,6 +219,23 @@ bash scripts/e2e.sh --only verify
   the rendered `deploy/.env` (bucket/region) and network egress.
 - **"ownership lease missing"** — the collector exited before acquiring (check
   `deploy/.env` for a missing/blank `OWNERSHIP_PREFIX` or R2 misconfiguration).
+- **"Invalid TTC vehicle state" on every capture (processor rejects all)** — the
+  processor calls its injected `replay` collaborator, which in production is
+  `buildReplay`'s **async** closure and returns a `Promise`. A missing `await`
+  leaves `replayed` as a Promise whose `.state` is `undefined`, so
+  `inferDiversions`' `validateVehicleState(undefined, index)` throws on every
+  capture while `data/ttc-diversions.json` never publishes. `runProcessor` now
+  `await`s it (`const replayed = await replay(...)`). This shipped (Story 64)
+  because every unit test injected a *synchronous* `replay` stub, so the async
+  path was never exercised; `test/ttc-processor.test.js` (`an async replay
+  collaborator is awaited`) now guards it.
+- **A "fixed" container still shows the old behavior after `--force-recreate`** —
+  `docker compose --force-recreate` recreates containers but does **not** rebuild
+  their image. A debug patch baked into an image (for example the Story 64
+  `homelab/tmp/patch-*.mjs` instrumentation) survives a recreate. To deploy a real
+  source fix you must rebuild: run `make deploy-*` (which chains the Ansible
+  `docker compose build`) or `docker compose -f deploy/compose.yaml build` before
+  `up -d`, never a bare recreate against a polluted image.
 
 ## Validation notes
 

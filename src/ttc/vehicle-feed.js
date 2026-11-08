@@ -2,6 +2,14 @@ import { decodeRealtime, realtimeInstant } from './realtime.js';
 import { validCoordinate } from './static-gtfs.js';
 
 export const TTC_VEHICLES_URL = 'https://bustime.ttc.ca/gtfsrt/vehicles';
+
+// The TTC CDN 404s the vehicle feed for bot-shaped User-Agents (node's default
+// `node` UA was observed returning 404 while any browser UA returns 200, 8 Nov
+// 2026). A browser-shaped UA that still identifies the consumer keeps the
+// continuous collector and the bounded pipeline task reachable.
+export const TTC_FEED_HEADERS = Object.freeze({
+  'user-agent': 'Mozilla/5.0 (compatible; SirenTO/1.0; +https://sirento.nitin.run)'
+});
 export const MAX_OBSERVATION_AGE_MS = 120000;
 export const MAX_FEED_BYTES = 8 * 1024 * 1024;
 const usableId = s => typeof s === 'string' && s.trim().length > 0;
@@ -42,7 +50,7 @@ export function parseTtcVehicles(bytes, now = new Date()) {
 export async function fetchTtcVehicles(now = new Date(), fetchImpl = fetch) {
   let bytes;
   try {
-    const response = await fetchImpl(TTC_VEHICLES_URL,{signal:AbortSignal.timeout(12000)});
+    const response = await fetchImpl(TTC_VEHICLES_URL,{signal:AbortSignal.timeout(12000),headers:TTC_FEED_HEADERS});
     if (!response.ok) throw new Error(`TTC vehicles HTTP ${response.status}`);
     const chunks = []; let size = 0;
     for await (const chunk of response.body) {

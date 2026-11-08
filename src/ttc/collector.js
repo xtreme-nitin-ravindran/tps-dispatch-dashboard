@@ -13,7 +13,7 @@
 
 import { createHash } from 'node:crypto';
 import { setTimeout as sleep } from 'node:timers/promises';
-import { TTC_VEHICLES_URL, MAX_FEED_BYTES, parseTtcVehicles } from './vehicle-feed.js';
+import { TTC_VEHICLES_URL, MAX_FEED_BYTES, parseTtcVehicles, TTC_FEED_HEADERS } from './vehicle-feed.js';
 import { buildCapture, validateCapture } from './capture-store.js';
 
 // Default raw-feed fetch. Returns the raw protobuf bytes, the source timestamp
@@ -23,7 +23,7 @@ export async function fetchVehicleCapture(now = new Date(), fetchImpl = fetch, s
   let bytes;
   const timeout = signal ? AbortSignal.any([AbortSignal.timeout(12000), signal]) : AbortSignal.timeout(12000);
   try {
-    const response = await fetchImpl(TTC_VEHICLES_URL, { signal: timeout });
+    const response = await fetchImpl(TTC_VEHICLES_URL, { signal: timeout, headers: TTC_FEED_HEADERS });
     if (!response.ok) throw new Error(`TTC vehicles HTTP ${response.status}`);
     const chunks = []; let size = 0;
     for await (const chunk of response.body) {
@@ -46,6 +46,14 @@ export async function fetchVehicleCapture(now = new Date(), fetchImpl = fetch, s
   }
 }
 
+// The fetchFeed collaborator's contract is `(now, signal)` (the shape the
+// tests inject), while `fetchVehicleCapture`'s own signature is
+// `(now, fetchImpl, signal)`. A positional `(now, signal)` call would land
+// the AbortSignal in the fetchImpl slot and fail with "fetchImpl is not a
+// function" — the real-deploy failure mode Story 64 surfaced (the unit
+// stubs and the offline e2e target both masked it). The default adapts.
+const defaultFetchFeed = (now, signal) => fetchVehicleCapture(now, undefined, signal);
+
 // Run the collector until `maxIterations` polls complete or `signal` aborts.
 // Returns a bounded run summary: poll count, structured gap records and the
 // final spool depth. `fetchFeed`, `clock` and `wait` are injectable so the
@@ -53,7 +61,7 @@ export async function fetchVehicleCapture(now = new Date(), fetchImpl = fetch, s
 export async function runCollector({
   feedId = 'ttc-vehicles',
   intervalMs = 30000,
-  fetchFeed = fetchVehicleCapture,
+  fetchFeed = defaultFetchFeed,
   store,
   clock = () => new Date(),
   wait = sleep,
