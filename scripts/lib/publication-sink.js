@@ -54,9 +54,23 @@ const hmac = (key, value) => createHmac('sha256', key).update(value).digest();
 // parameters by (encoded key, encoded value), and encodes each key and value
 // with RFC 3986 percent-encoding (with `~` left unencoded). An empty input is an
 // empty canonical query string. Exported for direct, deterministic testing.
+//
+// Callers may hand over values that are already percent-encoded once (for
+// example the URL-encoded continuation tokens the capture sink builds). S3
+// verifies the signature against a decode-then-encode canonical form, so a
+// raw `%XX` sequence must be decoded first and re-encoded exactly once —
+// encoding it again (`%XX` -> `%25XX`) diverges from S3's canonical query
+// and fails every request with SignatureDoesNotMatch (Story 79 production:
+// a base64 continuation token ending in `=` padding tripped this and broke
+// all paginated listings until the fix).
 export function canonicalQueryString(rawQuery = '') {
   if (rawQuery === '') return '';
-  const encode = value => encodeURIComponent(value).replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
+  const encode = value => {
+    let decoded = value;
+    try { decoded = decodeURIComponent(value); }
+    catch { /* not (fully) percent-encoded: encode the raw value as-is */ }
+    return encodeURIComponent(decoded).replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
+  };
   const params = rawQuery.split('&').filter(Boolean).map(part => {
     const eq = part.indexOf('=');
     return eq === -1 ? [part, ''] : [part.slice(0, eq), part.slice(eq + 1)];

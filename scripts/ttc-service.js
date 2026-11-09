@@ -152,23 +152,36 @@ export function composeProcessor({
           getBytes: sink.getBytes
         });
       };
-      return run({
-        store,
-        loadStatic: loadStaticCached,
-        replay,
-        infer,
-        complete,
-        publish,
-        checkpointPath: envCtx.checkpointPath,
-        signal,
-        log,
-        advisories,
-        alerts,
-        updateAlerts,
-        correlate,
-        onReject,
-        onHealth
-      });
+      // A transient failure during a drain (for example an R2 list blip)
+      // must degrade the drain, never kill the service: the durable
+      // checkpoint means the next drain resumes exactly where this one
+      // left off, and the error stays visible in the structured log and
+      // the processing health snapshot. Story 79 production: one
+      // `R2 capture list failed: 403` left the processor a zombie with
+      // its health port closed until a manual restart.
+      try {
+        return await run({
+          store,
+          loadStatic: loadStaticCached,
+          replay,
+          infer,
+          complete,
+          publish,
+          checkpointPath: envCtx.checkpointPath,
+          signal,
+          log,
+          advisories,
+          alerts,
+          updateAlerts,
+          correlate,
+          onReject,
+          onHealth
+        });
+      } catch (error) {
+        log({ source: 'ttc-service', status: 'drain-failed', error: error.message });
+        onHealth('processing', { status: 'degraded', error: error.message });
+        return undefined;
+      }
     };
     for (;;) {
       if (signal?.aborted) { summary = await drain(); break; }

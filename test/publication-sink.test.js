@@ -321,3 +321,27 @@ test('[STORY-55][STORY-55A] createR2Sink defaults its region, fetch, and clock',
   }
   assert.deepEqual(requests.map(r => r.method), ['GET', 'PUT']);
 });
+
+test('[STORY-79] the canonical query decodes already-encoded values so a padded continuation token signs exactly once', () => {
+  // Story 79 production rejection: the capture sink percent-encodes the base64
+  // continuation token once in the raw query (its `=` padding becomes `%3D`),
+  // and the old canonicalization encoded the raw value again (`%3D` ->
+  // `%253D`). S3 verifies against a decode-then-encode canonical form, so every
+  // paginated listing failed with SignatureDoesNotMatch once the token carried
+  // padding. The canonical form must carry each sequence encoded exactly once.
+  const token = '1-JTdCJTIydiUyMiUzQTElMkMlMjJzdGFydEFmdGVyJTIyJTNBJTIydHRjLWNhcHR1cmVzJTJGdHRjLXZlaGljbGVzJTJGMDAwMDAwMDAyMDQxLmpzb24lMjIlMkMlMjJ1dWlkJTIyJTNBJTIyN2U1ZTNkYjAyYmFkYTA3ZjhjNGZhOThlNDA2MmNmZjQlMjIlN0Q=';
+  const raw = `list-type=2&prefix=ttc-captures/ttc-vehicles/&continuation-token=${encodeURIComponent(token)}`;
+  const canonical = canonicalQueryString(raw);
+  assert.ok(canonical.includes('continuation-token='), 'the token parameter survives sorting');
+  assert.ok(!canonical.includes('%253D'), 'the padding = must not be double-encoded');
+  assert.ok(canonical.includes('%3D'), 'the padding = is encoded exactly once');
+  assert.ok(canonical.includes('prefix=ttc-captures%2Fttc-vehicles%2F'));
+});
+
+test('[STORY-79] a value that is not valid percent-encoding is encoded raw instead of throwing', () => {
+  // A lone `%` (malformed sequence) must not throw out of the canonicalizer;
+  // the raw value is encoded as-is so the signature still matches the request.
+  const canonical = canonicalQueryString('prefix=50%25-ok&bad=100%');
+  assert.ok(canonical.includes('prefix=50%25-ok'), 'a valid literal percent sequence round-trips once');
+  assert.ok(canonical.includes('bad=100%25'), 'a lone percent is encoded once');
+});
