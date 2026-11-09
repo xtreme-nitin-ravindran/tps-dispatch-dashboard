@@ -5,11 +5,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
-# Single writer for the published data. The incident snapshot is published to R2
-# first, then the bounded TTC vehicle burst and geometry projection run as later
-# steps. A TTC failure cannot block or roll back the already-published incident
-# snapshot; the next scheduled run retries the TTC stage. Each phase writes a
-# different R2 key, so the two datasets cannot conflict and no lock is needed.
+# Single writer for the published incident data (data/current.json). TTC geometry
+# (data/ttc-diversions.json) is owned by the continuous capture stack (Story 64),
+# not this bounded scheduler; only the incident ETL runs here.
 concurrency:
   group: sirento-data-writer
   cancel-in-progress: false
@@ -24,19 +22,11 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
-      - name: Restore backend TTC static cache
-        uses: actions/cache@v6
-        with:
-          path: .cache/ttc
-          key: ttc-static-v1-${{ github.run_id }}
-          restore-keys: ttc-static-v1-
       - run: npm ci --omit=dev
-      - name: Publish incident snapshot before TTC vehicle work
+      - name: Publish incident snapshot
         # Shared freshness/skip policy and R2 publication. The R2 sink uploads
-        # directly, so there is no scheduler push step. The ETL writes
-        # data/current.json, which the TTC stage reuses as official-advisory
-        # context, before the TTC stage runs, so a slow or failed TTC run cannot
-        # delay or roll back the incident update.
+        # directly, so there is no scheduler push step. The ETL writes and
+        # publishes data/current.json.
         env:
           TFS_UPDATED_BY: github-actions
           R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
@@ -44,18 +34,3 @@ jobs:
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: node scripts/publish-incidents.js
-      - name: Observe TTC vehicle deviations
-        # Bounded burst of four polls supplies actual timestamped evidence. The
-        # already-published data/current.json is reused as official-advisory context;
-        # the TTC website is never fetched again here.
-        run: npm run update:ttc:vehicles -- --polls 4 --interval-ms 30000 --advisory data/current.json
-      - name: Publish compact TTC geometry
-        # Projects the confirmed geometry and publishes it to R2 through the shared
-        # sink. A no-change artifact produces no upload.
-        env:
-          TTC_DIVERSION_OUTPUT: .cache/ttc/diversions.json
-          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
-          R2_BUCKET: ${{ secrets.R2_BUCKET }}
-          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-        run: node scripts/publish-ttc-phase.js

@@ -29,7 +29,6 @@ slim: 26-bookworm-slim
 `;
 const TASK = [
   { name: "tfs-etl.yml", text: "source: { repository: node, tag: 26-bookworm-slim }\nNPM_VERSION: 12.2.0\n" },
-  { name: "ttc-vehicles.yml", text: "source: { repository: node, tag: 26-bookworm-slim }\n" },
 ];
 
 test("[INFRA-CI][STORY-73] parseDockerfileNode extracts the FROM node tag", () => {

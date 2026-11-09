@@ -425,26 +425,7 @@ test('[STORY-51E] runVehiclePolling reports a rejected cache without crashing', 
   }
 });
 
-test('[STORY-51B] the GitHub workflow reuses the updated snapshot as advisory context and drops the stale comment', async () => {
-  const workflow = await readFile(new URL('../.github/workflows/update-sirento.yml', import.meta.url), 'utf8');
-  assert.match(workflow, /--advisory data\/current\.json/);
-  assert.doesNotMatch(workflow, /Fresh state per run/);
-  // The incident phase writes data/current.json before the vehicle step reads it,
-  // so the advisory input is the already-updated snapshot.
-  const incidentIndex = workflow.indexOf('node scripts/publish-incidents.js');
-  const vehicleIndex = workflow.indexOf('--advisory data/current.json');
-  assert.ok(incidentIndex >= 0 && vehicleIndex > incidentIndex, 'snapshot must be published before the vehicle step');
-});
 
-test('[STORY-51B] the Concourse vehicle task receives the preceding incident snapshot as advisory input', async () => {
-  const task = await readFile(new URL('../concourse/ttc-vehicles.yml', import.meta.url), 'utf8');
-  assert.match(task, /- name: incident-repo/);
-  assert.match(task, /--advisory incident-repo\/data\/current\.json/);
-  const pipeline = await readFile(new URL('../concourse/pipeline.yml', import.meta.url), 'utf8');
-  // The preceding task produces incident-repo, which the vehicle task consumes.
-  assert.match(pipeline, /outputs:\s*\n\s*- name: incident-repo/);
-  assert.match(pipeline, /- task: observe-vehicles/);
-});
 
 test('[STORY-51B] the advisory contract is derived from the Story 51A baseline snapshot without inventing geometry', () => {
   const snapshot = { disruptions: { transit: officialServiceChangeFeed() } };

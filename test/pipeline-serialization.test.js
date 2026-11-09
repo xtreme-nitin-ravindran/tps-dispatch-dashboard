@@ -2,17 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-// Regression: `update-sirento` and `detect-ttc-vehicle-deviations` previously both
-// published to the same `snapshots` (data) branch. They ran in parallel, so whichever
-// finished second failed its fast-forward push because it was based on an older
-// version of the branch. The incident ETL and the bounded TTC vehicle burst are now
-// sequential steps in a single `update-sirento` job, and the incident snapshot is
-// published (phase 1) before the TTC vehicle work, with the geometry published
-// afterwards (phase 2). Both phases publish to Cloudflare R2 through the shared
-// publication sink, each to a different key, so the two datasets cannot conflict and
-// no lock or serial group is needed. This test parses the pipeline structurally (no
-// YAML dependency) and fails if the pipeline reintroduces a shared-resource writer
-// race or drops the incident-before-TTC ordering.
+// Regression: `update-sirento` previously published both the incident snapshot and
+// the bounded TTC vehicle geometry. TTC geometry is now owned by the continuous
+// capture stack (Story 64), so `update-sirento` publishes only the incident ETL
+// (data/current.json) directly to Cloudflare R2 through the shared sink. This test
+// parses the pipeline structurally (no YAML dependency) and fails if the pipeline
+// reintroduces a second writer or a shared-resource race.
 
 // Minimal structural reader: split the `jobs:` block into per-job chunks at the
 // two-space `- name:` list markers, then read the fields this invariant depends on.
@@ -103,28 +98,24 @@ test('[STORY-54] no two jobs can publish the same resource concurrently', () => 
   assert.deepEqual(concurrentWriters(jobs), []);
 });
 
-test('[STORY-54] the data publisher publishes incidents before TTC vehicle work', () => {
-  // The incident phase must precede the TTC vehicle task, and the geometry phase
-  // must follow it, so a slow or failed TTC stage cannot block the incident update.
-  const incidentPublish = pipeline.indexOf('node scripts/publish-incidents.js');
-  const observe = pipeline.indexOf('task: observe-vehicles');
-  const geometryPublish = pipeline.indexOf('node scripts/publish-ttc-phase.js');
-  assert.ok(incidentPublish !== -1 && observe !== -1 && geometryPublish !== -1, 'all phases must be present');
-  assert.ok(incidentPublish < observe, 'incident publication must precede TTC vehicle work');
-  assert.ok(observe < geometryPublish, 'TTC geometry publication must follow TTC vehicle work');
+test('[STORY-54] the data publisher publishes only the incident snapshot', () => {
+  // TTC geometry is owned by the continuous capture stack, not this bounded job.
+  assert.match(pipeline, /node scripts\/publish-incidents\.js/);
+  assert.doesNotMatch(pipeline, /observe-vehicles/, 'no bounded TTC vehicle task may remain');
+  assert.doesNotMatch(pipeline, /publish-ttc-phase/, 'no bounded TTC geometry publication may remain');
 });
 
-test('[STORY-55B] both publication phases publish to R2 through the shared sink', () => {
-  // Each phase runs its shared script with the R2 credentials in the environment,
-  // so the sink uploads directly and no scheduler push step is needed.
+test('[STORY-55B] the incident phase publishes to R2 through the shared sink', () => {
+  // The single incident phase runs its shared script with the R2 credentials in the
+  // environment, so the sink uploads directly and no scheduler push step is needed.
   assert.doesNotMatch(pipeline, /- put:/, 'no git `put` step may remain');
   assert.doesNotMatch(pipeline, /snapshots-(?:incidents|ttc)/, 'the scoped git resources must be gone');
   assert.doesNotMatch(pipeline, /rebase: true/, 'no git rebase push may remain');
   const r2Params = [...pipeline.matchAll(/R2_ENDPOINT: \(\(r2_endpoint\)\)/g)];
-  assert.equal(r2Params.length, 2, 'both phases must receive the R2 endpoint');
+  assert.equal(r2Params.length, 1, 'the incident phase must receive the R2 endpoint');
   for (const name of ['R2_BUCKET', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY']) {
-    const matches = [...pipeline.matchAll(new RegExp(`${name}: \\(\\(${name.toLowerCase()}\\)\\)`, 'g'))];
-    assert.equal(matches.length, 2, `both phases must receive ${name}`);
+    const key = name.toLowerCase();
+    assert.ok(pipeline.includes(`${name}: ((${key}))`), `the incident phase must receive ${name}`);
   }
 });
 
@@ -155,15 +146,17 @@ test('[STORY-54] the pipeline needs no serial group because the datasets use dif
 
 const workflow = await readFile(new URL('../.github/workflows/update-sirento.yml', import.meta.url), 'utf8');
 
-test('[STORY-55C] the GitHub workflow publishes both phases to R2 through the shared sink', () => {
-  // Both phases run their shared script with the R2 credentials in the environment.
+test('[STORY-55C] the GitHub workflow publishes the incident snapshot to R2 through the shared sink', () => {
+  // The single incident phase runs its shared script with the R2 credentials in the
+  // environment. TTC geometry is owned by the continuous capture stack.
   assert.match(workflow, /node scripts\/publish-incidents\.js/);
-  assert.match(workflow, /node scripts\/publish-ttc-phase\.js/);
+  assert.doesNotMatch(workflow, /publish-ttc-phase/, 'no bounded TTC geometry publication may remain');
+  assert.doesNotMatch(workflow, /update:ttc:vehicles/, 'no bounded TTC vehicle burst may remain');
   const endpoints = [...workflow.matchAll(/R2_ENDPOINT: \$\{\{ secrets\.R2_ENDPOINT \}\}/g)];
-  assert.equal(endpoints.length, 2, 'both phases must receive the R2 endpoint');
+  assert.equal(endpoints.length, 1, 'the incident phase must receive the R2 endpoint');
   for (const name of ['R2_BUCKET', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY']) {
     const matches = [...workflow.matchAll(new RegExp(`${name}: \\$\\{\\{ secrets\\.${name} \\}\\}`, 'g'))];
-    assert.equal(matches.length, 2, `both phases must receive ${name} from repository secrets`);
+    assert.equal(matches.length, 1, `the incident phase must receive ${name} from repository secrets`);
   }
 });
 
@@ -178,13 +171,6 @@ test('[STORY-55C] the GitHub workflow no longer writes the data branch', () => {
   assert.doesNotMatch(workflow, /GIT_AUTHOR_NAME/, 'the git sink author must be gone');
 });
 
-test('[STORY-55C] the GitHub workflow preserves the advisory-context ordering', () => {
-  // The incident phase writes data/current.json before the vehicle step reads it,
-  // so the advisory input is the already-updated snapshot.
-  const incidentIndex = workflow.indexOf('node scripts/publish-incidents.js');
-  const vehicleIndex = workflow.indexOf('--advisory data/current.json');
-  assert.ok(incidentIndex >= 0 && vehicleIndex > incidentIndex, 'snapshot must be published before the vehicle step');
-});
 
 test('[STORY-55C] the GitHub workflow keeps its triggers, permissions, and concurrency', () => {
   assert.match(workflow, /cron: "2-59\/5 \* \* \* \*"/);

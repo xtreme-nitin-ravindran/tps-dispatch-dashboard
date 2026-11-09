@@ -2,9 +2,10 @@ resources:
   - name: refresh
     type: time
     source:
-      # The single update-sirento job runs the incident ETL plus a 2.5-minute TTC
-      # vehicle burst. Three-minute ticks minimize sampling gaps; max_in_flight
-      # prevents overlapping publications if a run exceeds the timer interval.
+      # The single update-sirento job runs the incident ETL only. TTC geometry
+      # (data/ttc-diversions.json) is owned by the continuous capture stack
+      # (Story 64), not this bounded pipeline. max_in_flight prevents overlapping
+      # publications if a run exceeds the timer interval.
       interval: 3m
   - name: repo
     type: git
@@ -14,12 +15,10 @@ resources:
       private_key: ((repo_private_key))
 
 jobs:
-  # Single writer for the published data. The incident snapshot is published to
-  # R2 first, then the bounded TTC vehicle burst and geometry projection run as
-  # later steps. A TTC failure cannot block or roll back the already-published
-  # incident snapshot; the next timer tick retries the TTC stage. Each phase
-  # writes a different R2 key, so the two datasets cannot conflict and no lock
-  # or serial group is needed.
+  # Single writer for the published incident data (data/current.json). The
+  # incident snapshot is published to R2 directly. TTC geometry is owned by the
+  # continuous capture stack, which writes data/ttc-diversions.json independently,
+  # so the two datasets cannot conflict and no lock or serial group is needed.
   - name: update-sirento
     # One writer, one build at a time. max_in_flight serializes this job's own
     # builds so a slow run cannot overlap the next timer tick.
@@ -64,39 +63,11 @@ jobs:
                 node scripts/r2-fetch.js data/current.json /tmp/history/current.json
 
                 # Shared freshness/skip policy and R2 publication. The R2 sink
-                # uploads directly, so there is no scheduler push step. The
-                # snapshot is also written to the incident-repo output so the
-                # following vehicle task can reuse it as advisory context.
+                # uploads directly, so there is no scheduler push step.
                 TFS_UPDATED_BY=concourse \
                   TFS_PREVIOUS=/tmp/history/current.json \
                   TFS_OUTPUT="$INCIDENT_OUTPUT" \
                   node scripts/publish-incidents.js
-      # Bounded 4.5-minute vehicle burst; never runs the heavy incident ETL.
-      - task: observe-vehicles
-        timeout: 6m
-        file: repo/concourse/ttc-vehicles.yml
-      # Project confirmed TTC geometry and publish it to R2. The R2 sink uploads
-      # directly, so there is no scheduler push step.
-      - task: publish-ttc-geometry
-        config:
-          platform: linux
-          image_resource:
-            type: registry-image
-            source: { repository: node, tag: 26-bookworm }
-          inputs:
-            - name: repo
-            - name: ttc-vehicle-evidence
-          params:
-            R2_ENDPOINT: ((r2_endpoint))
-            R2_BUCKET: ((r2_bucket))
-            R2_ACCESS_KEY_ID: ((r2_access_key_id))
-            R2_SECRET_ACCESS_KEY: ((r2_secret_access_key))
-          run:
-            path: sh
-            args:
-              - -ec
-              - |
-                cd repo
-                npm ci --omit=dev
-                TTC_DIVERSION_OUTPUT=../ttc-vehicle-evidence/diversions.json \
-                  node scripts/publish-ttc-phase.js
+      # TTC geometry is no longer published here: the continuous capture stack
+      # (collector + processor, Story 64) owns data/ttc-diversions.json. Keep only
+      # the incident ETL (data/current.json), which remains independent.

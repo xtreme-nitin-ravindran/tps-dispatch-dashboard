@@ -40,10 +40,7 @@
         "update:ttc": "node scripts/ttc-alerts.js",
         "test:ttc:live": "node scripts/ttc-alerts.js --smoke",
         "update:ttc:static": "node scripts/ttc-static.js",
-        "update:ttc:vehicles": "node scripts/ttc-vehicles.js",
         "fixture:ttc:diversions": "node test/fixtures/ttc-diversions/run.js",
-        "test:ttc:diversions:live": "node scripts/ttc-vehicles.js --polls 4 --geojson .cache/ttc/diversions.geojson",
-        "test:ttc:vehicles:live": "node scripts/ttc-vehicles.js --polls 4",
         "fixture:ttc:ui": "node scripts/ttc-ui-fixture.js"
     },
     "engines": {
