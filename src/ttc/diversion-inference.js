@@ -182,7 +182,16 @@ export function inferDiversions(previous,vehicles,index,now,alerts,{simplificati
     else if (advisory.refs.length) report.advisoryAssociated++;
     const old=(previous?.records||[]).filter(r=>!used.has(r.id)&&trajectorySimilarity(anchor(rep),r.identityAnchor)<=DIVERSION_POLICY.corridorMeters)
       .sort((a,b)=>a.firstObservedAt.localeCompare(b.firstObservedAt)||a.id.localeCompare(b.id))[0];
-    const firstObservedAt=old?.firstObservedAt||group.map(e=>e.startedAt).sort()[0];
+    // Identity continuity retains the original first observation, but a
+    // record claimed across a diverged path (Story 79 production: two
+    // nearby-anchor clusters cross-claimed each other's records) can carry
+    // a firstObservedAt NEWER than the group's own evidence. The earliest
+    // observation always wins: a later anchor value falls back to the
+    // group's oldest episode start, so firstObservedAt can never exceed
+    // lastObservedAt and the output validator's timestamps clause cannot
+    // reject the record.
+    const groupFirst=group.map(e=>e.startedAt).sort()[0];
+    const firstObservedAt=old&&old.firstObservedAt<groupFirst?old.firstObservedAt:groupFirst;
     const lastObservedAt=group.map(e=>e.lastOffAt).sort().at(-1);
     const returns=vehicles.tracks.filter(t=>{
       if (key(t)!==key(rep)||t.state!=='on-route'||!rep.rejoin) return false;
