@@ -130,6 +130,15 @@ browser suites, and the offline suites; homelab through `sirento-verify.sh`
    then `bash infra/scripts/sirento-verify.sh production`. The project name and
    volumes (`sirento-ttc`) are preserved; only the compose file location changed
    (`/opt/sirento/repo/deploy/compose.yaml` → `/opt/sirento/docker-compose.yml`).
-4. The e2e harness (scratch bucket `rotato-e2e-scratch`) now runs from homelab:
+4. **Production hotfix redeploy:** after the first cutover the processor
+   wedged on a pre-existing persistence id-duplication rejection
+   (`Invalid TTC diversion output: identity`), fixed in this repo after
+   the cutover (see the roadmap Story 79 production-acceptance note).
+   Redeploy with the fixed checkout:
+   `bash infra/scripts/sirento-deploy.sh production` — the role syncs
+   the app repo and rebuilds the image, so the fix reaches the stack
+   without any manual state surgery. The processor then resumes from
+   checkpoint cursor 179 and replays the oldest retained captures.
+5. The e2e harness (scratch bucket `rotato-e2e-scratch`) now runs from homelab:
    `bash infra/scripts/lib/e2e-target.sh up` then `sirento-e2e.sh` with the
    `local.yml` inventory (see homelab `docs/e2e-test.md`).
