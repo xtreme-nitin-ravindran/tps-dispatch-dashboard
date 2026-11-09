@@ -280,10 +280,30 @@ export function createR2CaptureSink({
     async list(prefix) {
       // The prefix is passed raw here; createR2SignedFetch canonicalizes and
       // RFC-3986-encodes the query, so pre-encoding would double-encode it.
-      const response = await signedFetch('GET', `?list-type=2&prefix=${prefix}`);
-      if (!response.ok) throw new Error(`R2 capture list failed: ${response.status}`);
-      const xml = await response.text();
-      return [...xml.matchAll(/<Key>([^<]+)<\/Key>/g)].map(m => m[1]);
+      //
+      // R2 caps one ListObjectsV2 response (default max-keys 1000, i.e. 500
+      // capture pairs at the 30 s cadence). An unpaginated read therefore
+      // hides every capture above the oldest 500 pairs once the retained
+      // backlog exceeds the page: ordered discovery starves above the page
+      // top, and the collector's nextSequence resumes into already-committed
+      // sequences (Story 79 production rejection storm). Follow
+      // NextContinuationToken until the response is no longer truncated so
+      // the listing is complete regardless of retained depth.
+      const keys = [];
+      let token = null;
+      for (;;) {
+        const query = `?list-type=2&prefix=${prefix}${token ? `&continuation-token=${encodeURIComponent(token)}` : ''}`;
+        const response = await signedFetch('GET', query);
+        if (!response.ok) throw new Error(`R2 capture list failed: ${response.status}`);
+        const xml = await response.text();
+        for (const m of xml.matchAll(/<Key>([^<]+)<\/Key>/g)) keys.push(m[1]);
+        const next = xml.match(/<NextContinuationToken>([^<]+)<\/NextContinuationToken>/);
+        if (!/<IsTruncated>true<\/IsTruncated>/.test(xml) || !next) break;
+        // The token is XML text content: unescape entities before passing it
+        // back, then let createR2SignedFetch re-encode it in the query.
+        token = next[1].replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+      }
+      return keys;
     }
   };
 }

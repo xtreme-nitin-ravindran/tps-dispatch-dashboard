@@ -390,3 +390,57 @@ test('[STORY-64] createR2CaptureSink.getBytes reports a missing object and surfa
   const failing = createR2CaptureSink({ endpoint: 'https://r2.example.com', bucket: 'b', accessKeyId: 'a', secretAccessKey: 's', fetchImpl: async () => ({ ok: false, status: 500 }) });
   await assert.rejects(failing.getBytes('k'), /read failed: 500/);
 });
+
+test('[STORY-79] createR2CaptureSink paginates a truncated listing until every key is returned', async () => {
+  const calls = [];
+  const fetchImpl = async (url) => {
+    calls.push(url);
+    if (url.includes('continuation-token=')) {
+      return { ok: true, status: 200, text: async () => '<ListBucketResult><Contents><Key>ttc-captures/ttc-vehicles/000000000501.json</Key></Contents><IsTruncated>false</IsTruncated></ListBucketResult>' };
+    }
+    return { ok: true, status: 200, text: async () => '<ListBucketResult><Contents><Key>ttc-captures/ttc-vehicles/000000000000.json</Key></Contents><IsTruncated>true</IsTruncated><NextContinuationToken>tok&amp;1</NextContinuationToken></ListBucketResult>' };
+  };
+  const sink = createR2CaptureSink({ endpoint: 'https://r2.example.com', bucket: 'b', accessKeyId: 'a', secretAccessKey: 's', fetchImpl });
+  assert.deepEqual(await sink.list('ttc-captures/ttc-vehicles/'), [
+    'ttc-captures/ttc-vehicles/000000000000.json',
+    'ttc-captures/ttc-vehicles/000000000501.json'
+  ]);
+  assert.equal(calls.length, 2);
+  // The XML-escaped token is unescaped, then re-encoded into the follow-up query.
+  assert.match(calls[1], /continuation-token=tok%261/);
+});
+
+test('[STORY-79] a truncated page without a continuation token ends the listing', async () => {
+  const fetchImpl = async () => ({ ok: true, status: 200, text: async () => '<ListBucketResult><Contents><Key>k1.json</Key></Contents><IsTruncated>true</IsTruncated></ListBucketResult>' });
+  const sink = createR2CaptureSink({ endpoint: 'https://r2.example.com', bucket: 'b', accessKeyId: 'a', secretAccessKey: 's', fetchImpl });
+  assert.deepEqual(await sink.list('p'), ['k1.json']);
+});
+
+test('[STORY-79] ordered discovery and nextSequence see captures beyond the first listing page', async () => {
+  // The production starvation: with >500 committed pairs the unpaginated R2
+  // listing hid every capture above the page top, so the processor could never
+  // advance its cursor and the collector's nextSequence resumed into
+  // already-committed sequences (the Story 79 rejection storm). Both must page
+  // through the listing to see the newest committed captures.
+  const metadata = sequence => JSON.stringify({
+    schemaVersion: 1, feedId: 'ttc-vehicles', sequence,
+    requestedAt: '2026-10-13T12:00:00.000Z', completedAt: '2026-10-13T12:00:00.500Z',
+    sourceUpdatedAt: null, bytes: 16, outcome: 'ok',
+    contentHash: `h${sequence}`, classification: 'new-evidence', newEvidence: true, payload: null
+  });
+  const fetchImpl = async (url, options) => {
+    if (options.method === 'GET' && url.includes('list-type=2')) {
+      return url.includes('continuation-token=')
+        ? { ok: true, status: 200, text: async () => '<ListBucketResult><Contents><Key>ttc-captures/ttc-vehicles/000000000501.json</Key></Contents><IsTruncated>false</IsTruncated></ListBucketResult>' }
+        : { ok: true, status: 200, text: async () => '<ListBucketResult><Contents><Key>ttc-captures/ttc-vehicles/000000000500.json</Key></Contents><IsTruncated>true</IsTruncated><NextContinuationToken>page2</NextContinuationToken></ListBucketResult>' };
+    }
+    const match = url.match(/(\d{12})\.json/);
+    return { ok: true, status: 200, text: async () => metadata(Number(match[1])) };
+  };
+  const sink = createR2CaptureSink({ endpoint: 'https://r2.example.com', bucket: 'b', accessKeyId: 'a', secretAccessKey: 's', fetchImpl });
+  const spool = memorySpool();
+  const captures = await listCommitted({ sink, feedId: 'ttc-vehicles', afterSequence: 500 });
+  assert.deepEqual(captures.map(c => c.sequence), [501]);
+  const store = createCaptureStore({ spool, sink });
+  assert.equal(await store.nextSequence(), 502);
+});

@@ -139,6 +139,20 @@ browser suites, and the offline suites; homelab through `sirento-verify.sh`
    the app repo and rebuilds the image, so the fix reaches the stack
    without any manual state surgery. The processor then resumes from
    checkpoint cursor 179 and replays the oldest retained captures.
-5. The e2e harness (scratch bucket `rotato-e2e-scratch`) now runs from homelab:
+5. **Second production hotfix (capture listing pagination):** after the
+   identity fix, the processor hit an `Invalid TTC vehicle state` storm on
+   fresh captures and froze at cursor 1847. Root cause: the capture sink's
+   R2 listing was unpaginated (1000 keys/page ≈ 500 pairs), so the
+   restarted collector's `nextSequence()` saw a truncated maximum and
+   reused already-committed sequences, and the processor could not see
+   anything above the page top. Fixed in this repo (pagination + `[STORY-79]`
+   regressions; live-bucket proof: true max 2032 vs capped 1847). Recovery
+   procedure, with the stack stopped after redeploying the fixed image:
+   delete the old-era capture objects above cursor 1847
+   (`requestedAt < 2026-11-09T21:20:00Z`) — the one-off cleanup script is
+   shipped to the guest during recovery; never run it while the stack is
+   up. The processor then resumes from cursor 1847 over the new-era
+   captures only.
+6. The e2e harness (scratch bucket `rotato-e2e-scratch`) now runs from homelab:
    `bash infra/scripts/lib/e2e-target.sh up` then `sirento-e2e.sh` with the
    `local.yml` inventory (see homelab `docs/e2e-test.md`).
