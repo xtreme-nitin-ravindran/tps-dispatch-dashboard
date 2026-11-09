@@ -733,3 +733,36 @@ test('[STORY-64] structuredLog emits one JSON line per entry', () => {
   } finally { console.log = saved; }
   assert.equal(JSON.parse(line).status, 'ok');
 });
+
+test('[STORY-79] a transient drain failure degrades and resumes instead of killing the service', async () => {
+  // Story 79 production rejection: a single transient `R2 capture list failed:
+  // 403` escaped the drain and killed the whole service (fatal + closed health
+  // port + zombie). A transient discovery failure must degrade the drain and
+  // resume on the next one, with the error visible in the log and health.
+  const logs = [];
+  const health = [];
+  const controller = new AbortController();
+  let calls = 0;
+  const run = composeProcessor({
+    envCtx: { staticCache: '/tmp/surface.zip', checkpointPath: '/tmp/cp', publishSink: { publish() { return { changed: false }; } } },
+    store: { list() { return []; } },
+    sink: { getBytes() { } },
+    loadStatic: async () => ({ index: { version: 'v1' } }),
+    infer: () => ({ state: {}, report: {} }),
+    complete: () => ({ state: {}, output: { diversions: [] } }),
+    run: async () => {
+      calls++;
+      if (calls === 1) throw new Error('R2 capture list failed: 403');
+      controller.abort();
+      return { processed: 0, rejected: 0, cursor: 7, windows: 1, reset: false };
+    },
+    signal: controller.signal,
+    wait: async () => { },
+    log: entry => logs.push(entry)
+  });
+  const result = await run({ onHealth: (component, snapshot) => health.push({ component, snapshot }) });
+  assert.equal(calls, 2, 'the second drain runs after the first degrades');
+  assert.deepEqual(result, { processed: 0, rejected: 0, cursor: 7, windows: 1, reset: false });
+  assert.ok(logs.some(e => e.status === 'drain-failed' && e.error === 'R2 capture list failed: 403'));
+  assert.deepEqual(health, [{ component: 'processing', snapshot: { status: 'degraded', error: 'R2 capture list failed: 403' } }]);
+});
