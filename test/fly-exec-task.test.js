@@ -472,12 +472,10 @@ test("[STORY-55F] the real pipeline's inline tasks extract with their run blocks
   assert.match(publish.config, /npm ci --omit=dev/);
   assert.throws(() => extractTaskConfig(text, "build-test-image"), /task not found/);
 
-  const geometry = extractTaskConfig(text, "publish-ttc-geometry");
-  assert.equal(geometry.kind, "inline");
-  assert.match(geometry.config, /publish-ttc-phase\.js/);
-
-  const vehicles = extractTaskConfig(text, "observe-vehicles");
-  assert.deepEqual(vehicles, { kind: "file", path: "repo/concourse/ttc-vehicles.yml" });
+  // The bounded TTC geometry writer (observe-vehicles + publish-ttc-geometry) was
+  // removed in the Story 64 cutover; only the incident ETL task remains.
+  assert.throws(() => extractTaskConfig(text, "publish-ttc-geometry"), /task not found/);
+  assert.throws(() => extractTaskConfig(text, "observe-vehicles"), /task not found/);
 });
 
 // --- Shell wrapper ---------------------------------------------------------
@@ -594,14 +592,21 @@ test("[STORY-55F] the wrapper forwards args after -- unchanged and in order", as
 
 test("[STORY-55F] the wrapper resolves a file: task to the repository-root path", async () => {
   const stub = await makeStubEnv();
+  // A synthetic pipeline with a `file:` task keeps the wrapper's file-reference
+  // resolution covered now that the real pipeline no longer has a `file:` task
+  // (the bounded TTC geometry writer was removed in the Story 64 cutover).
+  const dir = await mkdtemp(join(tmpdir(), "fly-exec-file-"));
+  const syntheticPipeline = join(dir, "pipeline.yml");
+  await writeFile(syntheticPipeline, "jobs:\n  - name: j\n    plan:\n      - task: thing\n        file: repo/concourse/tfs-etl.yml\n");
   try {
-    const result = runWrapper(["observe-vehicles"], stub);
+    const result = runWrapper(["thing", "--pipeline", syntheticPipeline], stub);
     assert.equal(result.status, 0, result.stderr);
     const argv = (await readLog(stub.log))[0];
     const cIndex = argv.indexOf("-c");
-    assert.equal(argv[cIndex + 1], join(root, "concourse", "ttc-vehicles.yml"));
+    assert.equal(argv[cIndex + 1], join(root, "concourse", "tfs-etl.yml"));
   } finally {
     await rm(stub.dir, { recursive: true, force: true });
+    await rm(dir, { recursive: true, force: true });
   }
 });
 

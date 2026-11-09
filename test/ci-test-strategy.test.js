@@ -1,11 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { at, vehicle, protobuf, staticIndex } from './fixtures/ttc-vehicles/builders.js';
-import { parseTtcVehicles } from '../src/ttc/vehicle-feed.js';
-import { detectVehicles } from '../src/ttc/vehicle-detector.js';
-import { inferDiversions } from '../src/ttc/diversion-inference.js';
-import { publicTtcGeometry } from '../scripts/publish-ttc-geometry.js';
 
 // The protected GitHub promotion gate validates main before the scheduled
 // Concourse updater consumes it. Concourse only needs the publication runtime.
@@ -70,40 +65,4 @@ test("[INFRA-CI] the incident output stays rooted in the declared task output be
   assert.match(concourse, /TFS_OUTPUT="\$INCIDENT_OUTPUT"/);
   assert.match(concourse, /node scripts\/r2-fetch\.js data\/current\.json \/tmp\/history\/current\.json/);
   assert.match(concourse, /node scripts\/publish-incidents\.js/);
-});
-
-test("[INFRA-CI] the scheduled vehicle burst captures an off-route confirmation and rejoin across three-minute ticks", async () => {
-  const task = await readFile(new URL("concourse/ttc-vehicles.yml", root), "utf8");
-  const polls = Number(task.match(/--polls (\d+)/)[1]);
-  const intervalMs = Number(task.match(/--interval-ms (\d+)/)[1]);
-  assert.equal(intervalMs, 30000);
-  const refreshSeconds = Number(concourse.match(/interval: (\d+)m/)[1]) * 60;
-  assert.equal(refreshSeconds, 180);
-  assert.equal((polls - 1) * intervalMs, 150000);
-  const index = staticIndex();
-  const path = [
-    [43.65, -79.404], [43.65, -79.404], [43.65, -79.404],
-    [43.652, -79.403], [43.652, -79.402], [43.652, -79.400],
-    [43.65, -79.398], [43.65, -79.397], [43.65, -79.396]
-  ];
-  const capture = (count, refresh = refreshSeconds) => {
-    let vehicles, state, maximumPublished = 0;
-    for (const start of [0, refresh]) {
-      for (let i = 0; i < count; i++) {
-        const seconds = start + i * intervalMs / 1000;
-        const position = path[seconds / 30] || path.at(-1);
-        const rows = ['a', 'b'].map(id => vehicle(seconds, {
-          vehicle: { id }, position: { latitude: position[0], longitude: position[1] }
-        }));
-        const feed = parseTtcVehicles(protobuf(rows, seconds), at(seconds));
-        vehicles = detectVehicles(vehicles, feed, index, at(seconds)).state;
-        const result = inferDiversions(state, vehicles, index, at(seconds));
-        state = result.state;
-        if (i === count - 1) maximumPublished = Math.max(maximumPublished, publicTtcGeometry(result.output).diversions.length);
-      }
-    }
-    return maximumPublished;
-  };
-  assert.equal(capture(4, 300), 0, "the old burst misses enough off-route samples to confirm");
-  assert.equal(capture(polls), 1, "the configured burst observes both complete trajectories");
 });
