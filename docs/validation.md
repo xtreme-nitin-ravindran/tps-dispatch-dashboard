@@ -307,9 +307,10 @@ checks replaces feature-specific regression contracts or required physical-devic
 validation.
 
 `npm run verify` does **not** run the host-level TTC GTFS-RT vehicle-capture
-deployment test (`scripts/e2e.sh`); that test deploys the Compose stack via
-Ansible and needs live R2 credentials, so it is a separate, manually-run check. See
-[the TTC GTFS-RT vehicle-capture test](e2e-test.md).
+deployment test; that test lives in the homelab repo since Story 79 (single-writer
+ownership): it deploys the Compose stack via Ansible and needs live R2
+credentials, so it is a separate, manually-run check. See the homelab repo's
+`docs/e2e-test.md` and this repo's [cross-repo deploy handoff](homelab-deploy-handoff.md).
 
 ### Fast inner-loop verification
 
@@ -403,17 +404,10 @@ docker run --rm -v "$PWD/data:/workspace/data" toronto-dispatch-tests npm run up
 A host-level test exercises the TTC GTFS-RT vehicle-capture deployment: it deploys
 the collector/processor Compose stack via Ansible onto an SSH-reachable Linux host,
 creates a scratch R2 bucket, verifies it, then tears down the stack and the bucket.
-This is **not** part of `npm run verify`, the Docker test image, CI, or the browser
-suites — it drives `ssh`/`ansible-playbook` directly and needs live R2 credentials
-plus a booted host.
-
-```sh
-cp scripts/e2e.env.example scripts/e2e.env   # fill in R2 object creds
-export E2E_CREDS_FILE=scripts/e2e.env
-bash scripts/e2e.sh                   # full lifecycle
-```
-
-Run it at story completion alongside (not instead of) `npm run verify`. See
-[the TTC GTFS-RT vehicle-capture test](e2e-test.md) and
-[deploy/DEPLOYMENT.md](../deploy/DEPLOYMENT.md) for the phase breakdown,
-environment-variable table, and failure diagnosis.
+Since Story 79 (single-writer ownership) this harness lives in the **homelab repo**
+(`infra/scripts/sirento-e2e.sh`); it is **not** part of `npm run verify`, the Docker
+test image, CI, or the browser suites — it drives `ssh`/`ansible-playbook` directly
+and needs live R2 credentials plus a booted host. Run it at story completion
+alongside (not instead of) `npm run verify`; see the homelab repo's
+`docs/e2e-test.md` for the phase breakdown, environment-variable table, and failure
+diagnosis, and this repo's [cross-repo deploy handoff](homelab-deploy-handoff.md).

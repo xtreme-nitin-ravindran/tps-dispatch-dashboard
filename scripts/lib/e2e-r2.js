@@ -1,12 +1,16 @@
 // TTC GTFS-RT vehicle-capture test — R2 readback helpers.
 //
-// The e2e harness (scripts/e2e.sh) needs to assert that the deployed
-// collector/processor actually wrote durable evidence to R2, that the ownership
-// lease exists, and that the public geometry artifact is present. Rather than
-// re-implementing SigV4 signing in bash, this module composes the already-covered
-// R2 client factories (`createR2CaptureSink` / `createR2SignedFetch` /
-// `fetchR2Object` from scripts/lib/publication-sink.js and src/ttc/capture-store.js)
-// into a small CLI the harness calls.
+// Story 79 (single-writer ownership) moved the e2e deploy harness and the
+// verification scripts to the homelab repo; this module deliberately stays
+// here because it is a thin composition over this repo's production R2
+// modules, and homelab imports it by contract path (`$SIRENTO_REPO/scripts/lib/
+// e2e-r2.js` from `sirento-e2e.sh` / `sirento-verify.sh`). It asserts that the
+// deployed collector/processor actually wrote durable evidence to R2, that the
+// ownership lease exists, and that the public geometry artifact is present.
+// Rather than re-implementing SigV4 signing in bash, it composes the
+// already-covered R2 client factories (`createR2CaptureSink` /
+// `createR2SignedFetch` / `fetchR2Object` from scripts/lib/publication-sink.js
+// and src/ttc/capture-store.js) into a small CLI the harness calls.
 //
 // This module is a thin composition over production-tested modules. It is a
 // host-level test helper (never run inside the Docker test image) and contains no
