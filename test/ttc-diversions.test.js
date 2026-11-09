@@ -719,3 +719,42 @@ test('[STORY-79] a latch whose id is reused by an incompatible path never duplic
   validateDiversionOutput(completed.output);
   assert.equal(publicTtcGeometry(completed.output).diversions.length,2);
 });
+
+test('[STORY-79] a record claimed across a diverged path never inherits a firstObservedAt newer than its evidence',()=>{
+  // Story 79 production rejection storm: two nearby-anchor clusters
+  // cross-claimed each other's records, so one group inherited a
+  // firstObservedAt NEWER than its own latest observation and the output
+  // validator rejected every capture with `Invalid TTC diversion output:
+  // timestamps`. The earliest observation must win.
+  const short=[path[0],path[1],path[2],path[3],path[4]];
+  const a=run({paths:[short,short]}); // confirmed tracks, incomplete episodes, lastOffAt at(120)
+  const anchorRecord=a.state.records[0];
+  // A valid previous record whose first/last observation (at(180)) is NEWER
+  // than the group's evidence (lastOffAt at(120)): structurally valid, but the
+  // unconditional inheritance inverted the record's timestamps.
+  const r2={...structuredClone(anchorRecord),id:'x2',
+    firstObservedAt:at(180).toISOString(),lastObservedAt:at(180).toISOString()};
+  const previous={...a.state,checkedAt:at(180).toISOString(),records:[r2]};
+  // One quiet cycle: the tracks persist (within the gap), so the episodes stay
+  // open with their lastOffAt frozen at at(120).
+  const quiet=detectVehicles(a.vehicles,parseTtcVehicles(protobuf([],210),at(210)),index,at(210)).state;
+  // Pre-fix, this threw `Invalid TTC diversion output: timestamps` from the
+  // final state validation on every capture.
+  const inferred=inferDiversions(previous,quiet,index,at(210));
+  const record=inferred.state.records[0];
+  const groupLast=inferred.state.episodes.filter(e=>record.episodeIds.includes(e.id)).map(e=>e.lastOffAt).sort().at(-1);
+  assert.equal(record.id,'x2','identity continuity retains the id');
+  assert.ok(record.firstObservedAt<=record.lastObservedAt,'first observation never exceeds the latest evidence');
+  assert.notEqual(record.firstObservedAt,at(180).toISOString(),'the newer anchor value fell back to the group evidence');
+  assert.equal(record.lastObservedAt,groupLast,'the latest observation tracks the group evidence');
+  validateDiversionState(inferred.state,index);
+  validateDiversionOutput(inferred.output,index);
+});
+
+test('[STORY-79] continuous evidence still retains the original first observation',()=>{
+  // The retain side of the clamp: when the previous record is older than the
+  // group's evidence, the original firstObservedAt is preserved unchanged.
+  const first=run();
+  const continued=inferDiversions(first.state,detectVehicles(first.vehicles,parseTtcVehicles(protobuf([0,1].map(j=>vehicle(210,{vehicle:{id:String(j)},position:{latitude:path[6][0],longitude:path[6][1]}})),210),at(210)),index,at(210)).state,index,at(210));
+  assert.equal(continued.state.records[0].firstObservedAt,at(30).toISOString());
+});
