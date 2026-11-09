@@ -9,10 +9,11 @@
 //
 // Publication (the write to R2) is deliberately *not* handled here. Each
 // scheduler runs the shared phase scripts, which publish directly to R2 through
-// the sink; the git `data` branch was retired in Story 55E. Both writers use
-// different object keys (`data/current.json` for incidents,
-// `data/ttc-diversions.json` for TTC geometry), so they cannot conflict. No
-// lock and no custom retry loop are needed.
+// the sink; the git `data` branch was retired in Story 55E. The schedulers
+// write only `data/current.json` (incidents); TTC geometry
+// (`data/ttc-diversions.json`) is owned by the independent continuous capture
+// stack (Story 79 single-writer ownership), so the two datasets cannot
+// conflict. No lock and no custom retry loop are needed.
 
 // The schedule runs every five minutes and the browser marks a feed stale after
 // ten minutes (`src/source-status.js`). A five-minute threshold keeps each

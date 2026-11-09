@@ -41,9 +41,8 @@ playwright-report
 wrangler.toml
 .wrangler
 
-# local deployment secrets (never send to the build context).
-deploy/secrets.env
-deploy/secrets.*.env
+# Story 79: TTC capture deployment secrets live in the homelab repo now; the
+# only remaining deploy/ file is the build definition (deploy/Dockerfile).
 
 # Documentation, roadmap, and attachment artifacts that are not build inputs.
 docs

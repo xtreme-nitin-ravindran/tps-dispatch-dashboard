@@ -112,8 +112,9 @@ Before pushing, run `npm run verify` (the canonical full-verification command) a
 - [ ] `git diff --check` passes.
 - [ ] `data/current.json` is unchanged unless intentionally modified.
 - [ ] For changes to the TTC GTFS-RT vehicle-capture stack, the host-level
-      deployment test passes (`bash scripts/e2e.sh`; see
-      [TTC GTFS-RT vehicle-capture](docs/e2e-test.md)).
+      deployment test passes (homelab repo:
+      `infra/scripts/sirento-e2e.sh`; see the homelab repo's
+      `docs/e2e-test.md` and this repo's `docs/homelab-deploy-handoff.md`).
 
 ## Testing and Validation
 
@@ -160,7 +161,7 @@ The checks and test suites are outlined below:
 - **Frontend asset bumps:** Run `npm run bump:asset-version -- --asset <tag> --cache <sirento-shell-vN>` on the host because it mutates source files; the Docker wrapper mounts those files read-only. Then run the asset-version agreement test through the Docker wrapper and inspect the diff. Repository validation remains in Docker.
 - **Development snapshot:** Generate local data for manual testing. This is not a validation check. See [snapshot generation](docs/validation.md#generate-a-development-snapshot).
 - **Concourse worker validation:** Test affected tasks against the working tree on the real worker using `fly execute`, in addition to local Docker checks. See [worker validation](docs/concourse.md).
-- **TTC GTFS-RT vehicle-capture test:** Deploy the TTC capture stack to an SSH-reachable host and verify it end-to-end. See [the TTC GTFS-RT vehicle-capture test](docs/e2e-test.md).
+- **TTC GTFS-RT vehicle-capture test:** Deploy the TTC capture stack to an SSH-reachable host and verify it end-to-end. The deploy orchestration and its host-level e2e test live in the homelab repo since Story 79 (single-writer ownership); see [the cross-repo deploy handoff](docs/homelab-deploy-handoff.md) and the homelab repo's `docs/e2e-test.md`.
 
 ## Web Notifications
 
@@ -195,7 +196,7 @@ Automation validates code changes and keeps the dashboard’s public data curren
 - Publishes coverage badges and reports to the generated **`coverage`** branch; do not use it for development.
 - Provides fallback data updates when the snapshot or either incident feed is at least ten minutes old or unavailable. Scheduled checks run every five minutes but may be delayed.
 - See [data pipeline details](docs/data-pipeline.md) and [coverage reporting](docs/validation.md#test-coverage).
-- Dependabot watches `npm`, the Docker test image (`docker/Dockerfile.test`), the pinned GitHub Actions, and the Ansible collection (`deploy/ansible/requirements.yml`). Minor and patch bumps for `npm`, `github-actions`, and `ansible` auto-merge through `.github/workflows/dependabot-auto-merge.yml`, while major bumps stay open for manual review; the `docker` ecosystem never auto-merges. It cannot see the Concourse `image_resource` Node tags, so those are guarded by `concourse/node-image.yml` and `test/concourse-node-image.test.js`; bump them together with the Dockerfile. A scheduled drift check (`.github/workflows/node-drift.yml`) opens an issue if the Dockerfile and Concourse tags ever diverge. See [Dependabot coverage and the Concourse Node image drift guard](AGENTS.md#dependabot-coverage-and-the-concourse-node-image-drift-guard).
+- Dependabot watches `npm`, the Docker test image (`docker/Dockerfile.test`), and the pinned GitHub Actions. Minor and patch bumps for `npm` and `github-actions` auto-merge through `.github/workflows/dependabot-auto-merge.yml`, while major bumps stay open for manual review; the `docker` ecosystem never auto-merges. The Ansible collection for the TTC deploy role is watched by the homelab repo's Dependabot (Story 79 moved the role there). It cannot see the Concourse `image_resource` Node tags, so those are guarded by `concourse/node-image.yml` and `test/concourse-node-image.test.js`; bump them together with the Dockerfile. A scheduled drift check (`.github/workflows/node-drift.yml`) opens an issue if the Dockerfile and Concourse tags ever diverge. See [Dependabot coverage and the Concourse Node image drift guard](AGENTS.md#dependabot-coverage-and-the-concourse-node-image-drift-guard).
 
 ### Data storage
 
@@ -207,21 +208,14 @@ Automation validates code changes and keeps the dashboard’s public data curren
 ## Deployment
 
 The continuous TTC GTFS-RT vehicle-capture collector/processor runs as a Docker
-Compose stack on a Linux host, deployed via Ansible. A host-level test exercises
-the full lifecycle (target → deploy → verify → teardown, including a scratch R2
-bucket).
-
-Two documents cover it:
-
-- **Deployment runbook** — explains the two long-running collector/processor
-  services, how they take a single-writer ownership lease, and how to deploy,
-  verify health, and roll back with the Ansible playbook. See
-  [deploy/DEPLOYMENT.md](deploy/DEPLOYMENT.md).
-- **TTC GTFS-RT vehicle-capture test** — a host-level test that deploys the stack,
-  confirms it writes durable evidence to a scratch R2 bucket, and tears everything
-  down cleanly. Run it locally with `make e2e-local` (it spins up a throwaway
-  Docker host container), or against an existing SSH host as documented. See
-  [docs/e2e-test.md](docs/e2e-test.md).
+Compose stack on a Linux host. Story 79 (single-writer ownership) split the
+concerns: this repo owns the producer code, the build definition
+(`deploy/Dockerfile`), and the consumer; the **homelab repo** owns the
+deployment orchestration (Compose + Ansible), credentials, and the host-level
+e2e test, referencing this repo by contract paths. See
+[docs/homelab-deploy-handoff.md](docs/homelab-deploy-handoff.md) for the boundary
+and the move manifest; the homelab repo's `docs/sirento-ttc.md` and
+`docs/e2e-test.md` cover the runbook and the deployment test.
 
 ## Attribution
 

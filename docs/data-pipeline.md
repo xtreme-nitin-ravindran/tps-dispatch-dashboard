@@ -6,7 +6,7 @@
 
 - **Concourse** runs `scripts/tfs-etl.js` approximately every five minutes to fetch feeds, merge history, and prepare map locations. Road and TTC feeds are checked at most once every five minutes.
 - **GitHub Actions fallback** checks every five minutes and runs the updater if the snapshot or either incident feed is at least ten minutes old or unavailable. Scheduled runs may be delayed.
-- Both use code from **`main`**. Concourse and the GitHub Actions fallback both publish `data/current.json` and `data/ttc-diversions.json` to **Cloudflare R2**. The site reads those files directly, so data updates do not require a Pages deployment.
+- Both use code from **`main`**. Concourse and the GitHub Actions fallback publish `data/current.json` (the incident snapshot) to **Cloudflare R2**. TTC geometry (`data/ttc-diversions.json`) is owned by the always-on continuous capture stack, not these schedulers (Story 79 single-writer ownership; see `docs/homelab-deploy-handoff.md`). The site reads both files directly, so data updates do not require a Pages deployment.
 - Failed sources retain their last successful data and are marked unavailable. If both incident feeds fail, the existing snapshot is preserved.
 
 ### Published data and the R2 sink
@@ -14,26 +14,28 @@
 The published snapshot and TTC geometry live in a **Cloudflare R2** bucket
 (S3-compatible object storage). R2 is the only publication target: the git `data`
 branch was retired in Story 55E, so neither scheduler writes a branch and the
-publication sink fails loudly when the R2 credentials are missing. Each publication
-phase writes a different object key (`data/current.json` and `data/ttc-diversions.json`),
-and R2 is last-writer-wins per key, so the two datasets cannot conflict and no lock or
-serial group is needed.
+publication sink fails loudly when the R2 credentials are missing. Each key has
+exactly one writer: the schedulers write `data/current.json`, and the continuous
+TTC capture stack (deployed from the homelab repo by contract) writes
+`data/ttc-diversions.json`. R2 is last-writer-wins per key, so the two datasets
+cannot conflict and no lock or serial group is needed.
 
-- **Concourse** runs one `update-sirento` job. The incident ETL and the bounded TTC
-  vehicle burst are sequential steps in that job. The incident phase publishes
-  `data/current.json` first; the TTC geometry phase publishes `data/ttc-diversions.json`
-  afterwards. Both publish directly to R2. The incident task seeds the ETL history input from the published snapshot with
+- **Concourse** runs one `update-sirento` job: the incident ETL only. It publishes
+  `data/current.json` directly to R2. TTC geometry is no longer published here: the
+  continuous capture stack (collector + processor, Story 64) owns
+  `data/ttc-diversions.json` (Story 79 records the ownership boundary). The incident
+  task seeds the ETL history input from the published snapshot with
   [`scripts/r2-fetch.js`](../scripts/r2-fetch.js); a missing object is tolerated so the ETL
   can start fresh even when `TFS_PREVIOUS` explicitly names the absent file. A
   present-but-malformed history snapshot fails rather than silently discarding history.
 - **GitHub Actions** runs one `update-sirento` workflow
-  (`.github/workflows/update-sirento.yml`) with the same sequential steps. It publishes
-  to R2, with the four R2 values supplied as repository
+  (`.github/workflows/update-sirento.yml`) with the same incident-only step. It
+  publishes to R2, with the four R2 values supplied as repository
   secrets (`R2_ENDPOINT`, `R2_BUCKET`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`).
 
-Because there is only one writer per scheduler, no `serial_groups` lock is needed. The
-trade-off is deliberate: a TTC failure fails the whole build, so the next timer tick or
-scheduled run retries both the incident snapshot and the TTC geometry together.
+Because each scheduler writes only `data/current.json` (the TTC geometry writer is the
+independent continuous capture stack), no `serial_groups` lock is needed. An incident
+ETL failure fails the build, so the next timer tick or scheduled run retries it.
 
 Keep generated snapshots out of code commits. The snapshot on `dev` and `main` is a
 fixture; the live snapshot is in R2. Pipeline configuration is in

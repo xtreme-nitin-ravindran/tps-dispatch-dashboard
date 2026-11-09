@@ -1,9 +1,12 @@
 # Dependabot version updates.
 #
 # Auto-merge policy is intentionally scoped per ecosystem:
-#   - npm / github-actions / ansible: minor and patch bumps are auto-merged (see
+#   - npm / github-actions: minor and patch bumps are auto-merged (see
 #     .github/workflows/dependabot-auto-merge.yml); major bumps always open a
 #     PR for manual review.
+#   - ansible: the deploy role moved to the homelab repo in Story 79
+#     (single-writer ownership); homelab's own .github/dependabot.yml now
+#     watches infra/sirento/ansible.
 #   - docker: version bumps stay fully manual. A Dockerfile `FROM node:<tag>`
 #     bump never merges automatically because the Concourse `image_resource`
 #     tags (invisible to Dependabot) must be updated in the same reviewed
@@ -38,17 +41,6 @@ updates:
       interval: "daily"
     groups:
       github-actions:
-        patterns: ["*"]
-        update-types:
-          - "minor"
-          - "patch"
-
-  - package-ecosystem: "ansible"
-    directory: "/deploy/ansible"
-    schedule:
-      interval: "daily"
-    groups:
-      ansible:
         patterns: ["*"]
         update-types:
           - "minor"

@@ -35,10 +35,11 @@ environment or `fly` vars. The task config supplies its worker image.
 A publication task such as `update-and-publish` writes to R2, so a worker
 validation must never point its `((r2_*))` vars at the production bucket. Build
 a scratch vars file from the e2e credentials (the fixed scratch bucket
-`rotato-e2e-scratch`) and pass it with `--load-vars-from`:
+`rotato-e2e-scratch`; since Story 79 the e2e harness lives in the homelab repo's
+`infra/sirento/e2e.env`) and pass it with `--load-vars-from`:
 
 ```bash
-# Map scripts/e2e.env onto the task's ((var)) names in a git-ignored scratch file:
+# Map the e2e credentials onto the task's ((var)) names in a git-ignored scratch file:
 #   r2_endpoint         <- R2_ENDPOINT
 #   r2_bucket           <- R2_BUCKET
 #   r2_access_key_id    <- R2_ACCESS_KEY_ID
