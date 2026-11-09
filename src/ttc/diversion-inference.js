@@ -256,7 +256,13 @@ export function completeDiversionCapture(state,{healthy,sourceHealthy=healthy}) 
   for (const old of state.persistence || []) {
     const match=current.find(r=>!claimed.has(r.id)&&compatible(old.record,r));
     // An id collision with a different path must never reuse its confirmation.
-    if (!match&&current.some(r=>r.id===old.record.id)) continue;
+    // This fires whenever a current record carries the latch's id on a path
+    // the latch is not compatible with — including when the latch matched a
+    // different compatible record. The narrower `!match` form let the latch
+    // keep its id in that case while the same-id current record was then
+    // latched fresh alongside it, duplicating the id in persistence and
+    // failing output validation on every drain (Story 79 production rejection).
+    if (current.some(r=>r.id===old.record.id&&r!==match)) continue;
     const entry=structuredClone(old);
     const fresh=healthy&&match?.status==='confirmed'&&match.lastObservedAt>entry.record.lastObservedAt&&now-Date.parse(match.lastObservedAt)<=DIVERSION_POLICY.freshEvidenceMs;
     if (Date.parse(entry.record.expiresAt)<=now&&(!fresh||Date.parse(match.lastObservedAt)-Date.parse(entry.record.lastObservedAt)>DIVERSION_POLICY.evidenceMs)) continue;

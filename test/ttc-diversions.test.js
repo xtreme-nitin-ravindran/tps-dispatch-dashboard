@@ -681,3 +681,41 @@ test('[STORY-30E][STORY-30G] Story 57: rolling expiry follows 10:03 to 10:33 and
   const beyond=completeDiversionCapture(run({start:2110,previous:earned.state}).state,{healthy:true});
   assert.equal(beyond.state.persistence[0].confirmedCaptures,1);
 });
+
+test('[STORY-79] a latch whose id is reused by an incompatible path never duplicates the id in persistence',()=>{
+  // Story 79 production rejection: the durable inference state held an earned
+  // latch (id X) whose path was still compatible with a different current
+  // record (Y), while a drifted current record carried the same id X on a
+  // materially different path. The narrower collision guard kept the latch's
+  // id (it had found a compatible match) and the same-id drifted record was
+  // then latched fresh alongside it — two persistence entries sharing one id,
+  // which output validation rejects on every drain and wedges the processor.
+  const base=run();const rec=base.state.records[0];
+  const drift=(p)=>[p[0],p[1]+0.02],near=(p)=>[p[0],p[1]+0.01];
+  const recordX={...structuredClone(rec),id:'x',geometry:rec.geometry.map(drift),
+    departure:{...structuredClone(rec.departure),point:drift(rec.departure.point)},
+    rejoin:{...structuredClone(rec.rejoin),point:drift(rec.rejoin.point)},
+    scheduledAffectedSegment:{...structuredClone(rec.scheduledAffectedSegment),geometry:(rec.scheduledAffectedSegment.geometry??[]).map(drift)}};
+  const recordY={...structuredClone(rec),id:'y',geometry:rec.geometry.map(near),
+    departure:{...structuredClone(rec.departure),point:near(rec.departure.point)},
+    rejoin:{...structuredClone(rec.rejoin),point:near(rec.rejoin.point)},
+    scheduledAffectedSegment:{...structuredClone(rec.scheduledAffectedSegment),geometry:(rec.scheduledAffectedSegment.geometry??[]).map(near)}};
+  const latchLast=Date.parse(rec.lastObservedAt)-30000;
+  const latch={confirmedCaptures:2,healthyAbsences:0,record:{...structuredClone(recordY),id:'x',
+    lastObservedAt:new Date(latchLast).toISOString(),expiresAt:new Date(latchLast+DIVERSION_POLICY.evidenceMs).toISOString()}};
+  const state={...base.state,records:[recordX,recordY],persistence:[latch]};
+  // Pre-fix, this threw `Invalid TTC diversion output: identity` from the final
+  // state validation: the latch kept id 'x' and recordX was latched fresh with
+  // the same id. Post-fix the stale latch is dropped and only the drifted
+  // record is latched, so the durable state and the published output validate.
+  const completed=completeDiversionCapture(state,{healthy:true,sourceHealthy:true});
+  const ids=completed.state.persistence.map(e=>e.record.id);
+  assert.equal(new Set(ids).size,ids.length,'persistence ids must be unique');
+  assert.deepEqual(ids,['x','y']);
+  // Neither latch inherited the dropped latch's earned confirmations: each
+  // current path starts its own fresh first confirmation.
+  assert.ok(completed.state.persistence.every(e=>e.confirmedCaptures===1));
+  validateDiversionState(completed.state);
+  validateDiversionOutput(completed.output);
+  assert.equal(publicTtcGeometry(completed.output).diversions.length,2);
+});
