@@ -138,7 +138,7 @@ test('[DATA-ETL] ETL carries prior disruptions and legacy feed timestamps throug
     assert.equal(withoutHistory.feeds.TPS.fetchedAt, null);
 });
 
-test('[DATA-ETL] CLI entry points honor environment paths and fallback writes GitHub output', async t => {
+test('[DATA-ETL] CLI entry points honor environment paths', async t => {
  const {execFileSync}=await import('node:child_process');
  const dir=await workspace(t), outputPath=join(dir,'data/current.json'), xmlPath=join(dir,'source.xml'), preload=join(dir,'fetch.mjs');
  const current=new Date().toISOString();
@@ -150,15 +150,9 @@ test('[DATA-ETL] CLI entry points honor environment paths and fallback writes Gi
   const saved=JSON.parse(await readFile(outputPath,'utf8'));
   assert.equal(saved.updatedBy,'manual');assert.equal(saved.feeds.TPS.status,'ok');assert.equal(saved.disruptions.transit.status,'ok');
  }
- const githubOutput=join(dir,'github-output');
- const stdout=execFileSync(process.execPath,[new URL('../scripts/tfs-fallback.js',import.meta.url).pathname],{cwd:dir,env:{...process.env,GITHUB_OUTPUT:githubOutput},encoding:'utf8'});
- assert.match(stdout,/skipped/);assert.equal(await readFile(githubOutput,'utf8'),'updated=false\n');
  const defaultDir=await workspace(t);
  const defaultStdout=execFileSync(process.execPath,['--import',preload,new URL('../scripts/tfs-etl.js',import.meta.url).pathname],{cwd:defaultDir,env:{...process.env,TFS_OUTPUT:'',TFS_XML:'',TFS_UPDATED_BY:'',TFS_PREVIOUS:''},encoding:'utf8'});
  assert.match(defaultStdout,/Wrote 0 incidents to data\/current.json/);
- await rm(join(defaultDir,'data/current.json'));
- const fallbackStdout=execFileSync(process.execPath,['--import',preload,new URL('../scripts/tfs-fallback.js',import.meta.url).pathname],{cwd:defaultDir,env:{...process.env,GITHUB_OUTPUT:''},encoding:'utf8'});
- assert.match(fallbackStdout,/Updated stale snapshot/);
 });
 
 test('[DATA-ETL] TTC artifact survives optional source failure and uses the shared atomic snapshot', async t => {

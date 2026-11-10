@@ -1,16 +1,16 @@
-// Shared publication policy for both schedulers.
+// Shared publication policy for the incident snapshot.
 //
-// GitHub Actions and Concourse must decide identically whether the incident
-// snapshot needs refreshing: the same freshness/skip threshold, the same
-// per-feed failure and history semantics, and the same timestamp meaning. This
-// module is the single source of truth for that policy. The ETL itself lives in
-// `scripts/tfs-etl.js` and the write to Cloudflare R2 in
+// Concourse's single-writer `update-feed` job decides whether the incident
+// snapshot needs refreshing through this module: the same freshness/skip
+// threshold, the same per-feed failure and history semantics, and the same
+// timestamp meaning. This module is the single source of truth for that policy.
+// The ETL itself lives in `scripts/tfs-etl.js` and the write to Cloudflare R2 in
 // `scripts/lib/publication-sink.js`.
 //
-// Publication (the write to R2) is deliberately *not* handled here. Each
-// scheduler runs the shared phase scripts, which publish directly to R2 through
-// the sink; the git `data` branch was retired in Story 55E. The schedulers
-// write only `data/current.json` (incidents); TTC geometry
+// Publication (the write to R2) is deliberately *not* handled here. The
+// `update-feed` phase script publishes directly to R2 through
+// the sink; the git `data` branch was retired in Story 55E. The
+// writer writes only `data/current.json` (incidents); TTC geometry
 // (`data/ttc-diversions.json`) is owned by the independent continuous capture
 // stack (Story 79 single-writer ownership), so the two datasets cannot
 // conflict. No lock and no custom retry loop are needed.

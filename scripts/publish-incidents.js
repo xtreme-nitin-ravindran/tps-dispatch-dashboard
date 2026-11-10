@@ -1,4 +1,4 @@
-// Shared incident-publication phase for both schedulers.
+// Shared incident-publication phase.
 //
 // This is the first of two publication phases. It runs the incident ETL (when
 // the shared freshness policy says the snapshot needs it) and publishes
@@ -10,13 +10,12 @@
 // scheduler push step is needed. The git `data` branch was retired in Story 55E.
 // The two datasets use different keys, so they cannot conflict.
 //
-// GitHub Actions and Concourse both invoke this script, so the freshness/skip
-// policy, per-feed failure/retention, history input, timestamp meaning,
-// deterministic output, and commit/no-change behavior are identical. Only the
-// updater identity and platform credentials differ.
+// Concourse is the single writer for the incident snapshot (data/current.json):
+// its `update-feed` job invokes this script. Only the updater identity and the
+// R2 credentials are platform-specific.
 //
 // Environment:
-//   TFS_UPDATED_BY   updater identity: "github-actions" or "concourse"
+//   TFS_UPDATED_BY   updater identity: "concourse"
 //   TFS_PREVIOUS     optional explicit history input (Concourse)
 //   TFS_OUTPUT       output path (default data/current.json)
 //   TFS_XML          optional XML fixture input

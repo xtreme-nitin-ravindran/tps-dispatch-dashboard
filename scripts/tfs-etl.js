@@ -21,7 +21,7 @@ export async function runTfsEtl({
     outputPath = "data/current.json", previousPath, xmlPath,
     fetchSource = fetchTfsSource, fetchPolice = null, fetchTravel = null, fetchTtc = null, fetchTtcDetours = null, loadStatic = null, log = entry => console.log(JSON.stringify(entry)), now = new Date(), updatedBy = "manual"
 } = {}) {
-    if (!["manual", "concourse", "github-actions"].includes(updatedBy)) throw new Error("Invalid updater identity");
+    if (!["manual", "concourse"].includes(updatedBy)) throw new Error("Invalid updater identity");
     let previous = null;
     try {
         previous = JSON.parse(await readFile(previousPath || outputPath, "utf8"));
