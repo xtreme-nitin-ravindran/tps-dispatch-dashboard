@@ -4,19 +4,18 @@
 
 ## Automated Data Updates
 
-- **Concourse** runs `scripts/tfs-etl.js` approximately every five minutes to fetch feeds, merge history, and prepare map locations. Road and TTC feeds are checked at most once every five minutes.
-- **GitHub Actions fallback** checks every five minutes and runs the updater if the snapshot or either incident feed is at least ten minutes old or unavailable. Scheduled runs may be delayed.
-- Both use code from **`main`**. Concourse and the GitHub Actions fallback publish `data/current.json` (the incident snapshot) to **Cloudflare R2**. TTC geometry (`data/ttc-diversions.json`) is owned by the always-on continuous capture stack, not these schedulers (Story 79 single-writer ownership; see `docs/homelab-deploy-handoff.md`). The site reads both files directly, so data updates do not require a Pages deployment.
+- **Concourse** runs `scripts/tfs-etl.js` approximately every five minutes to fetch feeds, merge history, and prepare map locations. Road and TTC feeds are checked at most once every five minutes. Concourse is the single writer for the published incident snapshot (`data/current.json`); the GitHub Actions fallback scheduler was removed once Concourse became resilient enough to own the role outright.
+- Concourse uses code from **`main`** and publishes `data/current.json` (the incident snapshot) to **Cloudflare R2**. TTC geometry (`data/ttc-diversions.json`) is owned by the always-on continuous capture stack, not this scheduler (Story 79 single-writer ownership; see `docs/homelab-deploy-handoff.md`). The site reads both files directly, so data updates do not require a Pages deployment.
 - Failed sources retain their last successful data and are marked unavailable. If both incident feeds fail, the existing snapshot is preserved.
 
 ### Published data and the R2 sink
 
 The published snapshot and TTC geometry live in a **Cloudflare R2** bucket
 (S3-compatible object storage). R2 is the only publication target: the git `data`
-branch was retired in Story 55E, so neither scheduler writes a branch and the
+branch was retired in Story 55E, so the scheduler writes no branch and the
 publication sink fails loudly when the R2 credentials are missing. Each key has
-exactly one writer: the schedulers write `data/current.json`, and the continuous
-TTC capture stack (deployed from the homelab repo by contract) writes
+exactly one writer: the Concourse scheduler writes `data/current.json`, and the
+continuous TTC capture stack (deployed from the homelab repo by contract) writes
 `data/ttc-diversions.json`. R2 is last-writer-wins per key, so the two datasets
 cannot conflict and no lock or serial group is needed.
 
@@ -28,14 +27,10 @@ cannot conflict and no lock or serial group is needed.
   [`scripts/r2-fetch.js`](../scripts/r2-fetch.js); a missing object is tolerated so the ETL
   can start fresh even when `TFS_PREVIOUS` explicitly names the absent file. A
   present-but-malformed history snapshot fails rather than silently discarding history.
-- **GitHub Actions** runs one `update-sirento` workflow
-  (`.github/workflows/update-sirento.yml`) with the same incident-only step. It
-  publishes to R2, with the four R2 values supplied as repository
-  secrets (`R2_ENDPOINT`, `R2_BUCKET`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`).
 
-Because each scheduler writes only `data/current.json` (the TTC geometry writer is the
+Because the scheduler writes only `data/current.json` (the TTC geometry writer is the
 independent continuous capture stack), no `serial_groups` lock is needed. An incident
-ETL failure fails the build, so the next timer tick or scheduled run retries it.
+ETL failure fails the build, so the next timer tick retries it.
 
 Keep generated snapshots out of code commits. The snapshot on `dev` and `main` is a
 fixture; the live snapshot is in R2. Pipeline configuration is in
