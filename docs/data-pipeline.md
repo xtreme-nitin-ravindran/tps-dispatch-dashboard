@@ -20,7 +20,7 @@ TTC capture stack (deployed from the homelab repo by contract) writes
 `data/ttc-diversions.json`. R2 is last-writer-wins per key, so the two datasets
 cannot conflict and no lock or serial group is needed.
 
-- **Concourse** runs one `update-sirento` job: the incident ETL only. It publishes
+- **Concourse** runs one `update-feed` job: the incident ETL only. It publishes
   `data/current.json` directly to R2. TTC geometry is no longer published here: the
   continuous capture stack (collector + processor, Story 64) owns
   `data/ttc-diversions.json` (Story 79 records the ownership boundary). The incident

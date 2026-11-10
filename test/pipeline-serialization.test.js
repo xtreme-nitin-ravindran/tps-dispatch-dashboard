@@ -2,9 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
-// Regression: `update-sirento` previously published both the incident snapshot and
+// Regression: `update-feed` previously published both the incident snapshot and
 // the bounded TTC vehicle geometry. TTC geometry is now owned by the continuous
-// capture stack (Story 64), so `update-sirento` publishes only the incident ETL
+// capture stack (Story 64), so `update-feed` publishes only the incident ETL
 // (data/current.json) directly to Cloudflare R2 through the shared sink. This test
 // parses the pipeline structurally (no YAML dependency) and fails if the pipeline
 // reintroduces a second writer or a shared-resource race.
@@ -91,7 +91,7 @@ test('[STORY-54] the pipeline defines a single job that publishes the data', () 
   const writers = jobs.filter(job => job.writes.length > 0);
   assert.equal(writers.length, 0, 'R2 publication uses no git `put`, so no job writes a git resource');
   assert.equal(jobs.length, 1, 'exactly one job may publish the data');
-  assert.equal(jobs[0].name, 'update-sirento', 'update-sirento must be the data publisher');
+  assert.equal(jobs[0].name, 'update-feed', 'update-feed must be the data publisher');
 });
 
 test('[STORY-54] no two jobs can publish the same resource concurrently', () => {

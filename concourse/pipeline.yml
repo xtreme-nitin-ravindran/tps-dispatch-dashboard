@@ -2,7 +2,7 @@ resources:
   - name: refresh
     type: time
     source:
-      # The single update-sirento job runs the incident ETL only. TTC geometry
+      # The single update-feed job runs the incident ETL only. TTC geometry
       # (data/ttc-diversions.json) is owned by the continuous capture stack
       # (Story 64), not this bounded pipeline. max_in_flight prevents overlapping
       # publications if a run exceeds the timer interval.
@@ -19,7 +19,7 @@ jobs:
   # incident snapshot is published to R2 directly. TTC geometry is owned by the
   # continuous capture stack, which writes data/ttc-diversions.json independently,
   # so the two datasets cannot conflict and no lock or serial group is needed.
-  - name: update-sirento
+  - name: update-feed
     # One writer, one build at a time. max_in_flight serializes this job's own
     # builds so a slow run cannot overlap the next timer tick.
     max_in_flight: 1

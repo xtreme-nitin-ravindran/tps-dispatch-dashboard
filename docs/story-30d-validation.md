@@ -132,7 +132,7 @@ their own reference clock—old files cannot expire themselves after scheduler f
 ## 17–19. Cadence, Concourse and GitHub fallback
 
 Independent Concourse serial job `detect-ttc-vehicle-deviations` runs inside the
-single `update-sirento` job on the five-minute trigger and new task file. Each task
+single `update-feed` job on the five-minute trigger and new task file. Each task
 loads static GTFS once, then polls **four times 30 seconds apart** (90 seconds plus
 setup/network time). The existing incident ETL/publication is not repeated per poll and
 cannot be blocked by TTC failure. A bounded task cache may continue evidence between
