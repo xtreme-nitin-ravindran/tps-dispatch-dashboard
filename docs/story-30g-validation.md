@@ -164,7 +164,7 @@ artifact → frontend contract, including retained state and cold fallback behav
 
 Live verification found the published page still loading `story-38g-4`, and the
 public data-branch `ttc-diversions.json` URL returned **HTTP 404**. This confirms the
-new feature is not deployed. After renewing Concourse authentication, `fly jobs` showed only `update-sirento`;
+new feature is not deployed. After renewing Concourse authentication, `fly jobs` showed only `update-feed`;
 recent builds 3564–3567 succeeded, and build 3568 was running. The TTC job is not
 installed. Production confirmation requires normal protected promotion and a
 Concourse pipeline update; no live update was made.
