@@ -1,6 +1,13 @@
 import { digest, serviceActive, sortedUnique, validCoordinate } from './static-gtfs.js';
 
-const dateAt = time => new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',year:'numeric',month:'2-digit',day:'2-digit'}).format(time).replaceAll('-','');
+// Assembled from the typed formatToParts output, never from the formatted string:
+// the pipeline task image (task-base) ships nodejs with small-icu, where the en-CA
+// locale formats dates as 09/28/2026 instead of 2026-09-28 (Story 80 rejection).
+const dateAt = time => {
+  const parts = new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(time);
+  const pick = type => parts.find(p => p.type === type).value;
+  return pick('year') + pick('month') + pick('day');
+};
 
 // Nearest projection in a local equirectangular plane. 100 m maximum offset;
 // distinct equally-near positions (within 5 m) on loops retain the shape reference only.

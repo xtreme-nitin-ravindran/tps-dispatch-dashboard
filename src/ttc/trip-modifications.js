@@ -21,7 +21,14 @@ export const validGeometryLine = geometry => Array.isArray(geometry) && geometry
   geometry.every(p => Array.isArray(p) && p.length === 2 && validCoordinate(p[1],p[0]));
 const id = value => typeof value === 'string' && value.length > 0;
 const serviceDate = value => typeof value === 'string' && /^\d{8}$/.test(value);
-const dateAt = time => new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',year:'numeric',month:'2-digit',day:'2-digit'}).format(time).replaceAll('-','');
+// Assembled from the typed formatToParts output, never from the formatted string:
+// the pipeline task image (task-base) ships nodejs with small-icu, where the en-CA
+// locale formats dates as 09/28/2026 instead of 2026-09-28 (Story 80 rejection).
+const dateAt = time => {
+  const parts = new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(time);
+  const pick = type => parts.find(p => p.type === type).value;
+  return pick('year') + pick('month') + pick('day');
+};
 
 // Standard Google encoded-polyline decoding; output is [longitude, latitude]
 // pairs to match the diversion part geometry contract.

@@ -45,6 +45,29 @@ test('[STORY-76] trip modifications join static trips, dates, selectors and rout
   assert.equal(none.directionId,null);assert.equal(none.routeId,'29');assert.equal(none.routeLabel,'29 Dufferin');
 });
 
+test('[STORY-80] detour service dates stay 8-digit when the runtime lacks full ICU locale data', () => {
+  // Story 80: under small-icu the en-CA date string formats with slashes
+  // (09/28/2026), so the today/serviceDates join must come from typed
+  // formatToParts output, never from the formatted string.
+  const Original = Intl.DateTimeFormat;
+  try {
+    Intl.DateTimeFormat = function (locale, options) {
+      const real = new Original(locale, options);
+      return {
+        format: time => {
+          const p = Object.fromEntries(real.formatToParts(time).map(x => [x.type, x.value]));
+          return `${p.month}/${p.day}/${p.year}`;
+        },
+        formatToParts: time => real.formatToParts(time)
+      };
+    };
+    const result = normalizeTripModifications({entity:[shapeEntity('sh1',[[-79.4,43.65],[-79.399,43.6501]]),modification('d1',['t1'],'sh1')]},index,now);
+    assert.equal(result.detours.length, 1);
+    assert.deepEqual(result.detours[0].serviceDates, ['20260928']);
+  } finally {
+    Intl.DateTimeFormat = Original;
+  }
+});
 test('[STORY-76] malformed feeds and service dates exclude detours without losing valid siblings', () => {
   for (const payload of [null,{},undefined,{entity:{}}]) assert.throws(() => normalizeTripModifications(payload,index,now),/Invalid TTC trip-modifications feed/);
   const empty = normalizeTripModifications({entity:[{id:'no-tm'},{tripModifications:{selectedTrips:[]}},{tripModifications:{selectedTrips:[{tripIds:['t1'],shapeId:'sh1'}]}}]},index,now);

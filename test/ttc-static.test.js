@@ -31,6 +31,30 @@ test('[STORY-30C][STORY-30G] exact source IDs and metadata, sorted stop coordina
   assert.equal(result.staticCorrelation.patterns[c.candidates[0].patternId].tripCount,2);
   assert.equal(index.patterns.size,3);
 });
+test('[STORY-80] service dates stay 8-digit when the runtime lacks full ICU locale data', () => {
+  // Story 80: the pipeline task image (task-base) ships nodejs with small-icu,
+  // where the en-CA date string formats as 09/28/2026 instead of 2026-09-28.
+  // dateAt must assemble YYYYMMDD from the typed formatToParts output, never
+  // from the formatted string.
+  const Original = Intl.DateTimeFormat;
+  try {
+    Intl.DateTimeFormat = function (locale, options) {
+      const real = new Original(locale, options);
+      return {
+        format: time => {
+          const p = Object.fromEntries(real.formatToParts(time).map(x => [x.type, x.value]));
+          return `${p.month}/${p.day}/${p.year}`;
+        },
+        formatToParts: time => real.formatToParts(time)
+      };
+    };
+    const result = correlate();
+    validateCorrelation(result);
+    assert.equal(result.items[0].correlation.serviceDate, '20260928');
+  } finally {
+    Intl.DateTimeFormat = Original;
+  }
+});
 test('[STORY-30C][STORY-30G] unknown routes/stops/trips retained; duplicates deduplicated deterministically', () => {
   assert.equal(correlation(alert(['504'],[])).status,'unmatched');
   const c = correlation(alert(['0504'],['C','unknown','A','A']));
