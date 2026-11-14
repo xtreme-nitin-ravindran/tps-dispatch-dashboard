@@ -87,7 +87,7 @@ export function loadPreferences(storage) {
     return {filters:readFilters(new URLSearchParams({hours:value.hours,service:value.service,event:value.event,division:typeof value.division === 'string' ? value.division : 'all'})),
       radiusKm:supportedRadii.includes(value.radiusKm) ? value.radiusKm : null,
       mobileView:supportedMobileViews.includes(value.mobileView) ? value.mobileView : 'map',
-      roads:value.roads === true,boundaries:value.boundaries !== false,theme:normalizeThemePreference(value.theme)};
+      roads:value.roads === true,boundaries:value.boundaries === true,theme:normalizeThemePreference(value.theme)};
   } catch { return null; }
 }
 export function savePreferences(storage, state, layers) {

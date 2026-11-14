@@ -236,11 +236,12 @@ try {
     await exitFocus(page);
     assert.equal(await page.locator('.source-card #source-timestamps').count(), 1);
     assert.equal(await page.locator('#source-timestamps').evaluate(el => el.hidden), false);
-    assert.equal(await page.locator('#mobileMapLayersToggle').isVisible(), false);
+    assert.equal(await page.locator('#mobileMapLayersToggle').isVisible(), true);
+    assert.equal(await page.locator('#mobileMapLayersPanel').isVisible(), false);
     assert.equal(await page.locator('#mobileFocusFilterSummary').isVisible(), false);
     assert.equal(await page.locator('#mapInfo').evaluate(el => getComputedStyle(el).position), 'static');
-    assert.equal(await page.locator('.leaflet-top.leaflet-right .leaflet-control-layers').count(), 1);
-    assert.equal(await page.locator('.map-wrap > .road-overlay-toggle').count(), 1);
+    assert.equal(await page.locator('#mobileMapLayersBody .leaflet-control-layers').count(), 1);
+    assert.equal(await page.locator('#mobileMapLayersBody > .road-overlay-toggle').count(), 1);
     await enterFocus(page);
     await assertClosed(page, viewport);
     await page.locator('button[data-mobile-view="calls"]').click();

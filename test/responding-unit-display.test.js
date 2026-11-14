@@ -5,7 +5,6 @@ import { respondingUnitLabel } from '../src/call-presentation.js';
 
 const app = await readFile(new URL('../src/app/app.js', import.meta.url), 'utf8');
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
-const markersSrc = await readFile(new URL('../src/incident-markers.js', import.meta.url), 'utf8');
 
 test('[SHOULD-3][STORY-24] responding-unit wording is singular or plural as appropriate', () => {
   assert.equal(respondingUnitLabel(1), '1 responding unit');
@@ -28,6 +27,6 @@ test('[SHOULD-3][STORY-24] responding-unit count is a secondary More details fie
 
 test('[SHOULD-3][STORY-24] list and map popup share the unchanged incident-card renderer', () => {
   assert.match(app, /const card = createIncidentCard\(call, \{ distance \}\);[\s\S]*?fragment\.appendChild\(card\)/);
-  assert.match(markersSrc, /\.bindPopup\(createIncidentCard\(call, \{[\s\S]*?variant: "popup"/);
+  assert.match(app, /mapPopups\.openAt\(createIncidentCard\(call, \{[\s\S]*?variant: "popup"/);
   assert.match(html, /call-title[\s\S]*?call-location[\s\S]*?distance-away[\s\S]*?time-ago[\s\S]*?<details class="call-details">/);
 });

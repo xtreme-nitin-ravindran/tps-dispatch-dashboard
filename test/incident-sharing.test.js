@@ -48,7 +48,7 @@ test('[SHOULD-6][STORY-15] cancelled, failed and unsupported sharing use the exp
 test('[SHOULD-6][STORY-15] app restores the shared incident through the normal card and marker selection path', async () => {
   const app = await readFile(new URL('../src/app/app.js', import.meta.url), 'utf8');
   assert.match(app, /incidentArrivalState\(requestedId, state\.calls, state\.filtered/);
-  assert.match(app, /selectCall\(arrival\.id, \{ revealRow: true, panIfNeeded: true \}\)/);
+  assert.match(app, /selectCall\(arrival\.id, \{ revealRow: true, revealMap: true \}\)/);
   assert.match(app, /status\.textContent = arrival\.message/);
   assert.match(app, /shareIncidentView\(location\.href, state, call\.id\)/);
 });

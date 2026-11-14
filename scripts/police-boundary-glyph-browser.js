@@ -121,6 +121,7 @@ async function assertToggleRebuild(page) {
 async function loadAndWait(page, label) {
   await timing.time(`page-goto${label}`, () => page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' }));
   await timing.time(`fixture-ready${label}`, () => awaitFixtureReady(page));
+  await page.locator('#mobileMapLayersToggle').click();
   await timing.time(`glyph-rendered${label}`, () => awaitUiState(page, () => document.querySelector('.leaflet-control-layers .police-sign'), { description: 'police boundary legend badge glyph' }));
 }
 

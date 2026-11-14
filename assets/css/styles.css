@@ -2480,11 +2480,76 @@ footer {
 #observedDiversionsList .call-details-body .ttc-detail h4 { margin: 0 0 6px; }
 
 
-/* Story 58: auxiliary fullscreen controls stay behind two compact launchers.
-   Normal-flow controls retain their existing layout outside focus mode. */
+/* The layer disclosure stays in the same map corner at every breakpoint. */
 .mobile-map-panel-toggle,
 .mobile-map-controls-panel,
 .mobile-map-info-heading { display: none; }
+#mobileMapLayersToggle {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 750;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.mobile-map-controls-panel:not([hidden]) {
+  position: absolute;
+  top: 56px;
+  right: 8px;
+  z-index: 760;
+  display: block;
+  width: min(300px, calc(100% - 16px));
+  max-height: calc(100% - 64px);
+  overflow: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.mobile-map-controls-panel .mobile-map-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px 4px 12px;
+}
+.mobile-map-controls-panel .mobile-map-panel-heading button {
+  min-width: 44px;
+  min-height: 44px;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--control-bg);
+  font: inherit;
+  cursor: pointer;
+}
+#mobileMapLayersBody :is(.map-layer-toggle, .leaflet-control-layers) {
+  position: static;
+  float: none;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--panel);
+  color: var(--text);
+  padding: 4px 12px;
+}
+#mobileMapLayersBody .leaflet-control-layers { box-sizing: border-box; }
+#mobileMapLayersBody .leaflet-control-layers-overlays label {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+.map-layers-label { white-space: nowrap; }
 @media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse) {
   html[data-mobile-focus="on"][data-mobile-view="map"] .radius-controls {
     top: calc(8px + env(safe-area-inset-top, 0px));
@@ -2525,6 +2590,14 @@ footer {
   html[data-mobile-focus="on"][data-mobile-view="map"] #mobileMapInfoToggle {
     top: calc(var(--mobile-summary-bottom, 88px) + 60px);
   }
+  html[data-mobile-focus="on"][data-mobile-view="map"] #mobileMapLayersToggle {
+    top: calc(var(--mobile-summary-bottom, 88px) + 8px);
+    right: calc(8px + env(safe-area-inset-right, 0px));
+    display: grid;
+    padding: 0;
+    border-radius: 50%;
+  }
+  html[data-mobile-focus="on"][data-mobile-view="map"] .map-layers-label { display: none; }
   html[data-mobile-focus="on"][data-mobile-view="map"] .mobile-map-panel-toggle:focus-visible,
   .mobile-map-panel-heading button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
   html[data-mobile-focus="on"][data-mobile-view="map"] :is(.mobile-map-controls-panel, .map-info) {
@@ -2546,6 +2619,7 @@ footer {
     overscroll-behavior: contain;
   }
   html[data-mobile-focus="on"][data-mobile-view="map"] .mobile-map-controls-panel:not([hidden]) { display: block; }
+  html[data-mobile-focus="on"][data-mobile-view="map"] .mobile-map-controls-panel { width: auto; }
   html[data-mobile-focus="on"][data-mobile-view="map"] .map-info:not([open]),
   html[data-mobile-focus="on"][data-mobile-view="map"] .map-info > summary { display: none; }
   html[data-mobile-focus="on"][data-mobile-view="map"] .mobile-map-panel-heading {

@@ -57,7 +57,7 @@ test('[SHOULD-2][STORY-26] expanded clusters preserve incident identity and indi
   assert.deepEqual(expanded.map(({ id }) => id), ['a', 'b']);
   assert.notDeepEqual(expanded[0].point, expanded[1].point);
   assert.match(markersSrc, /addMarker\(item,position,layers\)/);
-  assert.match(markersSrc, /\.on\("click", event => \{[\s\S]*?selectCall\(call\.id\)/);
+  assert.match(markersSrc, /\.on\("click", \(\) => \{[\s\S]*?selectCall\(call\.id\)/);
 });
 
 test('[SHOULD-2][STORY-26][STORY-38G] cluster expansion is bounded and cannot produce city-spanning connector fans', () => {

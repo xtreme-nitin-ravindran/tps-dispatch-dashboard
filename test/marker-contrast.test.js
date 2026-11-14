@@ -62,5 +62,5 @@ test('[SHOULD-12][STORY-27] contrast styles are scoped away from location and ro
 });
 
 test('[SHOULD-12][STORY-27] incident marker click still uses the existing selection path', () => {
-  assert.match(markersSrc, /\.on\("click", event => \{[\s\S]*?selectCall\(call\.id\)/);
+  assert.match(markersSrc, /\.on\("click", \(\) => \{[\s\S]*?selectCall\(call\.id\)/);
 });

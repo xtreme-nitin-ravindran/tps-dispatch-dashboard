@@ -19,7 +19,7 @@ const timing = createBrowserTiming();
 const timingFormat = resolveTimingFormat(process.env);
 
 const base = process.env.ROAD_CLOSURE_COUNT_UI_URL || 'http://127.0.0.1:8765/';
-const query = '?mobileAuditFixture=many&mobileAuditView=map&mobileAuditLocation=current&mobileAuditRadius=toronto&mobileAuditSheet=collapsed&mobileAuditRoads=on&mobileAuditBoundaries=on';
+const query = '?mobileAuditFixture=many&mobileAuditView=map&mobileAuditLocation=current&mobileAuditRadius=toronto&mobileAuditSheet=collapsed&mobileAuditRoads=off&mobileAuditBoundaries=off';
 
 // Desktop viewports (above the 680px mobile breakpoint).
 const DESKTOP_VIEWPORTS = [
@@ -102,11 +102,26 @@ try {
     page.on('pageerror', error => errors.push(`${viewport.name}: ${error.message}`));
     await timing.time(`page-goto:${viewport.name}`, () => page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' }));
     await timing.time(`fixture-ready:${viewport.name}`, () => awaitFixtureReady(page));
-    await page.waitForSelector('.map-layer-toggle');
-    await page.waitForTimeout(100);
+    const layers = page.getByRole('button', { name: 'Map layers', exact: true });
+    const panel = page.locator('#mobileMapLayersPanel');
+    assert.equal(await layers.getAttribute('aria-expanded'), 'false');
+    assert.equal(await panel.isVisible(), false);
+    assert.equal(await page.locator('#roadOverlay').isChecked(), false);
+    assert.equal(await page.locator('.leaflet-control-layers-selector').isChecked(), false);
+    assert.equal(await page.locator('#ttcOverlay').isChecked(), false);
+    await layers.click();
+    assert.equal(await layers.getAttribute('aria-expanded'), 'true');
+    assert.ok(await panel.isVisible());
+    const [buttonBox, panelBox] = await Promise.all([layers.boundingBox(), panel.boundingBox()]);
+    assert.ok(panelBox.y >= buttonBox.y + buttonBox.height);
+    assert.ok(Math.abs(panelBox.x + panelBox.width - buttonBox.x - buttonBox.width) < 1);
+    assert.equal(await page.locator('#roadOverlay').isChecked(), false);
     const state = await measure(page);
     assertCountHidden(state, viewport);
     results.push({ viewport: viewport.name, statusText: state.statusText, statusWidth: state.statusRect.width, statusHeight: state.statusRect.height, roadCount: state.roadCountText });
+    await page.keyboard.press('Escape');
+    assert.equal(await panel.isVisible(), false);
+    assert.equal(await layers.getAttribute('aria-expanded'), 'false');
     await context.close();
   }
   assert.deepEqual(errors, []);

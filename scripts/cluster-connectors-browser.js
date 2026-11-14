@@ -1,4 +1,4 @@
-/* global document */
+/* global document, innerHeight, requestAnimationFrame */
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
@@ -11,9 +11,24 @@ const timingFormat = resolveTimingFormat(process.env);
 const output = process.env.CLUSTER_VISUAL_OUTPUT || '.cache/cluster-connectors';
 await mkdir(output, { recursive: true });
 const browser = await timing.time('chromium-launch', () => chromium.launch({ headless: true, executablePath: process.env.CHROMIUM_EXECUTABLE }));
-const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
+const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1, hasTouch: true });
 const errors = [];
 page.on('pageerror', error => errors.push(error.message));
+
+async function assertIncidentPopup(page) {
+  await awaitUiState(page, () => {
+    const map = document.querySelector('#dispatchMap').getBoundingClientRect();
+    const card = document.querySelector('.leaflet-popup .incident-card--popup[data-call-id="mobile-audit-selected"]');
+    if (!card) return false;
+    const { top, right, bottom, left, height } = card.getBoundingClientRect();
+    const sheet = document.querySelector('#mobileBottomSheet').getBoundingClientRect();
+    return height > 0 && top >= Math.max(0, map.top) && left >= map.left && right <= map.right &&
+      bottom <= Math.min(innerHeight, map.bottom, sheet.height ? sheet.top : innerHeight);
+  }, { description: 'full incident popup inside the visible map', retries: 0 });
+  const popup = page.locator('.leaflet-popup');
+  assert.equal(await popup.count(), 1);
+  assert.ok(await popup.getByRole('button', { name: /^Share incident:/ }).isVisible());
+}
 
 async function connectorState() {
   return page.evaluate(() => {
@@ -70,6 +85,10 @@ try {
   await timing.time('fixture-ready:390x844', () => awaitFixtureReady(page));
   await page.waitForSelector('.call-cluster');
   await assertBounded();
+  await assertIncidentPopup(page);
+  await page.locator('.leaflet-popup-close-button').click();
+  await page.locator('.leaflet-marker-icon[title^="Selected incident:"]').tap();
+  await assertIncidentPopup(page);
 
   for (const state of ['half', 'expanded', 'collapsed']) {
     await page.locator(`[data-sheet-target="${state}"]`).click({ force: true });
@@ -111,16 +130,22 @@ try {
   await assertBounded();
   await page.locator('#dispatchMap').screenshot({ path: `${output}/story-39a-390x844.png`, animations: 'disabled' });
 
+  await page.locator('.leaflet-popup-close-button').dispatchEvent('click');
   const smallCluster = page.locator('.call-cluster').filter({ hasText: /^3$/ });
-  await smallCluster.dispatchEvent('click');
-  await page.locator('.call-cluster').filter({ hasText: /^3$/ }).dispatchEvent('click');
-  await page.locator('.call-cluster').filter({ hasText: /^3$/ }).dispatchEvent('click');
-  await page.locator('.call-cluster').filter({ hasText: /^3$/ }).dispatchEvent('click');
+  for (let step = 0; step < 4; step += 1) {
+    if ((await connectorState()).count > 0) break;
+    await smallCluster.dispatchEvent('click');
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  }
   const expandedFan = await assertBounded({ largeCluster: false });
   assert.equal(expandedFan.count, 3, 'deterministic small cluster did not create its bounded connector fan');
   await page.locator('.leaflet-control-zoom-out').click({ force: true });
   await page.waitForFunction(() => document.querySelectorAll('.cluster-connector').length === 0);
   assert.equal((await connectorState()).count, 0, 'connectors remained after cluster collapse/zoom change');
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' });
+  await awaitFixtureReady(page);
+  await assertIncidentPopup(page);
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({ viewport: '390x844', ...(await connectorState()), errors }, null, 2));
 } finally {
