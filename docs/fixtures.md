@@ -22,7 +22,7 @@ http://localhost:8766/?mobileAuditFixture=many&ttcFixture=affected
 
 | Value | Incident state |
 |---|---|
-| `many` | full deterministic incident set (the suite default) |
+| `many` | full deterministic incident set (the suite default); includes all three badge states — NEW (`mobile-audit-selected`, 4m), UPDATED (`mobile-audit-medical`, 9m with a 7m update) and ONGOING (every TFS row) |
 | `zero` | no incidents |
 | `stale` | stale snapshot |
 | `unavailable` | source unavailable |
