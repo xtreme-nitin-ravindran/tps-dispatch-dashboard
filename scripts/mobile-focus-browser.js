@@ -1,4 +1,4 @@
-/* global document, window, getComputedStyle, MutationObserver */
+/* global document, window, getComputedStyle */
 // Story 40E: rendered-browser regression for the fullscreen/× focus control.
 //
 // The defect this guards: the focus button and the Police divisions Leaflet
@@ -328,22 +328,17 @@ try {
     });
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(`${viewport.name}: ${error.message}`));
-    await page.addInitScript(() => {
-      const observer = new MutationObserver(() => {
-        const road = document.querySelector('.road-overlay-toggle');
-        if (!road || !document.querySelector('link[href*="styles.css"]')?.sheet) return;
-        window.__initialRoadWidth = road.getBoundingClientRect().width;
-        observer.disconnect();
-      });
-      observer.observe(document, { childList: true, subtree: true });
-    });
     await timing.time(`page-goto:${viewport.name}`, () => page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' }));
     await timing.time(`fixture-ready:${viewport.name}`, () => awaitFixtureReady(page));
     await page.waitForSelector('#mobileMapFocusToggle');
 
     // Regression: Leaflet nests the checkbox beside its text inside one span.
     // Only the text may be clipped; the checkbox must be visible and clickable.
+    const layers = page.locator('#mobileMapLayersToggle');
+    assert.equal(await layers.getAttribute('aria-expanded'), 'false');
+    assert.equal(await page.locator('#mobileMapLayersBody input:visible').count(), 0);
     if (viewport.width <= 430) {
+      await layers.click();
       const layerState = await page.evaluate(() => {
         const police = document.querySelector('.leaflet-control-layers');
         const road = document.querySelector('.road-overlay-toggle');
@@ -351,7 +346,6 @@ try {
         const box = checkbox.getBoundingClientRect();
         return {
           widths: [police, road].map(el => el.getBoundingClientRect().width),
-          initialWidth: window.__initialRoadWidth,
           clipped: getComputedStyle(checkbox.parentElement).clipPath,
           checkboxWidth: box.width,
           checkboxHeight: box.height,
@@ -359,7 +353,6 @@ try {
         };
       });
       assert.equal(layerState.widths[0], layerState.widths[1], 'layer widths agree without measurement');
-      assert.equal(layerState.initialWidth, layerState.widths[1], 'road width stays stable through initialization');
       assert.equal(layerState.clipped, 'none', 'checkbox wrapper is not clipped');
       assert.ok(layerState.checkboxWidth >= 12 && layerState.checkboxHeight >= 12);
       assert.equal(layerState.nowrap, 'nowrap');
@@ -385,6 +378,7 @@ try {
           assert.ok(label.height <= label.fontSize * 1.5, 'repair disclosure stays on one line');
         };
         await assertSingleLineLabel();
+        await layers.click();
         await page.locator('#mobileMapFocusToggle').click();
         await page.locator('#mobileMapLayersToggle').click();
         await checkbox.uncheck();
@@ -394,6 +388,8 @@ try {
         await page.locator('#mobileMapFocusToggle').click();
       }
     }
+
+    if (await layers.getAttribute('aria-expanded') === 'true') await layers.click();
 
     // The active Hear sirens panel must follow search/navigation in real rendered flow.
     await context.grantPermissions(['geolocation']);
@@ -432,15 +428,13 @@ try {
     const normal = await runScenario(page, viewport, 'normal');
     results.push({ viewport: viewport.name, normal: normal.focus, focused: normal.focused.focus });
 
-    // --- Taller, wrapped Safari-style layer row ---
-    // Reproduces the physical iPhone Safari failure: the layer labels render
-    // taller, so the focus control must still sit below the real row bottom.
+    // Taller layer rows stay inside the disclosure and clear the fullscreen launcher.
     await page.addStyleTag({ content: TALLER_LAYER_ROW_CSS });
-    await page.waitForTimeout(50);
-    const taller = await runScenario(page, viewport, 'taller-layer-row');
-    const rowHeight = taller.road ? taller.road.height : 0;
-    assert.ok(rowHeight >= 80, `${viewport.name} taller-row: layer row did not grow (${rowHeight})`);
-    results.push({ viewport: viewport.name, tallerRow: taller.focus, rowHeight });
+    await layers.click();
+    const taller = await measure(page);
+    assert.ok(taller.road.height >= 80, `${viewport.name}: layer row did not grow`);
+    assertNoOverlap(taller, [['focus', 'road'], ['focus', 'police']], viewport.name);
+    await layers.click();
 
     // --- Wrapped (iOS Safari) attribution ---
     // Reproduces the physical iPhone Safari failure: the attribution wraps to a

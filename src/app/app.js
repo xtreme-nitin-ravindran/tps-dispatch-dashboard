@@ -169,7 +169,7 @@ const policeBoundaryMap = createPoliceBoundaryMap({
   scheduler: boundaryLifecycleScheduler,
   markReady: () => { auditReadiness.boundaries = true; markFullyRenderedWhenReady(); },
   rememberPreferences,
-  syncLayerControls: syncFullscreenLayerControls,
+  syncLayerControls: syncMapLayerControls,
   captureRoadClosureState: captureRoadClosureRenderState
 });
 
@@ -187,12 +187,8 @@ const incidentMarkers = createIncidentMarkerLayer({
   getMobileSheetState: () => mobileSheetState,
   setMobileSheetState,
   selectCall: id => selectCall(id, { pan: false, revealRow: true }),
-  reopenPopup: layer => mapPopups.reopenBound(layer),
-  createIncidentCard,
   coordinatesForCall,
   isApproximate: isApproximateLocation,
-  distanceKm,
-  distanceLabel,
   audit: uxAudit,
   markerAgeLabel,
   markerAgeTier,
@@ -343,7 +339,6 @@ const maintenance = createMapMaintenance({
 const scheduleMapMaintenance = options => maintenance.scheduleMaintenance(options);
 const syncMapSheetOverlap = () => maintenance.syncMapSheetOverlap();
 const syncMapAttributionPosition = () => maintenance.syncMapAttributionPosition();
-const wrapQuery = selector => maintenance.wrapQuery(selector);
 
 function syncIncidentListSurface(mobile = isMobileViewLayout()) {
   const host = mobile && mobileView === "map" ? mobileSheetCallList : callsListHome;
@@ -425,8 +420,7 @@ mobileDisruptionsControl?.addEventListener('click', auditInteraction('mobile:dis
     disruptions?.focus({ preventScroll: true });
   });
 }));
-// Fullscreen panels reuse the live controls, including Leaflet's own checkbox.
-// Remember their homes so normal mobile/desktop layout and handlers are restored.
+// The layer panel reuses the live controls in both map layouts.
 const mapInfoPanel = document.querySelector('#mapInfo');
 const mapLayersPanel = document.querySelector('#mobileMapLayersPanel');
 const mapLayersBody = document.querySelector('#mobileMapLayersBody');
@@ -434,7 +428,6 @@ const mapLayersToggle = document.querySelector('#mobileMapLayersToggle');
 const mapInfoToggle = document.querySelector('#mobileMapInfoToggle');
 const mapLayersClose = document.querySelector('#mobileMapLayersClose');
 const mapInfoClose = document.querySelector('#mobileMapInfoClose');
-const mapControlHomes = new Map();
 let normalMapInfoOpen = false;
 const sourceTimesHelp = document.querySelector('.source-times-help');
 const sourceTimesExplanation = document.querySelector('#source-timestamps');
@@ -451,30 +444,21 @@ sourceTimesHelp.addEventListener('click', event => {
   sourceTimesExplanation.focus({ preventScroll: true });
 });
 
-function syncFullscreenLayerControls() {
-  if (mobileFocusMode) {
-    const controls = [wrapQuery('.leaflet-control-layers'), ...document.querySelectorAll('.map-layer-toggle')];
-    for (const control of controls) {
-      if (!control || mapControlHomes.has(control)) continue;
-      const home = document.createComment('fullscreen layer control home');
-      control.before(home);
-      mapControlHomes.set(control, home);
-      mapLayersBody.append(control);
-    }
-  } else {
-    for (const [control, home] of mapControlHomes) {
-      home.replaceWith(control);
-    }
-    mapControlHomes.clear();
-  }
+function syncMapLayerControls() {
+  const police = els.dispatchMap.querySelector('.leaflet-control-layers');
+  if (police) mapLayersBody.prepend(police);
+}
+
+function setMapLayersOpen(open) {
+  mapLayersPanel.hidden = !open;
+  mapLayersToggle.setAttribute('aria-expanded', String(open));
 }
 
 function closeFullscreenPanels({ restoreFocus = false } = {}) {
   const launcher = mapInfoPanel.open ? mapInfoToggle : !mapLayersPanel.hidden ? mapLayersToggle : null;
-  mapLayersPanel.hidden = true;
+  setMapLayersOpen(false);
   sourceTimesHome.after(sourceTimesExplanation);
   mapInfoPanel.open = false;
-  mapLayersToggle.setAttribute('aria-expanded', 'false');
   mapInfoToggle.setAttribute('aria-expanded', 'false');
   if (restoreFocus) launcher?.focus({ preventScroll: true });
 }
@@ -488,18 +472,29 @@ function toggleFullscreenPanel(kind) {
     (layers ? mapLayersToggle : mapInfoToggle).focus({ preventScroll: true });
     return;
   }
-  if (layers) mapLayersPanel.hidden = false;
+  if (layers) setMapLayersOpen(true);
   else mapInfoPanel.open = true;
   (layers ? mapLayersToggle : mapInfoToggle).setAttribute('aria-expanded', 'true');
   (layers ? mapLayersClose : mapInfoClose).focus({ preventScroll: true });
   scheduleMapMaintenance();
 }
 
-mapLayersToggle.addEventListener('click', () => toggleFullscreenPanel('layers'));
+mapLayersToggle.addEventListener('click', () => {
+  if (mobileFocusMode) toggleFullscreenPanel('layers');
+  else setMapLayersOpen(mapLayersPanel.hidden);
+});
 mapInfoToggle.addEventListener('click', () => toggleFullscreenPanel('info'));
-mapLayersClose.addEventListener('click', () => closeFullscreenPanels({ restoreFocus: true }));
+mapLayersClose.addEventListener('click', () => {
+  setMapLayersOpen(false);
+  mapLayersToggle.focus({ preventScroll: true });
+});
 mapInfoClose.addEventListener('click', () => closeFullscreenPanels({ restoreFocus: true }));
 document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !mobileFocusMode && !mapLayersPanel.hidden) {
+    setMapLayersOpen(false);
+    mapLayersToggle.focus({ preventScroll: true });
+    return;
+  }
   if (event.key !== 'Escape' || !mobileFocusMode || (mapLayersPanel.hidden && !mapInfoPanel.open)) return;
   event.preventDefault();
   closeFullscreenPanels({ restoreFocus: true });
@@ -515,7 +510,6 @@ function setMobileFocusMode(on) {
     if (next) mapSheetObserver?.observe(chrome);
     else mapSheetObserver?.unobserve(chrome);
   }
-  syncFullscreenLayerControls();
   if (!next) mapInfoPanel.open = normalMapInfoOpen;
   document.documentElement.dataset.mobileFocus = next ? "on" : "off";
   mobileMapFocusToggle?.setAttribute("aria-pressed", String(next));
@@ -833,7 +827,7 @@ function restorePendingIncident() {
   if (arrival.mobileView && !mobileViewInteracted) setMobileView(arrival.mobileView, { persist: false });
   if (mobileAuditFixture) setMobileSheetState(mobileAuditFixture.sheet);
   else if (arrival.mobileSheetState) setMobileSheetState(arrival.mobileSheetState);
-  selectCall(arrival.id, { revealRow: true, panIfNeeded: true });
+  selectCall(arrival.id, { revealRow: true, revealMap: true });
 }
 
 function lastSuccessfulUpdateLabel() {
@@ -1010,6 +1004,9 @@ function applyFilters({ map = true, preserveReadingPosition = null } = {}) {
   finishCalculation({ eligibleCalls: eligibleCalls.length, outputCalls: state.filtered.length });
   const previouslyFocusedCallId = focusedCallId;
   focusedCallId = reconcileIncidentSelection(focusedCallId, state.filtered);
+  if (previouslyFocusedCallId && !focusedCallId && document.querySelector('.leaflet-popup .incident-card--popup')) {
+    mapPopups.closeImmediately();
+  }
   expandedCluster.clear();
   document.querySelector("#filterSummary").textContent = filterSummary(state);
   syncMobileFilterIndicator();
@@ -1735,19 +1732,18 @@ function renderMap() {
   renderMapMarkers();
 }
 
-function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false } = {}) {
+function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false, revealMap = false } = {}) {
   const call = state.filtered.find(item => item.id === callId);
   if (!call) return;
+  const coordinates = coordinatesForCall(call);
 
   clearClosureSelection();
 
   const previouslyFocusedCallId = focusedCallId;
   focusedCallId = callId;
   surfaceSelectedIncident(call);
-  if (pan && dispatchMap && coordinatesForCall(call)) {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (pan && dispatchMap && coordinates) {
     const zoom = dispatchMap.getZoom();
-    const coordinates = coordinatesForCall(call);
     const located = state.filtered.map(item => ({call:item,coordinates:coordinatesForCall(item)})).filter(item=>item.coordinates);
     dispatchMap.stop();
     const focusedGroup = focusGroup(located,callId,point=>dispatchMap.project(point,zoom));
@@ -1760,7 +1756,8 @@ function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false
       renderMapMarkers();
     }
     if (!panIfNeeded || !dispatchMap.getBounds().contains(coordinates)) {
-      dispatchMap.panTo(coordinates, { animate: !reducedMotion, duration: .35, easeLinearity: .25 });
+      // Settle the selection pan before Leaflet measures the popup and auto-pans.
+      dispatchMap.panTo(coordinates, { animate: false });
     }
   }
 
@@ -1789,8 +1786,26 @@ function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false
   if (previouslyFocusedCallId !== callId) updateMarkerAppearance(previouslyFocusedCallId);
   updateMarkerAppearance(callId);
   const marker = incidentMarkers.getMarker(callId);
-  if (marker) {
-    marker.openTooltip();
+  const mobile = isMobileViewLayout();
+  if (mapPopups && coordinates && (!mobile || mobileView === "map")) {
+    if (revealMap) {
+      els.dispatchMap.scrollIntoView({ block: "center", behavior: "instant" });
+      dispatchMap.invalidateSize({ pan: false });
+    }
+    marker?.closeTooltip();
+    const { top: mapTop, bottom: mapBottom } = els.dispatchMap.getBoundingClientRect();
+    const sheetOverlap = mobile ? Math.max(0, mapBottom - mobileBottomSheet.getBoundingClientRect().top) : 0;
+    const layerBottom = mobile ? mapLayersToggle.getBoundingClientRect().bottom : mapTop;
+    mapPopups.openAt(createIncidentCard(call, {
+      distance: distanceLabel(distanceKm(state.nearby, coordinates)),
+      variant: "popup"
+    }), marker?.getLatLng() ?? coordinates, {
+      minWidth: 280,
+      maxWidth: 360,
+      keepInView: true,
+      autoPanPaddingTopLeft: [8, 8 + layerBottom - mapTop],
+      autoPanPaddingBottomRight: [8, 8 + sheetOverlap]
+    });
   }
 }
 

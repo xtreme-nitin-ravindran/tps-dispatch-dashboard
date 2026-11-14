@@ -8,7 +8,7 @@ const maintenanceSrc = await readFile(new URL('../src/map-maintenance.js', impor
 const markersSrc = await readFile(new URL('../src/incident-markers.js', import.meta.url), 'utf8');
 
 test('[MUST-6][STORY-9] tapping a mobile marker opens the sheet and reveals its matching shared card', () => {
-  const markerClickMatch = markersSrc.match(/\.on\("click", event => \{[\s\S]*?\n {8}\}\);/);
+  const markerClickMatch = markersSrc.match(/\.on\("click", \(\) => \{[\s\S]*?\n {8}\}\);/);
   assert.ok(markerClickMatch);
   const markerClick = markerClickMatch[0];
   assert.match(markerClick, /const mobile = isMobileLayout\(\)/);
@@ -39,7 +39,7 @@ test('[MUST-6][STORY-9] selection clears whenever filtering or refreshed data re
 test('[MUST-6][STORY-9] mobile behavior reuses the desktop selection model and leaves desktop marker behavior intact', () => {
   assert.equal([...app.matchAll(/let focusedCallId = null/g)].length, 1);
   assert.doesNotMatch(app, /mobileSelected|selectedMobile|mobileSelection/);
-  assert.match(markersSrc, /if \(!mobile\) setTimeout\(\(\) => reopenPopup\(event\.target\), 0\)/);
+  assert.match(app, /if \(mapPopups && coordinates && \(!mobile \|\| mobileView === "map"\)\) \{[\s\S]*?mapPopups\.openAt/);
   assert.match(maintenanceSrc, /if \(focusSelection && mobile && view === "map" && getFocusedCallId\(\)\)/);
   assert.match(app, /row\.classList\.toggle\("selected", selected\)[\s\S]*?setAttribute\("aria-pressed", String\(selected\)\)/);
 });
@@ -47,5 +47,4 @@ test('[MUST-6][STORY-9] mobile behavior reuses the desktop selection model and l
 test('[MUST-6][STORY-9] desktop list and layout remain the default outside the mobile media query', () => {
   assert.match(app, /const host = mobile && mobileView === "map" \? mobileSheetCallList : callsListHome/);
   assert.match(app, /\[els\.callList\][\s\S]*?handleIncidentListClick/);
-  assert.match(markersSrc, /if \(!mobile\) setTimeout\(\(\) => reopenPopup\(event\.target\), 0\)/);
 });

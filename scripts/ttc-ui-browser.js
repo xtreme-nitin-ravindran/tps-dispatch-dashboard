@@ -9,6 +9,13 @@ const out=process.env.TTC_VISUAL_OUTPUT || '.cache/ttc-ui-visual';await mkdir(ou
 const browser=await timing.time('chromium-launch',()=>chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE}));
 const results=[];
 try {
+async function enableTtcOverlay(page) {
+ await page.locator('#ttcOverlay').evaluate(el=>{
+  el.checked=true;
+  el.dispatchEvent(new Event('change',{bubbles:true}));
+ });
+}
+
 for(const width of [320,375,390,430,768,1440]) {
  const page=await browser.newPage({viewport:{width,height:900},deviceScaleFactor:1});const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(()=>{window.ttcLongTasks=[];new PerformanceObserver(list=>window.ttcLongTasks.push(...list.getEntries().map(e=>e.duration))).observe({type:'longtask',buffered:true});});
@@ -19,13 +26,17 @@ for(const width of [320,375,390,430,768,1440]) {
  const initialMaxLongTask=await page.evaluate(()=>{const max=Math.max(0,...window.ttcLongTasks);window.ttcLongTasks=[];return max;});
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
  const diag=()=>page.evaluate(async()=>(await import('./src/ttc/ui.js')).captureTtcRenderState());
+ assert.equal(await page.locator('#ttcOverlay').isChecked(),false);
+ await enableTtcOverlay(page);
  assert.equal((await diag()).parts,2);
  if(width<=430) {
   // Expanding the ordinary Map sheet must show calls before any pin selection,
   // regardless of TTC layer visibility or a round trip through Calls.
   assert.equal(await page.locator('[data-call-id].selected').count(),0);
   for(const visible of [true,false]) {
+   await page.locator('#mobileMapLayersToggle').click();
    await page.locator('#ttcOverlay').setChecked(visible);
+   await page.locator('#mobileMapLayersToggle').click();
    for(const height of ['half','expanded']) {
     await page.locator(`[data-sheet-target="${height}"]`).click();
     await page.locator('#mobileSheetBody').evaluate(el=>{el.scrollTop=0;});
@@ -81,7 +92,7 @@ for(const width of [320,375,390,430,768,1440]) {
   }
   await page.locator('#ttcOverlay').evaluate((el,i)=>{el.checked=i%2===0;el.dispatchEvent(new Event('change',{bubbles:true}));},i);
   await page.locator('#roadOverlay').evaluate((el,i)=>{el.checked=i%2===0;el.dispatchEvent(new Event('change',{bubbles:true}));},i);
-  await page.getByLabel('Police Divisions').setChecked(i%2===0,{force:true});
+  await page.getByLabel('Police Divisions').evaluate((el,visible)=>{if(el.checked!==visible) el.click();},i%2===0);
   await page.locator('.leaflet-control-zoom-in').click({force:true});
   await page.locator('.leaflet-control-zoom-out').click({force:true});
  }
@@ -203,6 +214,7 @@ for(const width of [320,375,390,430,768,1440]) {
  const page=await browser.newPage({viewport:{width:390,height:900}});
  await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&mobileAuditView=calls&ttcFixture=confirmed`,{waitUntil:'networkidle'});
  await page.waitForFunction(()=>document.documentElement.dataset.secondaryLoadState==='ready');
+ await enableTtcOverlay(page);
  const id=await page.evaluate(async()=>{
   const observed=await (await fetch('./test/fixtures/ttc-diversions/unassociated-public.json')).json();
   const shift=Date.now()-Date.parse(observed.checkedAt);observed.checkedAt=new Date(Date.now()).toISOString();
@@ -273,6 +285,7 @@ for(const mode of ['alert-only','multiple','expired','unavailable','empty']) {
  await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&ttcFixture=affected`,{waitUntil:'networkidle'});
  await awaitFixtureReady(page);
  await page.waitForSelector('#observedDiversionsList .incident-card',{state:'attached'});
+ await enableTtcOverlay(page);
  const state=await page.evaluate(async()=>({
    diag:(await import('./src/ttc/ui.js')).captureTtcRenderState(),
    cards:document.querySelectorAll('#observedDiversionsList .incident-card').length,
@@ -323,6 +336,7 @@ for(const mode of ['alert-only','multiple','expired','unavailable','empty']) {
  await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&ttcFixture=detours`,{waitUntil:'networkidle'});
  await awaitFixtureReady(page);
  await page.waitForSelector('#observedDiversionsList .incident-card',{state:'attached'});
+ await enableTtcOverlay(page);
  const state=await page.evaluate(async()=>({
    diag:(await import('./src/ttc/ui.js')).captureTtcRenderState(),
    cards:document.querySelectorAll('#observedDiversionsList .incident-card').length,
@@ -353,6 +367,7 @@ for(const mode of ['alert-only','multiple','expired','unavailable','empty']) {
  await page.goto(`${process.env.TTC_UI_URL || 'http://127.0.0.1:8765/'}?mobileAuditFixture=many&ttcFixture=detours&mobileAuditView=calls`,{waitUntil:'networkidle'});
  await awaitFixtureReady(page);
  await page.waitForSelector('#observedDiversionsList .incident-card',{state:'attached'});
+ await enableTtcOverlay(page);
  const state=await page.evaluate(async()=>({
    diag:(await import('./src/ttc/ui.js')).captureTtcRenderState(),
    cards:document.querySelectorAll('#observedDiversionsList .incident-card').length

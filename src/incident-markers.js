@@ -20,12 +20,8 @@ export function createIncidentMarkerLayer({
   getMobileSheetState = () => 'collapsed',
   setMobileSheetState = () => {},
   selectCall = () => {},
-  reopenPopup = () => {},
-  createIncidentCard = () => document.createElement('article'),
   coordinatesForCall = () => null,
   isApproximate = () => false,
-  distanceKm = () => 0,
-  distanceLabel = () => '',
   audit = null,
   markerAgeLabel = tier => tier,
   markerAgeTier = () => 'fresh',
@@ -128,15 +124,10 @@ export function createIncidentMarkerLayer({
         icon: markerIcon(call, selected, sirenIds.has(call.id))
       })
         .bindTooltip(tooltip, { direction: "top" })
-        .bindPopup(createIncidentCard(call, {
-          distance: distanceLabel(distanceKm(getNearby(), coordinates)),
-          variant: "popup"
-        }), { minWidth: 280, maxWidth: 360, closeOnClick: false })
-        .on("click", event => {
+        .on("click", () => {
           const mobile = isMobileLayout();
           if (mobile) setMobileSheetState(getMobileSheetState() === "collapsed" ? "half" : getMobileSheetState());
           selectCall(call.id);
-          if (!mobile) setTimeout(() => reopenPopup(event.target), 0);
         });
       marker.addTo(callLayer);
       layers.push(marker);

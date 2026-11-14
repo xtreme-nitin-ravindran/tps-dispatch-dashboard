@@ -55,7 +55,7 @@ test('[STORY-29F][STORY-38C] map rendering is incremental, selection-targeted, a
 });
 
 test('[STORY-29F][STORY-38C] popup clicks and unaffected overlays retain their established paths', () => {
-  assert.match(markersSrc,/bindPopup\(createIncidentCard\(call,[\s\S]*?selectCall\(call\.id\)/);
+  assert.match(markersSrc,/\.on\("click", \(\) => \{[\s\S]*?selectCall\(call\.id\)/);
   assert.match(app,/renderDisruptions\(state\.disruptions/);
   assert.match(markersSrc,/getNearbyOriginLayer\(\)\?\.clearLayers\(\)/);
   assert.match(app,/savedLocationForContext\(state\)/);

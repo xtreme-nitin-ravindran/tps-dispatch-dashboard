@@ -57,7 +57,7 @@ test('preferences are validated, exclude private session data and tolerate block
   raw='null'; assert.equal(loadPreferences(storage),null);
   raw='[]'; assert.equal(loadPreferences(storage),null);
   raw='{"division":7}';
-  assert.deepEqual(loadPreferences(storage), {filters:filterDefaults,radiusKm:null,mobileView:'map',roads:false,boundaries:true,theme:'system'});
+  assert.deepEqual(loadPreferences(storage), {filters:filterDefaults,radiusKm:null,mobileView:'map',roads:false,boundaries:false,theme:'system'});
   raw='{'; assert.equal(loadPreferences(storage),null);
   const blocked={getItem(){throw Error();},setItem(){throw Error();}};
   assert.equal(loadPreferences(blocked),null);

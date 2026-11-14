@@ -89,7 +89,7 @@ test('[MUST-5][STORY-4] radius changes reuse the complete filtering and renderin
 
 test('[MUST-5] map and card selection share one zoom-preserving selected incident', () => {
   assert.match(app, /focusedCallId = reconcileIncidentSelection\(focusedCallId, state\.filtered\);/);
-  assert.match(markersSrc, /\.on\("click", event => \{[\s\S]*?setMobileSheetState\([\s\S]*?selectCall\(call\.id\)/);
+  assert.match(markersSrc, /\.on\("click", \(\) => \{[\s\S]*?setMobileSheetState\([\s\S]*?selectCall\(call\.id\)/);
   assert.match(app, /const zoom = dispatchMap\.getZoom\(\);[\s\S]*?dispatchMap\.panTo\(coordinates/);
   assert.doesNotMatch(app, /setView\(coordinatesForCall\(call\),\s*18/);
   assert.match(app, /incident-card:not\(\.incident-card--popup\)[\s\S]*?aria-pressed/);

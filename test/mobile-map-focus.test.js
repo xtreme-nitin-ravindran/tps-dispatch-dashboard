@@ -169,7 +169,7 @@ const viewToggleHandler = app.slice(
 );
 const disruptionsHandler = app.slice(
   app.indexOf("mobileDisruptionsControl?.addEventListener('click'"),
-  app.indexOf('// Fullscreen panels reuse', app.indexOf("mobileDisruptionsControl?.addEventListener('click'"))
+  app.indexOf('// The layer panel reuses', app.indexOf("mobileDisruptionsControl?.addEventListener('click'"))
 );
 
 test('[STORY-40][STORY-40C] focus mode keeps the existing Map / Calls / Disruptions navigation reachable', () => {

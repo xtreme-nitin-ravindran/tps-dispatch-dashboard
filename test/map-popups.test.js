@@ -98,18 +98,3 @@ test('[STORY-74] openBound refuses a null or unbindable layer and binds with mer
     assert.deepEqual(boundOptions, { content: 'detail', options: { minWidth: 260, maxWidth: 340, closeOnClick: false } });
   } finally { stub.restore(); }
 });
-
-test('[STORY-74] reopenBound refuses a null or unopenable layer and reopens the bound popup', () => {
-  const stub = withDocument([]);
-  const { map, calls } = fakeMap();
-  try {
-    const popups = createMapPopups(map);
-    assert.equal(popups.reopenBound(null), false);
-    assert.equal(popups.reopenBound({}), false);
-    let opened = 0;
-    const layer = { openPopup() { opened++; } };
-    assert.equal(popups.reopenBound(layer), true);
-    assert.equal(calls.closePopup, 1);
-    assert.equal(opened, 1);
-  } finally { stub.restore(); }
-});

@@ -35,7 +35,7 @@ export function createPoliceBoundaryMap({
   let divisionGeometryLayer = null;
   let divisionRenderer = null;
   let divisionDataPromise = null;
-  let boundaryVisible = true;
+  let boundaryVisible = false;
   let boundaryRenderFrame = null;
   let boundaryRenderGeneration = 0;
   let boundaryDirty = true;

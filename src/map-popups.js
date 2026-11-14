@@ -24,7 +24,7 @@ export function createMapPopups(map) {
     return true;
   }
 
-  // Binds and opens `content` on `layer` (the road-closure and incident paths).
+  // Binds and opens `content` on the road-closure layer.
   function openBound(content, layer, options = {}) {
     if (!layer?.bindPopup) return false;
     closeImmediately();
@@ -32,14 +32,5 @@ export function createMapPopups(map) {
     return true;
   }
 
-  // Re-opens the popup already bound to `layer` (incident markers bind their
-  // card once per render; a click re-opens it without rebinding).
-  function reopenBound(layer) {
-    if (!layer?.openPopup) return false;
-    closeImmediately();
-    layer.openPopup();
-    return true;
-  }
-
-  return { closeImmediately, openAt, openBound, reopenBound };
+  return { closeImmediately, openAt, openBound };
 }
