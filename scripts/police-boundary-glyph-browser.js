@@ -1,13 +1,15 @@
 /* global document, getComputedStyle, matchMedia */
-// Rendered-browser regression for the police boundary badge glyph.
+// Rendered-browser regression for the police boundary legend badge glyph.
 //
-// The police boundary legend (Leaflet layers control) and the boundary outline
-// must both carry the 🚔 badge glyph, matching the road-closure ⛔ and TTC 🚧
-// layer glyphs. The glyph markers are non-interactive divIcons spaced along the
-// polygon rings, so a bare source-text pin cannot prove they actually render.
-// A second mobile viewport asserts the Story 40D label-clipping rule does not
-// collapse the injected glyph (the rule targets every nested span under the
-// overlay label, which the glyph shares structurally).
+// The police boundary legend (Leaflet layers control) carries the 🚔 badge
+// glyph, matching the road-closure ⛔ and TTC 🚧 layer glyphs. The boundary
+// outline itself renders as a plain painted line: the on-map badge markers
+// were removed (Story 75 follow-up) and must stay absent, so this suite
+// asserts the legend glyph renders with visible geometry AND that no
+// .police-boundary-symbol marker ever appears on the map. A second mobile
+// viewport asserts the Story 40D label-clipping rule does not collapse the
+// injected glyph (the rule targets every nested span under the overlay
+// label, which the glyph shares structurally).
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 import assert from 'node:assert/strict';
 import { awaitFixtureReady, awaitUiState } from './lib/browser-fixture.js';
@@ -97,28 +99,21 @@ async function assertMapCues(page, theme) {
     return false;
   }, { description: 'painted police boundary matches legend color' });
   const state = await page.evaluate(() => {
-    const map = document.querySelector('#dispatchMap').getBoundingClientRect();
-    const visible = [...document.querySelectorAll('.police-boundary-symbol')].filter(marker => {
-      const rect = marker.getBoundingClientRect();
-      const style = getComputedStyle(marker);
-      return marker.textContent === '🚔' && style.visibility === 'visible' && style.display !== 'none' &&
-        rect.width >= 20 && rect.height >= 20 && rect.left >= map.left && rect.right <= map.right && rect.top >= map.top && rect.bottom <= map.bottom;
-    }).length;
-    return { visible, color: getComputedStyle(document.querySelector('.police-key')).borderTopColor };
+    const markers = [...document.querySelectorAll('.police-boundary-symbol')].filter(marker =>
+      marker.textContent === '🚔' && getComputedStyle(marker).display !== 'none');
+    return { markers: markers.length, color: getComputedStyle(document.querySelector('.police-key')).borderTopColor };
   });
-  assert.ok(state.visible > 0, 'glyphs must have visible geometry inside the map');
+  assert.equal(state.markers, 0, 'the map must carry no police badge glyph markers');
   assert.equal(state.color, theme === 'light' ? 'rgb(126, 34, 206)' : 'rgb(192, 132, 252)');
 }
 
 async function assertToggleRebuild(page) {
-  const before = await page.locator('.police-boundary-symbol').count();
   await page.getByLabel('Police Divisions', { exact: true }).uncheck();
-  await awaitUiState(page, () => document.querySelectorAll('.police-boundary-symbol').length === 0 && document.querySelector('.police-sign'), { description: 'boundary off and rebuilt legend' });
+  await awaitUiState(page, () => document.querySelector('.police-sign'), { description: 'boundary off and rebuilt legend' });
   await assertLegend(page);
   await page.getByLabel('Police Divisions', { exact: true }).check();
-  await awaitUiState(page, () => document.querySelector('.police-sign') && document.querySelector('.leaflet-control-layers-overlays input').checked && document.querySelectorAll('.police-boundary-symbol').length > 0, { description: 'enabled boundary legend rebuilt' });
+  await awaitUiState(page, () => document.querySelector('.police-sign') && document.querySelector('.leaflet-control-layers-overlays input').checked, { description: 'enabled boundary legend rebuilt' });
   await assertLegend(page);
-  assert.equal(await page.locator('.police-boundary-symbol').count(), before, 'all glyphs must return without zooming');
   await assertMapCues(page, 'light');
   await assertMapCues(page, 'dark');
 }
@@ -126,7 +121,7 @@ async function assertToggleRebuild(page) {
 async function loadAndWait(page, label) {
   await timing.time(`page-goto${label}`, () => page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' }));
   await timing.time(`fixture-ready${label}`, () => awaitFixtureReady(page));
-  await timing.time(`glyph-rendered${label}`, () => awaitUiState(page, () => document.querySelectorAll('.police-boundary-symbol').length > 0, { description: 'police boundary badge glyph markers' }));
+  await timing.time(`glyph-rendered${label}`, () => awaitUiState(page, () => document.querySelector('.leaflet-control-layers .police-sign'), { description: 'police boundary legend badge glyph' }));
 }
 
 const browser = await timing.time('chromium-launch', () => chromium.launch({ headless: true, executablePath: process.env.CHROMIUM_EXECUTABLE }));
@@ -141,7 +136,7 @@ try {
     await assertToggleRebuild(page);
     assert.ok(state.signGlyph && state.signGlyph.includes('🚔'), 'legend must show the badge glyph');
     assert.ok(state.keyPresent, 'legend must show the boundary key line');
-    assert.ok(state.markerCount > 0, 'map must render boundary badge glyph markers');
+    assert.equal(state.markerCount, 0, 'map must render no boundary badge glyph markers');
     console.log(JSON.stringify({ story: 'police-boundary-glyph', legend: state.signGlyph, markerCount: state.markerCount, errors }, null, 2));
     await context.close();
   }
@@ -154,7 +149,7 @@ try {
     await assertToggleRebuild(page);
     assert.equal(state.signClip, 'none', 'mobile legend glyph must not be clip-pathed');
     assert.equal(state.signPosition, 'static', 'mobile legend glyph must stay in-flow');
-    assert.ok(state.markerCount > 0, 'map must render boundary badge glyph markers on mobile');
+    assert.equal(state.markerCount, 0, 'map must render no boundary badge glyph markers on mobile');
     await context.close();
   }
   assert.deepEqual(errors, []);

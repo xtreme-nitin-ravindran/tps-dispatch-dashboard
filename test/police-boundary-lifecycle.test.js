@@ -22,7 +22,7 @@ test('[STORY-38E] physical debug export is explicit and omits user location data
   assert.match(boundarySrc,/sirento-boundary-debug-/);
   assert.doesNotMatch(boundarySrc.slice(boundarySrc.indexOf('function boundaryDiagnosticExport('),boundarySrc.indexOf('function installBoundaryDebugExport')),/liveLocation|state\.nearby|savedLocations/);
 });
-test('[STORY-75] the police boundary legend and map outline carry a badge glyph', () => {
+test('[STORY-75] the police boundary legend carries the badge glyph and the map outline carries none', () => {
   assert.match(boundarySrc, /police-key-wrap/);
   assert.match(boundarySrc, /sign\.className = 'police-sign'/);
   assert.match(boundarySrc, /sign\.textContent = '🚔'/);
@@ -31,8 +31,10 @@ test('[STORY-75] the police boundary legend and map outline carry a badge glyph'
   assert.doesNotMatch(boundarySrc, /label\.setAttribute\('aria-label'/);
   const css = readFileSync(new URL('../assets/css/styles.css', import.meta.url), 'utf8');
   assert.doesNotMatch(css, /\.police-sign::before/);
-  assert.match(boundarySrc, /className: 'police-boundary-symbol'/);
-  assert.match(boundarySrc, /policeBoundarySymbolPositions\(boundaryGeojson, map\)/);
-  assert.match(boundarySrc, /renderBoundaryGlyphs\(reason\)/);
-  assert.match(boundarySrc, /renderBoundaryGlyphs\(eventName\)/);
+  // The on-map badge markers were removed (Story 75 follow-up): the glyph
+  // lives only in the legend, so no marker or symbol code may remain.
+  assert.doesNotMatch(boundarySrc, /police-boundary-symbol/);
+  assert.doesNotMatch(boundarySrc, /policeBoundarySymbolPositions/);
+  assert.doesNotMatch(boundarySrc, /renderBoundaryGlyphs/);
+  assert.doesNotMatch(css, /\.police-boundary-symbol/);
 });
