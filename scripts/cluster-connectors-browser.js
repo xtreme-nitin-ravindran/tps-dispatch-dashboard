@@ -95,6 +95,8 @@ try {
     await assertBounded();
   }
 
+  await page.locator('#mobileNearbyToggle').click();
+  await page.locator('#mobileNearbySearchToggle').click();
   await page.locator('button[data-mobile-view="calls"]').click();
   assert.equal((await connectorState()).count, 0, 'connectors remained after Map to Calls');
   await page.locator('button[data-mobile-view="map"]').click();

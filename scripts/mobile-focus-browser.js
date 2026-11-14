@@ -141,6 +141,24 @@ function assertLayout(state, viewport, mode) {
   }
 }
 
+async function assertCornerButtons(page) {
+  const focus = page.locator('#mobileMapFocusToggle');
+  const layers = page.getByRole('button', { name: 'Map layers', exact: true });
+  const [left, right, map] = await Promise.all([
+    focus.boundingBox(), layers.boundingBox(), page.locator('.map-wrap').boundingBox()
+  ]);
+  for (const button of [left, right]) {
+    assert.equal(button.width, 44);
+    assert.equal(button.height, 44);
+  }
+  for (const button of [focus, layers]) {
+    assert.equal(await button.evaluate(el => getComputedStyle(el).borderTopLeftRadius), '50%');
+  }
+  assert.equal(await layers.innerText(), '');
+  assert.equal(left.y, right.y);
+  assert.ok(Math.abs(left.x - map.x - (map.x + map.width - right.x - right.width)) <= 1);
+}
+
 // Runs the full entry/exit sequence for one layout state and returns the
 // measured rectangles. Uses real, unforced pointer clicks (no force: true).
 async function runScenario(page, viewport, label) {
@@ -161,6 +179,7 @@ async function runScenario(page, viewport, label) {
   });
   await page.waitForTimeout(50);
   const normal = await measure(page);
+  await assertCornerButtons(page);
   assert.notEqual(normal.focusMode, 'on', `${viewport.name} ${label}: focus mode should start off`);
   assert.equal(normal.focusLabel, 'Full screen map', `${viewport.name} ${label}: unexpected initial label`);
   assertLayout(normal, viewport, `${label} normal`);
@@ -169,6 +188,7 @@ async function runScenario(page, viewport, label) {
   await page.locator('#mobileMapFocusToggle').click();
   await page.waitForFunction(() => document.documentElement.dataset.mobileFocus === 'on');
   const focused = await measure(page);
+  await assertCornerButtons(page);
   assert.equal(focused.focusMode, 'on', `${viewport.name} ${label}: pointer click did not enter focus mode`);
   assert.equal(focused.focusLabel, 'Exit full screen map', `${viewport.name} ${label}: label did not change on entry`);
   assert.equal(focused.focusPressed, 'true', `${viewport.name} ${label}: aria-pressed not set on entry`);
@@ -332,6 +352,65 @@ try {
     await timing.time(`fixture-ready:${viewport.name}`, () => awaitFixtureReady(page));
     await page.waitForSelector('#mobileMapFocusToggle');
 
+    const nearby = page.locator('#mobileNearbyToggle');
+    const arrow = page.locator('#mobileNearbySearchToggle');
+    const search = page.locator('#searchInput');
+    const filters = page.locator('#mobileFiltersToggle');
+    const launcher = await nearby.boundingBox();
+    const map = await page.locator('#dispatchMap').boundingBox();
+    assert.ok(launcher && launcher.width >= 44 && launcher.height >= 44);
+    assert.ok(Math.abs(launcher.x + launcher.width / 2 - viewport.width / 2) <= 1);
+    assert.ok(launcher.y >= 0 && launcher.y + launcher.height <= map.y);
+    assert.ok(Math.min(viewport.height, map.y + map.height) - map.y >= viewport.height * 0.75);
+    assert.equal(await nearby.getAttribute('aria-expanded'), 'false');
+    assert.equal(await page.locator('#nearbyPanel').isVisible(), false);
+    const launcherStyle = await nearby.evaluate(button => {
+      const style = getComputedStyle(button);
+      return {
+        color: style.color,
+        border: style.borderTopColor,
+        background: style.backgroundColor,
+        animation: getComputedStyle(button.firstElementChild).animationName
+      };
+    });
+    assert.equal(launcherStyle.background, 'rgba(0, 0, 0, 0)');
+    assert.equal(launcherStyle.border, launcherStyle.color);
+    const [red, green, blue] = launcherStyle.color.match(/\d+/g).map(Number);
+    assert.ok(red > green && red > blue);
+    assert.equal(launcherStyle.animation, 'nearby-control-blink');
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    assert.equal(await nearby.locator('span').evaluate(el => getComputedStyle(el).animationName), 'none');
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+
+    await nearby.click();
+    assert.equal(await nearby.innerText(), '×');
+    assert.equal(await nearby.locator('span').evaluate(el => getComputedStyle(el).animationName), 'none');
+    assert.equal(await nearby.getAttribute('aria-expanded'), 'true');
+    assert.equal(await page.getByRole('button', { name: 'Use my location' }).isVisible(), true);
+    assert.equal(await search.isVisible(), false);
+    assert.equal(await arrow.innerText(), '↓');
+    assert.notEqual(await arrow.locator('span').evaluate(el => getComputedStyle(el).animationName), 'none');
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    assert.equal(await arrow.locator('span').evaluate(el => getComputedStyle(el).animationName), 'none');
+    await arrow.click();
+    assert.equal(await arrow.innerText(), '↑');
+    assert.equal(await arrow.getAttribute('aria-expanded'), 'true');
+    assert.equal(await search.isVisible(), true);
+    assert.equal(await filters.isVisible(), true);
+    const arrowBox = await arrow.boundingBox();
+    const navBox = await page.locator('.mobile-view-toggle').boundingBox();
+    assert.ok(arrowBox.y >= navBox.y + navBox.height);
+    assert.ok(Math.abs(arrowBox.x + arrowBox.width / 2 - viewport.width / 2) <= 1);
+    await filters.click();
+    assert.equal(await page.locator('#historyHours').isVisible(), true);
+    await filters.click();
+    await arrow.click();
+    assert.equal(await search.isVisible(), false);
+    await nearby.click();
+    assert.equal(await page.locator('#nearbyPanel').isVisible(), false);
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+
+
     // Regression: Leaflet nests the checkbox beside its text inside one span.
     // Only the text may be clipped; the checkbox must be visible and clickable.
     const layers = page.locator('#mobileMapLayersToggle');
@@ -394,6 +473,8 @@ try {
     // The active Hear sirens panel must follow search/navigation in real rendered flow.
     await context.grantPermissions(['geolocation']);
     await context.setGeolocation({ latitude: 43.6532, longitude: -79.3832 });
+    await page.locator('#mobileNearbyToggle').click();
+    await page.locator('#mobileNearbySearchToggle').click();
     await page.locator('#nearMe').click();
     await page.waitForFunction(() => !document.querySelector('#sirenResults').hidden);
     const assertSirenOrder = async mobile => {
@@ -415,10 +496,10 @@ try {
     };
     await assertSirenOrder(true);
     await page.setViewportSize({ width: 1280, height: 900 });
-    await page.waitForFunction(() => document.querySelector('#sirenResults').nextElementSibling.matches('.controls-card'));
+    await page.waitForFunction(() => document.querySelector('#sirenResults').nextElementSibling?.matches('#nearbySearchControls'));
     await assertSirenOrder(false);
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
-    await page.waitForFunction(() => document.querySelector('#sirenResults').previousElementSibling.matches('.radius-controls'));
+    await page.waitForFunction(() => document.querySelector('#sirenResults').nextElementSibling?.matches('#mobileNearbySearchToggle'));
     await assertSirenOrder(true);
     // Restore the original fixture before the independent focus-control scenarios.
     await page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' });

@@ -47,6 +47,8 @@ for(const width of [320,375,390,430,768,1440]) {
    }
   }
   if(width===390) {await page.locator('#dispatchMap').scrollIntoViewIfNeeded();await page.screenshot({path:`${out}/mobile-default-calls.png`});}
+  await page.locator('#mobileNearbyToggle').click();
+  await page.locator('#mobileNearbySearchToggle').click();
   await page.locator('button[data-mobile-view="calls"]').click();
   assert.equal(await page.locator('#observedDiversions').isVisible(),true);
   await page.locator('button[data-mobile-view="map"]').click();
@@ -373,6 +375,8 @@ for(const mode of ['alert-only','multiple','expired','unavailable','empty']) {
    cards:document.querySelectorAll('#observedDiversionsList .incident-card').length
  }));
  assert.equal(state.cards,2);assert.equal(state.diag.parts,2);
+ await page.locator('#mobileNearbyToggle').click();
+ await page.locator('#mobileNearbySearchToggle').click();
  await page.locator('button[data-mobile-view="map"]').click();
  await page.waitForFunction(()=>document.documentElement.dataset.mobileView==='map');
  const map=await page.locator('#dispatchMap').boundingBox();

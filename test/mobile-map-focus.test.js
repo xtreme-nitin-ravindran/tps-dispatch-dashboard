@@ -19,7 +19,7 @@ const focusHandler = app.slice(focusStart, app.indexOf('\nsetMobileView(mobileVi
 test('[STORY-40][STORY-40A] the focus control is a real button with an accessible name and 44px target', () => {
   assert.match(html, /id="mobileMapFocusToggle"[^>]*type="button"[^>]*aria-pressed="false"[^>]*aria-controls="mapView"[^>]*aria-label="Full screen map"/);
   assert.match(html, /class="mobile-map-focus-icon"[^>]*aria-hidden="true"/);
-  assert.match(mobileRules, /\.mobile-map-focus-toggle \{[^}]*width: 48px;[^}]*height: 48px;/);
+  assert.match(mobileRules, /\.mobile-map-focus-toggle \{[^}]*width: 44px;[^}]*height: 44px;/);
 });
 
 test('[STORY-40][STORY-40A] desktop layout is unchanged by the focus control', () => {
@@ -65,14 +65,12 @@ test('[STORY-40][STORY-40A] the focus control is inert on desktop and exits when
   assert.match(app, /if \(!isMobileViewLayout\(\) && mobileFocusMode\) setMobileFocusMode\(false\);/);
 });
 
-test('[STORY-40][STORY-40A][STORY-40E] the focus control sits beside the stacked layer controls without compressing them', () => {
-  // Story 41: the focus control is left-aligned and vertically centered against
-  // the right-aligned Police Divisions / Road closures stack.
-  assert.match(mobileRules, /\.mobile-map-focus-toggle \{[^}]*top: calc\(var\(--mobile-layer-stack-center, 56px\) - 24px\);[^}]*left: 8px;/);
+test('[STORY-40][STORY-40A][STORY-40E] the focus control sits at the top left, opposite the layers launcher', () => {
+  assert.match(mobileRules, /\.mobile-map-focus-toggle \{[^}]*top: 8px;[^}]*left: 8px;/);
   assert.match(mobileRules, /\.map-layer-toggle \{[^}]*top: var\(--police-control-bottom, 56px\);[^}]*right: 8px;[^}]*left: auto;/);
 });
 
-test('[STORY-40][STORY-40A][STORY-40E][STORY-51X] the focus control anchors to the layer row\'s measured bottom edge, not a fixed offset', () => {
+test('[STORY-40][STORY-40A][STORY-40E][STORY-51X] layer measurements keep the remaining focus chrome clear', () => {
   // The offset is measured from the real rendered row so a taller (wrapped) row
   // on iOS Safari cannot place the control underneath Road closures.
   assert.match(maintenanceSrc, /function syncMobileLayerRowOffset\(\) \{/);
@@ -80,15 +78,15 @@ test('[STORY-40][STORY-40A][STORY-40E][STORY-51X] the focus control anchors to t
   // The Road closures control's bottom edge anchors the TTC disruptions control.
   assert.match(maintenanceSrc, /const roadBottom = layerRow\.getBoundingClientRect\(\)\.bottom - wrapTop;/);
   assert.match(maintenanceSrc, /documentRef\.documentElement\.style\.setProperty\("--road-control-bottom", `\$\{Math\.round\(roadBottom\)\}px`\);/);
-  // The focus control and chrome anchor to the bottom of the whole visible stack.
+  // Offset the remaining chrome from the whole visible stack.
   assert.match(maintenanceSrc, /const stackBottomEl = toggles\.filter\(el => el\.getClientRects\(\)\.length\)\.pop\(\) \|\| layerRow;/);
   assert.match(maintenanceSrc, /const rowBottom = stackBottomEl\.getBoundingClientRect\(\)\.bottom - wrapTop;/);
   assert.match(maintenanceSrc, /documentRef\.documentElement\.style\.setProperty\("--mobile-layer-row-bottom", `\$\{Math\.round\(rowBottom\)\}px`\);/);
   // It runs inside the existing coalesced maintenance frame and observes the row.
   assert.match(maintenanceSrc, /syncMapSheetOverlap\(\);\s*syncMobileLayerRowOffset\(\);/);
   assert.match(app, /mapSheetObserver\.observe\(layerRow\);/);
-  // The focus control and the focus-mode chrome all derive from the same variable.
-  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.mobile-map-focus-toggle \{ top: calc\(var\(--mobile-layer-stack-center, 56px\) - 24px\);/);
+  // The paired corner buttons share the safe-area top inset.
+  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \.mobile-map-focus-toggle \{ top: calc\(8px \+ env\(safe-area-inset-top, 0px\)\);/);
   assert.doesNotMatch(mobileRules, /top: 64px;/);
 });
 
