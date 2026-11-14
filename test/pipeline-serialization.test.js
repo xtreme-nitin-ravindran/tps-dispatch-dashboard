@@ -111,12 +111,16 @@ test('[STORY-55B] the incident phase publishes to R2 through the shared sink', (
   assert.doesNotMatch(pipeline, /- put:/, 'no git `put` step may remain');
   assert.doesNotMatch(pipeline, /snapshots-(?:incidents|ttc)/, 'the scoped git resources must be gone');
   assert.doesNotMatch(pipeline, /rebase: true/, 'no git rebase push may remain');
+  // The non-secret publication target arrives as CM params; the secret R2 keys are
+  // no longer ((var)) params — the task fetches them from Vault via AppRole in-task
+  // and exports them before the shared sink reads the environment.
   const r2Params = [...pipeline.matchAll(/R2_ENDPOINT: \(\(r2_endpoint\)\)/g)];
   assert.equal(r2Params.length, 1, 'the incident phase must receive the R2 endpoint');
-  for (const name of ['R2_BUCKET', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY']) {
-    const key = name.toLowerCase();
-    assert.ok(pipeline.includes(`${name}: ((${key}))`), `the incident phase must receive ${name}`);
-  }
+  assert.ok(pipeline.includes('R2_BUCKET: ((r2_bucket))'), 'the incident phase must receive R2_BUCKET');
+  assert.doesNotMatch(pipeline, /R2_ACCESS_KEY_ID: \(\(/, 'the secret access key must not be a CM param');
+  assert.doesNotMatch(pipeline, /R2_SECRET_ACCESS_KEY: \(\(/, 'the secret secret key must not be a CM param');
+  assert.match(pipeline, /\/v1\/auth\/approle\/login/, 'the task must log in to Vault via AppRole');
+  assert.match(pipeline, /export R2_ACCESS_KEY_ID R2_SECRET_ACCESS_KEY/, 'the fetched keys must be exported to the environment');
 });
 
 test('[STORY-55B] the incident phase seeds its history input from the published snapshot', () => {

@@ -185,7 +185,7 @@ Automation validates code changes and keeps the dashboard’s public data curren
 ### Concourse
 
 - Runs the primary data updates approximately every three minutes (serialized runs may take longer), fetching feeds and preserving call history.
-- Publishes incidents followed by TTC diversion data; code validation runs in the protected promotion gate.
+- Publishes the incident snapshot (`data/current.json`) to R2; TTC geometry (`data/ttc-diversions.json`) is owned by the continuous capture stack (Story 79). Code validation runs in the protected promotion gate.
 - See [data pipeline details](docs/data-pipeline.md).
 
 ### GitHub Actions

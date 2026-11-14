@@ -34,15 +34,18 @@ ETL failure fails the build, so the next timer tick retries it.
 
 Keep generated snapshots out of code commits. The snapshot on `dev` and `main` is a
 fixture; the live snapshot is in R2. Pipeline configuration is in
-[`concourse/pipeline.yml`](../concourse/pipeline.yml), with example settings (including the
-R2 credentials) in [`concourse/values.example.yml`](../concourse/values.example.yml).
+[`concourse/pipeline.yml`](../concourse/pipeline.yml), with the non-secret example settings in
+[`concourse/values.example.yml`](../concourse/values.example.yml). The secret R2 keys are
+not pipeline vars: the task fetches them from Vault (AppRole login) in-task.
 
-Before publishing to R2, Concourse builds `docker/Dockerfile.test` with the supported
-OCI build task and uses that artifact as its task image. It enforces the same gates as
-the protected GitHub Actions workflow: the canonical offline suite in
-America/Los_Angeles, Python tests, ESLint and Ruff, browser JavaScript syntax checks,
-and the canonical UTC suite with the 100/100/100 coverage thresholds. The structural
-CI-strategy regression fails if either pipeline drops one of those shared checks.
+Concourse does not build the test image or rerun repository checks: `main` has
+already passed the protected GitHub Actions promotion gate (the canonical offline
+suite in America/Los_Angeles, Python tests, ESLint and Ruff, browser JavaScript
+syntax checks, and the canonical UTC suite with the 100/100/100 coverage
+thresholds). The `update-and-publish` task runs on the homelab `task-base` image,
+installs Node and runtime dependencies in-task, and runs only the incident update and
+R2 publication. The structural CI-strategy regression fails if the pipeline
+reintroduces those checks.
 
 
 ## Documentation-only changes
