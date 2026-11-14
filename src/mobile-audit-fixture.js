@@ -59,6 +59,7 @@ function incident(id, source, description, location, minutes, coordinates, extra
     timestamp,
     firstSeenAt: timestamp,
     lastSeenAt: timestamp,
+    ...(extra.lastMeaningfulUpdateAt ? { lastMeaningfulUpdateAt: extra.lastMeaningfulUpdateAt } : {}),
     eventCategory: extra.eventCategory || 'other',
     isOngoing: extra.isOngoing ?? source === 'TFS',
     geography: { coordinates, division: extra.division || 'Division 52' },
@@ -69,7 +70,7 @@ function incident(id, source, description, location, minutes, coordinates, extra
 export function mobileAuditFixtureSnapshot(state = 'many', now = Date.now()) {
   const representative = [
     incident('selected', 'TFS', 'Residential Fire Alarm — Long deterministic audit label', 'University Avenue between Armoury Street & Dundas Street West', 4, [43.6534, -79.3862], {eventCategory:'fire',vehicles:[{type:'Pumper',numbers:['P312']}]}, now),
-    incident('medical', 'TFS', 'MEDICAL', 'Approximate area: Downtown Toronto / Harbourfront / Railway Lands / Bathurst Quay', 9, [43.6414, -79.3902], {eventCategory:'medical'}, now),
+    incident('medical', 'TFS', 'MEDICAL', 'Approximate area: Downtown Toronto / Harbourfront / Railway Lands / Bathurst Quay', 9, [43.6414, -79.3902], {eventCategory:'medical', lastMeaningfulUpdateAt: minutesAgo(now, 7)}, now),
     incident('police', 'TPS', 'PERSON WITH A KNIFE', 'QUEEN ST W - SPADINA AVE', 13, [43.6489, -79.3965], {division:'Division 14'}, now),
     incident('collision', 'TPS', 'FAIL TO REMAIN PERSONAL INJURY COLLISION', 'GARDINER W S KINGSWAY RAMP - SOUTH KINGSWAY', 18, [43.6385, -79.4701], {isOngoing:false,division:'Highway Patrol'}, now),
     incident('alarm', 'TFS', 'Alarm Highrise Residential', 'Wellesley Street between Bleecker Street & Ontario Street', 24, [43.6669, -79.3718], {eventCategory:'fire'}, now),

@@ -89,6 +89,16 @@ test('[STORY-37A][STORY-37V][STORY-38F] Story 38 fixture dimensions compose with
   }), null);
 });
 
+test('[STORY-11][STORY-81] fixture exposes NEW, UPDATED and ONGOING badge states in one deterministic set', () => {
+  const now = Date.UTC(2026,8,26,12);
+  const many = mobileAuditFixtureSnapshot('many', now);
+  const selected = many.incidents.find(item => item.id === 'mobile-audit-selected');
+  const medical = many.incidents.find(item => item.id === 'mobile-audit-medical');
+  const fire = many.incidents.find(item => item.id === 'mobile-audit-fire');
+  assert.ok(selected.firstSeenAt && !selected.lastMeaningfulUpdateAt && selected.isOngoing === true, 'selected renders NEW + ONGOING');
+  assert.ok(medical.lastMeaningfulUpdateAt && Date.parse(medical.lastMeaningfulUpdateAt) > Date.parse(medical.firstSeenAt) && medical.isOngoing === true, 'medical renders UPDATED + ONGOING');
+  assert.ok(fire.isOngoing === true, 'fire renders ONGOING');
+});
 test('[STORY-37A][STORY-37V][STORY-38F] fixture covers multiple, zero, stale, unavailable, unresolved, and long TTC states', () => {
   const now=Date.UTC(2026,8,26,12);
   assert.ok(mobileAuditFixtureSnapshot().incidents.length >= 10);
