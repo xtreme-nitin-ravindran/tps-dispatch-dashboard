@@ -43,7 +43,7 @@ test('[STORY-38B] first populated commit yields for a loading paint without dela
 
 test('[STORY-38B] collapsed sheet and Quick Look expose loading while actions remain enabled', () => {
   assert.match(html, /id="mobileSheetSummary"[^>]*>Loading nearby calls…<\/span>/);
-  assert.match(html, /<button id="nearMe"[^>]*>What's happening near me\?<\/button>|<button id="nearMe"[^>]*>What’s happening near me\?<\/button>/);
+  assert.match(html, /<button id="nearMe"[^>]*>Use my location<\/button>/);
   assert.match(html, /id="quickLookDataStatus"[^>]*role="status"[^>]*>Loading calls… Location controls are ready\.<\/p>/);
   assert.doesNotMatch(html.match(/<button id="nearMe"[^>]*>/)[0], /disabled/);
 });

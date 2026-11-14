@@ -349,11 +349,12 @@ function setMobileView(view, { focusSelection = false, persist = true } = {}) {
   if (view !== "map" && view !== "calls") return;
   const mobile = isMobileViewLayout();
   if (view === mobileView && view === presentedMobileView && mobile === presentedMobileLayout) return;
-  // Keep the existing siren panel below search/navigation on mobile, including rotation.
+  // Keep results below search on mobile and above search on desktop.
   const sirenPanel = document.querySelector('#sirenResults');
-  const sirenAnchor = document.querySelector(mobile ? '.radius-controls' : '.controls-card');
-  if (mobile) sirenAnchor.after(sirenPanel);
-  else sirenAnchor.before(sirenPanel);
+  document.querySelector(mobile ? '#mobileNearbySearchToggle' : '#nearbySearchControls').before(sirenPanel);
+  const topbar = document.querySelector('.topbar');
+  if (mobile) document.querySelector('#nearbySearchControls').append(topbar);
+  else document.querySelector('.app-shell').prepend(topbar);
   const finishState = uxAudit.begin('view-toggle:state-update', { target: view });
   mobileView = view;
   if (mobileFocusMode && view !== 'map') closeFullscreenPanels();
@@ -397,6 +398,34 @@ function setMobileView(view, { focusSelection = false, persist = true } = {}) {
   }
   maintenance.scheduleViewMaintenance({ view, mobile, focusSelection, persist });
 }
+
+const mobileNearbyToggle = document.querySelector('#mobileNearbyToggle');
+const mobileNearbySearchToggle = document.querySelector('#mobileNearbySearchToggle');
+
+function setMobileNearbySearchOpen(open) {
+  mobileNearbySearchToggle.setAttribute('aria-expanded', String(open));
+  mobileNearbySearchToggle.setAttribute('aria-label', open ? 'Hide search and filters' : 'Show search and filters');
+  mobileNearbySearchToggle.firstElementChild.textContent = open ? '↑' : '↓';
+  document.documentElement.classList.toggle('mobile-nearby-search-open', open);
+}
+
+function setMobileNearbyOpen(open) {
+  mobileNearbyToggle.setAttribute('aria-expanded', String(open));
+  mobileNearbyToggle.setAttribute('aria-label', open ? 'Close What’s happening near me' : 'What’s happening near me?');
+  mobileNearbyToggle.firstElementChild.textContent = open ? '×' : '!';
+  document.documentElement.classList.toggle('mobile-nearby-open', open);
+  if (!open) setMobileNearbySearchOpen(false);
+  scheduleMapMaintenance();
+}
+
+mobileNearbyToggle.addEventListener('click', () => {
+  setMobileNearbyOpen(mobileNearbyToggle.getAttribute('aria-expanded') !== 'true');
+});
+mobileNearbySearchToggle.addEventListener('click', () => {
+  setMobileNearbySearchOpen(mobileNearbySearchToggle.getAttribute('aria-expanded') !== 'true');
+  mobileNearbySearchToggle.scrollIntoView({ block: 'nearest' });
+  scheduleMapMaintenance();
+});
 
 mobileViewToggles.forEach(toggle => toggle.addEventListener("click", auditInteraction(`view:${toggle.dataset.mobileView}`, () => {
   mobileViewInteracted = true;
@@ -1988,7 +2017,6 @@ try {
     themePreference = saved.theme;
     document.querySelector('#themePreference').value = themePreference;
     syncTheme();
-    if (!mobileViewInteracted) setMobileView(saved.mobileView, { persist: false });
     syncFilterControls();
   }
 } catch { /* Defaults remain usable when storage is blocked. */ }
@@ -2425,6 +2453,10 @@ function beginAreaChoice() {
   sirenMode = true;
   chooseAreaButton.textContent = 'Click an area on the map…';
   nearStatus.textContent = 'Choose an area manually by clicking the map.';
+  if (isMobileViewLayout()) {
+    setMobileView('map', { persist: false });
+    setMobileNearbyOpen(false);
+  }
   els.dispatchMap.classList.add('choosing-area');
   els.dispatchMap.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' });
 }
@@ -2439,6 +2471,7 @@ function activateSirenView() {
   mapHasFitted = false;
   updateSirenMatches();
   updateNearbyView();
+  if (isMobileViewLayout()) setMobileNearbyOpen(true);
   document.querySelector('#sirenResults').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'nearest' });
 }
 function chooseManualArea(origin) {

@@ -67,6 +67,10 @@ try {
         assert.ok(Math.abs((await read(neighbour.id)).top - neighbour.top) <= 1);
         await page.evaluate(() => window.refreshReadingFixture([], 0, true));
         assert.ok(Math.abs((await read(neighbour.id)).top - neighbour.top) <= 1, 'unchanged calls must not move');
+        if (viewport.width < 500) {
+          await page.locator('#mobileNearbyToggle').click();
+          await page.locator('#mobileNearbySearchToggle').click();
+        }
         await page.locator('#searchInput').fill('medical');
         assert.ok(await page.locator('#callList .incident-card').count() <= 40, 'intentional filters retain initial batching');
         await page.locator('#searchInput').fill('missing-deterministic-call');

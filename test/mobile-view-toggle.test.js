@@ -109,6 +109,5 @@ test('[STORY-37B] a view selected during loading is not overwritten by late star
   assert.match(app, /let mobileViewInteracted = false/);
   assert.match(app, /view:\$\{toggle\.dataset\.mobileView\}`,[\s\S]*?mobileViewInteracted = true;[\s\S]*?setMobileView/);
   assert.match(app, /if \(arrival\.mobileView && !mobileViewInteracted\) setMobileView/);
-  assert.match(app, /if \(!mobileViewInteracted\) setMobileView\(saved\.mobileView/);
   assert.match(app, /if \(!mobileViewInteracted\) setMobileView\(mobileAuditFixture\.view/);
 });

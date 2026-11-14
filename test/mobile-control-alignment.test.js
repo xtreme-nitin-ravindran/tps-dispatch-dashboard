@@ -11,7 +11,7 @@ const portraitStart = css.indexOf('@media (max-width: 680px) {\n  .app-shell');
 const sharedMobileStart = css.indexOf('@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)');
 const portraitRules = css.slice(portraitStart, sharedMobileStart);
 const sharedMobileRules = css.slice(sharedMobileStart);
-const finalMobileRules = css.slice(css.lastIndexOf('@media (max-width: 680px) {'));
+const finalMobileRules = css.slice(css.indexOf('\n  .view-actions {\n'));
 
 test('[STORY-29B] mobile filters and actions use aligned grids with usable touch targets', () => {
   assert.match(portraitRules, /\.event-toggle-group\s*{[\s\S]*?grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);[\s\S]*?gap: 8px;/);

@@ -193,6 +193,8 @@ try {
     }
 
     // --- View transitions preserve the header behavior ---
+    await page.locator('#mobileNearbyToggle').click();
+    await page.locator('#mobileNearbySearchToggle').click();
     await page.locator('button[data-mobile-view="calls"]').click();
     await page.waitForFunction(() => document.documentElement.dataset.mobileView === 'calls');
     await page.waitForTimeout(50);

@@ -52,7 +52,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./assets/css/styles.css?v=map-layers-disclosure-1" />
+  <link rel="stylesheet" href="./assets/css/styles.css?v=mobile-nearby-panel-1" />
 </head>
 
 <body>
@@ -88,13 +88,16 @@
     <p id="offlineStatus" class="offline-status" role="status" aria-live="polite" hidden></p>
 
     <main>
+      <button id="mobileNearbyToggle" class="mobile-nearby-toggle" type="button"
+        aria-controls="nearbyPanel" aria-expanded="false" aria-label="What’s happening near me?"><span aria-hidden="true">!</span></button>
+      <div id="nearbyPanel">
       <section class="nearby-feature" aria-labelledby="nearHeading">
         <div><span class="section-kicker">QUICK LOOK</span>
-          <h2 id="nearHeading">What’s happening nearby?</h2>
+          <h2 id="nearHeading">What’s happening near me?</h2>
           <p>Check the latest public fire and police calls around you.</p>
         </div>
         <div class="nearby-action">
-          <button id="nearMe" type="button">What’s happening near me?</button>
+          <button id="nearMe" type="button">Use my location</button>
           <button id="hearSirens" type="button" aria-label="Find nearby calls that may explain sirens">Hear sirens?</button>
           <p id="quickLookDataStatus" class="quick-look-data-status" role="status" aria-live="polite">Loading calls… Location controls are ready.</p>
           <p id="nearStatus" role="status">Uses your location with permission. Your location stays in this browser
@@ -182,6 +185,7 @@
         <p class="siren-disclaimer">SirenTO can’t determine which incident caused the sirens you heard. These are the
           most recent nearby calls.</p>
       </section>
+      <div id="nearbySearchControls">
       <section class="controls-card">
         <div class="search-wrap">
           <label class="visually-hidden" for="searchInput">Search dispatch calls</label>
@@ -237,8 +241,6 @@
       <div class="view-actions secondary-filter-control"><span id="filterSummary"></span><button id="clearFilters" type="button">Clear
           filters</button><button id="shareView" type="button">Share view</button><input id="shareLink"
           aria-label="Shareable view link" readonly hidden><span id="shareStatus" role="status"></span></div>
-      <p id="sharedIncidentStatus" class="shared-incident-status" role="status" hidden></p>
-
       <nav class="radius-controls" aria-label="Incident search area">
         <span class="section-kicker">SEARCH AREA</span>
         <div class="radius-toggle-group" role="group" aria-label="Incident search area">
@@ -256,6 +258,11 @@
           <button type="button" id="mobileDisruptionsControl" aria-controls="disruptions">Disruptions</button>
         </div>
       </nav>
+      </div>
+      <button id="mobileNearbySearchToggle" class="mobile-nearby-toggle" type="button"
+        aria-controls="nearbySearchControls" aria-expanded="false" aria-label="Show search and filters"><span aria-hidden="true">↓</span></button>
+      </div>
+      <p id="sharedIncidentStatus" class="shared-incident-status" role="status" hidden></p>
 
       <section class="nearby-summary" id="nearbySummary" aria-labelledby="nearbySummaryHeading" aria-live="polite"
         aria-atomic="true" hidden>
@@ -308,7 +315,6 @@
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path d="m3 8 9-5 9 5-9 5-9-5Zm0 5 9 5 9-5M3 18l9 5 9-5" />
               </svg>
-              <span class="map-layers-label">Map layers</span>
             </button>
             <button id="mobileMapInfoToggle" class="mobile-map-panel-toggle" type="button"
               aria-label="Map info" aria-controls="mapInfo" aria-expanded="false"><span aria-hidden="true">ⓘ</span></button>
@@ -590,7 +596,7 @@
   </script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./src/app/app.js?v=map-layers-disclosure-1"></script>
+  <script type="module" src="./src/app/app.js?v=mobile-nearby-panel-1"></script>
   <script>
     // Local previews and the deterministic browser server bypass the shell
     // cache so the working tree is always served; deployed origins keep the
