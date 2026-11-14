@@ -459,16 +459,20 @@ test("[STORY-55F] the real pipeline's inline tasks extract with their run blocks
   const text = await readFile(pipelinePath, "utf8");
   const publish = extractTaskConfig(text, "update-and-publish");
   assert.equal(publish.kind, "inline");
-  // The run block and the four R2 params must survive extraction.
+  // The run block and the non-secret params must survive extraction. The secret
+  // R2 keys are no longer ((var)) params: the task fetches them in-task from Vault
+  // via AppRole and exports them, so they appear only inside the run script.
   assert.match(publish.config, /^run:/m);
   assert.match(publish.config, /path: sh/);
-  for (const param of ["R2_ENDPOINT", "R2_BUCKET", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY"]) {
+  for (const param of ["VAULT_ADDR", "SIRENTO_ROLE_ID", "SIRENTO_SECRET_ID", "R2_ENDPOINT", "R2_BUCKET"]) {
     assert.match(publish.config, new RegExp(`${param}:`), `extracted config must contain ${param}`);
   }
+  assert.match(publish.config, /v1\/auth\/approle\/login/);
+  assert.match(publish.config, /export R2_ACCESS_KEY_ID R2_SECRET_ACCESS_KEY/);
   // The multi-line script body must be preserved, not truncated.
   assert.match(publish.config, /publish-incidents\.js/);
 
-  assert.match(publish.config, /repository: node, tag: 26-bookworm-slim/);
+  assert.match(publish.config, /repository: zot\.home\.arpa\/homelab\/task-base/);
   assert.match(publish.config, /npm ci --omit=dev/);
   assert.throws(() => extractTaskConfig(text, "build-test-image"), /task not found/);
 

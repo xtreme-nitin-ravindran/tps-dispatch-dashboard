@@ -37,21 +37,53 @@ jobs:
           platform: linux
           image_resource:
             type: registry-image
-            source: { repository: node, tag: 26-bookworm-slim }
+            source:
+              repository: zot.home.arpa/homelab/task-base
+              tag: latest
+              username: ((signalto_registry_pull_user))
+              password: ((signalto_registry_pull_password))
           inputs:
             - name: repo
           outputs:
             - name: incident-repo
           params:
+            VAULT_ADDR: https://vault.home.arpa
+            SIRENTO_ROLE_ID: ((sirento_role_id))
+            SIRENTO_SECRET_ID: ((sirento_secret_id))
             R2_ENDPOINT: ((r2_endpoint))
             R2_BUCKET: ((r2_bucket))
-            R2_ACCESS_KEY_ID: ((r2_access_key_id))
-            R2_SECRET_ACCESS_KEY: ((r2_secret_access_key))
           run:
             path: sh
             args:
               - -ec
               - |
+                # task-base is python:3.12-alpine — no node. Install it, then
+                # fetch the secret R2 keys via in-task AppRole login (the CA
+                # lock-down model: task-base verifies vault.home.arpa against
+                # its baked system store, so no --insecure / passed cert).
+                apk add --no-progress -q --no-cache nodejs npm curl jq
+
+                VAULT_TOKEN="$(curl -fsS --retry 3 \
+                  -H 'Content-Type: application/json' \
+                  -d "{\"role_id\":\"${SIRENTO_ROLE_ID}\",\"secret_id\":\"${SIRENTO_SECRET_ID}\"}" \
+                  "${VAULT_ADDR}/v1/auth/approle/login" \
+                  | jq -r '.auth.client_token')"
+                [ -n "${VAULT_TOKEN}" ] && [ "${VAULT_TOKEN}" != "null" ] || {
+                  echo "ERROR: Vault AppRole login failed." >&2; exit 1; }
+
+                # secret-class keys live in the sirento namespace, read via the
+                # sirento AppRole — never a concourse-main CM var the shared role
+                # can materialize.
+                R2_ACCESS_KEY_ID="$(curl -fsS \
+                  -H "X-Vault-Token: ${VAULT_TOKEN}" \
+                  "${VAULT_ADDR}/v1/secret/data/sirento/main/r2_access_key_id" \
+                  | jq -r '.data.data.value')"
+                R2_SECRET_ACCESS_KEY="$(curl -fsS \
+                  -H "X-Vault-Token: ${VAULT_TOKEN}" \
+                  "${VAULT_ADDR}/v1/secret/data/sirento/main/r2_secret_access_key" \
+                  | jq -r '.data.data.value')"
+                export R2_ACCESS_KEY_ID R2_SECRET_ACCESS_KEY
+
                 # Capture the declared Concourse output before changing directory.
                 INCIDENT_OUTPUT="$PWD/incident-repo/data/current.json"
                 cd repo
