@@ -72,7 +72,7 @@ jobs:
                   echo "ERROR: Vault AppRole login failed." >&2; exit 1; }
 
                 # secret-class keys live in the sirento namespace, read via the
-                # sirento AppRole — never a ((var)) the shared concourse CM role
+                # sirento AppRole — never a concourse-main CM var the shared role
                 # can materialize.
                 R2_ACCESS_KEY_ID="$(curl -fsS \
                   -H "X-Vault-Token: ${VAULT_TOKEN}" \
