@@ -46,7 +46,6 @@ export const TOOLING_GLOBS = [
   'scripts',
   'test',
   'src',
-  'concourse',
   '.github',
   'package.json',
   'package-lock.json',

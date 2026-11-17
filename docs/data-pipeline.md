@@ -33,9 +33,7 @@ independent continuous capture stack), no `serial_groups` lock is needed. An inc
 ETL failure fails the build, so the next timer tick retries it.
 
 Keep generated snapshots out of code commits. The snapshot on `dev` and `main` is a
-fixture; the live snapshot is in R2. Pipeline configuration is in
-[`concourse/pipeline.yml`](../concourse/pipeline.yml), with the non-secret example settings in
-[`concourse/values.example.yml`](../concourse/values.example.yml). The secret R2 keys are
+fixture; the live snapshot is in R2. Pipeline configuration lives in the homelab repo (`infra/concourse/pipelines/sirento-feeds.yml`, registered in its `pipelines.yaml`); the inline task was moved there per the sibling-repo contract (Story 79). See `docs/homelab-deploy-handoff.md`. The secret R2 keys are
 not pipeline vars: the task fetches them from Vault (AppRole login) in-task.
 
 Concourse does not build the test image or rerun repository checks: `main` has

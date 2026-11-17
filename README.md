@@ -160,7 +160,7 @@ The checks and test suites are outlined below:
   | `INFRA-LINT` | ESLint, Ruff, ShellCheck, and syntax checks |
 - **Frontend asset bumps:** Run `npm run bump:asset-version -- --asset <tag> --cache <sirento-shell-vN>` on the host because it mutates source files; the Docker wrapper mounts those files read-only. Then run the asset-version agreement test through the Docker wrapper and inspect the diff. Repository validation remains in Docker.
 - **Development snapshot:** Generate local data for manual testing. This is not a validation check. See [snapshot generation](docs/validation.md#generate-a-development-snapshot).
-- **Concourse worker validation:** Test affected tasks against the working tree on the real worker using `fly execute`, in addition to local Docker checks. See [worker validation](docs/concourse.md).
+- **Concourse worker validation:** The incident `update-and-publish` task lives in the homelab repo (`infra/concourse/tasks/sirento-feeds-update.*`). To verify a change, run it against the real worker with `fly execute` before promotion; see [homelab `docs/concourse.md`](../homelab/docs/concourse.md) for the canonical setup and verification guide.
 - **TTC GTFS-RT vehicle-capture test:** Deploy the TTC capture stack to an SSH-reachable host and verify it end-to-end. The deploy orchestration and its host-level e2e test live in the homelab repo since Story 79 (single-writer ownership); see [the cross-repo deploy handoff](docs/homelab-deploy-handoff.md) and the homelab repo's `docs/e2e-test.md`.
 
 ## Web Notifications
@@ -195,7 +195,7 @@ Automation validates code changes and keeps the dashboard’s public data curren
 - Failed checks stop promotion. Do not bypass protection or push application code directly to **`main`**.
 - Publishes coverage badges and reports to the generated **`coverage`** branch; do not use it for development.
 - See [data pipeline details](docs/data-pipeline.md) and [coverage reporting](docs/validation.md#test-coverage).
-- Dependabot watches `npm`, the Docker test image (`docker/Dockerfile.test`), and the pinned GitHub Actions. Minor and patch bumps for `npm` and `github-actions` auto-merge through `.github/workflows/dependabot-auto-merge.yml`, while major bumps stay open for manual review; the `docker` ecosystem never auto-merges. The Ansible collection for the TTC deploy role is watched by the homelab repo's Dependabot (Story 79 moved the role there). It cannot see the Concourse `image_resource` Node tags, so those are guarded by `concourse/node-image.yml` and `test/concourse-node-image.test.js`; bump them together with the Dockerfile. A scheduled drift check (`.github/workflows/node-drift.yml`) opens an issue if the Dockerfile and Concourse tags ever diverge. See [Dependabot coverage and the Concourse Node image drift guard](AGENTS.md#dependabot-coverage-and-the-concourse-node-image-drift-guard).
+- Dependabot watches `npm`, the Docker test image (`docker/Dockerfile.test`), and the pinned GitHub Actions. Minor and patch bumps for `npm` and `github-actions` auto-merge through `.github/workflows/dependabot-auto-merge.yml`, while major bumps stay open for manual review; the `docker` ecosystem never auto-merges. The Ansible collection for the TTC deploy role is watched by the homelab repo's Dependabot (Story 79 moved the role there). The Concourse scheduler and its task moved to the homelab repo in the same story, so this repo no longer carries a Concourse Node image tag or a node-drift guard.
 
 ### Data storage
 
