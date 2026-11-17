@@ -109,6 +109,27 @@ async function assertPanel(page, viewport, kind) {
   assertNoHorizontalOverflow(state, key);
 }
 
+async function panelStyle(page, selector) {
+  return page.locator(selector).evaluate(panel => {
+    const header = panel.querySelector('.mobile-map-panel-heading');
+    const button = header.querySelector('button');
+    const headerStyle = getComputedStyle(header);
+    const closeStyle = getComputedStyle(button);
+    return {
+      header: [headerStyle.font, headerStyle.padding, headerStyle.borderBottom, headerStyle.backgroundColor],
+      close: [closeStyle.font, closeStyle.width, closeStyle.height, closeStyle.borderRadius]
+    };
+  });
+}
+
+async function lineSamples(page, selector) {
+  return page.locator(selector).locator('.police-key, .road-key, .ttc-key').evaluateAll(keys => keys.map(key => {
+    const style = getComputedStyle(key);
+    const { width, height } = key.getBoundingClientRect();
+    return { width, height, border: style.borderTop, iconFontSize: getComputedStyle(key.nextElementSibling).fontSize };
+  }));
+}
+
 async function runPanels(page, viewport) {
   await page.locator('#mobileMapLayersToggle').click();
   await page.waitForFunction(() => !document.querySelector('#mobileMapLayersPanel').hidden);
@@ -133,18 +154,25 @@ async function runPanels(page, viewport) {
   await police.click();
   assert.equal(await police.isChecked(), !original[0]);
   await police.click();
-  // Two-checkbox availability uses the existing hidden TTC control.
-  await page.locator('#ttcLayerControl').evaluate(el => { el.hidden = true; });
-  assert.equal(await page.locator('#mobileMapLayersBody input[type="checkbox"]:visible').count(), 2);
-  await page.locator('#ttcLayerControl').evaluate(el => { el.hidden = false; });
-  await page.locator('#ttcOverlay').click();
-  assert.equal(await page.locator('#ttcOverlay').isChecked(), !original[2]);
-  await page.locator('#ttcOverlay').click();
+  await page.locator('#ttcOverlay').setChecked(false);
+  const layersStyle = await panelStyle(page, '#mobileMapLayersPanel');
+  const layersSamples = await lineSamples(page, '#mobileMapLayersBody');
+  assert.equal(layersSamples.length, 4);
+  assert.ok(layersSamples.every(sample => sample.width === 24 && sample.height === 4));
+  assert.deepEqual(layersSamples.map(sample => sample.border.split(' ')[1]), ['dashed', 'dashed', 'dashed', 'solid']);
+  const layersLegend = await page.locator('#mobileMapLayersBody .ttc-map-legend').innerText();
+  assert.match(layersLegend, /TTC disruptions[\s\S]*Affected section[\s\S]*Diversion/);
   await page.locator('#mobileMapInfoToggle').click();
   await page.waitForFunction(() => document.querySelector('#mapInfo').open);
   assert.equal(await page.locator('#mobileMapLayersPanel').isVisible(), false);
   assert.equal(await page.locator('#mobileMapLayersToggle').getAttribute('aria-expanded'), 'false');
   await assertPanel(page, viewport, 'info');
+  assert.deepEqual(await panelStyle(page, '#mapInfo'), layersStyle);
+  assert.deepEqual(await lineSamples(page, '#mapInfo'), layersSamples);
+  assert.equal(await page.locator('#mapInfo .ttc-map-legend').innerText(), layersLegend);
+  assert.deepEqual(await page.locator('#mapInfo .map-info-section h3').allTextContents(), [
+    'Map coverage', 'Source updates · Toronto time', 'Map layers', 'Call markers', 'Location and source', 'Call age'
+  ]);
   await page.locator('.source-times-help').click();
   assert.equal(await page.locator('#mapInfo #source-timestamps').count(), 1);
   assert.equal(await page.locator('#source-timestamps').isVisible(), true);
@@ -162,6 +190,7 @@ async function runPanels(page, viewport) {
   await page.locator('#mobileMapInfoClose').click();
   await page.locator('#mobileMapInfoToggle').click();
   await page.locator('#mobileMapLayersToggle').click();
+  await page.locator('#ttcOverlay').setChecked(original[2]);
   assert.equal(await page.locator('#mapInfo').isVisible(), false);
   await page.keyboard.press('Escape');
   assert.deepEqual(await page.locator('#mobileMapLayersBody input[type="checkbox"]').evaluateAll(els => els.map(el => el.checked)), original);

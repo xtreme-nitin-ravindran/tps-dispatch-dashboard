@@ -12,7 +12,7 @@ export function activeSecondaryFilterCount(state) {
     .filter(field => state[field] !== filterDefaults[field]).length;
 }
 const supportedRadii = [0.5, 1, 2, 5];
-const supportedMobileViews = ['map', 'calls'];
+export const supportedMobileViews = Object.freeze(['map', 'calls', 'disruptions']);
 export function filterSummary(s) {
   return [s.hours < 24 ? `Last ${s.hours} hour${s.hours === 1 ? '' : 's'}` : s.hours === 24 ? 'Last 24 hours' : `Last ${s.hours / 24} days`,
     s.serviceFilter !== 'all' && s.serviceFilter, s.eventFilter !== 'all' && `Event: ${s.eventFilter}`,

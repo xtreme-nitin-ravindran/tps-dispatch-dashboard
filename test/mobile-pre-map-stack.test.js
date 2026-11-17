@@ -20,11 +20,11 @@ test('[STORY-37J] mobile header keeps branding and theme access in one compact r
   assert.match(portraitRules, /\.theme-control select \{ min-height: 44px; \}/);
 });
 
-test('[STORY-37J] Search and collapsed Filters share one mobile row without hiding either control', () => {
+test('[STORY-37J] Search and Filters each have a full-width mobile row', () => {
   const controls = html.match(/<section class="controls-card">[\s\S]*?<\/section>/)[0];
   assert.ok(controls.indexOf('id="searchInput"') < controls.indexOf('id="mobileFiltersToggle"'));
-  assert.match(portraitRules, /\.controls-card \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\) auto;[\s\S]*?gap: 6px;[\s\S]*?padding: 6px;/);
-  assert.match(portraitRules, /\.mobile-filters-toggle \{[\s\S]*?min-width: 82px;[\s\S]*?min-height: 44px;/);
+  assert.match(portraitRules, /\.controls-card \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\);[\s\S]*?gap: 6px;[\s\S]*?padding: 6px;/);
+  assert.match(portraitRules, /\.mobile-filters-toggle \{[\s\S]*?width: 100%;[\s\S]*?min-height: 44px;/);
   assert.match(portraitRules, /\.secondary-filter-control \{ display: none; \}/);
 });
 

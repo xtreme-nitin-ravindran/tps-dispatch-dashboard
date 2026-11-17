@@ -26,7 +26,7 @@ test('[STORY-75] the police boundary legend carries the badge glyph and the map 
   assert.match(boundarySrc, /police-key-wrap/);
   assert.match(boundarySrc, /sign\.className = 'police-sign'/);
   assert.match(boundarySrc, /sign\.textContent = '🚔'/);
-  assert.match(boundarySrc, /input\.setAttribute\('aria-label', 'Police Divisions'\)/);
+  assert.match(boundarySrc, /input\.setAttribute\('aria-label', 'Police division'\)/);
   assert.match(boundarySrc, /input\.after\(keyWrap\)/);
   assert.doesNotMatch(boundarySrc, /label\.setAttribute\('aria-label'/);
   const css = readFileSync(new URL('../assets/css/styles.css', import.meta.url), 'utf8');

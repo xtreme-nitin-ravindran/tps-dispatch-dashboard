@@ -30,12 +30,13 @@ test('[STORY-40F] only compact linked OpenStreetMap credit remains in the map at
   assert.doesNotMatch(attributionRule, /width:\s*(?:100%|100vw)/);
 });
 
-test('[STORY-40F] TPS division provenance appears in normal flow inside existing Map info', () => {
+test('[STORY-40F] Map info uses the concise police label and the source credit remains available', () => {
   const infoMatch = html.match(/<details class="panel map-info"[\s\S]*?<\/details>/);
   assert.ok(infoMatch, 'expected the Map info details element');
   const [info] = infoMatch;
-  assert.match(info, /<p class="map-source-credit">Police division boundaries — Toronto Police Service<\/p>/);
-  assert.match(desktopRules, /\.map-source-credit \{[\s\S]*?color: var\(--muted\);[\s\S]*?font-size: 12px/);
+  assert.match(info, />Police division<\/li>/);
+  assert.match(html, /Division boundaries: Toronto Police Service/);
+  assert.match(desktopRules, /\.map-info-body \{[^}]*color: var\(--muted\);[^}]*font: 400 14px/);
 });
 
 test('[STORY-40F] mobile attribution sits in the lower-right chrome, clear of the focus control', () => {
@@ -53,7 +54,7 @@ test('[STORY-40F] mobile attribution sits in the lower-right chrome, clear of th
 });
 
 test('[STORY-40F] Calls mode removes the map and attribution while desktop keeps valid placement', () => {
-  assert.match(mobileRules, /html\[data-mobile-view="calls"\] \.map-stage,[\s\S]*?\.map-info,[\s\S]*?\.mobile-bottom-sheet \{ display: none; \}/);
+  assert.match(mobileRules, /html:is\(\[data-mobile-view="calls"\], \[data-mobile-view="disruptions"\]\) :is\(\.map-stage, \.map-info, \.mobile-bottom-sheet\) \{ display: none; \}/);
   assert.match(maintenanceSrc, /control\.setPosition\("bottomright"\)/);
   assert.match(desktopRules, /\.leaflet-control-attribution \{[\s\S]*?background: var\(--map-attribution-background\)/);
 });

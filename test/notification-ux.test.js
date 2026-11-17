@@ -54,10 +54,10 @@ test('[SHOULD-7][STORY-33] canonical incident links reuse the established parser
 test('[SHOULD-7][STORY-33] arrival restoration distinguishes visible, filtered, missing, mobile, and desktop states', () => {
   const incidents = [{ id: 'present' }];
   assert.deepEqual(incidentArrivalState('present', incidents, incidents), {
-    id: 'present', found: true, missing: false, needsReveal: false, mobileView: null, mobileSheetState: null
+    id: 'present', found: true, missing: false, needsReveal: false, mobileView: null
   });
   assert.deepEqual(incidentArrivalState('present', incidents, [], { mobile: true }), {
-    id: 'present', found: true, missing: false, needsReveal: true, mobileView: 'map', mobileSheetState: 'half'
+    id: 'present', found: true, missing: false, needsReveal: true, mobileView: 'map'
   });
   assert.deepEqual(incidentArrivalState('missing', incidents, []), {
     id: null, found: false, missing: true, needsReveal: false, message: MISSING_INCIDENT_MESSAGE
@@ -65,7 +65,7 @@ test('[SHOULD-7][STORY-33] arrival restoration distinguishes visible, filtered, 
   assert.deepEqual(incidentArrivalState(null, incidents, []), {
     id: null, found: false, missing: false, needsReveal: false
   });
-  assert.match(app, /restorePendingIncident\(\)[\s\S]*?state\.calls, state\.filtered[\s\S]*?setMobileSheetState/);
+  assert.match(app, /restorePendingIncident\(\)[\s\S]*?state\.calls, state\.filtered[\s\S]*?revealMap: true/);
 });
 
 test('[SHOULD-7][STORY-33] manual notification fixtures are loopback-only production guards', () => {

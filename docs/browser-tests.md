@@ -105,8 +105,8 @@ specific reports still require the physical-device validation on the reported br
 
 For repeatable mobile layout audits without live feeds, use the loopback-only
 `mobileAuditFixture` query switch. `many`, `zero`, `stale`, and `unavailable` provide deterministic
-incident/disruption shapes; `mobileAuditView=map|calls` and
-`mobileAuditSheet=collapsed|half|expanded` select presentation state. Add
+incident/disruption shapes; `mobileAuditView=map|calls|disruptions` and
+`mobileAuditSheet=collapsed|open` select presentation state. Add
 `mobileAuditRoads=on|off` and `mobileAuditBoundaries=on|off` to exercise either
 map overlay independently; both default to `on`. Add
 `mobileAuditLocation=none|current|unavailable|denied|saved|manual` to exercise the compact Quick Look location states. The `many`
@@ -117,7 +117,7 @@ Add `mobileAuditFilters=none|one|multiple|long|service|event|division|history|se
 to exercise deterministic secondary-filter states through the production controls and rendering path.
 Add `mobileAuditRadius=0.5|1|2|5|toronto` to select each production radius control;
 combine it with `mobileAuditLocation=current` for deterministic nearby results.
-Use `mobileAuditSheet=collapsed|half|expanded` with map mode to audit the compact
+Use `mobileAuditSheet=collapsed|open` with map mode to audit the compact
 48 px overlay-control row and 52 px collapsed sheet header. For example:
 `http://127.0.0.1:4173/?mobileAuditFixture=many&mobileAuditView=map&mobileAuditLocation=current&mobileAuditRadius=toronto&mobileAuditSheet=collapsed&mobileAuditRoads=on&mobileAuditBoundaries=on&incident=mobile-audit-selected`.
 
@@ -144,7 +144,7 @@ and its first incident at about 664–682 px depending on summary wrapping. Thes
 have no document-level horizontal overflow.
 
 - full map audit: `http://127.0.0.1:4173/?mobileAuditFixture=many&watchFixture=current&incident=mobile-audit-selected`
-- expanded sheet: append `&mobileAuditSheet=expanded`
+- open sheet: append `&mobileAuditSheet=open`
 - calls view: append `&mobileAuditView=calls`
 - zero calls: `http://127.0.0.1:4173/?mobileAuditFixture=zero&watchFixture=current`
 - stale sources: `http://127.0.0.1:4173/?mobileAuditFixture=stale&watchFixture=current`

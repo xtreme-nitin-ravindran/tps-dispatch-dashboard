@@ -41,7 +41,7 @@ const VIEWPORTS = [
 // is long enough to overflow a single line at every supported width.
 const LONG_SUMMARY = '1,212 calls · Closest 0.2 km · Latest 4 min ago · Last 24h · Toronto-wide scope with a deliberately long deterministic audit label';
 
-const SHEET_STATES = ['collapsed', 'half', 'expanded'];
+const SHEET_STATES = ['collapsed', 'open'];
 
 // Feature-specific selectors for the sheet-header regression. The shared helper
 // reads the rectangles; the computed-style/text/state reads stay here.
@@ -49,8 +49,7 @@ const SHEET_SELECTORS = {
   sheetRect: '#mobileBottomSheet',
   headerRect: '#mobileSheetToggle',
   summaryRect: '#mobileSheetSummary',
-  handleRect: '.mobile-sheet-handle',
-  stateControlsRect: '.mobile-sheet-state-controls'
+  handleRect: '.mobile-sheet-handle'
 };
 
 async function measure(page) {
@@ -111,11 +110,7 @@ function assertSummaryWraps(state, viewport, label) {
 }
 
 function assertSummaryClear(state, label) {
-  // The wrapped summary must not overlap the drag handle or the sheet controls.
-  assertNoOverlap(state, [
-    ['summaryRect', 'handleRect'],
-    ['summaryRect', 'stateControlsRect']
-  ], label);
+  assertNoOverlap(state, [['summaryRect', 'handleRect']], label);
   // The header must contain the summary (the header grows to fit it).
   const summary = state.summaryRect;
   const header = state.headerRect;
@@ -130,19 +125,14 @@ async function setLongSummary(page) {
   await page.waitForTimeout(50);
 }
 
-// The sheet header is the toggle: clicking it cycles collapsed -> half ->
-// expanded -> collapsed. The body's state controls are only reachable once the
-// sheet is open, so drive the states through the header itself.
 async function setSheetState(page, state) {
-  for (let attempt = 0; attempt < 4; attempt += 1) {
-    const current = await page.evaluate(() => document.documentElement.dataset.mobileSheetState);
-    if (current === state) break;
+  if (await page.locator('#mobileBottomSheet').getAttribute('data-sheet-state') !== state) {
     await page.locator('#mobileSheetToggle').click();
-    await page.waitForFunction(target => document.documentElement.dataset.mobileSheetState === target, state, { timeout: 2000 }).catch(() => { });
-    await page.waitForTimeout(50);
   }
   await page.waitForFunction(target => document.documentElement.dataset.mobileSheetState === target, state);
-  await page.waitForTimeout(50);
+  await page.locator('#mobileBottomSheet').evaluate(async sheet => {
+    await Promise.all(sheet.getAnimations().map(animation => animation.finished));
+  });
 }
 
 const browser = await timing.time('chromium-launch', () => chromium.launch({ headless: true, executablePath: process.env.CHROMIUM_EXECUTABLE }));
@@ -176,25 +166,15 @@ try {
       results.push({ viewport: viewport.name, sheetState, summaryHeight: state.summaryRect.height, summaryWidth: state.summaryRect.width });
     }
 
-    // --- Snapping still works: collapsed -> half -> expanded -> collapsed ---
     await setSheetState(page, 'collapsed');
     const collapsed = await measure(page);
-    await setSheetState(page, 'half');
-    const half = await measure(page);
-    await setSheetState(page, 'expanded');
-    const expanded = await measure(page);
-    assert.ok(half.sheetRect.height > collapsed.sheetRect.height, `${viewport.name}: half sheet is not taller than collapsed`);
-    assert.ok(expanded.sheetRect.height > half.sheetRect.height, `${viewport.name}: expanded sheet is not taller than half`);
-    // The header stays visible and the summary stays readable in every state.
-    for (const [name, state] of [['collapsed', collapsed], ['half', half], ['expanded', expanded]]) {
-      assertNoStateLabel(state, `${viewport.name} snap-${name}`);
-      assertSummaryWraps(state, viewport, `${viewport.name} snap-${name}`);
-      assertSummaryClear(state, `${viewport.name} snap-${name}`);
-    }
+    await setSheetState(page, 'open');
+    const open = await measure(page);
+    assert.ok(open.sheetRect.height > collapsed.sheetRect.height);
+    assert.equal(await page.locator('[data-sheet-target]').count(), 0);
+    await setSheetState(page, 'collapsed');
 
     // --- View transitions preserve the header behavior ---
-    await page.locator('#mobileNearbyToggle').click();
-    await page.locator('#mobileNearbySearchToggle').click();
     await page.locator('button[data-mobile-view="calls"]').click();
     await page.waitForFunction(() => document.documentElement.dataset.mobileView === 'calls');
     await page.waitForTimeout(50);
@@ -222,7 +202,7 @@ try {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
     await page.waitForTimeout(50);
 
-    results.push({ viewport: viewport.name, collapsed: collapsed.sheetRect.height, half: half.sheetRect.height, expanded: expanded.sheetRect.height });
+    results.push({ viewport: viewport.name, collapsed: collapsed.sheetRect.height, open: open.sheetRect.height });
     await context.close();
   }
   assert.deepEqual(errors, []);

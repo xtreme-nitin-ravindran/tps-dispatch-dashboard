@@ -78,6 +78,7 @@ test('[STORY-38E] unfilled clipped SVG overlay preserves separate rings and does
   assert.equal(received.options.noClip, undefined, 'Leaflet viewport clipping remains enabled');
   assert.equal(received.options.renderer, renderer);
   assert.equal(received.options.style.fill, false);
+  assert.equal(received.options.style.dashArray, '6 4');
   assert.equal(received.options.style.className, 'police-boundary');
   assert.equal(received.options.style.color, '#123456');
   createPoliceBoundaryLayer(leaflet, source);
@@ -281,7 +282,7 @@ test('[STORY-38E] application lazily creates and reuses an isolated Canvas bound
   assert.match(boundarySrc, /L\.svg\(\{ padding: 0\.5, pane: 'policeBoundaryPane' \}\)/);
   assert.match(boundarySrc, /L\.canvas\(\{ padding: 0\.5, pane: 'policeBoundaryPane' \}\)/);
   assert.match(boundarySrc, /divisionDataPromise \|\|= fetch/);
-  assert.match(app, /requestAnimationFrame\(\(\) => \{[\s\S]*?requestAnimationFrame/);
+  assert.match(maintenanceSrc, /scheduler\.afterPaint\(/);
   assert.match(boundarySrc, /if \(boundaryVisible\) \{[\s\S]*?divisionLayer\.addTo\(map\)/);
   assert.match(boundarySrc, /event\.layer !== divisionLayer/);
   assert.match(boundarySrc, /if \(!mapAllowsBoundaryWork\(\) \|\| generation !== boundaryRenderGeneration\) return/);
@@ -293,7 +294,7 @@ test('[STORY-38E] application lazily creates and reuses an isolated Canvas bound
   assert.doesNotMatch(boundarySrc, /divisionLayer\.addLayer\(divisionGeometryLayer\)/);
   const viewSetter = app.slice(app.indexOf('function setMobileView('), app.indexOf('\nmobileViewToggles.forEach'));
   assert.doesNotMatch(viewSetter, /createPoliceBoundaryLayer|removeLayer|clearLayers/);
-  assert.match(viewSetter, /view === 'calls'[\s\S]*?policeBoundaryMap\.invalidatePendingWork\('map-hidden-by-calls-view'\)/);
+  assert.match(viewSetter, /view !== 'map'[\s\S]*?policeBoundaryMap\.invalidatePendingWork\('map-hidden-by-mobile-view'\)/);
   assert.doesNotMatch(viewSetter, /boundaryDirty|boundaryRenderGeneration/);
   assert.match(boundarySrc, /invalidatePendingWork: reason => \{[\s\S]*?boundaryDirty = true;[\s\S]*?boundaryRenderGeneration \+= 1;[\s\S]*?cancelAnimationFrame/);
 });

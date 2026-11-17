@@ -103,8 +103,7 @@ test('[STORY-40][STORY-40B] focused map derives sheet heights from the focused v
   assert.match(mobileRules, /--mobile-map-height: 460px/);
   // Focus mode overrides it so half/expanded sheet heights track the real viewport.
   assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="map"\] \{\s*\/\*[\s\S]*?\*\/\s*--mobile-map-height: 100vh;\s*--mobile-map-height: 100dvh;/);
-  assert.match(mobileRules, /data-mobile-sheet-state="half"[\s\S]*?min\(30dvh, calc\(var\(--mobile-map-height\) - 220px\)\)/);
-  assert.match(mobileRules, /data-mobile-sheet-state="expanded"[\s\S]*?min\(50dvh, calc\(var\(--mobile-map-height\) - 160px\)\)/);
+  assert.match(mobileRules, /data-mobile-sheet-state="open"[\s\S]*?min\(40dvh, calc\(var\(--mobile-map-height\) - 160px\)\)/);
 });
 
 test('[STORY-40][STORY-40B] focused map respects safe-area insets on every edge and avoids horizontal overflow', () => {
@@ -163,11 +162,7 @@ test('[STORY-40][STORY-40B][STORY-40V] normal mobile layout and desktop are unch
 
 const viewToggleHandler = app.slice(
   app.indexOf('mobileViewToggles.forEach(toggle => toggle.addEventListener("click"'),
-  app.indexOf('mobileDisruptionsControl?.addEventListener')
-);
-const disruptionsHandler = app.slice(
-  app.indexOf("mobileDisruptionsControl?.addEventListener('click'"),
-  app.indexOf('// The layer panel reuses', app.indexOf("mobileDisruptionsControl?.addEventListener('click'"))
+  app.indexOf('// The layer panel reuses')
 );
 
 test('[STORY-40][STORY-40C] focus mode keeps the existing Map / Calls / Disruptions navigation reachable', () => {
@@ -219,8 +214,8 @@ test('[STORY-40][STORY-40C] focused Calls keeps the existing calls surface and c
   // Story 40F: the navigation band moves to the top safe-area position and the
   // calls surface clears only that band (44px control + 8px gap), not the
   // map-only chrome that is hidden in the Calls/Disruptions view.
-  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="calls"\] \.radius-controls \{\s*top: calc\(8px \+ env\(safe-area-inset-top, 0px\)\);\s*\}/);
-  assert.match(mobileRules, /html\[data-mobile-focus="on"\]\[data-mobile-view="calls"\] main \{ padding-top: calc\(8px \+ 44px \+ 8px \+ env\(safe-area-inset-top, 0px\)\); \}/);
+  assert.match(mobileRules, /html\[data-mobile-focus="on"\]:is\(\[data-mobile-view="calls"\], \[data-mobile-view="disruptions"\]\) \.radius-controls \{\s*top: calc\(8px \+ env\(safe-area-inset-top, 0px\)\);\s*\}/);
+  assert.match(mobileRules, /html\[data-mobile-focus="on"\]:is\(\[data-mobile-view="calls"\], \[data-mobile-view="disruptions"\]\) main \{ padding-top: calc\(8px \+ 44px \+ 8px \+ env\(safe-area-inset-top, 0px\)\); \}/);
   // The old map-only offset must not remain for the focused Calls view.
   assert.doesNotMatch(mobileRules, /data-mobile-view="calls"\] main \{ padding-top: calc\(var\(--mobile-layer-row-bottom/);
   // The calls surface is the existing content-grid; no duplicate container is introduced.
@@ -229,23 +224,17 @@ test('[STORY-40][STORY-40C] focused Calls keeps the existing calls surface and c
   assert.doesNotMatch(mobileRules, /data-mobile-focus="on"\]\[data-mobile-view="calls"\] \.content-grid \{ display: none/);
 });
 
-test('[STORY-40][STORY-40C] focused Disruptions reuses the existing Calls-owned disruptions path', () => {
-  // The existing control switches to Calls and focuses the single disruptions panel.
-  assert.match(disruptionsHandler, /if \(mobileView === 'map'\)[\s\S]*?setMobileView\('calls'\)/);
-  assert.match(disruptionsHandler, /document\.querySelector\('#disruptions'\)/);
-  assert.match(disruptionsHandler, /disruptions\?\.focus\(\{ preventScroll: true \}\)/);
-  assert.doesNotMatch(disruptionsHandler, /setMobileFocusMode|mobileFocusMode\s*=/);
-  assert.doesNotMatch(disruptionsHandler, /setMobileView\('disruptions'\)/);
+test('[STORY-40][STORY-40C] focused Disruptions uses the shared navigation and existing panel', () => {
+  assert.match(html, /data-mobile-view="disruptions" aria-pressed="false" aria-controls="disruptions"/);
+  assert.match(viewToggleHandler, /setMobileView\(toggle\.dataset\.mobileView/);
+  assert.doesNotMatch(viewToggleHandler, /setMobileFocusMode|mobileFocusMode\s*=/);
   assert.equal(html.match(/id="disruptions"/g)?.length, 1);
 });
 
 test('[STORY-40][STORY-40C] focus-mode view transitions stay presentation-only and reuse the map-maintenance path', () => {
   // No refetch, layer recreation, or duplicate listeners in the navigation handlers.
-  for (const handler of [viewToggleHandler, disruptionsHandler]) {
-    assert.doesNotMatch(handler, /fetch|loadData|fetchSnapshot|applyFilters|renderCalls|renderDisruptions|createPoliceBoundaryLayer|L\.map\(|clearLayers|removeLayer|initMap/);
-    // Only the single registration listener; no duplicate listeners are attached inside the handler.
-    assert.equal([...handler.matchAll(/addEventListener/g)].length, 1);
-  }
+  assert.doesNotMatch(viewToggleHandler, /fetch|loadData|fetchSnapshot|applyFilters|renderCalls|renderDisruptions|createPoliceBoundaryLayer|L\.map\(|clearLayers|removeLayer|initMap/);
+  assert.equal([...viewToggleHandler.matchAll(/addEventListener/g)].length, 1);
   // Returning to Map invalidates Leaflet through the existing coalesced scheduler.
   assert.match(maintenanceSrc, /mapSizeInvalidationPending \|\|= mobile && view === "map";/);
   assert.match(maintenanceSrc, /if \(mobile && view === "map" && mapSizeInvalidationPending\)[\s\S]*?getMap\(\)\?\.invalidateSize\?\.\(\{ pan: false \}\)/);
@@ -307,12 +296,12 @@ test('[STORY-40D] the floating filter summary is positioned as floating map chro
 });
 
 test('[STORY-40D] the boundary control shows a concise mobile label while keeping the full wording', () => {
-  // Story 41: the visible control label is the concise "Police Divisions"; the
+  // Story 41: the visible control label is the concise "Police division"; the
   // full official wording stays in the map attribution.
-  assert.match(boundarySrc, /"Police Divisions": divisionLayer/);
-  assert.match(html, /Police division boundaries — Toronto Police Service/);
+  assert.match(boundarySrc, /"Police division": divisionLayer/);
+  assert.match(html, /Division boundaries: Toronto Police Service/);
   // A concise mobile label is attached to the rendered control.
-  assert.match(boundarySrc, /label\.setAttribute\('data-mobile-label', 'Police Divisions'\)/);
+  assert.match(boundarySrc, /label\.setAttribute\('data-mobile-label', 'Police division'\)/);
   assert.match(mobileRules, /\.map-panel \.leaflet-control-layers-overlays label\[data-mobile-label\]::after \{\s*content: attr\(data-mobile-label\);/);
   // The full text is visually hidden but preserved for assistive tech.
   assert.match(mobileRules, /\.map-panel \.leaflet-control-layers-overlays label\[data-mobile-label\] > span > span \{[\s\S]*?clip-path: inset\(50%\);/);

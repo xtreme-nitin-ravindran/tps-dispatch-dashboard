@@ -29,8 +29,8 @@ http://localhost:8766/?mobileAuditFixture=many&ttcFixture=affected
 
 Companion parameters (defaults in parentheses):
 
-- `mobileAuditView=map|calls` — mobile start view (`map`)
-- `mobileAuditSheet=collapsed|half|expanded` — sheet start state (`collapsed`)
+- `mobileAuditView=map|calls|disruptions` — mobile start view (`map`)
+- `mobileAuditSheet=collapsed|open` — sheet start state (`collapsed`)
 - `mobileAuditLocation=none|current|unavailable|denied|saved|manual` (`none`)
 - `mobileAuditRadius=0.5|1|2|5|toronto` — nearby radius (`toronto`)
 - `mobileAuditFilters=none|one|multiple|long|service|event|division|history|search|zero` (`none`)

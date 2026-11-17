@@ -7,15 +7,10 @@ const app = await readFile(new URL('../src/app/app.js', import.meta.url), 'utf8'
 const maintenanceSrc = await readFile(new URL('../src/map-maintenance.js', import.meta.url), 'utf8');
 const markersSrc = await readFile(new URL('../src/incident-markers.js', import.meta.url), 'utf8');
 
-test('[MUST-6][STORY-9] tapping a mobile marker opens the sheet and reveals its matching shared card', () => {
-  const markerClickMatch = markersSrc.match(/\.on\("click", \(\) => \{[\s\S]*?\n {8}\}\);/);
-  assert.ok(markerClickMatch);
-  const markerClick = markerClickMatch[0];
-  assert.match(markerClick, /const mobile = isMobileLayout\(\)/);
-  assert.match(markerClick, /if \(mobile\) setMobileSheetState\(getMobileSheetState\(\) === "collapsed" \? "half" : getMobileSheetState\(\)\)/);
-  assert.match(markerClick, /selectCall\(call\.id\);/);
-  assert.match(app, /row\.closest\("#mobileSheetCallList"\)/);
-  assert.match(app, /if \(revealRow && selectedRow\) \{[\s\S]*?focus\(\{ preventScroll: true \}\)[\s\S]*?scrollIntoView\([\s\S]*?pin-highlight/);
+test('[MUST-6][STORY-9] tapping a mobile marker leaves the calls sheet alone', () => {
+  assert.match(markersSrc, /\.on\("click", \(\) => selectCall\(call\.id\)\)/);
+  assert.doesNotMatch(markersSrc, /setMobileSheetState/);
+  assert.match(app, /if \(row\.closest\("#mobileSheetCallList"\)\) return/);
 });
 
 test('[MUST-6][STORY-9] card selection persists into Map and highlights the same marker without changing zoom', () => {

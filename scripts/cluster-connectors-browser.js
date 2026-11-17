@@ -15,6 +15,12 @@ const page = await browser.newPage({ viewport: { width: 390, height: 844 }, devi
 const errors = [];
 page.on('pageerror', error => errors.push(error.message));
 
+async function openMobileNearbyFilters(page) {
+  await page.locator('#mobileNearbyToggle').click();
+  await page.locator('#mobileNearbySearchToggle').click();
+  await page.locator('#mobileFiltersToggle').click();
+}
+
 async function assertIncidentPopup(page) {
   await awaitUiState(page, () => {
     const map = document.querySelector('#dispatchMap').getBoundingClientRect();
@@ -48,24 +54,6 @@ async function connectorState() {
 }
 
 async function assertBounded({ selected = true, largeCluster = true } = {}) {
-  // Bounded wait for the expected selection state instead of a fixed sleep.
-  // The app marks the selected incident card `.selected` during an async render
-  // pass, so a fixed delay can race it. Wait for the state the assertions below
-  // already require, then assert against the real DOM. This never weakens the
-  // connector invariants; it only removes the timing race.
-  if (selected) {
-    await awaitUiState(
-      page,
-      () => document.querySelectorAll('[data-call-id="mobile-audit-selected"].selected').length >= 1,
-      { description: 'selected incident card' }
-    );
-  } else {
-    await awaitUiState(
-      page,
-      () => document.querySelectorAll('[data-call-id="mobile-audit-selected"].selected').length === 0,
-      { description: 'deselected incident card' }
-    );
-  }
   const state = await connectorState();
   assert.ok(state.count <= 12, `rendered ${state.count} cluster connectors`);
   assert.ok(state.lengths.every(length => length <= 96.5), `connector exceeded 96 px: ${state.lengths}`);
@@ -73,7 +61,7 @@ async function assertBounded({ selected = true, largeCluster = true } = {}) {
   if (largeCluster) assert.ok(state.largestCluster > 12, `large cluster was fully expanded: ${state.largestCluster}`);
   if (selected) {
     assert.equal(state.selectedMarkers, 1, 'selected incident is not represented by exactly one map marker');
-    assert.ok(state.selectedCards >= 1, 'selected incident card was not preserved');
+    assert.equal(state.selectedCards, 0, 'map selection must not select a calls-sheet card');
   }
   return state;
 }
@@ -90,13 +78,24 @@ try {
   await page.locator('.leaflet-marker-icon[title^="Selected incident:"]').tap();
   await assertIncidentPopup(page);
 
-  for (const state of ['half', 'expanded', 'collapsed']) {
-    await page.locator(`[data-sheet-target="${state}"]`).click({ force: true });
-    await assertBounded();
-  }
+  const sheet = page.locator('#mobileBottomSheet');
+  const sheetToggle = page.locator('#mobileSheetToggle');
+  assert.equal(await sheet.getAttribute('data-sheet-state'), 'collapsed');
+  await sheetToggle.click();
+  assert.equal(await sheet.getAttribute('data-sheet-state'), 'open');
+  const sheetBody = page.locator('#mobileSheetBody');
+  await sheetBody.evaluate(el => { el.scrollTop = 80; });
+  const sheetScroll = await sheetBody.evaluate(el => el.scrollTop);
+  await page.locator('.leaflet-marker-icon[title^="Selected incident:"]').dispatchEvent('click');
+  assert.equal(await sheet.getAttribute('data-sheet-state'), 'open');
+  assert.equal(await sheetBody.evaluate(el => el.scrollTop), sheetScroll);
+  const sheetCard = page.locator('#mobileSheetCallList .incident-card--list').first();
+  assert.equal(await sheetCard.getAttribute('role'), null);
+  assert.equal(await sheetCard.locator('.show-map-hint').isVisible(), false);
+  await sheetCard.dispatchEvent('click');
+  assert.equal((await connectorState()).selectedMarkers, 1);
+  await sheetToggle.click();
 
-  await page.locator('#mobileNearbyToggle').click();
-  await page.locator('#mobileNearbySearchToggle').click();
   await page.locator('button[data-mobile-view="calls"]').click();
   assert.equal((await connectorState()).count, 0, 'connectors remained after Map to Calls');
   await page.locator('button[data-mobile-view="map"]').click();
@@ -114,20 +113,20 @@ try {
   await page.mouse.up();
   await assertBounded({ largeCluster: false });
 
-  await page.locator('[data-radius-km="5"]').click();
+  await openMobileNearbyFilters(page);
+  await page.locator('#mobileDistance').selectOption('5');
   assert.equal((await connectorState()).count, 0, 'connectors remained after radius change');
-  await page.locator('[data-radius-km="toronto"]').click();
+  await page.locator('#mobileDistance').selectOption('toronto');
   await assertBounded();
 
-  const replacement = page.locator('.incident-card--list:not([data-call-id="mobile-audit-selected"])').first();
-  await replacement.click();
-  await assertBounded({ selected: false, largeCluster: false });
+  await page.locator('#mobileNearbyToggle').click();
+  await openMobileNearbyFilters(page);
   await page.locator('#searchInput').fill('no incident can match this deterministic text');
   await page.locator('#searchInput').dispatchEvent('input');
   assert.equal((await connectorState()).count, 0, 'connectors remained after deselection/filter removal');
 
-  await timing.time('page-goto:390x844-half', () => page.goto(`${base}${query.replace('mobileAuditSheet=collapsed', 'mobileAuditSheet=half')}`, { waitUntil: 'domcontentloaded' }));
-  await timing.time('fixture-ready:390x844-half', () => awaitFixtureReady(page));
+  await timing.time('page-goto:390x844-open', () => page.goto(`${base}${query.replace('mobileAuditSheet=collapsed', 'mobileAuditSheet=open')}`, { waitUntil: 'domcontentloaded' }));
+  await timing.time('fixture-ready:390x844-open', () => awaitFixtureReady(page));
   await page.waitForSelector('.call-cluster');
   await assertBounded();
   await page.locator('#dispatchMap').screenshot({ path: `${output}/story-39a-390x844.png`, animations: 'disabled' });

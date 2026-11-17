@@ -271,7 +271,7 @@ test('[SHOULD-11][STORY-25] map control is mobile-accessible and closure selecti
  const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
  const app=readFileSync(new URL('../src/app/app.js',import.meta.url),'utf8');
  assert.match(html,/<div class="map-wrap">[\s\S]*?id="roadOverlay"[\s\S]*?Road closures/);
- assert.match(html,/id="mobileClosureDetail"/);
+ assert.doesNotMatch(html,/id="mobileClosureDetail"/);
  assert.match(app,/roadclosureselect[\s\S]*?selectClosure/);
  assert.match(app,/function selectCall[\s\S]*?clearClosureSelection\(\)[\s\S]*?focusedCallId = callId/);
  assert.match(app,/callLayer = L\.layerGroup\(\)\.addTo\(dispatchMap\)/);

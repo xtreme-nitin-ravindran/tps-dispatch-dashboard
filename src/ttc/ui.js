@@ -26,8 +26,8 @@ function retainedEvidenceCue(item) {
 // The diversion card mirrors the Calls card: a single clickable row that selects
 // and reveals the affected route, with a "More details" disclosure for the
 // evidence and provenance that must not be inferred from the map alone.
-// `variant: 'detail'` renders the shared chrome of the mobile sheet and both
-// bubbles (closure-detail article, red kicker, title scale — Story 74) and
+// `variant: 'detail'` renders the shared map popup chrome
+// (closure-detail article, red kicker, title scale — Story 74) and
 // carries the retained-evidence cue inline. The default 'card' variant is the
 // plain list/disclosure body, whose caller renders the retained-evidence cue
 // on the always-visible card body (desktop list) so it is not duplicated
@@ -169,15 +169,7 @@ export function renderTtc(data,map=currentMap,context=latest?.context || {}) {
   controller?.update(currentItems);
   const toggle=document.querySelector('#ttcOverlay');
   controller?.visibility(toggle?.checked !== false);
-  const hasGeometry=currentItems.some(i=>i.scheduled.length || i.diversions.length || i.affected?.length);
-  const controls=document.querySelector('#ttcLayerControl');if(controls) controls.hidden=!hasGeometry;
-  for(const kind of ['scheduled','diversion']) {
-    const legend=document.querySelector(`#ttcLegend-${kind}`);
-    if(legend) legend.hidden=toggle?.checked === false || !currentItems.some(i=>kind==='scheduled' ? (i.scheduled.length || i.affected?.length) : i.diversions.length);
-  }
-  const diversionLegend=document.querySelector('#ttcLegend-diversion');
-  const sources=new Set(currentItems.flatMap(item=>item.diversions.map(part=>part.source)));
-  if(diversionLegend?.lastChild) diversionLegend.lastChild.textContent=sources.has('ttc-official') ? sources.has('sirento-observed') ? 'TTC diversions · source in details' : 'TTC-published diversion' : 'Observed TTC diversion';
+  if(toggle) toggle.disabled=!currentItems.some(i=>i.scheduled.length || i.diversions.length || i.affected?.length);
   if(selected) {
     const item=currentItems.find(i=>i.id===selected);
     if(!item) {clearTtcSelection();map?.fire('ttcselectionexpired');}
