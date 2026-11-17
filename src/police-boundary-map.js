@@ -181,9 +181,9 @@ export function createPoliceBoundaryMap({
   function applyBoundaryLegendGlyph() {
     const label = boundaryControl?.getContainer?.()?.querySelector('.leaflet-control-layers-overlays label');
     if (!label) return;
-    label.setAttribute('data-mobile-label', 'Police Divisions');
+    label.setAttribute('data-mobile-label', 'Police division');
     const input = label.querySelector('input');
-    input.setAttribute('aria-label', 'Police Divisions');
+    input.setAttribute('aria-label', 'Police division');
     if (label.querySelector('.police-key-wrap')) return;
     const keyWrap = document.createElement('span');
     keyWrap.className = 'police-key-wrap';
@@ -305,12 +305,12 @@ export function createPoliceBoundaryMap({
       rememberPreferences();
       finishToggle({ visible: boundaryVisible, constructionDeferred: boundaryVisible && !divisionGeometryLayer });
     });
-    boundaryControl = L.control.layers(null, { "Police Divisions": divisionLayer }, {
+    boundaryControl = L.control.layers(null, { "Police division": divisionLayer }, {
       collapsed: false, position: "topright"
     });
     boundaryControl.addTo(map);
     // Story 40D: keep the full official wording in the DOM/attribution but show a
-    // concise "Police Divisions" label on the compact mobile control. The legend
+    // concise "Police division" label on the compact mobile control. The legend
     // key + badge glyph are applied after the control rebuilds its overlay label
     // (see applyBoundaryLegendGlyph).
     requestAnimationFrame(applyBoundaryLegendGlyph);

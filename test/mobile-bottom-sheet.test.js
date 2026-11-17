@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { mobileMapSheetOverlap, mobileSheetActionLabel, mobileSheetStateAfterDrag, nextMobileSheetState } from '../src/mobile-bottom-sheet.js';
+import { mobileMapSheetOverlap, mobileSheetActionLabel, nextMobileSheetState } from '../src/mobile-bottom-sheet.js';
 
 const [html, css, app] = await Promise.all([
   readFile(new URL('../index.html', import.meta.url), 'utf8'),
@@ -17,37 +17,27 @@ test('[MUST-10][STORY-17] bottom sheet shell renders only at the mobile breakpoi
   assert.doesNotMatch(css.slice(0, css.indexOf(mobileQuery)), /position: fixed;[\s\S]*?mobile-bottom-sheet/);
 });
 
-test('[MUST-10][STORY-17] collapsed, half, and expanded states have bounded safe-area-aware heights', () => {
+test('[MUST-10][STORY-17] collapsed and open states have bounded safe-area-aware heights', () => {
   const mobileRules = css.slice(css.indexOf(mobileQuery));
   assert.match(mobileRules, /--mobile-sheet-height: calc\(52px \+ env\(safe-area-inset-bottom, 0px\)\)/);
   assert.match(mobileRules, /--mobile-map-height: 460px/);
-  assert.match(mobileRules, /data-mobile-sheet-state="half"[\s\S]*?min\(30dvh, calc\(var\(--mobile-map-height\) - 220px\)\)/);
-  assert.match(mobileRules, /data-mobile-sheet-state="expanded"[\s\S]*?min\(50dvh, calc\(var\(--mobile-map-height\) - 160px\)\)/);
+  assert.match(mobileRules, /data-mobile-sheet-state="open"[\s\S]*?min\(40dvh, calc\(var\(--mobile-map-height\) - 160px\)\)/);
   assert.match(mobileRules, /padding-bottom: env\(safe-area-inset-bottom, 0px\)/);
   assert.match(mobileRules, /\.map-panel \.leaflet-bottom\.leaflet-right \{ bottom: var\(--mobile-map-sheet-overlap, 0px\)/);
 });
 
-test('[MUST-10][STORY-17] tap and drag interactions move through the three sheet states', () => {
-  assert.equal(nextMobileSheetState('collapsed'), 'half');
-  assert.equal(nextMobileSheetState('half'), 'expanded');
-  assert.equal(nextMobileSheetState('expanded', -2), 'collapsed');
-  assert.equal(nextMobileSheetState('unknown'), 'half');
-  assert.equal(mobileSheetStateAfterDrag('collapsed', -50), 'half');
-  assert.equal(mobileSheetStateAfterDrag('half', -50), 'expanded');
-  assert.equal(mobileSheetStateAfterDrag('expanded', 50), 'half');
-  assert.equal(mobileSheetStateAfterDrag('half', 10), 'half');
+test('[MUST-10][STORY-17] the summary toggles the independent sheet', () => {
+  assert.equal(nextMobileSheetState('collapsed'), 'open');
+  assert.equal(nextMobileSheetState('open'), 'collapsed');
   assert.match(app, /mobileSheetToggle\?\.addEventListener\("click"[\s\S]*?setMobileSheetState\(nextMobileSheetState/);
-  assert.match(app, /mobileSheetToggle\?\.addEventListener\("pointerdown"[\s\S]*?mobileSheetToggle\?\.addEventListener\("pointerup"/);
 });
 
 test('[MUST-10][STORY-17] sheet remains operable without drag gestures', () => {
   assert.match(html, /id="mobileSheetToggle"[\s\S]*?aria-controls="mobileSheetBody"[\s\S]*?aria-expanded="false"/);
-  for (const state of ['collapsed', 'half', 'expanded']) assert.match(html, new RegExp(`data-sheet-target="${state}"`));
-  assert.equal(mobileSheetActionLabel('collapsed'), 'Expand nearby calls sheet to half height');
-  assert.equal(mobileSheetActionLabel('half'), 'Expand nearby calls sheet to full height');
-  assert.equal(mobileSheetActionLabel('expanded'), 'Collapse nearby calls sheet');
+  assert.doesNotMatch(html, /data-sheet-target/);
+  assert.equal(mobileSheetActionLabel('collapsed'), 'Open nearby calls sheet');
+  assert.equal(mobileSheetActionLabel('open'), 'Close nearby calls sheet');
   assert.match(app, /setAttribute\("aria-expanded", String\(nextState !== "collapsed"\)\)/);
-  assert.match(app, /setAttribute\("aria-pressed", String\(control\.dataset\.sheetTarget === nextState\)\)/);
 });
 
 test('[MUST-10][STORY-17] sheet reuses nearby summary, incident cards, and existing controls', () => {
@@ -58,14 +48,14 @@ test('[MUST-10][STORY-17] sheet reuses nearby summary, incident cards, and exist
   assert.equal([...app.matchAll(/function createIncidentCard\(/g)].length, 1);
   assert.match(app, /const card = createIncidentCard\(call, \{ distance \}\);[\s\S]*?fragment\.appendChild\(card\)/);
   assert.equal([...html.matchAll(/data-radius-km=/g)].length, 5);
-  assert.equal([...html.matchAll(/data-mobile-view=/g)].length, 2);
+  assert.equal([...html.matchAll(/data-mobile-view=/g)].length, 3);
   assert.match(app, /radiusToggles\.forEach\(toggle => toggle\.addEventListener\('click'/);
   assert.match(app, /mobileViewToggles\.forEach\(toggle => toggle\.addEventListener\("click"/);
 });
 
 test('[MUST-10][STORY-17] Calls mode removes the fixed sheet from layout while retaining its prior state', () => {
   const mobileRules = css.slice(css.indexOf(mobileQuery));
-  assert.match(mobileRules, /html\[data-mobile-view="calls"\][\s\S]*?\.mobile-bottom-sheet \{ display: none; \}/);
+  assert.match(mobileRules, /html:is\(\[data-mobile-view="calls"\], \[data-mobile-view="disruptions"\]\) :is\(\.map-stage, \.map-info, \.mobile-bottom-sheet\) \{ display: none; \}/);
   const setterStart = app.indexOf('function setMobileView(');
   const setter = app.slice(setterStart, app.indexOf('\nmobileViewToggles.forEach', setterStart));
   assert.doesNotMatch(setter, /mobileSheetState\s*=/);
@@ -75,14 +65,12 @@ test('[MUST-10][STORY-17] map controls stay inside the usable map above every sh
   const mobileRules = css.slice(css.indexOf(mobileQuery));
   assert.match(mobileRules, /\.map-panel \.leaflet-top \{ top: 60px; \}/);
   assert.match(mobileRules, /\.map-panel \.leaflet-bottom\.leaflet-right \{ bottom: var\(--mobile-map-sheet-overlap, 0px\)/);
-  assert.equal(460 - 240, 220, 'half sheet leaves at least 220px of the 460px map');
   assert.equal(460 - 300, 160, 'expanded sheet leaves room for map controls');
 });
 
 test('[MUST-10][STORY-17] map control offset tracks actual fixed-sheet overlap instead of sheet height', () => {
   const map = { top: 400, bottom: 860, height: 460 };
   assert.equal(mobileMapSheetOverlap(map, { top: 808 }, true), 52, 'collapsed');
-  assert.equal(mobileMapSheetOverlap(map, { top: 604 }, true), 256, 'half');
   assert.equal(mobileMapSheetOverlap(map, { top: 544 }, true), 316, 'expanded');
   assert.equal(mobileMapSheetOverlap({ top: 0, bottom: 460, height: 460 }, { top: 544 }, true), 0, 'non-overlapping scrolled map');
   assert.equal(mobileMapSheetOverlap(map, { top: 544 }, false), 0, 'desktop or Calls mode');
@@ -100,7 +88,7 @@ test('[MUST-10][STORY-17] sheet header stays visible while incident content scro
   const mobileRules = css.slice(css.indexOf(mobileQuery));
   assert.match(mobileRules, /\.mobile-bottom-sheet \{[\s\S]*?grid-template-rows: auto minmax\(0, 1fr\);[\s\S]*?overflow: hidden/);
   assert.match(mobileRules, /\.mobile-sheet-body \{[\s\S]*?overflow-y: auto;[\s\S]*?overscroll-behavior: contain;[\s\S]*?touch-action: pan-y/);
-  assert.match(mobileRules, /\.mobile-sheet-header \{[\s\S]*?touch-action: none/);
+  assert.match(mobileRules, /\.mobile-sheet-header \{[^}]*cursor: pointer/);
   assert.match(mobileRules, /\.mobile-sheet-header \{[\s\S]*?min-height: 52px/);
   assert.match(mobileRules, /\.mobile-sheet-handle \{[\s\S]*?position: absolute;[\s\S]*?top: 4px/);
   assert.doesNotMatch(app, /mobileSheetBody\?\.addEventListener\("pointer(?:down|move|up)"/);

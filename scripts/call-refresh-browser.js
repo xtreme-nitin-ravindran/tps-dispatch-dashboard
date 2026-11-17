@@ -32,7 +32,7 @@ try {
         ` });
       });
       await timing.time('navigation', () => page.goto((process.env.CALL_REFRESH_UI_URL || 'http://127.0.0.1:8765/') +
-        '?mobileAuditFixture=many&mobileAuditView=' + view + '&mobileAuditSheet=expanded&mobileAuditRoads=off&mobileAuditBoundaries=off'));
+        '?mobileAuditFixture=many&mobileAuditView=' + view + '&mobileAuditSheet=open&mobileAuditRoads=off&mobileAuditBoundaries=off'));
       await timing.time('fixture-ready', () => awaitFixtureReady(page));
       await timing.time('suite-execution', async () => {
         for (let batch = 0; batch < 2; batch++) {
@@ -75,6 +75,7 @@ try {
         assert.ok(await page.locator('#callList .incident-card').count() <= 40, 'intentional filters retain initial batching');
         await page.locator('#searchInput').fill('missing-deterministic-call');
         await page.evaluate(() => window.refreshReadingFixture());
+        if (viewport.width < 500) await page.locator('#mobileNearbyToggle').click();
         assert.equal(await page.locator('#callList .incident-card').count(), 0);
         assert.match(await page.locator('#callList').innerText(), /No calls match your search/);
       });

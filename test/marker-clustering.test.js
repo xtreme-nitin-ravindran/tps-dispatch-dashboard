@@ -57,7 +57,7 @@ test('[SHOULD-2][STORY-26] expanded clusters preserve incident identity and indi
   assert.deepEqual(expanded.map(({ id }) => id), ['a', 'b']);
   assert.notDeepEqual(expanded[0].point, expanded[1].point);
   assert.match(markersSrc, /addMarker\(item,position,layers\)/);
-  assert.match(markersSrc, /\.on\("click", \(\) => \{[\s\S]*?selectCall\(call\.id\)/);
+  assert.match(markersSrc, /\.on\("click", \(\) => selectCall\(call\.id\)\)/);
 });
 
 test('[SHOULD-2][STORY-26][STORY-38G] cluster expansion is bounded and cannot produce city-spanning connector fans', () => {
@@ -84,7 +84,7 @@ test('[SHOULD-2][STORY-26][STORY-38G] cluster expansion is bounded and cannot pr
 });
 
 test('[SHOULD-2][STORY-26] connector cleanup is coupled to every state transition that can invalidate a fan', () => {
-  assert.match(app,/view === 'calls' && expandedCluster\.size[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?renderMapMarkers\(\)/);
+  assert.match(app,/view !== 'map' && expandedCluster\.size[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?renderMapMarkers\(\)/);
   assert.match(app,/function clearIncidentForTtc[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?renderMapMarkers\(\)/);
   assert.match(app,/focusedCallId = reconcileIncidentSelection[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?render\(map, preserveReadingPosition\)/);
   assert.match(app,/dispatchMap\.on\("zoomend", \(\) => \{[\s\S]*?expandedCluster\.clear\(\)[\s\S]*?scheduleMapMarkerRender\(\)/);

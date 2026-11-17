@@ -1,3 +1,5 @@
+import { supportedMobileViews } from './view-controls.js';
+
 const FIXTURE_PARAM = 'mobileAuditFixture';
 const FIXTURE_STATES = new Set(['many', 'zero', 'stale', 'unavailable']);
 const LOCATION_STATES = new Set(['none', 'current', 'unavailable', 'denied', 'saved', 'manual']);
@@ -14,9 +16,8 @@ export function mobileAuditFixtureOptions(locationLike = globalThis.location) {
   const state = mobileAuditFixtureState(locationLike);
   if (!state) return null;
   const params = new URLSearchParams(locationLike.search);
-  const sheet = ['collapsed', 'half', 'expanded'].includes(params.get('mobileAuditSheet'))
-    ? params.get('mobileAuditSheet') : 'collapsed';
-  const view = ['map', 'calls'].includes(params.get('mobileAuditView'))
+  const sheet = ['open', 'half', 'expanded'].includes(params.get('mobileAuditSheet')) ? 'open' : 'collapsed';
+  const view = supportedMobileViews.includes(params.get('mobileAuditView'))
     ? params.get('mobileAuditView') : 'map';
   const location = LOCATION_STATES.has(params.get('mobileAuditLocation'))
     ? params.get('mobileAuditLocation') : 'none';

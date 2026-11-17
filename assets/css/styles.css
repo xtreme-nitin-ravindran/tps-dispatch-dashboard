@@ -962,25 +962,22 @@ html[data-display-mode="standalone"] .app-shell {
 .map-info-body {
   padding: 18px 20px 20px;
   border-top: 1px solid var(--line);
-}
-
-.map-info-heading {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.map-info-heading h3 {
-  margin: 5px 0 0;
-  font-size: 20px;
-}
-
-.map-source-credit {
-  margin: 12px 0 0;
   color: var(--muted);
-  font-size: 12px;
+  font: 400 14px/1.4 "DM Sans", sans-serif;
 }
+
+.map-info-section + .map-info-section {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.map-info-section h3 {
+  margin: 0 0 8px;
+  color: var(--text);
+  font: 700 14px/1.4 "DM Sans", sans-serif;
+}
+.map-coverage { display: none; }
+.map-info-section p { margin: 0; }
 
 .map-status {
   color: var(--accent);
@@ -1167,8 +1164,6 @@ html:not([data-map-load-state]) #dispatchMap.leaflet-container + .map-load-statu
 .closure-detail-fields dt { color: var(--muted); }
 .closure-detail-fields dd { margin: 0; overflow-wrap: anywhere; }
 .closure-source-link { color: var(--accent); font-size: 12px; }
-.mobile-closure-detail[hidden] { display: none; }
-.closure-detail-back { padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: inherit; font-weight: 700; cursor: pointer; }
 
 .leaflet-control-zoom a {
   color: var(--text) !important;
@@ -1546,7 +1541,7 @@ footer {
 @media (max-width: 950px) and (max-height: 500px) and (pointer: coarse), (max-width: 680px) {
   .controls-card {
     position: static;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr);
     gap: 6px;
     padding: 6px;
     background: var(--panel);
@@ -1562,10 +1557,8 @@ footer {
   .mobile-filters-toggle {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 8px;
-    width: auto;
-    min-width: 82px;
+    width: 100%;
     min-height: 44px;
     padding: 8px 14px;
     border: 1px solid var(--accent-line);
@@ -1576,6 +1569,16 @@ footer {
     cursor: pointer;
   }
 
+  .mobile-filters-toggle::after {
+    content: "";
+    width: 7px;
+    height: 7px;
+    margin-inline-start: auto;
+    border: solid currentColor;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .mobile-filters-toggle[aria-expanded="true"]::after { transform: rotate(225deg); }
   .mobile-filters-toggle.active { background: var(--accent-soft); }
   .mobile-filters-toggle:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
   .mobile-filter-count {
@@ -1674,14 +1677,7 @@ footer {
     padding: 14px;
   }
 
-  .map-info-heading {
-    flex-direction: column;
-    gap: 14px;
-  }
 
-  .map-legend {
-    gap: 12px 16px;
-  }
 
   #dispatchMap {
     height: 460px;
@@ -1768,20 +1764,18 @@ footer {
 .map-legend {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
-  padding: 18px 0 0;
+  gap: 8px 16px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
 }
 .map-legend span { display: inline-flex; align-items: center; gap: 8px; }
-.map-legend i { width: 10px; height: 10px; border-radius: 50%; background: var(--marker-default); }
+.map-legend i { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--marker-default); }
 .map-legend .fire-key { background: var(--marker-fire); }
 .map-legend .medical-key { background: var(--marker-medical); }
 .map-legend .other-key { background: var(--marker-other); }
 .map-legend .approximate-key { background: var(--approximate-marker); }
 .map-legend .tps-key { border-radius: 2px; }
 .map-legend .age-key { background: var(--marker-default); }
-.map-legend .ttc-sign { width: auto; height: auto; background: none; border-radius: 0; font-style: normal; }
 .map-legend .age-recent-key { transform: scale(1.2); box-shadow: 0 0 0 2px var(--marker-ring-strong); }
 .map-legend .age-aging-key { opacity: .72; }
 .map-legend .age-old-key { opacity: .52; }
@@ -1922,16 +1916,12 @@ footer {
   .mobile-view-toggle button { min-height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: 700 12px/1 "DM Sans", sans-serif; cursor: pointer; }
   .mobile-view-toggle button.active { border-color: var(--accent); background: var(--accent); color: var(--on-accent); box-shadow: 0 0 0 2px var(--accent-ring); }
   .mobile-view-toggle button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 1px; }
-  html[data-mobile-view="calls"] .map-stage,
-  html[data-mobile-view="calls"] .map-info,
-  html[data-mobile-view="calls"] .mobile-bottom-sheet { display: none; }
+  html:is([data-mobile-view="calls"], [data-mobile-view="disruptions"]) :is(.map-stage, .map-info, .mobile-bottom-sheet) { display: none; }
   html[data-mobile-view="calls"] main { display: flex; flex-direction: column; }
   html[data-mobile-view="calls"] .content-grid { display: contents; }
-  html[data-mobile-view="calls"] .disruptions-panel { order: 1; }
   html[data-mobile-view="calls"] .side-stack { order: 2; }
-  html[data-mobile-view="map"] .content-grid,
-  html[data-mobile-view="map"] .disruptions-panel { display: none; }
-  html[data-mobile-view="map"] .nearby-summary { display: none; }
+  html:is([data-mobile-view="map"], [data-mobile-view="disruptions"]) :is(.content-grid, .nearby-summary),
+  html:is([data-mobile-view="map"], [data-mobile-view="calls"]) .disruptions-panel { display: none; }
   .map-stage {
     position: relative;
     z-index: 0;
@@ -1962,7 +1952,7 @@ footer {
     background: var(--panel);
   }
   .mobile-map-data-warning[hidden] { display: none; }
-  html[data-mobile-view="calls"] .mobile-map-data-warning { display: none; }
+  html:is([data-mobile-view="calls"], [data-mobile-view="disruptions"]) .mobile-map-data-warning { display: none; }
   .map-panel .leaflet-top { top: 60px; }
   /* Story 41: Police Divisions sits first, with Road closures directly below it.
      Controls use the same width before map initialization or source loading,
@@ -2063,8 +2053,7 @@ footer {
      never clipped or overlapped. The body keeps its normal layout but no longer
      contributes height, so it stays clipped below the sheet as before. */
   html[data-mobile-sheet-state="collapsed"] .mobile-bottom-sheet { height: auto; min-height: var(--mobile-sheet-height); grid-template-rows: auto 0; }
-  html[data-mobile-sheet-state="half"] { --mobile-sheet-height: min(30dvh, calc(var(--mobile-map-height) - 220px)); }
-  html[data-mobile-sheet-state="expanded"] { --mobile-sheet-height: min(50dvh, calc(var(--mobile-map-height) - 160px)); }
+  html[data-mobile-sheet-state="open"] { --mobile-sheet-height: min(40dvh, calc(var(--mobile-map-height) - 160px)); }
   .mobile-bottom-sheet {
     position: fixed;
     inset: auto 0 0;
@@ -2095,25 +2084,30 @@ footer {
     gap: 12px;
     width: 100%;
     min-height: 52px;
-    padding: 8px 18px 4px;
+    padding: 16px 18px 4px;
     border: 0;
     background: transparent;
     color: var(--text);
     text-align: left;
     cursor: pointer;
-    touch-action: none;
   }
   .mobile-sheet-header:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: -4px; }
-  .mobile-sheet-handle { position: absolute; top: 4px; left: 50%; width: 36px; height: 4px; border-radius: 999px; background: var(--muted-2); transform: translateX(-50%); }
+  .mobile-sheet-handle {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border: solid var(--muted-2);
+    border-width: 2px 0 0 2px;
+    transform: translateX(-50%) rotate(45deg);
+  }
+  .mobile-sheet-header[aria-expanded="true"] .mobile-sheet-handle {
+    transform: translateX(-50%) rotate(225deg);
+  }
   .mobile-sheet-summary { min-width: 0; font-weight: 800; overflow-wrap: anywhere; }
   .mobile-sheet-body { min-height: 0; padding: 4px 0 18px; overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y; border-top: 1px solid var(--line); }
   .mobile-sheet-body > p { margin: 14px 0; color: var(--muted); }
-  .mobile-closure-detail { padding: 0 18px; }
-  .mobile-closure-detail .closure-detail { width: auto; padding: 12px 0 18px; }
-  .mobile-sheet-state-controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 8px 18px; }
-  .mobile-sheet-state-controls button { min-height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--control-bg); color: var(--text); font: inherit; font-weight: 700; }
-  .mobile-sheet-state-controls button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
-  .mobile-sheet-state-controls button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
   .mobile-sheet-call-list { max-height: none; overflow: visible; border-top: 1px solid var(--line); }
   .mobile-sheet-call-list > .call-list { max-height: none; overflow: visible; }
   .incident-card--list {
@@ -2134,7 +2128,7 @@ footer {
   .map-info > summary .map-status { display: none; }
   .map-info .mobile-map-info-label,
   .map-info .mobile-map-located { display: block; }
-  .map-info .mobile-map-located { margin: 0 0 12px; color: var(--muted); font-size: 12px; }
+  .map-info .map-coverage { display: block; color: var(--muted); }
   main :is(button, a, .incident-card, #dispatchMap) { scroll-margin-top: 12px; }
   .mobile-map-focus-toggle {
     position: absolute;
@@ -2229,7 +2223,7 @@ footer {
   /* Story 40F: in focused Calls/Disruptions the map-only controls (Road closures,
      Police divisions, the fullscreen × control) are hidden, so the navigation band
      must move to the top of the usable viewport instead of reserving their space. */
-  html[data-mobile-focus="on"][data-mobile-view="calls"] .radius-controls {
+  html[data-mobile-focus="on"]:is([data-mobile-view="calls"], [data-mobile-view="disruptions"]) .radius-controls {
     top: calc(8px + env(safe-area-inset-top, 0px));
   }
   html[data-mobile-focus="on"] .mobile-view-toggle { width: 100%; max-width: 100%; }
@@ -2300,7 +2294,7 @@ footer {
   }
   /* Story 40C/40F: focused Calls keeps the existing calls surface clear of the
      top-aligned navigation band (44px control + 8px gap), not the map-only chrome. */
-  html[data-mobile-focus="on"][data-mobile-view="calls"] main { padding-top: calc(8px + 44px + 8px + env(safe-area-inset-top, 0px)); }
+  html[data-mobile-focus="on"]:is([data-mobile-view="calls"], [data-mobile-view="disruptions"]) main { padding-top: calc(8px + 44px + 8px + env(safe-area-inset-top, 0px)); }
 }
 
 /* Story 50: short landscape viewports need a top navigation/close row, a
@@ -2335,23 +2329,6 @@ footer {
     /* Reserve the top controls, Map info, zoom and attribution before allowing
        the sheet to grow. Browser toolbars can leave only ~340px of height. */
     max-height: calc(100dvh - max(var(--mobile-summary-bottom, 104px), var(--mobile-layer-row-bottom, 104px)) - 120px - env(safe-area-inset-bottom, 0px));
-  }
-  html[data-mobile-focus="on"][data-mobile-view="map"][data-mobile-sheet-state="half"] .mobile-bottom-sheet {
-    height: max(116px, var(--mobile-sheet-height));
-  }
-  html[data-mobile-focus="on"][data-mobile-view="map"]:not([data-mobile-sheet-state="collapsed"]) .mobile-sheet-header {
-    width: calc(100% - 310px - env(safe-area-inset-right, 0px));
-    min-height: 52px;
-    padding-left: calc(18px + env(safe-area-inset-left, 0px));
-    font-size: 12px;
-  }
-  html[data-mobile-focus="on"][data-mobile-view="map"]:not([data-mobile-sheet-state="collapsed"]) .mobile-sheet-state-controls {
-    position: absolute;
-    top: 4px;
-    right: calc(8px + env(safe-area-inset-right, 0px));
-    width: 294px;
-    margin: 0;
-    font-size: 12px;
   }
   html[data-mobile-focus="on"][data-mobile-view="map"] .mobile-sheet-body {
     padding-top: 0;
@@ -2401,7 +2378,7 @@ footer {
 .road-key { width: 24px; height: 0; border-top: 4px dashed var(--road-marker); display: inline-block; }
 .road-key-wrap, .ttc-key-wrap { display: inline-flex; align-items: center; gap: 4px; }
 .road-sign, .ttc-sign { font-size: 13px; line-height: 1; }
-.police-key { width: 24px; height: 0; border-top: 4px solid var(--boundary-marker); display: inline-block; }
+.police-key { width: 24px; height: 0; border-top: 4px dashed var(--boundary-marker); display: inline-block; }
 .police-key-wrap { display: inline-flex; align-items: center; gap: 4px; vertical-align: middle; margin: 0 4px; }
 .police-sign { font-size: 13px; line-height: 1; }
 
@@ -2428,6 +2405,7 @@ footer {
 .call-cluster { display: grid; place-items: center; border-radius: 50%; background: var(--cluster-background); border: 2px solid var(--cluster-border); color: var(--cluster-text); font: bold 13px "Space Mono", monospace; text-shadow: 0 1px 2px rgba(0, 0, 0, .72); box-shadow: 0 0 0 3px var(--cluster-ring), 0 3px 10px var(--marker-shadow); }
 
 .show-map-hint { display: inline-block; margin-top: 10px; color: var(--accent-2); font-size: 12px; }
+.show-map-hint[hidden] { display: none; }
 
 .incident-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
 .incident-actions .show-map-hint { margin-top: 0; }
@@ -2440,8 +2418,6 @@ footer {
 
 #shareLink { flex: 1 1 260px; min-width: 0; max-width: 100%; padding: 10px; color: var(--text); background: var(--control-bg); border: 1px solid var(--line); border-radius: 8px; }
 #shareStatus, #filterSummary { overflow-wrap: anywhere; }
-
-.source-updated-title { font-weight: 700; color: var(--text); }
 
 .source-time { font-variant-numeric: tabular-nums; }
 
@@ -2462,10 +2438,7 @@ footer {
 [data-theme="dark"] .ttc-line--scheduled, [data-theme="dark"] .ttc-line--affected { stroke: #8ab4e8; }
 [data-theme="dark"] .ttc-line--diversion { stroke: #8ab4e8; }
 .ttc-hit { cursor: pointer; }
-.ttc-legend-line { display: inline-block; width: 26px; border-top: 4px solid #2251a8; }
-.ttc-legend-scheduled { border-top: 4px dashed #2251a8; }
-[data-theme="dark"] .ttc-legend-line { border-color: #8ab4e8; }
-[data-theme="dark"] .ttc-legend-scheduled { border-color: #8ab4e8; }
+.ttc-key.ttc-key-solid { border-top-style: solid; }
 .ttc-detail { min-width: 0; overflow-wrap: anywhere; }
 .ttc-detail h5 { font-size: 1em; margin: 12px 0 4px; }
 .ttc-detail p { margin-block: 8px; }
@@ -2479,8 +2452,7 @@ footer {
 
 /* The layer disclosure stays in the same map corner at every breakpoint. */
 .mobile-map-panel-toggle,
-.mobile-map-controls-panel,
-.mobile-map-info-heading { display: none; }
+.mobile-map-controls-panel { display: none; }
 #mobileMapLayersToggle {
   position: absolute;
   top: 8px;
@@ -2512,22 +2484,51 @@ footer {
   border: 1px solid var(--line);
   border-radius: 12px;
 }
-.mobile-map-controls-panel .mobile-map-panel-heading {
+.mobile-map-panel-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
   padding: 4px 8px 4px 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  background: var(--panel);
+  font: 700 16px/1.4 "DM Sans", sans-serif;
 }
-.mobile-map-controls-panel .mobile-map-panel-heading button {
-  min-width: 44px;
-  min-height: 44px;
+.mobile-map-info-heading { display: none; }
+.mobile-map-panel-heading button {
+  flex: none;
+  width: 44px;
+  height: 44px;
   color: var(--text);
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--control-bg);
-  font: inherit;
+  font: 700 22px/1 "DM Sans", sans-serif;
   cursor: pointer;
 }
+.mobile-map-panel-heading button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: -3px; }
+
+.map-info-body .source-updated { font: inherit; }
+.map-info-body #source-timestamps { margin: 12px 0 0; }
+.map-info-body #source-timestamps h3 { font-size: inherit; }
+.map-info-body .source-times-table { margin-block: 8px; font: inherit; }
+.map-line-legend {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.map-line-legend li { display: flex; align-items: center; gap: 8px; }
+.map-line-legend li[hidden] { display: none; }
+:is(.map-line-legend, #mobileMapLayersBody) :is(.police-key-wrap, .road-key-wrap, .ttc-key-wrap) {
+  flex: none;
+  gap: 4px;
+  margin: 0;
+}
+:is(.map-line-legend, #mobileMapLayersBody) :is(.police-key, .road-key, .ttc-key) { width: 24px; }
+:is(.map-line-legend, #mobileMapLayersBody) :is(.police-sign, .road-sign, .ttc-sign) { font-size: 13px; }
 #mobileMapLayersBody :is(.map-layer-toggle, .leaflet-control-layers) {
   position: static;
   float: none;
@@ -2541,12 +2542,38 @@ footer {
   padding: 4px 12px;
 }
 #mobileMapLayersBody .leaflet-control-layers { box-sizing: border-box; }
-#mobileMapLayersBody .leaflet-control-layers-overlays label {
+#mobileMapLayersBody > :not([hidden]) ~ :not([hidden]) { border-top: 1px solid var(--line); }
+#mobileMapLayersBody :is(.map-layer-toggle, .leaflet-control-layers-overlays label) {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
   min-height: 44px;
+  font: 600 14px/1.4 "DM Sans", sans-serif;
 }
+#mobileMapLayersBody input { flex: none; margin: 0; }
+#mobileMapLayersBody #ttcLayerControl { align-items: flex-start; }
+#mobileMapLayersBody #ttcOverlay { margin-top: 3px; }
+.ttc-map-legend { display: grid; gap: 6px; }
+.ttc-map-legend-title { font-weight: 700; }
+.ttc-map-legend-sample {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-weight: 400;
+}
+#mobileMapLayersBody .leaflet-control-layers-overlays label > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+#mobileMapLayersBody .leaflet-control-layers-overlays label[data-mobile-label]::after { font: inherit; }
+#mobileMapLayersBody .map-layer-toggle[hidden] { display: none; }
 .mobile-nearby-toggle { display: none; }
+.mobile-filter-select { display: none; }
+#mobileNearbySurface { display: contents; }
+#mobileFilterDropdowns { display: none; }
 @media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse) {
   html[data-mobile-focus="on"][data-mobile-view="map"] .radius-controls {
     top: calc(8px + env(safe-area-inset-top, 0px));
@@ -2594,8 +2621,7 @@ footer {
     padding: 0;
     border-radius: 50%;
   }
-  html[data-mobile-focus="on"][data-mobile-view="map"] .mobile-map-panel-toggle:focus-visible,
-  .mobile-map-panel-heading button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+  html[data-mobile-focus="on"][data-mobile-view="map"] .mobile-map-panel-toggle:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: -3px; }
   html[data-mobile-focus="on"][data-mobile-view="map"] :is(.mobile-map-controls-panel, .map-info) {
     position: fixed;
     top: calc(var(--mobile-summary-bottom, 88px) + 8px);
@@ -2622,41 +2648,14 @@ footer {
     position: sticky;
     top: 0;
     z-index: 1;
-    background: var(--panel);
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 4px 8px 4px 12px;
   }
-  .mobile-map-panel-heading button {
-    flex-shrink: 0;
-    min-width: 44px;
-    min-height: 44px;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: var(--control-bg);
-    color: var(--text);
-    font: 700 22px/1 "DM Sans", sans-serif;
-    cursor: pointer;
-  }
-  html[data-mobile-focus="on"][data-mobile-view="map"] #mobileMapLayersBody :is(.map-layer-toggle, .leaflet-control-layers) {
-    position: static;
-    float: none;
-    width: auto;
-    min-width: 0;
-    max-width: none;
-    margin: 0;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    background: var(--panel);
-    color: var(--text);
-    padding: 4px 12px;
+  html[data-mobile-focus="on"][data-mobile-view="map"] .map-info-body {
+    border-top: 0;
+    padding: 12px;
   }
   html[data-mobile-focus="on"][data-mobile-view="map"] #mobileMapLayersBody .map-layer-toggle {
-    justify-content: flex-start;
-    white-space: nowrap;
+    white-space: normal;
   }
 }
 
@@ -2670,10 +2669,86 @@ footer {
 
 @media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse) {
   .app-shell > .topbar,
+  html[data-mobile-focus="on"] #mobileNearbyHeader,
+  html:not(.mobile-nearby-open) #mobileNearbyHeader .topbar,
   html:not([data-mobile-focus="on"]):not(.mobile-nearby-open) #nearbyPanel,
   html:not([data-mobile-focus="on"]):not(.mobile-nearby-search-open) #nearbySearchControls {
     display: none;
   }
+
+  html:not([data-mobile-focus="on"]) #mobileNearbyHeader {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 900;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr);
+    align-items: center;
+    gap: 4px;
+    background: var(--panel);
+  }
+  html.mobile-nearby-isolated #mobileNearbyHeader { top: 0; }
+  #mobileNearbyHeader .mobile-view-toggle {
+    grid-area: 2 / 1 / 3 / -1;
+    padding-bottom: 4px;
+  }
+  html:not([data-mobile-focus="on"]) {
+    scroll-padding-top: calc(112px + env(safe-area-inset-top, 0px));
+  }
+  html.mobile-nearby-isolated { overflow: hidden; }
+  .mobile-nearby-isolated #mobileNearbySurface {
+    position: fixed;
+    inset: 0;
+    z-index: 900;
+    display: block;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: env(safe-area-inset-top, 0px) max(11px, env(safe-area-inset-right, 0px))
+      calc(12px + env(safe-area-inset-bottom, 0px)) max(11px, env(safe-area-inset-left, 0px));
+    scroll-padding-top: 112px;
+    background: var(--bg);
+  }
+  .mobile-nearby-isolated :is(#mobileNearbySurface ~ *, #offlineStatus, .app-shell > footer) {
+    visibility: hidden;
+  }
+  #nearbyPanel :is(.nearby-options, #nearStatus[data-idle]) { display: none; }
+  #nearbySearchControls :is(.controls-card .secondary-filter-control, .event-filters) { display: none; }
+  .mobile-filters-open #mobileFilterDropdowns {
+    display: grid;
+    gap: 6px;
+    margin-top: 8px;
+    padding: 6px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--panel);
+  }
+  #mobileFilterDropdowns select {
+    padding: 0 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--text);
+    background: var(--control-bg);
+    font: inherit;
+  }
+  #mobileNearbyHeader .topbar { display: contents; }
+  #mobileNearbyHeader .brand { grid-area: 1 / 1; gap: 4px; }
+  #mobileNearbyHeader .brand-mark { width: 32px; height: 32px; }
+  #mobileNearbyHeader h1 { font-size: 16px; margin: 0; }
+  #mobileNearbyHeader :is(.brand-kicker, .topbar-photo, .refresh-info, .theme-control > span) { display: none; }
+  #mobileNearbyHeader .topbar-tools { grid-area: 1 / 3; justify-self: end; min-width: 0; }
+  #mobileNearbyHeader #themePreference { max-width: 100%; min-height: 44px; }
+  #mobileNearbyToggle { grid-area: 1 / 2; }
+
+  #nearbySearchControls .control-group { min-width: 0; }
+  #nearbySearchControls select { width: 100%; min-width: 0; min-height: 44px; }
+  #nearbySearchControls #filterSummary {
+    grid-column: 1 / -1;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+  #nearbySearchControls :is(.event-toggle-group, .radius-toggle-group) { display: none; }
+  #nearbySearchControls .mobile-filter-select { display: block; }
+  html:not([data-mobile-focus="on"]) #nearbySearchControls .radius-controls,
+  html[data-mobile-focus="on"] #mobileFilterDropdowns { display: none; }
 
   html:not([data-mobile-focus="on"]) .mobile-nearby-toggle {
     display: grid;
@@ -2696,21 +2771,50 @@ footer {
   }
 
   #mobileNearbyToggle[aria-expanded="false"] {
-    border-color: var(--status-danger);
+    justify-self: center;
+    width: 56px;
+    height: 56px;
+    margin: 2px 0;
+    border-color: transparent;
     background: transparent;
-    color: var(--status-danger);
   }
 
-  #mobileNearbyToggle[aria-expanded="false"] span,
+  .nearby-launcher-art { position: relative; width: 54px; height: 54px; }
+  .nearby-launcher-art::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--status-danger);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: nearby-outline-blink 1.3s step-end infinite;
+  }
+  .nearby-spaghetti-photo {
+    display: block;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 25%;
+  }
+  .nearby-siren-icon {
+    position: absolute;
+    right: -4px;
+    bottom: -3px;
+    z-index: 1;
+    opacity: .88;
+  }
+  .nearby-siren-icon img { display: block; }
+  #mobileNearbyToggle[aria-expanded="false"] .nearby-close-icon,
+  #mobileNearbyToggle[aria-expanded="true"] .nearby-launcher-art { display: none; }
+
   #mobileNearbySearchToggle span { animation: nearby-control-blink 1.4s ease-in-out infinite; }
 
-  html:not([data-mobile-focus="on"], [data-mobile-view="calls"]) {
-    --mobile-map-height: max(320px, calc(100dvh - 60px - env(safe-area-inset-top, 0px)));
+  html:not([data-mobile-focus="on"])[data-mobile-view="map"] {
+    --mobile-map-height: max(280px, calc(100dvh - 112px - env(safe-area-inset-top, 0px)));
   }
-  html:not([data-mobile-focus="on"], [data-mobile-view="calls"]) #dispatchMap {
+  html:not([data-mobile-focus="on"])[data-mobile-view="map"] #dispatchMap {
     height: var(--mobile-map-height);
   }
-  html:not([data-mobile-focus="on"], [data-mobile-view="calls"]) .map-wrap {
+  html:not([data-mobile-focus="on"])[data-mobile-view="map"] .map-wrap {
     min-height: var(--mobile-map-height);
   }
 }
@@ -2719,7 +2823,11 @@ footer {
   50% { opacity: .35; }
 }
 
+@keyframes nearby-outline-blink {
+  46.15% { opacity: .25; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  #mobileNearbyToggle[aria-expanded="false"] span,
+  .nearby-launcher-art::after,
   #mobileNearbySearchToggle span { animation: none; }
 }

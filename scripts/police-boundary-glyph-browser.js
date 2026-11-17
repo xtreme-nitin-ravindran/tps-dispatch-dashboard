@@ -53,13 +53,13 @@ async function measure(page) {
 }
 
 async function assertLegend(page) {
-  const checkbox = page.getByLabel('Police Divisions', { exact: true });
+  const checkbox = page.getByRole('checkbox', { name: 'Police division', exact: true });
   assert.equal(await checkbox.count(), 1, 'exact label must select only the checkbox');
   assert.equal(await checkbox.getAttribute('type'), 'checkbox');
   const state = await measure(page);
   assert.equal(state.signGlyph, '🚔', 'legend glyph must be real text');
   assert.ok(['none', 'normal'].includes(state.pseudoGlyph), 'glyph must not come from a pseudo-element');
-  assert.equal(state.inputLabel, 'Police Divisions');
+  assert.equal(state.inputLabel, 'Police division');
   assert.equal(state.labelLabel, null, 'label must not acquire a duplicate accessible name');
   assert.equal(state.wrapCount, 1, 'rebuild must inject exactly one key');
   assert.ok(state.inputFirst, 'key must immediately follow the checkbox inside the holder');
@@ -108,10 +108,10 @@ async function assertMapCues(page, theme) {
 }
 
 async function assertToggleRebuild(page) {
-  await page.getByLabel('Police Divisions', { exact: true }).uncheck();
+  await page.getByRole('checkbox', { name: 'Police division', exact: true }).uncheck();
   await awaitUiState(page, () => document.querySelector('.police-sign'), { description: 'boundary off and rebuilt legend' });
   await assertLegend(page);
-  await page.getByLabel('Police Divisions', { exact: true }).check();
+  await page.getByRole('checkbox', { name: 'Police division', exact: true }).check();
   await awaitUiState(page, () => document.querySelector('.police-sign') && document.querySelector('.leaflet-control-layers-overlays input').checked, { description: 'enabled boundary legend rebuilt' });
   await assertLegend(page);
   await assertMapCues(page, 'light');

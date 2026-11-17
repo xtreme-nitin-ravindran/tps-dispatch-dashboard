@@ -52,7 +52,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="./assets/css/styles.css?v=mobile-nearby-panel-1" />
+  <link rel="stylesheet" href="./assets/css/styles.css?v=spaghetti-beacon-2" />
 </head>
 
 <body>
@@ -88,8 +88,20 @@
     <p id="offlineStatus" class="offline-status" role="status" aria-live="polite" hidden></p>
 
     <main>
+      <div id="mobileNearbySurface">
+      <div id="mobileNearbyHeader">
       <button id="mobileNearbyToggle" class="mobile-nearby-toggle" type="button"
-        aria-controls="nearbyPanel" aria-expanded="false" aria-label="What’s happening near me?"><span aria-hidden="true">!</span></button>
+        aria-controls="nearbyPanel" aria-expanded="false" aria-label="What’s happening near me?">
+        <span class="nearby-launcher-art" aria-hidden="true">
+          <img class="nearby-spaghetti-photo" src="./assets/images/brand-spaghetti.jpg" alt="" width="54" height="54" />
+          <picture class="nearby-siren-icon">
+            <source media="(prefers-reduced-motion: reduce)" srcset="./assets/images/nearby-beacon.png" />
+            <img src="./assets/images/nearby-beacon.gif" alt="" width="28" height="28" />
+          </picture>
+        </span>
+        <span class="nearby-close-icon" aria-hidden="true">×</span>
+      </button>
+      </div>
       <div id="nearbyPanel">
       <section class="nearby-feature" aria-labelledby="nearHeading">
         <div><span class="section-kicker">QUICK LOOK</span>
@@ -100,8 +112,7 @@
           <button id="nearMe" type="button">Use my location</button>
           <button id="hearSirens" type="button" aria-label="Find nearby calls that may explain sirens">Hear sirens?</button>
           <p id="quickLookDataStatus" class="quick-look-data-status" role="status" aria-live="polite">Loading calls… Location controls are ready.</p>
-          <p id="nearStatus" role="status">Uses your location with permission. Your location stays in this browser
-            session.</p>
+          <p id="nearStatus" role="status" data-idle>Uses your location with permission. Your location stays in this browser session.</p>
           <div id="nearControls" hidden>
             <button id="chooseArea" type="button"><span class="desktop-location-action">Choose an area on the map</span><span class="mobile-location-action">Choose area</span></button>
             <button id="clearNearby" type="button"><span class="desktop-location-action">Clear nearby filter</span><span class="mobile-location-action">Clear nearby</span></button>
@@ -197,19 +208,19 @@
         </div>
 
         <button id="mobileFiltersToggle" class="mobile-filters-toggle" type="button" aria-expanded="false"
-          aria-controls="divisionSelect historyHours serviceFilter eventFilterGroup clearFilters shareView">
+          aria-controls="divisionSelect historyHours serviceFilter mobileEventType mobileDistance mobileViewNavigation clearFilters shareView">
           <span>Filters</span><span id="mobileFilterCount" class="mobile-filter-count" hidden></span>
         </button>
 
         <div class="control-group secondary-filter-control">
           <label for="divisionSelect">Police division</label>
-          <select id="divisionSelect">
+          <select id="divisionSelect" aria-label="Police division">
             <option value="all">All police divisions</option>
           </select>
         </div>
         <div class="control-group secondary-filter-control">
           <label for="historyHours">History</label>
-          <select id="historyHours">
+          <select id="historyHours" aria-label="History">
             <option value="1">Last 1 hour</option>
             <option value="3">Last 3 hours</option>
             <option value="6">Last 6 hours</option>
@@ -220,15 +231,23 @@
           </select>
         </div>
       </section>
+      <div id="mobileFilterDropdowns" class="secondary-filter-control" role="group" aria-label="Filter calls"></div>
 
       <section class="event-filters secondary-filter-control" aria-label="Filter calls by service and event type">
         <label for="serviceFilter" class="section-kicker">SERVICE</label>
-        <select id="serviceFilter">
+        <select id="serviceFilter" aria-label="Service">
           <option value="all">All services</option>
           <option value="TFS">Fire (TFS)</option>
           <option value="TPS">Police (TPS)</option>
         </select>
         <span class="section-kicker">EVENT TYPE</span>
+        <select id="mobileEventType" class="mobile-filter-select" aria-label="Event type">
+          <option value="all">All event types</option>
+          <option value="medical">Medical</option>
+          <option value="fire">Fire</option>
+          <option value="ongoing">Ongoing</option>
+          <option value="other">Other</option>
+        </select>
         <div id="eventFilterGroup" class="event-toggle-group" role="group" aria-label="Event type">
           <button class="event-toggle active" type="button" data-event-filter="all" aria-pressed="true">All</button>
           <button class="event-toggle" type="button" data-event-filter="medical" aria-pressed="false">Medical</button>
@@ -243,6 +262,13 @@
           aria-label="Shareable view link" readonly hidden><span id="shareStatus" role="status"></span></div>
       <nav class="radius-controls" aria-label="Incident search area">
         <span class="section-kicker">SEARCH AREA</span>
+        <select id="mobileDistance" class="mobile-filter-select" aria-label="Distance">
+          <option value="toronto">Toronto-wide</option>
+          <option value="0.5">500 m</option>
+          <option value="1">1 km</option>
+          <option value="2">2 km</option>
+          <option value="5">5 km</option>
+        </select>
         <div class="radius-toggle-group" role="group" aria-label="Incident search area">
           <button type="button" data-radius-km="0.5" aria-pressed="false">500 m</button>
           <button type="button" data-radius-km="1" aria-pressed="false">1 km</button>
@@ -250,17 +276,18 @@
           <button type="button" data-radius-km="5" aria-pressed="false">5 km</button>
           <button type="button" data-radius-km="toronto" class="active" aria-pressed="true">Toronto-wide</button>
         </div>
-        <div class="mobile-view-toggle" role="group" aria-label="Choose mobile dashboard view">
+        <div class="mobile-view-toggle" id="mobileViewNavigation" role="group" aria-label="Choose mobile dashboard view">
           <button type="button" data-mobile-view="map" class="active" aria-pressed="true"
             aria-controls="mapView">Map</button>
           <button type="button" data-mobile-view="calls" aria-pressed="false"
             aria-controls="callsView">Calls</button>
-          <button type="button" id="mobileDisruptionsControl" aria-controls="disruptions">Disruptions</button>
+          <button type="button" id="mobileDisruptionsControl" data-mobile-view="disruptions" aria-pressed="false" aria-controls="disruptions">Disruptions</button>
         </div>
       </nav>
       </div>
       <button id="mobileNearbySearchToggle" class="mobile-nearby-toggle" type="button"
         aria-controls="nearbySearchControls" aria-expanded="false" aria-label="Show search and filters"><span aria-hidden="true">↓</span></button>
+      </div>
       </div>
       <p id="sharedIncidentStatus" class="shared-incident-status" role="status" hidden></p>
 
@@ -283,17 +310,11 @@
       <aside class="mobile-bottom-sheet" id="mobileBottomSheet" data-sheet-state="collapsed"
         aria-labelledby="mobileSheetSummary">
         <button class="mobile-sheet-header" id="mobileSheetToggle" type="button" aria-controls="mobileSheetBody"
-          aria-expanded="false" aria-label="Expand nearby calls sheet to half height">
+          aria-expanded="false" aria-label="Open nearby calls sheet">
           <span class="mobile-sheet-handle" aria-hidden="true"></span>
           <span class="mobile-sheet-summary" id="mobileSheetSummary" aria-live="polite">Loading nearby calls…</span>
         </button>
-        <div class="mobile-sheet-body" id="mobileSheetBody">
-          <div class="mobile-sheet-state-controls" role="group" aria-label="Nearby calls sheet height">
-            <button type="button" data-sheet-target="collapsed" aria-pressed="true">Collapsed</button>
-            <button type="button" data-sheet-target="half" aria-pressed="false">Half</button>
-            <button type="button" data-sheet-target="expanded" aria-pressed="false">Expanded</button>
-          </div>
-          <div id="mobileClosureDetail" class="mobile-closure-detail" hidden></div>
+        <div class="mobile-sheet-body" id="mobileSheetBody" inert>
           <p id="mobileCallsFeedStatus" class="feed-status" role="status" aria-live="polite" hidden></p>
           <div class="mobile-sheet-call-list" id="mobileSheetCallList"></div>
         </div>
@@ -326,8 +347,8 @@
                   <span class="road-key-wrap" aria-hidden="true"><span class="road-key"></span><span class="road-sign">⛔</span></span><span id="roadOverlayLabel">Road closures</span>
                   <small id="roadOverlayStatus" class="map-layer-status">Not available yet</small>
                 </label>
-                <label id="ttcLayerControl" class="ttc-overlay-toggle map-layer-toggle" hidden><input id="ttcOverlay" type="checkbox" />
-                  <span class="ttc-key-wrap" aria-hidden="true"><span class="ttc-key"></span><span class="ttc-sign">🚧</span></span><span>TTC disruptions</span>
+                <label id="ttcLayerControl" class="ttc-overlay-toggle map-layer-toggle"><input id="ttcOverlay" type="checkbox" aria-label="TTC disruptions" disabled />
+                  <span class="ttc-map-legend"></span>
                 </label>
               </div>
             </section>
@@ -464,29 +485,49 @@
         <div class="mobile-map-panel-heading mobile-map-info-heading"><strong>Map info &amp; legend</strong>
           <button type="button" id="mobileMapInfoClose" aria-label="Close map info">×</button></div>
         <div class="map-info-body">
-          <p class="mobile-map-located"><strong>Mapped calls:</strong> <span id="mobileMapStatus">—</span></p>
-          <div class="map-info-heading">
-            <div><span class="section-kicker">GEOGRAPHY</span><h3>Toronto call map</h3></div>
-            <div class="source-updated"><span class="source-updated-title">Source updates</span><span
-                class="source-updated-title">Toronto time</span><strong id="sourceUpdated">—</strong><a
+          <section class="map-info-section map-coverage">
+            <h3>Map coverage</h3>
+            <p class="mobile-map-located"><strong>Mapped calls:</strong> <span id="mobileMapStatus">—</span></p>
+          </section>
+          <section class="map-info-section">
+            <h3>Source updates · Toronto time</h3>
+            <div class="source-updated"><strong id="sourceUpdated">—</strong><a
                 class="source-times-help" href="#source-timestamps">What do these times mean?</a></div>
-          </div>
-          <p class="map-source-credit">Police division boundaries — Toronto Police Service</p>
-          <div class="map-legend" aria-label="Map marker guide">
-            <span id="ttcLegend-scheduled" hidden><b class="ttc-legend-line ttc-legend-scheduled" aria-hidden="true"></b><i class="ttc-sign" aria-hidden="true">🚧</i>TTC affected section</span>
-            <span id="ttcLegend-diversion" hidden><b class="ttc-legend-line" aria-hidden="true"></b><i class="ttc-sign" aria-hidden="true">🚧</i>Observed TTC diversion</span>
-            <span><i class="fire-key" aria-hidden="true"></i>Fire</span>
-            <span><i class="medical-key" aria-hidden="true"></i>Medical</span>
-            <span><i class="other-key" aria-hidden="true"></i>Other</span>
-            <span><i aria-hidden="true"></i>Resolved intersection / street segment</span>
-            <span><i class="approximate-key" aria-hidden="true"></i>Approximate location</span>
-            <span><i aria-hidden="true"></i>TFS circle</span>
-            <span><i class="tps-key" aria-hidden="true"></i>TPS square</span>
-            <span><i class="age-key age-recent-key" aria-hidden="true"></i>0–10 min · strongest</span>
-            <span><i class="age-key" aria-hidden="true"></i>10–30 min · normal</span>
-            <span><i class="age-key age-aging-key" aria-hidden="true"></i>30–60 min</span>
-            <span><i class="age-key age-old-key" aria-hidden="true"></i>60+ min</span>
-          </div>
+          </section>
+          <section class="map-info-section">
+            <h3>Map layers</h3>
+            <ul class="map-line-legend">
+              <li><span class="police-key-wrap" aria-hidden="true"><span class="police-key"></span><span class="police-sign">🚔</span></span>Police division</li>
+              <li><span class="road-key-wrap" aria-hidden="true"><span class="road-key"></span><span class="road-sign">⛔</span></span>Road closures</li>
+              <li><span class="ttc-map-legend"></span></li>
+            </ul>
+          </section>
+          <section class="map-info-section">
+            <h3>Call markers</h3>
+            <div class="map-legend">
+              <span><i class="fire-key" aria-hidden="true"></i>Fire</span>
+              <span><i class="medical-key" aria-hidden="true"></i>Medical</span>
+              <span><i class="other-key" aria-hidden="true"></i>Other</span>
+            </div>
+          </section>
+          <section class="map-info-section">
+            <h3>Location and source</h3>
+            <div class="map-legend">
+              <span><i aria-hidden="true"></i>Resolved intersection / street segment</span>
+              <span><i class="approximate-key" aria-hidden="true"></i>Approximate location</span>
+              <span><i aria-hidden="true"></i>TFS circle</span>
+              <span><i class="tps-key" aria-hidden="true"></i>TPS square</span>
+            </div>
+          </section>
+          <section class="map-info-section">
+            <h3>Call age</h3>
+            <div class="map-legend">
+              <span><i class="age-key age-recent-key" aria-hidden="true"></i>0–10 min · strongest</span>
+              <span><i class="age-key" aria-hidden="true"></i>10–30 min · normal</span>
+              <span><i class="age-key age-aging-key" aria-hidden="true"></i>30–60 min</span>
+              <span><i class="age-key age-old-key" aria-hidden="true"></i>60+ min</span>
+            </div>
+          </section>
         </div>
       </details>
 
@@ -528,6 +569,15 @@
     </footer>
   </div>
 
+  <template id="ttcMapLegendTemplate">
+    <span class="ttc-map-legend-title">TTC disruptions</span>
+    <span class="ttc-map-legend-sample">
+      <span class="ttc-key-wrap" aria-hidden="true"><span class="ttc-key"></span><span class="ttc-sign">🚧</span></span>Affected section
+    </span>
+    <span class="ttc-map-legend-sample">
+      <span class="ttc-key-wrap" aria-hidden="true"><span class="ttc-key ttc-key-solid"></span><span class="ttc-sign">🚧</span></span>Diversion
+    </span>
+  </template>
   <template id="callTemplate">
     <article class="incident-card call-row">
       <div class="call-main">
@@ -596,7 +646,7 @@
   </script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./src/app/app.js?v=mobile-nearby-panel-1"></script>
+  <script type="module" src="./src/app/app.js?v=spaghetti-beacon-2"></script>
   <script>
     // Local previews and the deterministic browser server bypass the shell
     // cache so the working tree is always served; deployed origins keep the

@@ -17,7 +17,7 @@ const timingFormat = resolveTimingFormat(process.env);
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
 const base = process.env.INCIDENT_BADGE_UI_URL || 'http://127.0.0.1:8765/';
-const query = '?mobileAuditFixture=many&mobileAuditView=calls&mobileAuditSheet=expanded&mobileAuditRoads=off&mobileAuditBoundaries=off';
+const query = '?mobileAuditFixture=many&mobileAuditView=calls&mobileAuditSheet=open&mobileAuditRoads=off&mobileAuditBoundaries=off';
 
 const badgeState = () => {
   const list = document.querySelector('#callList');

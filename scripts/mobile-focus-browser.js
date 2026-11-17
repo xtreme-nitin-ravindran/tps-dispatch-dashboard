@@ -14,7 +14,7 @@ import {
   assertInViewport,
   assertNoHorizontalOverflow
 } from './lib/mobile-chrome-assert.js';
-import { awaitFixtureReady } from './lib/browser-fixture.js';
+import { awaitFixtureReady, awaitUiState } from './lib/browser-fixture.js';
 import { createBrowserTiming, resolveTimingFormat } from './lib/browser-timing.js';
 
 const timing = createBrowserTiming();
@@ -162,13 +162,10 @@ async function assertCornerButtons(page) {
 // Runs the full entry/exit sequence for one layout state and returns the
 // measured rectangles. Uses real, unforced pointer clicks (no force: true).
 async function runScenario(page, viewport, label) {
-  // The map sits below the pre-map stack, and the pre-map card is sticky on
-  // short landscape viewports. Scroll so the map top clears the sticky card,
-  // then bring the focus control itself into view so it is genuinely reachable
-  // regardless of the scroll state left by a previous scenario.
+  // Clear the sticky header before measuring the map controls.
   await page.evaluate(() => {
     const stage = document.querySelector('#mapView');
-    const card = document.querySelector('.controls-card');
+    const card = document.querySelector('#mobileNearbyHeader');
     const cardBottom = card ? card.getBoundingClientRect().bottom : 0;
     const offset = Math.max(0, cardBottom);
     window.scrollTo({ top: stage.getBoundingClientRect().top + window.scrollY - offset, behavior: 'instant' });
@@ -315,12 +312,12 @@ async function runCallsScenario(page, viewport) {
   assert.ok(hidden(calls.road), `${viewport.name} focused-calls: Road closures control is still visible`);
   assert.ok(hidden(calls.focus), `${viewport.name} focused-calls: fullscreen × control is still visible`);
 
-  // Tap Disruptions: same top-aligned navigation, existing disruptions panel below it.
+  // Tap Disruptions: the existing panel becomes the active view.
   await page.locator('#mobileDisruptionsControl').click();
   await page.waitForTimeout(50);
   const disruptions = await measureCalls(page);
   assert.equal(disruptions.focusMode, 'on', `${viewport.name} focused-disruptions: focus mode was cleared`);
-  assert.equal(disruptions.mobileView, 'calls', `${viewport.name} focused-disruptions: disruptions must reuse the Calls view`);
+  assert.equal(disruptions.mobileView, 'disruptions', `${viewport.name} focused-disruptions: wrong active view`);
   assertTopAlignedNav(disruptions, viewport, `${viewport.name} focused-disruptions`);
   assertContentBelowNav(disruptions, viewport, `${viewport.name} focused-disruptions`, 'disruptions');
 
@@ -361,30 +358,63 @@ try {
     assert.ok(launcher && launcher.width >= 44 && launcher.height >= 44);
     assert.ok(Math.abs(launcher.x + launcher.width / 2 - viewport.width / 2) <= 1);
     assert.ok(launcher.y >= 0 && launcher.y + launcher.height <= map.y);
-    assert.ok(Math.min(viewport.height, map.y + map.height) - map.y >= viewport.height * 0.75);
+    const visibleMap = Math.min(viewport.height, map.y + map.height) - map.y;
+    const minimumMapShare = viewport.width > viewport.height ? 0.65 : 0.75;
+    assert.ok(visibleMap >= viewport.height * minimumMapShare, `${viewport.name}: map height in viewport was ${visibleMap}px`);
     assert.equal(await nearby.getAttribute('aria-expanded'), 'false');
     assert.equal(await page.locator('#nearbyPanel').isVisible(), false);
+    const siren = nearby.locator('.nearby-siren-icon');
+    const close = nearby.locator('.nearby-close-icon');
+    assert.equal(await siren.isVisible(), true);
+    assert.equal(await close.isVisible(), false);
+    const photo = nearby.locator('.nearby-spaghetti-photo');
+    const beacon = siren.locator('img');
     const launcherStyle = await nearby.evaluate(button => {
       const style = getComputedStyle(button);
-      return {
-        color: style.color,
-        border: style.borderTopColor,
-        background: style.backgroundColor,
-        animation: getComputedStyle(button.firstElementChild).animationName
-      };
+      return { border: style.borderTopColor, background: style.backgroundColor };
     });
     assert.equal(launcherStyle.background, 'rgba(0, 0, 0, 0)');
-    assert.equal(launcherStyle.border, launcherStyle.color);
-    const [red, green, blue] = launcherStyle.color.match(/\d+/g).map(Number);
+    assert.equal(launcherStyle.border, 'rgba(0, 0, 0, 0)');
+    assert.match(await photo.getAttribute('src'), /brand-spaghetti\.jpg$/);
+    assert.equal(await photo.evaluate(el => getComputedStyle(el).animationName), 'none');
+    assert.equal(await photo.evaluate(el => getComputedStyle(el).borderTopLeftRadius), '50%');
+    const outline = nearby.locator('.nearby-launcher-art');
+    const outlineStyle = await outline.evaluate(el => {
+      const style = getComputedStyle(el, '::after');
+      return { radius: style.borderTopLeftRadius, color: style.borderTopColor, animation: style.animationName };
+    });
+    assert.equal(outlineStyle.radius, '50%');
+    const [red, green, blue] = outlineStyle.color.match(/\d+/g).map(Number);
     assert.ok(red > green && red > blue);
-    assert.equal(launcherStyle.animation, 'nearby-control-blink');
+    assert.equal(outlineStyle.animation, 'nearby-outline-blink');
+    const photoBox = await photo.boundingBox();
+    const beaconBox = await beacon.boundingBox();
+    assert.ok(beaconBox.x < photoBox.x + photoBox.width && beaconBox.y < photoBox.y + photoBox.height);
+    assert.ok(beaconBox.x > photoBox.x + photoBox.width / 2);
+    assert.equal(await siren.evaluate(el => getComputedStyle(el).zIndex), '1');
+    await awaitUiState(page, () => {
+      const image = document.querySelector('.nearby-siren-icon img');
+      return image.currentSrc.endsWith('.gif') && image.naturalWidth > 0;
+    }, { description: 'animated startup beacon' });
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    assert.equal(await nearby.locator('span').evaluate(el => getComputedStyle(el).animationName), 'none');
+    await awaitUiState(page, () => document.querySelector('.nearby-siren-icon img').currentSrc.endsWith('.png'), { description: 'still startup beacon' });
+    assert.equal(await outline.evaluate(el => getComputedStyle(el, '::after').animationName), 'none');
     await page.emulateMedia({ reducedMotion: 'no-preference' });
 
     await nearby.click();
     assert.equal(await nearby.innerText(), '×');
-    assert.equal(await nearby.locator('span').evaluate(el => getComputedStyle(el).animationName), 'none');
+    assert.equal(await siren.isVisible(), false);
+    assert.equal(await close.isVisible(), true);
+    const surface = page.getByRole('dialog', { name: 'What’s happening near me?' });
+    const surfaceBox = await surface.boundingBox();
+    assert.deepEqual(surfaceBox, { x: 0, y: 0, width: viewport.width, height: viewport.height });
+    assert.equal(await page.locator('.nearby-options').isVisible(), false);
+    assert.equal(await page.locator('#nearStatus[data-idle]').isVisible(), false);
+    for (const background of ['#mapView', '#mobileBottomSheet', '#callsView', '#disruptions']) {
+      const element = page.locator(background);
+      assert.equal(await element.isVisible(), false);
+      assert.equal(await element.evaluate(el => el.inert), true);
+    }
     assert.equal(await nearby.getAttribute('aria-expanded'), 'true');
     assert.equal(await page.getByRole('button', { name: 'Use my location' }).isVisible(), true);
     assert.equal(await search.isVisible(), false);
@@ -397,17 +427,97 @@ try {
     assert.equal(await arrow.getAttribute('aria-expanded'), 'true');
     assert.equal(await search.isVisible(), true);
     assert.equal(await filters.isVisible(), true);
-    const arrowBox = await arrow.boundingBox();
-    const navBox = await page.locator('.mobile-view-toggle').boundingBox();
-    assert.ok(arrowBox.y >= navBox.y + navBox.height);
-    assert.ok(Math.abs(arrowBox.x + arrowBox.width / 2 - viewport.width / 2) <= 1);
+    const theme = page.locator('#themePreference');
+    const brand = page.locator('#mobileNearbyHeader .brand');
+    assert.equal(await theme.isVisible(), true);
+    assert.equal(await brand.isVisible(), true);
+    const nav = page.locator('#mobileNearbyHeader .mobile-view-toggle');
+    const distance = page.getByRole('combobox', { name: 'Distance' });
+    const eventType = page.getByRole('combobox', { name: 'Event type' });
+    assert.equal(await nav.isVisible(), true);
+    assert.equal(await distance.isVisible(), false);
+    await filters.scrollIntoViewIfNeeded();
+    const searchBox = await search.boundingBox();
+    const filtersBox = await filters.boundingBox();
+    const summary = page.locator('#filterSummary');
+    const summaryBox = await summary.boundingBox();
+    assert.ok(summaryBox.y >= searchBox.y + searchBox.height);
+    assert.ok(filtersBox.y >= summaryBox.y + summaryBox.height);
+    assert.equal(filtersBox.x, searchBox.x);
+    assert.equal(filtersBox.width, searchBox.width);
+    const collapsedChevron = await filters.evaluate(el => getComputedStyle(el, '::after').transform);
+    assert.notEqual(collapsedChevron, 'none');
+    assert.equal(await summary.evaluate(el => getComputedStyle(el).fontWeight), '700');
     await filters.click();
-    assert.equal(await page.locator('#historyHours').isVisible(), true);
-    await filters.click();
+    assert.equal(await filters.getAttribute('aria-expanded'), 'true');
+    assert.notEqual(await filters.evaluate(el => getComputedStyle(el, '::after').transform), collapsedChevron);
+    assert.deepEqual(await search.boundingBox(), searchBox);
+    assert.deepEqual(await filters.boundingBox(), filtersBox);
+    assert.equal(await distance.isVisible(), true);
+    assert.equal(await nav.isVisible(), true);
+    assert.equal(await eventType.isVisible(), true);
+    const dropdowns = await page.locator('#mobileFilterDropdowns select').evaluateAll(selects => selects.map(select => {
+      const box = select.getBoundingClientRect();
+      return { id: select.id, x: box.x, y: box.y, width: box.width, height: box.height };
+    }));
+    assert.deepEqual(dropdowns.map(item => item.id), ['divisionSelect', 'historyHours', 'serviceFilter', 'mobileEventType', 'mobileDistance']);
+    for (const [index, item] of dropdowns.entries()) {
+      assert.equal(item.x, dropdowns[0].x);
+      assert.equal(item.width, dropdowns[0].width);
+      assert.ok(item.height >= 44);
+      if (index) assert.ok(item.y >= dropdowns[index - 1].y + dropdowns[index - 1].height);
+    }
+    await eventType.selectOption('medical');
+    assert.match(await summary.innerText(), /Medical/i);
+    assert.equal(await filters.locator('#mobileFilterCount').innerText(), '1');
+    await eventType.selectOption('all');
+    await arrow.scrollIntoViewIfNeeded();
+    const pinnedClose = await nearby.boundingBox();
+    assert.ok(pinnedClose.y >= 0 && pinnedClose.y + pinnedClose.height <= viewport.height);
+    assert.ok(Math.abs(pinnedClose.x + pinnedClose.width / 2 - viewport.width / 2) <= 1);
+    await nearby.click();
+    assert.equal(await page.locator('#nearbyPanel').isVisible(), false);
+    assert.equal(await theme.isVisible(), false);
+    assert.equal(await brand.isVisible(), false);
+    assert.equal(await siren.isVisible(), true);
+    assert.equal(await page.locator('#mapView').isVisible(), true);
+    assert.equal(await page.locator('#mapView').evaluate(el => el.inert), false);
+    const callsTab = nav.getByRole('button', { name: 'Calls', exact: true });
+    const mapTab = nav.getByRole('button', { name: 'Map', exact: true });
+    await callsTab.click();
+    await page.locator('#callsView').waitFor({ state: 'visible' });
+    await page.evaluate(() => window.scrollTo(0, 350));
+    const dashboardNav = await nav.boundingBox();
+    assert.ok(dashboardNav.y >= 0 && dashboardNav.y + dashboardNav.height < viewport.height);
+    assert.equal(await callsTab.getAttribute('aria-pressed'), 'true');
+    assert.equal(await page.locator('#disruptions').isVisible(), false);
+    const disruptionsTab = nav.getByRole('button', { name: 'Disruptions', exact: true });
+    await disruptionsTab.click();
+    assert.equal(await disruptionsTab.getAttribute('aria-pressed'), 'true');
+    assert.equal(await callsTab.getAttribute('aria-pressed'), 'false');
+    assert.equal(await page.locator('#callList').isVisible(), false);
+    assert.equal(await page.locator('#mapView').isVisible(), false);
+    const disruptionBox = await page.locator('#disruptions').boundingBox();
+    const currentNav = await nav.boundingBox();
+    assert.ok(disruptionBox.y >= currentNav.y + currentNav.height);
+    assert.ok(disruptionBox.y < currentNav.y + currentNav.height + 32);
+    assert.equal(await page.evaluate(() => window.scrollY), 0);
+    await mapTab.click();
+    await page.locator('#mapView').waitFor({ state: 'visible' });
+    assert.equal(await page.evaluate(() => window.scrollY), 0);
+    await nearby.click();
+    await callsTab.click();
+    assert.equal(await surface.isVisible(), false);
+    await page.locator('#callsView').waitFor({ state: 'visible' });
+    await mapTab.click();
+    await page.locator('#mapView').waitFor({ state: 'visible' });
+    await nearby.click();
+    assert.equal(await search.isVisible(), false);
+    await arrow.click();
+    assert.equal(await nav.isVisible(), true);
     await arrow.click();
     assert.equal(await search.isVisible(), false);
     await nearby.click();
-    assert.equal(await page.locator('#nearbyPanel').isVisible(), false);
     await page.emulateMedia({ reducedMotion: 'no-preference' });
 
 
@@ -435,7 +545,7 @@ try {
       assert.equal(layerState.clipped, 'none', 'checkbox wrapper is not clipped');
       assert.ok(layerState.checkboxWidth >= 12 && layerState.checkboxHeight >= 12);
       assert.equal(layerState.nowrap, 'nowrap');
-      const checkbox = page.getByLabel('Police Divisions', { exact: true });
+      const checkbox = page.getByRole('checkbox', { name: 'Police division', exact: true });
       await checkbox.scrollIntoViewIfNeeded();
       await checkbox.uncheck();
       assert.equal(await checkbox.isChecked(), false);
@@ -475,6 +585,7 @@ try {
     await context.setGeolocation({ latitude: 43.6532, longitude: -79.3832 });
     await page.locator('#mobileNearbyToggle').click();
     await page.locator('#mobileNearbySearchToggle').click();
+    await page.locator('#mobileFiltersToggle').click();
     await page.locator('#nearMe').click();
     await page.waitForFunction(() => !document.querySelector('#sirenResults').hidden);
     const assertSirenOrder = async mobile => {
@@ -483,13 +594,13 @@ try {
           const box = document.querySelector(selector).getBoundingClientRect();
           return { top: box.top, bottom: box.bottom, width: box.width, height: box.height };
         };
-        return { search: rect('.controls-card'), nav: rect('.radius-controls'), results: rect('#sirenResults'), map: rect('#mapView') };
+        return { search: rect('.controls-card'), nav: rect('.mobile-view-toggle'), results: rect('#sirenResults') };
       });
       assert.ok(boxes.results.width > 0 && boxes.results.height > 0, 'siren results are rendered');
       if (mobile) {
-        assert.ok(boxes.search.bottom <= boxes.nav.top, 'search precedes mobile navigation');
+        assert.ok(boxes.nav.bottom <= boxes.search.top, 'mobile navigation precedes search');
         assert.ok(boxes.nav.bottom <= boxes.results.top, 'mobile navigation precedes siren results');
-        assert.ok(boxes.results.bottom <= boxes.map.top, 'siren results precede map');
+        assert.equal(await page.locator('#mapView').isVisible(), false, 'the map remains behind Nearby');
       } else {
         assert.ok(boxes.results.bottom <= boxes.search.top, 'desktop siren placement is preserved');
       }

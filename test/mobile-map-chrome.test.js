@@ -15,10 +15,10 @@ const desktopRules = css.slice(0, mobileStart);
 
 test('[STORY-37B][STORY-37H][STORY-53B] mobile overlay controls stack with full labels and 44px targets', () => {
   assert.match(html, /class="road-overlay-toggle map-layer-toggle"[\s\S]*?<span id="roadOverlayLabel">Road closures<\/span>/);
-  assert.match(boundarySrc, /"Police Divisions": divisionLayer/);
+  assert.match(boundarySrc, /"Police division": divisionLayer/);
   assert.equal([...html.matchAll(/id="roadOverlay"/g)].length, 1);
   assert.equal([...boundarySrc.matchAll(/L\.control\.layers\(/g)].length, 1);
-  // Story 41: Road closures sits directly below Police Divisions and shares its width.
+  // Story 41: Road closures sits directly below Police division and shares its width.
   assert.match(mobileRules, /\.map-layer-toggle \{[\s\S]*?top: var\(--police-control-bottom, 56px\);[\s\S]*?right: 8px;[\s\S]*?left: auto;[\s\S]*?min-height: 48px/);
   assert.match(mobileRules, /\.leaflet-control-layers \{[\s\S]*?min-height: 48px;[\s\S]*?padding: 1px 8px/);
   assert.match(mobileRules, /\.leaflet-control-layers-overlays label \{[\s\S]*?min-height: 44px/);
@@ -28,8 +28,7 @@ test('[STORY-37B][STORY-37H] zoom, attribution, and overlay chrome remain inside
   assert.match(mobileRules, /\.map-panel \.leaflet-top \{ top: 60px; \}/);
   assert.match(mobileRules, /\.map-panel \.leaflet-bottom\.leaflet-right \{ bottom: var\(--mobile-map-sheet-overlap, 0px\)/);
   assert.match(mobileRules, /--mobile-sheet-height: calc\(52px \+ env\(safe-area-inset-bottom, 0px\)\)/);
-  assert.match(mobileRules, /data-mobile-sheet-state="half"[\s\S]*?var\(--mobile-map-height\) - 220px/);
-  assert.match(mobileRules, /data-mobile-sheet-state="expanded"[\s\S]*?var\(--mobile-map-height\) - 160px/);
+  assert.match(mobileRules, /data-mobile-sheet-state="open"[\s\S]*?var\(--mobile-map-height\) - 160px/);
 });
 
 test('[STORY-37B][STORY-37H] mobile attribution remains compact while desktop attribution is unchanged', () => {
@@ -43,14 +42,14 @@ test('[STORY-37B][STORY-37H] mobile attribution remains compact while desktop at
 test('[STORY-37B][STORY-37H] collapsed sheet is compact and tappable while Calls mode owns no sheet', () => {
   assert.match(mobileRules, /\.mobile-sheet-header \{[\s\S]*?min-height: 52px/);
   assert.ok(52 >= 44);
-  assert.match(mobileRules, /html\[data-mobile-view="calls"\][\s\S]*?\.mobile-bottom-sheet \{ display: none; \}/);
+  assert.match(mobileRules, /html:is\(\[data-mobile-view="calls"\], \[data-mobile-view="disruptions"\]\) :is\(\.map-stage, \.map-info, \.mobile-bottom-sheet\) \{ display: none; \}/);
   assert.match(app, /setAttribute\("aria-expanded", String\(nextState !== "collapsed"\)\)/);
-  assert.match(app, /control\.dataset\.sheetTarget === nextState/);
+  assert.match(app, /inert = nextState === .collapsed./);
 });
 
 test('[STORY-37B][STORY-37H] mobile-only compaction preserves desktop map chrome', () => {
   // Story 41: on desktop the Road closures control also sits below Police
-  // Divisions, anchored to the measured Police Divisions bottom edge.
+  // Divisions, anchored to the measured Police division bottom edge.
   assert.match(desktopRules, /\.map-layer-toggle \{[\s\S]*?top: var\(--police-control-bottom, 47px\);[\s\S]*?min-height: 42px;[\s\S]*?padding: 8px 10px/);
   assert.doesNotMatch(desktopRules, /--mobile-sheet-height/);
 });
