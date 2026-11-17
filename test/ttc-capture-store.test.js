@@ -416,6 +416,25 @@ test('[STORY-79] a truncated page without a continuation token ends the listing'
   assert.deepEqual(await sink.list('p'), ['k1.json']);
 });
 
+test('[STORY-79] the continuation token is unescaped without double-unescaping nested entities', async () => {
+  // "&amp;lt;" is the XML-escaped form of the literal text "&lt;". Unescaping
+  // the ampersand first would turn it into "<" (double-unescaping) and then
+  // re-encode a wrong token; the ampersand must be unescaped last so the
+  // follow-up query carries "%26lt%3B" (&lt;), not "%3C" (<).
+  const calls = [];
+  const fetchImpl = async (url) => {
+    calls.push(url);
+    if (url.includes('continuation-token=')) {
+      return { ok: true, status: 200, text: async () => '<ListBucketResult><Contents><Key>k2.json</Key></Contents><IsTruncated>false</IsTruncated></ListBucketResult>' };
+    }
+    return { ok: true, status: 200, text: async () => '<ListBucketResult><Contents><Key>k1.json</Key></Contents><IsTruncated>true</IsTruncated><NextContinuationToken>tok&amp;lt;x</NextContinuationToken></ListBucketResult>' };
+  };
+  const sink = createR2CaptureSink({ endpoint: 'https://r2.example.com', bucket: 'b', accessKeyId: 'a', secretAccessKey: 's', fetchImpl });
+  assert.deepEqual(await sink.list('p'), ['k1.json', 'k2.json']);
+  // The unescaped literal "&lt;x" re-encoded is "%26lt%3Bx".
+  assert.match(calls[1], /continuation-token=tok%26lt%3Bx/);
+});
+
 test('[STORY-79] ordered discovery and nextSequence see captures beyond the first listing page', async () => {
   // The production starvation: with >500 committed pairs the unpaginated R2
   // listing hid every capture above the page top, so the processor could never
