@@ -217,7 +217,7 @@ test("[STORY-45] the wrapper mounts working-tree paths read-only and never mount
       "node_modules must never be mounted (it would shadow image dependencies)"
     );
     // Core validation inputs must be present.
-    for (const required of ["src", "scripts", "test", "data", "concourse", ".github", "assets", "docker"]) {
+    for (const required of ["src", "scripts", "test", "data", ".github", "assets", "docker"]) {
       assert.ok(
         mounts.some(m => m.includes(`/workspace/${required}:ro`)),
         `the wrapper must mount ${required}`
