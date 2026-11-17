@@ -30,7 +30,6 @@ const [dockerfile, dockerignore] = await Promise.all([
 // The repository paths the image must contain. These are the paths the
 // Dockerfile copies and that the offline suite, linters, and fixtures read.
 const REQUIRED_COPY_PATHS = [
-  "concourse",
   ".github",
   "data",
   "scripts",
@@ -85,7 +84,7 @@ test("[STORY-48] the Dockerfile installs dependencies in an isolated layer", () 
 test("[STORY-48] the Dockerfile copies repository content from stable to volatile", () => {
   // The relative order of the content COPY layers must be stable-first so an
   // edit to a volatile path does not invalidate the stable layers before it.
-  const order = ["concourse", ".github", "data", "scripts", "src", "test"];
+  const order = [".github", "data", "scripts", "src", "test"];
   const positions = order.map(name => {
     const index = lines.findIndex(line => line === `COPY ${name} ./${name}`);
     assert.notEqual(index, -1, `the Dockerfile must copy ${name}`);
@@ -95,7 +94,7 @@ test("[STORY-48] the Dockerfile copies repository content from stable to volatil
   assert.deepEqual(
     positions,
     sorted,
-    "content COPY layers must be ordered stable-first (concourse, .github, data, scripts, src, test)"
+    "content COPY layers must be ordered stable-first (.github, data, scripts, src, test)"
   );
 });
 
@@ -113,7 +112,7 @@ test("[STORY-48] the Dockerfile copies every required repository path", () => {
 
 test("[STORY-48] the Dockerfile copies the pinned Ruff binary before repository content", () => {
   const ruffIndex = lines.findIndex(line => line.startsWith("COPY --from=ruff"));
-  const firstContentIndex = lines.findIndex(line => line === "COPY concourse ./concourse");
+  const firstContentIndex = lines.findIndex(line => line === "COPY .github ./.github");
   assert.notEqual(ruffIndex, -1, "the Dockerfile must copy the Ruff binary");
   assert.notEqual(firstContentIndex, -1);
   assert.ok(ruffIndex < firstContentIndex, "Ruff must be copied before repository content");
@@ -121,7 +120,7 @@ test("[STORY-48] the Dockerfile copies the pinned Ruff binary before repository 
 
 test("[STORY-48] the Dockerfile copies the pinned ShellCheck binary before repository content", () => {
   const shellcheckIndex = lines.findIndex(line => line.startsWith("COPY --from=shellcheck"));
-  const firstContentIndex = lines.findIndex(line => line === "COPY concourse ./concourse");
+  const firstContentIndex = lines.findIndex(line => line === "COPY .github ./.github");
   assert.notEqual(shellcheckIndex, -1, "the Dockerfile must copy the shellcheck binary");
   assert.notEqual(firstContentIndex, -1);
   assert.ok(shellcheckIndex < firstContentIndex, "shellcheck must be copied before repository content");
@@ -180,7 +179,6 @@ test("[STORY-48] docker/Dockerfile.test.dockerignore never excludes a path the D
   // A rule that excluded a copied path would silently change the image while
   // leaving the fingerprint inputs unchanged. Guard the required paths.
   const required = [
-    "concourse",
     ".github",
     "data",
     "scripts",

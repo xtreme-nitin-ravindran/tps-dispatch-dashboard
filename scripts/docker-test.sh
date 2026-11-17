@@ -156,7 +156,7 @@ check_fresh() {
 # Directories are mounted as directories; files as files. Missing optional paths
 # are skipped so the wrapper stays usable on a partial checkout, but the core
 # validation inputs must exist.
-MOUNT_DIRS="src scripts test data concourse .github assets docker"
+MOUNT_DIRS="src scripts test data .github assets docker"
 MOUNT_FILES="index.html service-worker.js manifest.webmanifest eslint.config.js ruff.toml package.json package-lock.json _config.yml"
 
 mount_args() {

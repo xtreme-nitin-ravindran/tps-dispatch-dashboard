@@ -77,11 +77,12 @@ test("[STORY-79] the projection never publishes: it validates, projects, and wri
 });
 
 test("[STORY-79] the schedulers and CI reference neither the key nor the retired writer step", async () => {
+  // The Concourse scheduler lives in homelab (docs/homelab-deploy-handoff.md);
+  // this repo retains only the GitHub Actions schedulers.
   const files = [
-    ...(await listFiles("concourse", [".yml", ".yaml"])),
     ...(await listFiles(".github", [".yml", ".yaml"]))
   ];
-  assert.ok(files.length > 0, "expected scheduler files under concourse/ and .github/");
+  assert.ok(files.length > 0, "expected scheduler files under .github/");
   for (const rel of files) {
     const text = await readRel(rel);
     // The retired scheduler step must never reappear.

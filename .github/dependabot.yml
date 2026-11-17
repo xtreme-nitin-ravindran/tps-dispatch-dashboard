@@ -8,9 +8,8 @@
 #     (single-writer ownership); homelab's own .github/dependabot.yml now
 #     watches infra/sirento/ansible.
 #   - docker: version bumps stay fully manual. A Dockerfile `FROM node:<tag>`
-#     bump never merges automatically because the Concourse `image_resource`
-#     tags (invisible to Dependabot) must be updated in the same reviewed
-#     change or `test/concourse-node-image.test.js` fails CI.
+#     bump is a deliberate, manually-reviewed bump (the Concourse scheduler and
+#     its image tags moved to the homelab repo in Story 79).
 # Please see the documentation for all configuration options:
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
