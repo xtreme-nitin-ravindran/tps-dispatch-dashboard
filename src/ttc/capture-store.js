@@ -301,7 +301,8 @@ export function createR2CaptureSink({
         if (!/<IsTruncated>true<\/IsTruncated>/.test(xml) || !next) break;
         // The token is XML text content: unescape entities before passing it
         // back, then let createR2SignedFetch re-encode it in the query.
-        token = next[1].replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+        // Decode '&amp;' last to avoid double-unescaping (for example '&amp;lt;').
+        token = next[1].replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&');
       }
       return keys;
     }
