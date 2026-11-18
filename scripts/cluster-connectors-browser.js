@@ -61,7 +61,7 @@ async function assertBounded({ selected = true, largeCluster = true } = {}) {
   if (largeCluster) assert.ok(state.largestCluster > 12, `large cluster was fully expanded: ${state.largestCluster}`);
   if (selected) {
     assert.equal(state.selectedMarkers, 1, 'selected incident is not represented by exactly one map marker');
-    assert.equal(state.selectedCards, 0, 'map selection must not select a calls-sheet card');
+    assert.equal(state.selectedCards, 1, 'map selection highlights the matching calls-sheet card');
   }
   return state;
 }
@@ -83,6 +83,12 @@ try {
   assert.equal(await sheet.getAttribute('data-sheet-state'), 'collapsed');
   await sheetToggle.click();
   assert.equal(await sheet.getAttribute('data-sheet-state'), 'open');
+  await awaitUiState(page, () => {
+    const card = document.querySelector('#mobileSheetCallList .incident-card.selected');
+    const body = document.querySelector('#mobileSheetBody').getBoundingClientRect();
+    const rect = card?.getBoundingClientRect();
+    return rect && rect.top >= body.top - 1 && rect.top < body.bottom;
+  }, { description: 'selected incident revealed when the sheet expands' });
   const sheetBody = page.locator('#mobileSheetBody');
   await sheetBody.evaluate(el => { el.scrollTop = 80; });
   const sheetScroll = await sheetBody.evaluate(el => el.scrollTop);
@@ -90,7 +96,7 @@ try {
   assert.equal(await sheet.getAttribute('data-sheet-state'), 'open');
   assert.equal(await sheetBody.evaluate(el => el.scrollTop), sheetScroll);
   const sheetCard = page.locator('#mobileSheetCallList .incident-card--list').first();
-  assert.equal(await sheetCard.getAttribute('role'), null);
+  assert.equal(await sheetCard.getAttribute('role'), 'button');
   assert.equal(await sheetCard.locator('.show-map-hint').isVisible(), false);
   await sheetCard.dispatchEvent('click');
   assert.equal((await connectorState()).selectedMarkers, 1);
@@ -98,7 +104,10 @@ try {
 
   await page.locator('button[data-mobile-view="calls"]').click();
   assert.equal((await connectorState()).count, 0, 'connectors remained after Map to Calls');
-  await page.locator('button[data-mobile-view="map"]').click();
+  await page.locator('#callList [data-call-id="mobile-audit-selected"]').click();
+  await awaitUiState(page, () => document.documentElement.dataset.mobileView === 'map' &&
+    document.querySelector('.leaflet-popup [data-call-id="mobile-audit-selected"]'),
+  { description: 'Calls card opens its bubble in the existing Map view' });
   await assertBounded();
 
   await page.locator('.leaflet-control-zoom-in').click({ force: true });

@@ -110,7 +110,74 @@ const mobileSheetToggle = document.querySelector('#mobileSheetToggle');
 const mobileSheetSummary = document.querySelector('#mobileSheetSummary');
 const mobileSheetCallList = document.querySelector('#mobileSheetCallList');
 const callsListHome = els.callList.parentElement;
+const disruptionListHomes = ['roadsList', 'observedDiversionsList'].map(id => {
+  const list = document.getElementById(id);
+  const home = document.createComment(id + ' home');
+  list.before(home);
+  return { list, home };
+});
 const mobileCallsFeedStatus = document.querySelector('#mobileCallsFeedStatus');
+const feedWarning = document.querySelector('#feedWarning');
+const feedWarningToggle = document.querySelector('#feedWarningToggle');
+const feedWarningPanel = document.querySelector('#feedWarningPanel');
+let feedWarningTimer;
+
+function closeFeedWarning() {
+  clearTimeout(feedWarningTimer);
+  feedWarningPanel.hidden = true;
+  feedWarningToggle.setAttribute('aria-expanded', 'false');
+  if (feedWarningPanel.contains(document.activeElement)) feedWarningToggle.focus({ preventScroll: true });
+}
+
+feedWarningToggle.addEventListener('click', () => {
+  if (!feedWarningPanel.hidden) { closeFeedWarning(); return; }
+  closeFullscreenPanels();
+  feedWarningPanel.hidden = false;
+  feedWarningToggle.setAttribute('aria-expanded', 'true');
+  clearTimeout(feedWarningTimer);
+  feedWarningTimer = setTimeout(closeFeedWarning, 25_000);
+});
+document.querySelector('#feedWarningClose').addEventListener('click', closeFeedWarning);
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape' || feedWarningPanel.hidden) return;
+  event.preventDefault();
+  event.stopPropagation();
+  closeFeedWarning();
+}, { capture: true });
+document.addEventListener('pointerdown', event => {
+  if (!feedWarning.contains(event.target)) closeFeedWarning();
+});
+
+function renderFeedWarning() {
+  const sources = [
+    ['TFS', state.feeds.TFS || { fetchedAt: state.fetchedAt }], ['TPS', state.feeds.TPS],
+    ['Road closures', state.disruptions?.roads],
+    ['TTC alerts', state.disruptions?.ttcAlerts || state.disruptions?.transit]
+  ];
+  if (state.disruptions?.ttcDiversions) sources.push(['TTC map geometry', { ...state.disruptions.ttcDiversions, fetchedAt: state.disruptions.ttcDiversions.fetchedAt || state.disruptions.ttcDiversions.checkedAt }]);
+  const warnings = sources.filter(([name, feed]) => sourceStatus(name, feed).status !== 'ok');
+  document.querySelector('#feedWarningList').replaceChildren(...warnings.map(([name, feed]) => {
+    const item = document.createElement('li');
+    const label = document.createElement('strong');
+    label.textContent = name;
+    const detail = document.createElement('span');
+    detail.textContent = sourceStatusText(name, feed);
+    item.append(label, detail);
+    return item;
+  }));
+  for (const [id, source] of [
+    ['roadsFreshness', 'Road closures'], ['transitFreshness', 'TTC alerts'],
+    ['observedDiversionsFreshness', 'TTC']
+  ]) {
+    document.getElementById(id).classList.toggle('feed-warning-replaced',
+      warnings.some(([name]) => name.startsWith(source)));
+  }
+  if (!warnings.length) closeFeedWarning();
+  feedWarning.hidden = !warnings.length;
+  document.documentElement.classList.toggle('feed-warning-active', warnings.length > 0);
+  feedWarningToggle.setAttribute('aria-label', `Feed warnings, ${warnings.length} affected sources`);
+}
+
 const nearbySort = document.querySelector('#nearbySort');
 const expandNearbyRadius = document.querySelector('#expandNearbyRadius');
 const quickLookDataStatus = document.querySelector('#quickLookDataStatus');
@@ -334,9 +401,34 @@ const syncMapAttributionPosition = () => maintenance.syncMapAttributionPosition(
 
 function syncIncidentListSurface(mobile = isMobileViewLayout()) {
   const host = mobile && mobileView === "map" ? mobileSheetCallList : callsListHome;
-  if (els.callList.parentElement === host) return;
-  host.append(els.callList);
+  const disruptionList = mobile && mobileView === 'map' && focusedClosureId
+    ? document.getElementById(focusedClosureId.startsWith('ttc:') ? 'observedDiversionsList' : 'roadsList') : null;
+  if (disruptionList) callsListHome.append(els.callList);
+  else if (els.callList.parentElement !== host) host.append(els.callList);
+  for (const { list, home } of disruptionListHomes) {
+    if (list === disruptionList) mobileSheetCallList.append(list);
+    else home.after(list);
+  }
   els.callList.querySelectorAll('.incident-card--list').forEach(row => syncIncidentCardMapAction(row));
+  if (loadPhases.incidents !== 'loading') renderNearbySummary();
+}
+
+function syncSheetSelection() {
+  mobileSheetToggle.setAttribute('aria-label', mobileSheetActionLabel(mobileSheetState));
+  if (!isMobileViewLayout() || mobileView !== 'map' || !focusedClosureId) return;
+  const selected = mobileSheetCallList.querySelector('.selected');
+  const kind = focusedClosureId.startsWith('ttc:') ? 'TTC disruptions' : 'Road closures';
+  const title = selected?.querySelector('h4')?.textContent;
+  mobileSheetSummary.textContent = title ? `${kind} · ${title}` : kind;
+  mobileSheetToggle.setAttribute('aria-label', mobileSheetState === 'open' ? 'Close nearby disruptions sheet' : 'Open nearby disruptions sheet');
+}
+
+function revealSelectedSheetItem() {
+  if (mobileSheetState !== 'open' || !mobileSheetCallList.getClientRects().length) return;
+  const selected = mobileSheetCallList.querySelector('.selected');
+  if (!selected) return;
+  const body = document.querySelector('#mobileSheetBody');
+  body.scrollTop += selected.getBoundingClientRect().top - body.getBoundingClientRect().top;
 }
 
 const mobileNearbySurface = document.querySelector('#mobileNearbySurface');
@@ -522,6 +614,11 @@ function syncMapLayerControls() {
 }
 
 function setMapLayersOpen(open) {
+  if (open) {
+    clearIncidentForTtc();
+    clearClosureSelection();
+    if (isMobileViewLayout()) setMobileSheetState('collapsed');
+  }
   mapLayersPanel.hidden = !open;
   mapLayersToggle.setAttribute('aria-expanded', String(open));
 }
@@ -604,6 +701,11 @@ function setMobileFocusMode(on) {
     requestAnimationFrame(() => window.scrollTo({ top: mobileFocusScrollY, behavior: "instant" }));
   }
   syncFocusFilterSummary();
+  requestAnimationFrame(() => {
+    if (!isMobileViewLayout() || mobileView !== 'map') return;
+    mapPopups.updateOptions(mobilePopupOptions());
+    revealSelectedSheetItem();
+  });
 }
 
 mobileMapFocusToggle?.addEventListener("click", auditInteraction('mobile:map-focus', () => {
@@ -627,6 +729,7 @@ function setMobileSheetState(nextState) {
   document.documentElement.dataset.mobileSheetState = nextState;
   mobileSheetToggle.setAttribute("aria-expanded", String(nextState !== "collapsed"));
   mobileSheetToggle.setAttribute("aria-label", mobileSheetActionLabel(nextState));
+  syncSheetSelection();
   document.querySelector('#mobileSheetBody').inert = nextState === 'collapsed';
   if (!changed) {
     scheduleMapMaintenance({ invalidateSize: true });
@@ -635,9 +738,11 @@ function setMobileSheetState(nextState) {
   policeBoundaryMap.staleScheduledWork();
   boundaryLifecycleScheduler.afterLayoutTransition(() => {
     if (mobileSheetState !== nextState || !dispatchMap || (isMobileViewLayout() && mobileView !== 'map')) return;
+    if (nextState === 'open') revealSelectedSheetItem();
     syncMapSheetOverlap();
     policeBoundaryMap.captureBoundaryDiagnostic(`sheet:${nextState}:layout-settled`);
     dispatchMap.invalidateSize({ pan: false });
+    if (isMobileViewLayout()) mapPopups.updateOptions(mobilePopupOptions());
     policeBoundaryMap.captureBoundaryDiagnostic(`sheet:${nextState}:invalidate-size-complete`);
     policeBoundaryMap.queuePoliceBoundaryWork(`sheet:${nextState}:post-invalidation`);
   });
@@ -830,7 +935,7 @@ async function fetchSnapshot() {
   }
   if(!ttcFixture) void fetchTtcGeometry().then(geometry=>{
     ttcGeometry=geometry;
-    if(state.disruptions) {state.disruptions={...state.disruptions,ttcDiversions:geometry};renderTtc(state.disruptions,dispatchMap,{origin:radiusFilterOrigin(),radius:state.radiusKm});}
+    if(state.disruptions) {state.disruptions={...state.disruptions,ttcDiversions:geometry};renderFeedWarning();renderTtc(state.disruptions,dispatchMap,{origin:radiusFilterOrigin(),radius:state.radiusKm});}
   });
   const response = await fetch(`${CONFIG.snapshotUrl}?ts=${Date.now()}`, { cache: "no-store" });
   if (!response.ok) throw new Error(`Official TFS snapshot returned HTTP ${response.status}`);
@@ -922,6 +1027,7 @@ async function loadData() {
     state.lastIngest = snapshot.updatedAt;
     state.fetchedAt = snapshot.fetchedAt;
     renderOfflineStatus();
+    renderFeedWarning();
     const sourceTime = parseLooseTime(snapshot.updatedAt);
     const sources = [
       ['TFS', snapshot.feeds?.TFS || {fetchedAt:snapshot.fetchedAt, sourceUpdatedAt:snapshot.updatedAt}],
@@ -953,6 +1059,7 @@ async function loadData() {
     if (delayedSecondary) {
       await waitForAuditDelay(uxReliabilityFixture.secondaryDelayMs);
       state.disruptions = snapshot.disruptions;
+      renderFeedWarning();
     }
     renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
     renderTtc(state.disruptions,dispatchMap,{origin:radiusFilterOrigin(),radius:state.radiusKm});
@@ -979,6 +1086,7 @@ async function loadData() {
     console.error(error);
     refreshFreshness.complete(false);
     setRefreshState('error');
+    renderFeedWarning();
     if (!snapshotLoaded) {
       setIncidentLoadPhase('error');
       setSecondaryLoadPhase('error');
@@ -1080,6 +1188,7 @@ function render(map = true, preserveReadingPosition = null) {
   renderCalls(preserveReadingPosition);
   if (map) renderMap();
   renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
+  disruptionUi.syncClosureCardSelection(focusedClosureId?.startsWith('ttc:') ? null : focusedClosureId);
   renderTtc(state.disruptions,dispatchMap,{origin:radiusFilterOrigin(),radius:state.radiusKm});
   els.eventToggles.forEach(toggle => {
     const active = toggle.dataset.eventFilter === state.eventFilter;
@@ -1197,6 +1306,7 @@ function renderNearbySummary() {
   document.querySelector("#nearbySummaryText").textContent = summaryText;
   document.querySelector("#mobileNearbySummaryText").textContent = mobileSummaryText;
   if (mobileSheetSummary) mobileSheetSummary.textContent = mobileSummaryText;
+  syncSheetSelection();
   expandNearbyRadius.hidden = empty?.nextRadiusKm === undefined;
   if (!expandNearbyRadius.hidden) {
     expandNearbyRadius.dataset.radiusKm = empty.nextRadiusKm === null ? 'toronto' : String(empty.nextRadiusKm);
@@ -1271,11 +1381,10 @@ async function handleIncidentShare(event, call) {
 }
 
 function syncIncidentCardMapAction(row) {
-  const independent = els.callList.parentElement === mobileSheetCallList;
-  const mapAction = independent ? '' : row.dataset.mapAction;
-  const selected = !independent && !row.classList.contains('incident-card--popup') && row.dataset.callId === focusedCallId;
+  const mapAction = row.dataset.mapAction;
+  const selected = !row.classList.contains('incident-card--popup') && row.dataset.callId === focusedCallId;
   row.classList.toggle('selected', selected);
-  row.querySelector('.show-map-hint').hidden = !mapAction;
+  row.querySelector('.show-map-hint').hidden = !mapAction || els.callList.parentElement === mobileSheetCallList;
   if (mapAction) {
     row.tabIndex = 0;
     row.setAttribute('role', 'button');
@@ -1585,7 +1694,6 @@ function appendNextIncidentBatch(list = els.callList) {
 }
 
 function surfaceSelectedIncident(call) {
-  if (els.callList.parentElement === mobileSheetCallList) return;
   const previous = els.callList.querySelector('.incident-card--surfaced');
   if (previous && previous.dataset.callId !== call.id) {
     renderedIncidentIds.delete(previous.dataset.callId);
@@ -1660,14 +1768,14 @@ function initMap() {
   tileLayer.addTo(dispatchMap);
   callLayer = L.layerGroup().addTo(dispatchMap);
   nearbyOriginLayer = L.layerGroup().addTo(dispatchMap);
-  dispatchMap.on('roadclosureselect', event => { clearTtcSelection(); selectClosure(event.item,event.layer); });
+  dispatchMap.on('roadclosureselect', event => { clearIncidentForTtc(); clearTtcSelection(); selectClosure(event.item,event.layer); });
   dispatchMap.on('ttcselect',event=>{
     clearIncidentForTtc();
     if(isMobileViewLayout()) setMobileView('map',{persist:false});
     selectClosure(event.item,event.layer,true);
   });
   dispatchMap.on('ttcselectionexpired',()=>{if(focusedClosureId?.startsWith('ttc:')) clearClosureSelection();});
-  dispatchMap.on('ttcselectionupdated',event=>{if(focusedClosureId === `ttc:${event.item.id}`) document.querySelector('.leaflet-popup .ttc-detail')?.replaceWith(ttcDetailFor(event.item));});
+  dispatchMap.on('ttcselectionupdated',event=>{if(focusedClosureId === `ttc:${event.item.id}`) document.querySelector('.leaflet-popup .ttc-detail') && mapPopups.updateContent(ttcDetailFor(event.item));});
   dispatchMap.on("zoomend", () => {
     expandedCluster.clear();
     scheduleMapMarkerRender();
@@ -1691,7 +1799,7 @@ function clearIncidentForTtc() {
   }
   mapPopups.closeImmediately();
   if(previous) updateMarkerAppearance(previous);
-  for(const row of document.querySelectorAll('.incident-card.selected')) {
+  for(const row of document.querySelectorAll('.incident-card[data-call-id].selected')) {
     row.classList.remove('selected','pin-highlight');
     if(row.hasAttribute('role')) row.setAttribute('aria-pressed','false');
   }
@@ -1701,21 +1809,43 @@ function clearClosureSelection() {
   clearTtcSelection();
   disruptionUi.syncClosureCardSelection(null);
   focusedClosureId=null;
+  syncIncidentListSurface();
   mapPopups.closeImmediately();
+}
+
+function mobilePopupOptions() {
+  const map = els.dispatchMap.getBoundingClientRect();
+  const sheet = mobileBottomSheet.getBoundingClientRect();
+  const top = Math.max(0, map.top, mapLayersToggle.getBoundingClientRect().bottom) + 8;
+  const bottom = Math.min(window.innerHeight, map.bottom, sheet.height ? sheet.top : window.innerHeight) - 8;
+  return {
+    minWidth: Math.min(260, map.width - 18), maxWidth: Math.min(340, map.width - 18),
+    maxHeight: Math.max(80, bottom - top - 32), keepInView: true,
+    autoPanPaddingTopLeft: [8, Math.max(8, top - map.top)],
+    autoPanPaddingBottomRight: [8, Math.max(8, map.bottom - bottom)]
+  };
 }
 
 function ttcDetailFor(item) { return createTtcDetail(item,{variant:'detail'}); }
 function selectClosure(closure, layer, ttc=false) {
   if (!closure) return;
+  closeFullscreenPanels();
   focusedClosureId=(ttc ? 'ttc:' : '')+String(closure.id ?? '');
   const detail=ttc ? ttcDetailFor(closure) : createClosureDetail(closure);
+  disruptionUi.syncClosureCardSelection(ttc ? null : closure.id);
+  syncIncidentListSurface();
+  requestAnimationFrame(revealSelectedSheetItem);
   if (isMobileViewLayout()) {
     const point = ttc && (closure.diversions[0] || closure.scheduled[0] || closure.affected?.[0])?.geometry[0];
-    const anchor = layer?.getLatLng?.() || layer?.getBounds?.().getCenter?.() || (point && [point[1], point[0]]);
-    mapPopups.openAt(detail,anchor);
+    const anchor = layer?.getLatLng?.() || layer?.getBounds?.().getCenter?.() || (point && [point[1], point[0]]) || closure.coordinates || (closure.line?.length && L.latLngBounds(closure.line).getCenter());
+    if (!anchor) return;
+    if (!layer) els.dispatchMap.scrollIntoView({ block: 'center', behavior: 'instant' });
+    dispatchMap.stop();
+    dispatchMap.invalidateSize({ pan: false });
+    dispatchMap.panTo(anchor, { animate: false });
+    mapPopups.openAt(detail, anchor, mobilePopupOptions());
     return;
   }
-  if (!ttc) disruptionUi.syncClosureCardSelection(closure.id);
   if(ttc) {
     const host=[...document.querySelectorAll('#observedDiversionsList .incident-card')].find(el=>el.dataset.ttcId===closure.id);
     if(host) {host.classList.add('selected');if(layer) {host.scrollIntoView({block:'nearest'});host.focus({preventScroll:true});}}
@@ -1725,7 +1855,8 @@ function selectClosure(closure, layer, ttc=false) {
     // clicks can never accumulate duplicate detail blocks.
     const anchor=layer?.getLatLng?.() || layer?.getBounds?.().getCenter?.();
     if(anchor) mapPopups.openAt(detail,anchor);
-  } else mapPopups.openBound(detail,layer);
+  } else if (layer) mapPopups.openBound(detail,layer);
+  else mapPopups.openAt(detail,closure.coordinates || L.latLngBounds(closure.line).getCenter());
 }
 
 function coordinatesForCall(call) {
@@ -1763,6 +1894,7 @@ function renderMap() {
 function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false, revealMap = false } = {}) {
   const call = state.filtered.find(item => item.id === callId);
   if (!call) return;
+  closeFullscreenPanels();
   const coordinates = coordinatesForCall(call);
 
   clearClosureSelection();
@@ -1792,7 +1924,6 @@ function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false
 
   let selectedRow;
   document.querySelectorAll(".incident-card:not(.incident-card--popup)").forEach(row => {
-    if (row.closest("#mobileSheetCallList")) return;
     const selected = row.dataset.callId === callId;
     row.classList.toggle("selected", selected);
     if (row.hasAttribute("role")) row.setAttribute("aria-pressed", String(selected));
@@ -1834,7 +1965,8 @@ function selectCall(callId, { pan = true, revealRow = false, panIfNeeded = false
       maxWidth: 360,
       keepInView: true,
       autoPanPaddingTopLeft: [8, 8 + layerBottom - mapTop],
-      autoPanPaddingBottomRight: [8, 8 + sheetOverlap]
+      autoPanPaddingBottomRight: [8, 8 + sheetOverlap],
+      ...(mobile ? mobilePopupOptions() : {})
     });
   }
 }
@@ -1936,12 +2068,12 @@ document.querySelector('#mobileEventType').addEventListener('change', event => {
 });
 
 function handleIncidentListClick(event) {
-  if (els.callList.parentElement === mobileSheetCallList) return;
   if (event.target.closest("summary, .glossary-trigger, .glossary-popover, .share-incident")) return;
   const row = event.target.closest(".incident-card--list");
-  if (!row) return;
+  if (!row?.dataset.mapAction) return;
   const showOnMap = event.target.closest(".show-map-hint");
-  selectCall(row.dataset.callId, { pan: !isMobileViewLayout() || mobileView === "map" });
+  if (isMobileViewLayout()) setMobileView("map", { persist: false });
+  selectCall(row.dataset.callId, { revealMap: isMobileViewLayout() });
   if (showOnMap) {
     event.preventDefault();
     setMobileView("map", { focusSelection: true });
@@ -1953,19 +2085,39 @@ function handleIncidentListClick(event) {
 }
 
 function handleIncidentListKeydown(event) {
-  if (els.callList.parentElement === mobileSheetCallList) return;
   if (event.target.closest(".show-map-hint, .glossary-trigger, .glossary-popover, .share-incident")) return;
   if (event.key !== "Enter" && event.key !== " ") return;
   const row = event.target.closest(".incident-card--list");
-  if (!row) return;
+  if (!row?.dataset.mapAction) return;
   event.preventDefault();
-  selectCall(row.dataset.callId, { pan: !isMobileViewLayout() || mobileView === "map" });
+  if (isMobileViewLayout()) setMobileView("map", { persist: false });
+  selectCall(row.dataset.callId, { revealMap: isMobileViewLayout() });
 }
 
 [els.callList].filter(Boolean).forEach(list => {
   list.addEventListener("click", auditInteraction('incident-selection', handleIncidentListClick));
   list.addEventListener("keydown", handleIncidentListKeydown);
 });
+document.querySelector('#roadsList').addEventListener('click', selectRoadCard);
+document.querySelector('#roadsList').addEventListener('keydown', event => {
+  if (event.key !== 'Enter' && event.key !== ' ') return;
+  selectRoadCard(event);
+});
+function selectRoadCard(event) {
+  if (event.target.closest('a, button, summary')) return;
+  const row = event.target.closest('[data-closure-id]');
+  const item = state.disruptions?.roads?.items.find(item => String(item.id) === row?.dataset.closureId);
+  if (!item || (!item.coordinates && !item.line?.length)) return;
+  event.preventDefault();
+  if (isMobileViewLayout()) setMobileView('map', { persist: false });
+  document.querySelector('#roadOverlay').checked = true;
+  renderDisruptions(state.disruptions, radiusFilterOrigin(), state.radiusKm, dispatchMap);
+  const anchor = item.coordinates || L.latLngBounds(item.line).getCenter();
+  dispatchMap.stop();
+  dispatchMap.panTo(anchor, { animate: false });
+  dispatchMap.fire('roadclosureselect', { item });
+  els.dispatchMap.scrollIntoView({ block: 'center', behavior: 'instant' });
+}
 bindTtcListInteractions();
 
 function closeGlossaryPopovers(except = null) {
@@ -2699,13 +2851,7 @@ function syncFocusFilterSummary() {
   const visible = mobileFocusMode && isMobileViewLayout();
   mobileFocusFilterSummary.hidden = !visible;
   if (visible) {
-    const availability = incidentAvailability();
-    const warnings = [
-      ...availability.unavailable.map(feed => `${feed.name} data unavailable`),
-      ...availability.stale.map(feed => `${feed.name} data may be stale`)
-    ];
-    if (availability.unavailable.length && availability.hasRelevantCachedData) warnings.push('Previously loaded calls remain visible');
-    mobileFocusFilterSummary.textContent = [focusFilterSummaryText(), ...warnings].join(' · ');
+    mobileFocusFilterSummary.textContent = focusFilterSummaryText();
   }
 }
 function setMobileFiltersOpen(open) {

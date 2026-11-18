@@ -18,7 +18,7 @@ import {
   assertInViewport,
   assertNoHorizontalOverflow
 } from './lib/mobile-chrome-assert.js';
-import { awaitFixtureReady } from './lib/browser-fixture.js';
+import { awaitFixtureReady, awaitUiState } from './lib/browser-fixture.js';
 import { createBrowserTiming, resolveTimingFormat } from './lib/browser-timing.js';
 
 const timing = createBrowserTiming();
@@ -174,6 +174,26 @@ try {
     assert.equal(await page.locator('[data-sheet-target]').count(), 0);
     await setSheetState(page, 'collapsed');
 
+    // Safari reserves a bottom safe area even with a collapsed zero-height
+    // grid row. Body padding must not leak a scrolled card into that reserve.
+    const safeArea = await page.addStyleTag({ content: `
+      html[data-mobile-sheet-state="collapsed"] { --mobile-sheet-height: 86px; }
+      .mobile-bottom-sheet { padding-bottom: 34px !important; }
+    ` });
+    await setSheetState(page, 'collapsed');
+    const collapsedBody = await page.locator('#mobileSheetBody').evaluate(body => ({
+      height: body.getBoundingClientRect().height,
+      visibility: getComputedStyle(body).visibility
+    }));
+    assert.equal(collapsedBody.height, 0, `${viewport.name}: collapsed body protrudes into the safe area`);
+    assert.equal(collapsedBody.visibility, 'hidden');
+    await setSheetState(page, 'open');
+    assert.equal(await page.locator('#mobileSheetBody').evaluate(body => getComputedStyle(body).visibility), 'visible');
+    await page.locator('#mobileSheetBody').evaluate(body => { body.scrollTop = 120; });
+    await setSheetState(page, 'collapsed');
+    assert.equal(await page.locator('#mobileSheetBody').evaluate(body => body.getBoundingClientRect().height), 0);
+    await safeArea.evaluate(style => style.remove());
+
     // --- View transitions preserve the header behavior ---
     await page.locator('button[data-mobile-view="calls"]').click();
     await page.waitForFunction(() => document.documentElement.dataset.mobileView === 'calls');
@@ -203,6 +223,80 @@ try {
     await page.waitForTimeout(50);
 
     results.push({ viewport: viewport.name, collapsed: collapsed.sheetRect.height, open: open.sheetRect.height });
+    await context.close();
+  }
+  for (const viewport of [
+    { width: 320, height: 700 }, { width: 390, height: 844 },
+    { width: 844, height: 390 }, { width: 1440, height: 900 }
+  ]) {
+    const mobile = viewport.width <= 430 || viewport.height <= 500;
+    const context = await browser.newContext({ viewport, isMobile: mobile, hasTouch: mobile,
+      reducedMotion: viewport.width === 390 ? 'reduce' : 'no-preference' });
+    const page = await context.newPage();
+    page.on('pageerror', error => errors.push(error.message));
+    await page.clock.install({ time: new Date('2026-11-17T20:00:00Z') });
+    await page.goto(`${base}?mobileAuditFixture=stale&mobileAuditView=map`, { waitUntil: 'domcontentloaded' });
+    await awaitFixtureReady(page);
+    const toggle = page.locator('#feedWarningToggle');
+    const panel = page.locator('#feedWarningPanel');
+    assert.equal(await toggle.isVisible(), true);
+    assert.equal(await panel.isVisible(), false);
+    assert.equal(await page.locator('#mobileMapDataWarning').isVisible(), false);
+    assert.equal(await page.locator('#mobileCallsFeedStatus').isVisible(), false);
+    if (mobile) {
+      const first = await toggle.boundingBox();
+      for (const view of ['calls', 'disruptions', 'map']) {
+        await page.locator(`button[data-mobile-view="${view}"]`).click();
+        const box = await toggle.boundingBox();
+        assert.equal(box.x, first.x);
+        assert.equal(box.y, first.y);
+        assert.equal(await page.locator('#callsFeedStatus').isVisible(), false);
+      }
+      await page.locator('#mobileNearbyToggle').click();
+      const overlap = await page.evaluate(() => {
+        const warning = document.querySelector('#feedWarningToggle').getBoundingClientRect();
+        const theme = document.querySelector('#themePreference').getBoundingClientRect();
+        return Math.min(warning.right, theme.right) > Math.max(warning.left, theme.left) &&
+          Math.min(warning.bottom, theme.bottom) > Math.max(warning.top, theme.top);
+      });
+      assert.equal(overlap, false, 'warning button overlaps the theme selector');
+      await page.locator('#mobileNearbyToggle').click();
+    }
+    // Freeze at a future instant before opening: time spent inspecting the
+    // panel must not count toward the exact 25-second deadline assertion.
+    await page.clock.pauseAt(await page.evaluate(() => Date.now() + 10_000));
+    await toggle.click();
+    assert.equal(await panel.isVisible(), true);
+    assert.match(await panel.innerText(), /TFS[\s\S]*TPS[\s\S]*Road closures[\s\S]*TTC/);
+    const geometry = await panel.boundingBox();
+    assert.ok(geometry.x >= 0 && geometry.y >= 0 && geometry.x + geometry.width <= viewport.width &&
+      geometry.y + geometry.height <= viewport.height, 'warning panel escapes viewport');
+    assert.equal(await panel.evaluate(node => getComputedStyle(node).animationName),
+      viewport.width === 390 ? 'none' : 'feed-warning-pulse');
+    await page.clock.runFor(24_999);
+    assert.equal(await panel.isVisible(), true, 'warning closes before 25 seconds');
+    await page.clock.runFor(1);
+    await awaitUiState(page, () => document.querySelector('#feedWarningPanel').hidden,
+      { description: 'feed warning closes at 25 seconds' });
+    assert.equal(await toggle.isVisible(), true, 'stale indicator disappears after closing');
+    await page.clock.resume();
+    await toggle.click();
+    await page.locator('#feedWarningClose').click();
+    assert.equal(await panel.isVisible(), false);
+    await toggle.click();
+    await toggle.press('Escape');
+    assert.equal(await panel.isVisible(), false);
+    if (mobile) {
+      await page.locator('#mobileMapFocusToggle').click();
+      await toggle.click();
+      assert.equal(await panel.isVisible(), true);
+      const focusGeometry = await panel.boundingBox();
+      assert.ok(focusGeometry.y + focusGeometry.height <= viewport.height, 'fullscreen warning escapes viewport');
+      await page.locator('#feedWarningClose').click();
+    }
+    await page.goto(`${base}?mobileAuditFixture=many`, { waitUntil: 'domcontentloaded' });
+    await awaitFixtureReady(page);
+    assert.equal(await toggle.isVisible(), false, 'healthy feeds still show a warning');
     await context.close();
   }
   assert.deepEqual(errors, []);

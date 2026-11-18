@@ -1,6 +1,7 @@
 """Contract tests for the local preview server's feed proxy."""
 import importlib.util
 from pathlib import Path
+import tempfile
 import threading
 import unittest
 from http.server import ThreadingHTTPServer
@@ -61,6 +62,23 @@ class ServerTests(unittest.TestCase):
         response = self.get('/__local_feed/current.json?ts=1')
         self.assertEqual(response.headers['Content-Type'], 'application/json')
         self.assertEqual(response.read(), b'{"status": "ok"}')
+
+    def test_local_feeds_work_when_upstream_is_unavailable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.server.local_feed_dir = Path(directory)
+            for name in preview.PUBLIC_FILES:
+                payload = ('{"local": "' + name + '"}').encode()
+                (self.server.local_feed_dir / name).write_bytes(payload)
+                with self.get('/__local_feed/' + name + '?ts=1') as response:
+                    self.assertEqual(response.read(), payload)
+                    self.assertEqual(response.headers['Cache-Control'], 'no-store')
+
+    def test_missing_local_feed_reports_failure(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.server.local_feed_dir = Path(directory)
+            with self.assertRaises(HTTPError) as error:
+                self.get('/__local_feed/current.json')
+            self.assertEqual(error.exception.code, 502)
 
     def test_unknown_feed_is_not_found(self):
         with self.assertRaises(HTTPError) as error:

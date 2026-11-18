@@ -280,7 +280,14 @@ export function renderDisruptions(data, origin, radius, map) {
     }
     for (const item of items) {
       const article=element('article',null,'disruption-item');
-      if (kind==='roads') article.dataset.closureId=closureId(item);
+      if (kind==='roads') {
+        article.dataset.closureId=closureId(item);
+        if (item.coordinates || item.line?.length) {
+          article.tabIndex=0;
+          article.setAttribute('role','button');
+          article.setAttribute('aria-label',`Show on map: ${item.title}`);
+        }
+      }
       article.append(element('h4',item.title));
       const meta=kind==='roads' ? [item.type,item.impact && `Reported impact: ${item.impact}`,origin && `About ${roadDistance(item,origin).toFixed(1)} km away`] : [item.effect,item.routes.length && `Routes: ${item.routes.join(', ')}`];
       article.append(element('p',meta.filter(Boolean).join(' · '),'disruption-note'));

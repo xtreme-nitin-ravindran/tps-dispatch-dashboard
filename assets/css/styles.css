@@ -2053,6 +2053,11 @@ footer {
      never clipped or overlapped. The body keeps its normal layout but no longer
      contributes height, so it stays clipped below the sheet as before. */
   html[data-mobile-sheet-state="collapsed"] .mobile-bottom-sheet { height: auto; min-height: var(--mobile-sheet-height); grid-template-rows: auto 0; }
+  html[data-mobile-sheet-state="collapsed"] .mobile-sheet-body {
+    visibility: hidden;
+    padding-block: 0;
+    border-top-width: 0;
+  }
   html[data-mobile-sheet-state="open"] { --mobile-sheet-height: min(40dvh, calc(var(--mobile-map-height) - 160px)); }
   .mobile-bottom-sheet {
     position: fixed;
@@ -2110,6 +2115,8 @@ footer {
   .mobile-sheet-body > p { margin: 14px 0; color: var(--muted); }
   .mobile-sheet-call-list { max-height: none; overflow: visible; border-top: 1px solid var(--line); }
   .mobile-sheet-call-list > .call-list { max-height: none; overflow: visible; }
+  .mobile-sheet-call-list > .disruption-list { max-height: none; overflow: visible; }
+  .mobile-sheet-call-list > .disruption-list > .disruption-item { padding: 16px; }
   .incident-card--list {
     content-visibility: auto;
     contain-intrinsic-block-size: auto 190px;
@@ -2830,4 +2837,49 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .nearby-launcher-art::after,
   #mobileNearbySearchToggle span { animation: none; }
+}
+
+/* One non-modal feed disclosure replaces repeated warning banners. */
+#callsFeedStatus, #mobileCallsFeedStatus, #mobileMapDataWarning, .feed-warning-replaced { display: none; }
+.feed-warning { position: fixed; top: 12px; right: 16px; z-index: 1100; }
+.feed-warning[hidden], .feed-warning-panel[hidden] { display: none; }
+.feed-warning-toggle {
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+  border: 1px solid var(--status-warning); border-radius: 50%; background: var(--panel);
+  color: var(--status-warning); font-size: 24px; cursor: pointer;
+}
+.feed-warning-panel {
+  position: absolute; top: 52px; right: 0; width: min(360px, calc(100vw - 22px));
+  max-height: min(60dvh, calc(100dvh - 100px - env(safe-area-inset-bottom, 0px)));
+  overflow-y: auto; overscroll-behavior: contain; padding: 12px;
+  border: 2px solid var(--status-warning); border-radius: 14px; background: var(--panel);
+  color: var(--text); box-shadow: 0 4px 18px rgb(0 0 0 / 18%);
+  animation: feed-warning-pulse 1.5s ease-in-out infinite;
+}
+.feed-warning-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.feed-warning-heading h2 { margin: 0; font-size: 16px; }
+.feed-warning-heading button {
+  width: 44px; height: 44px; padding: 0; border: 1px solid var(--line); border-radius: 50%;
+  background: var(--panel); color: var(--text); font-size: 24px; cursor: pointer;
+}
+.feed-warning-panel ul { margin: 8px 0; padding: 0; list-style: none; }
+.feed-warning-panel li { display: grid; gap: 4px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.feed-warning-panel p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+.feed-warning-active .topbar { padding-right: 68px; }
+@keyframes feed-warning-pulse { 50% { border-color: var(--line); } }
+@media (prefers-reduced-motion: reduce) { .feed-warning-panel { animation: none; } }
+@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse) {
+  .feed-warning { top: calc(8px + env(safe-area-inset-top, 0px)); right: max(11px, env(safe-area-inset-right, 0px)); }
+  html.mobile-nearby-open.feed-warning-active #mobileNearbyHeader {
+    grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1.3fr);
+  }
+  html.mobile-nearby-open.feed-warning-active #mobileNearbyHeader .topbar-tools { padding-right: 52px; }
+  html.mobile-nearby-open.feed-warning-active #themePreference { padding-inline: 6px; width: 100%; }
+  html[data-mobile-focus="on"] .feed-warning {
+    top: calc(var(--mobile-summary-bottom, 88px) + 8px);
+    right: calc(8px + env(safe-area-inset-right, 0px));
+  }
+  html[data-mobile-focus="on"] .feed-warning-panel {
+    max-height: calc(100dvh - var(--mobile-summary-bottom, 88px) - 84px - env(safe-area-inset-bottom, 0px));
+  }
 }

@@ -11,6 +11,7 @@ const originalCancelAnimationFrame=globalThis.cancelAnimationFrame;
 class FakeElement {
  constructor(tag='div') {this.tag=tag;this.children=[];this.checked=false;this.textContent='';this.className='';this.dataset={};this.classList={_set:new Set(),add(name){this._set.add(name);},remove(name){this._set.delete(name);},toggle(name,force){const on=force===undefined ? !this._set.has(name) : Boolean(force);if(on) this._set.add(name);else this._set.delete(name);return on;},contains(name){return this._set.has(name);}};}
  append(...children) {this.children.push(...children);}
+ setAttribute(name,value) {this[name]=value;}
  replaceChildren(...children) {this.children=children;}
  querySelectorAll(selector) {const match=selector.match(/^\.disruption-item\[data-closure-id\]$/);if(!match) return [];return this.children.filter(child=>child.className.split(' ').includes('disruption-item') && child.dataset.closureId !== undefined);}
 }
@@ -304,6 +305,10 @@ test('[SHOULD-11][STORY-66] road cards carry a closure id and selection toggles 
  const list=nodes.get('#roadsList');
  const cards=list.children.filter(child=>child.className.split(' ').includes('disruption-item'));
  assert.equal(cards.length,3);
+ assert.equal(cards[0].role,'button');
+ assert.equal(cards[0].tabIndex,0);
+ assert.match(cards[0]['aria-label'],/^Show on map:/);
+ assert.equal(cards[2].role,undefined);
  assert.deepEqual(cards.map(card=>card.dataset.closureId),['line-1','point-1','none-1']);
  syncClosureCardSelection('point-1');
  assert.equal(cards[1].classList.contains('selected'),true);

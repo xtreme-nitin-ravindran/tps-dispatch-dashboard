@@ -64,6 +64,8 @@ test('[MUST-5][STORY-4] radius changes reuse the complete filtering and renderin
     els: {windowLabel: {}, eventToggles: []},
     state: {hours: 1, disruptions: [], radiusKm: 2},
     dispatchMap: {},
+    focusedClosureId: null,
+    disruptionUi: {syncClosureCardSelection: () => {}},
     radiusFilterOrigin: () => 'origin'
   };
   for (const name of ['renderStats', 'renderNearbySummary', 'renderSirenResults', 'renderCalls', 'renderMap', 'renderDisruptions', 'renderTtc']) {

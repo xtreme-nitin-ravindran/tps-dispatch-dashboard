@@ -263,7 +263,7 @@ test('[STORY-40D] the floating filter summary is a read-only, accessible status 
 test('[STORY-40D] the floating filter summary is hidden outside focus mode and shown inside it', () => {
   assert.match(focusSummaryFn, /const visible = mobileFocusMode && isMobileViewLayout\(\);/);
   assert.match(focusSummaryFn, /mobileFocusFilterSummary\.hidden = !visible;/);
-  assert.match(focusSummaryFn, /if \(visible\) \{[\s\S]*?mobileFocusFilterSummary\.textContent = \[focusFilterSummaryText\(\), \.\.\.warnings\]\.join/);
+  assert.match(focusSummaryFn, /if \(visible\) \{[\s\S]*?mobileFocusFilterSummary\.textContent = focusFilterSummaryText\(\)/);
   // The element starts hidden in the markup and is only revealed by focus mode.
   assert.match(html, /id="mobileFocusFilterSummary"[\s\S]*?hidden><\/p>/);
 });

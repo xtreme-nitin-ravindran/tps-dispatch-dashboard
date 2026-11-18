@@ -10,11 +10,11 @@ const markersSrc = await readFile(new URL('../src/incident-markers.js', import.m
 test('[MUST-6][STORY-9] tapping a mobile marker leaves the calls sheet alone', () => {
   assert.match(markersSrc, /\.on\("click", \(\) => selectCall\(call\.id\)\)/);
   assert.doesNotMatch(markersSrc, /setMobileSheetState/);
-  assert.match(app, /if \(row\.closest\("#mobileSheetCallList"\)\) return/);
+  assert.doesNotMatch(app, /if \(row\.closest\("#mobileSheetCallList"\)\) return/);
 });
 
 test('[MUST-6][STORY-9] card selection persists into Map and highlights the same marker without changing zoom', () => {
-  assert.match(app, /selectCall\(row\.dataset\.callId, \{ pan: !isMobileViewLayout\(\) \|\| mobileView === "map" \}\)/);
+  assert.match(app, /selectCall\(row\.dataset\.callId, \{ revealMap: isMobileViewLayout\(\) \}\)/);
   assert.match(app, /setMobileView\(toggle\.dataset\.mobileView, \{ focusSelection: toggle\.dataset\.mobileView === "map" \}\)/);
   assert.match(maintenanceSrc, /focusSelection && mobile && view === "map" && getFocusedCallId\(\)[\s\S]*?selectFocusedCall\(\)/);
   assert.match(app, /selectFocusedCall: \(\) => selectCall\(focusedCallId, \{ panIfNeeded: true \}\)/);

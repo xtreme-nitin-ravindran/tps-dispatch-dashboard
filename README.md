@@ -52,6 +52,15 @@ cd tps-dispatch-dashboard
 python3 scripts/preview-server.py
 ```
 
+For a preview using saved feeds, place `current.json` and `ttc-diversions.json` in a local directory and run:
+
+```sh
+python3 scripts/preview-server.py --feed-dir .cache/preview-feeds
+```
+
+The preview reads those files on each request. Their timestamps and contents remain the saved snapshot until you replace the files.
+
+
 Then open:
 
 ```text

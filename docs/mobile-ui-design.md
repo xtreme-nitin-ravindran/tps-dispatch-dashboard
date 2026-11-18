@@ -44,4 +44,17 @@ Both popups use **Police division**, **Road closures**, and **TTC disruptions**.
 
 ## Mobile calls sheet
 
-The calls summary opens and closes one scrollable list. Map pins, road closures, and TTC disruptions open their map bubbles independently of the calls sheet. Call cards in the sheet keep their inline details and Share action.
+The calls summary opens and closes one scrollable list. Selecting a call pin opens its bubble and highlights its matching card. Expanding the sheet reveals that selected card, without changing selection or opening another panel. Selecting a mapped call card switches to the existing Map view, centers its pin, and opens its bubble. Inline details and Share remain separate actions.
+
+Calls and disruptions share a single active map selection: choosing either clears the previous bubble and highlight. Road and TTC selections move the matching existing list into the same bottom sheet, highlight and reveal its selected item, and label the sheet for disruptions. Calls selection restores the existing calls list. Switching to Disruptions restores both original lists to that view. Selecting a mapped disruption card switches to Map and opens its bubble. Mobile disruption bubbles stay inside the visible map and scroll internally when needed; route-fitting must not move a bubble off-screen after it opens. No new panels or back buttons.
+
+## Temporary homelab preview
+
+Whenever `src/app/app.js` is updated in the temporary preview, download the latest public `current.json` and companion `ttc-diversions.json`, validate them, and replace the preview’s saved feeds. Serve both from the app’s origin. Keep the previous files if either download or validation fails. These preview copies are deployment data, not generated snapshot edits to commit on `dev`.
+
+## Feed warnings
+
+Use one shared amber warning button across Map, Calls, Disruptions, and the calls sheet instead of repeated stale-feed banners. Its non-modal Feed status popover lists affected TFS, TPS, road, and TTC sources. It starts collapsed; tapping opens it with a gently pulsing border for 25 seconds, then closes it. The close button, Escape, or an outside tap dismisses it early. The amber indicator stays visible until all sources recover. Respect reduced motion and keep the control clear of Nearby’s theme selector and fullscreen map controls.
+
+Opening Map layers clears the active call or disruption, closes its bubble, removes its pin/list highlight, and collapses the bottom sheet. Closing Layers leaves the sheet collapsed and no selection.
+Selecting a call, road closure, or TTC pin closes Map layers before opening its bubble and highlighting its result. This does not reopen the bottom sheet.

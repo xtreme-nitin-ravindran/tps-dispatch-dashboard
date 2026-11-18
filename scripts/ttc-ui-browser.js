@@ -3,7 +3,7 @@ const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright')
 import assert from 'node:assert/strict';
 import { mkdir,writeFile } from 'node:fs/promises';
 import { createBrowserTiming, resolveTimingFormat } from './lib/browser-timing.js';
-import { awaitFixtureReady } from './lib/browser-fixture.js';
+import { awaitFixtureReady, awaitUiState } from './lib/browser-fixture.js';
 const timing=createBrowserTiming();const timingFormat=resolveTimingFormat(process.env);
 const out=process.env.TTC_VISUAL_OUTPUT || '.cache/ttc-ui-visual';await mkdir(out,{recursive:true});
 const browser=await timing.time('chromium-launch',()=>chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE}));
@@ -66,7 +66,30 @@ for(const width of [320,375,390,430,768,1440]) {
   assert.ok(route.width>0&&route.height>0);assert.ok(route.x>=map.x&&route.y>=map.y&&route.x+route.width<=map.x+map.width&&route.y+route.height<=map.y+map.height,'selected diversion is inside the visible map');
  }
  assert.equal((await diag()).selected,'fixture-detour');
- if(width<=430) assert.equal(await page.locator('.leaflet-popup .ttc-detail').isVisible(),true);
+ if(width<=430) {
+  assert.equal(await page.locator('.leaflet-popup .ttc-detail').isVisible(),true);
+  assert.equal(await page.locator('#mobileSheetCallList > #observedDiversionsList').count(),1);
+  assert.equal(await page.locator('#mobileSheetCallList [data-call-id]').count(),0);
+  assert.equal(await page.locator('#mobileSheetCallList [data-ttc-id="fixture-detour"].selected').count(),1);
+  assert.match(await page.locator('#mobileSheetSummary').innerText(),/^TTC disruptions/);
+  // Reproduce pin selection with the sheet closed, then expand the same panel.
+  await page.locator('#mobileSheetToggle').click();
+  await awaitUiState(page, () => document.documentElement.dataset.mobileSheetState === 'collapsed' &&
+    document.querySelector('#mobileBottomSheet').getBoundingClientRect().height < 100,
+  {description:'sheet fully collapsed before selecting the map pin'});
+  await page.locator('.ttc-line-sign').first().dispatchEvent('click');
+  await page.locator('#mobileSheetToggle').click();
+  await awaitUiState(page, () => {
+   const popup=document.querySelector('.leaflet-popup-content-wrapper').getBoundingClientRect();
+   const map=document.querySelector('#dispatchMap').getBoundingClientRect();
+   const sheet=document.querySelector('#mobileBottomSheet').getBoundingClientRect();
+   const selected=document.querySelector('#mobileSheetCallList .selected')?.getBoundingClientRect();
+   const body=document.querySelector('#mobileSheetBody').getBoundingClientRect();
+   return popup.left>=map.left && popup.right<=map.right && popup.top>=Math.max(0,map.top) &&
+     popup.bottom<=Math.min(window.innerHeight,map.bottom,sheet.top)+1 && selected &&
+     selected.top>=body.top-1 && selected.top<body.bottom;
+  }, {description:'TTC bubble fits the visible map above the matching selected sheet row'});
+ }
  for(const theme of ['light','dark']) {
   if(width<=430) await page.locator('#mobileNearbyToggle').click();
   await page.selectOption('#themePreference',theme);
@@ -102,11 +125,23 @@ for(const width of [320,375,390,430,768,1440]) {
  // Map geometry selects the same detail, then an existing emergency card clears it.
  await page.locator('.ttc-hit').first().dispatchEvent('click');
  assert.equal((await diag()).selected,'fixture-detour');
- await page.locator('.leaflet-marker-icon.dispatch-marker-wrap').first().dispatchEvent('click');
+ if(width<=430) await page.locator('button[data-mobile-view="calls"]').click();
+ await page.locator('#callList .incident-card--list[data-map-action] .call-title').first().click();
  assert.equal((await diag()).selected,null);
+ assert.equal(await page.locator('#observedDiversionsList .incident-card.selected').count(),0);
+ if(width<=430) assert.equal(await page.locator('#mobileSheetCallList > #callList').count(),1);
+ assert.equal(await page.locator('.leaflet-popup').count(),1);
+ assert.equal(await page.locator('.leaflet-popup .incident-card--popup').count(),1);
  await page.locator('.ttc-hit').first().dispatchEvent('click');
  assert.equal((await diag()).selected,'fixture-detour');
  assert.equal(await page.locator('[data-call-id].selected').count(),0);
+ assert.equal(await page.locator('#observedDiversionsList .incident-card.selected').count(),1);
+ assert.equal(await page.locator('.leaflet-popup').count(),1);
+ assert.equal(await page.locator('.leaflet-popup .incident-card--popup').count(),0);
+ if(width<=430) {
+  assert.equal(await page.locator('#mobileSheetCallList > #observedDiversionsList').count(),1);
+  assert.equal(await page.locator('#mobileSheetCallList .selected[data-ttc-id="fixture-detour"]').count(),1);
+ }
  // Story 74: sign markers ride the TTC lines and open the map bubble on desktop.
  assert.ok((await diag()).markers>=1);
  if(width>=768) {
@@ -132,7 +167,7 @@ for(const width of [320,375,390,430,768,1440]) {
   assert.equal(bubble.gapLeft,0);assert.equal(bubble.gapRight,0);
  }
  if(width<=430) {
-  // Mobile TTC sign taps use the same map bubble without taking over the calls sheet.
+  // Mobile TTC sign taps pair the same bubble with the selected disruption in the existing sheet.
   await page.locator('.ttc-line-sign').first().dispatchEvent('click');
   await page.waitForSelector('.leaflet-popup .ttc-detail');
   assert.equal(await page.locator('.leaflet-popup').count(),1);
@@ -204,11 +239,12 @@ for(const width of [320,375,390,430,768,1440]) {
  await page.locator('#observedDiversionsList .incident-card').first().click();
  assert.equal(await page.locator('.leaflet-popup .ttc-detail').isVisible(),true);
  const summary=await page.locator('#mobileSheetSummary').textContent();
- assert.match(summary,/calls/);
+ assert.match(summary,/^TTC disruptions/);
  // Advance the emulated clock exactly one minute so the real
  // setInterval(...,60000) fires renderNearbySummary() while the detail is focused.
  await page.clock.runFor(60000);
- assert.match(await page.locator('#mobileSheetSummary').textContent(),/calls/);
+ assert.equal(await page.locator('#mobileSheetSummary').textContent(),summary);
+ assert.equal(await page.locator('#mobileSheetCallList > #observedDiversionsList').count(),1);
  assert.equal(await page.locator('#mobileSheetToggle').getAttribute('aria-expanded'),'false');
  assert.deepEqual(errors,[]);
  results.push({scenario:'minute-tick-clock',summary:await page.locator('#mobileSheetSummary').textContent()});await page.close();

@@ -43,7 +43,7 @@ test('[MUST-11][STORY-12][STORY-29D] theme switching keeps one tile layer and ex
   assert.equal(app.match(/L\.tileLayer\(/g).length, 1);
   assert.match(app, /dispatchMap\.on\("zoomend", \(\) => \{[\s\S]*?expandedCluster\.clear\(\);[\s\S]*?scheduleMapMarkerRender\(\);[\s\S]*?\}\)/);
   assert.match(app, /dispatchMap\.on\("click", event =>/);
-  assert.match(app, /dispatchMap\.on\('roadclosureselect', event => \{ clearTtcSelection\(\); selectClosure/);
+  assert.match(app, /dispatchMap\.on\('roadclosureselect', event => \{ clearIncidentForTtc\(\); clearTtcSelection\(\); selectClosure/);
 });
 
 test('[MUST-11][STORY-12][STORY-29D] markers and vector overlays remain above and readable on the dimmed tiles', () => {

@@ -1,6 +1,5 @@
 import { relativeUpdateAge } from '../source-status.js?v=source-states-1';
 import { ttcPresentation } from './presentation.js';
-import { mobileMapSheetOverlap } from '../mobile-bottom-sheet.js';
 import { createTtcLayer } from './map-layer.js';
 const node = (tag,text,className) => { const el=document.createElement(tag); el.textContent=text || ''; if(className) el.className=className; return el; };
 let controller, currentMap, selected=null, currentItems=[], lastSignature, expiryTimer;
@@ -114,7 +113,13 @@ function createDiversionCard(item) {
   row.append(main);
   return row;
 }
-export function clearTtcSelection() { selected=null; selectedSignature=null; controller?.select(null); }
+export function clearTtcSelection() {
+  selected=null; selectedSignature=null; controller?.select(null);
+  for(const card of document.querySelectorAll('#observedDiversionsList .incident-card.selected')) {
+    card.classList.remove('selected');
+    if(card.hasAttribute('role')) card.setAttribute('aria-pressed','false');
+  }
+}
 export function selectTtc(item, layer, reveal=false) {
   selected=item.id;selectedSignature=itemSignature(item);controller?.select(selected);
   for(const card of document.querySelectorAll('#observedDiversionsList .incident-card')) {
@@ -126,11 +131,10 @@ export function selectTtc(item, layer, reveal=false) {
   if(reveal) requestAnimationFrame(()=>requestAnimationFrame(()=>{
     if(selected!==item.id) return;
     const container=currentMap?.getContainer();
-    const sheet=document.querySelector('#mobileBottomSheet');
-    const mobile=Boolean(sheet?.getClientRects().length) && document.documentElement.dataset.mobileView==='map';
+    const mobile=Boolean(document.querySelector('#mobileViewNavigation')?.getClientRects().length);
+    if(mobile) return;
     container?.scrollIntoView({block:'center',behavior:'instant'});
-    const overlap=mobileMapSheetOverlap(container?.getBoundingClientRect(),sheet?.getBoundingClientRect(),mobile);
-    controller?.reveal(selected,{paddingTopLeft:[24,80],paddingBottomRight:[24,overlap+24]});
+    controller?.reveal(selected,{paddingTopLeft:[24,80],paddingBottomRight:[24,24]});
   }));
 }
 function handleDiversionListClick(event) {

@@ -104,14 +104,25 @@ try {
     assert.equal(geometry.gapLeft, 0, `${viewport.name}: popup left edge gap`);
     assert.equal(geometry.gapRight, 0, `${viewport.name}: popup right edge gap`);
     assert.equal(after.sheetState, before.sheetState);
-    assert.equal(after.sheetSummary, before.sheetSummary);
+    assert.match(after.sheetSummary, /^Road closures/);
+    assert.equal(await page.locator('#mobileSheetCallList > #roadsList').count(),1);
+    assert.equal(await page.locator('#mobileSheetCallList [data-call-id]').count(),0);
     assert.equal(after.sheetScrollTop, before.sheetScrollTop);
-    assert.deepEqual(after.selectedIds, []);
+    assert.deepEqual(after.selectedIds, [closureId]);
     await page.locator('.leaflet-popup-close-button').dispatchEvent('click');
     await awaitUiState(page, () => !document.querySelector('.leaflet-popup'), { description: 'closed road popup' });
 
+    await page.locator('button[data-mobile-view="disruptions"]').click();
+    const roadCard = page.locator(`#roadsList [data-closure-id="${closureId}"]`);
+    await page.locator('#disruptions details').first().evaluate(node => { node.open = true; });
+    await roadCard.click();
+    await awaitUiState(page, () => document.documentElement.dataset.mobileView === 'map' &&
+      document.querySelector('.leaflet-popup .closure-detail'), { description: 'road card reveals its bubble in Map' });
+    assert.equal(await page.locator('.leaflet-popup').count(), 1);
+    assert.deepEqual((await readState(page)).selectedIds, [closureId]);
+
     results.push({ viewport: viewport.name, closureId, popupOpened: after.popupCount === 1 });
-    console.log(`${viewport.name}: mobile closure bubble leaves calls sheet and list alone`);
+    console.log(`${viewport.name}: mobile closure and list share selection without changing the calls sheet`);
     await context.close();
   }
   assert.deepEqual(errors, []);

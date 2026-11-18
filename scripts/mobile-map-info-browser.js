@@ -285,6 +285,56 @@ try {
 
     await context.close();
   }
+  // Opening Layers dismisses the previous selection and sheet in both map modes.
+  for (const fullscreen of [false, true]) {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+    const page = await context.newPage();
+    page.on('pageerror', error => errors.push(`layers selection: ${error.message}`));
+    await page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' });
+    await awaitFixtureReady(page);
+    for (const kind of ['call', 'ttc']) {
+      await page.locator(`button[data-mobile-view="${kind === 'call' ? 'calls' : 'disruptions'}"]`).click();
+      await page.locator(kind === 'call' ? '#callList [data-map-action] .call-title' : '#observedDiversionsList h4').first().click();
+      await awaitUiState(page, () => Boolean(document.querySelector('.leaflet-popup') && document.querySelector('#mobileSheetCallList .selected')));
+      if (fullscreen) await enterFocus(page);
+      else {
+        await page.locator('#mobileSheetToggle').click();
+        await awaitUiState(page, () => document.documentElement.dataset.mobileSheetState === 'open');
+      }
+      await page.locator('#mobileMapLayersToggle').click();
+      await awaitUiState(page, () => !document.querySelector('#mobileMapLayersPanel').hidden && !document.querySelector('.leaflet-popup') && document.documentElement.dataset.mobileSheetState === 'collapsed');
+      assert.equal(await page.locator('.incident-card.selected, .disruption-item.selected, .pin-highlight').count(), 0);
+      assert.equal((await page.evaluate(async () => (await import('./src/ttc/ui.js')).captureTtcRenderState())).selected, null);
+      assert.equal(await page.locator('#mobileSheetBody').evaluate(el => el.inert), true);
+      await assertHit(page, '#mobileMapLayersClose');
+      await page.locator('#mobileMapLayersClose').click();
+      assert.equal(await page.locator('.leaflet-popup').count(), 0);
+      assert.equal(await page.locator('html').getAttribute('data-mobile-sheet-state'), 'collapsed');
+      if (fullscreen) await exitFocus(page);
+      else assert.ok((await page.locator('#mobileBottomSheet').boundingBox()).height < 100, 'collapsed sheet must only show its summary');
+    }
+    // Reverse direction: a map pin replaces Layers with its matching bubble.
+    for (const kind of ['call', 'road', 'ttc']) {
+      await page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' });
+      await awaitFixtureReady(page);
+      if (fullscreen) await enterFocus(page);
+      await page.locator('#mobileMapLayersToggle').click();
+      if (kind === 'ttc') await page.locator('#ttcOverlay').setChecked(true);
+      const pin = kind === 'call' ? page.getByRole('button', { name: /^Incident:/ }).first()
+        : page.locator(kind === 'road' ? '.road-closure-symbol span[data-closure-id]' : '.ttc-line-sign').first();
+      await pin.dispatchEvent('click');
+      await awaitUiState(page, () => document.querySelector('#mobileMapLayersPanel').hidden && Boolean(document.querySelector('.leaflet-popup')));
+      assert.equal(await page.locator('#mobileMapLayersToggle').getAttribute('aria-expanded'), 'false');
+      assert.equal(await page.locator('html').getAttribute('data-mobile-sheet-state'), 'collapsed');
+      const selected = kind === 'call' ? '[data-call-id].selected' : kind === 'road' ? '[data-closure-id].selected' : '[data-ttc-id].selected';
+      assert.equal(await page.locator(selected).count(), 1);
+      assert.equal(await page.locator('.leaflet-popup').count(), 1);
+      const bubble = kind === 'call' ? '.incident-card--popup' : kind === 'road' ? '.closure-detail' : '.ttc-detail';
+      assert.equal(await page.locator(`.leaflet-popup ${bubble}`).isVisible(), true);
+      if (fullscreen) await exitFocus(page);
+    }
+    await context.close();
+  }
   // Zero results must not gain an unavailable warning; stale/outage context
   // remains visible in fullscreen rather than disappearing behind the map.
   for (const fixture of ['zero', 'stale', 'unavailable']) {
@@ -300,8 +350,14 @@ try {
     await enterFocus(page);
     await assertClosed(page, { width: 390, height: 844, name: fixture });
     const text = await page.locator('#mobileFocusFilterSummary').textContent();
-    if (fixture === 'zero') assert.doesNotMatch(text, /unavailable|stale/);
-    else assert.match(text, fixture === 'stale' ? /data may be stale/ : /data unavailable/);
+    assert.doesNotMatch(text, /unavailable|stale/);
+    if (fixture === 'zero') assert.equal(await page.locator('#feedWarningToggle').isVisible(), false);
+    else {
+      await page.locator('#feedWarningToggle').click();
+      assert.match(await page.locator('#feedWarningPanel').innerText(), fixture === 'stale' ? /Data may be stale/ : /unavailable/);
+      await page.locator('#feedWarningClose').click();
+      assert.equal(await page.locator('#feedWarningToggle').isVisible(), true);
+    }
     await context.close();
   }
   assert.deepEqual(errors, []);
