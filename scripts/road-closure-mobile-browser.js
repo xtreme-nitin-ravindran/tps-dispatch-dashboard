@@ -34,7 +34,7 @@ const MOBILE_VIEWPORTS = [
 async function readState(page) {
   return page.evaluate(() => {
     const popup = document.querySelector('.leaflet-popup');
-    const detail = document.querySelector('#mobileClosureDetail');
+    const sheet = document.querySelector('#mobileBottomSheet');
     const selected = [...document.querySelectorAll('#roadsList .disruption-item.selected')];
     return {
       popupCount: document.querySelectorAll('.leaflet-popup').length,
@@ -46,9 +46,9 @@ async function readState(page) {
         const a = article.getBoundingClientRect(), c = content.getBoundingClientRect(), s = getComputedStyle(article);
         return { paddingLeft: s.paddingLeft, paddingRight: s.paddingRight, borderBottomWidth: s.borderBottomWidth, gapLeft: Math.round(a.left - c.left), gapRight: Math.round(c.right - a.right) };
       })(),
-      sheetDetailHidden: detail ? detail.hidden : null,
-      sheetDetailText: detail ? detail.textContent : null,
-      sheetArticles: detail ? detail.querySelectorAll('article.closure-detail').length : null,
+      sheetState: sheet.dataset.sheetState,
+      sheetSummary: document.querySelector('#mobileSheetSummary').textContent,
+      sheetScrollTop: document.querySelector('#mobileSheetBody').scrollTop,
       selectedIds: selected.map(card => card.dataset.closureId),
       roadCardIds: [...document.querySelectorAll('#roadsList .disruption-item[data-closure-id]')].map(card => card.dataset.closureId)
     };
@@ -103,25 +103,26 @@ try {
     assert.equal(geometry.borderBottomWidth, '0px', `${viewport.name}: popup bottom border`);
     assert.equal(geometry.gapLeft, 0, `${viewport.name}: popup left edge gap`);
     assert.equal(geometry.gapRight, 0, `${viewport.name}: popup right edge gap`);
-    // 2. The sheet routing is preserved, and the sheet keeps its own detail
-    // node while the bubble is open (Story 74 hardening: the popup no longer
-    // moves the sheet's detail node out of the sheet).
-    assert.equal(after.sheetDetailHidden, false, `${viewport.name}: sheet detail is not shown`);
-    assert.match(after.sheetDetailText || '', /Back to incident list/, `${viewport.name}: sheet detail is not the closure detail`);
-    assert.match(after.sheetDetailText || '', /ROAD CLOSURE/, `${viewport.name}: sheet lost the closure detail`);
-    assert.equal(after.sheetArticles, 1, `${viewport.name}: sheet detail node was moved into the popup`);
-    // 3. The matching Disruptions-panel card is highlighted.
-    assert.deepEqual(after.selectedIds, [closureId], `${viewport.name}: matching road card is not highlighted`);
+    assert.equal(after.sheetState, before.sheetState);
+    assert.match(after.sheetSummary, /^Road closures/);
+    assert.equal(await page.locator('#mobileSheetCallList > #roadsList').count(),1);
+    assert.equal(await page.locator('#mobileSheetCallList [data-call-id]').count(),0);
+    assert.equal(after.sheetScrollTop, before.sheetScrollTop);
+    assert.deepEqual(after.selectedIds, [closureId]);
+    await page.locator('.leaflet-popup-close-button').dispatchEvent('click');
+    await awaitUiState(page, () => !document.querySelector('.leaflet-popup'), { description: 'closed road popup' });
 
-    // Clearing the selection removes the card highlight.
-    await page.locator('.closure-detail-back').click();
-    await awaitUiState(page, () => document.querySelector('#mobileClosureDetail')?.hidden === true, { description: 'cleared closure detail' });
-    const cleared = await readState(page);
-    assert.deepEqual(cleared.selectedIds, [], `${viewport.name}: card highlight was not cleared`);
-    assert.equal(cleared.sheetDetailHidden, true, `${viewport.name}: sheet detail was not hidden after clearing`);
+    await page.locator('button[data-mobile-view="disruptions"]').click();
+    const roadCard = page.locator(`#roadsList [data-closure-id="${closureId}"]`);
+    await page.locator('#disruptions details').first().evaluate(node => { node.open = true; });
+    await roadCard.click();
+    await awaitUiState(page, () => document.documentElement.dataset.mobileView === 'map' &&
+      document.querySelector('.leaflet-popup .closure-detail'), { description: 'road card reveals its bubble in Map' });
+    assert.equal(await page.locator('.leaflet-popup').count(), 1);
+    assert.deepEqual((await readState(page)).selectedIds, [closureId]);
 
     results.push({ viewport: viewport.name, closureId, popupOpened: after.popupCount === 1 });
-    console.log(`${viewport.name}: mobile closure bubble, sheet detail, and card highlight passed`);
+    console.log(`${viewport.name}: mobile closure and list share selection without changing the calls sheet`);
     await context.close();
   }
   assert.deepEqual(errors, []);

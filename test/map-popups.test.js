@@ -98,3 +98,30 @@ test('[STORY-74] openBound refuses a null or unbindable layer and binds with mer
     assert.deepEqual(boundOptions, { content: 'detail', options: { minWidth: 260, maxWidth: 340, closeOnClick: false } });
   } finally { stub.restore(); }
 });
+
+
+test('[STORY-74] resizing updates only the currently open popup and ignores closed bubbles', () => {
+  const handlers = new Map();
+  const { map } = fakeMap();
+  map.on = (event, callback) => handlers.set(event, callback);
+  const stub = withDocument([]);
+  try {
+    const popups = createMapPopups(map);
+    assert.equal(popups.updateOptions({ maxHeight: 180 }), false);
+    assert.equal(popups.updateContent('closed detail'), false);
+    let updates = 0;
+    const popup = { options: { minWidth: 260 }, update() { updates++; }, setContent(content) { this.content = content; } };
+    handlers.get('popupopen')({ popup });
+    assert.equal(popups.updateOptions({ maxHeight: 180 }), true);
+    assert.deepEqual(popup.options, { minWidth: 260, maxHeight: 180 });
+    assert.equal(updates, 1);
+    assert.equal(popups.updateContent('refreshed detail'), true);
+    assert.equal(popup.content, 'refreshed detail');
+    handlers.get('popupclose')();
+    assert.equal(popups.updateOptions({ maxHeight: 240 }), false);
+    handlers.get('popupopen')({ popup });
+    popups.closeImmediately();
+    assert.equal(popups.updateOptions({ maxHeight: 240 }), false);
+    assert.equal(updates, 1);
+  } finally { stub.restore(); }
+});

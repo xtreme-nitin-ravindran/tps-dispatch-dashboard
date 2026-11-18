@@ -15,26 +15,17 @@ const disruptionsStart = html.indexOf('<section class="panel disruptions-panel"'
 const sheetStart = html.indexOf('<aside class="mobile-bottom-sheet"');
 const sheetMarkup = html.slice(sheetStart, html.indexOf('</aside>', sheetStart));
 
-test('[STORY-37D] mobile Calls exposes the single production disruption panel after incidents', () => {
+test('[STORY-37D] mobile Disruptions exposes the single production disruption panel', () => {
   assert.equal(html.match(/id="disruptions"/g)?.length, 1);
   assert.ok(callsStart >= 0 && callsStart < disruptionsStart);
-  assert.doesNotMatch(mobileRules, /html\[data-mobile-view="calls"\][^{]*\.disruptions-panel\s*\{\s*display:\s*none/);
-  assert.match(mobileRules, /html\[data-mobile-view="calls"\] \.mobile-bottom-sheet \{ display: none; \}/);
-  assert.match(mobileRules, /html\[data-mobile-view="calls"\] main \{ display: flex; flex-direction: column; \}/);
-  assert.match(mobileRules, /html\[data-mobile-view="calls"\] \.content-grid \{ display: contents; \}/);
-  assert.match(mobileRules, /html\[data-mobile-view="calls"\] \.disruptions-panel \{ order: 1; \}/);
-  assert.match(mobileRules, /html\[data-mobile-view="calls"\] \.side-stack \{ order: 2; \}/);
-});
-
-test('[STORY-37D] mobile Map keeps TTC content off the map and uses the existing Calls switch', () => {
-  assert.match(mobileRules, /html\[data-mobile-view="map"\] \.content-grid,[\s\S]*?html\[data-mobile-view="map"\] \.disruptions-panel \{ display: none; \}/);
-  assert.match(html, /data-mobile-view="calls"[\s\S]*?>Calls<\/button>/);
+  assert.match(mobileRules, /html:is\(\[data-mobile-view="map"\], \[data-mobile-view="calls"\]\) \.disruptions-panel \{ display: none; \}/);
+  assert.match(html, /data-mobile-view="disruptions"[^>]*>Disruptions<\/button>/);
   assert.doesNotMatch(sheetMarkup, /id="(?:nearby)?Transit/);
 });
 
 test('[STORY-37D] TTC keeps production renderer, disclosures, source states, and wrapping contract', () => {
   assert.match(app, /renderDisruptions\(state\.disruptions, radiusFilterOrigin\(\), state\.radiusKm, dispatchMap\)/);
-  assert.equal(app.match(/renderDisruptions\(state\.disruptions/g)?.length, 3);
+  assert.equal(app.match(/renderDisruptions\(state\.disruptions/g)?.length, 4);
   assert.match(html, /<details id="observedDiversions" open>/);
   assert.match(html, /<summary>TTC service alerts · citywide/);
   assert.match(css, /\.disruption-item \{[^}]*overflow-wrap: anywhere;/);

@@ -109,6 +109,27 @@ async function assertPanel(page, viewport, kind) {
   assertNoHorizontalOverflow(state, key);
 }
 
+async function panelStyle(page, selector) {
+  return page.locator(selector).evaluate(panel => {
+    const header = panel.querySelector('.mobile-map-panel-heading');
+    const button = header.querySelector('button');
+    const headerStyle = getComputedStyle(header);
+    const closeStyle = getComputedStyle(button);
+    return {
+      header: [headerStyle.font, headerStyle.padding, headerStyle.borderBottom, headerStyle.backgroundColor],
+      close: [closeStyle.font, closeStyle.width, closeStyle.height, closeStyle.borderRadius]
+    };
+  });
+}
+
+async function lineSamples(page, selector) {
+  return page.locator(selector).locator('.police-key, .road-key, .ttc-key').evaluateAll(keys => keys.map(key => {
+    const style = getComputedStyle(key);
+    const { width, height } = key.getBoundingClientRect();
+    return { width, height, border: style.borderTop, iconFontSize: getComputedStyle(key.nextElementSibling).fontSize };
+  }));
+}
+
 async function runPanels(page, viewport) {
   await page.locator('#mobileMapLayersToggle').click();
   await page.waitForFunction(() => !document.querySelector('#mobileMapLayersPanel').hidden);
@@ -133,18 +154,25 @@ async function runPanels(page, viewport) {
   await police.click();
   assert.equal(await police.isChecked(), !original[0]);
   await police.click();
-  // Two-checkbox availability uses the existing hidden TTC control.
-  await page.locator('#ttcLayerControl').evaluate(el => { el.hidden = true; });
-  assert.equal(await page.locator('#mobileMapLayersBody input[type="checkbox"]:visible').count(), 2);
-  await page.locator('#ttcLayerControl').evaluate(el => { el.hidden = false; });
-  await page.locator('#ttcOverlay').click();
-  assert.equal(await page.locator('#ttcOverlay').isChecked(), !original[2]);
-  await page.locator('#ttcOverlay').click();
+  await page.locator('#ttcOverlay').setChecked(false);
+  const layersStyle = await panelStyle(page, '#mobileMapLayersPanel');
+  const layersSamples = await lineSamples(page, '#mobileMapLayersBody');
+  assert.equal(layersSamples.length, 4);
+  assert.ok(layersSamples.every(sample => sample.width === 24 && sample.height === 4));
+  assert.deepEqual(layersSamples.map(sample => sample.border.split(' ')[1]), ['dashed', 'dashed', 'dashed', 'solid']);
+  const layersLegend = await page.locator('#mobileMapLayersBody .ttc-map-legend').innerText();
+  assert.match(layersLegend, /TTC disruptions[\s\S]*Affected section[\s\S]*Diversion/);
   await page.locator('#mobileMapInfoToggle').click();
   await page.waitForFunction(() => document.querySelector('#mapInfo').open);
   assert.equal(await page.locator('#mobileMapLayersPanel').isVisible(), false);
   assert.equal(await page.locator('#mobileMapLayersToggle').getAttribute('aria-expanded'), 'false');
   await assertPanel(page, viewport, 'info');
+  assert.deepEqual(await panelStyle(page, '#mapInfo'), layersStyle);
+  assert.deepEqual(await lineSamples(page, '#mapInfo'), layersSamples);
+  assert.equal(await page.locator('#mapInfo .ttc-map-legend').innerText(), layersLegend);
+  assert.deepEqual(await page.locator('#mapInfo .map-info-section h3').allTextContents(), [
+    'Map coverage', 'Source updates · Toronto time', 'Map layers', 'Call markers', 'Location and source', 'Call age'
+  ]);
   await page.locator('.source-times-help').click();
   assert.equal(await page.locator('#mapInfo #source-timestamps').count(), 1);
   assert.equal(await page.locator('#source-timestamps').isVisible(), true);
@@ -162,6 +190,7 @@ async function runPanels(page, viewport) {
   await page.locator('#mobileMapInfoClose').click();
   await page.locator('#mobileMapInfoToggle').click();
   await page.locator('#mobileMapLayersToggle').click();
+  await page.locator('#ttcOverlay').setChecked(original[2]);
   assert.equal(await page.locator('#mapInfo').isVisible(), false);
   await page.keyboard.press('Escape');
   assert.deepEqual(await page.locator('#mobileMapLayersBody input[type="checkbox"]').evaluateAll(els => els.map(el => el.checked)), original);
@@ -256,6 +285,56 @@ try {
 
     await context.close();
   }
+  // Opening Layers dismisses the previous selection and sheet in both map modes.
+  for (const fullscreen of [false, true]) {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+    const page = await context.newPage();
+    page.on('pageerror', error => errors.push(`layers selection: ${error.message}`));
+    await page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' });
+    await awaitFixtureReady(page);
+    for (const kind of ['call', 'ttc']) {
+      await page.locator(`button[data-mobile-view="${kind === 'call' ? 'calls' : 'disruptions'}"]`).click();
+      await page.locator(kind === 'call' ? '#callList [data-map-action] .call-title' : '#observedDiversionsList h4').first().click();
+      await awaitUiState(page, () => Boolean(document.querySelector('.leaflet-popup') && document.querySelector('#mobileSheetCallList .selected')));
+      if (fullscreen) await enterFocus(page);
+      else {
+        await page.locator('#mobileSheetToggle').click();
+        await awaitUiState(page, () => document.documentElement.dataset.mobileSheetState === 'open');
+      }
+      await page.locator('#mobileMapLayersToggle').click();
+      await awaitUiState(page, () => !document.querySelector('#mobileMapLayersPanel').hidden && !document.querySelector('.leaflet-popup') && document.documentElement.dataset.mobileSheetState === 'collapsed');
+      assert.equal(await page.locator('.incident-card.selected, .disruption-item.selected, .pin-highlight').count(), 0);
+      assert.equal((await page.evaluate(async () => (await import('./src/ttc/ui.js')).captureTtcRenderState())).selected, null);
+      assert.equal(await page.locator('#mobileSheetBody').evaluate(el => el.inert), true);
+      await assertHit(page, '#mobileMapLayersClose');
+      await page.locator('#mobileMapLayersClose').click();
+      assert.equal(await page.locator('.leaflet-popup').count(), 0);
+      assert.equal(await page.locator('html').getAttribute('data-mobile-sheet-state'), 'collapsed');
+      if (fullscreen) await exitFocus(page);
+      else assert.ok((await page.locator('#mobileBottomSheet').boundingBox()).height < 100, 'collapsed sheet must only show its summary');
+    }
+    // Reverse direction: a map pin replaces Layers with its matching bubble.
+    for (const kind of ['call', 'road', 'ttc']) {
+      await page.goto(`${base}${query}`, { waitUntil: 'domcontentloaded' });
+      await awaitFixtureReady(page);
+      if (fullscreen) await enterFocus(page);
+      await page.locator('#mobileMapLayersToggle').click();
+      if (kind === 'ttc') await page.locator('#ttcOverlay').setChecked(true);
+      const pin = kind === 'call' ? page.getByRole('button', { name: /^Incident:/ }).first()
+        : page.locator(kind === 'road' ? '.road-closure-symbol span[data-closure-id]' : '.ttc-line-sign').first();
+      await pin.dispatchEvent('click');
+      await awaitUiState(page, () => document.querySelector('#mobileMapLayersPanel').hidden && Boolean(document.querySelector('.leaflet-popup')));
+      assert.equal(await page.locator('#mobileMapLayersToggle').getAttribute('aria-expanded'), 'false');
+      assert.equal(await page.locator('html').getAttribute('data-mobile-sheet-state'), 'collapsed');
+      const selected = kind === 'call' ? '[data-call-id].selected' : kind === 'road' ? '[data-closure-id].selected' : '[data-ttc-id].selected';
+      assert.equal(await page.locator(selected).count(), 1);
+      assert.equal(await page.locator('.leaflet-popup').count(), 1);
+      const bubble = kind === 'call' ? '.incident-card--popup' : kind === 'road' ? '.closure-detail' : '.ttc-detail';
+      assert.equal(await page.locator(`.leaflet-popup ${bubble}`).isVisible(), true);
+      if (fullscreen) await exitFocus(page);
+    }
+    await context.close();
+  }
   // Zero results must not gain an unavailable warning; stale/outage context
   // remains visible in fullscreen rather than disappearing behind the map.
   for (const fixture of ['zero', 'stale', 'unavailable']) {
@@ -271,8 +350,14 @@ try {
     await enterFocus(page);
     await assertClosed(page, { width: 390, height: 844, name: fixture });
     const text = await page.locator('#mobileFocusFilterSummary').textContent();
-    if (fixture === 'zero') assert.doesNotMatch(text, /unavailable|stale/);
-    else assert.match(text, fixture === 'stale' ? /data may be stale/ : /data unavailable/);
+    assert.doesNotMatch(text, /unavailable|stale/);
+    if (fixture === 'zero') assert.equal(await page.locator('#feedWarningToggle').isVisible(), false);
+    else {
+      await page.locator('#feedWarningToggle').click();
+      assert.match(await page.locator('#feedWarningPanel').innerText(), fixture === 'stale' ? /Data may be stale/ : /unavailable/);
+      await page.locator('#feedWarningClose').click();
+      assert.equal(await page.locator('#feedWarningToggle').isVisible(), true);
+    }
     await context.close();
   }
   assert.deepEqual(errors, []);

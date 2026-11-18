@@ -17,7 +17,7 @@ test('[STORY-37A] mobile audit fixture is explicit and loopback-only', () => {
 test('[STORY-37A] fixture options expose deterministic mobile view and sheet states', () => {
   assert.equal(mobileAuditFixtureOptions(),null);
   assert.deepEqual(mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditView=calls&mobileAuditSheet=expanded'}),{
-    state:'many',view:'calls',sheet:'expanded',location:'none',filters:'none',radius:null,roads:true,boundaries:true,boundaryRenderer:'canvas',boundaryDebug:false
+    state:'many',view:'calls',sheet:'open',location:'none',filters:'none',radius:null,roads:true,boundaries:true,boundaryRenderer:'canvas',boundaryDebug:false
   });
   assert.deepEqual(mobileAuditFixtureOptions({hostname:'localhost',search:'?mobileAuditFixture=many&mobileAuditView=nope&mobileAuditSheet=nope&mobileAuditLocation=denied'}),{
     state:'many',view:'map',sheet:'collapsed',location:'denied',filters:'none',radius:null,roads:true,boundaries:true,boundaryRenderer:'canvas',boundaryDebug:false
@@ -73,7 +73,7 @@ test('[STORY-37A][STORY-37V][STORY-38F] Story 38 fixture dimensions compose with
   });
   assert.deepEqual(options, {
     state:'stale',
-    sheet:'expanded',
+    sheet:'open',
     view:'calls',
     location:'saved',
     filters:'search',

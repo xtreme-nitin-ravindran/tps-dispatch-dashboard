@@ -16,9 +16,6 @@ export function createIncidentMarkerLayer({
   getSirenIds = () => new Set(),
   getExpandedCluster = () => new Set(),
   setExpandedCluster = () => {},
-  isMobileLayout = () => false,
-  getMobileSheetState = () => 'collapsed',
-  setMobileSheetState = () => {},
   selectCall = () => {},
   coordinatesForCall = () => null,
   isApproximate = () => false,
@@ -124,11 +121,7 @@ export function createIncidentMarkerLayer({
         icon: markerIcon(call, selected, sirenIds.has(call.id))
       })
         .bindTooltip(tooltip, { direction: "top" })
-        .on("click", () => {
-          const mobile = isMobileLayout();
-          if (mobile) setMobileSheetState(getMobileSheetState() === "collapsed" ? "half" : getMobileSheetState());
-          selectCall(call.id);
-        });
+        .on("click", () => selectCall(call.id));
       marker.addTo(callLayer);
       layers.push(marker);
       mapMarkers.set(call.id, marker);

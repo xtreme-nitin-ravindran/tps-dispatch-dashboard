@@ -71,8 +71,9 @@ class PreviewHandler(SimpleHTTPRequestHandler):
                 self.send_error(404)
                 return
             try:
-                payload = fetch_public(name)
-            except RuntimeError as error:
+                feed_dir = getattr(self.server, "local_feed_dir", None)
+                payload = (feed_dir / name).read_bytes() if feed_dir else fetch_public(name)
+            except (RuntimeError, OSError) as error:
                 self.send_error(502, str(error))
                 return
             self.send_payload(payload, "application/json")
@@ -91,9 +92,19 @@ class PreviewHandler(SimpleHTTPRequestHandler):
 def main(argv=None):
     parser = argparse.ArgumentParser(description="SirenTO local preview server")
     parser.add_argument("--port", type=int, default=DEFAULT_PORT)
+    parser.add_argument("--feed-dir", type=Path,
+                        help="Serve current.json and ttc-diversions.json from this directory")
     args = parser.parse_args(argv)
-    print(f"SirenTO local preview: http://localhost:{args.port} (public-feed proxy enabled)", flush=True)
-    ThreadingHTTPServer(("127.0.0.1", args.port), PreviewHandler).serve_forever()
+    if args.feed_dir:
+        args.feed_dir = args.feed_dir.resolve()
+        for name in PUBLIC_FILES:
+            if not (args.feed_dir / name).is_file():
+                parser.error(f"Local feed file is missing: {args.feed_dir / name}")
+    server = ThreadingHTTPServer(("127.0.0.1", args.port), PreviewHandler)
+    server.local_feed_dir = args.feed_dir
+    mode = f"local feeds from {args.feed_dir}" if args.feed_dir else "public-feed proxy enabled"
+    print(f"SirenTO local preview: http://localhost:{args.port} ({mode})", flush=True)
+    server.serve_forever()
 
 
 if __name__ == "__main__":

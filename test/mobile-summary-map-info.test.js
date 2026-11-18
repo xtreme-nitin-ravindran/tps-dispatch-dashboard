@@ -16,7 +16,7 @@ test('[STORY-37I] mobile uses one concise production-rendered summary per active
   assert.match(html, /id="mobileNearbySummaryText" class="mobile-nearby-summary-text"/);
   assert.match(app, /mobileNearbySummary\([\s\S]*?state\.filtered, state\.radiusKm/);
   assert.match(app, /mobileSheetSummary\.textContent = mobileSummaryText/);
-  assert.match(mobileRules, /data-mobile-view="map"\] \.nearby-summary \{ display: none; \}/);
+  assert.match(mobileRules, /data-mobile-view="disruptions"\]\) :is\(\.content-grid, \.nearby-summary\),/);
   assert.match(mobileRules, /\.nearby-summary \.desktop-nearby-summary-text \{ display: none; \}/);
   assert.doesNotMatch(desktopRules, /desktop-nearby-summary-text \{ display: none/);
 });
@@ -45,8 +45,8 @@ test('[STORY-37I] critical stale and unavailable incident warnings remain outsid
 });
 
 test('[STORY-37I] Calls mode reserves no Map info or warning space and desktop disclosure is unchanged', () => {
-  assert.match(mobileRules, /data-mobile-view="calls"\] \.map-stage,[\s\S]*?\.map-info,[\s\S]*?\.mobile-bottom-sheet \{ display: none; \}/);
-  assert.match(mobileRules, /data-mobile-view="calls"\] \.mobile-map-data-warning \{ display: none; \}/);
+  assert.match(mobileRules, /data-mobile-view="disruptions"\]\) :is\(\.map-stage, \.map-info, \.mobile-bottom-sheet\) \{ display: none; \}/);
+  assert.match(mobileRules, /data-mobile-view="disruptions"\]\) \.mobile-map-data-warning \{ display: none; \}/);
   assert.match(html, /<span class="desktop-map-info-label">Map info &amp; legend<\/span>/);
   assert.match(desktopRules, /\.map-info > summary \{[\s\S]*?min-height: 54px/);
 });

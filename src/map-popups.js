@@ -10,8 +10,12 @@
 const DEFAULT_POPUP_OPTIONS = { minWidth: 260, maxWidth: 340, closeOnClick: false };
 
 export function createMapPopups(map) {
+  let activePopup = null;
+  map?.on?.('popupopen', event => { activePopup = event.popup; });
+  map?.on?.('popupclose', () => { activePopup = null; });
   function closeImmediately() {
     map?.closePopup?.();
+    activePopup = null;
     for (const popup of document.querySelectorAll('.leaflet-popup')) popup.remove();
   }
 
@@ -32,5 +36,18 @@ export function createMapPopups(map) {
     return true;
   }
 
-  return { closeImmediately, openAt, openBound };
+  function updateOptions(options) {
+    if (!activePopup) return false;
+    Object.assign(activePopup.options, options);
+    activePopup.update();
+    return true;
+  }
+
+  function updateContent(content) {
+    if (!activePopup) return false;
+    activePopup.setContent(content);
+    return true;
+  }
+
+  return { closeImmediately, openAt, openBound, updateOptions, updateContent };
 }

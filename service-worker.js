@@ -1,4 +1,4 @@
-const CACHE_VERSION = "sirento-shell-v86";
+const CACHE_VERSION = "sirento-shell-v104";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -9,6 +9,8 @@ const APP_SHELL = [
   "./assets/images/icon-192.png",
   "./assets/images/icon-512.png",
   "./assets/images/brand-spaghetti.jpg",
+  "./assets/images/nearby-beacon.gif",
+  "./assets/images/nearby-beacon.png",
   "./assets/images/brand-doberman.jpg",
   "./data/police-divisions.geojson",
   "./src/ttc/presentation.js",

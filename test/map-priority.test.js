@@ -21,7 +21,7 @@ const mobileRules = css.slice(css.indexOf(mobileQuery));
 test('[STORY-37I] map immediately follows the filter summary controls without permanent metadata above it', () => {
   assert.ok(html.indexOf('class="radius-controls"') < mapStart);
   assert.ok(html.indexOf('class="nearby-summary"') < mapStart);
-  assert.doesNotMatch(mapMarkup, /Toronto call map|Source updates|map-legend|id="mapStatus"/);
+  assert.doesNotMatch(mapMarkup, /Toronto call map|Source updates|class="map-legend"|id="mapStatus"/);
   assert.match(mapMarkup, /class="map-wrap"/);
   assert.match(css, /\.map-stage\s*{\s*margin: 12px 0 18px;/);
 });
@@ -38,7 +38,7 @@ test('[STORY-37I] legend, located count, map heading, and source freshness remai
   assert.match(mapInfoMarkup, /<summary>[\s\S]*Map info &amp; legend[\s\S]*id="mapStatus"/);
   assert.doesNotMatch(html.slice(infoStart, html.indexOf('>', infoStart) + 1), /\sopen(?:\s|>)/);
   for (const text of [
-    'Toronto call map', 'Source updates', 'What do these times mean?', 'Fire', 'Medical', 'Other',
+    'Map coverage', 'Source updates', 'Map layers', 'Call markers', 'Location and source', 'Call age', 'What do these times mean?', 'Fire', 'Medical', 'Other',
     'Resolved intersection / street segment', 'Approximate location', 'TFS circle', 'TPS square',
     '0–10 min · strongest', '10–30 min · normal', '30–60 min', '60+ min'
   ]) assert.match(mapInfoMarkup, new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
@@ -53,8 +53,8 @@ test('[STORY-37I] the map stays unobstructed when incident filters have no mappe
 });
 
 test('[STORY-37I] mobile map/results switching and bottom sheet behavior remain intact', () => {
-  assert.match(mobileRules, /html\[data-mobile-view="calls"\] \.map-stage,/);
-  assert.match(mobileRules, /html\[data-mobile-view="map"\] \.content-grid,/);
+  assert.match(mobileRules, /html:is\(\[data-mobile-view="calls"\], \[data-mobile-view="disruptions"\]\) :is\(\.map-stage, \.map-info, \.mobile-bottom-sheet\) \{ display: none; \}/);
+  assert.match(mobileRules, /html:is\(\[data-mobile-view="map"\], \[data-mobile-view="disruptions"\]\) :is\(\.content-grid, \.nearby-summary\),/);
   assert.match(mobileRules, /\.mobile-bottom-sheet \{[\s\S]*?position: fixed;[\s\S]*?display: grid;/);
   assert.match(app, /mobileSheetToggle\?\.addEventListener\("click"/);
 });

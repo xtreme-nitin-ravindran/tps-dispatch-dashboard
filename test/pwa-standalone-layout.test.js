@@ -38,5 +38,5 @@ test('[SHOULD-8][STORY-23] standalone mobile controls and sheet remain visible, 
   assert.match(mobileRules, /\.mobile-view-toggle \{ display: grid;[\s\S]*?\.mobile-view-toggle button \{ min-height: 44px/);
   assert.match(mobileRules, /\.mobile-bottom-sheet \{[\s\S]*?position: fixed;[\s\S]*?display: grid;[\s\S]*?safe-area-inset-bottom/);
   assert.match(mobileRules, /data-display-mode="standalone"\] \.mobile-bottom-sheet \{[\s\S]*?safe-area-inset-right[\s\S]*?safe-area-inset-left/);
-  assert.match(mobileRules, /\.mobile-sheet-state-controls button \{ min-height: 44px/);
+  assert.match(mobileRules, /\.mobile-sheet-header \{[^}]*min-height: 52px/);
 });

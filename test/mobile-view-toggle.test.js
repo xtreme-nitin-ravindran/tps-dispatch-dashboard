@@ -11,7 +11,7 @@ const [html, css, app, maintenanceSrc] = await Promise.all([
 
 const mobileQuery = '@media (max-width: 680px), (max-width: 950px) and (max-height: 500px) and (pointer: coarse)';
 
-test('[STORY-37B][STORY-37G] accessible Map and Calls toggle is available only at the mobile breakpoint', () => {
+test('[STORY-37B][STORY-37G] accessible Map, Calls and Disruptions toggle is available only at the mobile breakpoint', () => {
   const [toggle] = html.match(/<div class="mobile-view-toggle"[\s\S]*?<\/div>/);
   assert.match(toggle, /role="group" aria-label="Choose mobile dashboard view"/);
   assert.match(toggle, /data-mobile-view="map"[\s\S]*?aria-pressed="true"[\s\S]*?aria-controls="mapView"/);
@@ -24,10 +24,9 @@ test('[STORY-37B] mobile view rules show one existing primary view without chang
   assert.match(html, /<section class="map-stage" id="mapView">/);
   assert.match(html, /<section class="content-grid" id="callsView">/);
   const mobileRules = css.slice(css.indexOf(mobileQuery));
-  assert.match(mobileRules, /html\[data-mobile-view="calls"\] \.map-stage,[\s\S]*?\.map-info,[\s\S]*?\.mobile-bottom-sheet \{ display: none; \}/);
-  assert.match(mobileRules, /html\[data-mobile-view="map"\] \.content-grid,[\s\S]*?\.disruptions-panel \{ display: none; \}/);
-  assert.doesNotMatch(mobileRules, /html\[data-mobile-view="calls"\][^{]*\.disruptions-panel\s*\{\s*display:\s*none/);
-  assert.doesNotMatch(css.slice(0, css.indexOf(mobileQuery)), /data-mobile-view=/);
+  assert.match(mobileRules, /html:is\(\[data-mobile-view="calls"\], \[data-mobile-view="disruptions"\]\) :is\(\.map-stage, \.map-info, \.mobile-bottom-sheet\) \{ display: none; \}/);
+  assert.match(mobileRules, /html:is\(\[data-mobile-view="map"\], \[data-mobile-view="disruptions"\]\) :is\(\.content-grid, \.nearby-summary\),/);
+  assert.match(mobileRules, /html:is\(\[data-mobile-view="map"\], \[data-mobile-view="calls"\]\) \.disruptions-panel \{ display: none; \}/);
 });
 
 test('[STORY-37B] view switching only updates presentation and preserves filters, radius, data, and selection', () => {
@@ -37,7 +36,7 @@ test('[STORY-37B] view switching only updates presentation and preserves filters
   assert.match(setter, /setAttribute\("aria-pressed", String\(active\)\)/);
   assert.match(setter, /scheduleViewMaintenance\(\{ view, mobile, focusSelection, persist \}\)/);
   assert.doesNotMatch(setter, /state\.|applyFilters|loadData|fetch|focusedCallId\s*=/);
-  assert.match(setter, /mobile && view === 'calls' && expandedCluster\.size[\s\S]*?expandedCluster\.clear\(\);[\s\S]*?if \(dispatchMap\) renderMapMarkers\(\)/);
+  assert.match(setter, /mobile && view !== 'map' && expandedCluster\.size[\s\S]*?expandedCluster\.clear\(\);[\s\S]*?if \(dispatchMap\) renderMapMarkers\(\)/);
   assert.match(setter, /mobileBottomSheet\?\.setAttribute\("aria-hidden", String\(view !== "map"\)\)/);
   assert.match(setter, /syncIncidentListSurface\(mobile\)/);
   assert.doesNotMatch(setter, /renderCalls\(\)/);
@@ -60,7 +59,7 @@ test('[STORY-37B] each mobile mode owns one incident surface and switching moves
   assert.match(surface, /mobile && mobileView === "map" \? mobileSheetCallList : callsListHome/);
   assert.match(surface, /host\.append\(els\.callList\)/);
   const rendererStart = app.indexOf('function renderCalls(');
-  const renderer = app.slice(rendererStart, app.indexOf('\nnearbySort.addEventListener', rendererStart));
+  const renderer = app.slice(rendererStart, app.indexOf('\nfunction surfaceSelectedIncident', rendererStart));
   assert.match(renderer, /renderList\(els\.callList\)/);
   assert.doesNotMatch(renderer, /mobileSheetCallList|inactiveList/);
 });

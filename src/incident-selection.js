@@ -22,7 +22,6 @@ export function incidentArrivalState(selectedId, incidents, visibleIncidents, { 
     found: true,
     missing: false,
     needsReveal: !visibleIncidents.some(item => item.id === incident.id),
-    mobileView: mobile ? 'map' : null,
-    mobileSheetState: mobile ? 'half' : null
+    mobileView: mobile ? 'map' : null
   };
 }

@@ -110,6 +110,7 @@ export function createPoliceBoundaryLayer(leaflet, boundaries, options = {}) {
       className: 'police-boundary',
       color: options.color || '#93c5fd',
       weight: 1.5,
+      dashArray: '6 4',
       opacity: 0.65,
       fill: false
     },
